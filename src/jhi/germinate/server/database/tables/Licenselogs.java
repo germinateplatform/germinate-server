@@ -29,23 +29,36 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Licenselogs extends TableImpl<LicenselogsRecord> {
 
+    private static final long serialVersionUID = 77719584;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.licenselogs</code>
      */
     public static final Licenselogs LICENSELOGS = new Licenselogs();
-    private static final long serialVersionUID = 77719584;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<LicenselogsRecord> getRecordType() {
+        return LicenselogsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.licenselogs.id</code>.
      */
     public final TableField<LicenselogsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.licenselogs.license_id</code>.
      */
     public final TableField<LicenselogsRecord, Integer> LICENSE_ID = createField("license_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.licenselogs.user_id</code>.
      */
     public final TableField<LicenselogsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.licenselogs.accepted_on</code>.
      */
@@ -82,14 +95,6 @@ public class Licenselogs extends TableImpl<LicenselogsRecord> {
 
     public <O extends Record> Licenselogs(Table<O> child, ForeignKey<O, LicenselogsRecord> key) {
         super(child, key, LICENSELOGS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<LicenselogsRecord> getRecordType() {
-        return LicenselogsRecord.class;
     }
 
     /**

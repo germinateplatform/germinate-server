@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Storagedata extends TableImpl<StoragedataRecord> {
 
+    private static final long serialVersionUID = 378093402;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.storagedata</code>
      */
     public static final Storagedata STORAGEDATA = new Storagedata();
-    private static final long serialVersionUID = 378093402;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<StoragedataRecord> getRecordType() {
+        return StoragedataRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.storagedata.id</code>.
      */
     public final TableField<StoragedataRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.storagedata.germinatebase_id</code>.
      */
     public final TableField<StoragedataRecord, Integer> GERMINATEBASE_ID = createField("germinatebase_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.storagedata.storage_id</code>.
      */
     public final TableField<StoragedataRecord, Integer> STORAGE_ID = createField("storage_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.storagedata.created_on</code>. When the record was created.
      */
     public final TableField<StoragedataRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Storagedata extends TableImpl<StoragedataRecord> {
 
     public <O extends Record> Storagedata(Table<O> child, ForeignKey<O, StoragedataRecord> key) {
         super(child, key, STORAGEDATA);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<StoragedataRecord> getRecordType() {
-        return StoragedataRecord.class;
     }
 
     /**

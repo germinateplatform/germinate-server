@@ -1,17 +1,7 @@
 <project name="Germinate" basedir="." default="compile8">
 
-	<manifestclasspath jarfile="${jar}" property="jar.classpath">
-		<classpath>
-			<fileset dir="${lib}">
-				<exclude name="**/lib-dev/**"/>
-			</fileset>
-		</classpath>
-	</manifestclasspath>
-
-	<path id="project.classpath">
-		<fileset dir="${lib}"/>
-	</path>
 	<property file="build.properties"/>
+
 	<property name="src" location="src"/>
 	<property name="res" value="res"/>
 	<property name="lib" location="lib"/>
@@ -27,6 +17,18 @@
 	<!-- Runtime classpath (manifest formatted) -->
 	<property name="war" value="${project.name}.war"/>
 
+	<manifestclasspath jarfile="${jar}" property="jar.classpath">
+		<classpath>
+			<fileset dir="${lib}">
+				<exclude name="**/lib-dev/**"/>
+			</fileset>
+		</classpath>
+	</manifestclasspath>
+
+	<path id="project.classpath">
+		<fileset dir="${lib}"/>
+	</path>
+
 	<target name="clean">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${cls}" includes="**/*"/>
@@ -35,12 +37,12 @@
 	</target>
 
 	<target name="compile8" depends="clean">
-        <javac debug="true" destdir="${cls}" includeantruntime="false" source="8" srcdir="${src}" target="8">
-			<classpath refid="project.classpath"/>
+		<javac debug="true" destdir="${cls}" includeantruntime="false" source="8" srcdir="${src}" target="8">
 			<src path="${src}"/>
+			<classpath refid="project.classpath"/>
 		</javac>
 
-		<mkdir dir="${cls}"/>
+        <mkdir dir="${cls}"/>
 	</target>
 
 	<target name="jar" depends="compile8">
@@ -104,9 +106,9 @@
 	</target>
 
 	<target name="deploy" depends="war, undeploy">
+		<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask" classpathref="project.classpath"/>
 		<deploy password="${tomcat.manager.password}" path="/${path}" url="${tomcat.manager.url}"
 				username="${tomcat.manager.username}" war="${project.name}.war"/>
-		<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask" classpathref="project.classpath"/>
 	</target>
 
 </project>

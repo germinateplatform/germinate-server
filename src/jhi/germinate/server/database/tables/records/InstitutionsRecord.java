@@ -38,6 +38,13 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised InstitutionsRecord
      */
     public InstitutionsRecord(Integer id, String code, String name, String acronym, Integer countryId, String contact, String phone, String email, String address, Timestamp createdOn, Timestamp updatedOn) {
@@ -57,10 +64,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getCode() {
+        return (String) get(1);
     }
 
     /**
@@ -71,38 +78,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
-     */
-    public String getCode() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
-     */
-    public void setCode(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.institutions.name</code>. The institute name.
      */
     public String getName() {
         return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.institutions.name</code>. The institute name.
-     */
-    public void setName(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.institutions.acronym</code>. If there is an acronym for the institute.
-     */
-    public String getAcronym() {
-        return (String) get(3);
     }
 
     /**
@@ -113,10 +92,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.institutions.country_id</code>. Foreign key to countries.id.
+     * Setter for <code>germinate_template_3_6_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
      */
-    public Integer getCountryId() {
-        return (Integer) get(4);
+    public void setCode(String value) {
+        set(1, value);
     }
 
     /**
@@ -127,10 +106,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
+     * Setter for <code>germinate_template_3_6_0.institutions.name</code>. The institute name.
      */
-    public String getContact() {
-        return (String) get(5);
+    public void setName(String value) {
+        set(2, value);
     }
 
     /**
@@ -141,10 +120,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.institutions.phone</code>. The telephone number for the institute.
+     * Getter for <code>germinate_template_3_6_0.institutions.acronym</code>. If there is an acronym for the institute.
      */
-    public String getPhone() {
-        return (String) get(6);
+    public String getAcronym() {
+        return (String) get(3);
     }
 
     /**
@@ -155,10 +134,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.institutions.email</code>. The email address to contact the institute.
+     * Getter for <code>germinate_template_3_6_0.institutions.country_id</code>. Foreign key to countries.id.
      */
-    public String getEmail() {
-        return (String) get(7);
+    public Integer getCountryId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -169,6 +148,20 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
+     */
+    public String getContact() {
+        return (String) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.institutions.phone</code>. The telephone number for the institute.
+     */
+    public String getPhone() {
+        return (String) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.institutions.address</code>. The postal address of the institute.
      */
     public String getAddress() {
@@ -176,10 +169,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.institutions.address</code>. The postal address of the institute.
+     * Getter for <code>germinate_template_3_6_0.institutions.email</code>. The email address to contact the institute.
      */
-    public void setAddress(String value) {
-        set(8, value);
+    public String getEmail() {
+        return (String) get(7);
     }
 
     /**
@@ -190,15 +183,11 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.institutions.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_6_0.institutions.address</code>. The postal address of the institute.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
+    public void setAddress(String value) {
+        set(8, value);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -208,15 +197,8 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record11 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(10, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -225,6 +207,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record11 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -596,10 +582,6 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -626,5 +608,23 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
         value10(value10);
         value11(value11);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.institutions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(10, value);
     }
 }

@@ -30,31 +30,46 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Countries extends TableImpl<CountriesRecord> {
 
+    private static final long serialVersionUID = 886615507;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.countries</code>
      */
     public static final Countries COUNTRIES = new Countries();
-    private static final long serialVersionUID = 886615507;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<CountriesRecord> getRecordType() {
+        return CountriesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<CountriesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.countries.country_code2</code>. ISO 2 Code for country.
      */
     public final TableField<CountriesRecord, String> COUNTRY_CODE2 = createField("country_code2", org.jooq.impl.SQLDataType.CHAR(2).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
+
     /**
      * The column <code>germinate_template_3_6_0.countries.country_code3</code>. ISO 3 Code for country.
      */
     public final TableField<CountriesRecord, String> COUNTRY_CODE3 = createField("country_code3", org.jooq.impl.SQLDataType.CHAR(3).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 3 Code for country.");
+
     /**
      * The column <code>germinate_template_3_6_0.countries.country_name</code>. Country name.
      */
     public final TableField<CountriesRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
+
     /**
      * The column <code>germinate_template_3_6_0.countries.created_on</code>. When the record was created.
      */
     public final TableField<CountriesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -91,14 +106,6 @@ public class Countries extends TableImpl<CountriesRecord> {
 
     public <O extends Record> Countries(Table<O> child, ForeignKey<O, CountriesRecord> key) {
         super(child, key, COUNTRIES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<CountriesRecord> getRecordType() {
-        return CountriesRecord.class;
     }
 
     /**

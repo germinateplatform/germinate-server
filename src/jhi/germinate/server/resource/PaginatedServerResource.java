@@ -5,6 +5,8 @@ import org.restlet.resource.*;
 import java.net.*;
 import java.nio.charset.*;
 
+import jhi.germinate.resource.*;
+
 /**
  * @author Sebastian Raubach
  */
@@ -13,16 +15,15 @@ public class PaginatedServerResource extends ServerResource
 	public static final String PARAM_PREVIOUS_COUNT = "prevCount";
 	public static final String PARAM_PAGE           = "page";
 	public static final String PARAM_LIMIT          = "limit";
-	public static final String PARAM_QUERY          = "query";
 	public static final String PARAM_ASCENDING      = "ascending";
 	public static final String PARAM_ORDER_BY       = "orderBy";
 
-	protected long    previousCount;
-	protected int     currentPage;
-	protected int     pageSize;
-	protected String  query;
-	protected Boolean ascending;
-	protected String  orderBy;
+	protected long     previousCount;
+	protected int      currentPage;
+	protected int      pageSize;
+	protected Filter[] filters;
+	protected Boolean  ascending;
+	protected String   orderBy;
 
 	@Override
 	protected void doInit()
@@ -30,9 +31,17 @@ public class PaginatedServerResource extends ServerResource
 	{
 		super.doInit();
 
+		processRequest(null);
+	}
+
+	protected void processRequest(PaginatedRequest request)
+	{
+		if (request != null)
+			this.filters = request.getFilter();
+
 		try
 		{
-			this.currentPage = Integer.parseInt(getQueryValue(PARAM_PAGE));
+			this.currentPage = request == null ? Integer.parseInt(getQueryValue(PARAM_PAGE)) : request.getPage();
 		}
 		catch (NullPointerException | NumberFormatException e)
 		{
@@ -40,7 +49,7 @@ public class PaginatedServerResource extends ServerResource
 		}
 		try
 		{
-			this.pageSize = Integer.parseInt(getQueryValue(PARAM_LIMIT));
+			this.pageSize = request == null ? Integer.parseInt(getQueryValue(PARAM_LIMIT)) : request.getLimit();
 		}
 		catch (NullPointerException | NumberFormatException e)
 		{
@@ -48,15 +57,7 @@ public class PaginatedServerResource extends ServerResource
 		}
 		try
 		{
-			this.query = getQueryValue(PARAM_QUERY);
-		}
-		catch (NullPointerException e)
-		{
-			this.query = null;
-		}
-		try
-		{
-			this.orderBy = getQueryValue(PARAM_ORDER_BY);
+			this.orderBy = request == null ? getQueryValue(PARAM_ORDER_BY) : request.getOrderBy();
 		}
 		catch (NullPointerException e)
 		{
@@ -64,8 +65,8 @@ public class PaginatedServerResource extends ServerResource
 		}
 		try
 		{
-			int value = Integer.parseInt(getQueryValue(PARAM_ASCENDING));
-			ascending = value == 1;
+			Integer value = request == null ? Integer.parseInt(getQueryValue(PARAM_ASCENDING)) : request.getAscending();
+			this.ascending = value == 1;
 		}
 		catch (NullPointerException | NumberFormatException e)
 		{
@@ -73,7 +74,7 @@ public class PaginatedServerResource extends ServerResource
 		}
 		try
 		{
-			this.previousCount = Long.parseLong(getQueryValue(PARAM_PREVIOUS_COUNT));
+			this.previousCount = request == null ? Long.parseLong(getQueryValue(PARAM_PREVIOUS_COUNT)) : request.getPrevCount();
 		}
 		catch (NullPointerException | NumberFormatException e)
 		{

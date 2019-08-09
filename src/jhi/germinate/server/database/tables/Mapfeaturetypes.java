@@ -30,23 +30,36 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
 
+    private static final long serialVersionUID = 1500535620;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.mapfeaturetypes</code>
      */
     public static final Mapfeaturetypes MAPFEATURETYPES = new Mapfeaturetypes();
-    private static final long serialVersionUID = 1500535620;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<MapfeaturetypesRecord> getRecordType() {
+        return MapfeaturetypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MapfeaturetypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public final TableField<MapfeaturetypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.");
+
     /**
      * The column <code>germinate_template_3_6_0.mapfeaturetypes.created_on</code>. When the record was created.
      */
     public final TableField<MapfeaturetypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -83,14 +96,6 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
 
     public <O extends Record> Mapfeaturetypes(Table<O> child, ForeignKey<O, MapfeaturetypesRecord> key) {
         super(child, key, MAPFEATURETYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<MapfeaturetypesRecord> getRecordType() {
-        return MapfeaturetypesRecord.class;
     }
 
     /**

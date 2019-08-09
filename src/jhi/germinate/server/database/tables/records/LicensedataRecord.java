@@ -37,6 +37,13 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.licensedata.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised LicensedataRecord
      */
     public LicensedataRecord(Integer id, Integer licenseId, Integer localeId, String content, Timestamp createdOn, Timestamp updatedOn) {
@@ -51,38 +58,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.id</code>.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.id</code>.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.licensedata.license_id</code>.
      */
     public Integer getLicenseId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.license_id</code>.
-     */
-    public void setLicenseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.locale_id</code>.
-     */
-    public Integer getLocaleId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -93,10 +72,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.content</code>.
+     * Setter for <code>germinate_template_3_6_0.licensedata.id</code>.
      */
-    public String getContent() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -107,10 +86,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_6_0.licensedata.license_id</code>.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setLicenseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -120,9 +99,19 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+    /**
+     * Getter for <code>germinate_template_3_6_0.licensedata.locale_id</code>.
+     */
+    public Integer getLocaleId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.licensedata.content</code>.
+     */
+    public String getContent() {
+        return (String) get(3);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -132,15 +121,8 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -149,6 +131,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -355,10 +341,6 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -380,5 +362,23 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.licensedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 }

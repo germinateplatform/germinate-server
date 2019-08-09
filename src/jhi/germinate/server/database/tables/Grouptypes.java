@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Grouptypes extends TableImpl<GrouptypesRecord> {
 
+    private static final long serialVersionUID = -1081152298;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.grouptypes</code>
      */
     public static final Grouptypes GROUPTYPES = new Grouptypes();
-    private static final long serialVersionUID = -1081152298;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<GrouptypesRecord> getRecordType() {
+        return GrouptypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.grouptypes.id</code>.
      */
     public final TableField<GrouptypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.grouptypes.description</code>.
      */
     public final TableField<GrouptypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.grouptypes.target_table</code>.
      */
     public final TableField<GrouptypesRecord, String> TARGET_TABLE = createField("target_table", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.grouptypes.created_on</code>. When the record was created.
      */
     public final TableField<GrouptypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.grouptypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Grouptypes extends TableImpl<GrouptypesRecord> {
 
     public <O extends Record> Grouptypes(Table<O> child, ForeignKey<O, GrouptypesRecord> key) {
         super(child, key, GROUPTYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<GrouptypesRecord> getRecordType() {
-        return GrouptypesRecord.class;
     }
 
     /**

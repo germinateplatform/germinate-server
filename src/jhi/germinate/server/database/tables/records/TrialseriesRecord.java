@@ -39,6 +39,13 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.trialseries.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised TrialseriesRecord
      */
     public TrialseriesRecord(Integer id, String seriesname, Timestamp createdOn, Timestamp updatedOn) {
@@ -51,10 +58,17 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.trialseries.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.trialseries.seriesname</code>. The description of the trial series name.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getSeriesname() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.trialseries.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -65,36 +79,11 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.trialseries.seriesname</code>. The description of the trial series name.
-     */
-    public String getSeriesname() {
-        return (String) get(1);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_6_0.trialseries.seriesname</code>. The description of the trial series name.
      */
     public void setSeriesname(String value) {
         set(1, value);
     }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.trialseries.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.trialseries.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.trialseries.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
@@ -104,15 +93,8 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.trialseries.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -121,6 +103,10 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record4 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -261,10 +247,6 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -284,5 +266,23 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
         value3(value3);
         value4(value4);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.trialseries.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.trialseries.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 }

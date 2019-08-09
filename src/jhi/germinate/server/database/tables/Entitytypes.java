@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Entitytypes extends TableImpl<EntitytypesRecord> {
 
+    private static final long serialVersionUID = -738364936;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.entitytypes</code>
      */
     public static final Entitytypes ENTITYTYPES = new Entitytypes();
-    private static final long serialVersionUID = -738364936;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<EntitytypesRecord> getRecordType() {
+        return EntitytypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.entitytypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<EntitytypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.entitytypes.name</code>. The name of the entity type.
      */
     public final TableField<EntitytypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the entity type.");
+
     /**
      * The column <code>germinate_template_3_6_0.entitytypes.description</code>. Describes the entity type.
      */
     public final TableField<EntitytypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "Describes the entity type.");
+
     /**
      * The column <code>germinate_template_3_6_0.entitytypes.created_on</code>. When the record was created.
      */
     public final TableField<EntitytypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.entitytypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Entitytypes extends TableImpl<EntitytypesRecord> {
 
     public <O extends Record> Entitytypes(Table<O> child, ForeignKey<O, EntitytypesRecord> key) {
         super(child, key, ENTITYTYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<EntitytypesRecord> getRecordType() {
-        return EntitytypesRecord.class;
     }
 
     /**

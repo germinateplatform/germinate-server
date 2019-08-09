@@ -29,23 +29,36 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetmembertypes extends TableImpl<DatasetmembertypesRecord> {
 
+    private static final long serialVersionUID = -1573247326;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.datasetmembertypes</code>
      */
     public static final Datasetmembertypes DATASETMEMBERTYPES = new Datasetmembertypes();
-    private static final long serialVersionUID = -1573247326;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<DatasetmembertypesRecord> getRecordType() {
+        return DatasetmembertypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.datasetmembertypes.id</code>.
      */
     public final TableField<DatasetmembertypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetmembertypes.target_table</code>.
      */
     public final TableField<DatasetmembertypesRecord, String> TARGET_TABLE = createField("target_table", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetmembertypes.created_on</code>. When the record was created.
      */
     public final TableField<DatasetmembertypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetmembertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -82,14 +95,6 @@ public class Datasetmembertypes extends TableImpl<DatasetmembertypesRecord> {
 
     public <O extends Record> Datasetmembertypes(Table<O> child, ForeignKey<O, DatasetmembertypesRecord> key) {
         super(child, key, DATASETMEMBERTYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<DatasetmembertypesRecord> getRecordType() {
-        return DatasetmembertypesRecord.class;
     }
 
     /**

@@ -41,6 +41,13 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised MapdefinitionsRecord
      */
     public MapdefinitionsRecord(Integer id, Integer mapfeaturetypeId, Integer markerId, Integer mapId, Double definitionStart, Double definitionEnd, String chromosome, String armImpute, Timestamp createdOn, Timestamp updatedOn) {
@@ -59,10 +66,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getMapfeaturetypeId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -73,38 +80,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
-     */
-    public Integer getMapfeaturetypeId() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
-     */
-    public void setMapfeaturetypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
     public Integer getMarkerId() {
         return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
-     */
-    public void setMarkerId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
-     */
-    public Integer getMapId() {
-        return (Integer) get(3);
     }
 
     /**
@@ -115,10 +94,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * Setter for <code>germinate_template_3_6_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
-    public Double getDefinitionStart() {
-        return (Double) get(4);
+    public void setMapfeaturetypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -129,10 +108,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     * Setter for <code>germinate_template_3_6_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
-    public Double getDefinitionEnd() {
-        return (Double) get(5);
+    public void setMarkerId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -143,10 +122,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
-    public String getChromosome() {
-        return (String) get(6);
+    public Integer getMapId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -157,10 +136,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
-    public String getArmImpute() {
-        return (String) get(7);
+    public Double getDefinitionStart() {
+        return (Double) get(4);
     }
 
     /**
@@ -171,6 +150,20 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     */
+    public Double getDefinitionEnd() {
+        return (Double) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     */
+    public String getChromosome() {
+        return (String) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.mapdefinitions.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -178,15 +171,11 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public String getArmImpute() {
+        return (String) get(7);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -196,15 +185,8 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     // -------------------------------------------------------------------------
-    // Record10 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -213,6 +195,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -551,10 +537,6 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -580,5 +562,23 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.mapdefinitions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 }

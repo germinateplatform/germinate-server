@@ -30,39 +30,56 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypes extends TableImpl<PhenotypesRecord> {
 
+    private static final long serialVersionUID = 987734372;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.phenotypes</code>
      */
     public static final Phenotypes PHENOTYPES = new Phenotypes();
-    private static final long serialVersionUID = 987734372;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<PhenotypesRecord> getRecordType() {
+        return PhenotypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<PhenotypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.name</code>. Phenotype full name.
      */
     public final TableField<PhenotypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Phenotype full name.");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public final TableField<PhenotypesRecord, String> SHORT_NAME = createField("short_name", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened name for the phenotype. This is used in table columns where space is an issue.");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public final TableField<PhenotypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
     public final TableField<PhenotypesRecord, PhenotypesDatatype> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.PhenotypesDatatype.class), this, "Defines the data type of the phenotype. This can be of float, int or char types.");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
      */
     public final TableField<PhenotypesRecord, Integer> UNIT_ID = createField("unit_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign Key to units (units.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.created_on</code>. When the record was created.
      */
     public final TableField<PhenotypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
@@ -99,14 +116,6 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
 
     public <O extends Record> Phenotypes(Table<O> child, ForeignKey<O, PhenotypesRecord> key) {
         super(child, key, PHENOTYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<PhenotypesRecord> getRecordType() {
-        return PhenotypesRecord.class;
     }
 
     /**

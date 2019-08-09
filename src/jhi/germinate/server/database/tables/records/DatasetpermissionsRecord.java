@@ -38,6 +38,13 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetpermissionsRecord
      */
     public DatasetpermissionsRecord(Integer id, Integer datasetId, Integer userId, Integer groupId, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,38 +59,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
     public Integer getDatasetId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
-     */
-    public void setDatasetId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -94,10 +73,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
+     * Setter for <code>germinate_template_3_6_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getGroupId() {
-        return (Integer) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -108,10 +87,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_6_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setDatasetId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -121,9 +100,19 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+    /**
+     * Getter for <code>germinate_template_3_6_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
+     */
+    public Integer getUserId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
+     */
+    public Integer getGroupId() {
+        return (Integer) get(3);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -133,15 +122,8 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -150,6 +132,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -356,10 +342,6 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -381,5 +363,23 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.datasetpermissions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 }

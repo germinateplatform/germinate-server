@@ -63,6 +63,13 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised BiologicalstatusRecord
      */
     public BiologicalstatusRecord(Integer id, String sampstat, Timestamp createdOn, Timestamp updatedOn) {
@@ -75,10 +82,17 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getSampstat() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -89,36 +103,11 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
-     */
-    public String getSampstat() {
-        return (String) get(1);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_6_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
     public void setSampstat(String value) {
         set(1, value);
     }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -128,15 +117,8 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -145,6 +127,10 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record4 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -285,10 +271,6 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -308,5 +290,23 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
         value3(value3);
         value4(value4);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 }

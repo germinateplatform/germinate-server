@@ -39,6 +39,13 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised TaxonomiesRecord
      */
     public TaxonomiesRecord(Integer id, String genus, String species, String subtaxa, String speciesAuthor, String subtaxaAuthor, String cropname, Integer ploidy, Timestamp createdOn, Timestamp updatedOn) {
@@ -57,10 +64,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.taxonomies.genus</code>. Genus name for the species.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getGenus() {
+        return (String) get(1);
     }
 
     /**
@@ -71,38 +78,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.genus</code>. Genus name for the species.
-     */
-    public String getGenus() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.taxonomies.genus</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.taxonomies.species</code>. Species name in lowercase.
      */
     public String getSpecies() {
         return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.taxonomies.species</code>. Species name in lowercase.
-     */
-    public void setSpecies(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.subtaxa</code>. Subtaxa name.
-     */
-    public String getSubtaxa() {
-        return (String) get(3);
     }
 
     /**
@@ -113,10 +92,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
+     * Setter for <code>germinate_template_3_6_0.taxonomies.genus</code>. Genus name for the species.
      */
-    public String getSpeciesAuthor() {
-        return (String) get(4);
+    public void setGenus(String value) {
+        set(1, value);
     }
 
     /**
@@ -127,10 +106,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     * Setter for <code>germinate_template_3_6_0.taxonomies.species</code>. Species name in lowercase.
      */
-    public String getSubtaxaAuthor() {
-        return (String) get(5);
+    public void setSpecies(String value) {
+        set(2, value);
     }
 
     /**
@@ -141,10 +120,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     * Getter for <code>germinate_template_3_6_0.taxonomies.subtaxa</code>. Subtaxa name.
      */
-    public String getCropname() {
-        return (String) get(6);
+    public String getSubtaxa() {
+        return (String) get(3);
     }
 
     /**
@@ -155,10 +134,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     * Getter for <code>germinate_template_3_6_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
      */
-    public Integer getPloidy() {
-        return (Integer) get(7);
+    public String getSpeciesAuthor() {
+        return (String) get(4);
     }
 
     /**
@@ -169,6 +148,20 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     */
+    public String getSubtaxaAuthor() {
+        return (String) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     */
+    public String getCropname() {
+        return (String) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.taxonomies.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -176,15 +169,11 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.taxonomies.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Integer getPloidy() {
+        return (Integer) get(7);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -194,15 +183,8 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     // -------------------------------------------------------------------------
-    // Record10 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -211,6 +193,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -549,10 +535,6 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -578,5 +560,23 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.taxonomies.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 }

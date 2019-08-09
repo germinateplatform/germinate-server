@@ -90,6 +90,7 @@ public class Germinate extends Application
 
 		// Attach the url handlers
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
+		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
 		// CORS first, then encoder

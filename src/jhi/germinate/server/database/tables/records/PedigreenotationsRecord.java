@@ -38,6 +38,13 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PedigreenotationsRecord
      */
     public PedigreenotationsRecord(Integer id, String name, String description, String referenceUrl, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,38 +59,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
     public String getName() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.name</code>. Name of the reference notation source.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.description</code>. A longer description about the reference notation source.
-     */
-    public String getDescription() {
-        return (String) get(2);
     }
 
     /**
@@ -94,10 +73,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     * Setter for <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getReferenceUrl() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -108,10 +87,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_6_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -121,9 +100,19 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+    /**
+     * Getter for <code>germinate_template_3_6_0.pedigreenotations.description</code>. A longer description about the reference notation source.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     */
+    public String getReferenceUrl() {
+        return (String) get(3);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -133,15 +122,8 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -150,6 +132,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -356,10 +342,6 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -381,5 +363,23 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.pedigreenotations.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 }

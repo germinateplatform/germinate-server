@@ -29,39 +29,56 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collaborators extends TableImpl<CollaboratorsRecord> {
 
+    private static final long serialVersionUID = -1503859364;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.collaborators</code>
      */
     public static final Collaborators COLLABORATORS = new Collaborators();
-    private static final long serialVersionUID = -1503859364;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<CollaboratorsRecord> getRecordType() {
+        return CollaboratorsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.id</code>.
      */
     public final TableField<CollaboratorsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> FIRST_NAME = createField("first_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> LAST_NAME = createField("last_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(255), this, "E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> PHONE = createField("phone", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
      */
     public final TableField<CollaboratorsRecord, Integer> INSTITUTION_ID = createField("institution_id", org.jooq.impl.SQLDataType.INTEGER, this, "Author's affiliation when the resource was created. Foreign key to 'institutions'");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.created_on</code>. When the record was created.
      */
     public final TableField<CollaboratorsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -98,14 +115,6 @@ public class Collaborators extends TableImpl<CollaboratorsRecord> {
 
     public <O extends Record> Collaborators(Table<O> child, ForeignKey<O, CollaboratorsRecord> key) {
         super(child, key, COLLABORATORS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<CollaboratorsRecord> getRecordType() {
-        return CollaboratorsRecord.class;
     }
 
     /**

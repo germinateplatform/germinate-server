@@ -38,6 +38,13 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CompoundsRecord
      */
     public CompoundsRecord(Integer id, String name, String description, String molecularFormula, BigDecimal monoisotopicMass, BigDecimal averageMass, String compoundClass, Integer unitId, Timestamp createdOn, Timestamp updatedOn) {
@@ -56,10 +63,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.compounds.name</code>. Compound full name.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
     }
 
     /**
@@ -70,38 +77,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounds.name</code>. Compound full name.
-     */
-    public String getName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.compounds.name</code>. Compound full name.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
      */
     public String getDescription() {
         return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.compounds.molecular_formula</code>. The molecular formula of the compound.
-     */
-    public String getMolecularFormula() {
-        return (String) get(3);
     }
 
     /**
@@ -112,10 +91,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounds.monoisotopic_mass</code>. The monoisotopic mass of the compound.
+     * Setter for <code>germinate_template_3_6_0.compounds.name</code>. Compound full name.
      */
-    public BigDecimal getMonoisotopicMass() {
-        return (BigDecimal) get(4);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -126,10 +105,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounds.average_mass</code>. The average mass of the compound.
+     * Setter for <code>germinate_template_3_6_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
      */
-    public BigDecimal getAverageMass() {
-        return (BigDecimal) get(5);
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -140,10 +119,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounds.compound_class</code>. A classification of the compound.
+     * Getter for <code>germinate_template_3_6_0.compounds.molecular_formula</code>. The molecular formula of the compound.
      */
-    public String getCompoundClass() {
-        return (String) get(6);
+    public String getMolecularFormula() {
+        return (String) get(3);
     }
 
     /**
@@ -154,10 +133,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     * Getter for <code>germinate_template_3_6_0.compounds.monoisotopic_mass</code>. The monoisotopic mass of the compound.
      */
-    public Integer getUnitId() {
-        return (Integer) get(7);
+    public BigDecimal getMonoisotopicMass() {
+        return (BigDecimal) get(4);
     }
 
     /**
@@ -168,6 +147,20 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.compounds.average_mass</code>. The average mass of the compound.
+     */
+    public BigDecimal getAverageMass() {
+        return (BigDecimal) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.compounds.compound_class</code>. A classification of the compound.
+     */
+    public String getCompoundClass() {
+        return (String) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.compounds.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -175,15 +168,11 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.compounds.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.compounds.unit_id</code>. Foreign Key to units (units.id).
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Integer getUnitId() {
+        return (Integer) get(7);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -193,15 +182,8 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     // -------------------------------------------------------------------------
-    // Record10 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -210,6 +192,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -548,10 +534,6 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -577,5 +559,23 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.compounds.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 }

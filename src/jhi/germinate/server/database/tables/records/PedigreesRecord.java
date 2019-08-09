@@ -41,6 +41,13 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PedigreesRecord
      */
     public PedigreesRecord(Integer id, Integer germinatebaseId, Integer parentId, PedigreesRelationshipType relationshipType, Integer pedigreedescriptionId, String relationshipDescription, Timestamp createdOn, Timestamp updatedOn) {
@@ -57,38 +64,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
-     */
-    public Integer getParentId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -99,10 +78,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * Setter for <code>germinate_template_3_6_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PedigreesRelationshipType getRelationshipType() {
-        return (PedigreesRelationshipType) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -113,10 +92,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
+     * Setter for <code>germinate_template_3_6_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public Integer getPedigreedescriptionId() {
-        return (Integer) get(4);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -127,10 +106,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Getter for <code>germinate_template_3_6_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
      */
-    public String getRelationshipDescription() {
-        return (String) get(5);
+    public Integer getParentId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -141,6 +120,20 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     */
+    public PedigreesRelationshipType getRelationshipType() {
+        return (PedigreesRelationshipType) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
+     */
+    public Integer getPedigreedescriptionId() {
+        return (Integer) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.pedigrees.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -148,15 +141,11 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigrees.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(6, value);
+    public String getRelationshipDescription() {
+        return (String) get(5);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -166,15 +155,8 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -183,6 +165,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record8 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -455,10 +441,6 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -482,5 +464,23 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
         value7(value7);
         value8(value8);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.pedigrees.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 }

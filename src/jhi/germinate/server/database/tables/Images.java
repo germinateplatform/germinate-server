@@ -29,35 +29,51 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Images extends TableImpl<ImagesRecord> {
 
+    private static final long serialVersionUID = -1808467835;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.images</code>
      */
     public static final Images IMAGES = new Images();
-    private static final long serialVersionUID = -1808467835;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ImagesRecord> getRecordType() {
+        return ImagesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ImagesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
      */
     public final TableField<ImagesRecord, Integer> IMAGETYPE_ID = createField("imagetype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Foreign key to imagetypes (imagetypes.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.images.description</code>. A description of what the image shows if required.
      */
     public final TableField<ImagesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "A description of what the image shows if required.");
+
     /**
      * The column <code>germinate_template_3_6_0.images.foreign_id</code>. Relates to the UID of the table to which the comment relates.
      */
     public final TableField<ImagesRecord, Integer> FOREIGN_ID = createField("foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Relates to the UID of the table to which the comment relates.");
+
     /**
      * The column <code>germinate_template_3_6_0.images.path</code>. The file system path to the image.
      */
     public final TableField<ImagesRecord, String> PATH = createField("path", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "The file system path to the image.");
+
     /**
      * The column <code>germinate_template_3_6_0.images.created_on</code>. When the record was created.
      */
     public final TableField<ImagesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -94,14 +110,6 @@ public class Images extends TableImpl<ImagesRecord> {
 
     public <O extends Record> Images(Table<O> child, ForeignKey<O, ImagesRecord> key) {
         super(child, key, IMAGES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ImagesRecord> getRecordType() {
-        return ImagesRecord.class;
     }
 
     /**

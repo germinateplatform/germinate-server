@@ -31,27 +31,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Newstypes extends TableImpl<NewstypesRecord> {
 
+    private static final long serialVersionUID = -1337354892;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.newstypes</code>
      */
     public static final Newstypes NEWSTYPES = new Newstypes();
-    private static final long serialVersionUID = -1337354892;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<NewstypesRecord> getRecordType() {
+        return NewstypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.newstypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<NewstypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.newstypes.name</code>. Name of the news type.
      */
     public final TableField<NewstypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Name of the news type.");
+
     /**
      * The column <code>germinate_template_3_6_0.newstypes.description</code>. A longer description of the news type.
      */
     public final TableField<NewstypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A longer description of the news type.");
+
     /**
      * The column <code>germinate_template_3_6_0.newstypes.created_on</code>. When the record was created.
      */
     public final TableField<NewstypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.newstypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -88,14 +102,6 @@ public class Newstypes extends TableImpl<NewstypesRecord> {
 
     public <O extends Record> Newstypes(Table<O> child, ForeignKey<O, NewstypesRecord> key) {
         super(child, key, NEWSTYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<NewstypesRecord> getRecordType() {
-        return NewstypesRecord.class;
     }
 
     /**

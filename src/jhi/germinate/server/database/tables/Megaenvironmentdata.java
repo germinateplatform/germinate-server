@@ -31,35 +31,51 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
 
+    private static final long serialVersionUID = 1209763388;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.megaenvironmentdata</code>
      */
     public static final Megaenvironmentdata MEGAENVIRONMENTDATA = new Megaenvironmentdata();
-    private static final long serialVersionUID = 1209763388;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<MegaenvironmentdataRecord> getRecordType() {
+        return MegaenvironmentdataRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MegaenvironmentdataRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
      */
     public final TableField<MegaenvironmentdataRecord, Integer> LOCATION_ID = createField("location_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to locations (locations.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.source_id</code>. Source ID
      */
     public final TableField<MegaenvironmentdataRecord, Integer> SOURCE_ID = createField("source_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Source ID");
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.megaenvironment_id</code>. Foreign key to megaenvironments (megaenvironments.id).
      */
     public final TableField<MegaenvironmentdataRecord, Integer> MEGAENVIRONMENT_ID = createField("megaenvironment_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to megaenvironments (megaenvironments.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
      */
     public final TableField<MegaenvironmentdataRecord, Byte> IS_FINAL = createField("is_final", org.jooq.impl.SQLDataType.TINYINT, this, "The source that was used to determine the megaenvironment data.");
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.created_on</code>. When the record was created.
      */
     public final TableField<MegaenvironmentdataRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -96,14 +112,6 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
 
     public <O extends Record> Megaenvironmentdata(Table<O> child, ForeignKey<O, MegaenvironmentdataRecord> key) {
         super(child, key, MEGAENVIRONMENTDATA);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<MegaenvironmentdataRecord> getRecordType() {
-        return MegaenvironmentdataRecord.class;
     }
 
     /**

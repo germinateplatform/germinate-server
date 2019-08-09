@@ -30,33 +30,48 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonyms extends TableImpl<SynonymsRecord> {
 
+    private static final long serialVersionUID = 974231741;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.synonyms</code>
      */
     public static final Synonyms SYNONYMS = new Synonyms();
-    private static final long serialVersionUID = 974231741;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<SynonymsRecord> getRecordType() {
+        return SynonymsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
 
      */
     public final TableField<SynonymsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.\n");
+
     /**
      * The column <code>germinate_template_3_6_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
      */
     public final TableField<SynonymsRecord, Integer> FOREIGN_ID = createField("foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to target table (l[targettable].id).");
+
     /**
      * The column <code>germinate_template_3_6_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
      */
     public final TableField<SynonymsRecord, Integer> SYNONYMTYPE_ID = createField("synonymtype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to synonymtypes (synonymnstypes.id).");
+
     /**
      * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
      */
     @java.lang.Deprecated
     public final TableField<SynonymsRecord, Object> SYNONYMS_ = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_6_0\".\"synonyms_synonyms\""), this, "The synonyms as a json array.");
+
     /**
      * The column <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
      */
     public final TableField<SynonymsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -93,14 +108,6 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
 
     public <O extends Record> Synonyms(Table<O> child, ForeignKey<O, SynonymsRecord> key) {
         super(child, key, SYNONYMS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<SynonymsRecord> getRecordType() {
-        return SynonymsRecord.class;
     }
 
     /**

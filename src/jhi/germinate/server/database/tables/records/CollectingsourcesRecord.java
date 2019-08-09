@@ -42,6 +42,13 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CollectingsourcesRecord
      */
     public CollectingsourcesRecord(Integer id, String collsrc, Timestamp createdOn, Timestamp updatedOn) {
@@ -54,10 +61,18 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
+
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getCollsrc() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -65,14 +80,6 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
      */
     public void setId(Integer value) {
         set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
-
-     */
-    public String getCollsrc() {
-        return (String) get(1);
     }
 
     /**
@@ -84,24 +91,6 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
-
-    /**
      * Getter for <code>germinate_template_3_6_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
@@ -109,15 +98,8 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -126,6 +108,10 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record4 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -266,10 +252,6 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -289,5 +271,23 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
         value3(value3);
         value4(value4);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 }

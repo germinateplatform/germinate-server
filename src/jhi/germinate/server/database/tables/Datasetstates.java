@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetstates extends TableImpl<DatasetstatesRecord> {
 
+    private static final long serialVersionUID = 663111730;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.datasetstates</code>
      */
     public static final Datasetstates DATASETSTATES = new Datasetstates();
-    private static final long serialVersionUID = 663111730;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<DatasetstatesRecord> getRecordType() {
+        return DatasetstatesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<DatasetstatesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetstates.name</code>. Defines the datasetstate.
      */
     public final TableField<DatasetstatesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Defines the datasetstate.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetstates.description</code>. Describes the datasetstate.
      */
     public final TableField<DatasetstatesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the datasetstate.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetstates.created_on</code>. When the record was created.
      */
     public final TableField<DatasetstatesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetstates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Datasetstates extends TableImpl<DatasetstatesRecord> {
 
     public <O extends Record> Datasetstates(Table<O> child, ForeignKey<O, DatasetstatesRecord> key) {
         super(child, key, DATASETSTATES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<DatasetstatesRecord> getRecordType() {
-        return DatasetstatesRecord.class;
     }
 
     /**

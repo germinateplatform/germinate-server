@@ -55,23 +55,36 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
 
+    private static final long serialVersionUID = 2050251736;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.biologicalstatus</code>
      */
     public static final Biologicalstatus BIOLOGICALSTATUS = new Biologicalstatus();
-    private static final long serialVersionUID = 2050251736;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<BiologicalstatusRecord> getRecordType() {
+        return BiologicalstatusRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<BiologicalstatusRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
     public final TableField<BiologicalstatusRecord, String> SAMPSTAT = createField("sampstat", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Previoulsy known as sampstat.");
+
     /**
      * The column <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
      */
     public final TableField<BiologicalstatusRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -108,14 +121,6 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
 
     public <O extends Record> Biologicalstatus(Table<O> child, ForeignKey<O, BiologicalstatusRecord> key) {
         super(child, key, BIOLOGICALSTATUS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<BiologicalstatusRecord> getRecordType() {
-        return BiologicalstatusRecord.class;
     }
 
     /**

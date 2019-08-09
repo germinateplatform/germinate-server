@@ -29,27 +29,40 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locationtypes extends TableImpl<LocationtypesRecord> {
 
+    private static final long serialVersionUID = -157674781;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.locationtypes</code>
      */
     public static final Locationtypes LOCATIONTYPES = new Locationtypes();
-    private static final long serialVersionUID = -157674781;
-    /**
-     * The column <code>germinate_template_3_6_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public final TableField<LocationtypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
     /**
      * The column <code>germinate_template_3_6_0.locationtypes.name</code>. The name of the location type.
      */
     public final TableField<LocationtypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the location type. ");
+
+    /**
+     * The column <code>germinate_template_3_6_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<LocationtypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<LocationtypesRecord> getRecordType() {
+        return LocationtypesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.locationtypes.description</code>. A description of the location type.
      */
     public final TableField<LocationtypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A description of the location type.");
+
     /**
      * The column <code>germinate_template_3_6_0.locationtypes.created_on</code>. When the record was created.
      */
     public final TableField<LocationtypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +99,6 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
 
     public <O extends Record> Locationtypes(Table<O> child, ForeignKey<O, LocationtypesRecord> key) {
         super(child, key, LOCATIONTYPES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<LocationtypesRecord> getRecordType() {
-        return LocationtypesRecord.class;
     }
 
     /**

@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetcollaborators extends TableImpl<DatasetcollaboratorsRecord> {
 
+    private static final long serialVersionUID = -91238756;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.datasetcollaborators</code>
      */
     public static final Datasetcollaborators DATASETCOLLABORATORS = new Datasetcollaborators();
-    private static final long serialVersionUID = -91238756;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<DatasetcollaboratorsRecord> getRecordType() {
+        return DatasetcollaboratorsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.datasetcollaborators.id</code>.
      */
     public final TableField<DatasetcollaboratorsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetcollaborators.dataset_id</code>.
      */
     public final TableField<DatasetcollaboratorsRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetcollaborators.collaborator_id</code>.
      */
     public final TableField<DatasetcollaboratorsRecord, Integer> COLLABORATOR_ID = createField("collaborator_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetcollaborators.created_on</code>. When the record was created.
      */
     public final TableField<DatasetcollaboratorsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Datasetcollaborators extends TableImpl<DatasetcollaboratorsRecord> 
 
     public <O extends Record> Datasetcollaborators(Table<O> child, ForeignKey<O, DatasetcollaboratorsRecord> key) {
         super(child, key, DATASETCOLLABORATORS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<DatasetcollaboratorsRecord> getRecordType() {
-        return DatasetcollaboratorsRecord.class;
     }
 
     /**

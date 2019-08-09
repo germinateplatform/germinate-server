@@ -29,35 +29,51 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
 
+    private static final long serialVersionUID = -1963742303;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.pedigreedefinitions</code>
      */
     public static final Pedigreedefinitions PEDIGREEDEFINITIONS = new Pedigreedefinitions();
-    private static final long serialVersionUID = -1963742303;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<PedigreedefinitionsRecord> getRecordType() {
+        return PedigreedefinitionsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<PedigreedefinitionsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.germinatebase_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public final TableField<PedigreedefinitionsRecord, Integer> GERMINATEBASE_ID = createField("germinatebase_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to germinatebase (germinatebase.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.pedigreenotation_id</code>. Foreign key to pedigreenotations (pedigreenotations.id).
      */
     public final TableField<PedigreedefinitionsRecord, Integer> PEDIGREENOTATION_ID = createField("pedigreenotation_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to pedigreenotations (pedigreenotations.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.pedigreedescription_id</code>.
      */
     public final TableField<PedigreedefinitionsRecord, Integer> PEDIGREEDESCRIPTION_ID = createField("pedigreedescription_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.definition</code>. The pedigree string which is used to represent the germinatebase entry.
      */
     public final TableField<PedigreedefinitionsRecord, String> DEFINITION = createField("definition", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "The pedigree string which is used to represent the germinatebase entry.");
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.created_on</code>. When the record was created.
      */
     public final TableField<PedigreedefinitionsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.pedigreedefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -94,14 +110,6 @@ public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
 
     public <O extends Record> Pedigreedefinitions(Table<O> child, ForeignKey<O, PedigreedefinitionsRecord> key) {
         super(child, key, PEDIGREEDEFINITIONS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<PedigreedefinitionsRecord> getRecordType() {
-        return PedigreedefinitionsRecord.class;
     }
 
     /**

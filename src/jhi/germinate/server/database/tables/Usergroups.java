@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Usergroups extends TableImpl<UsergroupsRecord> {
 
+    private static final long serialVersionUID = 1150179023;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.usergroups</code>
      */
     public static final Usergroups USERGROUPS = new Usergroups();
-    private static final long serialVersionUID = 1150179023;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<UsergroupsRecord> getRecordType() {
+        return UsergroupsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.usergroups.id</code>.
      */
     public final TableField<UsergroupsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.usergroups.name</code>. The name of the user group.
      */
     public final TableField<UsergroupsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the user group.");
+
     /**
      * The column <code>germinate_template_3_6_0.usergroups.description</code>. A description of the user group.
      */
     public final TableField<UsergroupsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "A description of the user group.");
+
     /**
      * The column <code>germinate_template_3_6_0.usergroups.created_on</code>. When the record was created.
      */
     public final TableField<UsergroupsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Usergroups extends TableImpl<UsergroupsRecord> {
 
     public <O extends Record> Usergroups(Table<O> child, ForeignKey<O, UsergroupsRecord> key) {
         super(child, key, USERGROUPS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<UsergroupsRecord> getRecordType() {
-        return UsergroupsRecord.class;
     }
 
     /**

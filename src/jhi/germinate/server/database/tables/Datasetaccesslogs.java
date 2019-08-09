@@ -29,43 +29,61 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
 
+    private static final long serialVersionUID = -1134667106;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.datasetaccesslogs</code>
      */
     public static final Datasetaccesslogs DATASETACCESSLOGS = new Datasetaccesslogs();
-    private static final long serialVersionUID = -1134667106;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<DatasetaccesslogsRecord> getRecordType() {
+        return DatasetaccesslogsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<DatasetaccesslogsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.user_id</code>.
      */
     public final TableField<DatasetaccesslogsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.user_name</code>.
      */
     public final TableField<DatasetaccesslogsRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.user_email</code>.
      */
     public final TableField<DatasetaccesslogsRecord, String> USER_EMAIL = createField("user_email", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.user_institution</code>.
      */
     public final TableField<DatasetaccesslogsRecord, String> USER_INSTITUTION = createField("user_institution", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.dataset_id</code>.
      */
     public final TableField<DatasetaccesslogsRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.reason</code>.
      */
     public final TableField<DatasetaccesslogsRecord, String> REASON = createField("reason", org.jooq.impl.SQLDataType.CLOB, this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.created_on</code>. When the record was created.
      */
     public final TableField<DatasetaccesslogsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.datasetaccesslogs.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -102,14 +120,6 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
 
     public <O extends Record> Datasetaccesslogs(Table<O> child, ForeignKey<O, DatasetaccesslogsRecord> key) {
         super(child, key, DATASETACCESSLOGS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<DatasetaccesslogsRecord> getRecordType() {
-        return DatasetaccesslogsRecord.class;
     }
 
     /**

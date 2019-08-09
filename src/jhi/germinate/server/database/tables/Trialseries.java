@@ -31,23 +31,36 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Trialseries extends TableImpl<TrialseriesRecord> {
 
+    private static final long serialVersionUID = 2087616440;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.trialseries</code>
      */
     public static final Trialseries TRIALSERIES = new Trialseries();
-    private static final long serialVersionUID = 2087616440;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<TrialseriesRecord> getRecordType() {
+        return TrialseriesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.trialseries.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<TrialseriesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.trialseries.seriesname</code>. The description of the trial series name.
      */
     public final TableField<TrialseriesRecord, String> SERIESNAME = createField("seriesname", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The description of the trial series name.");
+
     /**
      * The column <code>germinate_template_3_6_0.trialseries.created_on</code>. When the record was created.
      */
     public final TableField<TrialseriesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.trialseries.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
@@ -84,14 +97,6 @@ public class Trialseries extends TableImpl<TrialseriesRecord> {
 
     public <O extends Record> Trialseries(Table<O> child, ForeignKey<O, TrialseriesRecord> key) {
         super(child, key, TRIALSERIES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<TrialseriesRecord> getRecordType() {
-        return TrialseriesRecord.class;
     }
 
     /**

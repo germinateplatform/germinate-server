@@ -30,51 +30,71 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Institutions extends TableImpl<InstitutionsRecord> {
 
+    private static final long serialVersionUID = -1832141861;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.institutions</code>
      */
     public static final Institutions INSTITUTIONS = new Institutions();
-    private static final long serialVersionUID = -1832141861;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<InstitutionsRecord> getRecordType() {
+        return InstitutionsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<InstitutionsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
      */
     public final TableField<InstitutionsRecord, String> CODE = createField("code", org.jooq.impl.SQLDataType.VARCHAR(255), this, "If there is a defined ISO code for the institute this should be used here.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.name</code>. The institute name.
      */
     public final TableField<InstitutionsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The institute name.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.acronym</code>. If there is an acronym for the institute.
      */
     public final TableField<InstitutionsRecord, String> ACRONYM = createField("acronym", org.jooq.impl.SQLDataType.VARCHAR(20), this, "If there is an acronym for the institute.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.country_id</code>. Foreign key to countries.id.
      */
     public final TableField<InstitutionsRecord, Integer> COUNTRY_ID = createField("country_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to countries.id.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
      */
     public final TableField<InstitutionsRecord, String> CONTACT = createField("contact", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The contact at the institute which should be used for correspondence.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.phone</code>. The telephone number for the institute.
      */
     public final TableField<InstitutionsRecord, String> PHONE = createField("phone", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The telephone number for the institute.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.email</code>. The email address to contact the institute.
      */
     public final TableField<InstitutionsRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The email address to contact the institute.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.address</code>. The postal address of the institute.
      */
     public final TableField<InstitutionsRecord, String> ADDRESS = createField("address", org.jooq.impl.SQLDataType.CLOB, this, "The postal address of the institute.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.created_on</code>. When the record was created.
      */
     public final TableField<InstitutionsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -111,14 +131,6 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
 
     public <O extends Record> Institutions(Table<O> child, ForeignKey<O, InstitutionsRecord> key) {
         super(child, key, INSTITUTIONS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<InstitutionsRecord> getRecordType() {
-        return InstitutionsRecord.class;
     }
 
     /**

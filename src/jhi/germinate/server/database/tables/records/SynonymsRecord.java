@@ -31,10 +31,25 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     private static final long serialVersionUID = 1965829864;
 
     /**
+     * Setter for <code>germinate_template_3_6_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
+
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached SynonymsRecord
      */
     public SynonymsRecord() {
         super(Synonyms.SYNONYMS);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
+     */
+    public void setForeignId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -60,11 +75,18 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
-
+     * Getter for <code>germinate_template_3_6_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getSynonymtypeId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     */
+    @java.lang.Deprecated
+    public void setSynonyms(Object value) {
+        set(3, value);
     }
 
     /**
@@ -75,17 +97,10 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
+     * Setter for <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
      */
-    public void setForeignId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
-     */
-    public Integer getSynonymtypeId() {
-        return (Integer) get(2);
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
@@ -104,32 +119,6 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setSynonyms(Object value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
-
-    /**
      * Getter for <code>germinate_template_3_6_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
@@ -137,15 +126,8 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -154,6 +136,10 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -364,10 +350,6 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -389,5 +371,23 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 }

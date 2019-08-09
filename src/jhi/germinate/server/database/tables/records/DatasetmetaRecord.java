@@ -39,6 +39,13 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetmetaRecord
      */
     public DatasetmetaRecord(Integer id, Integer datasetId, ULong nrOfDataObjects, ULong nrOfDataPoints, Timestamp createdOn, Timestamp updatedOn) {
@@ -53,38 +60,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
     public Integer getDatasetId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
-     */
-    public void setDatasetId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
-     */
-    public ULong getNrOfDataObjects() {
-        return (ULong) get(2);
     }
 
     /**
@@ -95,10 +74,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
+     * Setter for <code>germinate_template_3_6_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ULong getNrOfDataPoints() {
-        return (ULong) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -109,10 +88,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmeta.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_6_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setDatasetId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -122,9 +101,19 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+    /**
+     * Getter for <code>germinate_template_3_6_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
+     */
+    public ULong getNrOfDataObjects() {
+        return (ULong) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
+     */
+    public ULong getNrOfDataPoints() {
+        return (ULong) get(3);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -134,15 +123,8 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -151,6 +133,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -357,10 +343,6 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -382,5 +364,23 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.datasetmeta.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 }

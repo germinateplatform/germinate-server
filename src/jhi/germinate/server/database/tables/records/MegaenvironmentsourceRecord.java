@@ -39,6 +39,13 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised MegaenvironmentsourceRecord
      */
     public MegaenvironmentsourceRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +59,17 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.name</code>. The name of the mega environment source.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.megaenvironmentsource.description</code>. Describes the mega environment source.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -66,10 +80,10 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.name</code>. The name of the mega environment source.
+     * Setter for <code>germinate_template_3_6_0.megaenvironmentsource.created_on</code>. When the record was created.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -87,31 +101,6 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentsource.description</code>. Describes the mega environment source.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentsource.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
-
-    /**
      * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
@@ -119,15 +108,8 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     // -------------------------------------------------------------------------
-    // Record5 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentsource.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -136,6 +118,10 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record5 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -309,10 +295,6 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -333,5 +315,23 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
         value4(value4);
         value5(value5);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.megaenvironmentsource.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.megaenvironmentsource.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 }

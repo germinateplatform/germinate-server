@@ -34,24 +34,37 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
 
+    private static final long serialVersionUID = -1225076071;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.collectingsources</code>
      */
     public static final Collectingsources COLLECTINGSOURCES = new Collectingsources();
-    private static final long serialVersionUID = -1225076071;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<CollectingsourcesRecord> getRecordType() {
+        return CollectingsourcesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<CollectingsourcesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
 
      */
     public final TableField<CollectingsourcesRecord, String> COLLSRC = createField("collsrc", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)\n");
+
     /**
      * The column <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
      */
     public final TableField<CollectingsourcesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -88,14 +101,6 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
 
     public <O extends Record> Collectingsources(Table<O> child, ForeignKey<O, CollectingsourcesRecord> key) {
         super(child, key, COLLECTINGSOURCES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<CollectingsourcesRecord> getRecordType() {
-        return CollectingsourcesRecord.class;
     }
 
     /**

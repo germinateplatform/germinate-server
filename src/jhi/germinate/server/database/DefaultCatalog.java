@@ -25,11 +25,13 @@ import javax.annotation.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultCatalog extends CatalogImpl {
 
+    private static final long serialVersionUID = 1669628410;
+
     /**
      * The reference instance of <code></code>
      */
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
-    private static final long serialVersionUID = 1669628410;
+
     /**
      * The schema <code>germinate_template_3_6_0</code>.
      */

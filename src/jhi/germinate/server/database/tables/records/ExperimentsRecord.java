@@ -37,6 +37,13 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ExperimentsRecord
      */
     public ExperimentsRecord(Integer id, String experimentName, Integer userId, String description, Date experimentDate, Integer experimentTypeId, Timestamp createdOn, Timestamp updatedOn) {
@@ -53,39 +60,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.experiments.experiment_name</code>. The name of the experiment.
      */
     public String getExperimentName() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.experiments.experiment_name</code>. The name of the experiment.
-     */
-    public void setExperimentName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
-
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -97,10 +75,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.experiments.description</code>. Describes the experiment.
+     * Setter for <code>germinate_template_3_6_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getDescription() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -111,10 +89,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Setter for <code>germinate_template_3_6_0.experiments.experiment_name</code>. The name of the experiment.
      */
-    public Date getExperimentDate() {
-        return (Date) get(4);
+    public void setExperimentName(String value) {
+        set(1, value);
     }
 
     /**
@@ -125,11 +103,11 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
+     * Getter for <code>germinate_template_3_6_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
 
      */
-    public Integer getExperimentTypeId() {
-        return (Integer) get(5);
+    public Integer getUserId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -141,6 +119,20 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.experiments.description</code>. Describes the experiment.
+     */
+    public String getDescription() {
+        return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     */
+    public Date getExperimentDate() {
+        return (Date) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.experiments.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -148,15 +140,12 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.experiments.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(6, value);
-    }
+     * Getter for <code>germinate_template_3_6_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+     */
+    public Integer getExperimentTypeId() {
+        return (Integer) get(5);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -166,15 +155,8 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -183,6 +165,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record8 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -455,10 +441,6 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -482,5 +464,23 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
         value7(value7);
         value8(value8);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.experiments.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 }

@@ -37,6 +37,13 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PhenotypedataRecord
      */
     public PhenotypedataRecord(Integer id, Integer phenotypeId, Integer germinatebaseId, String phenotypeValue, Integer datasetId, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn, Integer locationId, Integer treatmentId, Integer trialseriesId) {
@@ -56,10 +63,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.phenotype_id</code>. Foreign key phenotypes (phenotype.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getPhenotypeId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -70,38 +77,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.phenotype_id</code>. Foreign key phenotypes (phenotype.id).
-     */
-    public Integer getPhenotypeId() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.phenotypedata.phenotype_id</code>. Foreign key phenotypes (phenotype.id).
-     */
-    public void setPhenotypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.phenotypedata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.phenotypedata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public void setGerminatebaseId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.phenotype_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
-     */
-    public String getPhenotypeValue() {
-        return (String) get(3);
     }
 
     /**
@@ -112,10 +91,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
+     * Setter for <code>germinate_template_3_6_0.phenotypedata.phenotype_id</code>. Foreign key phenotypes (phenotype.id).
      */
-    public Integer getDatasetId() {
-        return (Integer) get(4);
+    public void setPhenotypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -126,10 +105,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Setter for <code>germinate_template_3_6_0.phenotypedata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public Timestamp getRecordingDate() {
-        return (Timestamp) get(5);
+    public void setGerminatebaseId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -140,10 +119,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.phenotype_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
+    public String getPhenotypeValue() {
+        return (String) get(3);
     }
 
     /**
@@ -154,10 +133,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.phenotypedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    public Integer getDatasetId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -168,6 +147,20 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     */
+    public Timestamp getRecordingDate() {
+        return (Timestamp) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
      */
     public Integer getLocationId() {
@@ -175,10 +168,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_6_0.phenotypedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setLocationId(Integer value) {
-        set(8, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -189,15 +182,11 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
+     * Setter for <code>germinate_template_3_6_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
      */
-    public void setTreatmentId(Integer value) {
-        set(9, value);
+    public void setLocationId(Integer value) {
+        set(8, value);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
@@ -207,15 +196,8 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     // -------------------------------------------------------------------------
-    // Record11 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
-     */
-    public void setTrialseriesId(Integer value) {
-        set(10, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -224,6 +206,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record11 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -595,10 +581,6 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -625,5 +607,23 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
         value10(value10);
         value11(value11);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
+     */
+    public void setTreatmentId(Integer value) {
+        set(9, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
+     */
+    public void setTrialseriesId(Integer value) {
+        set(10, value);
     }
 }

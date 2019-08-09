@@ -395,4 +395,9 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
      * VIEW
      */
     public static final ViewMcpd VIEW_MCPD = jhi.germinate.server.database.tables.ViewMcpd.VIEW_MCPD;
+
+    /**
+     * VIEW
+     */
+    public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = jhi.germinate.server.database.tables.ViewTableGermplasm.VIEW_TABLE_GERMPLASM;
 }

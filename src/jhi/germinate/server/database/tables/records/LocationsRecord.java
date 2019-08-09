@@ -39,6 +39,20 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
+     */
+    public void setLocationtypeId(Integer value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised LocationsRecord
      */
     public LocationsRecord(Integer id, Integer locationtypeId, Integer countryId, String state, String region, String siteName, String siteNameShort, BigDecimal elevation, BigDecimal latitude, BigDecimal longitude, Integer coordinateUncertainty, String coordinateDatum, String georeferencingMethod, Timestamp createdOn, Timestamp updatedOn) {
@@ -62,31 +76,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_6_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
-     */
-    public Integer getLocationtypeId() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
-     */
-    public void setLocationtypeId(Integer value) {
-        set(1, value);
     }
 
     /**
@@ -97,10 +90,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.country_id</code>. Foreign key to countries (countries.id).
+     * Getter for <code>germinate_template_3_6_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
      */
-    public void setCountryId(Integer value) {
-        set(2, value);
+    public Integer getLocationtypeId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -111,20 +104,6 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.state</code>. The state where the location is if this exists.
-     */
-    public void setState(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.locations.region</code>. The region where the location is if this exists.
-     */
-    public String getRegion() {
-        return (String) get(4);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_6_0.locations.region</code>. The region where the location is if this exists.
      */
     public void setRegion(String value) {
@@ -132,10 +111,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.site_name</code>. The site name where the location is.
+     * Setter for <code>germinate_template_3_6_0.locations.country_id</code>. Foreign key to countries (countries.id).
      */
-    public String getSiteName() {
-        return (String) get(5);
+    public void setCountryId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -146,10 +125,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     * Setter for <code>germinate_template_3_6_0.locations.state</code>. The state where the location is if this exists.
      */
-    public String getSiteNameShort() {
-        return (String) get(6);
+    public void setState(String value) {
+        set(3, value);
     }
 
     /**
@@ -160,10 +139,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_3_6_0.locations.region</code>. The region where the location is if this exists.
      */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(7);
+    public String getRegion() {
+        return (String) get(4);
     }
 
     /**
@@ -174,10 +153,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.latitude</code>. Latitude of the location.
+     * Getter for <code>germinate_template_3_6_0.locations.site_name</code>. The site name where the location is.
      */
-    public BigDecimal getLatitude() {
-        return (BigDecimal) get(8);
+    public String getSiteName() {
+        return (String) get(5);
     }
 
     /**
@@ -188,10 +167,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.longitude</code>. Longitude of the location.
+     * Getter for <code>germinate_template_3_6_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
      */
-    public BigDecimal getLongitude() {
-        return (BigDecimal) get(9);
+    public String getSiteNameShort() {
+        return (String) get(6);
     }
 
     /**
@@ -202,17 +181,31 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.locations.elevation</code>. The elevation of the site in metres.
+     */
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.locations.latitude</code>. Latitude of the location.
+     */
+    public BigDecimal getLatitude() {
+        return (BigDecimal) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.locations.longitude</code>. Longitude of the location.
+     */
+    public BigDecimal getLongitude() {
+        return (BigDecimal) get(9);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
     public Integer getCoordinateUncertainty() {
         return (Integer) get(10);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
-     */
-    public void setCoordinateUncertainty(Integer value) {
-        set(10, value);
     }
 
     /**
@@ -223,10 +216,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     * Setter for <code>germinate_template_3_6_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
-    public void setCoordinateDatum(String value) {
-        set(11, value);
+    public void setCoordinateUncertainty(Integer value) {
+        set(10, value);
     }
 
     /**
@@ -237,29 +230,25 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
-     */
-    public void setGeoreferencingMethod(String value) {
-        set(12, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.locations.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(13);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_6_0.locations.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(13, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+    /**
+     * Setter for <code>germinate_template_3_6_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     */
+    public void setCoordinateDatum(String value) {
+        set(11, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     */
+    public void setGeoreferencingMethod(String value) {
+        set(12, value);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -269,15 +258,8 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     // -------------------------------------------------------------------------
-    // Record15 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(14, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -286,6 +268,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record15 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -789,10 +775,6 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -823,5 +805,23 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
         value14(value14);
         value15(value15);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.locations.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(13);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(14, value);
     }
 }

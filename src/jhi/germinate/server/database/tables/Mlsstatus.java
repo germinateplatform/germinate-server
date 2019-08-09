@@ -29,23 +29,36 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mlsstatus extends TableImpl<MlsstatusRecord> {
 
+    private static final long serialVersionUID = 180060057;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.mlsstatus</code>
      */
     public static final Mlsstatus MLSSTATUS = new Mlsstatus();
-    private static final long serialVersionUID = 180060057;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<MlsstatusRecord> getRecordType() {
+        return MlsstatusRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.mlsstatus.id</code>.
      */
     public final TableField<MlsstatusRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.mlsstatus.description</code>.
      */
     public final TableField<MlsstatusRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.mlsstatus.created_on</code>. When the record was created.
      */
     public final TableField<MlsstatusRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -82,14 +95,6 @@ public class Mlsstatus extends TableImpl<MlsstatusRecord> {
 
     public <O extends Record> Mlsstatus(Table<O> child, ForeignKey<O, MlsstatusRecord> key) {
         super(child, key, MLSSTATUS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<MlsstatusRecord> getRecordType() {
-        return MlsstatusRecord.class;
     }
 
     /**

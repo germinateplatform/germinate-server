@@ -31,40 +31,57 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climates extends TableImpl<ClimatesRecord> {
 
+    private static final long serialVersionUID = 1737092381;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.climates</code>
      */
     public static final Climates CLIMATES = new Climates();
-    private static final long serialVersionUID = 1737092381;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ClimatesRecord> getRecordType() {
+        return ClimatesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ClimatesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.name</code>. Describes the climate.
      */
     public final TableField<ClimatesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the climate.");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
      */
     public final TableField<ClimatesRecord, String> SHORT_NAME = createField("short_name", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened version of the climate name which is used in some table headers.");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.description</code>. A longer description of the climate.
      */
     public final TableField<ClimatesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "A longer description of the climate.");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
     public final TableField<ClimatesRecord, ClimatesDatatype> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.ClimatesDatatype.class), this, "Defines the datatype which can be FLOAT, INT or CHAR type.");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.unit_id</code>. Foreign key to units (units.id).
 
      */
     public final TableField<ClimatesRecord, Integer> UNIT_ID = createField("unit_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to units (units.id).\n");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.created_on</code>. When the record was created.
      */
     public final TableField<ClimatesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.climates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -101,14 +118,6 @@ public class Climates extends TableImpl<ClimatesRecord> {
 
     public <O extends Record> Climates(Table<O> child, ForeignKey<O, ClimatesRecord> key) {
         super(child, key, CLIMATES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ClimatesRecord> getRecordType() {
-        return ClimatesRecord.class;
     }
 
     /**

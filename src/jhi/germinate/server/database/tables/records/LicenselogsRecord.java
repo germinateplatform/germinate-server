@@ -37,6 +37,13 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.licenselogs.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised LicenselogsRecord
      */
     public LicenselogsRecord(Integer id, Integer licenseId, Integer userId, Timestamp acceptedOn) {
@@ -49,10 +56,17 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licenselogs.id</code>.
+     * Getter for <code>germinate_template_3_6_0.licenselogs.license_id</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getLicenseId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.licenselogs.user_id</code>.
+     */
+    public void setUserId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -63,36 +77,11 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licenselogs.license_id</code>.
-     */
-    public Integer getLicenseId() {
-        return (Integer) get(1);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_6_0.licenselogs.license_id</code>.
      */
     public void setLicenseId(Integer value) {
         set(1, value);
     }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.licenselogs.user_id</code>.
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.licenselogs.user_id</code>.
-     */
-    public void setUserId(Integer value) {
-        set(2, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.licenselogs.accepted_on</code>.
@@ -102,15 +91,8 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     // -------------------------------------------------------------------------
-    // Record4 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.licenselogs.accepted_on</code>.
-     */
-    public void setAcceptedOn(Timestamp value) {
-        set(3, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -119,6 +101,10 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record4 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -259,10 +245,6 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -282,5 +264,23 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
         value3(value3);
         value4(value4);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.licenselogs.user_id</code>.
+     */
+    public Integer getUserId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.licenselogs.accepted_on</code>.
+     */
+    public void setAcceptedOn(Timestamp value) {
+        set(3, value);
     }
 }

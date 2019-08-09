@@ -38,6 +38,13 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CompounddataRecord
      */
     public CompounddataRecord(Integer id, Integer compoundId, Integer germinatebaseId, Integer datasetId, Integer analysismethodId, BigDecimal compoundValue, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn) {
@@ -55,10 +62,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_6_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getCompoundId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -69,38 +76,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
-     */
-    public Integer getCompoundId() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
-     */
-    public void setCompoundId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public void setGerminatebaseId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
-     */
-    public Integer getDatasetId() {
-        return (Integer) get(3);
     }
 
     /**
@@ -111,10 +90,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
+     * Setter for <code>germinate_template_3_6_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
-    public Integer getAnalysismethodId() {
-        return (Integer) get(4);
+    public void setCompoundId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -125,10 +104,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Setter for <code>germinate_template_3_6_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public BigDecimal getCompoundValue() {
-        return (BigDecimal) get(5);
+    public void setGerminatebaseId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -139,10 +118,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_3_6_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
-    public Timestamp getRecordingDate() {
-        return (Timestamp) get(6);
+    public Integer getDatasetId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -153,6 +132,20 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
+     */
+    public Integer getAnalysismethodId() {
+        return (Integer) get(4);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     */
+    public BigDecimal getCompoundValue() {
+        return (BigDecimal) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.compounddata.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -160,15 +153,11 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.compounddata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getRecordingDate() {
+        return (Timestamp) get(6);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -178,15 +167,8 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record9 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(8, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -195,6 +177,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record9 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -500,10 +486,6 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -528,5 +510,23 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
         value8(value8);
         value9(value9);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.compounddata.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(8, value);
     }
 }

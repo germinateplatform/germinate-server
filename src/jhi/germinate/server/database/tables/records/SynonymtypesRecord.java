@@ -37,6 +37,13 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised SynonymtypesRecord
      */
     public SynonymtypesRecord(Integer id, String targetTable, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -51,38 +58,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.synonymtypes.target_table</code>. The target table.
      */
     public String getTargetTable() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonymtypes.target_table</code>. The target table.
-     */
-    public void setTargetTable(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.synonymtypes.name</code>. Name of the synonym type.
-     */
-    public String getName() {
-        return (String) get(2);
     }
 
     /**
@@ -93,10 +72,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonymtypes.description</code>. Description of the type.
+     * Setter for <code>germinate_template_3_6_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getDescription() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -107,10 +86,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonymtypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_6_0.synonymtypes.target_table</code>. The target table.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setTargetTable(String value) {
+        set(1, value);
     }
 
     /**
@@ -120,9 +99,19 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
+    /**
+     * Getter for <code>germinate_template_3_6_0.synonymtypes.name</code>. Name of the synonym type.
+     */
+    public String getName() {
+        return (String) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.synonymtypes.description</code>. Description of the type.
+     */
+    public String getDescription() {
+        return (String) get(3);
+    }
 
     /**
      * Getter for <code>germinate_template_3_6_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -132,15 +121,8 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record6 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -149,6 +131,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -355,10 +341,6 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -380,5 +362,23 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.synonymtypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 }

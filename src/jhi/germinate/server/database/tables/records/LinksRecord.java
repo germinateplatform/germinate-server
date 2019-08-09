@@ -39,6 +39,13 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.links.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised LinksRecord
      */
     public LinksRecord(Integer id, Integer linktypeId, Integer foreignId, String hyperlink, String description, Byte visibility, Timestamp createdOn, Timestamp updatedOn) {
@@ -55,38 +62,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.links.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.links.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_6_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
      */
     public Integer getLinktypeId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
-     */
-    public void setLinktypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.links.foreign_id</code>.
-     */
-    public Integer getForeignId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -97,10 +76,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.links.hyperlink</code>. The actual hyperlink.
+     * Setter for <code>germinate_template_3_6_0.links.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getHyperlink() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -111,10 +90,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.links.description</code>. A description of the link.
+     * Setter for <code>germinate_template_3_6_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
      */
-    public String getDescription() {
-        return (String) get(4);
+    public void setLinktypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -125,10 +104,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
+     * Getter for <code>germinate_template_3_6_0.links.foreign_id</code>.
      */
-    public Byte getVisibility() {
-        return (Byte) get(5);
+    public Integer getForeignId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -139,6 +118,20 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
+     * Getter for <code>germinate_template_3_6_0.links.hyperlink</code>. The actual hyperlink.
+     */
+    public String getHyperlink() {
+        return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_6_0.links.description</code>. A description of the link.
+     */
+    public String getDescription() {
+        return (String) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_6_0.links.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
@@ -146,15 +139,11 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.links.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_6_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
      */
-    public void setCreatedOn(Timestamp value) {
-        set(6, value);
+    public Byte getVisibility() {
+        return (Byte) get(5);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_6_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
@@ -164,15 +153,8 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -181,6 +163,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record8 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -453,10 +439,6 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -480,5 +462,23 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
         value7(value7);
         value8(value8);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.links.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_6_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 }

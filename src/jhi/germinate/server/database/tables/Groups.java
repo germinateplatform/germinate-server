@@ -31,39 +31,56 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groups extends TableImpl<GroupsRecord> {
 
+    private static final long serialVersionUID = 1334123157;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.groups</code>
      */
     public static final Groups GROUPS = new Groups();
-    private static final long serialVersionUID = 1334123157;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<GroupsRecord> getRecordType() {
+        return GroupsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<GroupsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
      */
     public final TableField<GroupsRecord, Integer> GROUPTYPE_ID = createField("grouptype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to grouptypes (grouptypes.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.name</code>. The name of the group which can be used to identify it.
      */
     public final TableField<GroupsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the group which can be used to identify it.");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.description</code>. A free text description of the group. This has no length limitations.
      */
     public final TableField<GroupsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "A free text description of the group. This has no length limitations.");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
     public final TableField<GroupsRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT, this, "Defines if the group is visuble or hidden from the Germinate user interface.");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<GroupsRecord, Integer> CREATED_BY = createField("created_by", org.jooq.impl.SQLDataType.INTEGER, this, "Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.created_on</code>. Foreign key to locations (locations.id).
      */
     public final TableField<GroupsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "Foreign key to locations (locations.id).");
+
     /**
      * The column <code>germinate_template_3_6_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -100,14 +117,6 @@ public class Groups extends TableImpl<GroupsRecord> {
 
     public <O extends Record> Groups(Table<O> child, ForeignKey<O, GroupsRecord> key) {
         super(child, key, GROUPS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<GroupsRecord> getRecordType() {
-        return GroupsRecord.class;
     }
 
     /**

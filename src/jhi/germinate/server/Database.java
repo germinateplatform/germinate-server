@@ -59,7 +59,7 @@ public class Database
 			flyway.setTable("schema_version");
 			flyway.setValidateOnMigrate(false);
 			flyway.setDataSource(getDatabaseUrl(), username, password);
-			flyway.setLocations("classpath:jhi.gatekeeper.server.util.databasemigration");
+			flyway.setLocations("classpath:jhi.germinate.server.util.databasemigration");
 			flyway.setBaselineOnMigrate(true);
 			flyway.migrate();
 			flyway.repair();

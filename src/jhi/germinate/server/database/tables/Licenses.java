@@ -29,27 +29,41 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Licenses extends TableImpl<LicensesRecord> {
 
+    private static final long serialVersionUID = -875242852;
+
     /**
      * The reference instance of <code>germinate_template_3_6_0.licenses</code>
      */
     public static final Licenses LICENSES = new Licenses();
-    private static final long serialVersionUID = -875242852;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<LicensesRecord> getRecordType() {
+        return LicensesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_6_0.licenses.id</code>.
      */
     public final TableField<LicensesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.licenses.name</code>.
      */
     public final TableField<LicensesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.licenses.description</code>.
      */
     public final TableField<LicensesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "");
+
     /**
      * The column <code>germinate_template_3_6_0.licenses.created_on</code>. When the record was created.
      */
     public final TableField<LicensesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
+
     /**
      * The column <code>germinate_template_3_6_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
@@ -86,14 +100,6 @@ public class Licenses extends TableImpl<LicensesRecord> {
 
     public <O extends Record> Licenses(Table<O> child, ForeignKey<O, LicensesRecord> key) {
         super(child, key, LICENSES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<LicensesRecord> getRecordType() {
-        return LicensesRecord.class;
     }
 
     /**
