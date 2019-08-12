@@ -10,7 +10,7 @@ import jhi.germinate.server.database.tables.*;
 
 
 /**
- * Convenience access to all tables in germinate_template_3_6_0
+ * Convenience access to all tables in germinate_template_3_7_0
  */
 @Generated(
     value = {
@@ -23,7 +23,7 @@ import jhi.germinate.server.database.tables.*;
 public class Tables {
 
     /**
-     * The table <code>germinate_template_3_6_0.analysismethods</code>.
+     * The table <code>germinate_template_3_7_0.analysismethods</code>.
      */
     public static final Analysismethods ANALYSISMETHODS = jhi.germinate.server.database.tables.Analysismethods.ANALYSISMETHODS;
 
@@ -82,7 +82,7 @@ amphiploids)
     public static final Climates CLIMATES = jhi.germinate.server.database.tables.Climates.CLIMATES;
 
     /**
-     * The table <code>germinate_template_3_6_0.collaborators</code>.
+     * The table <code>germinate_template_3_7_0.collaborators</code>.
      */
     public static final Collaborators COLLABORATORS = jhi.germinate.server.database.tables.Collaborators.COLLABORATORS;
 
@@ -104,12 +104,12 @@ such as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for furt
     public static final Commenttypes COMMENTTYPES = jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES;
 
     /**
-     * The table <code>germinate_template_3_6_0.compounddata</code>.
+     * The table <code>germinate_template_3_7_0.compounddata</code>.
      */
     public static final Compounddata COMPOUNDDATA = jhi.germinate.server.database.tables.Compounddata.COMPOUNDDATA;
 
     /**
-     * The table <code>germinate_template_3_6_0.compounds</code>.
+     * The table <code>germinate_template_3_7_0.compounds</code>.
      */
     public static final Compounds COMPOUNDS = jhi.germinate.server.database.tables.Compounds.COMPOUNDS;
 
@@ -124,17 +124,17 @@ such as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for furt
     public static final Datasetaccesslogs DATASETACCESSLOGS = jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS;
 
     /**
-     * The table <code>germinate_template_3_6_0.datasetcollaborators</code>.
+     * The table <code>germinate_template_3_7_0.datasetcollaborators</code>.
      */
     public static final Datasetcollaborators DATASETCOLLABORATORS = jhi.germinate.server.database.tables.Datasetcollaborators.DATASETCOLLABORATORS;
 
     /**
-     * The table <code>germinate_template_3_6_0.datasetmembers</code>.
+     * The table <code>germinate_template_3_7_0.datasetmembers</code>.
      */
     public static final Datasetmembers DATASETMEMBERS = jhi.germinate.server.database.tables.Datasetmembers.DATASETMEMBERS;
 
     /**
-     * The table <code>germinate_template_3_6_0.datasetmembertypes</code>.
+     * The table <code>germinate_template_3_7_0.datasetmembertypes</code>.
      */
     public static final Datasetmembertypes DATASETMEMBERTYPES = jhi.germinate.server.database.tables.Datasetmembertypes.DATASETMEMBERTYPES;
 
@@ -154,12 +154,12 @@ such as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for furt
     public static final Datasets DATASETS = jhi.germinate.server.database.tables.Datasets.DATASETS;
 
     /**
-     * The table <code>germinate_template_3_6_0.datasetstates</code>.
+     * The table <code>germinate_template_3_7_0.datasetstates</code>.
      */
     public static final Datasetstates DATASETSTATES = jhi.germinate.server.database.tables.Datasetstates.DATASETSTATES;
 
     /**
-     * The table <code>germinate_template_3_6_0.entitytypes</code>.
+     * The table <code>germinate_template_3_7_0.entitytypes</code>.
      */
     public static final Entitytypes ENTITYTYPES = jhi.germinate.server.database.tables.Entitytypes.ENTITYTYPES;
 
@@ -169,7 +169,7 @@ such as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for furt
     public static final Experiments EXPERIMENTS = jhi.germinate.server.database.tables.Experiments.EXPERIMENTS;
 
     /**
-     * The table <code>germinate_template_3_6_0.experimenttypes</code>.
+     * The table <code>germinate_template_3_7_0.experimenttypes</code>.
      */
     public static final Experimenttypes EXPERIMENTTYPES = jhi.germinate.server.database.tables.Experimenttypes.EXPERIMENTTYPES;
 
@@ -189,17 +189,17 @@ such as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for furt
     public static final Groups GROUPS = jhi.germinate.server.database.tables.Groups.GROUPS;
 
     /**
-     * The table <code>germinate_template_3_6_0.grouptypes</code>.
+     * The table <code>germinate_template_3_7_0.grouptypes</code>.
      */
     public static final Grouptypes GROUPTYPES = jhi.germinate.server.database.tables.Grouptypes.GROUPTYPES;
 
     /**
-     * The table <code>germinate_template_3_6_0.images</code>.
+     * The table <code>germinate_template_3_7_0.images</code>.
      */
     public static final Images IMAGES = jhi.germinate.server.database.tables.Images.IMAGES;
 
     /**
-     * The table <code>germinate_template_3_6_0.imagetypes</code>.
+     * The table <code>germinate_template_3_7_0.imagetypes</code>.
      */
     public static final Imagetypes IMAGETYPES = jhi.germinate.server.database.tables.Imagetypes.IMAGETYPES;
 
@@ -209,17 +209,17 @@ such as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for furt
     public static final Institutions INSTITUTIONS = jhi.germinate.server.database.tables.Institutions.INSTITUTIONS;
 
     /**
-     * The table <code>germinate_template_3_6_0.licensedata</code>.
+     * The table <code>germinate_template_3_7_0.licensedata</code>.
      */
     public static final Licensedata LICENSEDATA = jhi.germinate.server.database.tables.Licensedata.LICENSEDATA;
 
     /**
-     * The table <code>germinate_template_3_6_0.licenselogs</code>.
+     * The table <code>germinate_template_3_7_0.licenselogs</code>.
      */
     public static final Licenselogs LICENSELOGS = jhi.germinate.server.database.tables.Licenselogs.LICENSELOGS;
 
     /**
-     * The table <code>germinate_template_3_6_0.licenses</code>.
+     * The table <code>germinate_template_3_7_0.licenses</code>.
      */
     public static final Licenses LICENSES = jhi.germinate.server.database.tables.Licenses.LICENSES;
 
@@ -237,7 +237,7 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     public static final Linktypes LINKTYPES = jhi.germinate.server.database.tables.Linktypes.LINKTYPES;
 
     /**
-     * The table <code>germinate_template_3_6_0.locales</code>.
+     * The table <code>germinate_template_3_7_0.locales</code>.
      */
     public static final Locales LOCALES = jhi.germinate.server.database.tables.Locales.LOCALES;
 
@@ -292,7 +292,7 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     public static final Megaenvironmentsource MEGAENVIRONMENTSOURCE = jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE;
 
     /**
-     * The table <code>germinate_template_3_6_0.mlsstatus</code>.
+     * The table <code>germinate_template_3_7_0.mlsstatus</code>.
      */
     public static final Mlsstatus MLSSTATUS = jhi.germinate.server.database.tables.Mlsstatus.MLSSTATUS;
 
@@ -337,17 +337,17 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     public static final Phenotypes PHENOTYPES = jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES;
 
     /**
-     * The table <code>germinate_template_3_6_0.schema_version</code>.
+     * The table <code>germinate_template_3_7_0.schema_version</code>.
      */
     public static final SchemaVersion SCHEMA_VERSION = jhi.germinate.server.database.tables.SchemaVersion.SCHEMA_VERSION;
 
     /**
-     * The table <code>germinate_template_3_6_0.storage</code>.
+     * The table <code>germinate_template_3_7_0.storage</code>.
      */
     public static final Storage STORAGE = jhi.germinate.server.database.tables.Storage.STORAGE;
 
     /**
-     * The table <code>germinate_template_3_6_0.storagedata</code>.
+     * The table <code>germinate_template_3_7_0.storagedata</code>.
      */
     public static final Storagedata STORAGEDATA = jhi.germinate.server.database.tables.Storagedata.STORAGEDATA;
 
@@ -382,12 +382,12 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     public static final Units UNITS = jhi.germinate.server.database.tables.Units.UNITS;
 
     /**
-     * The table <code>germinate_template_3_6_0.usergroupmembers</code>.
+     * The table <code>germinate_template_3_7_0.usergroupmembers</code>.
      */
     public static final Usergroupmembers USERGROUPMEMBERS = jhi.germinate.server.database.tables.Usergroupmembers.USERGROUPMEMBERS;
 
     /**
-     * The table <code>germinate_template_3_6_0.usergroups</code>.
+     * The table <code>germinate_template_3_7_0.usergroups</code>.
      */
     public static final Usergroups USERGROUPS = jhi.germinate.server.database.tables.Usergroups.USERGROUPS;
 
@@ -400,4 +400,9 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
      * VIEW
      */
     public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = jhi.germinate.server.database.tables.ViewTableGermplasm.VIEW_TABLE_GERMPLASM;
+
+    /**
+     * VIEW
+     */
+    public static final ViewTableMaps VIEW_TABLE_MAPS = jhi.germinate.server.database.tables.ViewTableMaps.VIEW_TABLE_MAPS;
 }

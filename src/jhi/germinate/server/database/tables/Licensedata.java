@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Licensedata extends TableImpl<LicensedataRecord> {
 
-    private static final long serialVersionUID = -517299320;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.licensedata</code>
+     * The reference instance of <code>germinate_template_3_7_0.licensedata</code>
      */
     public static final Licensedata LICENSEDATA = new Licensedata();
+    private static final long serialVersionUID = 370293031;
 
     /**
      * The class holding records for this type
@@ -43,53 +42,52 @@ public class Licensedata extends TableImpl<LicensedataRecord> {
     public Class<LicensedataRecord> getRecordType() {
         return LicensedataRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.licensedata.id</code>.
+     * The column <code>germinate_template_3_7_0.licensedata.id</code>.
      */
     public final TableField<LicensedataRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.licensedata.license_id</code>.
+     * The column <code>germinate_template_3_7_0.licensedata.license_id</code>.
      */
     public final TableField<LicensedataRecord, Integer> LICENSE_ID = createField("license_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.licensedata.locale_id</code>.
+     * The column <code>germinate_template_3_7_0.licensedata.locale_id</code>.
      */
     public final TableField<LicensedataRecord, Integer> LOCALE_ID = createField("locale_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.licensedata.content</code>.
+     * The column <code>germinate_template_3_7_0.licensedata.content</code>.
      */
     public final TableField<LicensedataRecord, String> CONTENT = createField("content", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.licensedata.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
      */
     public final TableField<LicensedataRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<LicensedataRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.licensedata</code> table reference
+     * Create a <code>germinate_template_3_7_0.licensedata</code> table reference
      */
     public Licensedata() {
         this(DSL.name("licensedata"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.licensedata</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.licensedata</code> table reference
      */
     public Licensedata(String alias) {
         this(DSL.name(alias), LICENSEDATA);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.licensedata</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.licensedata</code> table reference
      */
     public Licensedata(Name alias) {
         this(alias, LICENSEDATA);
@@ -112,7 +110,7 @@ public class Licensedata extends TableImpl<LicensedataRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

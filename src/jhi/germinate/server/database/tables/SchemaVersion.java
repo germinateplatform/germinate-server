@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
 
-    private static final long serialVersionUID = 1463343966;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.schema_version</code>
+     * The reference instance of <code>germinate_template_3_7_0.schema_version</code>
      */
     public static final SchemaVersion SCHEMA_VERSION = new SchemaVersion();
+    private static final long serialVersionUID = -1567222429;
 
     /**
      * The class holding records for this type
@@ -43,73 +42,72 @@ public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
     public Class<SchemaVersionRecord> getRecordType() {
         return SchemaVersionRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.installed_rank</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.installed_rank</code>.
      */
     public final TableField<SchemaVersionRecord, Integer> INSTALLED_RANK = createField("installed_rank", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.version</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.version</code>.
      */
     public final TableField<SchemaVersionRecord, String> VERSION = createField("version", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.description</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.description</code>.
      */
     public final TableField<SchemaVersionRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(200).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.type</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.type</code>.
      */
     public final TableField<SchemaVersionRecord, String> TYPE = createField("type", org.jooq.impl.SQLDataType.VARCHAR(20).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.script</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.script</code>.
      */
     public final TableField<SchemaVersionRecord, String> SCRIPT = createField("script", org.jooq.impl.SQLDataType.VARCHAR(1000).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.checksum</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.checksum</code>.
      */
     public final TableField<SchemaVersionRecord, Integer> CHECKSUM = createField("checksum", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.installed_by</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.installed_by</code>.
      */
     public final TableField<SchemaVersionRecord, String> INSTALLED_BY = createField("installed_by", org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.installed_on</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.installed_on</code>.
      */
     public final TableField<SchemaVersionRecord, Timestamp> INSTALLED_ON = createField("installed_on", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.execution_time</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.execution_time</code>.
      */
     public final TableField<SchemaVersionRecord, Integer> EXECUTION_TIME = createField("execution_time", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.schema_version.success</code>.
+     * The column <code>germinate_template_3_7_0.schema_version.success</code>.
      */
     public final TableField<SchemaVersionRecord, Byte> SUCCESS = createField("success", org.jooq.impl.SQLDataType.TINYINT.nullable(false), this, "");
 
     /**
-     * Create a <code>germinate_template_3_6_0.schema_version</code> table reference
+     * Create a <code>germinate_template_3_7_0.schema_version</code> table reference
      */
     public SchemaVersion() {
         this(DSL.name("schema_version"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.schema_version</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.schema_version</code> table reference
      */
     public SchemaVersion(String alias) {
         this(DSL.name(alias), SCHEMA_VERSION);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.schema_version</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.schema_version</code> table reference
      */
     public SchemaVersion(Name alias) {
         this(alias, SCHEMA_VERSION);
@@ -132,7 +130,7 @@ public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

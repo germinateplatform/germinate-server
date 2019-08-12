@@ -28,20 +28,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GroupmembersRecord extends UpdatableRecordImpl<GroupmembersRecord> implements Record5<Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 970607343;
+    private static final long serialVersionUID = 679562567;
 
     /**
      * Create a detached GroupmembersRecord
      */
     public GroupmembersRecord() {
         super(Groupmembers.GROUPMEMBERS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.groupmembers.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -58,52 +51,59 @@ public class GroupmembersRecord extends UpdatableRecordImpl<GroupmembersRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.groupmembers.foreign_id</code>. Foreign key to [table] ([table].id).
+     * Getter for <code>germinate_template_3_7_0.groupmembers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getForeignId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.groupmembers.group_id</code>. Foreign key to groups (groups.id).
-     */
-    public void setGroupId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.groupmembers.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.groupmembers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.groupmembers.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.groupmembers.foreign_id</code>. Foreign key to [table] ([table].id).
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Integer getForeignId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.groupmembers.foreign_id</code>. Foreign key to [table] ([table].id).
+     * Setter for <code>germinate_template_3_7_0.groupmembers.foreign_id</code>. Foreign key to [table] ([table].id).
      */
     public void setForeignId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.groupmembers.group_id</code>. Foreign key to groups (groups.id).
+     * Getter for <code>germinate_template_3_7_0.groupmembers.group_id</code>. Foreign key to groups (groups.id).
      */
     public Integer getGroupId() {
         return (Integer) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.groupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.groupmembers.group_id</code>. Foreign key to groups (groups.id).
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public void setGroupId(Integer value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.groupmembers.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.groupmembers.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------
@@ -321,14 +321,14 @@ public class GroupmembersRecord extends UpdatableRecordImpl<GroupmembersRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.groupmembers.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.groupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.groupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.groupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);

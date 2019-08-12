@@ -80,6 +80,7 @@ public class TokenResource extends ServerResource
 
 			if (response.isSuccessful() && token != null)
 			{
+				user.setId(token.getId());
 				Response<PaginatedResult<List<ViewUserPermissions>>> permissions = GatekeeperClient.get().getUserPermissions(token.getId(), Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
 
 				if (permissions.isSuccessful() && permissions.body() != null)

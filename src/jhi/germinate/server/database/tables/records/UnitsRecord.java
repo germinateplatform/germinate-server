@@ -30,20 +30,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 838126533;
+    private static final long serialVersionUID = -1915668705;
 
     /**
      * Create a detached UnitsRecord
      */
     public UnitsRecord() {
         super(Units.UNITS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -61,66 +54,73 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_3_7_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getUnitName() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.units.unit_abbreviation</code>. This should be the unit abbreviation.
-     */
-    public void setUnitAbbreviation(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * Getter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
-    public void setUnitDescription(String value) {
-        set(3, value);
+    public String getUnitName() {
+        return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.units.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.units.unit_abbreviation</code>. This should be the unit abbreviation.
+     * Getter for <code>germinate_template_3_7_0.units.unit_abbreviation</code>. This should be the unit abbreviation.
      */
     public String getUnitAbbreviation() {
         return (String) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * Setter for <code>germinate_template_3_7_0.units.unit_abbreviation</code>. This should be the unit abbreviation.
+     */
+    public void setUnitAbbreviation(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
     public String getUnitDescription() {
         return (String) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setUnitDescription(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.units.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.units.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -372,14 +372,14 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.units.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

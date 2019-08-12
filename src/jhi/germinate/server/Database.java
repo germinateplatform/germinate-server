@@ -86,7 +86,7 @@ public class Database
 		Settings settings = new Settings()
 			.withRenderMapping(new RenderMapping()
 				.withSchemata(
-					new MappedSchema().withInput(GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0.getQualifiedName().first())
+					new MappedSchema().withInput(GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0.getQualifiedName().first())
 									  .withOutput(databaseName)));
 
 		return DSL.using(connection, SQLDialect.MYSQL, settings);

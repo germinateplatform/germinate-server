@@ -13,7 +13,7 @@ import jhi.germinate.server.database.tables.*;
 
 
 /**
- * A class modelling indexes of tables of the <code>germinate_template_3_6_0</code> 
+ * A class modelling indexes of tables of the <code>germinate_template_3_7_0</code> 
  * schema.
  */
 @Generated(

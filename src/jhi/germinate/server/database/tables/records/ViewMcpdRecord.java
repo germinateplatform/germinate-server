@@ -26,27 +26,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = -953224741;
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.PUID</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
-     */
-    public void setPuid(String value) {
-        set(0, value);
-    }
+    private static final long serialVersionUID = 1390906845;
 
     /**
      * Create a detached ViewMcpdRecord
      */
     public ViewMcpdRecord() {
         super(ViewMcpd.VIEW_MCPD);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.INSTCODE</code>. If there is a defined ISO code for the institute this should be used here.
-     */
-    public void setInstcode(String value) {
-        set(1, value);
     }
 
     /**
@@ -101,28 +87,49 @@ public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.PUID</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.PUID</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
      */
     public String getPuid() {
         return (String) get(0);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.ACCENUMB</code>. A unique identifier.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.PUID</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
      */
-    public String getAccenumb() {
-        return (String) get(2);
+    public void setPuid(String value) {
+        set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.INSTCODE</code>. If there is a defined ISO code for the institute this should be used here.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.INSTCODE</code>. If there is a defined ISO code for the institute this should be used here.
      */
     public String getInstcode() {
         return (String) get(1);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLNUMB</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.INSTCODE</code>. If there is a defined ISO code for the institute this should be used here.
+     */
+    public void setInstcode(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ACCENUMB</code>. A unique identifier.
+     */
+    public String getAccenumb() {
+        return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ACCENUMB</code>. A unique identifier.
+     */
+    public void setAccenumb(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLNUMB</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
 initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
 identifying duplicates held in different collections.
      */
@@ -131,14 +138,16 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.ACCENUMB</code>. A unique identifier.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLNUMB</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
+identifying duplicates held in different collections.
      */
-    public void setAccenumb(String value) {
-        set(2, value);
+    public void setCollnumb(String value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLCODE</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLCODE</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
 material, the collecting institute code (COLLCODE) should be the same as the holding institute
 code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
 without space.
@@ -148,23 +157,7 @@ without space.
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLNUMB</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
-initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
-identifying duplicates held in different collections.
-     */
-    public void setCollnumb(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
-     */
-    public String getCollname() {
-        return (String) get(5);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLCODE</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLCODE</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
 material, the collecting institute code (COLLCODE) should be the same as the holding institute
 code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
 without space.
@@ -174,427 +167,441 @@ without space.
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
      */
-    public String getCollinstaddress() {
-        return (String) get(6);
+    public String getCollname() {
+        return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
-     */
-    public void setCollmissid(String value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
      */
     public void setCollname(String value) {
         set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.GENUS</code>. Genus name for the species.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
      */
-    public void setGenus(String value) {
-        set(8, value);
+    public String getCollinstaddress() {
+        return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
      */
     public void setCollinstaddress(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
      */
     public String getCollmissid() {
         return (String) get(7);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.SPECIES</code>. Species name in lowercase.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
      */
-    public String getSpecies() {
-        return (String) get(9);
+    public void setCollmissid(String value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.GENUS</code>. Genus name for the species.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.GENUS</code>. Genus name for the species.
      */
     public String getGenus() {
         return (String) get(8);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.SPAUTHOR</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.GENUS</code>. Genus name for the species.
      */
-    public String getSpauthor() {
-        return (String) get(10);
+    public void setGenus(String value) {
+        set(8, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.SPECIES</code>. Species name in lowercase.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.SPECIES</code>. Species name in lowercase.
+     */
+    public String getSpecies() {
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.SPECIES</code>. Species name in lowercase.
      */
     public void setSpecies(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.SUBTAXA</code>. Subtaxa name.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.SPAUTHOR</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
      */
-    public String getSubtaxa() {
-        return (String) get(11);
+    public String getSpauthor() {
+        return (String) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.SPAUTHOR</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.SPAUTHOR</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
      */
     public void setSpauthor(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.SUBTAUTHOR</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.SUBTAXA</code>. Subtaxa name.
      */
-    public String getSubtauthor() {
-        return (String) get(12);
+    public String getSubtaxa() {
+        return (String) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.SUBTAXA</code>. Subtaxa name.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.SUBTAXA</code>. Subtaxa name.
      */
     public void setSubtaxa(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.SUBTAUTHOR</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
      */
-    public String getCropname() {
-        return (String) get(13);
+    public String getSubtauthor() {
+        return (String) get(12);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.SUBTAUTHOR</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.SUBTAUTHOR</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
      */
     public void setSubtauthor(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.ACCENAME</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
-    public String getAccename() {
-        return (String) get(14);
+    public String getCropname() {
+        return (String) get(13);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public void setCropname(String value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.ACQDATE</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public String getAcqdate() {
-        return (String) get(15);
+    public String getAccename() {
+        return (String) get(14);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.ACCENAME</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setAccename(String value) {
         set(14, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.ORIGCTY</code>. ISO 3 Code for country.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ACQDATE</code>.
      */
-    public String getOrigcty() {
-        return (String) get(16);
+    public String getAcqdate() {
+        return (String) get(15);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLSITE</code>. The site name where the location is.
-     */
-    public void setCollsite(String value) {
-        set(17, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.ACQDATE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ACQDATE</code>.
      */
     public void setAcqdate(String value) {
         set(15, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DECLATITUDE</code>. Latitude of the location.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ORIGCTY</code>. ISO 3 Code for country.
      */
-    public void setDeclatitude(BigDecimal value) {
-        set(18, value);
+    public String getOrigcty() {
+        return (String) get(16);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.ORIGCTY</code>. ISO 3 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ORIGCTY</code>. ISO 3 Code for country.
      */
     public void setOrigcty(String value) {
         set(16, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLSITE</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLSITE</code>. The site name where the location is.
      */
     public String getCollsite() {
         return (String) get(17);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.LATITUDE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLSITE</code>. The site name where the location is.
      */
-    public byte[] getLatitude() {
-        return (byte[]) get(19);
+    public void setCollsite(String value) {
+        set(17, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
-     */
-    public void setDeclongitude(BigDecimal value) {
-        set(20, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DECLATITUDE</code>. Latitude of the location.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DECLATITUDE</code>. Latitude of the location.
      */
     public BigDecimal getDeclatitude() {
         return (BigDecimal) get(18);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.LONGITUDE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DECLATITUDE</code>. Latitude of the location.
      */
-    public void setLongitude(byte... value) {
-        set(21, value);
+    public void setDeclatitude(BigDecimal value) {
+        set(18, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.LATITUDE</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.LATITUDE</code>.
+     */
+    public byte[] getLatitude() {
+        return (byte[]) get(19);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.LATITUDE</code>.
      */
     public void setLatitude(byte... value) {
         set(19, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
      */
     public BigDecimal getDeclongitude() {
         return (BigDecimal) get(20);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.LONGITUDE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
+     */
+    public void setDeclongitude(BigDecimal value) {
+        set(20, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
      */
     public byte[] getLongitude() {
         return (byte[]) get(21);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
      */
-    public void setCoorddatum(String value) {
-        set(23, value);
+    public void setLongitude(byte... value) {
+        set(21, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
     public Integer getCoorduncert() {
         return (Integer) get(22);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
     public void setCoorduncert(Integer value) {
         set(22, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
-     */
-    public String getGeorefmeth() {
-        return (String) get(24);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
     public String getCoorddatum() {
         return (String) get(23);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(25);
+    public void setCoorddatum(String value) {
+        set(23, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     */
+    public String getGeorefmeth() {
+        return (String) get(24);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
      */
     public void setGeorefmeth(String value) {
         set(24, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLDATE</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
      */
-    public String getColldate() {
-        return (String) get(26);
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(25);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
      */
     public void setElevation(BigDecimal value) {
         set(25, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
      */
-    public String getBredcode() {
-        return (String) get(27);
+    public String getColldate() {
+        return (String) get(26);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.BREDNAME</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
-     */
-    public void setBredname(String value) {
-        set(28, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLDATE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
      */
     public void setColldate(String value) {
         set(26, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.SAMPSTAT</code>. Foreign key to biologicalstatus (biologicalstaus.id).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
      */
-    public void setSampstat(Integer value) {
-        set(29, value);
+    public String getBredcode() {
+        return (String) get(27);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
      */
     public void setBredcode(String value) {
         set(27, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.ANCEST</code>. The pedigree string which is used to represent the germinatebase entry.
-     */
-    public void setAncest(String value) {
-        set(30, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.BREDNAME</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDNAME</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
      */
     public String getBredname() {
         return (String) get(28);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.COLLSRC</code>. Foreign key to collectionsources (collectionsources.id).
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.BREDNAME</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
      */
-    public void setCollsrc(Integer value) {
-        set(31, value);
+    public void setBredname(String value) {
+        set(28, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.SAMPSTAT</code>. Foreign key to biologicalstatus (biologicalstaus.id).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.SAMPSTAT</code>. Foreign key to biologicalstatus (biologicalstaus.id).
      */
     public Integer getSampstat() {
         return (Integer) get(29);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.ANCEST</code>. The pedigree string which is used to represent the germinatebase entry.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.SAMPSTAT</code>. Foreign key to biologicalstatus (biologicalstaus.id).
+     */
+    public void setSampstat(Integer value) {
+        set(29, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ANCEST</code>. The pedigree string which is used to represent the germinatebase entry.
      */
     public String getAncest() {
         return (String) get(30);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DONORCODE</code>. FAO WIEWS code of the donor institute. Follows INSTCODE standard.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ANCEST</code>. The pedigree string which is used to represent the germinatebase entry.
      */
-    public String getDonorcode() {
-        return (String) get(32);
+    public void setAncest(String value) {
+        set(30, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.COLLSRC</code>. Foreign key to collectionsources (collectionsources.id).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLSRC</code>. Foreign key to collectionsources (collectionsources.id).
      */
     public Integer getCollsrc() {
         return (Integer) get(31);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DONORNAME</code>. Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLSRC</code>. Foreign key to collectionsources (collectionsources.id).
      */
-    public String getDonorname() {
-        return (String) get(33);
+    public void setCollsrc(Integer value) {
+        set(31, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DONORCODE</code>. FAO WIEWS code of the donor institute. Follows INSTCODE standard.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DONORCODE</code>. FAO WIEWS code of the donor institute. Follows INSTCODE standard.
+     */
+    public String getDonorcode() {
+        return (String) get(32);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DONORCODE</code>. FAO WIEWS code of the donor institute. Follows INSTCODE standard.
      */
     public void setDonorcode(String value) {
         set(32, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DONORNUMB</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DONORNAME</code>. Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.
      */
-    public String getDonornumb() {
-        return (String) get(34);
+    public String getDonorname() {
+        return (String) get(33);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DONORNAME</code>. Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DONORNAME</code>. Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.
      */
     public void setDonorname(String value) {
         set(33, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DONORNUMB</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
      */
-    public String getOthernumb() {
-        return (String) get(35);
+    public String getDonornumb() {
+        return (String) get(34);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DONORNUMB</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DONORNUMB</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
      */
     public void setDonornumb(String value) {
         set(34, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DUPLSITE</code>. FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
+     */
+    public String getOthernumb() {
+        return (String) get(35);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
+     */
+    public void setOthernumb(String value) {
+        set(35, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DUPLSITE</code>. FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained.
 Multiple values are separated by a semicolon without space. Follows INSTCODE standard.
      */
     public String getDuplsite() {
@@ -602,28 +609,7 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
-     */
-    public void setOthernumb(String value) {
-        set(35, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
-     */
-    public String getDuplinstname() {
-        return (String) get(37);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.STORAGE</code>.
-     */
-    public void setStorage(String value) {
-        set(38, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DUPLSITE</code>. FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DUPLSITE</code>. FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained.
 Multiple values are separated by a semicolon without space. Follows INSTCODE standard.
      */
     public void setDuplsite(String value) {
@@ -631,56 +617,70 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
      */
-    public void setMlsstat(Integer value) {
-        set(39, value);
+    public String getDuplinstname() {
+        return (String) get(37);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
      */
     public void setDuplinstname(String value) {
         set(37, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.STORAGE</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.STORAGE</code>.
      */
     public String getStorage() {
         return (String) get(38);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.REMARKS</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.STORAGE</code>.
      */
-    public String getRemarks() {
-        return (String) get(40);
+    public void setStorage(String value) {
+        set(38, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
      */
     public Integer getMlsstat() {
         return (Integer) get(39);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.Entity Type</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
      */
-    public String getEntityType() {
-        return (String) get(41);
+    public void setMlsstat(Integer value) {
+        set(39, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.REMARKS</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
+     */
+    public String getRemarks() {
+        return (String) get(40);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
      */
     public void setRemarks(String value) {
         set(40, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.Entity Type</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>.
+     */
+    public String getEntityType() {
+        return (String) get(41);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>.
      */
     public void setEntityType(String value) {
         set(41, value);
@@ -691,14 +691,14 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
      */
     public byte[] getEntityParentAccenumb() {
         return (byte[]) get(42);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
      */
     public void setEntityParentAccenumb(byte... value) {
         set(42, value);

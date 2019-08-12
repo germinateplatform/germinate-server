@@ -33,12 +33,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigrees extends TableImpl<PedigreesRecord> {
 
-    private static final long serialVersionUID = 545273549;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.pedigrees</code>
+     * The reference instance of <code>germinate_template_3_7_0.pedigrees</code>
      */
     public static final Pedigrees PEDIGREES = new Pedigrees();
+    private static final long serialVersionUID = -420751348;
 
     /**
      * The class holding records for this type
@@ -47,63 +46,62 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
     public Class<PedigreesRecord> getRecordType() {
         return PedigreesRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<PedigreesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
+     * The column <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public final TableField<PedigreesRecord, Integer> GERMINATEBASE_ID = createField("germinatebase_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key germinatebase (germinatebase.id).");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
+     * The column <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
      */
     public final TableField<PedigreesRecord, Integer> PARENT_ID = createField("parent_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * The column <code>germinate_template_3_7_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
     public final TableField<PedigreesRecord, PedigreesRelationshipType> RELATIONSHIP_TYPE = createField("relationship_type", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("OTHER", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.PedigreesRelationshipType.class), this, "Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
+     * The column <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
      */
     public final TableField<PedigreesRecord, Integer> PEDIGREEDESCRIPTION_ID = createField("pedigreedescription_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key pedigreedescriptions (pedigreedescriptions.id).");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * The column <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
     public final TableField<PedigreesRecord, String> RELATIONSHIP_DESCRIPTION = createField("relationship_description", org.jooq.impl.SQLDataType.CLOB, this, "Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.pedigrees.created_on</code>. When the record was created.
      */
     public final TableField<PedigreesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<PedigreesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.pedigrees</code> table reference
+     * Create a <code>germinate_template_3_7_0.pedigrees</code> table reference
      */
     public Pedigrees() {
         this(DSL.name("pedigrees"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.pedigrees</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.pedigrees</code> table reference
      */
     public Pedigrees(String alias) {
         this(DSL.name(alias), PEDIGREES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.pedigrees</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.pedigrees</code> table reference
      */
     public Pedigrees(Name alias) {
         this(alias, PEDIGREES);
@@ -126,7 +124,7 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

@@ -15,7 +15,7 @@ import jhi.germinate.server.database.tables.records.*;
 
 /**
  * A class modelling foreign key relationships and constraints of tables of 
- * the <code>germinate_template_3_6_0</code> schema.
+ * the <code>germinate_template_3_7_0</code> schema.
  */
 @Generated(
     value = {

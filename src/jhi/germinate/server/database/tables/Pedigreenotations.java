@@ -30,12 +30,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
 
-    private static final long serialVersionUID = 2126162024;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.pedigreenotations</code>
+     * The reference instance of <code>germinate_template_3_7_0.pedigreenotations</code>
      */
     public static final Pedigreenotations PEDIGREENOTATIONS = new Pedigreenotations();
+    private static final long serialVersionUID = 1240047047;
 
     /**
      * The class holding records for this type
@@ -44,53 +43,52 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
     public Class<PedigreenotationsRecord> getRecordType() {
         return PedigreenotationsRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<PedigreenotationsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigreenotations.name</code>. Name of the reference notation source.
+     * The column <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
     public final TableField<PedigreenotationsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Name of the reference notation source.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigreenotations.description</code>. A longer description about the reference notation source.
+     * The column <code>germinate_template_3_7_0.pedigreenotations.description</code>. A longer description about the reference notation source.
      */
     public final TableField<PedigreenotationsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "A longer description about the reference notation source.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     * The column <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
      */
     public final TableField<PedigreenotationsRecord, String> REFERENCE_URL = createField("reference_url", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Hyperlink to the notation source.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigreenotations.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
      */
     public final TableField<PedigreenotationsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<PedigreenotationsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.pedigreenotations</code> table reference
+     * Create a <code>germinate_template_3_7_0.pedigreenotations</code> table reference
      */
     public Pedigreenotations() {
         this(DSL.name("pedigreenotations"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.pedigreenotations</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.pedigreenotations</code> table reference
      */
     public Pedigreenotations(String alias) {
         this(DSL.name(alias), PEDIGREENOTATIONS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.pedigreenotations</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.pedigreenotations</code> table reference
      */
     public Pedigreenotations(Name alias) {
         this(alias, PEDIGREENOTATIONS);
@@ -113,7 +111,7 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

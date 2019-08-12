@@ -28,28 +28,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implements Record6<Integer, Integer, Integer, Object, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1965829864;
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
-
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
+    private static final long serialVersionUID = 1192594910;
 
     /**
      * Create a detached SynonymsRecord
      */
     public SynonymsRecord() {
         super(Synonyms.SYNONYMS);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
-     */
-    public void setForeignId(Integer value) {
-        set(1, value);
     }
 
     /**
@@ -67,7 +52,7 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
 
      */
     public Integer getId() {
@@ -75,10 +60,25 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
+     * Setter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
+
      */
-    public Integer getSynonymtypeId() {
-        return (Integer) get(2);
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
+     */
+    public Integer getForeignId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
+     */
+    public void setForeignId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -90,27 +90,6 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
-     */
-    public Integer getForeignId() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
-     */
-    public void setSynonymtypeId(Integer value) {
-        set(2, value);
-    }
-
-    /**
      * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
      */
     @java.lang.Deprecated
@@ -119,10 +98,31 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public Integer getSynonymtypeId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
+     */
+    public void setSynonymtypeId(Integer value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonyms.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -378,14 +378,14 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.synonyms.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

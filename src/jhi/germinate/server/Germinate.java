@@ -13,6 +13,7 @@ import java.util.*;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.germplasm.*;
+import jhi.germinate.server.resource.maps.*;
 
 /**
  * @author Sebastian Raubach
@@ -91,6 +92,8 @@ public class Germinate extends Application
 		// Attach the url handlers
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
+		attachToRouter(routerAuth, "/maps", MapResource.class);
+		attachToRouter(routerAuth, "/maps/table", MapTableResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
 		// CORS first, then encoder

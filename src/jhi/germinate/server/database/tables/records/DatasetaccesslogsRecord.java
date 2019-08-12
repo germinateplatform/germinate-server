@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetaccesslogsRecord extends UpdatableRecordImpl<DatasetaccesslogsRecord> implements Record9<Integer, Integer, String, String, String, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1698275480;
+    private static final long serialVersionUID = 925580168;
 
     /**
      * Create a detached DatasetaccesslogsRecord
      */
     public DatasetaccesslogsRecord() {
         super(Datasetaccesslogs.DATASETACCESSLOGS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -61,108 +54,115 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.user_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getUserId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.user_name</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_id</code>.
      */
-    public String getUserName() {
-        return (String) get(2);
+    public Integer getUserId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.user_email</code>.
-     */
-    public void setUserEmail(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.user_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.user_id</code>.
      */
     public void setUserId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.user_institution</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_name</code>.
      */
-    public void setUserInstitution(String value) {
-        set(4, value);
+    public String getUserName() {
+        return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.user_name</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.user_name</code>.
      */
     public void setUserName(String value) {
         set(2, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.dataset_id</code>.
-     */
-    public void setDatasetId(Integer value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.user_email</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_email</code>.
      */
     public String getUserEmail() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.reason</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.user_email</code>.
      */
-    public void setReason(String value) {
-        set(6, value);
+    public void setUserEmail(String value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.user_institution</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_institution</code>.
      */
     public String getUserInstitution() {
         return (String) get(4);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.dataset_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.user_institution</code>.
+     */
+    public void setUserInstitution(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.dataset_id</code>.
      */
     public Integer getDatasetId() {
         return (Integer) get(5);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.dataset_id</code>.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
+    public void setDatasetId(Integer value) {
+        set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.reason</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
      */
     public String getReason() {
         return (String) get(6);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetaccesslogs.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(8);
+    public void setReason(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
     }
 
     // -------------------------------------------------------------------------
@@ -516,14 +516,14 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     // -------------------------------------------------------------------------
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetaccesslogs.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(8, value);

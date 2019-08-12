@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Maps extends TableImpl<MapsRecord> {
 
-    private static final long serialVersionUID = -1697925728;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.maps</code>
+     * The reference instance of <code>germinate_template_3_7_0.maps</code>
      */
     public static final Maps MAPS = new Maps();
+    private static final long serialVersionUID = -1615724194;
 
     /**
      * The class holding records for this type
@@ -43,58 +42,57 @@ public class Maps extends TableImpl<MapsRecord> {
     public Class<MapsRecord> getRecordType() {
         return MapsRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MapsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.maps.name</code>. Describes the map.
+     * The column <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
      */
     public final TableField<MapsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Describes the map.");
 
     /**
-     * The column <code>germinate_template_3_6_0.maps.description</code>. The name of this map.
+     * The column <code>germinate_template_3_7_0.maps.description</code>. The name of this map.
      */
     public final TableField<MapsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this map.");
 
     /**
-     * The column <code>germinate_template_3_6_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * The column <code>germinate_template_3_7_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public final TableField<MapsRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.TINYINT)), this, "Determines if the map is visible to the Germinate interface or hidden.");
 
     /**
-     * The column <code>germinate_template_3_6_0.maps.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.maps.created_on</code>. When the record was created.
      */
     public final TableField<MapsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MapsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * The column <code>germinate_template_3_6_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_3_7_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<MapsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
 
     /**
-     * Create a <code>germinate_template_3_6_0.maps</code> table reference
+     * Create a <code>germinate_template_3_7_0.maps</code> table reference
      */
     public Maps() {
         this(DSL.name("maps"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.maps</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.maps</code> table reference
      */
     public Maps(String alias) {
         this(DSL.name(alias), MAPS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.maps</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.maps</code> table reference
      */
     public Maps(Name alias) {
         this(alias, MAPS);
@@ -117,7 +115,7 @@ public class Maps extends TableImpl<MapsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

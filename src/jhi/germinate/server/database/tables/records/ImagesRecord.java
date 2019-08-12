@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements Record7<Integer, Integer, String, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -2051456666;
+    private static final long serialVersionUID = -1372272352;
 
     /**
      * Create a detached ImagesRecord
      */
     public ImagesRecord() {
         super(Images.IMAGES);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -59,80 +52,87 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
+     * Getter for <code>germinate_template_3_7_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getImagetypeId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.images.description</code>. A description of what the image shows if required.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.images.foreign_id</code>. Relates to the UID of the table to which the comment relates.
+     * Getter for <code>germinate_template_3_7_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
      */
-    public void setForeignId(Integer value) {
-        set(3, value);
+    public Integer getImagetypeId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
+     * Setter for <code>germinate_template_3_7_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
      */
     public void setImagetypeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.images.path</code>. The file system path to the image.
-     */
-    public void setPath(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.images.description</code>. A description of what the image shows if required.
+     * Getter for <code>germinate_template_3_7_0.images.description</code>. A description of what the image shows if required.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.images.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.images.description</code>. A description of what the image shows if required.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(5, value);
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.images.foreign_id</code>. Relates to the UID of the table to which the comment relates.
+     * Getter for <code>germinate_template_3_7_0.images.foreign_id</code>. Relates to the UID of the table to which the comment relates.
      */
     public Integer getForeignId() {
         return (Integer) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.images.path</code>. The file system path to the image.
+     * Setter for <code>germinate_template_3_7_0.images.foreign_id</code>. Relates to the UID of the table to which the comment relates.
+     */
+    public void setForeignId(Integer value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.images.path</code>. The file system path to the image.
      */
     public String getPath() {
         return (String) get(4);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.images.path</code>. The file system path to the image.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public void setPath(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.images.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.images.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(5, value);
     }
 
     // -------------------------------------------------------------------------
@@ -418,14 +418,14 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.images.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(6, value);

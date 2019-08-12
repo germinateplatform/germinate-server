@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
 
-    private static final long serialVersionUID = -2042215886;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.synonymtypes</code>
+     * The reference instance of <code>germinate_template_3_7_0.synonymtypes</code>
      */
     public static final Synonymtypes SYNONYMTYPES = new Synonymtypes();
+    private static final long serialVersionUID = 1827495663;
 
     /**
      * The class holding records for this type
@@ -43,53 +42,52 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
     public Class<SynonymtypesRecord> getRecordType() {
         return SynonymtypesRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<SynonymtypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.synonymtypes.target_table</code>. The target table.
+     * The column <code>germinate_template_3_7_0.synonymtypes.target_table</code>. The target table.
      */
     public final TableField<SynonymtypesRecord, String> TARGET_TABLE = createField("target_table", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The target table.");
 
     /**
-     * The column <code>germinate_template_3_6_0.synonymtypes.name</code>. Name of the synonym type.
+     * The column <code>germinate_template_3_7_0.synonymtypes.name</code>. Name of the synonym type.
      */
     public final TableField<SynonymtypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Name of the synonym type.");
 
     /**
-     * The column <code>germinate_template_3_6_0.synonymtypes.description</code>. Description of the type.
+     * The column <code>germinate_template_3_7_0.synonymtypes.description</code>. Description of the type.
      */
     public final TableField<SynonymtypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Description of the type.");
 
     /**
-     * The column <code>germinate_template_3_6_0.synonymtypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.synonymtypes.created_on</code>. When the record was created.
      */
     public final TableField<SynonymtypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<SynonymtypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.synonymtypes</code> table reference
+     * Create a <code>germinate_template_3_7_0.synonymtypes</code> table reference
      */
     public Synonymtypes() {
         this(DSL.name("synonymtypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.synonymtypes</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.synonymtypes</code> table reference
      */
     public Synonymtypes(String alias) {
         this(DSL.name(alias), SYNONYMTYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.synonymtypes</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.synonymtypes</code> table reference
      */
     public Synonymtypes(Name alias) {
         this(alias, SYNONYMTYPES);
@@ -112,7 +110,7 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

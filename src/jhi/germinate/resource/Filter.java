@@ -1,5 +1,7 @@
 package jhi.germinate.resource;
 
+import java.util.*;
+
 /**
  * @author Sebastian Raubach
  */
@@ -56,5 +58,16 @@ public class Filter
 	{
 		this.values = values;
 		return this;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Filter{" +
+			"column='" + column + '\'' +
+			", comparator='" + comparator + '\'' +
+			", operator='" + operator + '\'' +
+			", values=" + Arrays.toString(values) +
+			'}';
 	}
 }

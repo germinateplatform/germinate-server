@@ -28,20 +28,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PedigreenotationsRecord extends UpdatableRecordImpl<PedigreenotationsRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 225787873;
+    private static final long serialVersionUID = 1372177057;
 
     /**
      * Create a detached PedigreenotationsRecord
      */
     public PedigreenotationsRecord() {
         super(Pedigreenotations.PEDIGREENOTATIONS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -59,66 +52,73 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.name</code>. Name of the reference notation source.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getName() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.description</code>. A longer description about the reference notation source.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
-    public void setReferenceUrl(String value) {
-        set(3, value);
+    public String getName() {
+        return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.name</code>. Name of the reference notation source.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.description</code>. A longer description about the reference notation source.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.description</code>. A longer description about the reference notation source.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.description</code>. A longer description about the reference notation source.
+     */
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
      */
     public String getReferenceUrl() {
         return (String) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setReferenceUrl(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -370,14 +370,14 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreenotations.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

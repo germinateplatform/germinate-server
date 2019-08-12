@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource;
 
+import org.jooq.*;
+import org.jooq.impl.*;
 import org.restlet.resource.*;
 
 import java.net.*;
@@ -80,6 +82,21 @@ public class PaginatedServerResource extends ServerResource
 		{
 			this.previousCount = -1;
 		}
+	}
+
+	protected <T extends Record> SelectForUpdateStep<T> setPaginationAndOrderBy(SelectJoinStep<T> step)
+	{
+		if (ascending != null && orderBy != null)
+		{
+			if (ascending)
+				step.orderBy(DSL.field(orderBy).asc());
+			else
+				step.orderBy(DSL.field(orderBy).desc());
+		}
+
+		return step.limit(pageSize)
+				   .offset(pageSize * currentPage);
+
 	}
 
 	protected String getRequestAttributeAsString(String parameter)

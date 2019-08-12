@@ -31,20 +31,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsRecord> implements Record10<Integer, Integer, Integer, Integer, Double, Double, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1476821122;
+    private static final long serialVersionUID = -768551764;
 
     /**
      * Create a detached MapdefinitionsRecord
      */
     public MapdefinitionsRecord() {
         super(Mapdefinitions.MAPDEFINITIONS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -66,122 +59,129 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getMapfeaturetypeId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
-    public Integer getMarkerId() {
-        return (Integer) get(2);
+    public Integer getMapfeaturetypeId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
-     */
-    public void setMapId(Integer value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
     public void setMapfeaturetypeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
-    public void setDefinitionStart(Double value) {
-        set(4, value);
+    public Integer getMarkerId() {
+        return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
     public void setMarkerId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
-     */
-    public void setDefinitionEnd(Double value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
     public Integer getMapId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
-    public void setChromosome(String value) {
-        set(6, value);
+    public void setMapId(Integer value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public Double getDefinitionStart() {
         return (Double) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
-    public void setArmImpute(String value) {
-        set(7, value);
+    public void setDefinitionStart(Double value) {
+        set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
      */
     public Double getDefinitionEnd() {
         return (Double) get(5);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     */
+    public void setDefinitionEnd(Double value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public String getChromosome() {
         return (String) get(6);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
+    public void setChromosome(String value) {
+        set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
      */
     public String getArmImpute() {
         return (String) get(7);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(9);
+    public void setArmImpute(String value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------
@@ -569,14 +569,14 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     // -------------------------------------------------------------------------
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(9, value);

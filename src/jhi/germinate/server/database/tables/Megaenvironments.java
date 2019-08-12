@@ -30,12 +30,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironments extends TableImpl<MegaenvironmentsRecord> {
 
-    private static final long serialVersionUID = -2061020871;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.megaenvironments</code>
+     * The reference instance of <code>germinate_template_3_7_0.megaenvironments</code>
      */
     public static final Megaenvironments MEGAENVIRONMENTS = new Megaenvironments();
+    private static final long serialVersionUID = -920880354;
 
     /**
      * The class holding records for this type
@@ -44,63 +43,62 @@ public class Megaenvironments extends TableImpl<MegaenvironmentsRecord> {
     public Class<MegaenvironmentsRecord> getRecordType() {
         return MegaenvironmentsRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.megaenvironments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MegaenvironmentsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.name</code>. The mega environment name.
+     * The column <code>germinate_template_3_7_0.megaenvironments.name</code>. The mega environment name.
      */
     public final TableField<MegaenvironmentsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The mega environment name.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.max_temp_lower</code>. The lower maximum temperature for this environment.
+     * The column <code>germinate_template_3_7_0.megaenvironments.max_temp_lower</code>. The lower maximum temperature for this environment.
      */
     public final TableField<MegaenvironmentsRecord, Integer> MAX_TEMP_LOWER = createField("max_temp_lower", org.jooq.impl.SQLDataType.INTEGER, this, "The lower maximum temperature for this environment.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.max_temp_upper</code>. The maximum temperature for this environment.
+     * The column <code>germinate_template_3_7_0.megaenvironments.max_temp_upper</code>. The maximum temperature for this environment.
      */
     public final TableField<MegaenvironmentsRecord, Integer> MAX_TEMP_UPPER = createField("max_temp_upper", org.jooq.impl.SQLDataType.INTEGER, this, "The maximum temperature for this environment.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.precip_lower</code>. The minimum precipitation for this environment.
+     * The column <code>germinate_template_3_7_0.megaenvironments.precip_lower</code>. The minimum precipitation for this environment.
      */
     public final TableField<MegaenvironmentsRecord, Integer> PRECIP_LOWER = createField("precip_lower", org.jooq.impl.SQLDataType.INTEGER, this, "The minimum precipitation for this environment.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.precip_upper</code>. the maximum precipitation for this environment.
+     * The column <code>germinate_template_3_7_0.megaenvironments.precip_upper</code>. the maximum precipitation for this environment.
      */
     public final TableField<MegaenvironmentsRecord, Integer> PRECIP_UPPER = createField("precip_upper", org.jooq.impl.SQLDataType.INTEGER, this, "the maximum precipitation for this environment.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.megaenvironments.created_on</code>. When the record was created.
      */
     public final TableField<MegaenvironmentsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.megaenvironments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MegaenvironmentsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.megaenvironments</code> table reference
+     * Create a <code>germinate_template_3_7_0.megaenvironments</code> table reference
      */
     public Megaenvironments() {
         this(DSL.name("megaenvironments"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.megaenvironments</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.megaenvironments</code> table reference
      */
     public Megaenvironments(String alias) {
         this(DSL.name(alias), MEGAENVIRONMENTS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.megaenvironments</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.megaenvironments</code> table reference
      */
     public Megaenvironments(Name alias) {
         this(alias, MEGAENVIRONMENTS);
@@ -123,7 +121,7 @@ public class Megaenvironments extends TableImpl<MegaenvironmentsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

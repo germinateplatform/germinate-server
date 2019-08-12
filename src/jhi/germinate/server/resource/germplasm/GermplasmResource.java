@@ -1,7 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
 import org.jooq.*;
-import org.jooq.impl.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -33,21 +32,9 @@ public class GermplasmResource extends PaginatedServerResource
 
 			SelectJoinStep<Record> from = select.from(GERMINATEBASE);
 
-			if (ascending != null && orderBy != null)
-			{
-				// Camelcase to underscore
-				orderBy = orderBy.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
-
-				if (ascending)
-					from.orderBy(DSL.field(orderBy).asc());
-				else
-					from.orderBy(DSL.field(orderBy).desc());
-			}
-
-			List<Germinatebase> result = from.limit(pageSize)
-											 .offset(pageSize * currentPage)
-											 .fetch()
-											 .into(Germinatebase.class);
+			List<Germinatebase> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(Germinatebase.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

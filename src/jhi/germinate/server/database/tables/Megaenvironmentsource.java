@@ -31,12 +31,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord> {
 
-    private static final long serialVersionUID = 2072062889;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.megaenvironmentsource</code>
+     * The reference instance of <code>germinate_template_3_7_0.megaenvironmentsource</code>
      */
     public static final Megaenvironmentsource MEGAENVIRONMENTSOURCE = new Megaenvironmentsource();
+    private static final long serialVersionUID = -1410445817;
 
     /**
      * The class holding records for this type
@@ -45,48 +44,47 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
     public Class<MegaenvironmentsourceRecord> getRecordType() {
         return MegaenvironmentsourceRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MegaenvironmentsourceRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironmentsource.name</code>. The name of the mega environment source.
+     * The column <code>germinate_template_3_7_0.megaenvironmentsource.name</code>. The name of the mega environment source.
      */
     public final TableField<MegaenvironmentsourceRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the mega environment source.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironmentsource.description</code>. Describes the mega environment source.
+     * The column <code>germinate_template_3_7_0.megaenvironmentsource.description</code>. Describes the mega environment source.
      */
     public final TableField<MegaenvironmentsourceRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "Describes the mega environment source.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironmentsource.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.megaenvironmentsource.created_on</code>. When the record was created.
      */
     public final TableField<MegaenvironmentsourceRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.megaenvironmentsource.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.megaenvironmentsource.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MegaenvironmentsourceRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.megaenvironmentsource</code> table reference
+     * Create a <code>germinate_template_3_7_0.megaenvironmentsource</code> table reference
      */
     public Megaenvironmentsource() {
         this(DSL.name("megaenvironmentsource"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.megaenvironmentsource</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.megaenvironmentsource</code> table reference
      */
     public Megaenvironmentsource(String alias) {
         this(DSL.name(alias), MEGAENVIRONMENTSOURCE);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.megaenvironmentsource</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.megaenvironmentsource</code> table reference
      */
     public Megaenvironmentsource(Name alias) {
         this(alias, MEGAENVIRONMENTSOURCE);
@@ -109,7 +107,7 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

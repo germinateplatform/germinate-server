@@ -32,20 +32,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CollectingsourcesRecord extends UpdatableRecordImpl<CollectingsourcesRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 2133785084;
+    private static final long serialVersionUID = -1637037538;
 
     /**
      * Create a detached CollectingsourcesRecord
      */
     public CollectingsourcesRecord() {
         super(Collectingsources.COLLECTINGSOURCES);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -61,7 +54,21 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
+     * Getter for <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
 
      */
     public String getCollsrc() {
@@ -69,21 +76,7 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
+     * Setter for <code>germinate_template_3_7_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
 
      */
     public void setCollsrc(String value) {
@@ -91,10 +84,17 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_7_0.collectingsources.created_on</code>. When the record was created.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.collectingsources.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     // -------------------------------------------------------------------------
@@ -278,14 +278,14 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.collectingsources.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);

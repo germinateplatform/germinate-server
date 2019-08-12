@@ -29,20 +29,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MegaenvironmentdataRecord extends UpdatableRecordImpl<MegaenvironmentdataRecord> implements Record7<Integer, Integer, Integer, Integer, Byte, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -691406906;
+    private static final long serialVersionUID = -1734347094;
 
     /**
      * Create a detached MegaenvironmentdataRecord
      */
     public MegaenvironmentdataRecord() {
         super(Megaenvironmentdata.MEGAENVIRONMENTDATA);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -61,80 +54,87 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getLocationId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.source_id</code>. Source ID
-     */
-    public void setSourceId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.megaenvironment_id</code>. Foreign key to megaenvironments (megaenvironments.id).
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
      */
-    public void setMegaenvironmentId(Integer value) {
-        set(3, value);
+    public Integer getLocationId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
      */
     public void setLocationId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
-     */
-    public void setIsFinal(Byte value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.source_id</code>. Source ID
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
      */
     public Integer getSourceId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
      */
-    public void setCreatedOn(Timestamp value) {
-        set(5, value);
+    public void setSourceId(Integer value) {
+        set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.megaenvironment_id</code>. Foreign key to megaenvironments (megaenvironments.id).
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.megaenvironment_id</code>. Foreign key to megaenvironments (megaenvironments.id).
      */
     public Integer getMegaenvironmentId() {
         return (Integer) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.megaenvironment_id</code>. Foreign key to megaenvironments (megaenvironments.id).
+     */
+    public void setMegaenvironmentId(Integer value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
      */
     public Byte getIsFinal() {
         return (Byte) get(4);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public void setIsFinal(Byte value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(5, value);
     }
 
     // -------------------------------------------------------------------------
@@ -420,14 +420,14 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.megaenvironmentdata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(6, value);

@@ -31,12 +31,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climates extends TableImpl<ClimatesRecord> {
 
-    private static final long serialVersionUID = 1737092381;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.climates</code>
+     * The reference instance of <code>germinate_template_3_7_0.climates</code>
      */
     public static final Climates CLIMATES = new Climates();
+    private static final long serialVersionUID = -1440312228;
 
     /**
      * The class holding records for this type
@@ -45,64 +44,63 @@ public class Climates extends TableImpl<ClimatesRecord> {
     public Class<ClimatesRecord> getRecordType() {
         return ClimatesRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ClimatesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.name</code>. Describes the climate.
+     * The column <code>germinate_template_3_7_0.climates.name</code>. Describes the climate.
      */
     public final TableField<ClimatesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the climate.");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
+     * The column <code>germinate_template_3_7_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
      */
     public final TableField<ClimatesRecord, String> SHORT_NAME = createField("short_name", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened version of the climate name which is used in some table headers.");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.description</code>. A longer description of the climate.
+     * The column <code>germinate_template_3_7_0.climates.description</code>. A longer description of the climate.
      */
     public final TableField<ClimatesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "A longer description of the climate.");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
+     * The column <code>germinate_template_3_7_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
     public final TableField<ClimatesRecord, ClimatesDatatype> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.ClimatesDatatype.class), this, "Defines the datatype which can be FLOAT, INT or CHAR type.");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.unit_id</code>. Foreign key to units (units.id).
+     * The column <code>germinate_template_3_7_0.climates.unit_id</code>. Foreign key to units (units.id).
 
      */
     public final TableField<ClimatesRecord, Integer> UNIT_ID = createField("unit_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to units (units.id).\n");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.climates.created_on</code>. When the record was created.
      */
     public final TableField<ClimatesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.climates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.climates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<ClimatesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.climates</code> table reference
+     * Create a <code>germinate_template_3_7_0.climates</code> table reference
      */
     public Climates() {
         this(DSL.name("climates"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.climates</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.climates</code> table reference
      */
     public Climates(String alias) {
         this(DSL.name(alias), CLIMATES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.climates</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.climates</code> table reference
      */
     public Climates(Name alias) {
         this(alias, CLIMATES);
@@ -125,7 +123,7 @@ public class Climates extends TableImpl<ClimatesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

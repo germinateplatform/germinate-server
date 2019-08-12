@@ -31,20 +31,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implements Record7<Integer, String, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 2128915495;
+    private static final long serialVersionUID = -653209307;
 
     /**
      * Create a detached LinktypesRecord
      */
     public LinktypesRecord() {
         super(Linktypes.LINKTYPES);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -63,7 +56,21 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.description</code>. A description of the link
+     * Getter for <code>germinate_template_3_7_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.linktypes.description</code>. A description of the link
 .
      */
     public String getDescription() {
@@ -71,28 +78,7 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.target_table</code>. This is the table that the link links to.
-     */
-    public void setTargetTable(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.target_column</code>. This is the column that is used to generate the link.
-     */
-    public void setTargetColumn(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.description</code>. A description of the link
+     * Setter for <code>germinate_template_3_7_0.linktypes.description</code>. A description of the link
 .
      */
     public void setDescription(String value) {
@@ -100,45 +86,59 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.placeholder</code>. The part of the link that will be replaced by the value of the target column.
-     */
-    public void setPlaceholder(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.target_table</code>. This is the table that the link links to.
+     * Getter for <code>germinate_template_3_7_0.linktypes.target_table</code>. This is the table that the link links to.
      */
     public String getTargetTable() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.linktypes.target_table</code>. This is the table that the link links to.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(5, value);
+    public void setTargetTable(String value) {
+        set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.target_column</code>. This is the column that is used to generate the link.
+     * Getter for <code>germinate_template_3_7_0.linktypes.target_column</code>. This is the column that is used to generate the link.
      */
     public String getTargetColumn() {
         return (String) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.placeholder</code>. The part of the link that will be replaced by the value of the target column.
+     * Setter for <code>germinate_template_3_7_0.linktypes.target_column</code>. This is the column that is used to generate the link.
+     */
+    public void setTargetColumn(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.linktypes.placeholder</code>. The part of the link that will be replaced by the value of the target column.
      */
     public String getPlaceholder() {
         return (String) get(4);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.linktypes.placeholder</code>. The part of the link that will be replaced by the value of the target column.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public void setPlaceholder(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.linktypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.linktypes.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(5, value);
     }
 
     // -------------------------------------------------------------------------
@@ -424,14 +424,14 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.linktypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(6, value);

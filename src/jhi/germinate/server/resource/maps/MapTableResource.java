@@ -1,0 +1,60 @@
+package jhi.germinate.server.resource.maps;
+
+import org.jooq.*;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.sql.*;
+import java.util.*;
+
+import jhi.gatekeeper.resource.*;
+import jhi.germinate.resource.*;
+import jhi.germinate.server.*;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.resource.*;
+
+import static jhi.germinate.server.database.tables.ViewTableMaps.*;
+
+/**
+ * @author Sebastian Raubach
+ */
+public class MapTableResource extends PaginatedServerResource implements FilteredResource
+{
+	@Post("json")
+	public PaginatedResult<List<ViewTableMaps>> getJson(PaginatedRequest request)
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+
+		processRequest(request);
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			SelectSelectStep<Record> select = context.select();
+
+			if (previousCount == -1)
+				select.hint("SQL_CALC_FOUND_ROWS");
+
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MAPS);
+
+			from.where(VIEW_TABLE_MAPS.VISIBILITY.eq((byte) 1)
+												 .or(VIEW_TABLE_MAPS.USERID.eq(userDetails.getId())));
+
+			// Filter here!
+			filter(from, filters);
+
+			List<ViewTableMaps> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(ViewTableMaps.class);
+
+			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
+
+			return new PaginatedResult<>(result, count);
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+}

@@ -5,6 +5,7 @@ package jhi.germinate.server.database.tables.pojos;
 
 
 import java.io.*;
+import java.math.*;
 import java.sql.*;
 
 import javax.annotation.*;
@@ -23,28 +24,29 @@ import javax.annotation.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm implements Serializable {
 
-    private static final long serialVersionUID = -17636155;
+    private static final long serialVersionUID = 1022715271;
 
-    private Integer germplasmid;
-    private String  germplasmgid;
-    private String  germplasmname;
-    private String  germplasmnumber;
-    private String  germplasmpuid;
-    private Integer entitytypeid;
-    private String  entitytypename;
-    private Integer biologicalstatusid;
-    private String  biologicalstatusname;
-    private Object  synonyms;
-    private String  collectornumber;
-    private String  genus;
-    private String  species;
-    private String  subtaxa;
-    private String  countryname;
-    private String  countrycode;
-    private Date    colldate;
-    private Double  pdci;
-    private Long    imagecount;
-    private String  firstimagepath;
+    private Integer    germplasmid;
+    private String     germplasmgid;
+    private String     germplasmname;
+    private String     germplasmnumber;
+    private String     germplasmpuid;
+    private Integer    entitytypeid;
+    private String     entitytypename;
+    private Integer    biologicalstatusid;
+    private String     biologicalstatusname;
+    private Object     synonyms;
+    private String     collectornumber;
+    private String     genus;
+    private String     species;
+    private String     subtaxa;
+    private BigDecimal elevation;
+    private String     countryname;
+    private String     countrycode;
+    private Date       colldate;
+    private Double     pdci;
+    private Long       imagecount;
+    private String     firstimagepath;
 
     public ViewTableGermplasm() {}
 
@@ -63,6 +65,7 @@ public class ViewTableGermplasm implements Serializable {
         this.genus = value.genus;
         this.species = value.species;
         this.subtaxa = value.subtaxa;
+        this.elevation = value.elevation;
         this.countryname = value.countryname;
         this.countrycode = value.countrycode;
         this.colldate = value.colldate;
@@ -72,26 +75,27 @@ public class ViewTableGermplasm implements Serializable {
     }
 
     public ViewTableGermplasm(
-        Integer germplasmid,
-        String  germplasmgid,
-        String  germplasmname,
-        String  germplasmnumber,
-        String  germplasmpuid,
-        Integer entitytypeid,
-        String  entitytypename,
-        Integer biologicalstatusid,
-        String  biologicalstatusname,
-        Object  synonyms,
-        String  collectornumber,
-        String  genus,
-        String  species,
-        String  subtaxa,
-        String  countryname,
-        String  countrycode,
-        Date    colldate,
-        Double  pdci,
-        Long    imagecount,
-        String  firstimagepath
+        Integer    germplasmid,
+        String     germplasmgid,
+        String     germplasmname,
+        String     germplasmnumber,
+        String     germplasmpuid,
+        Integer    entitytypeid,
+        String     entitytypename,
+        Integer    biologicalstatusid,
+        String     biologicalstatusname,
+        Object     synonyms,
+        String     collectornumber,
+        String     genus,
+        String     species,
+        String     subtaxa,
+        BigDecimal elevation,
+        String     countryname,
+        String     countrycode,
+        Date       colldate,
+        Double     pdci,
+        Long       imagecount,
+        String     firstimagepath
     ) {
         this.germplasmid = germplasmid;
         this.germplasmgid = germplasmgid;
@@ -107,6 +111,7 @@ public class ViewTableGermplasm implements Serializable {
         this.genus = genus;
         this.species = species;
         this.subtaxa = subtaxa;
+        this.elevation = elevation;
         this.countryname = countryname;
         this.countrycode = countrycode;
         this.colldate = colldate;
@@ -237,6 +242,14 @@ public class ViewTableGermplasm implements Serializable {
         this.subtaxa = subtaxa;
     }
 
+    public BigDecimal getElevation() {
+        return this.elevation;
+    }
+
+    public void setElevation(BigDecimal elevation) {
+        this.elevation = elevation;
+    }
+
     public String getCountryname() {
         return this.countryname;
     }
@@ -303,6 +316,7 @@ public class ViewTableGermplasm implements Serializable {
         sb.append(", ").append(genus);
         sb.append(", ").append(species);
         sb.append(", ").append(subtaxa);
+        sb.append(", ").append(elevation);
         sb.append(", ").append(countryname);
         sb.append(", ").append(countrycode);
         sb.append(", ").append(colldate);

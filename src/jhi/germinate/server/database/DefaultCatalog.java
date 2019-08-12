@@ -25,7 +25,7 @@ import javax.annotation.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultCatalog extends CatalogImpl {
 
-    private static final long serialVersionUID = 1669628410;
+    private static final long serialVersionUID = -910803527;
 
     /**
      * The reference instance of <code></code>
@@ -33,9 +33,9 @@ public class DefaultCatalog extends CatalogImpl {
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
 
     /**
-     * The schema <code>germinate_template_3_6_0</code>.
+     * The schema <code>germinate_template_3_7_0</code>.
      */
-    public final GerminateTemplate_3_6_0 GERMINATE_TEMPLATE_3_6_0 = jhi.germinate.server.database.GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+    public final GerminateTemplate_3_7_0 GERMINATE_TEMPLATE_3_7_0 = jhi.germinate.server.database.GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
 
     /**
      * No further instances allowed
@@ -53,6 +53,6 @@ public class DefaultCatalog extends CatalogImpl {
 
     private final List<Schema> getSchemas0() {
         return Arrays.<Schema>asList(
-            GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0);
+            GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0);
     }
 }

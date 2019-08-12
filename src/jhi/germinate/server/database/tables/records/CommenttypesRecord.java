@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1473810312;
+    private static final long serialVersionUID = 524764652;
 
     /**
      * Create a detached CommenttypesRecord
      */
     public CommenttypesRecord() {
         super(Commenttypes.COMMENTTYPES);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -57,52 +50,59 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.commenttypes.description</code>. Describes the comment type.
+     * Getter for <code>germinate_template_3_7_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
-     */
-    public void setReferenceTable(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.commenttypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.commenttypes.description</code>. Describes the comment type.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public String getDescription() {
+        return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.commenttypes.description</code>. Describes the comment type.
+     * Setter for <code>germinate_template_3_7_0.commenttypes.description</code>. Describes the comment type.
      */
     public void setDescription(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
+     * Getter for <code>germinate_template_3_7_0.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
      */
     public String getReferenceTable() {
         return (String) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public void setReferenceTable(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.commenttypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.commenttypes.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------
@@ -320,14 +320,14 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.commenttypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);

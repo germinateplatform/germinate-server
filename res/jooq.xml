@@ -6,7 +6,7 @@
 			<excludes>
 			</excludes>
 			<includes>.*</includes>
-			<inputSchema>germinate_template_3_6_0</inputSchema>
+			<inputSchema>germinate_template_3_7_0</inputSchema>
 			<name>org.jooq.meta.mysql.MySQLDatabase</name>
 		</database>
 
@@ -33,7 +33,7 @@
 				<value></value>
 			</property>
 		</properties>
-		<url>jdbc:mysql://localhost/germinate_template_3_6_0</url>
+		<url>jdbc:mysql://localhost/germinate_template_3_7_0</url>
 
 		<!-- You can also pass user/password and other JDBC properties in the optional properties tag: -->
 		<user>root</user>

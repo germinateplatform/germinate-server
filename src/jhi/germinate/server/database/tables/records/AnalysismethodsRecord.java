@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1552166626;
+    private static final long serialVersionUID = -1390295584;
 
     /**
      * Create a detached AnalysismethodsRecord
      */
     public AnalysismethodsRecord() {
         super(Analysismethods.ANALYSISMETHODS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -57,52 +50,59 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.analysismethods.name</code>. The name of the analysis method.
+     * Getter for <code>germinate_template_3_7_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getName() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.analysismethods.description</code>. Describes the analysis method.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.analysismethods.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.analysismethods.name</code>. The name of the analysis method.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public String getName() {
+        return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.analysismethods.name</code>. The name of the analysis method.
+     * Setter for <code>germinate_template_3_7_0.analysismethods.name</code>. The name of the analysis method.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.analysismethods.description</code>. Describes the analysis method.
+     * Getter for <code>germinate_template_3_7_0.analysismethods.description</code>. Describes the analysis method.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.analysismethods.description</code>. Describes the analysis method.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.analysismethods.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.analysismethods.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------
@@ -320,14 +320,14 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.analysismethods.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);

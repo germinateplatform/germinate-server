@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<DatasetcollaboratorsRecord> implements Record5<Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1569467373;
+    private static final long serialVersionUID = -1300304947;
 
     /**
      * Create a detached DatasetcollaboratorsRecord
      */
     public DatasetcollaboratorsRecord() {
         super(Datasetcollaborators.DATASETCOLLABORATORS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetcollaborators.id</code>.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -57,52 +50,59 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetcollaborators.dataset_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.id</code>.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetcollaborators.collaborator_id</code>.
-     */
-    public void setCollaboratorId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetcollaborators.id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetcollaborators.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.dataset_id</code>.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Integer getDatasetId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetcollaborators.dataset_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.dataset_id</code>.
      */
     public void setDatasetId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetcollaborators.collaborator_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.collaborator_id</code>.
      */
     public Integer getCollaboratorId() {
         return (Integer) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.collaborator_id</code>.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public void setCollaboratorId(Integer value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------
@@ -320,14 +320,14 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetcollaborators.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);

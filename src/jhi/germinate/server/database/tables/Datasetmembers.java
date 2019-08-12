@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetmembers extends TableImpl<DatasetmembersRecord> {
 
-    private static final long serialVersionUID = -1868164693;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.datasetmembers</code>
+     * The reference instance of <code>germinate_template_3_7_0.datasetmembers</code>
      */
     public static final Datasetmembers DATASETMEMBERS = new Datasetmembers();
+    private static final long serialVersionUID = -1755873014;
 
     /**
      * The class holding records for this type
@@ -43,53 +42,52 @@ public class Datasetmembers extends TableImpl<DatasetmembersRecord> {
     public Class<DatasetmembersRecord> getRecordType() {
         return DatasetmembersRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.datasetmembers.id</code>.
+     * The column <code>germinate_template_3_7_0.datasetmembers.id</code>.
      */
     public final TableField<DatasetmembersRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.datasetmembers.dataset_id</code>.
+     * The column <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
      */
     public final TableField<DatasetmembersRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.datasetmembers.foreign_id</code>.
+     * The column <code>germinate_template_3_7_0.datasetmembers.foreign_id</code>.
      */
     public final TableField<DatasetmembersRecord, Integer> FOREIGN_ID = createField("foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.datasetmembers.datasetmembertype_id</code>.
+     * The column <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
      */
     public final TableField<DatasetmembersRecord, Integer> DATASETMEMBERTYPE_ID = createField("datasetmembertype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.datasetmembers.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
      */
     public final TableField<DatasetmembersRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<DatasetmembersRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.datasetmembers</code> table reference
+     * Create a <code>germinate_template_3_7_0.datasetmembers</code> table reference
      */
     public Datasetmembers() {
         this(DSL.name("datasetmembers"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.datasetmembers</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.datasetmembers</code> table reference
      */
     public Datasetmembers(String alias) {
         this(DSL.name(alias), DATASETMEMBERS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.datasetmembers</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.datasetmembers</code> table reference
      */
     public Datasetmembers(Name alias) {
         this(alias, DATASETMEMBERS);
@@ -112,7 +110,7 @@ public class Datasetmembers extends TableImpl<DatasetmembersRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

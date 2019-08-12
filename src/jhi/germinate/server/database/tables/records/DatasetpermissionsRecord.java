@@ -28,20 +28,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetpermissionsRecord extends UpdatableRecordImpl<DatasetpermissionsRecord> implements Record6<Integer, Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 2096711034;
+    private static final long serialVersionUID = -1673914254;
 
     /**
      * Create a detached DatasetpermissionsRecord
      */
     public DatasetpermissionsRecord() {
         super(Datasetpermissions.DATASETPERMISSIONS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -59,66 +52,73 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
-     */
-    public void setUserId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
-    public void setGroupId(Integer value) {
-        set(3, value);
+    public Integer getDatasetId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
     public void setDatasetId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
      */
     public Integer getUserId() {
         return (Integer) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
+     */
+    public void setUserId(Integer value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
      */
     public Integer getGroupId() {
         return (Integer) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setGroupId(Integer value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -370,14 +370,14 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetpermissions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

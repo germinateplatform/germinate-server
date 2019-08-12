@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Storagedata extends TableImpl<StoragedataRecord> {
 
-    private static final long serialVersionUID = 378093402;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.storagedata</code>
+     * The reference instance of <code>germinate_template_3_7_0.storagedata</code>
      */
     public static final Storagedata STORAGEDATA = new Storagedata();
+    private static final long serialVersionUID = -370276838;
 
     /**
      * The class holding records for this type
@@ -43,48 +42,47 @@ public class Storagedata extends TableImpl<StoragedataRecord> {
     public Class<StoragedataRecord> getRecordType() {
         return StoragedataRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.storagedata.id</code>.
+     * The column <code>germinate_template_3_7_0.storagedata.id</code>.
      */
     public final TableField<StoragedataRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.storagedata.germinatebase_id</code>.
+     * The column <code>germinate_template_3_7_0.storagedata.germinatebase_id</code>.
      */
     public final TableField<StoragedataRecord, Integer> GERMINATEBASE_ID = createField("germinatebase_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.storagedata.storage_id</code>.
+     * The column <code>germinate_template_3_7_0.storagedata.storage_id</code>.
      */
     public final TableField<StoragedataRecord, Integer> STORAGE_ID = createField("storage_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.storagedata.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
      */
     public final TableField<StoragedataRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<StoragedataRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.storagedata</code> table reference
+     * Create a <code>germinate_template_3_7_0.storagedata</code> table reference
      */
     public Storagedata() {
         this(DSL.name("storagedata"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.storagedata</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.storagedata</code> table reference
      */
     public Storagedata(String alias) {
         this(DSL.name(alias), STORAGEDATA);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.storagedata</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.storagedata</code> table reference
      */
     public Storagedata(Name alias) {
         this(alias, STORAGEDATA);
@@ -107,7 +105,7 @@ public class Storagedata extends TableImpl<StoragedataRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

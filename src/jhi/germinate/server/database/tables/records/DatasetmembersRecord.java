@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersRecord> implements Record6<Integer, Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 2045613908;
+    private static final long serialVersionUID = -1432507794;
 
     /**
      * Create a detached DatasetmembersRecord
      */
     public DatasetmembersRecord() {
         super(Datasetmembers.DATASETMEMBERS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetmembers.id</code>.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -58,66 +51,73 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmembers.dataset_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.id</code>.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetmembers.foreign_id</code>.
-     */
-    public void setForeignId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.datasetmembers.id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetmembers.datasetmembertype_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
      */
-    public void setDatasetmembertypeId(Integer value) {
-        set(3, value);
+    public Integer getDatasetId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetmembers.dataset_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
      */
     public void setDatasetId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetmembers.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.datasetmembers.foreign_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.foreign_id</code>.
      */
     public Integer getForeignId() {
         return (Integer) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmembers.datasetmembertype_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.foreign_id</code>.
+     */
+    public void setForeignId(Integer value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
      */
     public Integer getDatasetmembertypeId() {
         return (Integer) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setDatasetmembertypeId(Integer value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -369,14 +369,14 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.datasetmembers.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

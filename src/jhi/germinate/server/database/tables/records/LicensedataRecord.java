@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> implements Record6<Integer, Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -639522091;
+    private static final long serialVersionUID = -1808885061;
 
     /**
      * Create a detached LicensedataRecord
      */
     public LicensedataRecord() {
         super(Licensedata.LICENSEDATA);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.id</code>.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -58,66 +51,73 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.license_id</code>.
+     * Getter for <code>germinate_template_3_7_0.licensedata.id</code>.
      */
-    public Integer getLicenseId() {
-        return (Integer) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.locale_id</code>.
-     */
-    public void setLocaleId(Integer value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.id</code>.
+     * Setter for <code>germinate_template_3_7_0.licensedata.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.content</code>.
+     * Getter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
      */
-    public void setContent(String value) {
-        set(3, value);
+    public Integer getLicenseId() {
+        return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.license_id</code>.
+     * Setter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
      */
     public void setLicenseId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.locale_id</code>.
+     * Getter for <code>germinate_template_3_7_0.licensedata.locale_id</code>.
      */
     public Integer getLocaleId() {
         return (Integer) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.content</code>.
+     * Setter for <code>germinate_template_3_7_0.licensedata.locale_id</code>.
+     */
+    public void setLocaleId(Integer value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.licensedata.content</code>.
      */
     public String getContent() {
         return (String) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setContent(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -369,14 +369,14 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.licensedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

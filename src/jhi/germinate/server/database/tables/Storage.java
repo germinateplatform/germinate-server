@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Storage extends TableImpl<StorageRecord> {
 
-    private static final long serialVersionUID = 1501968634;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.storage</code>
+     * The reference instance of <code>germinate_template_3_7_0.storage</code>
      */
     public static final Storage STORAGE = new Storage();
+    private static final long serialVersionUID = 420963863;
 
     /**
      * The class holding records for this type
@@ -43,43 +42,42 @@ public class Storage extends TableImpl<StorageRecord> {
     public Class<StorageRecord> getRecordType() {
         return StorageRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.storage.id</code>.
+     * The column <code>germinate_template_3_7_0.storage.id</code>.
      */
     public final TableField<StorageRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.storage.description</code>.
+     * The column <code>germinate_template_3_7_0.storage.description</code>.
      */
     public final TableField<StorageRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.storage.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.storage.created_on</code>. When the record was created.
      */
     public final TableField<StorageRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.storage.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.storage.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<StorageRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.storage</code> table reference
+     * Create a <code>germinate_template_3_7_0.storage</code> table reference
      */
     public Storage() {
         this(DSL.name("storage"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.storage</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.storage</code> table reference
      */
     public Storage(String alias) {
         this(DSL.name(alias), STORAGE);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.storage</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.storage</code> table reference
      */
     public Storage(Name alias) {
         this(alias, STORAGE);
@@ -102,7 +100,7 @@ public class Storage extends TableImpl<StorageRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

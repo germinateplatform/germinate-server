@@ -29,12 +29,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mlsstatus extends TableImpl<MlsstatusRecord> {
 
-    private static final long serialVersionUID = 180060057;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.mlsstatus</code>
+     * The reference instance of <code>germinate_template_3_7_0.mlsstatus</code>
      */
     public static final Mlsstatus MLSSTATUS = new Mlsstatus();
+    private static final long serialVersionUID = -73786058;
 
     /**
      * The class holding records for this type
@@ -43,43 +42,42 @@ public class Mlsstatus extends TableImpl<MlsstatusRecord> {
     public Class<MlsstatusRecord> getRecordType() {
         return MlsstatusRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.mlsstatus.id</code>.
+     * The column <code>germinate_template_3_7_0.mlsstatus.id</code>.
      */
     public final TableField<MlsstatusRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.mlsstatus.description</code>.
+     * The column <code>germinate_template_3_7_0.mlsstatus.description</code>.
      */
     public final TableField<MlsstatusRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_6_0.mlsstatus.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
      */
     public final TableField<MlsstatusRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MlsstatusRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.mlsstatus</code> table reference
+     * Create a <code>germinate_template_3_7_0.mlsstatus</code> table reference
      */
     public Mlsstatus() {
         this(DSL.name("mlsstatus"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.mlsstatus</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.mlsstatus</code> table reference
      */
     public Mlsstatus(String alias) {
         this(DSL.name(alias), MLSSTATUS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.mlsstatus</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.mlsstatus</code> table reference
      */
     public Mlsstatus(Name alias) {
         this(alias, MLSSTATUS);
@@ -102,7 +100,7 @@ public class Mlsstatus extends TableImpl<MlsstatusRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

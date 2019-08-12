@@ -53,20 +53,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BiologicalstatusRecord extends UpdatableRecordImpl<BiologicalstatusRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1454187858;
+    private static final long serialVersionUID = -1858115278;
 
     /**
      * Create a detached BiologicalstatusRecord
      */
     public BiologicalstatusRecord() {
         super(Biologicalstatus.BIOLOGICALSTATUS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -82,38 +75,45 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
+     * Getter for <code>germinate_template_3_7_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getSampstat() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
+     * Getter for <code>germinate_template_3_7_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
+     */
+    public String getSampstat() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
     public void setSampstat(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_7_0.biologicalstatus.created_on</code>. When the record was created.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.biologicalstatus.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     // -------------------------------------------------------------------------
@@ -297,14 +297,14 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.biologicalstatus.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);

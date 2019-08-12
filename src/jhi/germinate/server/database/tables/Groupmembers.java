@@ -30,12 +30,11 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groupmembers extends TableImpl<GroupmembersRecord> {
 
-    private static final long serialVersionUID = 257523313;
-
     /**
-     * The reference instance of <code>germinate_template_3_6_0.groupmembers</code>
+     * The reference instance of <code>germinate_template_3_7_0.groupmembers</code>
      */
     public static final Groupmembers GROUPMEMBERS = new Groupmembers();
+    private static final long serialVersionUID = 1925978707;
 
     /**
      * The class holding records for this type
@@ -44,48 +43,47 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
     public Class<GroupmembersRecord> getRecordType() {
         return GroupmembersRecord.class;
     }
-
     /**
-     * The column <code>germinate_template_3_6_0.groupmembers.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_3_7_0.groupmembers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<GroupmembersRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_6_0.groupmembers.foreign_id</code>. Foreign key to [table] ([table].id).
+     * The column <code>germinate_template_3_7_0.groupmembers.foreign_id</code>. Foreign key to [table] ([table].id).
      */
     public final TableField<GroupmembersRecord, Integer> FOREIGN_ID = createField("foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to [table] ([table].id).");
 
     /**
-     * The column <code>germinate_template_3_6_0.groupmembers.group_id</code>. Foreign key to groups (groups.id).
+     * The column <code>germinate_template_3_7_0.groupmembers.group_id</code>. Foreign key to groups (groups.id).
      */
     public final TableField<GroupmembersRecord, Integer> GROUP_ID = createField("group_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to groups (groups.id).");
 
     /**
-     * The column <code>germinate_template_3_6_0.groupmembers.created_on</code>. When the record was created.
+     * The column <code>germinate_template_3_7_0.groupmembers.created_on</code>. When the record was created.
      */
     public final TableField<GroupmembersRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_6_0.groupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.groupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<GroupmembersRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_6_0.groupmembers</code> table reference
+     * Create a <code>germinate_template_3_7_0.groupmembers</code> table reference
      */
     public Groupmembers() {
         this(DSL.name("groupmembers"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.groupmembers</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.groupmembers</code> table reference
      */
     public Groupmembers(String alias) {
         this(DSL.name(alias), GROUPMEMBERS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_6_0.groupmembers</code> table reference
+     * Create an aliased <code>germinate_template_3_7_0.groupmembers</code> table reference
      */
     public Groupmembers(Name alias) {
         this(alias, GROUPMEMBERS);
@@ -108,7 +106,7 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_6_0.GERMINATE_TEMPLATE_3_6_0;
+        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
     }
 
     /**

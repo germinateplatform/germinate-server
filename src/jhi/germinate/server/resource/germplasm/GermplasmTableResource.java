@@ -1,7 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
 import org.jooq.*;
-import org.jooq.impl.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -19,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmTableResource extends PaginatedServerResource
+public class GermplasmTableResource extends PaginatedServerResource implements FilteredResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableGermplasm>> getJson(PaginatedRequest request)
@@ -35,27 +34,12 @@ public class GermplasmTableResource extends PaginatedServerResource
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GERMPLASM);
 
-			if (filters != null && filters.length > 0)
-			{
-				Filter filter = filters[0];
-				from.where(DSL.field(filter.getColumn()).eq(filter.getValues()[0]));
-			}
+			// Filter here!
+			filter(from, filters);
 
-			if (ascending != null && orderBy != null)
-			{
-				// Camelcase to underscore
-				orderBy = orderBy.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
-
-				if (ascending)
-					from.orderBy(DSL.field(orderBy).asc());
-				else
-					from.orderBy(DSL.field(orderBy).desc());
-			}
-
-			List<ViewTableGermplasm> result = from.limit(pageSize)
-												  .offset(pageSize * currentPage)
-												  .fetch()
-												  .into(ViewTableGermplasm.class);
+			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(ViewTableGermplasm.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

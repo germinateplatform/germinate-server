@@ -27,20 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StorageRecord extends UpdatableRecordImpl<StorageRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1434950593;
+    private static final long serialVersionUID = -228117021;
 
     /**
      * Create a detached StorageRecord
      */
     public StorageRecord() {
         super(Storage.STORAGE);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.storage.id</code>.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -56,38 +49,45 @@ public class StorageRecord extends UpdatableRecordImpl<StorageRecord> implements
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.storage.description</code>.
+     * Getter for <code>germinate_template_3_7_0.storage.id</code>.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.storage.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.storage.id</code>.
+     * Setter for <code>germinate_template_3_7_0.storage.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.storage.description</code>.
+     * Getter for <code>germinate_template_3_7_0.storage.description</code>.
+     */
+    public String getDescription() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.storage.description</code>.
      */
     public void setDescription(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.storage.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_7_0.storage.created_on</code>. When the record was created.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.storage.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     // -------------------------------------------------------------------------
@@ -271,14 +271,14 @@ public class StorageRecord extends UpdatableRecordImpl<StorageRecord> implements
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.storage.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.storage.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.storage.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.storage.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);

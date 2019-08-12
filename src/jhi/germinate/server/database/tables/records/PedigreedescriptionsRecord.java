@@ -29,20 +29,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PedigreedescriptionsRecord extends UpdatableRecordImpl<PedigreedescriptionsRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 329447828;
+    private static final long serialVersionUID = -518228294;
 
     /**
      * Create a detached PedigreedescriptionsRecord
      */
     public PedigreedescriptionsRecord() {
         super(Pedigreedescriptions.PEDIGREEDESCRIPTIONS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -60,66 +53,73 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreedescriptions.name</code>. The name of the pedigree.
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getName() {
-        return (String) get(1);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
      */
-    public void setAuthor(String value) {
-        set(3, value);
+    public String getName() {
+        return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreedescriptions.name</code>. The name of the pedigree.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreedescriptions.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
+     */
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
     public String getAuthor() {
         return (String) get(3);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setAuthor(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -371,14 +371,14 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.pedigreedescriptions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);

@@ -29,27 +29,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implements Record15<Integer, Integer, Integer, String, String, String, String, BigDecimal, BigDecimal, BigDecimal, Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -2011338480;
+    private static final long serialVersionUID = 1218136334;
 
     /**
      * Create a detached LocationsRecord
      */
     public LocationsRecord() {
         super(Locations.LOCATIONS);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
-     */
-    public void setLocationtypeId(Integer value) {
-        set(1, value);
     }
 
     /**
@@ -76,185 +62,199 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.country_id</code>. Foreign key to countries (countries.id).
-     */
-    public Integer getCountryId() {
-        return (Integer) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_7_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
      */
     public Integer getLocationtypeId() {
         return (Integer) get(1);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.state</code>. The state where the location is if this exists.
+     * Setter for <code>germinate_template_3_7_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
      */
-    public String getState() {
-        return (String) get(3);
+    public void setLocationtypeId(Integer value) {
+        set(1, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.region</code>. The region where the location is if this exists.
+     * Getter for <code>germinate_template_3_7_0.locations.country_id</code>. Foreign key to countries (countries.id).
      */
-    public void setRegion(String value) {
-        set(4, value);
+    public Integer getCountryId() {
+        return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.country_id</code>. Foreign key to countries (countries.id).
+     * Setter for <code>germinate_template_3_7_0.locations.country_id</code>. Foreign key to countries (countries.id).
      */
     public void setCountryId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.site_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
-    public void setSiteName(String value) {
-        set(5, value);
+    public String getState() {
+        return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.state</code>. The state where the location is if this exists.
+     * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
     public void setState(String value) {
         set(3, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
-     */
-    public void setSiteNameShort(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_6_0.locations.region</code>. The region where the location is if this exists.
+     * Getter for <code>germinate_template_3_7_0.locations.region</code>. The region where the location is if this exists.
      */
     public String getRegion() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.elevation</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_3_7_0.locations.region</code>. The region where the location is if this exists.
      */
-    public void setElevation(BigDecimal value) {
-        set(7, value);
+    public void setRegion(String value) {
+        set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.site_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.locations.site_name</code>. The site name where the location is.
      */
     public String getSiteName() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.locations.site_name</code>. The site name where the location is.
      */
-    public void setLatitude(BigDecimal value) {
-        set(8, value);
+    public void setSiteName(String value) {
+        set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     * Getter for <code>germinate_template_3_7_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
      */
     public String getSiteNameShort() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.longitude</code>. Longitude of the location.
+     * Setter for <code>germinate_template_3_7_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
      */
-    public void setLongitude(BigDecimal value) {
-        set(9, value);
+    public void setSiteNameShort(String value) {
+        set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_3_7_0.locations.elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
         return (BigDecimal) get(7);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.locations.elevation</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
      */
     public BigDecimal getLatitude() {
         return (BigDecimal) get(8);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.longitude</code>. Longitude of the location.
+     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     */
+    public void setLatitude(BigDecimal value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
     public BigDecimal getLongitude() {
         return (BigDecimal) get(9);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(9, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
     public Integer getCoordinateUncertainty() {
         return (Integer) get(10);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
-     */
-    public String getCoordinateDatum() {
-        return (String) get(11);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * Setter for <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
     public void setCoordinateUncertainty(Integer value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     * Getter for <code>germinate_template_3_7_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
-    public String getGeoreferencingMethod() {
-        return (String) get(12);
+    public String getCoordinateDatum() {
+        return (String) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(13, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_6_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     * Setter for <code>germinate_template_3_7_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
     public void setCoordinateDatum(String value) {
         set(11, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     * Getter for <code>germinate_template_3_7_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     */
+    public String getGeoreferencingMethod() {
+        return (String) get(12);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
      */
     public void setGeoreferencingMethod(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_7_0.locations.created_on</code>. When the record was created.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(14);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(13);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(13, value);
     }
 
     // -------------------------------------------------------------------------
@@ -812,14 +812,14 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_6_0.locations.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(13);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(14);
     }
 
     /**
-     * Setter for <code>germinate_template_3_6_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(14, value);

@@ -1,5 +1,7 @@
 package jhi.germinate.resource;
 
+import java.util.*;
+
 /**
  * @author Sebastian Raubach
  */
@@ -80,5 +82,18 @@ public class PaginatedRequest
 	{
 		this.filter = filter;
 		return this;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "PaginatedRequest{" +
+			"orderBy='" + orderBy + '\'' +
+			", ascending=" + ascending +
+			", limit=" + limit +
+			", page=" + page +
+			", prevCount=" + prevCount +
+			", filter=" + Arrays.toString(filter) +
+			'}';
 	}
 }
