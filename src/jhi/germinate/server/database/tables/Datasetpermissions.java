@@ -30,11 +30,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
 
+    private static final long serialVersionUID = 1302018860;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasetpermissions</code>
      */
     public static final Datasetpermissions DATASETPERMISSIONS = new Datasetpermissions();
-    private static final long serialVersionUID = 1302018860;
 
     /**
      * The class holding records for this type
@@ -43,6 +44,7 @@ public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
     public Class<DatasetpermissionsRecord> getRecordType() {
         return DatasetpermissionsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
      */

@@ -38,6 +38,13 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ClimateoverlaysRecord
      */
     public ClimateoverlaysRecord(Integer id, Integer climateId, String path, Double bottomLeftLongitude, Double bottomLeftLatitude, Double topRightLongitude, Double topRightLatitude, Byte isLegend, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -57,10 +64,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.climate_id</code>. Foreign key to climates (climates.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getClimateId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -71,38 +78,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.climate_id</code>. Foreign key to climates (climates.id).
-     */
-    public Integer getClimateId() {
-        return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.climate_id</code>. Foreign key to climates (climates.id).
-     */
-    public void setClimateId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.path</code>. This is the path for holding images which can be used as overlays for the Google Maps representation in Germinate. The path is relative.
      */
     public String getPath() {
         return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.path</code>. This is the path for holding images which can be used as overlays for the Google Maps representation in Germinate. The path is relative.
-     */
-    public void setPath(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_longitude</code>. Allows the allignment of images against OpenStreetMap API.
-     */
-    public Double getBottomLeftLongitude() {
-        return (Double) get(3);
     }
 
     /**
@@ -113,10 +92,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.climate_id</code>. Foreign key to climates (climates.id).
      */
-    public Double getBottomLeftLatitude() {
-        return (Double) get(4);
+    public void setClimateId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -127,10 +106,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_longitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.path</code>. This is the path for holding images which can be used as overlays for the Google Maps representation in Germinate. The path is relative.
      */
-    public Double getTopRightLongitude() {
-        return (Double) get(5);
+    public void setPath(String value) {
+        set(2, value);
     }
 
     /**
@@ -141,10 +120,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_longitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
-    public Double getTopRightLatitude() {
-        return (Double) get(6);
+    public Double getBottomLeftLongitude() {
+        return (Double) get(3);
     }
 
     /**
@@ -155,17 +134,31 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     */
+    public Double getBottomLeftLatitude() {
+        return (Double) get(4);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_longitude</code>. Allows the allignment of images against OpenStreetMap API.
+     */
+    public Double getTopRightLongitude() {
+        return (Double) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     */
+    public Double getTopRightLatitude() {
+        return (Double) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
     public Byte getIsLegend() {
         return (Byte) get(7);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
-     */
-    public void setIsLegend(Byte value) {
-        set(7, value);
     }
 
     /**
@@ -176,10 +169,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
-    public void setDescription(String value) {
-        set(8, value);
+    public void setIsLegend(Byte value) {
+        set(7, value);
     }
 
     /**
@@ -187,6 +180,13 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     */
+    public void setDescription(String value) {
+        set(8, value);
     }
 
     /**

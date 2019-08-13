@@ -41,6 +41,13 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised AttributesRecord
      */
     public AttributesRecord(Integer id, String name, String description, AttributesDatatype datatype, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
@@ -56,38 +63,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
      */
     public String getName() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
-     */
-    public String getDescription() {
-        return (String) get(2);
     }
 
     /**
@@ -98,10 +77,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.datatype</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Setter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public AttributesDatatype getDatatype() {
-        return (AttributesDatatype) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -112,10 +91,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.target_table</code>.
+     * Setter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
      */
-    public String getTargetTable() {
-        return (String) get(4);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -126,10 +105,31 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.attributes.datatype</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     */
+    public AttributesDatatype getDatatype() {
+        return (AttributesDatatype) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.attributes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.attributes.target_table</code>.
+     */
+    public String getTargetTable() {
+        return (String) get(4);
     }
 
     /**

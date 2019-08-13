@@ -33,11 +33,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
 
+    private static final long serialVersionUID = 694729303;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.mapdefinitions</code>
      */
     public static final Mapdefinitions MAPDEFINITIONS = new Mapdefinitions();
-    private static final long serialVersionUID = 694729303;
 
     /**
      * The class holding records for this type
@@ -46,6 +47,7 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
     public Class<MapdefinitionsRecord> getRecordType() {
         return MapdefinitionsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */

@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetstates extends TableImpl<DatasetstatesRecord> {
 
+    private static final long serialVersionUID = 1386401552;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasetstates</code>
      */
     public static final Datasetstates DATASETSTATES = new Datasetstates();
-    private static final long serialVersionUID = 1386401552;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Datasetstates extends TableImpl<DatasetstatesRecord> {
     public Class<DatasetstatesRecord> getRecordType() {
         return DatasetstatesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
      */

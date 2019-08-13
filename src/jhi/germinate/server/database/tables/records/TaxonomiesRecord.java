@@ -39,6 +39,13 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised TaxonomiesRecord
      */
     public TaxonomiesRecord(Integer id, String genus, String species, String subtaxa, String speciesAuthor, String subtaxaAuthor, String cropname, Integer ploidy, Timestamp createdOn, Timestamp updatedOn) {
@@ -57,38 +64,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.genus</code>. Genus name for the species.
      */
     public String getGenus() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.genus</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
-     */
-    public String getSpecies() {
-        return (String) get(2);
     }
 
     /**
@@ -99,10 +78,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
+     * Setter for <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getSubtaxa() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -113,10 +92,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
+     * Setter for <code>germinate_template_3_7_0.taxonomies.genus</code>. Genus name for the species.
      */
-    public String getSpeciesAuthor() {
-        return (String) get(4);
+    public void setGenus(String value) {
+        set(1, value);
     }
 
     /**
@@ -127,10 +106,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     * Getter for <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
      */
-    public String getSubtaxaAuthor() {
-        return (String) get(5);
+    public String getSpecies() {
+        return (String) get(2);
     }
 
     /**
@@ -141,6 +120,20 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
+     */
+    public String getSubtaxa() {
+        return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
+     */
+    public String getSpeciesAuthor() {
+        return (String) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public String getCropname() {
@@ -148,10 +141,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
      */
-    public void setCropname(String value) {
-        set(6, value);
+    public String getSubtaxaAuthor() {
+        return (String) get(5);
     }
 
     /**
@@ -162,10 +155,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     * Setter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
-    public void setPloidy(Integer value) {
-        set(7, value);
+    public void setCropname(String value) {
+        set(6, value);
     }
 
     /**
@@ -173,6 +166,13 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     */
+    public void setPloidy(Integer value) {
+        set(7, value);
     }
 
     /**

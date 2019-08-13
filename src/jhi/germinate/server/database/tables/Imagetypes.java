@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Imagetypes extends TableImpl<ImagetypesRecord> {
 
+    private static final long serialVersionUID = 408076396;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.imagetypes</code>
      */
     public static final Imagetypes IMAGETYPES = new Imagetypes();
-    private static final long serialVersionUID = 408076396;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Imagetypes extends TableImpl<ImagetypesRecord> {
     public Class<ImagetypesRecord> getRecordType() {
         return ImagetypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.imagetypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

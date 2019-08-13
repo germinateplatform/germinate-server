@@ -30,11 +30,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Compounddata extends TableImpl<CompounddataRecord> {
 
+    private static final long serialVersionUID = 2046932616;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.compounddata</code>
      */
     public static final Compounddata COMPOUNDDATA = new Compounddata();
-    private static final long serialVersionUID = 2046932616;
 
     /**
      * The class holding records for this type
@@ -43,6 +44,7 @@ public class Compounddata extends TableImpl<CompounddataRecord> {
     public Class<CompounddataRecord> getRecordType() {
         return CompounddataRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
      */

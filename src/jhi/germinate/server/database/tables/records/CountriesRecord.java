@@ -38,6 +38,13 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CountriesRecord
      */
     public CountriesRecord(Integer id, String countryCode2, String countryCode3, String countryName, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +59,17 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getCountryCode2() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.countries.country_code3</code>. ISO 3 Code for country.
+     */
+    public void setCountryCode3(String value) {
+        set(2, value);
     }
 
     /**
@@ -66,10 +80,10 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.countries.country_name</code>. Country name.
      */
-    public String getCountryCode2() {
-        return (String) get(1);
+    public void setCountryName(String value) {
+        set(3, value);
     }
 
     /**
@@ -87,10 +101,10 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.countries.country_code3</code>. ISO 3 Code for country.
+     * Getter for <code>germinate_template_3_7_0.countries.created_on</code>. When the record was created.
      */
-    public void setCountryCode3(String value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -98,20 +112,6 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
      */
     public String getCountryName() {
         return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.countries.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.countries.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**

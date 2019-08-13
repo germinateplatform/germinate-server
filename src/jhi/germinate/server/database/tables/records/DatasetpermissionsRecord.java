@@ -38,6 +38,13 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetpermissionsRecord
      */
     public DatasetpermissionsRecord(Integer id, Integer datasetId, Integer userId, Integer groupId, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +59,17 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getDatasetId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
+     */
+    public void setUserId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -66,10 +80,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(1);
+    public void setGroupId(Integer value) {
+        set(3, value);
     }
 
     /**
@@ -87,10 +101,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
      */
-    public void setUserId(Integer value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -98,20 +112,6 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
      */
     public Integer getGroupId() {
         return (Integer) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
-     */
-    public void setGroupId(Integer value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**

@@ -41,6 +41,13 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised MapdefinitionsRecord
      */
     public MapdefinitionsRecord(Integer id, Integer mapfeaturetypeId, Integer markerId, Integer mapId, Double definitionStart, Double definitionEnd, String chromosome, String armImpute, Timestamp createdOn, Timestamp updatedOn) {
@@ -59,38 +66,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
     public Integer getMapfeaturetypeId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
-     */
-    public void setMapfeaturetypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
-     */
-    public Integer getMarkerId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -101,10 +80,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getMapId() {
-        return (Integer) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -115,10 +94,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
-    public Double getDefinitionStart() {
-        return (Double) get(4);
+    public void setMapfeaturetypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -129,10 +108,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
-    public Double getDefinitionEnd() {
-        return (Double) get(5);
+    public Integer getMarkerId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -143,6 +122,20 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
+     */
+    public Integer getMapId() {
+        return (Integer) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     */
+    public Double getDefinitionStart() {
+        return (Double) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public String getChromosome() {
@@ -150,10 +143,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
      */
-    public void setChromosome(String value) {
-        set(6, value);
+    public Double getDefinitionEnd() {
+        return (Double) get(5);
     }
 
     /**
@@ -164,10 +157,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
-    public void setArmImpute(String value) {
-        set(7, value);
+    public void setChromosome(String value) {
+        set(6, value);
     }
 
     /**
@@ -175,6 +168,13 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     */
+    public void setArmImpute(String value) {
+        set(7, value);
     }
 
     /**

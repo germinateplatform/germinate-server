@@ -39,6 +39,13 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetmetaRecord
      */
     public DatasetmetaRecord(Integer id, Integer datasetId, ULong nrOfDataObjects, ULong nrOfDataPoints, Timestamp createdOn, Timestamp updatedOn) {
@@ -53,10 +60,17 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getDatasetId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
+     */
+    public void setNrOfDataObjects(ULong value) {
+        set(2, value);
     }
 
     /**
@@ -67,10 +81,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
+     * Setter for <code>germinate_template_3_7_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(1);
+    public void setNrOfDataPoints(ULong value) {
+        set(3, value);
     }
 
     /**
@@ -88,10 +102,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
+     * Getter for <code>germinate_template_3_7_0.datasetmeta.created_on</code>. When the record was created.
      */
-    public void setNrOfDataObjects(ULong value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -99,20 +113,6 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
      */
     public ULong getNrOfDataPoints() {
         return (ULong) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
-     */
-    public void setNrOfDataPoints(ULong value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetmeta.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**

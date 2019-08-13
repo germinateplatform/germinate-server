@@ -31,11 +31,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord> {
 
+    private static final long serialVersionUID = -1410445817;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.megaenvironmentsource</code>
      */
     public static final Megaenvironmentsource MEGAENVIRONMENTSOURCE = new Megaenvironmentsource();
-    private static final long serialVersionUID = -1410445817;
 
     /**
      * The class holding records for this type
@@ -44,6 +45,7 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
     public Class<MegaenvironmentsourceRecord> getRecordType() {
         return MegaenvironmentsourceRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
      */

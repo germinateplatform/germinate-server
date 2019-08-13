@@ -37,6 +37,13 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetaccesslogsRecord
      */
     public DatasetaccesslogsRecord(Integer id, Integer userId, String userName, String userEmail, String userInstitution, Integer datasetId, String reason, Timestamp createdOn, Timestamp updatedOn) {
@@ -54,38 +61,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.user_id</code>.
-     */
-    public void setUserId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_name</code>.
-     */
-    public String getUserName() {
-        return (String) get(2);
     }
 
     /**
@@ -96,10 +75,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_email</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getUserEmail() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -110,10 +89,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_institution</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.user_id</code>.
      */
-    public String getUserInstitution() {
-        return (String) get(4);
+    public void setUserId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -124,10 +103,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.dataset_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_name</code>.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(5);
+    public String getUserName() {
+        return (String) get(2);
     }
 
     /**
@@ -138,6 +117,20 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_email</code>.
+     */
+    public String getUserEmail() {
+        return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_institution</code>.
+     */
+    public String getUserInstitution() {
+        return (String) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
      */
     public String getReason() {
@@ -145,10 +138,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.dataset_id</code>.
      */
-    public void setReason(String value) {
-        set(6, value);
+    public Integer getDatasetId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -156,6 +149,13 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
+     */
+    public void setReason(String value) {
+        set(6, value);
     }
 
     /**

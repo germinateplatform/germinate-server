@@ -37,6 +37,20 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.experimenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.experimenttypes.description</code>. Describes the experiment type.
+     */
+    public void setDescription(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised ExperimenttypesRecord
      */
     public ExperimenttypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -49,10 +63,10 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experimenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.experimenttypes.created_on</code>. When the record was created.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -70,24 +84,10 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experimenttypes.description</code>. Describes the experiment type.
-     */
-    public void setDescription(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.experimenttypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.experimenttypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

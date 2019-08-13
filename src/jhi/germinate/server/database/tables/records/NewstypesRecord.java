@@ -39,6 +39,13 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.newstypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised NewstypesRecord
      */
     public NewstypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +59,17 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.newstypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.newstypes.name</code>. Name of the news type.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.newstypes.description</code>. A longer description of the news type.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -66,10 +80,10 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.newstypes.name</code>. Name of the news type.
+     * Setter for <code>germinate_template_3_7_0.newstypes.created_on</code>. When the record was created.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -87,24 +101,10 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.newstypes.description</code>. A longer description of the news type.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.newstypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.newstypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

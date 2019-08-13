@@ -42,6 +42,21 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
+
+     */
+    public void setCollsrc(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised CollectingsourcesRecord
      */
     public CollectingsourcesRecord(Integer id, String collsrc, Timestamp createdOn, Timestamp updatedOn) {
@@ -54,10 +69,10 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.collectingsources.created_on</code>. When the record was created.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -76,25 +91,10 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
-
-     */
-    public void setCollsrc(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.collectingsources.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.collectingsources.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

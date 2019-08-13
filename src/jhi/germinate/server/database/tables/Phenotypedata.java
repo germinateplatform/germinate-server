@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
 
+    private static final long serialVersionUID = 441088461;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.phenotypedata</code>
      */
     public static final Phenotypedata PHENOTYPEDATA = new Phenotypedata();
-    private static final long serialVersionUID = 441088461;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
     public Class<PhenotypedataRecord> getRecordType() {
         return PhenotypedataRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.phenotypedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */

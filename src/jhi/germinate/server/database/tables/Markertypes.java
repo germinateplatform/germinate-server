@@ -32,11 +32,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Markertypes extends TableImpl<MarkertypesRecord> {
 
+    private static final long serialVersionUID = 110964647;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.markertypes</code>
      */
     public static final Markertypes MARKERTYPES = new Markertypes();
-    private static final long serialVersionUID = 110964647;
 
     /**
      * The class holding records for this type
@@ -45,6 +46,7 @@ public class Markertypes extends TableImpl<MarkertypesRecord> {
     public Class<MarkertypesRecord> getRecordType() {
         return MarkertypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

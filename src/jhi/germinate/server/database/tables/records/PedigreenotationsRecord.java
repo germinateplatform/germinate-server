@@ -38,6 +38,13 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PedigreenotationsRecord
      */
     public PedigreenotationsRecord(Integer id, String name, String description, String referenceUrl, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +59,17 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.description</code>. A longer description about the reference notation source.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -66,10 +80,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setReferenceUrl(String value) {
+        set(3, value);
     }
 
     /**
@@ -87,10 +101,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.description</code>. A longer description about the reference notation source.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
      */
-    public void setDescription(String value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -98,20 +112,6 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
      */
     public String getReferenceUrl() {
         return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
-     */
-    public void setReferenceUrl(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**

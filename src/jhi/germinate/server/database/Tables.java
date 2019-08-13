@@ -404,5 +404,10 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     /**
      * VIEW
      */
+    public static final ViewTableMapdefinitions VIEW_TABLE_MAPDEFINITIONS = jhi.germinate.server.database.tables.ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS;
+
+    /**
+     * VIEW
+     */
     public static final ViewTableMaps VIEW_TABLE_MAPS = jhi.germinate.server.database.tables.ViewTableMaps.VIEW_TABLE_MAPS;
 }

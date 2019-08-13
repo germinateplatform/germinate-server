@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Usergroupmembers extends TableImpl<UsergroupmembersRecord> {
 
+    private static final long serialVersionUID = -1224017390;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.usergroupmembers</code>
      */
     public static final Usergroupmembers USERGROUPMEMBERS = new Usergroupmembers();
-    private static final long serialVersionUID = -1224017390;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Usergroupmembers extends TableImpl<UsergroupmembersRecord> {
     public Class<UsergroupmembersRecord> getRecordType() {
         return UsergroupmembersRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.usergroupmembers.id</code>.
      */

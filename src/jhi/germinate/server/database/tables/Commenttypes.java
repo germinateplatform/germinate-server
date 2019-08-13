@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Commenttypes extends TableImpl<CommenttypesRecord> {
 
+    private static final long serialVersionUID = -1711937381;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.commenttypes</code>
      */
     public static final Commenttypes COMMENTTYPES = new Commenttypes();
-    private static final long serialVersionUID = -1711937381;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Commenttypes extends TableImpl<CommenttypesRecord> {
     public Class<CommenttypesRecord> getRecordType() {
         return CommenttypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

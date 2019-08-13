@@ -37,6 +37,13 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licenses.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised LicensesRecord
      */
     public LicensesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenses.id</code>.
+     * Getter for <code>germinate_template_3_7_0.licenses.name</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.licenses.description</code>.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenses.name</code>.
+     * Setter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenses.description</code>.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

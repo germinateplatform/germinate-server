@@ -34,11 +34,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
 
+    private static final long serialVersionUID = 403872762;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.collectingsources</code>
      */
     public static final Collectingsources COLLECTINGSOURCES = new Collectingsources();
-    private static final long serialVersionUID = 403872762;
 
     /**
      * The class holding records for this type
@@ -47,6 +48,7 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
     public Class<CollectingsourcesRecord> getRecordType() {
         return CollectingsourcesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
      */

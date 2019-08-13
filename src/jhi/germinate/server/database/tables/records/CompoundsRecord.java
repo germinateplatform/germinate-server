@@ -38,6 +38,13 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CompoundsRecord
      */
     public CompoundsRecord(Integer id, String name, String description, String molecularFormula, BigDecimal monoisotopicMass, BigDecimal averageMass, String compoundClass, Integer unitId, Timestamp createdOn, Timestamp updatedOn) {
@@ -56,38 +63,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.compounds.name</code>. Compound full name.
      */
     public String getName() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.name</code>. Compound full name.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
-     */
-    public String getDescription() {
-        return (String) get(2);
     }
 
     /**
@@ -98,10 +77,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
+     * Setter for <code>germinate_template_3_7_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getMolecularFormula() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -112,10 +91,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.monoisotopic_mass</code>. The monoisotopic mass of the compound.
+     * Setter for <code>germinate_template_3_7_0.compounds.name</code>. Compound full name.
      */
-    public BigDecimal getMonoisotopicMass() {
-        return (BigDecimal) get(4);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -126,10 +105,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.average_mass</code>. The average mass of the compound.
+     * Getter for <code>germinate_template_3_7_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
      */
-    public BigDecimal getAverageMass() {
-        return (BigDecimal) get(5);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -140,6 +119,20 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
+     */
+    public String getMolecularFormula() {
+        return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.compounds.monoisotopic_mass</code>. The monoisotopic mass of the compound.
+     */
+    public BigDecimal getMonoisotopicMass() {
+        return (BigDecimal) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounds.compound_class</code>. A classification of the compound.
      */
     public String getCompoundClass() {
@@ -147,10 +140,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.compound_class</code>. A classification of the compound.
+     * Getter for <code>germinate_template_3_7_0.compounds.average_mass</code>. The average mass of the compound.
      */
-    public void setCompoundClass(String value) {
-        set(6, value);
+    public BigDecimal getAverageMass() {
+        return (BigDecimal) get(5);
     }
 
     /**
@@ -161,10 +154,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     * Setter for <code>germinate_template_3_7_0.compounds.compound_class</code>. A classification of the compound.
      */
-    public void setUnitId(Integer value) {
-        set(7, value);
+    public void setCompoundClass(String value) {
+        set(6, value);
     }
 
     /**
@@ -172,6 +165,13 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     */
+    public void setUnitId(Integer value) {
+        set(7, value);
     }
 
     /**

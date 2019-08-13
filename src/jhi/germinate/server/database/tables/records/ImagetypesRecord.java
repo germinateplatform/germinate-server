@@ -37,6 +37,13 @@ public class ImagetypesRecord extends UpdatableRecordImpl<ImagetypesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.imagetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ImagetypesRecord
      */
     public ImagetypesRecord(Integer id, String description, String referenceTable, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class ImagetypesRecord extends UpdatableRecordImpl<ImagetypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.imagetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.imagetypes.description</code>. A description of the image type. This would usually be a description of what the image was showing in general terms such as 'field image' or 'insitu hybridisation images'.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getDescription() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.imagetypes.reference_table</code>. The table which the image type relates to.
+     */
+    public void setReferenceTable(String value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class ImagetypesRecord extends UpdatableRecordImpl<ImagetypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.imagetypes.description</code>. A description of the image type. This would usually be a description of what the image was showing in general terms such as 'field image' or 'insitu hybridisation images'.
+     * Setter for <code>germinate_template_3_7_0.imagetypes.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class ImagetypesRecord extends UpdatableRecordImpl<ImagetypesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.imagetypes.reference_table</code>. The table which the image type relates to.
-     */
-    public void setReferenceTable(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.imagetypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.imagetypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

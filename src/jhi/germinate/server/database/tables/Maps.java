@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Maps extends TableImpl<MapsRecord> {
 
+    private static final long serialVersionUID = -1615724194;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.maps</code>
      */
     public static final Maps MAPS = new Maps();
-    private static final long serialVersionUID = -1615724194;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Maps extends TableImpl<MapsRecord> {
     public Class<MapsRecord> getRecordType() {
         return MapsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
      */

@@ -37,6 +37,13 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.storagedata.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised StoragedataRecord
      */
     public StoragedataRecord(Integer id, Integer germinatebaseId, Integer storageId, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.storagedata.id</code>.
+     * Getter for <code>germinate_template_3_7_0.storagedata.germinatebase_id</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getGerminatebaseId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.storagedata.storage_id</code>.
+     */
+    public void setStorageId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.storagedata.germinatebase_id</code>.
+     * Setter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
      */
-    public Integer getGerminatebaseId() {
-        return (Integer) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.storagedata.storage_id</code>.
-     */
-    public void setStorageId(Integer value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

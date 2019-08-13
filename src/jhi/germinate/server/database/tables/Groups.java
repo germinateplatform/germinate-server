@@ -31,11 +31,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groups extends TableImpl<GroupsRecord> {
 
+    private static final long serialVersionUID = 1390763292;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.groups</code>
      */
     public static final Groups GROUPS = new Groups();
-    private static final long serialVersionUID = 1390763292;
 
     /**
      * The class holding records for this type
@@ -44,6 +45,7 @@ public class Groups extends TableImpl<GroupsRecord> {
     public Class<GroupsRecord> getRecordType() {
         return GroupsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
      */

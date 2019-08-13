@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
 
+    private static final long serialVersionUID = -1567222429;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.schema_version</code>
      */
     public static final SchemaVersion SCHEMA_VERSION = new SchemaVersion();
-    private static final long serialVersionUID = -1567222429;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
     public Class<SchemaVersionRecord> getRecordType() {
         return SchemaVersionRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.schema_version.installed_rank</code>.
      */

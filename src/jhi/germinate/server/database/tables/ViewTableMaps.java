@@ -26,31 +26,46 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMaps extends TableImpl<ViewTableMapsRecord> {
 
+    private static final long serialVersionUID = 1718293939;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_maps</code>
      */
     public static final ViewTableMaps VIEW_TABLE_MAPS = new ViewTableMaps();
-    private static final long serialVersionUID = 1718293939;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableMapsRecord> getRecordType() {
+        return ViewTableMapsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_maps.mapId</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableMapsRecord, Integer> MAPID = createField("mapId", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_maps.mapName</code>. Describes the map.
      */
     public final TableField<ViewTableMapsRecord, String> MAPNAME = createField("mapName", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Describes the map.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_maps.mapDescription</code>. The name of this map.
      */
     public final TableField<ViewTableMapsRecord, String> MAPDESCRIPTION = createField("mapDescription", org.jooq.impl.SQLDataType.CLOB, this, "The name of this map.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_maps.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<ViewTableMapsRecord, Integer> USERID = createField("userId", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public final TableField<ViewTableMapsRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.TINYINT)), this, "Determines if the map is visible to the Germinate interface or hidden.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_maps.markerCount</code>.
      */
@@ -87,14 +102,6 @@ public class ViewTableMaps extends TableImpl<ViewTableMapsRecord> {
 
     public <O extends Record> ViewTableMaps(Table<O> child, ForeignKey<O, ViewTableMapsRecord> key) {
         super(child, key, VIEW_TABLE_MAPS);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableMapsRecord> getRecordType() {
-        return ViewTableMapsRecord.class;
     }
 
     /**

@@ -37,6 +37,13 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licensedata.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised LicensedataRecord
      */
     public LicensedataRecord(Integer id, Integer licenseId, Integer localeId, String content, Timestamp createdOn, Timestamp updatedOn) {
@@ -51,10 +58,17 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licensedata.id</code>.
+     * Getter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getLicenseId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.licensedata.locale_id</code>.
+     */
+    public void setLocaleId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -65,10 +79,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
+     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
      */
-    public Integer getLicenseId() {
-        return (Integer) get(1);
+    public void setContent(String value) {
+        set(3, value);
     }
 
     /**
@@ -86,10 +100,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.locale_id</code>.
+     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
      */
-    public void setLocaleId(Integer value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -97,20 +111,6 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
      */
     public String getContent() {
         return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
-     */
-    public void setContent(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**

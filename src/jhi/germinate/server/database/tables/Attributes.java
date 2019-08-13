@@ -33,11 +33,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Attributes extends TableImpl<AttributesRecord> {
 
+    private static final long serialVersionUID = -1838691381;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.attributes</code>
      */
     public static final Attributes ATTRIBUTES = new Attributes();
-    private static final long serialVersionUID = -1838691381;
 
     /**
      * The class holding records for this type
@@ -46,6 +47,7 @@ public class Attributes extends TableImpl<AttributesRecord> {
     public Class<AttributesRecord> getRecordType() {
         return AttributesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

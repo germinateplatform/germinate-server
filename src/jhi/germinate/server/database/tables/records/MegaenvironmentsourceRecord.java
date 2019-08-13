@@ -39,6 +39,13 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised MegaenvironmentsourceRecord
      */
     public MegaenvironmentsourceRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +59,17 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentsource.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentsource.name</code>. The name of the mega environment source.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentsource.description</code>. Describes the mega environment source.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -66,10 +80,10 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentsource.name</code>. The name of the mega environment source.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentsource.created_on</code>. When the record was created.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -87,24 +101,10 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentsource.description</code>. Describes the mega environment source.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.megaenvironmentsource.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentsource.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

@@ -37,6 +37,13 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetstatesRecord
      */
     public DatasetstatesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.datasetstates.name</code>. Defines the datasetstate.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetstates.description</code>. Describes the datasetstate.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetstates.name</code>. Defines the datasetstate.
+     * Setter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetstates.description</code>. Describes the datasetstate.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

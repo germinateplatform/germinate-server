@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locales extends TableImpl<LocalesRecord> {
 
+    private static final long serialVersionUID = -854631051;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.locales</code>
      */
     public static final Locales LOCALES = new Locales();
-    private static final long serialVersionUID = -854631051;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Locales extends TableImpl<LocalesRecord> {
     public Class<LocalesRecord> getRecordType() {
         return LocalesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.locales.id</code>.
      */

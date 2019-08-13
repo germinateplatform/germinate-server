@@ -55,11 +55,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
 
+    private static final long serialVersionUID = 1105467325;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.biologicalstatus</code>
      */
     public static final Biologicalstatus BIOLOGICALSTATUS = new Biologicalstatus();
-    private static final long serialVersionUID = 1105467325;
 
     /**
      * The class holding records for this type
@@ -68,6 +69,7 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
     public Class<BiologicalstatusRecord> getRecordType() {
         return BiologicalstatusRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */

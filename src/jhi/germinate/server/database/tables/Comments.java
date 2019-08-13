@@ -30,11 +30,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comments extends TableImpl<CommentsRecord> {
 
+    private static final long serialVersionUID = -778687234;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.comments</code>
      */
     public static final Comments COMMENTS = new Comments();
-    private static final long serialVersionUID = -778687234;
 
     /**
      * The class holding records for this type
@@ -43,6 +44,7 @@ public class Comments extends TableImpl<CommentsRecord> {
     public Class<CommentsRecord> getRecordType() {
         return CommentsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
      */

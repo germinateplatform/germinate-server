@@ -37,6 +37,13 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.grouptypes.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised GrouptypesRecord
      */
     public GrouptypesRecord(Integer id, String description, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.grouptypes.id</code>.
+     * Getter for <code>germinate_template_3_7_0.grouptypes.description</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getDescription() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.grouptypes.target_table</code>.
+     */
+    public void setTargetTable(String value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.grouptypes.description</code>.
+     * Setter for <code>germinate_template_3_7_0.grouptypes.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.grouptypes.target_table</code>.
-     */
-    public void setTargetTable(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.grouptypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.grouptypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

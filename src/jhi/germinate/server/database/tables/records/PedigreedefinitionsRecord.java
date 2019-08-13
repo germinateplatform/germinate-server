@@ -37,6 +37,13 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PedigreedefinitionsRecord
      */
     public PedigreedefinitionsRecord(Integer id, Integer germinatebaseId, Integer pedigreenotationId, Integer pedigreedescriptionId, String definition, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,38 +59,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.germinatebase_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.germinatebase_id</code>. Foreign key to germinatebase (germinatebase.id).
-     */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreenotation_id</code>. Foreign key to pedigreenotations (pedigreenotations.id).
-     */
-    public Integer getPedigreenotationId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -94,10 +73,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreedescription_id</code>.
+     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getPedigreedescriptionId() {
-        return (Integer) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -108,10 +87,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.definition</code>. The pedigree string which is used to represent the germinatebase entry.
+     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.germinatebase_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
-    public String getDefinition() {
-        return (String) get(4);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -122,10 +101,31 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreenotation_id</code>. Foreign key to pedigreenotations (pedigreenotations.id).
+     */
+    public Integer getPedigreenotationId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreedescription_id</code>.
+     */
+    public Integer getPedigreedescriptionId() {
+        return (Integer) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.definition</code>. The pedigree string which is used to represent the germinatebase entry.
+     */
+    public String getDefinition() {
+        return (String) get(4);
     }
 
     /**

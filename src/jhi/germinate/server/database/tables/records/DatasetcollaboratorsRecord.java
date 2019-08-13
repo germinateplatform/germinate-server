@@ -37,6 +37,13 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetcollaboratorsRecord
      */
     public DatasetcollaboratorsRecord(Integer id, Integer datasetId, Integer collaboratorId, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.dataset_id</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getDatasetId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.collaborator_id</code>.
+     */
+    public void setCollaboratorId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.dataset_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.created_on</code>. When the record was created.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.collaborator_id</code>.
-     */
-    public void setCollaboratorId(Integer value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.datasetcollaborators.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

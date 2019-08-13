@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class News extends TableImpl<NewsRecord> {
 
+    private static final long serialVersionUID = 1409948326;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.news</code>
      */
     public static final News NEWS = new News();
-    private static final long serialVersionUID = 1409948326;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class News extends TableImpl<NewsRecord> {
     public Class<NewsRecord> getRecordType() {
         return NewsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.news.id</code>. Primary id for this table. This uniquely identifies the row.
      */

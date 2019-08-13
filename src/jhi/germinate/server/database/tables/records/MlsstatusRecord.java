@@ -37,6 +37,20 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.mlsstatus.description</code>.
+     */
+    public void setDescription(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised MlsstatusRecord
      */
     public MlsstatusRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -49,10 +63,10 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
+     * Setter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -70,24 +84,10 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.description</code>.
-     */
-    public void setDescription(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

@@ -37,6 +37,13 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised LocationtypesRecord
      */
     public LocationtypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,13 +57,6 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
@@ -64,10 +64,24 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     */
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type.
      */
     public String getName() {
         return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

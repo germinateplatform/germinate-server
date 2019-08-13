@@ -37,6 +37,20 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licenselogs.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.licenselogs.license_id</code>.
+     */
+    public void setLicenseId(Integer value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised LicenselogsRecord
      */
     public LicenselogsRecord(Integer id, Integer licenseId, Integer userId, Timestamp acceptedOn) {
@@ -49,10 +63,10 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.id</code>.
+     * Setter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setUserId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -70,24 +84,10 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.license_id</code>.
-     */
-    public void setLicenseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
-     */
-    public void setUserId(Integer value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

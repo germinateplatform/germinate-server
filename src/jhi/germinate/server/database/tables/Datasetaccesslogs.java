@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
 
+    private static final long serialVersionUID = 1678182742;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasetaccesslogs</code>
      */
     public static final Datasetaccesslogs DATASETACCESSLOGS = new Datasetaccesslogs();
-    private static final long serialVersionUID = 1678182742;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
     public Class<DatasetaccesslogsRecord> getRecordType() {
         return DatasetaccesslogsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.datasetaccesslogs.id</code>. Primary id for this table. This uniquely identifies the row.
      */

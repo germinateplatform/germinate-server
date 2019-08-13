@@ -40,6 +40,20 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.markertypes.description</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     */
+    public void setDescription(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised MarkertypesRecord
      */
     public MarkertypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,10 +66,10 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.markertypes.created_on</code>. When the record was created.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -73,24 +87,10 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markertypes.description</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
-     */
-    public void setDescription(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.markertypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.markertypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

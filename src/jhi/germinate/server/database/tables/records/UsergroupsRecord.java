@@ -37,6 +37,13 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.usergroups.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised UsergroupsRecord
      */
     public UsergroupsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroups.id</code>.
+     * Getter for <code>germinate_template_3_7_0.usergroups.name</code>. The name of the user group.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.usergroups.description</code>. A description of the user group.
+     */
+    public void setDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,10 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroups.name</code>. The name of the user group.
+     * Setter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
      */
-    public String getName() {
-        return (String) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +99,10 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroups.description</code>. A description of the user group.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

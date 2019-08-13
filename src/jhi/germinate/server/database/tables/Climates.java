@@ -31,11 +31,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climates extends TableImpl<ClimatesRecord> {
 
+    private static final long serialVersionUID = -1440312228;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.climates</code>
      */
     public static final Climates CLIMATES = new Climates();
-    private static final long serialVersionUID = -1440312228;
 
     /**
      * The class holding records for this type
@@ -44,6 +45,7 @@ public class Climates extends TableImpl<ClimatesRecord> {
     public Class<ClimatesRecord> getRecordType() {
         return ClimatesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
      */

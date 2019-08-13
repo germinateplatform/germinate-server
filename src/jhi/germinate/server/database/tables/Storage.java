@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Storage extends TableImpl<StorageRecord> {
 
+    private static final long serialVersionUID = 420963863;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.storage</code>
      */
     public static final Storage STORAGE = new Storage();
-    private static final long serialVersionUID = 420963863;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Storage extends TableImpl<StorageRecord> {
     public Class<StorageRecord> getRecordType() {
         return StorageRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.storage.id</code>.
      */

@@ -40,6 +40,13 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised UnitsRecord
      */
     public UnitsRecord(Integer id, String unitName, String unitAbbreviation, String unitDescription, Timestamp createdOn, Timestamp updatedOn) {
@@ -54,10 +61,17 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public String getUnitName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.units.unit_abbreviation</code>. This should be the unit abbreviation.
+     */
+    public void setUnitAbbreviation(String value) {
+        set(2, value);
     }
 
     /**
@@ -68,10 +82,10 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_3_7_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
-    public String getUnitName() {
-        return (String) get(1);
+    public void setUnitDescription(String value) {
+        set(3, value);
     }
 
     /**
@@ -89,10 +103,10 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.units.unit_abbreviation</code>. This should be the unit abbreviation.
+     * Getter for <code>germinate_template_3_7_0.units.created_on</code>. When the record was created.
      */
-    public void setUnitAbbreviation(String value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -100,20 +114,6 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
      */
     public String getUnitDescription() {
         return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
-     */
-    public void setUnitDescription(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.units.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**

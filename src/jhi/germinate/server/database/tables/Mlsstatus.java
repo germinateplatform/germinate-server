@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mlsstatus extends TableImpl<MlsstatusRecord> {
 
+    private static final long serialVersionUID = -73786058;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.mlsstatus</code>
      */
     public static final Mlsstatus MLSSTATUS = new Mlsstatus();
-    private static final long serialVersionUID = -73786058;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Mlsstatus extends TableImpl<MlsstatusRecord> {
     public Class<MlsstatusRecord> getRecordType() {
         return MlsstatusRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.mlsstatus.id</code>.
      */

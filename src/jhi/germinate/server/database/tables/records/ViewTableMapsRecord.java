@@ -28,10 +28,24 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     private static final long serialVersionUID = 2181462;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_maps.mapId</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setMapid(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableMapsRecord
      */
     public ViewTableMapsRecord() {
         super(ViewTableMaps.VIEW_TABLE_MAPS);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_maps.mapName</code>. Describes the map.
+     */
+    public void setMapname(String value) {
+        set(1, value);
     }
 
     /**
@@ -49,41 +63,6 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.mapId</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getMapid() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.mapId</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setMapid(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.mapName</code>. Describes the map.
-     */
-    public String getMapname() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.mapName</code>. Describes the map.
-     */
-    public void setMapname(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.mapDescription</code>. The name of this map.
-     */
-    public String getMapdescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_maps.mapDescription</code>. The name of this map.
      */
     public void setMapdescription(String value) {
@@ -91,10 +70,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.mapId</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getUserid() {
-        return (Integer) get(3);
+    public Integer getMapid() {
+        return (Integer) get(0);
     }
 
     /**
@@ -105,10 +84,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.mapName</code>. Describes the map.
      */
-    public Byte getVisibility() {
-        return (Byte) get(4);
+    public String getMapname() {
+        return (String) get(1);
     }
 
     /**
@@ -118,15 +97,11 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record6 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.markerCount</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.mapDescription</code>. The name of this map.
      */
-    public Long getMarkercount() {
-        return (Long) get(5);
+    public String getMapdescription() {
+        return (String) get(2);
     }
 
     /**
@@ -135,6 +110,17 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     public void setMarkercount(Long value) {
         set(5, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getUserid() {
+        return (Integer) get(3);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -341,10 +327,6 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -366,5 +348,23 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     */
+    public Byte getVisibility() {
+        return (Byte) get(4);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.markerCount</code>.
+     */
+    public Long getMarkercount() {
+        return (Long) get(5);
     }
 }

@@ -38,6 +38,20 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     */
+    public void setDescription(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised MapfeaturetypesRecord
      */
     public MapfeaturetypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +64,10 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.created_on</code>. When the record was created.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -71,24 +85,10 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
-     */
-    public void setDescription(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Analysismethods extends TableImpl<AnalysismethodsRecord> {
 
+    private static final long serialVersionUID = 2069298932;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.analysismethods</code>
      */
     public static final Analysismethods ANALYSISMETHODS = new Analysismethods();
-    private static final long serialVersionUID = 2069298932;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Analysismethods extends TableImpl<AnalysismethodsRecord> {
     public Class<AnalysismethodsRecord> getRecordType() {
         return AnalysismethodsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
      */

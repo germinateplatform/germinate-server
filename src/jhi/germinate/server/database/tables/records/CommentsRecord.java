@@ -38,6 +38,13 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CommentsRecord
      */
     public CommentsRecord(Integer id, Integer commenttypeId, Integer userId, Byte visibility, String description, Integer referenceId, Timestamp createdOn, Timestamp updatedOn) {
@@ -54,38 +61,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
     public Integer getCommenttypeId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
-     */
-    public void setCommenttypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -96,10 +75,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
+     * Setter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Byte getVisibility() {
-        return (Byte) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -110,10 +89,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
+     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
-    public String getDescription() {
-        return (String) get(4);
+    public void setCommenttypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -124,6 +103,20 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getUserId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
+     */
+    public Byte getVisibility() {
+        return (Byte) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
      */
     public Integer getReferenceId() {
@@ -131,10 +124,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     * Getter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
      */
-    public void setReferenceId(Integer value) {
-        set(5, value);
+    public String getDescription() {
+        return (String) get(4);
     }
 
     /**
@@ -142,6 +135,13 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     */
+    public void setReferenceId(Integer value) {
+        set(5, value);
     }
 
     /**

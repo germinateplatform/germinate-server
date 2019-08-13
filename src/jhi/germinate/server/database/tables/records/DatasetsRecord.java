@@ -39,6 +39,13 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised DatasetsRecord
      */
     public DatasetsRecord(Integer id, Integer experimentId, Integer locationId, String name, String description, Date dateStart, Date dateEnd, String sourceFile, String datatype, Object dublinCore, String version, Integer createdBy, Integer datasetStateId, Integer licenseId, Byte isExternal, String hyperlink, Timestamp createdOn, Timestamp updatedOn, String contact) {
@@ -66,10 +73,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.datasets.experiment_id</code>. Foreign key to experiments (experiments.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getExperimentId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -80,10 +87,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.experiment_id</code>. Foreign key to experiments (experiments.id).
+     * Getter for <code>germinate_template_3_7_0.datasets.location_id</code>. Foreign key to locations (locations.id).
      */
-    public Integer getExperimentId() {
-        return (Integer) get(1);
+    public Integer getLocationId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -94,10 +101,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.location_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_7_0.datasets.name</code>. Describes the dataset.
      */
-    public Integer getLocationId() {
-        return (Integer) get(2);
+    public String getName() {
+        return (String) get(3);
     }
 
     /**
@@ -108,10 +115,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
      */
-    public String getName() {
-        return (String) get(3);
+    public String getDescription() {
+        return (String) get(4);
     }
 
     /**
@@ -122,38 +129,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
-     */
-    public String getDescription() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
-     */
-    public void setDescription(String value) {
-        set(4, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.datasets.date_start</code>. Date that the dataset was generated.
      */
     public Date getDateStart() {
         return (Date) get(5);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasets.date_start</code>. Date that the dataset was generated.
-     */
-    public void setDateStart(Date value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.date_end</code>. Date at which the dataset recording ended.
-     */
-    public Date getDateEnd() {
-        return (Date) get(6);
     }
 
     /**
@@ -164,10 +143,31 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
+     */
+    public void setDescription(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasets.date_start</code>. Date that the dataset was generated.
+     */
+    public void setDateStart(Date value) {
+        set(5, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.datasets.source_file</code>.
      */
     public String getSourceFile() {
         return (String) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasets.date_end</code>. Date at which the dataset recording ended.
+     */
+    public Date getDateEnd() {
+        return (Date) get(6);
     }
 
     /**
@@ -194,27 +194,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
-     */
-    public String getDatatype() {
-        return (String) get(8);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
-     */
-    public void setDatatype(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.version</code>. Dataset version if this exists.
-     */
-    public String getVersion() {
-        return (String) get(10);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.datasets.version</code>. Dataset version if this exists.
      */
     public void setVersion(String value) {
@@ -222,10 +201,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.created_by</code>. Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).
+     * Getter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
      */
-    public Integer getCreatedBy() {
-        return (Integer) get(11);
+    public String getDatatype() {
+        return (String) get(8);
     }
 
     /**
@@ -236,10 +215,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.dataset_state_id</code>. Foreign key to datasetstates (datasetstates.id).
+     * Setter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
      */
-    public Integer getDatasetStateId() {
-        return (Integer) get(12);
+    public void setDatatype(String value) {
+        set(8, value);
     }
 
     /**
@@ -250,6 +229,20 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.version</code>. Dataset version if this exists.
+     */
+    public String getVersion() {
+        return (String) get(10);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasets.created_by</code>. Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).
+     */
+    public Integer getCreatedBy() {
+        return (Integer) get(11);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.datasets.license_id</code>.
      */
     public Integer getLicenseId() {
@@ -257,10 +250,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.license_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasets.dataset_state_id</code>. Foreign key to datasetstates (datasetstates.id).
      */
-    public void setLicenseId(Integer value) {
-        set(13, value);
+    public Integer getDatasetStateId() {
+        return (Integer) get(12);
     }
 
     /**
@@ -271,10 +264,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     * Setter for <code>germinate_template_3_7_0.datasets.license_id</code>.
      */
-    public void setIsExternal(Byte value) {
-        set(14, value);
+    public void setLicenseId(Integer value) {
+        set(13, value);
     }
 
     /**
@@ -285,10 +278,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
+     * Setter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
-    public void setHyperlink(String value) {
-        set(15, value);
+    public void setIsExternal(Byte value) {
+        set(14, value);
     }
 
     /**
@@ -300,11 +293,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.created_on</code>. When the record was created.
-
+     * Setter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(16, value);
+    public void setHyperlink(String value) {
+        set(15, value);
     }
 
     /**
@@ -312,6 +304,14 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(17);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasets.created_on</code>. When the record was created.
+
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(16, value);
     }
 
     /**

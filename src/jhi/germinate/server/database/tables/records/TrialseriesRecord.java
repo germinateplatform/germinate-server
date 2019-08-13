@@ -39,6 +39,20 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.trialseries.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.trialseries.seriesname</code>. The description of the trial series name.
+     */
+    public void setSeriesname(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised TrialseriesRecord
      */
     public TrialseriesRecord(Integer id, String seriesname, Timestamp createdOn, Timestamp updatedOn) {
@@ -51,10 +65,10 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.trialseries.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.trialseries.created_on</code>. When the record was created.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setCreatedOn(Timestamp value) {
+        set(2, value);
     }
 
     /**
@@ -72,24 +86,10 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.trialseries.seriesname</code>. The description of the trial series name.
-     */
-    public void setSeriesname(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.trialseries.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.trialseries.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(2, value);
     }
 
     // -------------------------------------------------------------------------

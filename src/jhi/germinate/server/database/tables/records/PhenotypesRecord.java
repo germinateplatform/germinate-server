@@ -38,6 +38,13 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PhenotypesRecord
      */
     public PhenotypesRecord(Integer id, String name, String shortName, String description, PhenotypesDatatype datatype, Integer unitId, Timestamp createdOn, Timestamp updatedOn) {
@@ -54,38 +61,10 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.phenotypes.name</code>. Phenotype full name.
      */
     public String getName() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.name</code>. Phenotype full name.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
-     */
-    public String getShortName() {
-        return (String) get(2);
     }
 
     /**
@@ -96,10 +75,10 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
+     * Setter for <code>germinate_template_3_7_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getDescription() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -110,10 +89,10 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
+     * Setter for <code>germinate_template_3_7_0.phenotypes.name</code>. Phenotype full name.
      */
-    public PhenotypesDatatype getDatatype() {
-        return (PhenotypesDatatype) get(4);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -124,6 +103,20 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     */
+    public String getShortName() {
+        return (String) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
+     */
+    public String getDescription() {
+        return (String) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
      */
     public Integer getUnitId() {
@@ -131,10 +124,10 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
+     * Getter for <code>germinate_template_3_7_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
-    public void setUnitId(Integer value) {
-        set(5, value);
+    public PhenotypesDatatype getDatatype() {
+        return (PhenotypesDatatype) get(4);
     }
 
     /**
@@ -142,6 +135,13 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
+     */
+    public void setUnitId(Integer value) {
+        set(5, value);
     }
 
     /**

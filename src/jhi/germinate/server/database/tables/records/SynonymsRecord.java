@@ -38,6 +38,14 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
+
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised SynonymsRecord
      */
     public SynonymsRecord(Integer id, Integer foreignId, Integer synonymtypeId, Object synonyms, Timestamp createdOn, Timestamp updatedOn) {
@@ -52,11 +60,10 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
-
+     * Getter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getForeignId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -65,13 +72,6 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      */
     public void setId(Integer value) {
         set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
-     */
-    public Integer getForeignId() {
-        return (Integer) get(1);
     }
 
     /**
@@ -105,17 +105,17 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
-     */
-    public void setSynonymtypeId(Integer value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.synonyms.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
+     */
+    public void setSynonymtypeId(Integer value) {
+        set(2, value);
     }
 
     /**

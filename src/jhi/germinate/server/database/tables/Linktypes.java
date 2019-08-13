@@ -33,11 +33,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Linktypes extends TableImpl<LinktypesRecord> {
 
+    private static final long serialVersionUID = 1217469456;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.linktypes</code>
      */
     public static final Linktypes LINKTYPES = new Linktypes();
-    private static final long serialVersionUID = 1217469456;
 
     /**
      * The class holding records for this type
@@ -46,6 +47,7 @@ public class Linktypes extends TableImpl<LinktypesRecord> {
     public Class<LinktypesRecord> getRecordType() {
         return LinktypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

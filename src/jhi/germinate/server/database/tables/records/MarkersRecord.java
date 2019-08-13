@@ -37,6 +37,13 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised MarkersRecord
      */
     public MarkersRecord(Integer id, Integer markertypeId, String markerName, Timestamp createdOn, Timestamp updatedOn) {
@@ -50,10 +57,17 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getMarkertypeId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     */
+    public void setMarkerName(String value) {
+        set(2, value);
     }
 
     /**
@@ -64,10 +78,11 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
+
      */
-    public Integer getMarkertypeId() {
-        return (Integer) get(1);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,26 +100,11 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
-     */
-    public void setMarkerName(String value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
 
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
-
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------

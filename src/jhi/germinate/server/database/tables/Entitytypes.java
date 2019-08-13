@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Entitytypes extends TableImpl<EntitytypesRecord> {
 
+    private static final long serialVersionUID = -411887210;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.entitytypes</code>
      */
     public static final Entitytypes ENTITYTYPES = new Entitytypes();
-    private static final long serialVersionUID = -411887210;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Entitytypes extends TableImpl<EntitytypesRecord> {
     public Class<EntitytypesRecord> getRecordType() {
         return EntitytypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.entitytypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

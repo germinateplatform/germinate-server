@@ -30,11 +30,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonyms extends TableImpl<SynonymsRecord> {
 
+    private static final long serialVersionUID = 2040240416;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.synonyms</code>
      */
     public static final Synonyms SYNONYMS = new Synonyms();
-    private static final long serialVersionUID = 2040240416;
 
     /**
      * The class holding records for this type
@@ -43,6 +44,7 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
     public Class<SynonymsRecord> getRecordType() {
         return SynonymsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
 

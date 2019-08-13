@@ -41,6 +41,13 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised PedigreesRecord
      */
     public PedigreesRecord(Integer id, Integer germinatebaseId, Integer parentId, PedigreesRelationshipType relationshipType, Integer pedigreedescriptionId, String relationshipDescription, Timestamp createdOn, Timestamp updatedOn) {
@@ -57,38 +64,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
-     */
-    public Integer getParentId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -99,10 +78,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * Setter for <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PedigreesRelationshipType getRelationshipType() {
-        return (PedigreesRelationshipType) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -113,10 +92,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
+     * Setter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public Integer getPedigreedescriptionId() {
-        return (Integer) get(4);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -127,6 +106,20 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
+     */
+    public Integer getParentId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     */
+    public PedigreesRelationshipType getRelationshipType() {
+        return (PedigreesRelationshipType) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
     public String getRelationshipDescription() {
@@ -134,10 +127,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Getter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
      */
-    public void setRelationshipDescription(String value) {
-        set(5, value);
+    public Integer getPedigreedescriptionId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -145,6 +138,13 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     */
+    public void setRelationshipDescription(String value) {
+        set(5, value);
     }
 
     /**

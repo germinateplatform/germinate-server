@@ -12,7 +12,7 @@ import jhi.germinate.resource.*;
 /**
  * @author Sebastian Raubach
  */
-public class PaginatedServerResource extends ServerResource
+public class PaginatedServerResource extends BaseServerResource
 {
 	public static final String PARAM_PREVIOUS_COUNT = "prevCount";
 	public static final String PARAM_PAGE           = "page";

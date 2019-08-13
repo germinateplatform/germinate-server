@@ -20,10 +20,30 @@ import static jhi.germinate.server.database.tables.Maps.*;
  */
 public class MapResource extends PaginatedServerResource
 {
+	private Integer mapId;
+
+	@Override
+	protected void doInit()
+		throws ResourceException
+	{
+		super.doInit();
+
+		try
+		{
+			this.mapId = Integer.parseInt(getRequestAttributes().get("mapId").toString());
+		}
+		catch (NullPointerException | NumberFormatException e)
+		{
+		}
+	}
+
 	@Get("json")
 	public PaginatedResult<List<Maps>> getJson()
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+
+		if (userDetails == null)
+			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
@@ -37,6 +57,9 @@ public class MapResource extends PaginatedServerResource
 
 			from.where(MAPS.VISIBILITY.eq((byte) 1)
 									  .or(MAPS.USER_ID.eq(userDetails.getId())));
+
+			if (mapId != null)
+				from.where(MAPS.ID.eq(mapId));
 
 			List<Maps> result = setPaginationAndOrderBy(from)
 				.fetch()

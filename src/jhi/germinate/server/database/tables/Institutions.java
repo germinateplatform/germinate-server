@@ -30,11 +30,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Institutions extends TableImpl<InstitutionsRecord> {
 
+    private static final long serialVersionUID = -1937239775;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.institutions</code>
      */
     public static final Institutions INSTITUTIONS = new Institutions();
-    private static final long serialVersionUID = -1937239775;
 
     /**
      * The class holding records for this type
@@ -43,6 +44,7 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
     public Class<InstitutionsRecord> getRecordType() {
         return InstitutionsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
      */

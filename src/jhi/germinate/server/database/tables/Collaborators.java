@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collaborators extends TableImpl<CollaboratorsRecord> {
 
+    private static final long serialVersionUID = -1013735807;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.collaborators</code>
      */
     public static final Collaborators COLLABORATORS = new Collaborators();
-    private static final long serialVersionUID = -1013735807;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Collaborators extends TableImpl<CollaboratorsRecord> {
     public Class<CollaboratorsRecord> getRecordType() {
         return CollaboratorsRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.collaborators.id</code>.
      */

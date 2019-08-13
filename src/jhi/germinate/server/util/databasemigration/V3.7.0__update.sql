@@ -32,4 +32,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_germplasm` AS
 DROP VIEW IF EXISTS `view_table_maps`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_maps` AS select `maps`.`id` AS `mapId`,`maps`.`name` AS `mapName`,`maps`.`description` AS `mapDescription`,`maps`.`user_id` AS `userId`,`maps`.`visibility` AS `visibility`,count(1) AS `markerCount` from (`maps` left join `mapdefinitions` on((`maps`.`id` = `mapdefinitions`.`map_id`))) group by `maps`.`id`;
 
+DROP VIEW IF EXISTS `view_table_mapdefinitions`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_maps` AS select `markers`.`id` AS `markerId`,`markers`.`marker_name` AS `markerName`,`synonyms`.`synonyms` AS `synonyms`,`mapfeaturetypes`.`description` AS `mapFeatureType`,`maps`.`id` AS `mapId`,`maps`.`user_id` AS `userId`,`maps`.`visibility` AS `visibility`,`maps`.`name` AS `mapName`,`mapdefinitions`.`chromosome` AS `chromosome`,`mapdefinitions`.`definition_start` AS `position` from ((((`markers` left join `mapdefinitions` on((`markers`.`id` = `mapdefinitions`.`marker_id`))) left join `mapfeaturetypes` on((`mapfeaturetypes`.`id` = `mapdefinitions`.`mapfeaturetype_id`))) left join `maps` on((`maps`.`id` = `mapdefinitions`.`map_id`))) left join `synonyms` on(((`synonyms`.`foreign_id` = `markers`.`id`) and (`synonyms`.`synonymtype_id` = 2))));
+
 SET FOREIGN_KEY_CHECKS=1;

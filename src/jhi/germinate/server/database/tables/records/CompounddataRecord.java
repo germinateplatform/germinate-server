@@ -38,6 +38,13 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised CompounddataRecord
      */
     public CompounddataRecord(Integer id, Integer compoundId, Integer germinatebaseId, Integer datasetId, Integer analysismethodId, BigDecimal compoundValue, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn) {
@@ -55,38 +62,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
     public Integer getCompoundId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
-     */
-    public void setCompoundId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public Integer getGerminatebaseId() {
-        return (Integer) get(2);
     }
 
     /**
@@ -97,10 +76,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -111,10 +90,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
+     * Setter for <code>germinate_template_3_7_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
-    public Integer getAnalysismethodId() {
-        return (Integer) get(4);
+    public void setCompoundId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -125,10 +104,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Getter for <code>germinate_template_3_7_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public BigDecimal getCompoundValue() {
-        return (BigDecimal) get(5);
+    public Integer getGerminatebaseId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -139,6 +118,20 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
+     */
+    public Integer getDatasetId() {
+        return (Integer) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
+     */
+    public Integer getAnalysismethodId() {
+        return (Integer) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public Timestamp getRecordingDate() {
@@ -146,10 +139,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_3_7_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
-    public void setRecordingDate(Timestamp value) {
-        set(6, value);
+    public BigDecimal getCompoundValue() {
+        return (BigDecimal) get(5);
     }
 
     /**
@@ -157,6 +150,13 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     */
+    public void setRecordingDate(Timestamp value) {
+        set(6, value);
     }
 
     /**

@@ -30,11 +30,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
 
+    private static final long serialVersionUID = -550733399;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.mapfeaturetypes</code>
      */
     public static final Mapfeaturetypes MAPFEATURETYPES = new Mapfeaturetypes();
-    private static final long serialVersionUID = -550733399;
 
     /**
      * The class holding records for this type
@@ -43,6 +44,7 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
     public Class<MapfeaturetypesRecord> getRecordType() {
         return MapfeaturetypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

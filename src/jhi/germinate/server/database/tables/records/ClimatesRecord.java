@@ -39,6 +39,13 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ClimatesRecord
      */
     public ClimatesRecord(Integer id, String name, String shortName, String description, ClimatesDatatype datatype, Integer unitId, Timestamp createdOn, Timestamp updatedOn) {
@@ -55,38 +62,10 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.climates.name</code>. Describes the climate.
      */
     public String getName() {
         return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climates.name</code>. Describes the climate.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
-     */
-    public String getShortName() {
-        return (String) get(2);
     }
 
     /**
@@ -97,10 +76,10 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climates.description</code>. A longer description of the climate.
+     * Setter for <code>germinate_template_3_7_0.climates.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getDescription() {
-        return (String) get(3);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -111,10 +90,10 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
+     * Setter for <code>germinate_template_3_7_0.climates.name</code>. Describes the climate.
      */
-    public ClimatesDatatype getDatatype() {
-        return (ClimatesDatatype) get(4);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -122,6 +101,20 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
      */
     public void setDatatype(ClimatesDatatype value) {
         set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
+     */
+    public String getShortName() {
+        return (String) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.climates.description</code>. A longer description of the climate.
+     */
+    public String getDescription() {
+        return (String) get(3);
     }
 
     /**
@@ -133,11 +126,10 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climates.unit_id</code>. Foreign key to units (units.id).
-
+     * Getter for <code>germinate_template_3_7_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
-    public void setUnitId(Integer value) {
-        set(5, value);
+    public ClimatesDatatype getDatatype() {
+        return (ClimatesDatatype) get(4);
     }
 
     /**
@@ -145,6 +137,14 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climates.unit_id</code>. Foreign key to units (units.id).
+
+     */
+    public void setUnitId(Integer value) {
+        set(5, value);
     }
 
     /**

@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locationtypes extends TableImpl<LocationtypesRecord> {
 
+    private static final long serialVersionUID = -600018013;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.locationtypes</code>
      */
     public static final Locationtypes LOCATIONTYPES = new Locationtypes();
-    private static final long serialVersionUID = -600018013;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
     public Class<LocationtypesRecord> getRecordType() {
         return LocationtypesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */

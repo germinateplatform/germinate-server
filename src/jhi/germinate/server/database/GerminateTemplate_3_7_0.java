@@ -27,11 +27,13 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GerminateTemplate_3_7_0 extends SchemaImpl {
 
+    private static final long serialVersionUID = -432525064;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0</code>
      */
     public static final GerminateTemplate_3_7_0 GERMINATE_TEMPLATE_3_7_0 = new GerminateTemplate_3_7_0();
-    private static final long serialVersionUID = -886658059;
+
     /**
      * The table <code>germinate_template_3_7_0.analysismethods</code>.
      */
@@ -414,6 +416,11 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     /**
      * VIEW
      */
+    public final ViewTableMapdefinitions VIEW_TABLE_MAPDEFINITIONS = jhi.germinate.server.database.tables.ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS;
+
+    /**
+     * VIEW
+     */
     public final ViewTableMaps VIEW_TABLE_MAPS = jhi.germinate.server.database.tables.ViewTableMaps.VIEW_TABLE_MAPS;
 
     /**
@@ -511,6 +518,7 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
             Usergroups.USERGROUPS,
             ViewMcpd.VIEW_MCPD,
             ViewTableGermplasm.VIEW_TABLE_GERMPLASM,
+            ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS,
             ViewTableMaps.VIEW_TABLE_MAPS);
     }
 }

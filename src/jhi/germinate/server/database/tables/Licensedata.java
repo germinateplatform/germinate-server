@@ -29,11 +29,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Licensedata extends TableImpl<LicensedataRecord> {
 
+    private static final long serialVersionUID = 370293031;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.licensedata</code>
      */
     public static final Licensedata LICENSEDATA = new Licensedata();
-    private static final long serialVersionUID = 370293031;
 
     /**
      * The class holding records for this type
@@ -42,6 +43,7 @@ public class Licensedata extends TableImpl<LicensedataRecord> {
     public Class<LicensedataRecord> getRecordType() {
         return LicensedataRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.licensedata.id</code>.
      */

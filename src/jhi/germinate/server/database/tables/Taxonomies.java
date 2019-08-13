@@ -31,11 +31,12 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Taxonomies extends TableImpl<TaxonomiesRecord> {
 
+    private static final long serialVersionUID = -1341062298;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.taxonomies</code>
      */
     public static final Taxonomies TAXONOMIES = new Taxonomies();
-    private static final long serialVersionUID = -1341062298;
 
     /**
      * The class holding records for this type
@@ -44,6 +45,7 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
     public Class<TaxonomiesRecord> getRecordType() {
         return TaxonomiesRecord.class;
     }
+
     /**
      * The column <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
      */

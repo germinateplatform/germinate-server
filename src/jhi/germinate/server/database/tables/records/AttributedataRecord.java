@@ -41,6 +41,13 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised AttributedataRecord
      */
     public AttributedataRecord(Integer id, Integer attributeId, Integer foreignId, String value, Timestamp createdOn, Timestamp updatedOn) {
@@ -55,10 +62,17 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public Integer getAttributeId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     */
+    public void setForeignId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -69,10 +83,10 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
+     * Setter for <code>germinate_template_3_7_0.attributedata.value</code>. The value of the attribute.
      */
-    public Integer getAttributeId() {
-        return (Integer) get(1);
+    public void setValue(String value) {
+        set(3, value);
     }
 
     /**
@@ -90,10 +104,10 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_3_7_0.attributedata.created_on</code>. When the record was created.
      */
-    public void setForeignId(Integer value) {
-        set(2, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     /**
@@ -101,20 +115,6 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
      */
     public String getValue() {
         return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.attributedata.value</code>. The value of the attribute.
-     */
-    public void setValue(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.attributedata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     /**
