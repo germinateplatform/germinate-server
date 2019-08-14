@@ -73,6 +73,13 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.markertypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
@@ -84,13 +91,6 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
      */
     public String getDescription() {
         return (String) get(1);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.markertypes.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
     }
 
     // -------------------------------------------------------------------------

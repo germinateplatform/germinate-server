@@ -108,27 +108,6 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
-     */
-    public Integer getMarkerId() {
-        return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
-     */
-    public void setDefinitionEnd(Double value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
-     */
-    public Integer getMapId() {
-        return (Integer) get(3);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public Double getDefinitionStart() {
@@ -136,10 +115,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
-    public String getChromosome() {
-        return (String) get(6);
+    public Integer getMarkerId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -150,13 +129,6 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
-     */
-    public String getArmImpute() {
-        return (String) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public void setChromosome(String value) {
@@ -164,10 +136,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
+    public Integer getMapId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -178,10 +150,38 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     */
+    public void setDefinitionEnd(Double value) {
+        set(5, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(8, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     */
+    public String getChromosome() {
+        return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     */
+    public String getArmImpute() {
+        return (String) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------

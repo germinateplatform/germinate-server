@@ -70,6 +70,13 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
+     */
+    public Integer getUserId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.licenselogs.id</code>.
      */
     public void setId(Integer value) {
@@ -81,13 +88,6 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
      */
     public Integer getLicenseId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
     }
 
     // -------------------------------------------------------------------------

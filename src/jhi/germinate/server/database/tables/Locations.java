@@ -37,6 +37,7 @@ public class Locations extends TableImpl<LocationsRecord> {
      * The reference instance of <code>germinate_template_3_7_0.locations</code>
      */
     public static final Locations LOCATIONS = new Locations();
+
     /**
      * The column <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */

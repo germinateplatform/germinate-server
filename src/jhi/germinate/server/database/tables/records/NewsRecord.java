@@ -103,27 +103,6 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
-     */
-    public String getTitle() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
-     */
-    public void setHyperlink(String value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
-     */
-    public String getContent() {
-        return (String) get(3);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.news.image</code>. Image to use with this news item.
      */
     public String getImage() {
@@ -131,10 +110,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.user_id</code>. Foreign key users (users.id).
+     * Getter for <code>germinate_template_3_7_0.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
      */
-    public Integer getUserId() {
-        return (Integer) get(6);
+    public String getTitle() {
+        return (String) get(2);
     }
 
     /**
@@ -145,13 +124,6 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.news.user_id</code>. Foreign key users (users.id).
      */
     public void setUserId(Integer value) {
@@ -159,10 +131,38 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
+     */
+    public String getContent() {
+        return (String) get(3);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(7, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
+     */
+    public void setHyperlink(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.news.user_id</code>. Foreign key users (users.id).
+     */
+    public Integer getUserId() {
+        return (Integer) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------

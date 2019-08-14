@@ -72,6 +72,13 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.treatments.description</code>. A longer descripiton of the treatment. This should include enough information to be able to identify what the treatment was and why it was applied.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.treatments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
@@ -79,10 +86,10 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.treatments.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.treatments.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
@@ -93,17 +100,10 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.treatments.description</code>. A longer descripiton of the treatment. This should include enough information to be able to identify what the treatment was and why it was applied.
+     * Setter for <code>germinate_template_3_7_0.treatments.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.treatments.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------

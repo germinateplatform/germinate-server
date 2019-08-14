@@ -74,27 +74,6 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
-     */
-    public void setAuthor(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
      */
     public String getDescription() {
@@ -102,10 +81,10 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -120,6 +99,27 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
+     */
+    public void setName(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     */
+    public void setAuthor(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

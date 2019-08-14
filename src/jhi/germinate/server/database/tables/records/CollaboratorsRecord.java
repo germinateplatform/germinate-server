@@ -88,27 +88,6 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
-     */
-    public void setFirstName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
-     */
-    public void setPhone(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
-     */
-    public String getLastName() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.collaborators.email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public String getEmail() {
@@ -116,10 +95,10 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
+     * Setter for <code>germinate_template_3_7_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public Integer getInstitutionId() {
-        return (Integer) get(5);
+    public void setFirstName(String value) {
+        set(1, value);
     }
 
     /**
@@ -130,13 +109,6 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
      */
     public void setInstitutionId(Integer value) {
@@ -144,10 +116,38 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     */
+    public String getLastName() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.collaborators.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     */
+    public void setPhone(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
+     */
+    public Integer getInstitutionId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.collaborators.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

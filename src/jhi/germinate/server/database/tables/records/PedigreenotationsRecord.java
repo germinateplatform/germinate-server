@@ -73,27 +73,6 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
-     */
-    public void setReferenceUrl(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.pedigreenotations.description</code>. A longer description about the reference notation source.
      */
     public String getDescription() {
@@ -101,10 +80,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -119,6 +98,27 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
+     */
+    public void setName(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     */
+    public void setReferenceUrl(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

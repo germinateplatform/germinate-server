@@ -106,27 +106,6 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
-     */
-    public String getSpecies() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
-     */
-    public void setSubtaxaAuthor(String value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
-     */
-    public String getSubtaxa() {
-        return (String) get(3);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
      */
     public String getSpeciesAuthor() {
@@ -134,10 +113,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     * Getter for <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
      */
-    public String getCropname() {
-        return (String) get(6);
+    public String getSpecies() {
+        return (String) get(2);
     }
 
     /**
@@ -148,13 +127,6 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
-     */
-    public Integer getPloidy() {
-        return (Integer) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public void setCropname(String value) {
@@ -162,10 +134,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
+    public String getSubtaxa() {
+        return (String) get(3);
     }
 
     /**
@@ -176,10 +148,38 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     */
+    public void setSubtaxaAuthor(String value) {
+        set(5, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(8, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     */
+    public String getCropname() {
+        return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     */
+    public Integer getPloidy() {
+        return (Integer) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------

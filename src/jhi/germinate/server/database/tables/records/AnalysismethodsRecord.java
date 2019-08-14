@@ -85,6 +85,13 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.analysismethods.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.analysismethods.name</code>. The name of the analysis method.
      */
     public void setName(String value) {
@@ -96,13 +103,6 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
      */
     public String getDescription() {
         return (String) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.analysismethods.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------

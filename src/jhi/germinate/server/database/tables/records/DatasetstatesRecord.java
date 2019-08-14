@@ -71,6 +71,13 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetstates.description</code>. Describes the datasetstate.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
@@ -78,10 +85,10 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
@@ -92,17 +99,10 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetstates.description</code>. Describes the datasetstate.
+     * Setter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetstates.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------

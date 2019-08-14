@@ -71,6 +71,13 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licenses.description</code>.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.licenses.id</code>.
      */
     public void setId(Integer value) {
@@ -78,10 +85,10 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
@@ -92,17 +99,10 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenses.description</code>.
+     * Setter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------

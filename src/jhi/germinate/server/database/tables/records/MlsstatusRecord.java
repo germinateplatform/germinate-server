@@ -70,6 +70,13 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
      */
     public void setId(Integer value) {
@@ -81,13 +88,6 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
      */
     public String getDescription() {
         return (String) get(1);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
     }
 
     // -------------------------------------------------------------------------

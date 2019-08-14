@@ -72,27 +72,6 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.id</code>.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
-     */
-    public void setDatasetmembertypeId(Integer value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
-     */
-    public void setDatasetId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.datasetmembers.foreign_id</code>.
      */
     public Integer getForeignId() {
@@ -100,10 +79,10 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.id</code>.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -118,6 +97,27 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
+     */
+    public void setDatasetId(Integer value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
+     */
+    public void setDatasetmembertypeId(Integer value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

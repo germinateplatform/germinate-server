@@ -90,27 +90,6 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
-     */
-    public void setLinktypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.links.description</code>. A description of the link.
-     */
-    public void setDescription(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.links.foreign_id</code>.
-     */
-    public Integer getForeignId() {
-        return (Integer) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.links.hyperlink</code>. The actual hyperlink.
      */
     public String getHyperlink() {
@@ -118,10 +97,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
+     * Setter for <code>germinate_template_3_7_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
      */
-    public Byte getVisibility() {
-        return (Byte) get(5);
+    public void setLinktypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -132,13 +111,6 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.links.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
      */
     public void setVisibility(Byte value) {
@@ -146,10 +118,38 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.links.foreign_id</code>.
+     */
+    public Integer getForeignId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.links.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.links.description</code>. A description of the link.
+     */
+    public void setDescription(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
+     */
+    public Byte getVisibility() {
+        return (Byte) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.links.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

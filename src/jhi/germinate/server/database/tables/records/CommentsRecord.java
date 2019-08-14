@@ -89,27 +89,6 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
-     */
-    public void setCommenttypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
-     */
-    public void setDescription(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
     public Byte getVisibility() {
@@ -117,10 +96,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
-    public Integer getReferenceId() {
-        return (Integer) get(5);
+    public void setCommenttypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -131,13 +110,6 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
      */
     public void setReferenceId(Integer value) {
@@ -145,10 +117,38 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getUserId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.comments.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
+     */
+    public void setDescription(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     */
+    public Integer getReferenceId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.comments.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

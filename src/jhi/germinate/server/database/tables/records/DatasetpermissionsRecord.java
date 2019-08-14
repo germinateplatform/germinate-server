@@ -73,27 +73,6 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
-     */
-    public void setGroupId(Integer value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
-     */
-    public void setDatasetId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.datasetpermissions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper usersid).
      */
     public Integer getUserId() {
@@ -101,10 +80,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -119,6 +98,27 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
+     */
+    public void setDatasetId(Integer value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
+     */
+    public void setGroupId(Integer value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

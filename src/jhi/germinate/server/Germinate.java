@@ -12,6 +12,7 @@ import java.util.*;
 
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
@@ -91,6 +92,7 @@ public class Germinate extends Application
 		corsFilter.setAllowedCredentials(true);
 
 		// Attach the url handlers
+		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);

@@ -73,27 +73,6 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.countries.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
-     */
-    public void setCountryCode2(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.countries.country_code3</code>. ISO 3 Code for country.
      */
     public String getCountryCode3() {
@@ -101,10 +80,10 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.countries.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -119,6 +98,27 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
+     */
+    public void setCountryCode2(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.countries.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.countries.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

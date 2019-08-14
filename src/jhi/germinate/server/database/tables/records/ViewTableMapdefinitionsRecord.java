@@ -35,6 +35,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerId</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getMarkerid() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ViewTableMapdefinitionsRecord
      */
     public ViewTableMapdefinitionsRecord(Integer markerid, String markername, Object synonyms, String mapfeaturetype, Integer mapid, Integer userid, Byte visibility, String mapname, String chromosome, Double position) {
@@ -53,20 +60,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerId</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getMarkerid() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerId</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setMarkerid(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerName</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public String getMarkername() {
@@ -74,10 +67,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerName</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerId</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public void setMarkername(String value) {
-        set(1, value);
+    public void setMarkerid(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -89,21 +82,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setSynonyms(Object value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapFeatureType</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
-     */
-    public String getMapfeaturetype() {
-        return (String) get(3);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapFeatureType</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public void setMapfeaturetype(String value) {
@@ -111,10 +89,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapId</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerName</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
-    public Integer getMapid() {
-        return (Integer) get(4);
+    public void setMarkername(String value) {
+        set(1, value);
     }
 
     /**
@@ -125,10 +103,11 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
      */
-    public Integer getUserid() {
-        return (Integer) get(5);
+    @java.lang.Deprecated
+    public void setSynonyms(Object value) {
+        set(2, value);
     }
 
     /**
@@ -139,10 +118,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapFeatureType</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
-    public Byte getVisibility() {
-        return (Byte) get(6);
+    public String getMapfeaturetype() {
+        return (String) get(3);
     }
 
     /**
@@ -153,6 +132,20 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapId</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getMapid() {
+        return (Integer) get(4);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getUserid() {
+        return (Integer) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
      */
     public String getMapname() {
@@ -160,10 +153,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
-    public void setMapname(String value) {
-        set(7, value);
+    public Byte getVisibility() {
+        return (Byte) get(6);
     }
 
     /**
@@ -171,6 +164,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      */
     public String getChromosome() {
         return (String) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
+     */
+    public void setMapname(String value) {
+        set(7, value);
     }
 
     /**
@@ -183,20 +183,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     // -------------------------------------------------------------------------
     // Record10 type implementation
     // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
-     */
-    public Double getPosition() {
-        return (Double) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
-     */
-    public void setPosition(Double value) {
-        set(9, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -539,10 +525,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -568,5 +550,23 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     */
+    public Double getPosition() {
+        return (Double) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     */
+    public void setPosition(Double value) {
+        set(9, value);
     }
 }

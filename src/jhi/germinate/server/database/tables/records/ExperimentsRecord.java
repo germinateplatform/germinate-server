@@ -89,28 +89,6 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_name</code>. The name of the experiment.
-     */
-    public void setExperimentName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
-     */
-    public void setExperimentDate(Date value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
-
-     */
-    public Integer getUserId() {
-        return (Integer) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.experiments.description</code>. Describes the experiment.
      */
     public String getDescription() {
@@ -118,11 +96,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
-
+     * Setter for <code>germinate_template_3_7_0.experiments.experiment_name</code>. The name of the experiment.
      */
-    public Integer getExperimentTypeId() {
-        return (Integer) get(5);
+    public void setExperimentName(String value) {
+        set(1, value);
     }
 
     /**
@@ -130,13 +107,6 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
      */
     public Date getExperimentDate() {
         return (Date) get(4);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     /**
@@ -148,10 +118,40 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+
+     */
+    public Integer getUserId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     */
+    public void setExperimentDate(Date value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
+
+     */
+    public Integer getExperimentTypeId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

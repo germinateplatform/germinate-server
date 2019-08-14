@@ -89,27 +89,6 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
-     */
-    public void setLocationId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
-     */
-    public void setIsFinal(Byte value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
-     */
-    public Integer getSourceId() {
-        return (Integer) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.megaenvironment_id</code>. Foreign key to megaenvironments (megaenvironments.id).
      */
     public Integer getMegaenvironmentId() {
@@ -117,10 +96,10 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
+    public void setLocationId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -135,6 +114,27 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      */
     public void setCreatedOn(Timestamp value) {
         set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
+     */
+    public Integer getSourceId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
+     */
+    public void setIsFinal(Byte value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

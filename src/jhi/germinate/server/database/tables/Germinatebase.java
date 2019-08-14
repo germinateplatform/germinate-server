@@ -37,6 +37,7 @@ public class Germinatebase extends TableImpl<GerminatebaseRecord> {
      * The reference instance of <code>germinate_template_3_7_0.germinatebase</code>
      */
     public static final Germinatebase GERMINATEBASE = new Germinatebase();
+
     /**
      * The column <code>germinate_template_3_7_0.germinatebase.colldate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].

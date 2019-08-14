@@ -92,27 +92,6 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
-     */
-    public void setPedigreedescriptionId(Integer value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
-     */
-    public Integer getParentId() {
-        return (Integer) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
     public PedigreesRelationshipType getRelationshipType() {
@@ -120,10 +99,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Setter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public String getRelationshipDescription() {
-        return (String) get(5);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -134,13 +113,6 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
     public void setRelationshipDescription(String value) {
@@ -148,10 +120,38 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
+     */
+    public Integer getParentId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.pedigrees.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
+     */
+    public void setPedigreedescriptionId(Integer value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     */
+    public String getRelationshipDescription() {
+        return (String) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

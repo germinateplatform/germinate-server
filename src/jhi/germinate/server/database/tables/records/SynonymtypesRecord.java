@@ -72,27 +72,6 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.description</code>. Description of the type.
-     */
-    public void setDescription(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.target_table</code>. The target table.
-     */
-    public void setTargetTable(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.synonymtypes.name</code>. Name of the synonym type.
      */
     public String getName() {
@@ -100,10 +79,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonymtypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -118,6 +97,27 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.target_table</code>. The target table.
+     */
+    public void setTargetTable(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.description</code>. Description of the type.
+     */
+    public void setDescription(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.synonymtypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

@@ -71,6 +71,13 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.usergroups.description</code>. A description of the user group.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.usergroups.id</code>.
      */
     public void setId(Integer value) {
@@ -78,10 +85,10 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
@@ -92,17 +99,10 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroups.description</code>. A description of the user group.
+     * Setter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.usergroups.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------

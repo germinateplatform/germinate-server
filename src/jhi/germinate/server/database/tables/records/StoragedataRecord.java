@@ -71,6 +71,13 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.storagedata.storage_id</code>.
+     */
+    public Integer getStorageId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.storagedata.id</code>.
      */
     public void setId(Integer value) {
@@ -78,10 +85,10 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
     }
 
     /**
@@ -92,17 +99,10 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.storagedata.storage_id</code>.
+     * Setter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
      */
-    public Integer getStorageId() {
-        return (Integer) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.storagedata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------

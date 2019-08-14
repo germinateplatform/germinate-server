@@ -125,6 +125,20 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.locations.site_name</code>. The site name where the location is.
+     */
+    public String getSiteName() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     */
+    public void setSiteNameShort(String value) {
+        set(6, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
     public void setState(String value) {
@@ -139,52 +153,17 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
-     */
-    public String getSiteNameShort() {
-        return (String) get(6);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.elevation</code>. The elevation of the site in metres.
-     */
-    public void setElevation(BigDecimal value) {
-        set(7, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locations.site_name</code>. The site name where the location is.
-     */
-    public String getSiteName() {
-        return (String) get(5);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
-     */
-    public void setLatitude(BigDecimal value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
-     */
-    public void setSiteNameShort(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
-     */
-    public void setLongitude(BigDecimal value) {
-        set(9, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.locations.elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
         return (BigDecimal) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.locations.site_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     */
+    public String getSiteNameShort() {
+        return (String) get(6);
     }
 
     /**
@@ -195,10 +174,31 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locations.elevation</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
     public BigDecimal getLongitude() {
         return (BigDecimal) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     */
+    public void setLatitude(BigDecimal value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(9, value);
     }
 
     /**
@@ -230,17 +230,17 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locations.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(13, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
     public void setCoordinateDatum(String value) {
         set(11, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locations.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(13);
     }
 
     /**
@@ -251,10 +251,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.locations.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(13, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(13);
     }
 
     // -------------------------------------------------------------------------

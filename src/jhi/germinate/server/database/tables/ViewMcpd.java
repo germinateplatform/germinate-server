@@ -34,6 +34,7 @@ public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
      * The reference instance of <code>germinate_template_3_7_0.view_mcpd</code>
      */
     public static final ViewMcpd VIEW_MCPD = new ViewMcpd();
+
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */

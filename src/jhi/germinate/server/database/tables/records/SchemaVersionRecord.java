@@ -104,27 +104,6 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.description</code>.
-     */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.checksum</code>.
-     */
-    public void setChecksum(Integer value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
-     */
-    public String getType() {
-        return (String) get(3);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.schema_version.script</code>.
      */
     public String getScript() {
@@ -132,10 +111,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.installed_by</code>.
+     * Getter for <code>germinate_template_3_7_0.schema_version.description</code>.
      */
-    public String getInstalledBy() {
-        return (String) get(6);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -146,13 +125,6 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.installed_on</code>.
-     */
-    public Timestamp getInstalledOn() {
-        return (Timestamp) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.schema_version.installed_by</code>.
      */
     public void setInstalledBy(String value) {
@@ -160,10 +132,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
+     * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
      */
-    public Integer getExecutionTime() {
-        return (Integer) get(8);
+    public String getType() {
+        return (String) get(3);
     }
 
     /**
@@ -174,10 +146,38 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.schema_version.checksum</code>.
+     */
+    public void setChecksum(Integer value) {
+        set(5, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
      */
     public void setExecutionTime(Integer value) {
         set(8, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.schema_version.installed_by</code>.
+     */
+    public String getInstalledBy() {
+        return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.schema_version.installed_on</code>.
+     */
+    public Timestamp getInstalledOn() {
+        return (Timestamp) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
+     */
+    public Integer getExecutionTime() {
+        return (Integer) get(8);
     }
 
     // -------------------------------------------------------------------------

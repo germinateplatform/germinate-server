@@ -104,27 +104,6 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
-     */
-    public Integer getGerminatebaseId() {
-        return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
-     */
-    public void setCompoundValue(BigDecimal value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
-     */
-    public Integer getDatasetId() {
-        return (Integer) get(3);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
      */
     public Integer getAnalysismethodId() {
@@ -132,10 +111,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_3_7_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public Timestamp getRecordingDate() {
-        return (Timestamp) get(6);
+    public Integer getGerminatebaseId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -146,13 +125,6 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public void setRecordingDate(Timestamp value) {
@@ -160,10 +132,38 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
+     */
+    public Integer getDatasetId() {
+        return (Integer) get(3);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(7, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     */
+    public void setCompoundValue(BigDecimal value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     */
+    public Timestamp getRecordingDate() {
+        return (Timestamp) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------

@@ -399,6 +399,11 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     /**
      * VIEW
      */
+    public static final ViewTableDatasets VIEW_TABLE_DATASETS = jhi.germinate.server.database.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
+
+    /**
+     * VIEW
+     */
     public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = jhi.germinate.server.database.tables.ViewTableGermplasm.VIEW_TABLE_GERMPLASM;
 
     /**

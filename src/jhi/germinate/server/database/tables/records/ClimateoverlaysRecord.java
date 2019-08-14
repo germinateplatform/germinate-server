@@ -120,6 +120,13 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_longitude</code>. Allows the allignment of images against OpenStreetMap API.
+     */
+    public Double getTopRightLongitude() {
+        return (Double) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_longitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
     public Double getBottomLeftLongitude() {
@@ -127,10 +134,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
-    public void setTopRightLatitude(Double value) {
-        set(6, value);
+    public Double getTopRightLatitude() {
+        return (Double) get(6);
     }
 
     /**
@@ -141,17 +148,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_longitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
-    public Double getTopRightLongitude() {
-        return (Double) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
-     */
-    public Double getTopRightLatitude() {
-        return (Double) get(6);
+    public void setTopRightLatitude(Double value) {
+        set(6, value);
     }
 
     /**

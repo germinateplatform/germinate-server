@@ -72,27 +72,6 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.id</code>.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
-     */
-    public void setContent(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
-     */
-    public void setLicenseId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.licensedata.locale_id</code>.
      */
     public Integer getLocaleId() {
@@ -100,10 +79,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.licensedata.id</code>.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -118,6 +97,27 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
+     */
+    public void setLicenseId(Integer value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
+     */
+    public void setContent(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

@@ -120,27 +120,6 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.acronym</code>. If there is an acronym for the institute.
-     */
-    public String getAcronym() {
-        return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
-     */
-    public void setPhone(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
-     */
-    public Integer getCountryId() {
-        return (Integer) get(4);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
      */
     public String getContact() {
@@ -148,10 +127,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.email</code>. The email address to contact the institute.
+     * Getter for <code>germinate_template_3_7_0.institutions.acronym</code>. If there is an acronym for the institute.
      */
-    public String getEmail() {
-        return (String) get(7);
+    public String getAcronym() {
+        return (String) get(3);
     }
 
     /**
@@ -162,13 +141,6 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
-     */
-    public String getAddress() {
-        return (String) get(8);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.institutions.email</code>. The email address to contact the institute.
      */
     public void setEmail(String value) {
@@ -176,10 +148,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(9);
+    public Integer getCountryId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -190,10 +162,38 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
+     */
+    public void setPhone(String value) {
+        set(6, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(9, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.institutions.email</code>. The email address to contact the institute.
+     */
+    public String getEmail() {
+        return (String) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     */
+    public String getAddress() {
+        return (String) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------

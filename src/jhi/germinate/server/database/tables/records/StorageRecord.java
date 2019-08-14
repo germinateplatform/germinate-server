@@ -70,6 +70,13 @@ public class StorageRecord extends UpdatableRecordImpl<StorageRecord> implements
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.storage.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.storage.id</code>.
      */
     public void setId(Integer value) {
@@ -81,13 +88,6 @@ public class StorageRecord extends UpdatableRecordImpl<StorageRecord> implements
      */
     public String getDescription() {
         return (String) get(1);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.storage.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(2);
     }
 
     // -------------------------------------------------------------------------

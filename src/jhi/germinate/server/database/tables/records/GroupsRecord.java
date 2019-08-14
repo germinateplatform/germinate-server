@@ -90,27 +90,6 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
-     */
-    public void setGrouptypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
-     */
-    public void setVisibility(Byte value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.groups.name</code>. The name of the group which can be used to identify it.
-     */
-    public String getName() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.groups.description</code>. A free text description of the group. This has no length limitations.
      */
     public String getDescription() {
@@ -118,10 +97,10 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_3_7_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
      */
-    public Integer getCreatedBy() {
-        return (Integer) get(5);
+    public void setGrouptypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -132,13 +111,6 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setCreatedBy(Integer value) {
@@ -146,10 +118,38 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.groups.name</code>. The name of the group which can be used to identify it.
+     */
+    public String getName() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     */
+    public void setVisibility(Byte value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getCreatedBy() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

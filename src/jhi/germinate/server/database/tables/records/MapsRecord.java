@@ -87,27 +87,6 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.maps.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.maps.description</code>. The name of this map.
-     */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public Byte getVisibility() {
@@ -115,10 +94,10 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -133,6 +112,27 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.maps.description</code>. The name of this map.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.maps.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

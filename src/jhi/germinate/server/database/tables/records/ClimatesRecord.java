@@ -90,27 +90,6 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climates.name</code>. Describes the climate.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
-     */
-    public void setDatatype(ClimatesDatatype value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
-     */
-    public String getShortName() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.climates.description</code>. A longer description of the climate.
      */
     public String getDescription() {
@@ -118,11 +97,10 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climates.unit_id</code>. Foreign key to units (units.id).
-
+     * Setter for <code>germinate_template_3_7_0.climates.name</code>. Describes the climate.
      */
-    public Integer getUnitId() {
-        return (Integer) get(5);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -130,13 +108,6 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
      */
     public ClimatesDatatype getDatatype() {
         return (ClimatesDatatype) get(4);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climates.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     /**
@@ -148,10 +119,39 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climates.short_name</code>. Shortened version of the climate name which is used in some table headers.
+     */
+    public String getShortName() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.climates.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
+     */
+    public void setDatatype(ClimatesDatatype value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.climates.unit_id</code>. Foreign key to units (units.id).
+
+     */
+    public Integer getUnitId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.climates.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

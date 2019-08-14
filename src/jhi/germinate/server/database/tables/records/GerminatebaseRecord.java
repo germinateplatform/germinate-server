@@ -100,34 +100,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.name</code>. A unique name which defines an entry in the germinatbase table.
-     */
-    public void setName(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.general_identifier</code>. A unique identifier.
-     */
-    public String getGeneralIdentifier() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.bank_number</code>. Alternative genebank number.
-     */
-    public void setBankNumber(String value) {
-        set(4, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
 entered into the genebank collection (e.g. ‘PI 113869’).
      */
@@ -136,10 +108,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.breeders_code</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.germinatebase.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public void setBreedersCode(String value) {
-        set(5, value);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -150,6 +122,13 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.general_identifier</code>. A unique identifier.
+     */
+    public String getGeneralIdentifier() {
+        return (String) get(1);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.bank_number</code>. Alternative genebank number.
      */
     public String getBankNumber() {
@@ -157,10 +136,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.breeders_name</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.germinatebase.name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public String getBreedersName() {
-        return (String) get(6);
+    public void setName(String value) {
+        set(3, value);
     }
 
     /**
@@ -171,17 +150,38 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.taxonomy_id</code>. Foreign key to taxonomies (taxonomies.id).
-     */
-    public Integer getTaxonomyId() {
-        return (Integer) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.breeders_name</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
      */
     public void setBreedersName(String value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.bank_number</code>. Alternative genebank number.
+     */
+    public void setBankNumber(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.breeders_code</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     */
+    public void setBreedersCode(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.breeders_name</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
+     */
+    public String getBreedersName() {
+        return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.taxonomy_id</code>. Foreign key to taxonomies (taxonomies.id).
+     */
+    public Integer getTaxonomyId() {
+        return (Integer) get(7);
     }
 
     /**
@@ -272,6 +272,15 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.collnumb</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
+identifying duplicates held in different collections.
+     */
+    public String getCollnumb() {
+        return (String) get(14);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.donor_number</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
      */
     public void setDonorNumber(String value) {
@@ -287,15 +296,6 @@ DD is the day. Missing data (MM or DD) should be indicated with hyphens or ‘00
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.collnumb</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
-initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
-identifying duplicates held in different collections.
-     */
-    public String getCollnumb() {
-        return (String) get(14);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.collcode</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
 material, the collecting institute code (COLLCODE) should be the same as the holding institute
 code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
@@ -303,6 +303,16 @@ without space.
      */
     public void setCollcode(String value) {
         set(16, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.collcode</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
+material, the collecting institute code (COLLCODE) should be the same as the holding institute
+code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
+without space.
+     */
+    public String getCollcode() {
+        return (String) get(16);
     }
 
     /**
@@ -326,16 +336,6 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     public String getCollname() {
         return (String) get(17);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.collcode</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
-material, the collecting institute code (COLLCODE) should be the same as the holding institute
-code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
-without space.
-     */
-    public String getCollcode() {
-        return (String) get(16);
     }
 
     /**
@@ -411,34 +411,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.duplinstname</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
-     */
-    public void setDuplinstname(String value) {
-        set(21, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.biologicalstatus_id</code>. Foreign key to biologicalstatus (biologicalstaus.id).
-     */
-    public void setBiologicalstatusId(Integer value) {
-        set(24, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.mlsstatus_id</code>. Foreign key to mlsstatus (mlsstatus.id).
-     */
-    public Integer getMlsstatusId() {
-        return (Integer) get(22);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.collsrc_id</code>. Foreign key to collectionsources (collectionsources.id).
-     */
-    public void setCollsrcId(Integer value) {
-        set(25, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
      */
     public String getPuid() {
@@ -446,10 +418,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.location_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.germinatebase.duplinstname</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
      */
-    public void setLocationId(Integer value) {
-        set(26, value);
+    public void setDuplinstname(String value) {
+        set(21, value);
     }
 
     /**
@@ -460,10 +432,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.entitytype_id</code>. Foreign key to entitytypes (entitytypes.id).
+     * Getter for <code>germinate_template_3_7_0.germinatebase.mlsstatus_id</code>. Foreign key to mlsstatus (mlsstatus.id).
      */
-    public void setEntitytypeId(Integer value) {
-        set(27, value);
+    public Integer getMlsstatusId() {
+        return (Integer) get(22);
     }
 
     /**
@@ -474,6 +446,13 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.biologicalstatus_id</code>. Foreign key to biologicalstatus (biologicalstaus.id).
+     */
+    public void setBiologicalstatusId(Integer value) {
+        set(24, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.location_id</code>. Foreign key to locations (locations.id).
      */
     public Integer getLocationId() {
@@ -481,10 +460,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.entityparent_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_3_7_0.germinatebase.collsrc_id</code>. Foreign key to collectionsources (collectionsources.id).
      */
-    public Integer getEntityparentId() {
-        return (Integer) get(28);
+    public void setCollsrcId(Integer value) {
+        set(25, value);
     }
 
     /**
@@ -495,13 +474,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
-     */
-    public Double getPdci() {
-        return (Double) get(29);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.entityparent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public void setEntityparentId(Integer value) {
@@ -509,10 +481,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.germinatebase.location_id</code>. Foreign key to locations (locations.id).
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(30);
+    public void setLocationId(Integer value) {
+        set(26, value);
     }
 
     /**
@@ -523,10 +495,38 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.entitytype_id</code>. Foreign key to entitytypes (entitytypes.id).
+     */
+    public void setEntitytypeId(Integer value) {
+        set(27, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(30, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.entityparent_id</code>. Foreign key to germinatebase (germinatebase.id).
+     */
+    public Integer getEntityparentId() {
+        return (Integer) get(28);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public Double getPdci() {
+        return (Double) get(29);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(30);
     }
 
     // -------------------------------------------------------------------------

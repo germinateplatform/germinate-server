@@ -76,27 +76,6 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.attributedata.value</code>. The value of the attribute.
-     */
-    public void setValue(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
-     */
-    public void setAttributeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public Integer getForeignId() {
@@ -104,10 +83,10 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributedata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_3_7_0.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -122,6 +101,27 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
+     */
+    public void setAttributeId(Integer value) {
+        set(1, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.attributedata.value</code>. The value of the attribute.
+     */
+    public void setValue(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.attributedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

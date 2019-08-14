@@ -205,6 +205,15 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.collectorNumber</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
+identifying duplicates held in different collections.
+     */
+    public String getCollectornumber() {
+        return (String) get(10);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.biologicalStatusName</code>. Previoulsy known as sampstat.
      */
     public void setBiologicalstatusname(String value) {
@@ -212,10 +221,17 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
      */
-    public void setGenus(String value) {
-        set(11, value);
+    public String getGenus() {
+        return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
+     */
+    public void setSpecies(String value) {
+        set(12, value);
     }
 
     /**
@@ -227,57 +243,6 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.collectorNumber</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
-initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
-identifying duplicates held in different collections.
-     */
-    public String getCollectornumber() {
-        return (String) get(10);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
-     */
-    public String getSpecies() {
-        return (String) get(12);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
-     */
-    public String getGenus() {
-        return (String) get(11);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
-     */
-    public String getSubtaxa() {
-        return (String) get(13);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
-     */
-    public void setSpecies(String value) {
-        set(12, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
-     */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(14);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.countryName</code>. Country name.
-     */
-    public void setCountryname(String value) {
-        set(15, value);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
      */
     public void setSubtaxa(String value) {
@@ -285,10 +250,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
      */
-    public void setCountrycode(String value) {
-        set(16, value);
+    public void setGenus(String value) {
+        set(11, value);
     }
 
     /**
@@ -299,10 +264,31 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
+     */
+    public String getSpecies() {
+        return (String) get(12);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public String getSubtaxa() {
+        return (String) get(13);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryName</code>. Country name.
      */
     public String getCountryname() {
         return (String) get(15);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     */
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(14);
     }
 
     /**
@@ -313,10 +299,17 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.countryName</code>. Country name.
      */
-    public void setPdci(Double value) {
-        set(18, value);
+    public void setCountryname(String value) {
+        set(15, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
+     */
+    public void setCountrycode(String value) {
+        set(16, value);
     }
 
     /**
@@ -328,10 +321,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.imageCount</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
      */
-    public void setImagecount(Long value) {
-        set(19, value);
+    public Double getPdci() {
+        return (Double) get(18);
     }
 
     /**
@@ -343,28 +336,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
-     */
-    public Double getPdci() {
-        return (Double) get(18);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.imageCount</code>.
      */
     public Long getImagecount() {
         return (Long) get(19);
-    }
-
-    // -------------------------------------------------------------------------
-    // Record21 type implementation
-    // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.firstImagePath</code>.
-     */
-    public String getFirstimagepath() {
-        return (String) get(20);
     }
 
     /**
@@ -372,6 +347,31 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     public void setFirstimagepath(String value) {
         set(20, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(18, value);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record21 type implementation
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.imageCount</code>.
+     */
+    public void setImagecount(Long value) {
+        set(19, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.firstImagePath</code>.
+     */
+    public String getFirstimagepath() {
+        return (String) get(20);
     }
 
     /**
