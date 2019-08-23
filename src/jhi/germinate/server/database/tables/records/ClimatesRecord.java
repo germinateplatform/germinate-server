@@ -133,6 +133,13 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climates.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.climates.datatype</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
     public void setDatatype(ClimatesDatatype value) {
@@ -145,13 +152,6 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
      */
     public Integer getUnitId() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climates.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

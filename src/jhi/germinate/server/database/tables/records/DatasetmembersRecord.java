@@ -100,6 +100,13 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
      */
     public void setDatasetId(Integer value) {
@@ -111,13 +118,6 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
      */
     public void setDatasetmembertypeId(Integer value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetmembers.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

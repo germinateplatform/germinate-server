@@ -134,38 +134,17 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
-     */
-    public String getSubtaxa() {
-        return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
-     */
-    public void setPloidy(Integer value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
-     */
-    public void setSubtaxaAuthor(String value) {
-        set(5, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public String getCropname() {
         return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
+     */
+    public String getSubtaxa() {
+        return (String) get(3);
     }
 
     /**
@@ -176,10 +155,31 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     */
+    public void setSubtaxaAuthor(String value) {
+        set(5, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     */
+    public void setPloidy(Integer value) {
+        set(7, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------

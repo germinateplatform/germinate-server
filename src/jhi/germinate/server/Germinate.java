@@ -95,6 +95,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
+		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);
 		attachToRouter(routerAuth, "/map", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}", MapResource.class);

@@ -131,6 +131,13 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.comments.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
      */
     public void setDescription(String value) {
@@ -142,13 +149,6 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      */
     public Integer getReferenceId() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.comments.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

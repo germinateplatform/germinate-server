@@ -102,6 +102,13 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetmeta.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
     public void setDatasetId(Integer value) {
@@ -113,13 +120,6 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
      */
     public void setNrOfDataPoints(ULong value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetmeta.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

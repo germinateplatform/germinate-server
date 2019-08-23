@@ -133,6 +133,13 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public void setExperimentDate(Date value) {
@@ -145,13 +152,6 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
      */
     public Integer getExperimentTypeId() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

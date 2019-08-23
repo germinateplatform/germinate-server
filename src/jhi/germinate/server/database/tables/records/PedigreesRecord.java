@@ -134,6 +134,13 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigrees.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
      */
     public void setPedigreedescriptionId(Integer value) {
@@ -145,13 +152,6 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
      */
     public String getRelationshipDescription() {
         return (String) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

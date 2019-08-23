@@ -101,6 +101,13 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.countries.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
      */
     public void setCountryCode2(String value) {
@@ -112,13 +119,6 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
      */
     public void setCountryName(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.countries.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

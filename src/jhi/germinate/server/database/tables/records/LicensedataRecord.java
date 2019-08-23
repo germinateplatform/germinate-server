@@ -100,6 +100,13 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
      */
     public void setLicenseId(Integer value) {
@@ -111,13 +118,6 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
      */
     public void setContent(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.licensedata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

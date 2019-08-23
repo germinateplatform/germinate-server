@@ -132,6 +132,13 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     */
+    public Timestamp getRecordingDate() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
     public Integer getDatasetId() {
@@ -139,10 +146,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -153,17 +160,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Setter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
      */
-    public Timestamp getRecordingDate() {
-        return (Timestamp) get(6);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
     }
 
     // -------------------------------------------------------------------------

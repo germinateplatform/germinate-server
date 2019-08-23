@@ -157,6 +157,13 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.source_file</code>.
+     */
+    public String getSourceFile() {
+        return (String) get(7);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
      */
     public void setDescription(String value) {
@@ -168,13 +175,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      */
     public void setDateStart(Date value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.source_file</code>.
-     */
-    public String getSourceFile() {
-        return (String) get(7);
     }
 
     /**
@@ -286,6 +286,14 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.created_on</code>. When the record was created.
+
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(16);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
     public Byte getIsExternal() {
@@ -293,10 +301,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(17, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(17);
     }
 
     /**
@@ -307,18 +315,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.created_on</code>. When the record was created.
-
+     * Setter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(16);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(17);
+    public void setUpdatedOn(Timestamp value) {
+        set(17, value);
     }
 
     // -------------------------------------------------------------------------

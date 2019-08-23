@@ -121,6 +121,13 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.linktypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.linktypes.target_table</code>. This is the table that the link links to.
      */
     public String getTargetTable() {
@@ -132,13 +139,6 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
      */
     public void setPlaceholder(String value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.linktypes.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

@@ -115,6 +115,13 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreenotation_id</code>. Foreign key to pedigreenotations (pedigreenotations.id).
      */
     public Integer getPedigreenotationId() {
@@ -126,13 +133,6 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
      */
     public void setDefinition(String value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

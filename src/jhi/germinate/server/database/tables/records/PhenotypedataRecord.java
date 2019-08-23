@@ -147,38 +147,17 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
-     */
-    public Integer getDatasetId() {
-        return (Integer) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
-     */
-    public void setLocationId(Integer value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(6, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
-     */
-    public void setTreatmentId(Integer value) {
-        set(9, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.phenotypedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
+     */
+    public Integer getDatasetId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -189,10 +168,31 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(6, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
      */
     public Integer getTreatmentId() {
         return (Integer) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
+     */
+    public void setLocationId(Integer value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
+     */
+    public void setTreatmentId(Integer value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------

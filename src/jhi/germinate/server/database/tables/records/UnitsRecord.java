@@ -103,6 +103,13 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.units.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
@@ -114,13 +121,6 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
      */
     public void setUnitDescription(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.units.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

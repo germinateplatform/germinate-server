@@ -131,6 +131,13 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironments.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.megaenvironments.precip_lower</code>. The minimum precipitation for this environment.
      */
     public void setPrecipLower(Integer value) {
@@ -142,13 +149,6 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
      */
     public Integer getPrecipUpper() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironments.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

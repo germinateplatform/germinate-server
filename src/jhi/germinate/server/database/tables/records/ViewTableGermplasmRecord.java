@@ -235,39 +235,18 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
+     */
+    public String getSpecies() {
+        return (String) get(12);
+    }
+
+    /**
      * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
      */
     @java.lang.Deprecated
     public void setSynonyms(Object value) {
         set(9, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
-     */
-    public void setSubtaxa(String value) {
-        set(13, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(11, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
-     */
-    public void setElevation(BigDecimal value) {
-        set(14, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
-     */
-    public String getSpecies() {
-        return (String) get(12);
     }
 
     /**
@@ -278,10 +257,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryName</code>. Country name.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
      */
-    public String getCountryname() {
-        return (String) get(15);
+    public void setGenus(String value) {
+        set(11, value);
     }
 
     /**
@@ -292,13 +271,6 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
-     */
-    public String getCountrycode() {
-        return (String) get(16);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.countryName</code>. Country name.
      */
     public void setCountryname(String value) {
@@ -306,10 +278,38 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public void setSubtaxa(String value) {
+        set(13, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
      */
     public void setCountrycode(String value) {
         set(16, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(14, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryName</code>. Country name.
+     */
+    public String getCountryname() {
+        return (String) get(15);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
+     */
+    public String getCountrycode() {
+        return (String) get(16);
     }
 
     /**
@@ -350,10 +350,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.firstImagePath</code>.
      */
-    public void setPdci(Double value) {
-        set(18, value);
+    public String getFirstimagepath() {
+        return (String) get(20);
     }
 
     // -------------------------------------------------------------------------
@@ -361,17 +361,17 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     // -------------------------------------------------------------------------
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(18, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.imageCount</code>.
      */
     public void setImagecount(Long value) {
         set(19, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.firstImagePath</code>.
-     */
-    public String getFirstimagepath() {
-        return (String) get(20);
     }
 
     /**

@@ -78,18 +78,18 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
+
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
-
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
     }
 
     /**
@@ -100,11 +100,11 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
 
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------

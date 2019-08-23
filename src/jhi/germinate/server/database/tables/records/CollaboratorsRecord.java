@@ -130,6 +130,13 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.collaborators.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public void setPhone(String value) {
@@ -141,13 +148,6 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
      */
     public Integer getInstitutionId() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

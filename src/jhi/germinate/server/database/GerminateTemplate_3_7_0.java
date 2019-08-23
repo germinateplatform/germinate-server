@@ -27,7 +27,7 @@ import jhi.germinate.server.database.tables.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GerminateTemplate_3_7_0 extends SchemaImpl {
 
-    private static final long serialVersionUID = -840914570;
+    private static final long serialVersionUID = -1324195321;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0</code>
@@ -421,6 +421,11 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
     /**
      * VIEW
      */
+    public final ViewTableLicenses VIEW_TABLE_LICENSES = jhi.germinate.server.database.tables.ViewTableLicenses.VIEW_TABLE_LICENSES;
+
+    /**
+     * VIEW
+     */
     public final ViewTableMapdefinitions VIEW_TABLE_MAPDEFINITIONS = jhi.germinate.server.database.tables.ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS;
 
     /**
@@ -524,6 +529,7 @@ link. The ”placeholder” in the link (from the links table) will be replaced 
             ViewMcpd.VIEW_MCPD,
             ViewTableDatasets.VIEW_TABLE_DATASETS,
             ViewTableGermplasm.VIEW_TABLE_GERMPLASM,
+            ViewTableLicenses.VIEW_TABLE_LICENSES,
             ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS,
             ViewTableMaps.VIEW_TABLE_MAPS);
     }

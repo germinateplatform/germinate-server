@@ -133,38 +133,17 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
-     */
-    public String getMolecularFormula() {
-        return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
-     */
-    public void setUnitId(Integer value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.average_mass</code>. The average mass of the compound.
-     */
-    public void setAverageMass(BigDecimal value) {
-        set(5, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.compounds.compound_class</code>. A classification of the compound.
      */
     public String getCompoundClass() {
         return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
+     */
+    public String getMolecularFormula() {
+        return (String) get(3);
     }
 
     /**
@@ -175,10 +154,31 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.compounds.average_mass</code>. The average mass of the compound.
+     */
+    public void setAverageMass(BigDecimal value) {
+        set(5, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     */
+    public void setUnitId(Integer value) {
+        set(7, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------

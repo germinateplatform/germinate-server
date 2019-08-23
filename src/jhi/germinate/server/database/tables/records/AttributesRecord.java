@@ -119,6 +119,13 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.attributes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public String getDescription() {
@@ -130,13 +137,6 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
      */
     public void setTargetTable(String value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.attributes.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

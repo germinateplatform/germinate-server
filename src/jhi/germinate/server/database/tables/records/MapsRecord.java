@@ -115,6 +115,13 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.maps.description</code>. The name of this map.
      */
     public String getDescription() {
@@ -126,13 +133,6 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

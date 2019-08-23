@@ -101,6 +101,13 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
     public void setName(String value) {
@@ -112,13 +119,6 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
      */
     public void setReferenceUrl(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigreenotations.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

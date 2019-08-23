@@ -131,6 +131,13 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.news.user_id</code>. Foreign key users (users.id).
+     */
+    public Integer getUserId() {
+        return (Integer) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
      */
     public String getContent() {
@@ -138,10 +145,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -152,17 +159,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.user_id</code>. Foreign key users (users.id).
+     * Setter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
      */
-    public Integer getUserId() {
-        return (Integer) get(6);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
     }
 
     // -------------------------------------------------------------------------

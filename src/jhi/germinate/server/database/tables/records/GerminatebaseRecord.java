@@ -157,20 +157,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.bank_number</code>. Alternative genebank number.
-     */
-    public void setBankNumber(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.breeders_code</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
-     */
-    public void setBreedersCode(String value) {
-        set(5, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.breeders_name</code>. Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.
      */
     public String getBreedersName() {
@@ -178,10 +164,24 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.bank_number</code>. Alternative genebank number.
+     */
+    public void setBankNumber(String value) {
+        set(4, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.taxonomy_id</code>. Foreign key to taxonomies (taxonomies.id).
      */
     public Integer getTaxonomyId() {
         return (Integer) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.breeders_code</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     */
+    public void setBreedersCode(String value) {
+        set(5, value);
     }
 
     /**
@@ -324,18 +324,18 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.collname</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
+     */
+    public String getCollname() {
+        return (String) get(17);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.colldate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
     public void setColldate(Date value) {
         set(15, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.collname</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
-     */
-    public String getCollname() {
-        return (String) get(17);
     }
 
     /**
@@ -481,38 +481,17 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.location_id</code>. Foreign key to locations (locations.id).
-     */
-    public void setLocationId(Integer value) {
-        set(26, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
-     */
-    public void setPdci(Double value) {
-        set(29, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.entitytype_id</code>. Foreign key to entitytypes (entitytypes.id).
-     */
-    public void setEntitytypeId(Integer value) {
-        set(27, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(30, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.entityparent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public Integer getEntityparentId() {
         return (Integer) get(28);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.location_id</code>. Foreign key to locations (locations.id).
+     */
+    public void setLocationId(Integer value) {
+        set(26, value);
     }
 
     /**
@@ -523,10 +502,31 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.entitytype_id</code>. Foreign key to entitytypes (entitytypes.id).
+     */
+    public void setEntitytypeId(Integer value) {
+        set(27, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(30);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(29, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(30, value);
     }
 
     // -------------------------------------------------------------------------

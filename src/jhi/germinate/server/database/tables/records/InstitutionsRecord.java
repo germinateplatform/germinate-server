@@ -148,38 +148,17 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
-     */
-    public Integer getCountryId() {
-        return (Integer) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
-     */
-    public void setAddress(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
-     */
-    public void setPhone(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.institutions.email</code>. The email address to contact the institute.
      */
     public String getEmail() {
         return (String) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
+     */
+    public Integer getCountryId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -190,10 +169,31 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
+     */
+    public void setPhone(String value) {
+        set(6, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     */
+    public void setAddress(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------

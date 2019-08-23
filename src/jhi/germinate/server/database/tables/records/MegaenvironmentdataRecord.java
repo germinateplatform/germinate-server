@@ -117,6 +117,13 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
      */
     public Integer getSourceId() {
@@ -128,13 +135,6 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      */
     public void setIsFinal(Byte value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

@@ -132,6 +132,13 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
     public void setVisibility(Byte value) {
@@ -143,13 +150,6 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      */
     public Integer getCreatedBy() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

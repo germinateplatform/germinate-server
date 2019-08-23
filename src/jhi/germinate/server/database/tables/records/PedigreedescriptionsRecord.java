@@ -102,6 +102,13 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
      */
     public void setName(String value) {
@@ -113,13 +120,6 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
      */
     public void setAuthor(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

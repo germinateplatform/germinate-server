@@ -132,6 +132,13 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climatedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
     public void setDatasetId(Integer value) {
@@ -143,13 +150,6 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
      */
     public String getRecordingDate() {
         return (String) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climatedata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

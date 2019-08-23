@@ -131,6 +131,13 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
+     */
+    public String getReason() {
+        return (String) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_email</code>.
      */
     public String getUserEmail() {
@@ -138,10 +145,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -152,17 +159,10 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.reason</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
      */
-    public String getReason() {
-        return (String) get(6);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
     }
 
     // -------------------------------------------------------------------------

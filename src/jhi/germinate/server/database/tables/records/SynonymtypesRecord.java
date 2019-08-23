@@ -100,6 +100,13 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.synonymtypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.synonymtypes.target_table</code>. The target table.
      */
     public void setTargetTable(String value) {
@@ -111,13 +118,6 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
      */
     public void setDescription(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.synonymtypes.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

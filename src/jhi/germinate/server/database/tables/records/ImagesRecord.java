@@ -115,6 +115,13 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.images.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.images.description</code>. A description of what the image shows if required.
      */
     public String getDescription() {
@@ -126,13 +133,6 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
      */
     public void setPath(String value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.images.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------

@@ -104,6 +104,13 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.attributedata.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
      */
     public void setAttributeId(Integer value) {
@@ -115,13 +122,6 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
      */
     public void setValue(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.attributedata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

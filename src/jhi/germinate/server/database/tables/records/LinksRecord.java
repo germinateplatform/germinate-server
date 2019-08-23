@@ -132,6 +132,13 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.links.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.links.description</code>. A description of the link.
      */
     public void setDescription(String value) {
@@ -143,13 +150,6 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      */
     public Byte getVisibility() {
         return (Byte) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.links.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

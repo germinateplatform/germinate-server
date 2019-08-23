@@ -101,6 +101,13 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
     public void setDatasetId(Integer value) {
@@ -112,13 +119,6 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
      */
     public void setGroupId(Integer value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetpermissions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

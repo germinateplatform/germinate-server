@@ -131,6 +131,13 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.phenotypes.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
     public void setDatatype(PhenotypesDatatype value) {
@@ -142,13 +149,6 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
      */
     public Integer getUnitId() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------

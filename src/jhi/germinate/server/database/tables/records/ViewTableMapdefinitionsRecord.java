@@ -89,6 +89,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapFeatureType</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     */
+    public String getMapfeaturetype() {
+        return (String) get(3);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.markerName</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public void setMarkername(String value) {
@@ -96,10 +103,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapId</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapId</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public void setMapid(Integer value) {
-        set(4, value);
+    public Integer getMapid() {
+        return (Integer) get(4);
     }
 
     /**
@@ -111,34 +118,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
-     */
-    public void setUserid(Integer value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapFeatureType</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
-     */
-    public String getMapfeaturetype() {
-        return (String) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
-     */
-    public void setVisibility(Byte value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapId</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getMapid() {
-        return (Integer) get(4);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getUserid() {
@@ -146,10 +125,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapId</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getMapname() {
-        return (String) get(7);
+    public void setMapid(Integer value) {
+        set(4, value);
     }
 
     /**
@@ -160,13 +139,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
-     */
-    public String getChromosome() {
-        return (String) get(8);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
      */
     public void setMapname(String value) {
@@ -174,10 +146,38 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public void setUserid(Integer value) {
+        set(5, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public void setChromosome(String value) {
         set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     */
+    public void setVisibility(Byte value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
+     */
+    public String getMapname() {
+        return (String) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     */
+    public String getChromosome() {
+        return (String) get(8);
     }
 
     // -------------------------------------------------------------------------
