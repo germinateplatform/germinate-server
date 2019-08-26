@@ -7,12 +7,12 @@ package jhi.germinate.server.database.tables;
 import org.jooq.*;
 import org.jooq.impl.*;
 
-import java.math.*;
+import java.math.BigDecimal;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.tables.records.ViewMcpdRecord;
 
 
 /**
@@ -28,17 +28,21 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = -534116609;
+    private static final long serialVersionUID = 1465945659;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_mcpd</code>
      */
     public static final ViewMcpd VIEW_MCPD = new ViewMcpd();
-
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * The column <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public final TableField<ViewMcpdRecord, Integer> COORDUNCERT = createField("COORDUNCERT", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
+    public final TableField<ViewMcpdRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+    /**
+     * The column <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
+entered into the genebank collection (e.g. ‘PI 113869’).
+     */
+    public final TableField<ViewMcpdRecord, String> ACCENAME = createField("ACCENAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.PUID</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
@@ -114,11 +118,10 @@ without space.
      * The column <code>germinate_template_3_7_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public final TableField<ViewMcpdRecord, String> CROPNAME = createField("CROPNAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.");
-
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. A unique name which defines an entry in the germinatbase table.
+     * The column <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
-    public final TableField<ViewMcpdRecord, String> ACCENAME = createField("ACCENAME", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "A unique name which defines an entry in the germinatbase table.");
+    public final TableField<ViewMcpdRecord, Integer> COORDUNCERT = createField("COORDUNCERT", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.ACQDATE</code>.

@@ -6,7 +6,7 @@ package jhi.germinate.server.database.enums;
 
 import org.jooq.*;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
 
 /**

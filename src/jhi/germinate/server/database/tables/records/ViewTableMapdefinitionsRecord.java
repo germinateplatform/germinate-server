@@ -5,11 +5,11 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.TableRecordImpl;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.ViewTableMapdefinitions;
 
 
 /**
@@ -146,6 +146,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
+     */
+    public String getMapname() {
+        return (String) get(7);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserid(Integer value) {
@@ -153,10 +160,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
-    public void setChromosome(String value) {
-        set(8, value);
+    public String getChromosome() {
+        return (String) get(8);
     }
 
     /**
@@ -167,17 +174,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.mapName</code>. Describes the map.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
-    public String getMapname() {
-        return (String) get(7);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
-     */
-    public String getChromosome() {
-        return (String) get(8);
+    public void setChromosome(String value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------

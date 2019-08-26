@@ -4,11 +4,11 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
 
 /**

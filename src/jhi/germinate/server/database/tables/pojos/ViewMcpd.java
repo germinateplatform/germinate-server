@@ -4,10 +4,10 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
-import java.io.*;
-import java.math.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
 
 /**
@@ -23,8 +23,9 @@ import javax.annotation.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd implements Serializable {
 
-    private static final long serialVersionUID = 2092619732;
+    private static final long serialVersionUID = 1651747679;
 
+    private Integer    id;
     private String     puid;
     private String     instcode;
     private String     accenumb;
@@ -72,6 +73,7 @@ public class ViewMcpd implements Serializable {
     public ViewMcpd() {}
 
     public ViewMcpd(ViewMcpd value) {
+        this.id = value.id;
         this.puid = value.puid;
         this.instcode = value.instcode;
         this.accenumb = value.accenumb;
@@ -118,6 +120,7 @@ public class ViewMcpd implements Serializable {
     }
 
     public ViewMcpd(
+        Integer    id,
         String     puid,
         String     instcode,
         String     accenumb,
@@ -162,6 +165,7 @@ public class ViewMcpd implements Serializable {
         String     entityType,
         byte[]     entityParentAccenumb
     ) {
+        this.id = id;
         this.puid = puid;
         this.instcode = instcode;
         this.accenumb = accenumb;
@@ -205,6 +209,14 @@ public class ViewMcpd implements Serializable {
         this.remarks = remarks;
         this.entityType = entityType;
         this.entityParentAccenumb = entityParentAccenumb;
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getPuid() {
@@ -555,7 +567,8 @@ public class ViewMcpd implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewMcpd (");
 
-        sb.append(puid);
+        sb.append(id);
+        sb.append(", ").append(puid);
         sb.append(", ").append(instcode);
         sb.append(", ").append(accenumb);
         sb.append(", ").append(collnumb);

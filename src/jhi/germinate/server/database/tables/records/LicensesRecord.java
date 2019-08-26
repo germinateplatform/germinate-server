@@ -5,13 +5,13 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Licenses;
 
 
 /**
@@ -85,6 +85,13 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.licenses.id</code>.
      */
     public void setId(Integer value) {
@@ -96,13 +103,6 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
      */
     public void setName(String value) {
         set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.licenses.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------

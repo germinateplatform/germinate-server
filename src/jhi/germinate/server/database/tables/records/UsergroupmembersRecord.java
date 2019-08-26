@@ -5,13 +5,13 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Usergroupmembers;
 
 
 /**
@@ -85,6 +85,13 @@ public class UsergroupmembersRecord extends UpdatableRecordImpl<Usergroupmembers
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.usergroupmembers.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(3);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.usergroupmembers.id</code>.
      */
     public void setId(Integer value) {
@@ -96,13 +103,6 @@ public class UsergroupmembersRecord extends UpdatableRecordImpl<Usergroupmembers
      */
     public void setUserId(Integer value) {
         set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.usergroupmembers.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------

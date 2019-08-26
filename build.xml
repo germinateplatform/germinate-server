@@ -94,6 +94,7 @@
 			<webinf dir="${web}/WEB-INF" excludes="**/classes/**"/>
 
 			<zipfileset dir="." includes="logging.properties" prefix="WEB-INF/classes"/>
+			<zipfileset dir="${res}" includes="*.json" prefix="WEB-INF/classes"/>
 
 			<zipfileset dir="${src}" includes="**/*.sql" prefix="WEB-INF/classes"/>
 		</war>

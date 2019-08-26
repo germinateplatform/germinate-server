@@ -4,12 +4,12 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
-import java.io.*;
-import java.sql.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.enums.*;
+import jhi.germinate.server.database.enums.ClimatesDatatype;
 
 
 /**

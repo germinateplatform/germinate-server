@@ -2,20 +2,20 @@ package jhi.germinate.server;
 
 import org.restlet.*;
 import org.restlet.data.*;
-import org.restlet.engine.application.*;
-import org.restlet.resource.*;
-import org.restlet.routing.*;
+import org.restlet.engine.application.CorsFilter;
+import org.restlet.resource.ServerResource;
+import org.restlet.routing.Router;
 import org.restlet.security.*;
-import org.restlet.util.*;
+import org.restlet.util.Series;
 
 import java.util.*;
 
-import jhi.germinate.server.auth.*;
+import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.maps.*;
-import jhi.germinate.server.resource.markers.*;
+import jhi.germinate.server.resource.markers.MapMarkerDefinitionTableResource;
 
 /**
  * @author Sebastian Raubach
@@ -95,12 +95,14 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);
 		attachToRouter(routerAuth, "/map", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/export", MapExportResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/mapdefinition/table", MapMarkerDefinitionTableResource.class);
+		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
 		// CORS first, then encoder

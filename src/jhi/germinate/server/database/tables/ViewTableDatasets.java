@@ -6,14 +6,14 @@ package jhi.germinate.server.database.tables;
 
 import org.jooq.*;
 import org.jooq.impl.*;
-import org.jooq.types.*;
+import org.jooq.types.ULong;
 
-import java.sql.*;
+import java.sql.Date;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
 
 
 /**

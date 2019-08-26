@@ -4,9 +4,9 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
-import java.io.*;
+import java.io.Serializable;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
 
 /**

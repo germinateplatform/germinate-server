@@ -7,10 +7,10 @@ package jhi.germinate.server.database.tables;
 import org.jooq.*;
 import org.jooq.impl.*;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.tables.records.ViewTableLicensesRecord;
 
 
 /**
@@ -26,31 +26,46 @@ import jhi.germinate.server.database.tables.records.*;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
 
+    private static final long serialVersionUID = -1498380859;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_licenses</code>
      */
     public static final ViewTableLicenses VIEW_TABLE_LICENSES = new ViewTableLicenses();
-    private static final long serialVersionUID = -1498380859;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableLicensesRecord> getRecordType() {
+        return ViewTableLicensesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
      */
     public final TableField<ViewTableLicensesRecord, Integer> LICENSEID = createField("licenseId", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LICENSENAME = createField("licenseName", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_licenses.licenseDescription</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LICENSEDESCRIPTION = createField("licenseDescription", org.jooq.impl.SQLDataType.CLOB, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_licenses.licenseContent</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LICENSECONTENT = createField("licenseContent", org.jooq.impl.SQLDataType.CLOB, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_licenses.localeName</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LOCALENAME = createField("localeName", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_licenses.localeDescription</code>.
      */
@@ -87,14 +102,6 @@ public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
 
     public <O extends Record> ViewTableLicenses(Table<O> child, ForeignKey<O, ViewTableLicensesRecord> key) {
         super(child, key, VIEW_TABLE_LICENSES);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableLicensesRecord> getRecordType() {
-        return ViewTableLicensesRecord.class;
     }
 
     /**

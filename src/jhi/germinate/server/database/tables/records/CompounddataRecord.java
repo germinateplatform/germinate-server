@@ -5,14 +5,14 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Compounddata;
 
 
 /**
@@ -139,17 +139,17 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
     public Integer getDatasetId() {
         return (Integer) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     /**
@@ -160,10 +160,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.compounddata.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------

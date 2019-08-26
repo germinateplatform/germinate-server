@@ -5,14 +5,14 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.TableRecordImpl;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Date;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.ViewTableGermplasm;
 
 
 /**
@@ -292,6 +292,13 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
+     */
+    public String getCountrycode() {
+        return (String) get(16);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public void setElevation(BigDecimal value) {
@@ -303,13 +310,6 @@ identifying duplicates held in different collections.
      */
     public String getCountryname() {
         return (String) get(15);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.countryCode</code>. ISO 2 Code for country.
-     */
-    public String getCountrycode() {
-        return (String) get(16);
     }
 
     /**

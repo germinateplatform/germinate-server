@@ -5,14 +5,14 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Compounds;
 
 
 /**
@@ -140,6 +140,13 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     */
+    public void setUnitId(Integer value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
      */
     public String getMolecularFormula() {
@@ -147,10 +154,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     * Setter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
      */
-    public Integer getUnitId() {
-        return (Integer) get(7);
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     /**
@@ -161,24 +168,17 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     */
+    public Integer getUnitId() {
+        return (Integer) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.unit_id</code>. Foreign Key to units (units.id).
-     */
-    public void setUnitId(Integer value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
     }
 
     // -------------------------------------------------------------------------

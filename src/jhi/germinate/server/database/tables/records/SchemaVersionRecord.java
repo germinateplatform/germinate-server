@@ -5,13 +5,13 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.SchemaVersion;
 
 
 /**
@@ -139,6 +139,13 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.schema_version.installed_on</code>.
+     */
+    public void setInstalledOn(Timestamp value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
      */
     public String getType() {
@@ -146,10 +153,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.installed_on</code>.
+     * Setter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
      */
-    public Timestamp getInstalledOn() {
-        return (Timestamp) get(7);
+    public void setExecutionTime(Integer value) {
+        set(8, value);
     }
 
     /**
@@ -160,24 +167,17 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.schema_version.installed_on</code>.
+     */
+    public Timestamp getInstalledOn() {
+        return (Timestamp) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
      */
     public Integer getExecutionTime() {
         return (Integer) get(8);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.installed_on</code>.
-     */
-    public void setInstalledOn(Timestamp value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
-     */
-    public void setExecutionTime(Integer value) {
-        set(8, value);
     }
 
     // -------------------------------------------------------------------------

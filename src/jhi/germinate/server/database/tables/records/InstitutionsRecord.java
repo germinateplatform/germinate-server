@@ -5,13 +5,13 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Institutions;
 
 
 /**
@@ -155,6 +155,13 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     */
+    public void setAddress(String value) {
+        set(8, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
      */
     public Integer getCountryId() {
@@ -162,10 +169,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
      */
-    public String getAddress() {
-        return (String) get(8);
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
@@ -176,24 +183,17 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     */
+    public String getAddress() {
+        return (String) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
-     */
-    public void setAddress(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
     }
 
     // -------------------------------------------------------------------------

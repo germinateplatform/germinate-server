@@ -5,14 +5,14 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Locations;
 
 
 /**
@@ -153,38 +153,17 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
-     */
-    public void setState(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
-     */
-    public void setLatitude(BigDecimal value) {
-        set(8, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locations.region</code>. The region where the location is if this exists.
-     */
-    public String getRegion() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
-     */
-    public void setLongitude(BigDecimal value) {
-        set(9, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.locations.elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
         return (BigDecimal) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
+     */
+    public void setState(String value) {
+        set(3, value);
     }
 
     /**
@@ -195,10 +174,31 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.locations.region</code>. The region where the location is if this exists.
+     */
+    public String getRegion() {
+        return (String) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
     public BigDecimal getLongitude() {
         return (BigDecimal) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     */
+    public void setLatitude(BigDecimal value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(9, value);
     }
 
     /**

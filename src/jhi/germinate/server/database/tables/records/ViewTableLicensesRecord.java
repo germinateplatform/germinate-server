@@ -5,11 +5,11 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.TableRecordImpl;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.ViewTableLicenses;
 
 
 /**
@@ -28,10 +28,24 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     private static final long serialVersionUID = -718035454;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
+     */
+    public void setLicenseid(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableLicensesRecord
      */
     public ViewTableLicensesRecord() {
         super(ViewTableLicenses.VIEW_TABLE_LICENSES);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
+     */
+    public void setLicensename(String value) {
+        set(1, value);
     }
 
     /**
@@ -49,41 +63,6 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
-     */
-    public Integer getLicenseid() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
-     */
-    public void setLicenseid(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
-     */
-    public String getLicensename() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
-     */
-    public void setLicensename(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseDescription</code>.
-     */
-    public String getLicensedescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseDescription</code>.
      */
     public void setLicensedescription(String value) {
@@ -91,10 +70,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseContent</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
      */
-    public String getLicensecontent() {
-        return (String) get(3);
+    public Integer getLicenseid() {
+        return (Integer) get(0);
     }
 
     /**
@@ -105,10 +84,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.localeName</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
      */
-    public String getLocalename() {
-        return (String) get(4);
+    public String getLicensename() {
+        return (String) get(1);
     }
 
     /**
@@ -118,15 +97,11 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
         set(4, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record6 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.localeDescription</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseDescription</code>.
      */
-    public String getLocaledescription() {
-        return (String) get(5);
+    public String getLicensedescription() {
+        return (String) get(2);
     }
 
     /**
@@ -135,6 +110,17 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     public void setLocaledescription(String value) {
         set(5, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseContent</code>.
+     */
+    public String getLicensecontent() {
+        return (String) get(3);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record6 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -341,10 +327,6 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -366,5 +348,23 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.localeName</code>.
+     */
+    public String getLocalename() {
+        return (String) get(4);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.localeDescription</code>.
+     */
+    public String getLocaledescription() {
+        return (String) get(5);
     }
 }

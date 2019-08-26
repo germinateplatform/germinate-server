@@ -4,7 +4,7 @@
 package jhi.germinate.server.database;
 
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.*;
 

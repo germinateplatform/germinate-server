@@ -4,12 +4,12 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
-import org.jooq.types.*;
+import org.jooq.types.ULong;
 
-import java.io.*;
-import java.sql.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
 
 /**

@@ -5,13 +5,13 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Climateoverlays;
 
 
 /**
@@ -134,6 +134,13 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     */
+    public Double getTopRightLatitude() {
+        return (Double) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_longitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
     public Double getBottomLeftLongitude() {
@@ -148,10 +155,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.top_right_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
      */
-    public Double getTopRightLatitude() {
-        return (Double) get(6);
+    public void setDescription(String value) {
+        set(8, value);
     }
 
     /**
@@ -162,10 +169,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(8);
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
@@ -176,24 +183,17 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     */
+    public String getDescription() {
+        return (String) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
-     */
-    public void setDescription(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
     }
 
     // -------------------------------------------------------------------------

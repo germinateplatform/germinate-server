@@ -5,13 +5,13 @@ package jhi.germinate.server.database.tables.records;
 
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.UpdatableRecordImpl;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.News;
 
 
 /**
@@ -138,17 +138,17 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
      */
     public String getContent() {
         return (String) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     /**
@@ -159,10 +159,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------

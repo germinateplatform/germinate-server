@@ -4,14 +4,14 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.Record1;
+import org.jooq.impl.UpdatableRecordImpl;
 
 import java.sql.*;
 
-import javax.annotation.*;
+import javax.annotation.Generated;
 
-import jhi.germinate.server.database.tables.*;
+import jhi.germinate.server.database.tables.Germinatebase;
 
 
 /**
@@ -488,6 +488,13 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(29, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.location_id</code>. Foreign key to locations (locations.id).
      */
     public void setLocationId(Integer value) {
@@ -495,10 +502,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Setter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
      */
-    public Double getPdci() {
-        return (Double) get(29);
+    public void setCreatedOn(Timestamp value) {
+        set(30, value);
     }
 
     /**
@@ -509,24 +516,17 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public Double getPdci() {
+        return (Double) get(29);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(30);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
-     */
-    public void setPdci(Double value) {
-        set(29, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(30, value);
     }
 
     // -------------------------------------------------------------------------
