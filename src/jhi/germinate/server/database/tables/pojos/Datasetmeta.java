@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines dataset sizes for the items in the datasets table. This table is 
  * automatically updated every hour.
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetmeta implements Serializable {
 
-    private static final long serialVersionUID = -507308360;
+    private static final long serialVersionUID = 308567816;
 
     private Integer   id;
     private Integer   datasetId;
@@ -124,4 +125,5 @@ public class Datasetmeta implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

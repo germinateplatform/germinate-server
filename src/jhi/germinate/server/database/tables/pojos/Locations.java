@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Describes locations. Locations can be collecting sites or the location 
  * of any geographical feature such as research institutes or lab locations.
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locations implements Serializable {
 
-    private static final long serialVersionUID = -1087554170;
+    private static final long serialVersionUID = 2039161530;
 
     private Integer    id;
     private Integer    locationtypeId;
@@ -240,4 +241,5 @@ public class Locations implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

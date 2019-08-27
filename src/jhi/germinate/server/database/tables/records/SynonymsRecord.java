@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Synonyms;
 
 
+// @formatter:off
 /**
  * Allows the definition of synonyms for entries such as germinatebase entries 
  * or marker names.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Synonyms;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implements Record6<Integer, Integer, Integer, Object, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1192594910;
+    private static final long serialVersionUID = -1780152286;
 
     /**
      * Create a detached SynonymsRecord
@@ -390,4 +391,5 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

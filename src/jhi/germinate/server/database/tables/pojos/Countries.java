@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Countries that are used in the locations type tables in Germinate. These 
  * are the ISO codes for countries.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Countries implements Serializable {
 
-    private static final long serialVersionUID = 481433075;
+    private static final long serialVersionUID = 2090033069;
 
     private Integer   id;
     private String    countryCode2;
@@ -122,4 +123,5 @@ public class Countries implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

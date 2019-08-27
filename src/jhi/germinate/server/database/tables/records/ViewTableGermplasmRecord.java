@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.ViewTableGermplasm;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.ViewTableGermplasm;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasmRecord> implements Record21<Integer, String, String, String, String, Integer, String, Integer, String, Object, String, String, String, String, BigDecimal, String, String, Date, Double, Long, String> {
 
-    private static final long serialVersionUID = -230574147;
+    private static final long serialVersionUID = -878661725;
 
     /**
      * Create a detached ViewTableGermplasmRecord
@@ -1119,4 +1120,5 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     public String value21() {
         return getFirstimagepath();
     }
+// @formatter:on
 }

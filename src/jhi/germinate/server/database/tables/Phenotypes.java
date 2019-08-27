@@ -12,11 +12,12 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.tables.records.PhenotypesRecord;
 
 
+// @formatter:off
 /**
  * Defines phenoytpes which are held in Germinate.
  */
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.PhenotypesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypes extends TableImpl<PhenotypesRecord> {
 
-    private static final long serialVersionUID = 1582903591;
+    private static final long serialVersionUID = 1968160801;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.phenotypes</code>
@@ -114,10 +115,6 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines phenoytpes which are held in Germinate."));
     }
 
-    public <O extends Record> Phenotypes(Table<O> child, ForeignKey<O, PhenotypesRecord> key) {
-        super(child, key, PHENOTYPES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -130,16 +127,8 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PHENOTYPES_PRIMARY, Indexes.PHENOTYPES_UNIT_ID);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<PhenotypesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PHENOTYPES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES, jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES.ID);
     }
 
     /**
@@ -147,7 +136,7 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
      */
     @Override
     public UniqueKey<PhenotypesRecord> getPrimaryKey() {
-        return Keys.KEY_PHENOTYPES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES, "KEY_phenotypes_PRIMARY", jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES.ID);
     }
 
     /**
@@ -155,19 +144,9 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
      */
     @Override
     public List<UniqueKey<PhenotypesRecord>> getKeys() {
-        return Arrays.<UniqueKey<PhenotypesRecord>>asList(Keys.KEY_PHENOTYPES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<PhenotypesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PhenotypesRecord, ?>>asList(Keys.PHENOTYPES_IBFK_1);
-    }
-
-    public Units units() {
-        return new Units(this, Keys.PHENOTYPES_IBFK_1);
+        return Arrays.<UniqueKey<PhenotypesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES, "KEY_phenotypes_PRIMARY", jhi.germinate.server.database.tables.Phenotypes.PHENOTYPES.ID)
+        );
     }
 
     /**
@@ -201,4 +180,5 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
     public Phenotypes rename(Name name) {
         return new Phenotypes(name, null);
     }
+// @formatter:on
 }

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Comments can be added to different entries in Germinate such as entries 
  * from germinatebase or markers from the markers table.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comments implements Serializable {
 
-    private static final long serialVersionUID = 1316567847;
+    private static final long serialVersionUID = -1960495687;
 
     private Integer   id;
     private Integer   commenttypeId;
@@ -148,4 +149,5 @@ public class Comments implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

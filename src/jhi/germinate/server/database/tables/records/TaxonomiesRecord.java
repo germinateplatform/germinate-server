@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Taxonomies;
 
 
+// @formatter:off
 /**
  * The species table holds information relating to the species that are deinfed 
  * within a particular Germinate instance including common names and ploidy 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Taxonomies;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> implements Record10<Integer, String, String, String, String, String, String, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1744856077;
+    private static final long serialVersionUID = 410154323;
 
     /**
      * Create a detached TaxonomiesRecord
@@ -148,6 +149,13 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     */
+    public Integer getPloidy() {
+        return (Integer) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
      */
     public String getSubtaxa() {
@@ -155,10 +163,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
     }
 
     /**
@@ -169,17 +177,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     * Setter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
      */
-    public Integer getPloidy() {
-        return (Integer) get(7);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------
@@ -579,4 +580,5 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     public void setUpdatedOn(Timestamp value) {
         set(9, value);
     }
+// @formatter:on
 }

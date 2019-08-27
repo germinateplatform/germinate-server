@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.NewsRecord;
 
 
+// @formatter:off
 /**
  * Holds news items that are displayed within Germinate.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.NewsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class News extends TableImpl<NewsRecord> {
 
-    private static final long serialVersionUID = 1409948326;
+    private static final long serialVersionUID = 1051670109;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.news</code>
@@ -118,10 +119,6 @@ public class News extends TableImpl<NewsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Holds news items that are displayed within Germinate."));
     }
 
-    public <O extends Record> News(Table<O> child, ForeignKey<O, NewsRecord> key) {
-        super(child, key, NEWS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -134,16 +131,8 @@ public class News extends TableImpl<NewsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.NEWS_NEWS_TYPE_ID, Indexes.NEWS_NEWS_UPDATED_ON, Indexes.NEWS_NEWS_USER_ID, Indexes.NEWS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<NewsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_NEWS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.News.NEWS, jhi.germinate.server.database.tables.News.NEWS.ID);
     }
 
     /**
@@ -151,7 +140,7 @@ public class News extends TableImpl<NewsRecord> {
      */
     @Override
     public UniqueKey<NewsRecord> getPrimaryKey() {
-        return Keys.KEY_NEWS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.News.NEWS, "KEY_news_PRIMARY", jhi.germinate.server.database.tables.News.NEWS.ID);
     }
 
     /**
@@ -159,19 +148,9 @@ public class News extends TableImpl<NewsRecord> {
      */
     @Override
     public List<UniqueKey<NewsRecord>> getKeys() {
-        return Arrays.<UniqueKey<NewsRecord>>asList(Keys.KEY_NEWS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<NewsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<NewsRecord, ?>>asList(Keys.NEWS_IBFK_1);
-    }
-
-    public Newstypes newstypes() {
-        return new Newstypes(this, Keys.NEWS_IBFK_1);
+        return Arrays.<UniqueKey<NewsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.News.NEWS, "KEY_news_PRIMARY", jhi.germinate.server.database.tables.News.NEWS.ID)
+        );
     }
 
     /**
@@ -205,4 +184,5 @@ public class News extends TableImpl<NewsRecord> {
     public News rename(Name name) {
         return new News(name, null);
     }
+// @formatter:on
 }

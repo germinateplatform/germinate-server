@@ -18,5 +18,7 @@ hs_err_pid*
 
 # Custom ignores
 /build.properties
+/config.properties
+/res/carousel.json
 /web/context.xml
 /*.jar

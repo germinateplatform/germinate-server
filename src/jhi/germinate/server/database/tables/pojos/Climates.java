@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.enums.ClimatesDatatype;
 
 
+// @formatter:off
 /**
  * Defines climates. Climates are measureable weather type characteristics 
  * such as temperature or cloud cover.
@@ -26,7 +27,7 @@ import jhi.germinate.server.database.enums.ClimatesDatatype;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climates implements Serializable {
 
-    private static final long serialVersionUID = 1580649967;
+    private static final long serialVersionUID = 202273211;
 
     private Integer          id;
     private String           name;
@@ -150,4 +151,5 @@ public class Climates implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

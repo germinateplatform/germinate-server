@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Biologicalstatus;
 
 
+// @formatter:off
 /**
  * Based on Multi Crop Passport Descriptors (MCPD V2 2012) - The coding scheme 
  * proposed can be used at 3 different levels of detail: either by using the
@@ -53,7 +54,7 @@ import jhi.germinate.server.database.tables.Biologicalstatus;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BiologicalstatusRecord extends UpdatableRecordImpl<BiologicalstatusRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1858115278;
+    private static final long serialVersionUID = 994223704;
 
     /**
      * Create a detached BiologicalstatusRecord
@@ -309,4 +310,5 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
+// @formatter:on
 }

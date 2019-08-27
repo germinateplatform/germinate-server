@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.PedigreedescriptionsRecord;
 
 
+// @formatter:off
 /**
  * Description of pedigrees. Pedigrees can have a description which details 
  * additional information about the pedigree, how it was constructed and who 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.PedigreedescriptionsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> {
 
-    private static final long serialVersionUID = 563316537;
+    private static final long serialVersionUID = 884636796;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.pedigreedescriptions</code>
@@ -105,10 +106,6 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
         super(alias, null, aliased, parameters, DSL.comment("Description of pedigrees. Pedigrees can have a description which details additional information about the pedigree, how it was constructed and who the contact is for the pedigree."));
     }
 
-    public <O extends Record> Pedigreedescriptions(Table<O> child, ForeignKey<O, PedigreedescriptionsRecord> key) {
-        super(child, key, PEDIGREEDESCRIPTIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -121,16 +118,8 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PEDIGREEDESCRIPTIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<PedigreedescriptionsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PEDIGREEDESCRIPTIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Pedigreedescriptions.PEDIGREEDESCRIPTIONS, jhi.germinate.server.database.tables.Pedigreedescriptions.PEDIGREEDESCRIPTIONS.ID);
     }
 
     /**
@@ -138,7 +127,7 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
      */
     @Override
     public UniqueKey<PedigreedescriptionsRecord> getPrimaryKey() {
-        return Keys.KEY_PEDIGREEDESCRIPTIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigreedescriptions.PEDIGREEDESCRIPTIONS, "KEY_pedigreedescriptions_PRIMARY", jhi.germinate.server.database.tables.Pedigreedescriptions.PEDIGREEDESCRIPTIONS.ID);
     }
 
     /**
@@ -146,7 +135,9 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
      */
     @Override
     public List<UniqueKey<PedigreedescriptionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<PedigreedescriptionsRecord>>asList(Keys.KEY_PEDIGREEDESCRIPTIONS_PRIMARY);
+        return Arrays.<UniqueKey<PedigreedescriptionsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigreedescriptions.PEDIGREEDESCRIPTIONS, "KEY_pedigreedescriptions_PRIMARY", jhi.germinate.server.database.tables.Pedigreedescriptions.PEDIGREEDESCRIPTIONS.ID)
+        );
     }
 
     /**
@@ -180,4 +171,5 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
     public Pedigreedescriptions rename(Name name) {
         return new Pedigreedescriptions(name, null);
     }
+// @formatter:on
 }

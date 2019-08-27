@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Datasetaccesslogs;
 
 
+// @formatter:off
 /**
  * If enabled, tracks which user accessed which datasets.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Datasetaccesslogs;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetaccesslogsRecord extends UpdatableRecordImpl<DatasetaccesslogsRecord> implements Record9<Integer, Integer, String, String, String, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 925580168;
+    private static final long serialVersionUID = -940183422;
 
     /**
      * Create a detached DatasetaccesslogsRecord
@@ -145,6 +146,13 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.user_email</code>.
      */
     public String getUserEmail() {
@@ -156,13 +164,6 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
      */
     public void setDatasetId(Integer value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasetaccesslogs.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -528,4 +529,5 @@ public class DatasetaccesslogsRecord extends UpdatableRecordImpl<Datasetaccesslo
     public void setUpdatedOn(Timestamp value) {
         set(8, value);
     }
+// @formatter:on
 }

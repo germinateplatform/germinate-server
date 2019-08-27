@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.ViewTableMapdefinitions;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -25,7 +26,7 @@ import jhi.germinate.server.database.tables.ViewTableMapdefinitions;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapdefinitionsRecord> implements Record10<Integer, String, Object, String, Integer, Integer, Byte, String, String, Double> {
 
-    private static final long serialVersionUID = -1116607033;
+    private static final long serialVersionUID = 1943076195;
 
     /**
      * Create a detached ViewTableMapdefinitionsRecord
@@ -153,17 +154,17 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     */
+    public void setChromosome(String value) {
+        set(8, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserid(Integer value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
-     */
-    public String getChromosome() {
-        return (String) get(8);
     }
 
     /**
@@ -174,10 +175,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
-    public void setChromosome(String value) {
-        set(8, value);
+    public String getChromosome() {
+        return (String) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -569,4 +570,5 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     public void setPosition(Double value) {
         set(9, value);
     }
+// @formatter:on
 }

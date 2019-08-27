@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.DatasetpermissionsRecord;
 
 
+// @formatter:off
 /**
  * This defines which users can view which datasets. Requires Germinate Gatekeeper. 
  * This overrides the datasets state.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.DatasetpermissionsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
 
-    private static final long serialVersionUID = 1302018860;
+    private static final long serialVersionUID = 1889978853;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasetpermissions</code>
@@ -104,10 +105,6 @@ public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("This defines which users can view which datasets. Requires Germinate Gatekeeper. This overrides the datasets state."));
     }
 
-    public <O extends Record> Datasetpermissions(Table<O> child, ForeignKey<O, DatasetpermissionsRecord> key) {
-        super(child, key, DATASETPERMISSIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -120,16 +117,8 @@ public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.DATASETPERMISSIONS_DATASETPERMISSIONS_IBFK1, Indexes.DATASETPERMISSIONS_GROUP_ID, Indexes.DATASETPERMISSIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<DatasetpermissionsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_DATASETPERMISSIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Datasetpermissions.DATASETPERMISSIONS, jhi.germinate.server.database.tables.Datasetpermissions.DATASETPERMISSIONS.ID);
     }
 
     /**
@@ -137,7 +126,7 @@ public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
      */
     @Override
     public UniqueKey<DatasetpermissionsRecord> getPrimaryKey() {
-        return Keys.KEY_DATASETPERMISSIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasetpermissions.DATASETPERMISSIONS, "KEY_datasetpermissions_PRIMARY", jhi.germinate.server.database.tables.Datasetpermissions.DATASETPERMISSIONS.ID);
     }
 
     /**
@@ -145,23 +134,9 @@ public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
      */
     @Override
     public List<UniqueKey<DatasetpermissionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<DatasetpermissionsRecord>>asList(Keys.KEY_DATASETPERMISSIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<DatasetpermissionsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<DatasetpermissionsRecord, ?>>asList(Keys.DATASETPERMISSIONS_IBFK_1, Keys.DATASETPERMISSIONS_IBFK_2);
-    }
-
-    public Datasets datasets() {
-        return new Datasets(this, Keys.DATASETPERMISSIONS_IBFK_1);
-    }
-
-    public Usergroups usergroups() {
-        return new Usergroups(this, Keys.DATASETPERMISSIONS_IBFK_2);
+        return Arrays.<UniqueKey<DatasetpermissionsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasetpermissions.DATASETPERMISSIONS, "KEY_datasetpermissions_PRIMARY", jhi.germinate.server.database.tables.Datasetpermissions.DATASETPERMISSIONS.ID)
+        );
     }
 
     /**
@@ -195,4 +170,5 @@ public class Datasetpermissions extends TableImpl<DatasetpermissionsRecord> {
     public Datasetpermissions rename(Name name) {
         return new Datasetpermissions(name, null);
     }
+// @formatter:on
 }

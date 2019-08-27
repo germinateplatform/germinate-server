@@ -3,14 +3,6 @@
 <Context>
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                   -->
-    <Parameter name="database-server" override="true" value="@database.server@" />
-    <Parameter name="database-name" override="true" value="@database.name@" />
-    <Parameter name="database-port" override="true" value="@database.port@" />
-    <Parameter name="username" override="true" value="@database.username@" />
-    <Parameter name="gatekeeper-url" override="true" value="@gatekeeper.url@" />
-    <Parameter name="gatekeeper-username" override="true" value="@gatekeeper.username@" />
-    <Parameter name="gatekeeper-password" override="true" value="@gatekeeper.password@" />
-    <Parameter name="password" override="true" value="@database.password@" />
     <Parameter name="version"  override="true" value="@api.version@" />
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
     <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>

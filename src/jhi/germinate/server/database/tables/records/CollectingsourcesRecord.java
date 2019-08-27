@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Collectingsources;
 
 
+// @formatter:off
 /**
  * The coding scheme proposed can be used at 2 different levels of detail: 
  * either by using the
@@ -32,7 +33,7 @@ import jhi.germinate.server.database.tables.Collectingsources;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CollectingsourcesRecord extends UpdatableRecordImpl<CollectingsourcesRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1637037538;
+    private static final long serialVersionUID = -791573790;
 
     /**
      * Create a detached CollectingsourcesRecord
@@ -290,4 +291,5 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
+// @formatter:on
 }

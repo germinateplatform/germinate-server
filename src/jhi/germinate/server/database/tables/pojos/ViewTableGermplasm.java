@@ -11,6 +11,7 @@ import java.sql.Date;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm implements Serializable {
 
-    private static final long serialVersionUID = 1022715271;
+    private static final long serialVersionUID = 280170777;
 
     private Integer    germplasmid;
     private String     germplasmgid;
@@ -327,4 +328,5 @@ public class ViewTableGermplasm implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

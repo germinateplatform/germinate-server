@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.MapdefinitionsRecord;
 
 
+// @formatter:off
 /**
  * Relates genetic markers to a map and assigns a position (if known). Maps 
  * are made up of lists of markers and positions (genetic or physiscal and 
@@ -33,7 +34,7 @@ import jhi.germinate.server.database.tables.records.MapdefinitionsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
 
-    private static final long serialVersionUID = 694729303;
+    private static final long serialVersionUID = -103675267;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.mapdefinitions</code>
@@ -127,10 +128,6 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Relates genetic markers to a map and assigns a position (if known). Maps are made up of lists of markers and positions (genetic or physiscal and chromosome/linkage group assignation). In the case of QTL the definition_start and definition_end columns can be used to specify a range across a linkage group."));
     }
 
-    public <O extends Record> Mapdefinitions(Table<O> child, ForeignKey<O, MapdefinitionsRecord> key) {
-        super(child, key, MAPDEFINITIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -143,16 +140,8 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MAPDEFINITIONS_MAPFEATURETYPE_ID, Indexes.MAPDEFINITIONS_MAP_ID, Indexes.MAPDEFINITIONS_MARKER_ID, Indexes.MAPDEFINITIONS_MARKER_ID_2, Indexes.MAPDEFINITIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<MapdefinitionsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_MAPDEFINITIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Mapdefinitions.MAPDEFINITIONS, jhi.germinate.server.database.tables.Mapdefinitions.MAPDEFINITIONS.ID);
     }
 
     /**
@@ -160,7 +149,7 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
      */
     @Override
     public UniqueKey<MapdefinitionsRecord> getPrimaryKey() {
-        return Keys.KEY_MAPDEFINITIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Mapdefinitions.MAPDEFINITIONS, "KEY_mapdefinitions_PRIMARY", jhi.germinate.server.database.tables.Mapdefinitions.MAPDEFINITIONS.ID);
     }
 
     /**
@@ -168,27 +157,9 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
      */
     @Override
     public List<UniqueKey<MapdefinitionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<MapdefinitionsRecord>>asList(Keys.KEY_MAPDEFINITIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<MapdefinitionsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<MapdefinitionsRecord, ?>>asList(Keys.MAPDEFINITIONS_IBFK_1, Keys.MAPDEFINITIONS_IBFK_2, Keys.MAPDEFINITIONS_IBFK_3);
-    }
-
-    public Mapfeaturetypes mapfeaturetypes() {
-        return new Mapfeaturetypes(this, Keys.MAPDEFINITIONS_IBFK_1);
-    }
-
-    public Markers markers() {
-        return new Markers(this, Keys.MAPDEFINITIONS_IBFK_2);
-    }
-
-    public Maps maps() {
-        return new Maps(this, Keys.MAPDEFINITIONS_IBFK_3);
+        return Arrays.<UniqueKey<MapdefinitionsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Mapdefinitions.MAPDEFINITIONS, "KEY_mapdefinitions_PRIMARY", jhi.germinate.server.database.tables.Mapdefinitions.MAPDEFINITIONS.ID)
+        );
     }
 
     /**
@@ -222,4 +193,5 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
     public Mapdefinitions rename(Name name) {
         return new Mapdefinitions(name, null);
     }
+// @formatter:on
 }

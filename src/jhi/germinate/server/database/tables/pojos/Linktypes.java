@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * The link type determines which database table and column are used to construct 
  * the final
@@ -27,7 +28,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Linktypes implements Serializable {
 
-    private static final long serialVersionUID = 514683939;
+    private static final long serialVersionUID = 997861821;
 
     private Integer   id;
     private String    description;
@@ -138,4 +139,5 @@ public class Linktypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Markers;
 
 
+// @formatter:off
 /**
  * Defines genetic markers within the database and assigns a type (markertypes).
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Markers;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements Record5<Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -225196215;
+    private static final long serialVersionUID = -1572001183;
 
     /**
      * Create a detached MarkersRecord
@@ -334,4 +335,5 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.GroupmembersRecord;
 
 
+// @formatter:off
 /**
  * Defines which entities are contained within a group. These can be the primary 
  * key from any table.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.GroupmembersRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groupmembers extends TableImpl<GroupmembersRecord> {
 
-    private static final long serialVersionUID = 1925978707;
+    private static final long serialVersionUID = -1102661953;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.groupmembers</code>
@@ -99,10 +100,6 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines which entities are contained within a group. These can be the primary key from any table."));
     }
 
-    public <O extends Record> Groupmembers(Table<O> child, ForeignKey<O, GroupmembersRecord> key) {
-        super(child, key, GROUPMEMBERS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -115,16 +112,8 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.GROUPMEMBERS_GROUPMEMBERS_FOREIGN, Indexes.GROUPMEMBERS_GROUP_ID, Indexes.GROUPMEMBERS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<GroupmembersRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_GROUPMEMBERS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Groupmembers.GROUPMEMBERS, jhi.germinate.server.database.tables.Groupmembers.GROUPMEMBERS.ID);
     }
 
     /**
@@ -132,7 +121,7 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
      */
     @Override
     public UniqueKey<GroupmembersRecord> getPrimaryKey() {
-        return Keys.KEY_GROUPMEMBERS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Groupmembers.GROUPMEMBERS, "KEY_groupmembers_PRIMARY", jhi.germinate.server.database.tables.Groupmembers.GROUPMEMBERS.ID);
     }
 
     /**
@@ -140,19 +129,9 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
      */
     @Override
     public List<UniqueKey<GroupmembersRecord>> getKeys() {
-        return Arrays.<UniqueKey<GroupmembersRecord>>asList(Keys.KEY_GROUPMEMBERS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<GroupmembersRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<GroupmembersRecord, ?>>asList(Keys.GROUPMEMBERS_IBFK_1);
-    }
-
-    public Groups groups() {
-        return new Groups(this, Keys.GROUPMEMBERS_IBFK_1);
+        return Arrays.<UniqueKey<GroupmembersRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Groupmembers.GROUPMEMBERS, "KEY_groupmembers_PRIMARY", jhi.germinate.server.database.tables.Groupmembers.GROUPMEMBERS.ID)
+        );
     }
 
     /**
@@ -186,4 +165,5 @@ public class Groupmembers extends TableImpl<GroupmembersRecord> {
     public Groupmembers rename(Name name) {
         return new Groupmembers(name, null);
     }
+// @formatter:on
 }

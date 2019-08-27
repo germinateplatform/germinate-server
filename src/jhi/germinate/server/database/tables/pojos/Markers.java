@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines genetic markers within the database and assigns a type (markertypes).
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Markers implements Serializable {
 
-    private static final long serialVersionUID = 1402130492;
+    private static final long serialVersionUID = 1717201988;
 
     private Integer   id;
     private Integer   markertypeId;
@@ -108,4 +109,5 @@ public class Markers implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

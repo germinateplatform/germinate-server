@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * This defines which users can view which datasets. Requires Germinate Gatekeeper. 
  * This overrides the datasets state.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetpermissions implements Serializable {
 
-    private static final long serialVersionUID = -1332415785;
+    private static final long serialVersionUID = 465458003;
 
     private Integer   id;
     private Integer   datasetId;
@@ -122,4 +123,5 @@ public class Datasetpermissions implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

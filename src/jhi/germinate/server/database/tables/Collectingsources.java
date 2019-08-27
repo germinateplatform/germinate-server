@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.CollectingsourcesRecord;
 
 
+// @formatter:off
 /**
  * The coding scheme proposed can be used at 2 different levels of detail: 
  * either by using the
@@ -34,7 +35,7 @@ import jhi.germinate.server.database.tables.records.CollectingsourcesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
 
-    private static final long serialVersionUID = 403872762;
+    private static final long serialVersionUID = -1722657203;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.collectingsources</code>
@@ -99,10 +100,6 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("The coding scheme proposed can be used at 2 different levels of detail: either by using the\r\ngeneral codes such as 10, 20, 30, 40, etc., or by using the more specific codes,\r\nsuch as 11, 12, etc. See Multi Crop Passport Descriptors (MCPD V2 2012) for further definitions."));
     }
 
-    public <O extends Record> Collectingsources(Table<O> child, ForeignKey<O, CollectingsourcesRecord> key) {
-        super(child, key, COLLECTINGSOURCES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -115,16 +112,8 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.COLLECTINGSOURCES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<CollectingsourcesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_COLLECTINGSOURCES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Collectingsources.COLLECTINGSOURCES, jhi.germinate.server.database.tables.Collectingsources.COLLECTINGSOURCES.ID);
     }
 
     /**
@@ -132,7 +121,7 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
      */
     @Override
     public UniqueKey<CollectingsourcesRecord> getPrimaryKey() {
-        return Keys.KEY_COLLECTINGSOURCES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Collectingsources.COLLECTINGSOURCES, "KEY_collectingsources_PRIMARY", jhi.germinate.server.database.tables.Collectingsources.COLLECTINGSOURCES.ID);
     }
 
     /**
@@ -140,7 +129,9 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
      */
     @Override
     public List<UniqueKey<CollectingsourcesRecord>> getKeys() {
-        return Arrays.<UniqueKey<CollectingsourcesRecord>>asList(Keys.KEY_COLLECTINGSOURCES_PRIMARY);
+        return Arrays.<UniqueKey<CollectingsourcesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Collectingsources.COLLECTINGSOURCES, "KEY_collectingsources_PRIMARY", jhi.germinate.server.database.tables.Collectingsources.COLLECTINGSOURCES.ID)
+        );
     }
 
     /**
@@ -174,4 +165,5 @@ public class Collectingsources extends TableImpl<CollectingsourcesRecord> {
     public Collectingsources rename(Name name) {
         return new Collectingsources(name, null);
     }
+// @formatter:on
 }

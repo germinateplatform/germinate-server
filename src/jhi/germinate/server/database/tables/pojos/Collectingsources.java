@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * The coding scheme proposed can be used at 2 different levels of detail: 
  * either by using the
@@ -28,7 +29,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collectingsources implements Serializable {
 
-    private static final long serialVersionUID = -144912629;
+    private static final long serialVersionUID = 1521701845;
 
     private Integer   id;
     private String    collsrc;
@@ -100,4 +101,5 @@ public class Collectingsources implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines the comment type.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Commenttypes implements Serializable {
 
-    private static final long serialVersionUID = -1923746354;
+    private static final long serialVersionUID = 2059881020;
 
     private Integer   id;
     private String    description;
@@ -108,4 +109,5 @@ public class Commenttypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

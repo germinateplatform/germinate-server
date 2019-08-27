@@ -10,6 +10,7 @@ import java.sql.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines ecperiments that are held in Germinate.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiments implements Serializable {
 
-    private static final long serialVersionUID = -2045735636;
+    private static final long serialVersionUID = 1803462100;
 
     private Integer   id;
     private String    experimentName;
@@ -147,4 +148,5 @@ public class Experiments implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

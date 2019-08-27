@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines institutions within Germinate. Accessions may be associated with 
  * an institute and this can be defined here.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Institutions implements Serializable {
 
-    private static final long serialVersionUID = -382624555;
+    private static final long serialVersionUID = -239741109;
 
     private Integer   id;
     private String    code;
@@ -187,4 +188,5 @@ public class Institutions implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

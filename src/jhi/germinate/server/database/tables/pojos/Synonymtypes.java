@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Synonym type definitions.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonymtypes implements Serializable {
 
-    private static final long serialVersionUID = -545724274;
+    private static final long serialVersionUID = 393320188;
 
     private Integer   id;
     private String    targetTable;
@@ -121,4 +122,5 @@ public class Synonymtypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

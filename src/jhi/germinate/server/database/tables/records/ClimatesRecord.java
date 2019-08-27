@@ -15,6 +15,7 @@ import jhi.germinate.server.database.enums.ClimatesDatatype;
 import jhi.germinate.server.database.tables.Climates;
 
 
+// @formatter:off
 /**
  * Defines climates. Climates are measureable weather type characteristics 
  * such as temperature or cloud cover.
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Climates;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implements Record8<Integer, String, String, String, ClimatesDatatype, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 733095351;
+    private static final long serialVersionUID = 856058419;
 
     /**
      * Create a detached ClimatesRecord
@@ -483,4 +484,5 @@ public class ClimatesRecord extends UpdatableRecordImpl<ClimatesRecord> implemen
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

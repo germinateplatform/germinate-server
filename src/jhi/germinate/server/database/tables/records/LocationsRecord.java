@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Locations;
 
 
+// @formatter:off
 /**
  * Describes locations. Locations can be collecting sites or the location 
  * of any geographical feature such as research institutes or lab locations.
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Locations;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implements Record15<Integer, Integer, Integer, String, String, String, String, BigDecimal, BigDecimal, BigDecimal, Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1218136334;
+    private static final long serialVersionUID = 41422012;
 
     /**
      * Create a detached LocationsRecord
@@ -160,6 +161,13 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     */
+    public void setLatitude(BigDecimal value) {
+        set(8, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
     public void setState(String value) {
@@ -167,10 +175,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
-    public BigDecimal getLatitude() {
-        return (BigDecimal) get(8);
+    public void setLongitude(BigDecimal value) {
+        set(9, value);
     }
 
     /**
@@ -181,24 +189,17 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     */
+    public BigDecimal getLatitude() {
+        return (BigDecimal) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
     public BigDecimal getLongitude() {
         return (BigDecimal) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
-     */
-    public void setLatitude(BigDecimal value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
-     */
-    public void setLongitude(BigDecimal value) {
-        set(9, value);
     }
 
     /**
@@ -824,4 +825,5 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     public void setUpdatedOn(Timestamp value) {
         set(14, value);
     }
+// @formatter:on
 }

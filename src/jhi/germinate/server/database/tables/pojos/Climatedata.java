@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Holds montly average climate data such as rainfall, temperature or cloud 
  * cover. This is based on locations rather than accessions like most of the 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climatedata implements Serializable {
 
-    private static final long serialVersionUID = 915761361;
+    private static final long serialVersionUID = -1294319665;
 
     private Integer   id;
     private Integer   climateId;
@@ -149,4 +150,5 @@ public class Climatedata implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

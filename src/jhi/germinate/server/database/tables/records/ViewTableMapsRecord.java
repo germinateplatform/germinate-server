@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.ViewTableMaps;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -25,7 +26,7 @@ import jhi.germinate.server.database.tables.ViewTableMaps;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> implements Record6<Integer, String, String, Integer, Byte, Long> {
 
-    private static final long serialVersionUID = 2181462;
+    private static final long serialVersionUID = -1968145164;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_table_maps.mapId</code>. Primary id for this table. This uniquely identifies the row.
@@ -367,4 +368,5 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     public Long getMarkercount() {
         return (Long) get(5);
     }
+// @formatter:on
 }

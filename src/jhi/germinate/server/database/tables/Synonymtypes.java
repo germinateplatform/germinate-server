@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.SynonymtypesRecord;
 
 
+// @formatter:off
 /**
  * Synonym type definitions.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.SynonymtypesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
 
-    private static final long serialVersionUID = 1827495663;
+    private static final long serialVersionUID = 726211552;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.synonymtypes</code>
@@ -103,10 +104,6 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Synonym type definitions."));
     }
 
-    public <O extends Record> Synonymtypes(Table<O> child, ForeignKey<O, SynonymtypesRecord> key) {
-        super(child, key, SYNONYMTYPES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -119,16 +116,8 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SYNONYMTYPES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<SynonymtypesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_SYNONYMTYPES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Synonymtypes.SYNONYMTYPES, jhi.germinate.server.database.tables.Synonymtypes.SYNONYMTYPES.ID);
     }
 
     /**
@@ -136,7 +125,7 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
      */
     @Override
     public UniqueKey<SynonymtypesRecord> getPrimaryKey() {
-        return Keys.KEY_SYNONYMTYPES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Synonymtypes.SYNONYMTYPES, "KEY_synonymtypes_PRIMARY", jhi.germinate.server.database.tables.Synonymtypes.SYNONYMTYPES.ID);
     }
 
     /**
@@ -144,7 +133,9 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
      */
     @Override
     public List<UniqueKey<SynonymtypesRecord>> getKeys() {
-        return Arrays.<UniqueKey<SynonymtypesRecord>>asList(Keys.KEY_SYNONYMTYPES_PRIMARY);
+        return Arrays.<UniqueKey<SynonymtypesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Synonymtypes.SYNONYMTYPES, "KEY_synonymtypes_PRIMARY", jhi.germinate.server.database.tables.Synonymtypes.SYNONYMTYPES.ID)
+        );
     }
 
     /**
@@ -178,4 +169,5 @@ public class Synonymtypes extends TableImpl<SynonymtypesRecord> {
     public Synonymtypes rename(Name name) {
         return new Synonymtypes(name, null);
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Germinatebase;
 
 
+// @formatter:off
 /**
  * Germinatebase is the Germinate base table which contains passport and other 
  * germplasm definition data.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Germinatebase;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GerminatebaseRecord extends UpdatableRecordImpl<GerminatebaseRecord> {
 
-    private static final long serialVersionUID = -1116678431;
+    private static final long serialVersionUID = -355962615;
 
     /**
      * Create a detached GerminatebaseRecord
@@ -509,6 +510,13 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(30);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.entitytype_id</code>. Foreign key to entitytypes (entitytypes.id).
      */
     public void setEntitytypeId(Integer value) {
@@ -520,13 +528,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      */
     public Double getPdci() {
         return (Double) get(29);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(30);
     }
 
     // -------------------------------------------------------------------------
@@ -558,4 +559,5 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     public void setUpdatedOn(Timestamp value) {
         set(31, value);
     }
+// @formatter:on
 }

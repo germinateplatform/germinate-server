@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.CommentsRecord;
 
 
+// @formatter:off
 /**
  * Comments can be added to different entries in Germinate such as entries 
  * from germinatebase or markers from the markers table.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.CommentsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comments extends TableImpl<CommentsRecord> {
 
-    private static final long serialVersionUID = -778687234;
+    private static final long serialVersionUID = 1875649038;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.comments</code>
@@ -114,10 +115,6 @@ public class Comments extends TableImpl<CommentsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Comments can be added to different entries in Germinate such as entries from germinatebase or markers from the markers table."));
     }
 
-    public <O extends Record> Comments(Table<O> child, ForeignKey<O, CommentsRecord> key) {
-        super(child, key, COMMENTS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -130,16 +127,8 @@ public class Comments extends TableImpl<CommentsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.COMMENTS_COMMENTTYPE_ID, Indexes.COMMENTS_PRIMARY, Indexes.COMMENTS_USER_ID);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<CommentsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_COMMENTS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Comments.COMMENTS, jhi.germinate.server.database.tables.Comments.COMMENTS.ID);
     }
 
     /**
@@ -147,7 +136,7 @@ public class Comments extends TableImpl<CommentsRecord> {
      */
     @Override
     public UniqueKey<CommentsRecord> getPrimaryKey() {
-        return Keys.KEY_COMMENTS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Comments.COMMENTS, "KEY_comments_PRIMARY", jhi.germinate.server.database.tables.Comments.COMMENTS.ID);
     }
 
     /**
@@ -155,19 +144,9 @@ public class Comments extends TableImpl<CommentsRecord> {
      */
     @Override
     public List<UniqueKey<CommentsRecord>> getKeys() {
-        return Arrays.<UniqueKey<CommentsRecord>>asList(Keys.KEY_COMMENTS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<CommentsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<CommentsRecord, ?>>asList(Keys.COMMENTS_IBFK_1);
-    }
-
-    public Commenttypes commenttypes() {
-        return new Commenttypes(this, Keys.COMMENTS_IBFK_1);
+        return Arrays.<UniqueKey<CommentsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Comments.COMMENTS, "KEY_comments_PRIMARY", jhi.germinate.server.database.tables.Comments.COMMENTS.ID)
+        );
     }
 
     /**
@@ -201,4 +180,5 @@ public class Comments extends TableImpl<CommentsRecord> {
     public Comments rename(Name name) {
         return new Comments(name, null);
     }
+// @formatter:on
 }

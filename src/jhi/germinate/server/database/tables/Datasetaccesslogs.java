@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.DatasetaccesslogsRecord;
 
 
+// @formatter:off
 /**
  * If enabled, tracks which user accessed which datasets.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.DatasetaccesslogsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
 
-    private static final long serialVersionUID = 1678182742;
+    private static final long serialVersionUID = -2112556452;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasetaccesslogs</code>
@@ -118,10 +119,6 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("If enabled, tracks which user accessed which datasets."));
     }
 
-    public <O extends Record> Datasetaccesslogs(Table<O> child, ForeignKey<O, DatasetaccesslogsRecord> key) {
-        super(child, key, DATASETACCESSLOGS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -134,16 +131,8 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.DATASETACCESSLOGS_DATASET_ID, Indexes.DATASETACCESSLOGS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<DatasetaccesslogsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_DATASETACCESSLOGS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS, jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS.ID);
     }
 
     /**
@@ -151,7 +140,7 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
      */
     @Override
     public UniqueKey<DatasetaccesslogsRecord> getPrimaryKey() {
-        return Keys.KEY_DATASETACCESSLOGS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS, "KEY_datasetaccesslogs_PRIMARY", jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS.ID);
     }
 
     /**
@@ -159,19 +148,9 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
      */
     @Override
     public List<UniqueKey<DatasetaccesslogsRecord>> getKeys() {
-        return Arrays.<UniqueKey<DatasetaccesslogsRecord>>asList(Keys.KEY_DATASETACCESSLOGS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<DatasetaccesslogsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<DatasetaccesslogsRecord, ?>>asList(Keys.DATASETACCESSLOGS_IBFK_1);
-    }
-
-    public Datasets datasets() {
-        return new Datasets(this, Keys.DATASETACCESSLOGS_IBFK_1);
+        return Arrays.<UniqueKey<DatasetaccesslogsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS, "KEY_datasetaccesslogs_PRIMARY", jhi.germinate.server.database.tables.Datasetaccesslogs.DATASETACCESSLOGS.ID)
+        );
     }
 
     /**
@@ -205,4 +184,5 @@ public class Datasetaccesslogs extends TableImpl<DatasetaccesslogsRecord> {
     public Datasetaccesslogs rename(Name name) {
         return new Datasetaccesslogs(name, null);
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Megaenvironmentsource;
 
 
+// @formatter:off
 /**
  * Contains information relating to the source of the mega environments. This 
  * could be the contributing source including contact and location details 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Megaenvironmentsource;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<MegaenvironmentsourceRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -801116305;
+    private static final long serialVersionUID = 1104685937;
 
     /**
      * Create a detached MegaenvironmentsourceRecord
@@ -334,4 +335,5 @@ public class MegaenvironmentsourceRecord extends UpdatableRecordImpl<Megaenviron
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

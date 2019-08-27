@@ -12,6 +12,7 @@ import java.sql.Date;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1321537355;
+    private static final long serialVersionUID = 1405224479;
 
     private Integer datasetid;
     private String  datasetname;
@@ -292,4 +293,5 @@ public class ViewTableDatasets implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

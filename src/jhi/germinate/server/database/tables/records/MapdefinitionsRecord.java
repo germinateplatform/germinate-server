@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Mapdefinitions;
 
 
+// @formatter:off
 /**
  * Relates genetic markers to a map and assigns a position (if known). Maps 
  * are made up of lists of markers and positions (genetic or physiscal and 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.Mapdefinitions;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsRecord> implements Record10<Integer, Integer, Integer, Integer, Double, Double, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -768551764;
+    private static final long serialVersionUID = 1002876372;
 
     /**
      * Create a detached MapdefinitionsRecord
@@ -150,6 +151,13 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     */
+    public String getArmImpute() {
+        return (String) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
     public Integer getMapId() {
@@ -157,10 +165,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
     }
 
     /**
@@ -171,17 +179,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
      */
-    public String getArmImpute() {
-        return (String) get(7);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------
@@ -581,4 +582,5 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     public void setUpdatedOn(Timestamp value) {
         set(9, value);
     }
+// @formatter:on
 }

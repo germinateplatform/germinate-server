@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Markertypes;
 
 
+// @formatter:off
 /**
  * Describes the marker type. Markers (markers) have a defined type. This 
  * could be AFLP, MicroSat, SNP and so on. Used to differentiate markers within 
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.Markertypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -238981709;
+    private static final long serialVersionUID = -329619977;
 
     /**
      * Create a detached MarkertypesRecord
@@ -286,4 +287,5 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
+// @formatter:on
 }

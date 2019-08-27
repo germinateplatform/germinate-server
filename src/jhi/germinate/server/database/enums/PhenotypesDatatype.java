@@ -9,6 +9,7 @@ import org.jooq.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines the data type of the phenotype. This can be of float, int or char 
  * types.
@@ -66,4 +67,5 @@ public enum PhenotypesDatatype implements EnumType {
     public String getLiteral() {
         return literal;
     }
+// @formatter:on
 }

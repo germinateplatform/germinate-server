@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Groups;
 
 
+// @formatter:off
 /**
  * Allows the definition of groups within Germinate. Germinate supports a 
  * number of different group types such as germinatebase accesion groups and 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Groups;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements Record8<Integer, Integer, String, String, Byte, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1660415852;
+    private static final long serialVersionUID = 1721728990;
 
     /**
      * Create a detached GroupsRecord
@@ -481,4 +482,5 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

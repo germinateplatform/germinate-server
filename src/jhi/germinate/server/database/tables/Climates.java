@@ -12,11 +12,12 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.enums.ClimatesDatatype;
 import jhi.germinate.server.database.tables.records.ClimatesRecord;
 
 
+// @formatter:off
 /**
  * Defines climates. Climates are measureable weather type characteristics 
  * such as temperature or cloud cover.
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.ClimatesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climates extends TableImpl<ClimatesRecord> {
 
-    private static final long serialVersionUID = -1440312228;
+    private static final long serialVersionUID = 1742746774;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.climates</code>
@@ -116,10 +117,6 @@ public class Climates extends TableImpl<ClimatesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines climates. Climates are measureable weather type characteristics such as temperature or cloud cover."));
     }
 
-    public <O extends Record> Climates(Table<O> child, ForeignKey<O, ClimatesRecord> key) {
-        super(child, key, CLIMATES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -132,16 +129,8 @@ public class Climates extends TableImpl<ClimatesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CLIMATES_PRIMARY, Indexes.CLIMATES_UNIT_ID);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<ClimatesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_CLIMATES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Climates.CLIMATES, jhi.germinate.server.database.tables.Climates.CLIMATES.ID);
     }
 
     /**
@@ -149,7 +138,7 @@ public class Climates extends TableImpl<ClimatesRecord> {
      */
     @Override
     public UniqueKey<ClimatesRecord> getPrimaryKey() {
-        return Keys.KEY_CLIMATES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Climates.CLIMATES, "KEY_climates_PRIMARY", jhi.germinate.server.database.tables.Climates.CLIMATES.ID);
     }
 
     /**
@@ -157,19 +146,9 @@ public class Climates extends TableImpl<ClimatesRecord> {
      */
     @Override
     public List<UniqueKey<ClimatesRecord>> getKeys() {
-        return Arrays.<UniqueKey<ClimatesRecord>>asList(Keys.KEY_CLIMATES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<ClimatesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ClimatesRecord, ?>>asList(Keys.CLIMATES_IBFK_1);
-    }
-
-    public Units units() {
-        return new Units(this, Keys.CLIMATES_IBFK_1);
+        return Arrays.<UniqueKey<ClimatesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Climates.CLIMATES, "KEY_climates_PRIMARY", jhi.germinate.server.database.tables.Climates.CLIMATES.ID)
+        );
     }
 
     /**
@@ -203,4 +182,5 @@ public class Climates extends TableImpl<ClimatesRecord> {
     public Climates rename(Name name) {
         return new Climates(name, null);
     }
+// @formatter:on
 }

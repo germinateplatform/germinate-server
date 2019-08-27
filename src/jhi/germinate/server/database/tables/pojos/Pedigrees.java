@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.enums.PedigreesRelationshipType;
 
 
+// @formatter:off
 /**
  * Holds pedigree definitions. A pedigree is constructed from a series of 
  * individial-&gt;parent records. This gives a great deal of flexibility in 
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.enums.PedigreesRelationshipType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigrees implements Serializable {
 
-    private static final long serialVersionUID = -1029545626;
+    private static final long serialVersionUID = -1641324710;
 
     private Integer                   id;
     private Integer                   germinatebaseId;
@@ -152,4 +153,5 @@ public class Pedigrees implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

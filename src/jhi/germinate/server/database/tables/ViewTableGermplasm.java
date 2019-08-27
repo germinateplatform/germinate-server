@@ -16,6 +16,7 @@ import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableGermplasmRecord;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -29,13 +30,12 @@ import jhi.germinate.server.database.tables.records.ViewTableGermplasmRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
 
-    private static final long serialVersionUID = 488828211;
+    private static final long serialVersionUID = 885537718;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm</code>
      */
     public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = new ViewTableGermplasm();
-
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.collDate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
@@ -183,10 +183,6 @@ identifying duplicates held in different collections.
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
     }
 
-    public <O extends Record> ViewTableGermplasm(Table<O> child, ForeignKey<O, ViewTableGermplasmRecord> key) {
-        super(child, key, VIEW_TABLE_GERMPLASM);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -226,4 +222,5 @@ identifying duplicates held in different collections.
     public ViewTableGermplasm rename(Name name) {
         return new ViewTableGermplasm(name, null);
     }
+// @formatter:on
 }

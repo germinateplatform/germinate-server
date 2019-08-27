@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.BiologicalstatusRecord;
 
 
+// @formatter:off
 /**
  * Based on Multi Crop Passport Descriptors (MCPD V2 2012) - The coding scheme 
  * proposed can be used at 3 different levels of detail: either by using the
@@ -55,7 +56,7 @@ import jhi.germinate.server.database.tables.records.BiologicalstatusRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
 
-    private static final long serialVersionUID = 1105467325;
+    private static final long serialVersionUID = -1148184327;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.biologicalstatus</code>
@@ -119,10 +120,6 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Based on Multi Crop Passport Descriptors (MCPD V2 2012) - The coding scheme proposed can be used at 3 different levels of detail: either by using the\ngeneral codes (in boldface) such as 100, 200, 300, 400, or by using the more specific codes\nsuch as 110, 120, etc.\n100) Wild\n110) Natural\n120) Semi-natural/wild\n130) Semi-natural/sown\n200) Weedy\n300) Traditional cultivar/landrace\n400) Breeding/research material\n 410) Breeder's line\n 411) Synthetic population\n 412) Hybrid\n 413) Founder stock/base population\n 414) Inbred line (parent of hybrid cultivar)\n 415) Segregating population\n 416) Clonal selection\n 420) Genetic stock\n 421) Mutant (e.g. induced/insertion mutants, tilling populations)\n 422) Cytogenetic stocks (e.g. chromosome addition/substitution, aneuploids,\namphiploids)\n 423) Other genetic stocks (e.g. mapping populations)\n500) Advanced or improved cultivar (conventional breeding methods)\n600) GMO (by genetic engineering)\n 999) Other "));
     }
 
-    public <O extends Record> Biologicalstatus(Table<O> child, ForeignKey<O, BiologicalstatusRecord> key) {
-        super(child, key, BIOLOGICALSTATUS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -135,16 +132,8 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.BIOLOGICALSTATUS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<BiologicalstatusRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_BIOLOGICALSTATUS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Biologicalstatus.BIOLOGICALSTATUS, jhi.germinate.server.database.tables.Biologicalstatus.BIOLOGICALSTATUS.ID);
     }
 
     /**
@@ -152,7 +141,7 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
      */
     @Override
     public UniqueKey<BiologicalstatusRecord> getPrimaryKey() {
-        return Keys.KEY_BIOLOGICALSTATUS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Biologicalstatus.BIOLOGICALSTATUS, "KEY_biologicalstatus_PRIMARY", jhi.germinate.server.database.tables.Biologicalstatus.BIOLOGICALSTATUS.ID);
     }
 
     /**
@@ -160,7 +149,9 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
      */
     @Override
     public List<UniqueKey<BiologicalstatusRecord>> getKeys() {
-        return Arrays.<UniqueKey<BiologicalstatusRecord>>asList(Keys.KEY_BIOLOGICALSTATUS_PRIMARY);
+        return Arrays.<UniqueKey<BiologicalstatusRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Biologicalstatus.BIOLOGICALSTATUS, "KEY_biologicalstatus_PRIMARY", jhi.germinate.server.database.tables.Biologicalstatus.BIOLOGICALSTATUS.ID)
+        );
     }
 
     /**
@@ -194,4 +185,5 @@ public class Biologicalstatus extends TableImpl<BiologicalstatusRecord> {
     public Biologicalstatus rename(Name name) {
         return new Biologicalstatus(name, null);
     }
+// @formatter:on
 }

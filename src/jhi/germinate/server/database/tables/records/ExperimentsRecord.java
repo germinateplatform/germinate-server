@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Experiments;
 
 
+// @formatter:off
 /**
  * Defines ecperiments that are held in Germinate.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Experiments;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> implements Record8<Integer, String, Integer, String, Date, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 623075167;
+    private static final long serialVersionUID = -741683637;
 
     /**
      * Create a detached ExperimentsRecord
@@ -483,4 +484,5 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

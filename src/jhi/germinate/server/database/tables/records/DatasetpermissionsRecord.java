@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Datasetpermissions;
 
 
+// @formatter:off
 /**
  * This defines which users can view which datasets. Requires Germinate Gatekeeper. 
  * This overrides the datasets state.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Datasetpermissions;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetpermissionsRecord extends UpdatableRecordImpl<DatasetpermissionsRecord> implements Record6<Integer, Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1673914254;
+    private static final long serialVersionUID = 472429134;
 
     /**
      * Create a detached DatasetpermissionsRecord
@@ -382,4 +383,5 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

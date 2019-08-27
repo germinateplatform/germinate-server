@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * This table holds the actual pedigree definition data.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreedefinitions implements Serializable {
 
-    private static final long serialVersionUID = -1999480059;
+    private static final long serialVersionUID = -1673923813;
 
     private Integer   id;
     private Integer   germinatebaseId;
@@ -134,4 +135,5 @@ public class Pedigreedefinitions implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

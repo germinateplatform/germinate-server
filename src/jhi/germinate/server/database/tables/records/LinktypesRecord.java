@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Linktypes;
 
 
+// @formatter:off
 /**
  * The link type determines which database table and column are used to construct 
  * the final
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.Linktypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implements Record7<Integer, String, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -653209307;
+    private static final long serialVersionUID = -917154245;
 
     /**
      * Create a detached LinktypesRecord
@@ -436,4 +437,5 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     public void setUpdatedOn(Timestamp value) {
         set(6, value);
     }
+// @formatter:on
 }

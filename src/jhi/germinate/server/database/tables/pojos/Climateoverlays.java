@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Climate overlays can be used in conjunction with OpenStreetMap in order 
  * to visualize climate data in a geographic context.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climateoverlays implements Serializable {
 
-    private static final long serialVersionUID = 1241205406;
+    private static final long serialVersionUID = 1050563180;
 
     private Integer   id;
     private Integer   climateId;
@@ -187,4 +188,5 @@ public class Climateoverlays implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

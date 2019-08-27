@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.LocationtypesRecord;
 
 
+// @formatter:off
 /**
  * Describes a location.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.LocationtypesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locationtypes extends TableImpl<LocationtypesRecord> {
 
-    private static final long serialVersionUID = -600018013;
+    private static final long serialVersionUID = 1928992760;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.locationtypes</code>
@@ -98,10 +99,6 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Describes a location."));
     }
 
-    public <O extends Record> Locationtypes(Table<O> child, ForeignKey<O, LocationtypesRecord> key) {
-        super(child, key, LOCATIONTYPES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -114,16 +111,8 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.LOCATIONTYPES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<LocationtypesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_LOCATIONTYPES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Locationtypes.LOCATIONTYPES, jhi.germinate.server.database.tables.Locationtypes.LOCATIONTYPES.ID);
     }
 
     /**
@@ -131,7 +120,7 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
      */
     @Override
     public UniqueKey<LocationtypesRecord> getPrimaryKey() {
-        return Keys.KEY_LOCATIONTYPES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Locationtypes.LOCATIONTYPES, "KEY_locationtypes_PRIMARY", jhi.germinate.server.database.tables.Locationtypes.LOCATIONTYPES.ID);
     }
 
     /**
@@ -139,7 +128,9 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
      */
     @Override
     public List<UniqueKey<LocationtypesRecord>> getKeys() {
-        return Arrays.<UniqueKey<LocationtypesRecord>>asList(Keys.KEY_LOCATIONTYPES_PRIMARY);
+        return Arrays.<UniqueKey<LocationtypesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Locationtypes.LOCATIONTYPES, "KEY_locationtypes_PRIMARY", jhi.germinate.server.database.tables.Locationtypes.LOCATIONTYPES.ID)
+        );
     }
 
     /**
@@ -173,4 +164,5 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
     public Locationtypes rename(Name name) {
         return new Locationtypes(name, null);
     }
+// @formatter:on
 }

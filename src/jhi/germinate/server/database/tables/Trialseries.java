@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.TrialseriesRecord;
 
 
+// @formatter:off
 /**
  * Holds the names of trial series. Trial series define the name of the trial 
  * to which trials data is associated. Examples would include the overarching 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.TrialseriesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Trialseries extends TableImpl<TrialseriesRecord> {
 
-    private static final long serialVersionUID = -686627947;
+    private static final long serialVersionUID = -1662463949;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.trialseries</code>
@@ -95,10 +96,6 @@ public class Trialseries extends TableImpl<TrialseriesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Holds the names of trial series. Trial series define the name of the trial to which trials data is associated. Examples would include the overarching project."));
     }
 
-    public <O extends Record> Trialseries(Table<O> child, ForeignKey<O, TrialseriesRecord> key) {
-        super(child, key, TRIALSERIES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -111,16 +108,8 @@ public class Trialseries extends TableImpl<TrialseriesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TRIALSERIES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<TrialseriesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_TRIALSERIES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Trialseries.TRIALSERIES, jhi.germinate.server.database.tables.Trialseries.TRIALSERIES.ID);
     }
 
     /**
@@ -128,7 +117,7 @@ public class Trialseries extends TableImpl<TrialseriesRecord> {
      */
     @Override
     public UniqueKey<TrialseriesRecord> getPrimaryKey() {
-        return Keys.KEY_TRIALSERIES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Trialseries.TRIALSERIES, "KEY_trialseries_PRIMARY", jhi.germinate.server.database.tables.Trialseries.TRIALSERIES.ID);
     }
 
     /**
@@ -136,7 +125,9 @@ public class Trialseries extends TableImpl<TrialseriesRecord> {
      */
     @Override
     public List<UniqueKey<TrialseriesRecord>> getKeys() {
-        return Arrays.<UniqueKey<TrialseriesRecord>>asList(Keys.KEY_TRIALSERIES_PRIMARY);
+        return Arrays.<UniqueKey<TrialseriesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Trialseries.TRIALSERIES, "KEY_trialseries_PRIMARY", jhi.germinate.server.database.tables.Trialseries.TRIALSERIES.ID)
+        );
     }
 
     /**
@@ -170,4 +161,5 @@ public class Trialseries extends TableImpl<TrialseriesRecord> {
     public Trialseries rename(Name name) {
         return new Trialseries(name, null);
     }
+// @formatter:on
 }

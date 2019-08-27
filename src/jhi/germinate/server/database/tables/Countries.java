@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.CountriesRecord;
 
 
+// @formatter:off
 /**
  * Countries that are used in the locations type tables in Germinate. These 
  * are the ISO codes for countries.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.CountriesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Countries extends TableImpl<CountriesRecord> {
 
-    private static final long serialVersionUID = 635974134;
+    private static final long serialVersionUID = -109281387;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.countries</code>
@@ -104,10 +105,6 @@ public class Countries extends TableImpl<CountriesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Countries that are used in the locations type tables in Germinate. These are the ISO codes for countries."));
     }
 
-    public <O extends Record> Countries(Table<O> child, ForeignKey<O, CountriesRecord> key) {
-        super(child, key, COUNTRIES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -120,16 +117,8 @@ public class Countries extends TableImpl<CountriesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.COUNTRIES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<CountriesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_COUNTRIES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Countries.COUNTRIES, jhi.germinate.server.database.tables.Countries.COUNTRIES.ID);
     }
 
     /**
@@ -137,7 +126,7 @@ public class Countries extends TableImpl<CountriesRecord> {
      */
     @Override
     public UniqueKey<CountriesRecord> getPrimaryKey() {
-        return Keys.KEY_COUNTRIES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Countries.COUNTRIES, "KEY_countries_PRIMARY", jhi.germinate.server.database.tables.Countries.COUNTRIES.ID);
     }
 
     /**
@@ -145,7 +134,9 @@ public class Countries extends TableImpl<CountriesRecord> {
      */
     @Override
     public List<UniqueKey<CountriesRecord>> getKeys() {
-        return Arrays.<UniqueKey<CountriesRecord>>asList(Keys.KEY_COUNTRIES_PRIMARY);
+        return Arrays.<UniqueKey<CountriesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Countries.COUNTRIES, "KEY_countries_PRIMARY", jhi.germinate.server.database.tables.Countries.COUNTRIES.ID)
+        );
     }
 
     /**
@@ -179,4 +170,5 @@ public class Countries extends TableImpl<CountriesRecord> {
     public Countries rename(Name name) {
         return new Countries(name, null);
     }
+// @formatter:on
 }

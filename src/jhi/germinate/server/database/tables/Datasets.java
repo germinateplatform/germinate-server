@@ -13,10 +13,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.DatasetsRecord;
 
 
+// @formatter:off
 /**
  * Datasets which are defined within Germinate although there can be external 
  * datasets which are links out to external data sources most will be held 
@@ -32,7 +33,7 @@ import jhi.germinate.server.database.tables.records.DatasetsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets extends TableImpl<DatasetsRecord> {
 
-    private static final long serialVersionUID = -226520918;
+    private static final long serialVersionUID = -167060999;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasets</code>
@@ -173,10 +174,6 @@ public class Datasets extends TableImpl<DatasetsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Datasets which are defined within Germinate although there can be external datasets which are links out to external data sources most will be held within Germinate."));
     }
 
-    public <O extends Record> Datasets(Table<O> child, ForeignKey<O, DatasetsRecord> key) {
-        super(child, key, DATASETS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -189,16 +186,8 @@ public class Datasets extends TableImpl<DatasetsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.DATASETS_DATASETS_IBFK_2, Indexes.DATASETS_DATASETS_IBFK_3, Indexes.DATASETS_EXPERIMENT, Indexes.DATASETS_ID, Indexes.DATASETS_LICENSE_ID, Indexes.DATASETS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<DatasetsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_DATASETS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Datasets.DATASETS, jhi.germinate.server.database.tables.Datasets.DATASETS.ID);
     }
 
     /**
@@ -206,7 +195,7 @@ public class Datasets extends TableImpl<DatasetsRecord> {
      */
     @Override
     public UniqueKey<DatasetsRecord> getPrimaryKey() {
-        return Keys.KEY_DATASETS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasets.DATASETS, "KEY_datasets_PRIMARY", jhi.germinate.server.database.tables.Datasets.DATASETS.ID);
     }
 
     /**
@@ -214,31 +203,9 @@ public class Datasets extends TableImpl<DatasetsRecord> {
      */
     @Override
     public List<UniqueKey<DatasetsRecord>> getKeys() {
-        return Arrays.<UniqueKey<DatasetsRecord>>asList(Keys.KEY_DATASETS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<DatasetsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<DatasetsRecord, ?>>asList(Keys.DATASETS_IBFK_1, Keys.DATASETS_IBFK_3, Keys.DATASETS_IBFK_2, Keys.DATASETS_IBFK_4);
-    }
-
-    public Experiments experiments() {
-        return new Experiments(this, Keys.DATASETS_IBFK_1);
-    }
-
-    public Locations locations() {
-        return new Locations(this, Keys.DATASETS_IBFK_3);
-    }
-
-    public Datasetstates datasetstates() {
-        return new Datasetstates(this, Keys.DATASETS_IBFK_2);
-    }
-
-    public Licenses licenses() {
-        return new Licenses(this, Keys.DATASETS_IBFK_4);
+        return Arrays.<UniqueKey<DatasetsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasets.DATASETS, "KEY_datasets_PRIMARY", jhi.germinate.server.database.tables.Datasets.DATASETS.ID)
+        );
     }
 
     /**
@@ -272,4 +239,5 @@ public class Datasets extends TableImpl<DatasetsRecord> {
     public Datasets rename(Name name) {
         return new Datasets(name, null);
     }
+// @formatter:on
 }

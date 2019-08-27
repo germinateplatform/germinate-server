@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * The 'units' table holds descriptions of the various units that are used 
  * in the Germinate database. Examples of these would include International 
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Units implements Serializable {
 
-    private static final long serialVersionUID = 511312082;
+    private static final long serialVersionUID = -1646898952;
 
     private Integer   id;
     private String    unitName;
@@ -124,4 +125,5 @@ public class Units implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

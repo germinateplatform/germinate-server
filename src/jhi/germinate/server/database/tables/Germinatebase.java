@@ -13,10 +13,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.GerminatebaseRecord;
 
 
+// @formatter:off
 /**
  * Germinatebase is the Germinate base table which contains passport and other 
  * germplasm definition data.
@@ -31,13 +32,12 @@ import jhi.germinate.server.database.tables.records.GerminatebaseRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Germinatebase extends TableImpl<GerminatebaseRecord> {
 
-    private static final long serialVersionUID = -914537270;
+    private static final long serialVersionUID = -609180352;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.germinatebase</code>
      */
     public static final Germinatebase GERMINATEBASE = new Germinatebase();
-
     /**
      * The column <code>germinate_template_3_7_0.germinatebase.colldate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
@@ -244,10 +244,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
         super(alias, null, aliased, parameters, DSL.comment("Germinatebase is the Germinate base table which contains passport and other germplasm definition data."));
     }
 
-    public <O extends Record> Germinatebase(Table<O> child, ForeignKey<O, GerminatebaseRecord> key) {
-        super(child, key, GERMINATEBASE);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -260,16 +256,8 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.GERMINATEBASE_COLLSITE_ID, Indexes.GERMINATEBASE_GENERAL_IDENTIFIER, Indexes.GERMINATEBASE_GERMINATEBASE_IBFK_8, Indexes.GERMINATEBASE_GERMINATEBASE_IBFK_BIOLOGICALSTATUS, Indexes.GERMINATEBASE_GERMINATEBASE_IBFK_COLLECTINGSOURCE, Indexes.GERMINATEBASE_GERMINATEBASE_IBFK_ENTITYPARENT, Indexes.GERMINATEBASE_GERMINATEBASE_IBFK_ENTITYTYPE, Indexes.GERMINATEBASE_INSTITUTION_ID, Indexes.GERMINATEBASE_PRIMARY, Indexes.GERMINATEBASE_TAXONOMY_ID);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<GerminatebaseRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_GERMINATEBASE;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Germinatebase.GERMINATEBASE, jhi.germinate.server.database.tables.Germinatebase.GERMINATEBASE.ID);
     }
 
     /**
@@ -277,7 +265,7 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      */
     @Override
     public UniqueKey<GerminatebaseRecord> getPrimaryKey() {
-        return Keys.KEY_GERMINATEBASE_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Germinatebase.GERMINATEBASE, "KEY_germinatebase_PRIMARY", jhi.germinate.server.database.tables.Germinatebase.GERMINATEBASE.ID);
     }
 
     /**
@@ -285,47 +273,9 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      */
     @Override
     public List<UniqueKey<GerminatebaseRecord>> getKeys() {
-        return Arrays.<UniqueKey<GerminatebaseRecord>>asList(Keys.KEY_GERMINATEBASE_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<GerminatebaseRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<GerminatebaseRecord, ?>>asList(Keys.GERMINATEBASE_IBFK_TAXONOMY, Keys.GERMINATEBASE_IBFK_INSTITUTION, Keys.GERMINATEBASE_IBFK_MLSSTATUS, Keys.GERMINATEBASE_IBFK_BIOLOGICALSTATUS, Keys.GERMINATEBASE_IBFK_COLLSRC, Keys.GERMINATEBASE_IBFK_LOCATION, Keys.GERMINATEBASE_IBFK_ENTITYTYPE, Keys.GERMINATEBASE_IBFK_ENTITYPARENT);
-    }
-
-    public Taxonomies taxonomies() {
-        return new Taxonomies(this, Keys.GERMINATEBASE_IBFK_TAXONOMY);
-    }
-
-    public Institutions institutions() {
-        return new Institutions(this, Keys.GERMINATEBASE_IBFK_INSTITUTION);
-    }
-
-    public Mlsstatus mlsstatus() {
-        return new Mlsstatus(this, Keys.GERMINATEBASE_IBFK_MLSSTATUS);
-    }
-
-    public Biologicalstatus biologicalstatus() {
-        return new Biologicalstatus(this, Keys.GERMINATEBASE_IBFK_BIOLOGICALSTATUS);
-    }
-
-    public Collectingsources collectingsources() {
-        return new Collectingsources(this, Keys.GERMINATEBASE_IBFK_COLLSRC);
-    }
-
-    public Locations locations() {
-        return new Locations(this, Keys.GERMINATEBASE_IBFK_LOCATION);
-    }
-
-    public Entitytypes entitytypes() {
-        return new Entitytypes(this, Keys.GERMINATEBASE_IBFK_ENTITYTYPE);
-    }
-
-    public jhi.germinate.server.database.tables.Germinatebase germinatebase() {
-        return new jhi.germinate.server.database.tables.Germinatebase(this, Keys.GERMINATEBASE_IBFK_ENTITYPARENT);
+        return Arrays.<UniqueKey<GerminatebaseRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Germinatebase.GERMINATEBASE, "KEY_germinatebase_PRIMARY", jhi.germinate.server.database.tables.Germinatebase.GERMINATEBASE.ID)
+        );
     }
 
     /**
@@ -359,4 +309,5 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     public Germinatebase rename(Name name) {
         return new Germinatebase(name, null);
     }
+// @formatter:on
 }

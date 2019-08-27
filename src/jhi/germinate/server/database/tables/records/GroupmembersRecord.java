@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Groupmembers;
 
 
+// @formatter:off
 /**
  * Defines which entities are contained within a group. These can be the primary 
  * key from any table.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Groupmembers;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GroupmembersRecord extends UpdatableRecordImpl<GroupmembersRecord> implements Record5<Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 679562567;
+    private static final long serialVersionUID = -1212804509;
 
     /**
      * Create a detached GroupmembersRecord
@@ -333,4 +334,5 @@ public class GroupmembersRecord extends UpdatableRecordImpl<GroupmembersRecord> 
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

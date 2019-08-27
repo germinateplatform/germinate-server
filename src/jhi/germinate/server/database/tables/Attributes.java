@@ -12,11 +12,12 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.enums.AttributesDatatype;
 import jhi.germinate.server.database.tables.records.AttributesRecord;
 
 
+// @formatter:off
 /**
  * Describes attributes. Attributes are bits of information that can be joined 
  * to, for example, a germinatebase entry. These are bits of data that while 
@@ -33,7 +34,7 @@ import jhi.germinate.server.database.tables.records.AttributesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Attributes extends TableImpl<AttributesRecord> {
 
-    private static final long serialVersionUID = -1838691381;
+    private static final long serialVersionUID = -599692925;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.attributes</code>
@@ -112,10 +113,6 @@ public class Attributes extends TableImpl<AttributesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Describes attributes. Attributes are bits of information that can be joined to, for example, a germinatebase entry. These are bits of data that while important do not warrant adding additional columns in the other tables. Examples would be using this to define ecotypes for germinatebase entries."));
     }
 
-    public <O extends Record> Attributes(Table<O> child, ForeignKey<O, AttributesRecord> key) {
-        super(child, key, ATTRIBUTES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -128,16 +125,8 @@ public class Attributes extends TableImpl<AttributesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ATTRIBUTES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<AttributesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_ATTRIBUTES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Attributes.ATTRIBUTES, jhi.germinate.server.database.tables.Attributes.ATTRIBUTES.ID);
     }
 
     /**
@@ -145,7 +134,7 @@ public class Attributes extends TableImpl<AttributesRecord> {
      */
     @Override
     public UniqueKey<AttributesRecord> getPrimaryKey() {
-        return Keys.KEY_ATTRIBUTES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Attributes.ATTRIBUTES, "KEY_attributes_PRIMARY", jhi.germinate.server.database.tables.Attributes.ATTRIBUTES.ID);
     }
 
     /**
@@ -153,7 +142,9 @@ public class Attributes extends TableImpl<AttributesRecord> {
      */
     @Override
     public List<UniqueKey<AttributesRecord>> getKeys() {
-        return Arrays.<UniqueKey<AttributesRecord>>asList(Keys.KEY_ATTRIBUTES_PRIMARY);
+        return Arrays.<UniqueKey<AttributesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Attributes.ATTRIBUTES, "KEY_attributes_PRIMARY", jhi.germinate.server.database.tables.Attributes.ATTRIBUTES.ID)
+        );
     }
 
     /**
@@ -187,4 +178,5 @@ public class Attributes extends TableImpl<AttributesRecord> {
     public Attributes rename(Name name) {
         return new Attributes(name, null);
     }
+// @formatter:on
 }

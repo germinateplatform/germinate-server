@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.CommenttypesRecord;
 
 
+// @formatter:off
 /**
  * Defines the comment type.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.CommenttypesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Commenttypes extends TableImpl<CommenttypesRecord> {
 
-    private static final long serialVersionUID = -1711937381;
+    private static final long serialVersionUID = -469303736;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.commenttypes</code>
@@ -98,10 +99,6 @@ public class Commenttypes extends TableImpl<CommenttypesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines the comment type."));
     }
 
-    public <O extends Record> Commenttypes(Table<O> child, ForeignKey<O, CommenttypesRecord> key) {
-        super(child, key, COMMENTTYPES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -114,16 +111,8 @@ public class Commenttypes extends TableImpl<CommenttypesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.COMMENTTYPES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<CommenttypesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_COMMENTTYPES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES, jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES.ID);
     }
 
     /**
@@ -131,7 +120,7 @@ public class Commenttypes extends TableImpl<CommenttypesRecord> {
      */
     @Override
     public UniqueKey<CommenttypesRecord> getPrimaryKey() {
-        return Keys.KEY_COMMENTTYPES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES, "KEY_commenttypes_PRIMARY", jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES.ID);
     }
 
     /**
@@ -139,7 +128,9 @@ public class Commenttypes extends TableImpl<CommenttypesRecord> {
      */
     @Override
     public List<UniqueKey<CommenttypesRecord>> getKeys() {
-        return Arrays.<UniqueKey<CommenttypesRecord>>asList(Keys.KEY_COMMENTTYPES_PRIMARY);
+        return Arrays.<UniqueKey<CommenttypesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES, "KEY_commenttypes_PRIMARY", jhi.germinate.server.database.tables.Commenttypes.COMMENTTYPES.ID)
+        );
     }
 
     /**
@@ -173,4 +164,5 @@ public class Commenttypes extends TableImpl<CommenttypesRecord> {
     public Commenttypes rename(Name name) {
         return new Commenttypes(name, null);
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.News;
 
 
+// @formatter:off
 /**
  * Holds news items that are displayed within Germinate.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.News;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Record9<Integer, Integer, String, String, String, String, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 458664012;
+    private static final long serialVersionUID = -681516482;
 
     /**
      * Create a detached NewsRecord
@@ -145,6 +146,13 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
      */
     public String getContent() {
@@ -156,13 +164,6 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
      */
     public void setHyperlink(String value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.news.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -528,4 +529,5 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     public void setUpdatedOn(Timestamp value) {
         set(8, value);
     }
+// @formatter:on
 }

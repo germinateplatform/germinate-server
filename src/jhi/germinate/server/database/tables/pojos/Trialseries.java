@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Holds the names of trial series. Trial series define the name of the trial 
  * to which trials data is associated. Examples would include the overarching 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Trialseries implements Serializable {
 
-    private static final long serialVersionUID = 1002289609;
+    private static final long serialVersionUID = 1602474455;
 
     private Integer   id;
     private String    seriesname;
@@ -97,4 +98,5 @@ public class Trialseries implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

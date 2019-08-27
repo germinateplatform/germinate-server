@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.SynonymsRecord;
 
 
+// @formatter:off
 /**
  * Allows the definition of synonyms for entries such as germinatebase entries 
  * or marker names.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.SynonymsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonyms extends TableImpl<SynonymsRecord> {
 
-    private static final long serialVersionUID = 2040240416;
+    private static final long serialVersionUID = 980161486;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.synonyms</code>
@@ -106,10 +107,6 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Allows the definition of synonyms for entries such as germinatebase entries or marker names."));
     }
 
-    public <O extends Record> Synonyms(Table<O> child, ForeignKey<O, SynonymsRecord> key) {
-        super(child, key, SYNONYMS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -122,16 +119,8 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SYNONYMS_FOREIGN_ID, Indexes.SYNONYMS_PRIMARY, Indexes.SYNONYMS_SYNONYMS_IBFK_SYNONYMTYPES);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<SynonymsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_SYNONYMS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Synonyms.SYNONYMS, jhi.germinate.server.database.tables.Synonyms.SYNONYMS.ID);
     }
 
     /**
@@ -139,7 +128,7 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
      */
     @Override
     public UniqueKey<SynonymsRecord> getPrimaryKey() {
-        return Keys.KEY_SYNONYMS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Synonyms.SYNONYMS, "KEY_synonyms_PRIMARY", jhi.germinate.server.database.tables.Synonyms.SYNONYMS.ID);
     }
 
     /**
@@ -147,19 +136,9 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
      */
     @Override
     public List<UniqueKey<SynonymsRecord>> getKeys() {
-        return Arrays.<UniqueKey<SynonymsRecord>>asList(Keys.KEY_SYNONYMS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<SynonymsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<SynonymsRecord, ?>>asList(Keys.SYNONYMS_IBFK_1);
-    }
-
-    public Synonymtypes synonymtypes() {
-        return new Synonymtypes(this, Keys.SYNONYMS_IBFK_1);
+        return Arrays.<UniqueKey<SynonymsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Synonyms.SYNONYMS, "KEY_synonyms_PRIMARY", jhi.germinate.server.database.tables.Synonyms.SYNONYMS.ID)
+        );
     }
 
     /**
@@ -193,4 +172,5 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
     public Synonyms rename(Name name) {
         return new Synonyms(name, null);
     }
+// @formatter:on
 }

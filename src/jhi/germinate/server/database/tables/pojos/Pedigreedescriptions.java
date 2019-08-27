@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Description of pedigrees. Pedigrees can have a description which details 
  * additional information about the pedigree, how it was constructed and who 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreedescriptions implements Serializable {
 
-    private static final long serialVersionUID = 1251006181;
+    private static final long serialVersionUID = -1878861509;
 
     private Integer   id;
     private String    name;
@@ -123,4 +124,5 @@ public class Pedigreedescriptions implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

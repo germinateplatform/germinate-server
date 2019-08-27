@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines the news types which are contained the database. The news types 
  * are displayed on the Germinate user interface and are not required if the 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Newstypes implements Serializable {
 
-    private static final long serialVersionUID = 1425913660;
+    private static final long serialVersionUID = 185011598;
 
     private Integer   id;
     private String    name;
@@ -110,4 +111,5 @@ public class Newstypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

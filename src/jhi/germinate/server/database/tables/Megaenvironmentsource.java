@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.MegaenvironmentsourceRecord;
 
 
+// @formatter:off
 /**
  * Contains information relating to the source of the mega environments. This 
  * could be the contributing source including contact and location details 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.MegaenvironmentsourceRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord> {
 
-    private static final long serialVersionUID = -1410445817;
+    private static final long serialVersionUID = 116844620;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.megaenvironmentsource</code>
@@ -100,10 +101,6 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
         super(alias, null, aliased, parameters, DSL.comment("Contains information relating to the source of the mega environments. This could be the contributing source including contact and location details or how the mega environments were extracted from current datasets. "));
     }
 
-    public <O extends Record> Megaenvironmentsource(Table<O> child, ForeignKey<O, MegaenvironmentsourceRecord> key) {
-        super(child, key, MEGAENVIRONMENTSOURCE);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -116,16 +113,8 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MEGAENVIRONMENTSOURCE_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<MegaenvironmentsourceRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_MEGAENVIRONMENTSOURCE;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE, jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE.ID);
     }
 
     /**
@@ -133,7 +122,7 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
      */
     @Override
     public UniqueKey<MegaenvironmentsourceRecord> getPrimaryKey() {
-        return Keys.KEY_MEGAENVIRONMENTSOURCE_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE, "KEY_megaenvironmentsource_PRIMARY", jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE.ID);
     }
 
     /**
@@ -141,7 +130,9 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
      */
     @Override
     public List<UniqueKey<MegaenvironmentsourceRecord>> getKeys() {
-        return Arrays.<UniqueKey<MegaenvironmentsourceRecord>>asList(Keys.KEY_MEGAENVIRONMENTSOURCE_PRIMARY);
+        return Arrays.<UniqueKey<MegaenvironmentsourceRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE, "KEY_megaenvironmentsource_PRIMARY", jhi.germinate.server.database.tables.Megaenvironmentsource.MEGAENVIRONMENTSOURCE.ID)
+        );
     }
 
     /**
@@ -175,4 +166,5 @@ public class Megaenvironmentsource extends TableImpl<MegaenvironmentsourceRecord
     public Megaenvironmentsource rename(Name name) {
         return new Megaenvironmentsource(name, null);
     }
+// @formatter:on
 }

@@ -16,6 +16,7 @@ import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -1094581389;
+    private static final long serialVersionUID = -335867897;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
@@ -168,10 +169,6 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
     }
 
-    public <O extends Record> ViewTableDatasets(Table<O> child, ForeignKey<O, ViewTableDatasetsRecord> key) {
-        super(child, key, VIEW_TABLE_DATASETS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -211,4 +208,5 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public ViewTableDatasets rename(Name name) {
         return new ViewTableDatasets(name, null);
     }
+// @formatter:on
 }

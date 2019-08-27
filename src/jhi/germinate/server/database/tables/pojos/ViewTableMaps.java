@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMaps implements Serializable {
 
-    private static final long serialVersionUID = 2098486757;
+    private static final long serialVersionUID = 2100070213;
 
     private Integer mapid;
     private String  mapname;
@@ -120,4 +121,5 @@ public class ViewTableMaps implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

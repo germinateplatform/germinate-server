@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Climatedata;
 
 
+// @formatter:off
 /**
  * Holds montly average climate data such as rainfall, temperature or cloud 
  * cover. This is based on locations rather than accessions like most of the 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Climatedata;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> implements Record8<Integer, Integer, Integer, Double, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1735432235;
+    private static final long serialVersionUID = 1048835029;
 
     /**
      * Create a detached ClimatedataRecord
@@ -481,4 +482,5 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

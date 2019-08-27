@@ -13,10 +13,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.LocationsRecord;
 
 
+// @formatter:off
 /**
  * Describes locations. Locations can be collecting sites or the location 
  * of any geographical feature such as research institutes or lab locations.
@@ -31,13 +32,12 @@ import jhi.germinate.server.database.tables.records.LocationsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locations extends TableImpl<LocationsRecord> {
 
-    private static final long serialVersionUID = -34301168;
+    private static final long serialVersionUID = 2064181680;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.locations</code>
      */
     public static final Locations LOCATIONS = new Locations();
-
     /**
      * The column <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
@@ -150,10 +150,6 @@ public class Locations extends TableImpl<LocationsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Describes locations. Locations can be collecting sites or the location of any geographical feature such as research institutes or lab locations."));
     }
 
-    public <O extends Record> Locations(Table<O> child, ForeignKey<O, LocationsRecord> key) {
-        super(child, key, LOCATIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -166,16 +162,8 @@ public class Locations extends TableImpl<LocationsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.LOCATIONS_COUNTRY_ID, Indexes.LOCATIONS_LOCATIONS_IBFK_2, Indexes.LOCATIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<LocationsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_LOCATIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Locations.LOCATIONS, jhi.germinate.server.database.tables.Locations.LOCATIONS.ID);
     }
 
     /**
@@ -183,7 +171,7 @@ public class Locations extends TableImpl<LocationsRecord> {
      */
     @Override
     public UniqueKey<LocationsRecord> getPrimaryKey() {
-        return Keys.KEY_LOCATIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Locations.LOCATIONS, "KEY_locations_PRIMARY", jhi.germinate.server.database.tables.Locations.LOCATIONS.ID);
     }
 
     /**
@@ -191,23 +179,9 @@ public class Locations extends TableImpl<LocationsRecord> {
      */
     @Override
     public List<UniqueKey<LocationsRecord>> getKeys() {
-        return Arrays.<UniqueKey<LocationsRecord>>asList(Keys.KEY_LOCATIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<LocationsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<LocationsRecord, ?>>asList(Keys.LOCATIONS_IBFK_2, Keys.LOCATIONS_IBFK_1);
-    }
-
-    public Locationtypes locationtypes() {
-        return new Locationtypes(this, Keys.LOCATIONS_IBFK_2);
-    }
-
-    public Countries countries() {
-        return new Countries(this, Keys.LOCATIONS_IBFK_1);
+        return Arrays.<UniqueKey<LocationsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Locations.LOCATIONS, "KEY_locations_PRIMARY", jhi.germinate.server.database.tables.Locations.LOCATIONS.ID)
+        );
     }
 
     /**
@@ -241,4 +215,5 @@ public class Locations extends TableImpl<LocationsRecord> {
     public Locations rename(Name name) {
         return new Locations(name, null);
     }
+// @formatter:on
 }

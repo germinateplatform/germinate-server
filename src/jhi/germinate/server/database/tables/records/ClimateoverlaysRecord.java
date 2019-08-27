@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Climateoverlays;
 
 
+// @formatter:off
 /**
  * Climate overlays can be used in conjunction with OpenStreetMap in order 
  * to visualize climate data in a geographic context.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Climateoverlays;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRecord> implements Record11<Integer, Integer, String, Double, Double, Double, Double, Byte, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1748664435;
+    private static final long serialVersionUID = 581041527;
 
     /**
      * Create a detached ClimateoverlaysRecord
@@ -155,31 +156,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
-     */
-    public void setDescription(String value) {
-        set(8, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
     public Byte getIsLegend() {
         return (Byte) get(7);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
-     */
-    public void setIsLegend(Byte value) {
-        set(7, value);
     }
 
     /**
@@ -190,10 +170,31 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
+     */
+    public void setIsLegend(Byte value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     */
+    public void setDescription(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------
@@ -627,4 +628,5 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     public void setUpdatedOn(Timestamp value) {
         set(10, value);
     }
+// @formatter:on
 }

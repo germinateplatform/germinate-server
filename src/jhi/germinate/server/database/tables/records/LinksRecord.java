@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Links;
 
 
+// @formatter:off
 /**
  * Germinate allows to define external links for different types of data. 
  * With this feature you can
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Links;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Record8<Integer, Integer, Integer, String, String, Byte, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -295013925;
+    private static final long serialVersionUID = -871998449;
 
     /**
      * Create a detached LinksRecord
@@ -481,4 +482,5 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

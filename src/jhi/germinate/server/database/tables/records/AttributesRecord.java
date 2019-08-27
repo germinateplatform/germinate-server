@@ -15,6 +15,7 @@ import jhi.germinate.server.database.enums.AttributesDatatype;
 import jhi.germinate.server.database.tables.Attributes;
 
 
+// @formatter:off
 /**
  * Describes attributes. Attributes are bits of information that can be joined 
  * to, for example, a germinatebase entry. These are bits of data that while 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.Attributes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> implements Record7<Integer, String, String, AttributesDatatype, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -396747955;
+    private static final long serialVersionUID = 264368925;
 
     /**
      * Create a detached AttributesRecord
@@ -434,4 +435,5 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     public void setUpdatedOn(Timestamp value) {
         set(6, value);
     }
+// @formatter:on
 }

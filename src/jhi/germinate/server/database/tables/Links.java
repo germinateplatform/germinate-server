@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.LinksRecord;
 
 
+// @formatter:off
 /**
  * Germinate allows to define external links for different types of data. 
  * With this feature you can
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.LinksRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Links extends TableImpl<LinksRecord> {
 
-    private static final long serialVersionUID = 195708723;
+    private static final long serialVersionUID = -1831990394;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.links</code>
@@ -115,10 +116,6 @@ public class Links extends TableImpl<LinksRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Germinate allows to define external links for different types of data. With this feature you can\r\ndefine links to external resources."));
     }
 
-    public <O extends Record> Links(Table<O> child, ForeignKey<O, LinksRecord> key) {
-        super(child, key, LINKS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -131,16 +128,8 @@ public class Links extends TableImpl<LinksRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.LINKS_LINKS_ID, Indexes.LINKS_LINKS_LINKTYPE_ID, Indexes.LINKS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<LinksRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_LINKS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Links.LINKS, jhi.germinate.server.database.tables.Links.LINKS.ID);
     }
 
     /**
@@ -148,7 +137,7 @@ public class Links extends TableImpl<LinksRecord> {
      */
     @Override
     public UniqueKey<LinksRecord> getPrimaryKey() {
-        return Keys.KEY_LINKS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Links.LINKS, "KEY_links_PRIMARY", jhi.germinate.server.database.tables.Links.LINKS.ID);
     }
 
     /**
@@ -156,19 +145,9 @@ public class Links extends TableImpl<LinksRecord> {
      */
     @Override
     public List<UniqueKey<LinksRecord>> getKeys() {
-        return Arrays.<UniqueKey<LinksRecord>>asList(Keys.KEY_LINKS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<LinksRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<LinksRecord, ?>>asList(Keys.LINKS_IBFK_1);
-    }
-
-    public Linktypes linktypes() {
-        return new Linktypes(this, Keys.LINKS_IBFK_1);
+        return Arrays.<UniqueKey<LinksRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Links.LINKS, "KEY_links_PRIMARY", jhi.germinate.server.database.tables.Links.LINKS.ID)
+        );
     }
 
     /**
@@ -202,4 +181,5 @@ public class Links extends TableImpl<LinksRecord> {
     public Links rename(Name name) {
         return new Links(name, null);
     }
+// @formatter:on
 }

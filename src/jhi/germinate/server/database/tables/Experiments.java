@@ -13,10 +13,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ExperimentsRecord;
 
 
+// @formatter:off
 /**
  * Defines ecperiments that are held in Germinate.
  */
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.ExperimentsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiments extends TableImpl<ExperimentsRecord> {
 
-    private static final long serialVersionUID = -1432329095;
+    private static final long serialVersionUID = -1770281204;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.experiments</code>
@@ -116,10 +117,6 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines ecperiments that are held in Germinate."));
     }
 
-    public <O extends Record> Experiments(Table<O> child, ForeignKey<O, ExperimentsRecord> key) {
-        super(child, key, EXPERIMENTS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -132,16 +129,8 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.EXPERIMENTS_EXPERIMENT_TYPE_ID, Indexes.EXPERIMENTS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<ExperimentsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_EXPERIMENTS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Experiments.EXPERIMENTS, jhi.germinate.server.database.tables.Experiments.EXPERIMENTS.ID);
     }
 
     /**
@@ -149,7 +138,7 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
      */
     @Override
     public UniqueKey<ExperimentsRecord> getPrimaryKey() {
-        return Keys.KEY_EXPERIMENTS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Experiments.EXPERIMENTS, "KEY_experiments_PRIMARY", jhi.germinate.server.database.tables.Experiments.EXPERIMENTS.ID);
     }
 
     /**
@@ -157,19 +146,9 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
      */
     @Override
     public List<UniqueKey<ExperimentsRecord>> getKeys() {
-        return Arrays.<UniqueKey<ExperimentsRecord>>asList(Keys.KEY_EXPERIMENTS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<ExperimentsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ExperimentsRecord, ?>>asList(Keys.EXPERIMENTS_IBFK_1);
-    }
-
-    public Experimenttypes experimenttypes() {
-        return new Experimenttypes(this, Keys.EXPERIMENTS_IBFK_1);
+        return Arrays.<UniqueKey<ExperimentsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Experiments.EXPERIMENTS, "KEY_experiments_PRIMARY", jhi.germinate.server.database.tables.Experiments.EXPERIMENTS.ID)
+        );
     }
 
     /**
@@ -203,4 +182,5 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
     public Experiments rename(Name name) {
         return new Experiments(name, null);
     }
+// @formatter:on
 }

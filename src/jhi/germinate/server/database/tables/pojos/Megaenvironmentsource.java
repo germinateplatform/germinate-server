@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Contains information relating to the source of the mega environments. This 
  * could be the contributing source including contact and location details 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentsource implements Serializable {
 
-    private static final long serialVersionUID = 781888994;
+    private static final long serialVersionUID = -975289250;
 
     private Integer   id;
     private String    name;
@@ -110,4 +111,5 @@ public class Megaenvironmentsource implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

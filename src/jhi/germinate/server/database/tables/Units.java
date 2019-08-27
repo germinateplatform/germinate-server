@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.UnitsRecord;
 
 
+// @formatter:off
 /**
  * The 'units' table holds descriptions of the various units that are used 
  * in the Germinate database. Examples of these would include International 
@@ -32,7 +33,7 @@ import jhi.germinate.server.database.tables.records.UnitsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Units extends TableImpl<UnitsRecord> {
 
-    private static final long serialVersionUID = -275761363;
+    private static final long serialVersionUID = 909232325;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.units</code>
@@ -106,10 +107,6 @@ public class Units extends TableImpl<UnitsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("The 'units' table holds descriptions of the various units that are used in the Germinate database. Examples of these would include International System of Units (SI) base units: kilogram, meter, second, ampere, kelvin, candela and mole but can include any units that are required."));
     }
 
-    public <O extends Record> Units(Table<O> child, ForeignKey<O, UnitsRecord> key) {
-        super(child, key, UNITS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -122,16 +119,8 @@ public class Units extends TableImpl<UnitsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.UNITS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<UnitsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_UNITS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Units.UNITS, jhi.germinate.server.database.tables.Units.UNITS.ID);
     }
 
     /**
@@ -139,7 +128,7 @@ public class Units extends TableImpl<UnitsRecord> {
      */
     @Override
     public UniqueKey<UnitsRecord> getPrimaryKey() {
-        return Keys.KEY_UNITS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Units.UNITS, "KEY_units_PRIMARY", jhi.germinate.server.database.tables.Units.UNITS.ID);
     }
 
     /**
@@ -147,7 +136,9 @@ public class Units extends TableImpl<UnitsRecord> {
      */
     @Override
     public List<UniqueKey<UnitsRecord>> getKeys() {
-        return Arrays.<UniqueKey<UnitsRecord>>asList(Keys.KEY_UNITS_PRIMARY);
+        return Arrays.<UniqueKey<UnitsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Units.UNITS, "KEY_units_PRIMARY", jhi.germinate.server.database.tables.Units.UNITS.ID)
+        );
     }
 
     /**
@@ -181,4 +172,5 @@ public class Units extends TableImpl<UnitsRecord> {
     public Units rename(Name name) {
         return new Units(name, null);
     }
+// @formatter:on
 }

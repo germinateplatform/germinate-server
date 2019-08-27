@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Allows the definition of synonyms for entries such as germinatebase entries 
  * or marker names.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonyms implements Serializable {
 
-    private static final long serialVersionUID = -407010529;
+    private static final long serialVersionUID = 90175617;
 
     private Integer   id;
     private Integer   foreignId;
@@ -132,4 +133,5 @@ public class Synonyms implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

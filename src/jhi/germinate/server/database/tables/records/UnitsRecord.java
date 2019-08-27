@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Units;
 
 
+// @formatter:off
 /**
  * The 'units' table holds descriptions of the various units that are used 
  * in the Germinate database. Examples of these would include International 
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.Units;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1915668705;
+    private static final long serialVersionUID = -1636780223;
 
     /**
      * Create a detached UnitsRecord
@@ -384,4 +385,5 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

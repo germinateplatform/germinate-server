@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Pedigreenotations;
 
 
+// @formatter:off
 /**
  * Allows additional supporting data to be associated with a pedigree definition 
  * such as the contributing data source.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Pedigreenotations;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PedigreenotationsRecord extends UpdatableRecordImpl<PedigreenotationsRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1372177057;
+    private static final long serialVersionUID = -1643129463;
 
     /**
      * Create a detached PedigreenotationsRecord
@@ -382,4 +383,5 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

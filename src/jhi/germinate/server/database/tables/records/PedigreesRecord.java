@@ -15,6 +15,7 @@ import jhi.germinate.server.database.enums.PedigreesRelationshipType;
 import jhi.germinate.server.database.tables.Pedigrees;
 
 
+// @formatter:off
 /**
  * Holds pedigree definitions. A pedigree is constructed from a series of 
  * individial-&gt;parent records. This gives a great deal of flexibility in 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.Pedigrees;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implements Record8<Integer, Integer, Integer, PedigreesRelationshipType, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1814589227;
+    private static final long serialVersionUID = 550967829;
 
     /**
      * Create a detached PedigreesRecord
@@ -483,4 +484,5 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

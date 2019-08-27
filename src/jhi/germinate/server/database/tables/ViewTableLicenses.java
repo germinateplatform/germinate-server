@@ -13,6 +13,7 @@ import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableLicensesRecord;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -26,7 +27,7 @@ import jhi.germinate.server.database.tables.records.ViewTableLicensesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
 
-    private static final long serialVersionUID = -1498380859;
+    private static final long serialVersionUID = -386453296;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_licenses</code>
@@ -100,10 +101,6 @@ public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
     }
 
-    public <O extends Record> ViewTableLicenses(Table<O> child, ForeignKey<O, ViewTableLicensesRecord> key) {
-        super(child, key, VIEW_TABLE_LICENSES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -143,4 +140,5 @@ public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
     public ViewTableLicenses rename(Name name) {
         return new ViewTableLicenses(name, null);
     }
+// @formatter:on
 }

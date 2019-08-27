@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines attributes data. Attributes which are defined in attributes can 
  * have values associated with them. Data which does not warrant new column 
@@ -27,7 +28,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Attributedata implements Serializable {
 
-    private static final long serialVersionUID = 516198691;
+    private static final long serialVersionUID = 175325949;
 
     private Integer   id;
     private Integer   attributeId;
@@ -125,4 +126,5 @@ public class Attributedata implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

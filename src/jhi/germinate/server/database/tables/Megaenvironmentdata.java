@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.MegaenvironmentdataRecord;
 
 
+// @formatter:off
 /**
  * Describes mega environment data by grouping collection sites (locations) 
  * into mega environments. Mega environments in this context are collections 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.MegaenvironmentdataRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
 
-    private static final long serialVersionUID = 1408538080;
+    private static final long serialVersionUID = -2096238972;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.megaenvironmentdata</code>
@@ -110,10 +111,6 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Describes mega environment data by grouping collection sites (locations) into mega environments. Mega environments in this context are collections of sites which meet the mega environment definition criteria."));
     }
 
-    public <O extends Record> Megaenvironmentdata(Table<O> child, ForeignKey<O, MegaenvironmentdataRecord> key) {
-        super(child, key, MEGAENVIRONMENTDATA);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -126,16 +123,8 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MEGAENVIRONMENTDATA_COLLECTINGSITE_ID, Indexes.MEGAENVIRONMENTDATA_MEGAENVIRONMENT_ID, Indexes.MEGAENVIRONMENTDATA_PRIMARY, Indexes.MEGAENVIRONMENTDATA_SOURCE_ID);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<MegaenvironmentdataRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_MEGAENVIRONMENTDATA;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Megaenvironmentdata.MEGAENVIRONMENTDATA, jhi.germinate.server.database.tables.Megaenvironmentdata.MEGAENVIRONMENTDATA.ID);
     }
 
     /**
@@ -143,7 +132,7 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
      */
     @Override
     public UniqueKey<MegaenvironmentdataRecord> getPrimaryKey() {
-        return Keys.KEY_MEGAENVIRONMENTDATA_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Megaenvironmentdata.MEGAENVIRONMENTDATA, "KEY_megaenvironmentdata_PRIMARY", jhi.germinate.server.database.tables.Megaenvironmentdata.MEGAENVIRONMENTDATA.ID);
     }
 
     /**
@@ -151,27 +140,9 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
      */
     @Override
     public List<UniqueKey<MegaenvironmentdataRecord>> getKeys() {
-        return Arrays.<UniqueKey<MegaenvironmentdataRecord>>asList(Keys.KEY_MEGAENVIRONMENTDATA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<MegaenvironmentdataRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<MegaenvironmentdataRecord, ?>>asList(Keys.MEGAENVIRONMENTDATA_IBFK_3, Keys.MEGAENVIRONMENTDATA_IBFK_2, Keys.MEGAENVIRONMENTDATA_IBFK_1);
-    }
-
-    public Locations locations() {
-        return new Locations(this, Keys.MEGAENVIRONMENTDATA_IBFK_3);
-    }
-
-    public Megaenvironmentsource megaenvironmentsource() {
-        return new Megaenvironmentsource(this, Keys.MEGAENVIRONMENTDATA_IBFK_2);
-    }
-
-    public Megaenvironments megaenvironments() {
-        return new Megaenvironments(this, Keys.MEGAENVIRONMENTDATA_IBFK_1);
+        return Arrays.<UniqueKey<MegaenvironmentdataRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Megaenvironmentdata.MEGAENVIRONMENTDATA, "KEY_megaenvironmentdata_PRIMARY", jhi.germinate.server.database.tables.Megaenvironmentdata.MEGAENVIRONMENTDATA.ID)
+        );
     }
 
     /**
@@ -205,4 +176,5 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
     public Megaenvironmentdata rename(Name name) {
         return new Megaenvironmentdata(name, null);
     }
+// @formatter:on
 }

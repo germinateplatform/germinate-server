@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Germinate allows to define external links for different types of data. 
  * With this feature you can
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Links implements Serializable {
 
-    private static final long serialVersionUID = -1531081808;
+    private static final long serialVersionUID = 1365314266;
 
     private Integer   id;
     private Integer   linktypeId;
@@ -149,4 +150,5 @@ public class Links implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

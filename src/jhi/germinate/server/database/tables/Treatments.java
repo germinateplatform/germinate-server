@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.TreatmentsRecord;
 
 
+// @formatter:off
 /**
  * For trials data the treatment is used to distinguish between factors. Examples 
  * would include whether the trial was treated with fungicides or not.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.TreatmentsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Treatments extends TableImpl<TreatmentsRecord> {
 
-    private static final long serialVersionUID = 1989242498;
+    private static final long serialVersionUID = 225288630;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.treatments</code>
@@ -99,10 +100,6 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("For trials data the treatment is used to distinguish between factors. Examples would include whether the trial was treated with fungicides or not."));
     }
 
-    public <O extends Record> Treatments(Table<O> child, ForeignKey<O, TreatmentsRecord> key) {
-        super(child, key, TREATMENTS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -115,16 +112,8 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TREATMENTS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<TreatmentsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_TREATMENTS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Treatments.TREATMENTS, jhi.germinate.server.database.tables.Treatments.TREATMENTS.ID);
     }
 
     /**
@@ -132,7 +121,7 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
      */
     @Override
     public UniqueKey<TreatmentsRecord> getPrimaryKey() {
-        return Keys.KEY_TREATMENTS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Treatments.TREATMENTS, "KEY_treatments_PRIMARY", jhi.germinate.server.database.tables.Treatments.TREATMENTS.ID);
     }
 
     /**
@@ -140,7 +129,9 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
      */
     @Override
     public List<UniqueKey<TreatmentsRecord>> getKeys() {
-        return Arrays.<UniqueKey<TreatmentsRecord>>asList(Keys.KEY_TREATMENTS_PRIMARY);
+        return Arrays.<UniqueKey<TreatmentsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Treatments.TREATMENTS, "KEY_treatments_PRIMARY", jhi.germinate.server.database.tables.Treatments.TREATMENTS.ID)
+        );
     }
 
     /**
@@ -174,4 +165,5 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
     public Treatments rename(Name name) {
         return new Treatments(name, null);
     }
+// @formatter:on
 }

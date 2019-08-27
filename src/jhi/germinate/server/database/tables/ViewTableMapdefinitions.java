@@ -13,6 +13,7 @@ import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableMapdefinitionsRecord;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -26,7 +27,7 @@ import jhi.germinate.server.database.tables.records.ViewTableMapdefinitionsRecor
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRecord> {
 
-    private static final long serialVersionUID = -1081395853;
+    private static final long serialVersionUID = 1307356758;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_mapdefinitions</code>
@@ -121,10 +122,6 @@ public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRe
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
     }
 
-    public <O extends Record> ViewTableMapdefinitions(Table<O> child, ForeignKey<O, ViewTableMapdefinitionsRecord> key) {
-        super(child, key, VIEW_TABLE_MAPDEFINITIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -164,4 +161,5 @@ public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRe
     public ViewTableMapdefinitions rename(Name name) {
         return new ViewTableMapdefinitions(name, null);
     }
+// @formatter:on
 }

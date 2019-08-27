@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Phenotypedata;
 
 
+// @formatter:off
 /**
  * Contains phenotypic data which has been collected.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Phenotypedata;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord> implements Record11<Integer, Integer, Integer, String, Integer, Timestamp, Timestamp, Timestamp, Integer, Integer, Integer> {
 
-    private static final long serialVersionUID = -1882880294;
+    private static final long serialVersionUID = -988466960;
 
     /**
      * Create a detached PhenotypedataRecord
@@ -161,6 +162,13 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
+     */
+    public Integer getLocationId() {
+        return (Integer) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
     public Integer getDatasetId() {
@@ -168,10 +176,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
      */
-    public void setTreatmentId(Integer value) {
-        set(9, value);
+    public Integer getTreatmentId() {
+        return (Integer) get(9);
     }
 
     /**
@@ -182,17 +190,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.location_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
      */
-    public Integer getLocationId() {
-        return (Integer) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
-     */
-    public Integer getTreatmentId() {
-        return (Integer) get(9);
+    public void setTreatmentId(Integer value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------
@@ -626,4 +627,5 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     public void setTrialseriesId(Integer value) {
         set(10, value);
     }
+// @formatter:on
 }

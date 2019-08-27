@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Treatments;
 
 
+// @formatter:off
 /**
  * For trials data the treatment is used to distinguish between factors. Examples 
  * would include whether the trial was treated with fungicides or not.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Treatments;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 574480433;
+    private static final long serialVersionUID = -802690257;
 
     /**
      * Create a detached TreatmentsRecord
@@ -333,4 +334,5 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

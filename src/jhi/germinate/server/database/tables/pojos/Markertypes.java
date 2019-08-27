@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Describes the marker type. Markers (markers) have a defined type. This 
  * could be AFLP, MicroSat, SNP and so on. Used to differentiate markers within 
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Markertypes implements Serializable {
 
-    private static final long serialVersionUID = -1543190722;
+    private static final long serialVersionUID = -121824628;
 
     private Integer   id;
     private String    description;
@@ -98,4 +99,5 @@ public class Markertypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

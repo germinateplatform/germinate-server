@@ -9,6 +9,7 @@ import org.jooq.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines the datatype which can be FLOAT, INT or CHAR type.
  */
@@ -65,4 +66,5 @@ public enum ClimatesDatatype implements EnumType {
     public String getLiteral() {
         return literal;
     }
+// @formatter:on
 }

@@ -15,6 +15,7 @@ import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewMcpdRecord;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -28,21 +29,22 @@ import jhi.germinate.server.database.tables.records.ViewMcpdRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = 1465945659;
+    private static final long serialVersionUID = -535575593;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_mcpd</code>
      */
     public static final ViewMcpd VIEW_MCPD = new ViewMcpd();
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public final TableField<ViewMcpdRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
-    /**
      * The column <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
 entered into the genebank collection (e.g. ‘PI 113869’).
      */
     public final TableField<ViewMcpdRecord, String> ACCENAME = createField("ACCENAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewMcpdRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.PUID</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
@@ -296,10 +298,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
     }
 
-    public <O extends Record> ViewMcpd(Table<O> child, ForeignKey<O, ViewMcpdRecord> key) {
-        super(child, key, VIEW_MCPD);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -339,4 +337,5 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     public ViewMcpd rename(Name name) {
         return new ViewMcpd(name, null);
     }
+// @formatter:on
 }

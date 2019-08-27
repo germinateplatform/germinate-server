@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Datasetmeta;
 
 
+// @formatter:off
 /**
  * Defines dataset sizes for the items in the datasets table. This table is 
  * automatically updated every hour.
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Datasetmeta;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> implements Record6<Integer, Integer, ULong, ULong, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -848783716;
+    private static final long serialVersionUID = 1220372900;
 
     /**
      * Create a detached DatasetmetaRecord
@@ -383,4 +384,5 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

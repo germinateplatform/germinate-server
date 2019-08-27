@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.AttributedataRecord;
 
 
+// @formatter:off
 /**
  * Defines attributes data. Attributes which are defined in attributes can 
  * have values associated with them. Data which does not warrant new column 
@@ -33,7 +34,7 @@ import jhi.germinate.server.database.tables.records.AttributedataRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Attributedata extends TableImpl<AttributedataRecord> {
 
-    private static final long serialVersionUID = 1725693473;
+    private static final long serialVersionUID = -1764972701;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.attributedata</code>
@@ -107,10 +108,6 @@ public class Attributedata extends TableImpl<AttributedataRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines attributes data. Attributes which are defined in attributes can have values associated with them. Data which does not warrant new column in the germinatebase table can be added here. Examples include small amounts of data defining germplasm which only exists for a small sub-group of the total database."));
     }
 
-    public <O extends Record> Attributedata(Table<O> child, ForeignKey<O, AttributedataRecord> key) {
-        super(child, key, ATTRIBUTEDATA);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -123,16 +120,8 @@ public class Attributedata extends TableImpl<AttributedataRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ATTRIBUTEDATA_ATTRIBUTE_ID, Indexes.ATTRIBUTEDATA_GERMINATEBASE_ID, Indexes.ATTRIBUTEDATA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<AttributedataRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_ATTRIBUTEDATA;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Attributedata.ATTRIBUTEDATA, jhi.germinate.server.database.tables.Attributedata.ATTRIBUTEDATA.ID);
     }
 
     /**
@@ -140,7 +129,7 @@ public class Attributedata extends TableImpl<AttributedataRecord> {
      */
     @Override
     public UniqueKey<AttributedataRecord> getPrimaryKey() {
-        return Keys.KEY_ATTRIBUTEDATA_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Attributedata.ATTRIBUTEDATA, "KEY_attributedata_PRIMARY", jhi.germinate.server.database.tables.Attributedata.ATTRIBUTEDATA.ID);
     }
 
     /**
@@ -148,19 +137,9 @@ public class Attributedata extends TableImpl<AttributedataRecord> {
      */
     @Override
     public List<UniqueKey<AttributedataRecord>> getKeys() {
-        return Arrays.<UniqueKey<AttributedataRecord>>asList(Keys.KEY_ATTRIBUTEDATA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<AttributedataRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<AttributedataRecord, ?>>asList(Keys.ATTRIBUTEDATA_IBFK_1);
-    }
-
-    public Attributes attributes() {
-        return new Attributes(this, Keys.ATTRIBUTEDATA_IBFK_1);
+        return Arrays.<UniqueKey<AttributedataRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Attributedata.ATTRIBUTEDATA, "KEY_attributedata_PRIMARY", jhi.germinate.server.database.tables.Attributedata.ATTRIBUTEDATA.ID)
+        );
     }
 
     /**
@@ -194,4 +173,5 @@ public class Attributedata extends TableImpl<AttributedataRecord> {
     public Attributedata rename(Name name) {
         return new Attributedata(name, null);
     }
+// @formatter:on
 }

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Holds news items that are displayed within Germinate.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class News implements Serializable {
 
-    private static final long serialVersionUID = 146826605;
+    private static final long serialVersionUID = 1854564915;
 
     private Integer   id;
     private Integer   newstypeId;
@@ -160,4 +161,5 @@ public class News implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

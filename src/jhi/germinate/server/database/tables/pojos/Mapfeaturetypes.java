@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines features which can exist on maps. In general this will be the marker 
  * type but it can also be used to identify QTL regions.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapfeaturetypes implements Serializable {
 
-    private static final long serialVersionUID = 472484973;
+    private static final long serialVersionUID = -628215747;
 
     private Integer   id;
     private String    description;
@@ -96,4 +97,5 @@ public class Mapfeaturetypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

@@ -15,6 +15,7 @@ import jhi.germinate.server.database.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.tables.Phenotypes;
 
 
+// @formatter:off
 /**
  * Defines phenoytpes which are held in Germinate.
  */
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Phenotypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> implements Record8<Integer, String, String, String, PhenotypesDatatype, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 778651226;
+    private static final long serialVersionUID = -865443472;
 
     /**
      * Create a detached PhenotypesRecord
@@ -480,4 +481,5 @@ public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> impl
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

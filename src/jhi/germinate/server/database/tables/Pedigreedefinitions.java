@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.PedigreedefinitionsRecord;
 
 
+// @formatter:off
 /**
  * This table holds the actual pedigree definition data.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.PedigreedefinitionsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
 
-    private static final long serialVersionUID = 656206465;
+    private static final long serialVersionUID = 23602446;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.pedigreedefinitions</code>
@@ -108,10 +109,6 @@ public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("This table holds the actual pedigree definition data."));
     }
 
-    public <O extends Record> Pedigreedefinitions(Table<O> child, ForeignKey<O, PedigreedefinitionsRecord> key) {
-        super(child, key, PEDIGREEDEFINITIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -124,16 +121,8 @@ public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PEDIGREEDEFINITIONS_PEDIGREEDEFINITIONS_IBFK_3, Indexes.PEDIGREEDEFINITIONS_PEDIGREEDEFINITIONS_IBFK_GERMINATEBASE, Indexes.PEDIGREEDEFINITIONS_PEDIGREEDEFINITIONS_IBFK_PEDIGREENOTATIONS, Indexes.PEDIGREEDEFINITIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<PedigreedefinitionsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PEDIGREEDEFINITIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS, jhi.germinate.server.database.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS.ID);
     }
 
     /**
@@ -141,7 +130,7 @@ public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
      */
     @Override
     public UniqueKey<PedigreedefinitionsRecord> getPrimaryKey() {
-        return Keys.KEY_PEDIGREEDEFINITIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS, "KEY_pedigreedefinitions_PRIMARY", jhi.germinate.server.database.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS.ID);
     }
 
     /**
@@ -149,27 +138,9 @@ public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
      */
     @Override
     public List<UniqueKey<PedigreedefinitionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<PedigreedefinitionsRecord>>asList(Keys.KEY_PEDIGREEDEFINITIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<PedigreedefinitionsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PedigreedefinitionsRecord, ?>>asList(Keys.PEDIGREEDEFINITIONS_IBFK_1, Keys.PEDIGREEDEFINITIONS_IBFK_2, Keys.PEDIGREEDEFINITIONS_IBFK_3);
-    }
-
-    public Germinatebase germinatebase() {
-        return new Germinatebase(this, Keys.PEDIGREEDEFINITIONS_IBFK_1);
-    }
-
-    public Pedigreenotations pedigreenotations() {
-        return new Pedigreenotations(this, Keys.PEDIGREEDEFINITIONS_IBFK_2);
-    }
-
-    public Pedigreedescriptions pedigreedescriptions() {
-        return new Pedigreedescriptions(this, Keys.PEDIGREEDEFINITIONS_IBFK_3);
+        return Arrays.<UniqueKey<PedigreedefinitionsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS, "KEY_pedigreedefinitions_PRIMARY", jhi.germinate.server.database.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS.ID)
+        );
     }
 
     /**
@@ -203,4 +174,5 @@ public class Pedigreedefinitions extends TableImpl<PedigreedefinitionsRecord> {
     public Pedigreedefinitions rename(Name name) {
         return new Pedigreedefinitions(name, null);
     }
+// @formatter:on
 }

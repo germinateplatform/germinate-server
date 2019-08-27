@@ -12,11 +12,12 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.enums.PedigreesRelationshipType;
 import jhi.germinate.server.database.tables.records.PedigreesRecord;
 
 
+// @formatter:off
 /**
  * Holds pedigree definitions. A pedigree is constructed from a series of 
  * individial-&gt;parent records. This gives a great deal of flexibility in 
@@ -33,7 +34,7 @@ import jhi.germinate.server.database.tables.records.PedigreesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigrees extends TableImpl<PedigreesRecord> {
 
-    private static final long serialVersionUID = -420751348;
+    private static final long serialVersionUID = -611187017;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.pedigrees</code>
@@ -117,10 +118,6 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Holds pedigree definitions. A pedigree is constructed from a series of individial->parent records. This gives a great deal of flexibility in how pedigree networks can be constructed. This table is required for operation with the Helium pedigree viewer."));
     }
 
-    public <O extends Record> Pedigrees(Table<O> child, ForeignKey<O, PedigreesRecord> key) {
-        super(child, key, PEDIGREES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -133,16 +130,8 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PEDIGREES_PEDIGREES_IBFK_GERMINATEBASE, Indexes.PEDIGREES_PEDIGREES_IBFK_GERMINATEBASE_PARENT, Indexes.PEDIGREES_PEDIGREES_IBFK_PEDIGREEDESCRIPTIONS, Indexes.PEDIGREES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<PedigreesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PEDIGREES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Pedigrees.PEDIGREES, jhi.germinate.server.database.tables.Pedigrees.PEDIGREES.ID);
     }
 
     /**
@@ -150,7 +139,7 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
      */
     @Override
     public UniqueKey<PedigreesRecord> getPrimaryKey() {
-        return Keys.KEY_PEDIGREES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigrees.PEDIGREES, "KEY_pedigrees_PRIMARY", jhi.germinate.server.database.tables.Pedigrees.PEDIGREES.ID);
     }
 
     /**
@@ -158,27 +147,9 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
      */
     @Override
     public List<UniqueKey<PedigreesRecord>> getKeys() {
-        return Arrays.<UniqueKey<PedigreesRecord>>asList(Keys.KEY_PEDIGREES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<PedigreesRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PedigreesRecord, ?>>asList(Keys.PEDIGREES_IBFK_1, Keys.PEDIGREES_IBFK_2, Keys.PEDIGREES_IBFK_3);
-    }
-
-    public Germinatebase pedigreesIbfk_1() {
-        return new Germinatebase(this, Keys.PEDIGREES_IBFK_1);
-    }
-
-    public Germinatebase pedigreesIbfk_2() {
-        return new Germinatebase(this, Keys.PEDIGREES_IBFK_2);
-    }
-
-    public Pedigreedescriptions pedigreedescriptions() {
-        return new Pedigreedescriptions(this, Keys.PEDIGREES_IBFK_3);
+        return Arrays.<UniqueKey<PedigreesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigrees.PEDIGREES, "KEY_pedigrees_PRIMARY", jhi.germinate.server.database.tables.Pedigrees.PEDIGREES.ID)
+        );
     }
 
     /**
@@ -212,4 +183,5 @@ public class Pedigrees extends TableImpl<PedigreesRecord> {
     public Pedigrees rename(Name name) {
         return new Pedigrees(name, null);
     }
+// @formatter:on
 }

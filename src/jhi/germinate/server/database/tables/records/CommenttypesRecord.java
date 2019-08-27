@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Commenttypes;
 
 
+// @formatter:off
 /**
  * Defines the comment type.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Commenttypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 524764652;
+    private static final long serialVersionUID = 1862230420;
 
     /**
      * Create a detached CommenttypesRecord
@@ -332,4 +333,5 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

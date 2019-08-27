@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Based on Multi Crop Passport Descriptors (MCPD V2 2012) - The coding scheme 
  * proposed can be used at 3 different levels of detail: either by using the
@@ -49,7 +50,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Biologicalstatus implements Serializable {
 
-    private static final long serialVersionUID = -1046953490;
+    private static final long serialVersionUID = 1861513436;
 
     private Integer   id;
     private String    sampstat;
@@ -121,4 +122,5 @@ public class Biologicalstatus implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Maps;
 
 
+// @formatter:off
 /**
  * Describes genetic maps that have been defined within Germinate.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Maps;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Record7<Integer, String, String, Byte, Timestamp, Timestamp, Integer> {
 
-    private static final long serialVersionUID = 859569554;
+    private static final long serialVersionUID = 1585583406;
 
     /**
      * Create a detached MapsRecord
@@ -430,4 +431,5 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     public void setUserId(Integer value) {
         set(6, value);
     }
+// @formatter:on
 }

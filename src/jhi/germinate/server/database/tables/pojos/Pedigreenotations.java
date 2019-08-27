@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Allows additional supporting data to be associated with a pedigree definition 
  * such as the contributing data source.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreenotations implements Serializable {
 
-    private static final long serialVersionUID = -1535558270;
+    private static final long serialVersionUID = 827800382;
 
     private Integer   id;
     private String    name;
@@ -122,4 +123,5 @@ public class Pedigreenotations implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

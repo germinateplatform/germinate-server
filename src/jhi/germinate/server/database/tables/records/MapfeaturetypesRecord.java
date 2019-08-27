@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Mapfeaturetypes;
 
 
+// @formatter:off
 /**
  * Defines features which can exist on maps. In general this will be the marker 
  * type but it can also be used to identify QTL regions.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Mapfeaturetypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 255170082;
+    private static final long serialVersionUID = -992517528;
 
     /**
      * Create a detached MapfeaturetypesRecord
@@ -284,4 +285,5 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
+// @formatter:on
 }

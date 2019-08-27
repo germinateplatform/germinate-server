@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Newstypes;
 
 
+// @formatter:off
 /**
  * Defines the news types which are contained the database. The news types 
  * are displayed on the Germinate user interface and are not required if the 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Newstypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 550626073;
+    private static final long serialVersionUID = 92364881;
 
     /**
      * Create a detached NewstypesRecord
@@ -334,4 +335,5 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

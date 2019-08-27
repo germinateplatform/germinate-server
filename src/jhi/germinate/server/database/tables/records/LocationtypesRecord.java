@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Locationtypes;
 
 
+// @formatter:off
 /**
  * Describes a location.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Locationtypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 725523801;
+    private static final long serialVersionUID = 609459217;
 
     /**
      * Create a detached LocationtypesRecord
@@ -64,6 +65,13 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     */
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type.
      */
     public String getName() {
@@ -71,10 +79,10 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(2);
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
@@ -85,24 +93,17 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     */
+    public String getDescription() {
+        return (String) get(2);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
-     */
-    public void setDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
     }
 
     // -------------------------------------------------------------------------
@@ -332,4 +333,5 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
+// @formatter:on
 }

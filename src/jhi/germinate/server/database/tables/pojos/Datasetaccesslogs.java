@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * If enabled, tracks which user accessed which datasets.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetaccesslogs implements Serializable {
 
-    private static final long serialVersionUID = -1806725561;
+    private static final long serialVersionUID = 63802201;
 
     private Integer   id;
     private Integer   userId;
@@ -160,4 +161,5 @@ public class Datasetaccesslogs implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

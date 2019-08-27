@@ -74,14 +74,6 @@
 			overwrite="true"
 			tofile="web/context.xml">
 			<filterset>
-				<filter token="database.username" value="${database.username}"/>
-				<filter token="database.password" value="${database.password}"/>
-				<filter token="database.server" value="${database.server}"/>
-				<filter token="database.name" value="${database.name}"/>
-				<filter token="database.port" value="${database.port}"/>
-				<filter token="gatekeeper.username" value="${gatekeeper.username}"/>
-				<filter token="gatekeeper.password" value="${gatekeeper.password}"/>
-				<filter token="gatekeeper.url" value="${gatekeeper.url}"/>
 				<filter token="api.version" value="${api.version}"/>
 			</filterset>
 		</copy>
@@ -93,6 +85,7 @@
 
 			<webinf dir="${web}/WEB-INF" excludes="**/classes/**"/>
 
+			<zipfileset dir="." includes="config.properties" prefix="WEB-INF/classes"/>
 			<zipfileset dir="." includes="logging.properties" prefix="WEB-INF/classes"/>
 			<zipfileset dir="${res}" includes="*.json" prefix="WEB-INF/classes"/>
 

@@ -9,6 +9,7 @@ import org.jooq.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
  */
@@ -65,4 +66,5 @@ public enum PedigreesRelationshipType implements EnumType {
     public String getLiteral() {
         return literal;
     }
+// @formatter:on
 }

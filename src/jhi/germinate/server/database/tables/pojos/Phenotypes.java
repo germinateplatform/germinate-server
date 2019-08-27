@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.enums.PhenotypesDatatype;
 
 
+// @formatter:off
 /**
  * Defines phenoytpes which are held in Germinate.
  */
@@ -25,7 +26,7 @@ import jhi.germinate.server.database.enums.PhenotypesDatatype;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypes implements Serializable {
 
-    private static final long serialVersionUID = 1947148934;
+    private static final long serialVersionUID = 95714628;
 
     private Integer            id;
     private String             name;
@@ -149,4 +150,5 @@ public class Phenotypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

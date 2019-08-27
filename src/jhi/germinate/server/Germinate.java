@@ -14,8 +14,11 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
+import jhi.germinate.server.resource.image.ImageSourceResource;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.MapMarkerDefinitionTableResource;
+import jhi.germinate.server.resource.settings.*;
+import jhi.germinate.server.resource.stats.OverviewStatsResource;
 
 /**
  * @author Sebastian Raubach
@@ -23,10 +26,10 @@ import jhi.germinate.server.resource.markers.MapMarkerDefinitionTableResource;
 public class Germinate extends Application
 {
 	private static CustomVerifier         verifier = new CustomVerifier();
-	public Router routerAuth;
+	public         Router                 routerAuth;
 	private        ChallengeAuthenticator authenticator;
 	private        MethodAuthorizer       authorizer;
-	private Router routerUnauth;
+	private        Router                 routerUnauth;
 
 	public Germinate()
 	{
@@ -96,13 +99,19 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
+//		attachToRouter(routerAuth, "/image", ImageResource.class);
+		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
+		attachToRouter(routerAuth, "/image/src", ImageSourceResource.class);
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);
 		attachToRouter(routerAuth, "/map", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/export", MapExportResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/mapdefinition/table", MapMarkerDefinitionTableResource.class);
+		attachToRouter(routerAuth, "/stats/overview", OverviewStatsResource.class);
+		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
 		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);
+		attachToRouter(routerUnauth, "/settings", SettingsResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
 		// CORS first, then encoder

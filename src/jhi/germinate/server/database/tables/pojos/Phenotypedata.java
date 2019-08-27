@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Contains phenotypic data which has been collected.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypedata implements Serializable {
 
-    private static final long serialVersionUID = -106616782;
+    private static final long serialVersionUID = 958833304;
 
     private Integer   id;
     private Integer   phenotypeId;
@@ -186,4 +187,5 @@ public class Phenotypedata implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

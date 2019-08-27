@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.ViewTableLicenses;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -25,7 +26,7 @@ import jhi.germinate.server.database.tables.ViewTableLicenses;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRecord> implements Record6<Integer, String, String, String, String, String> {
 
-    private static final long serialVersionUID = -718035454;
+    private static final long serialVersionUID = -1816829304;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
@@ -367,4 +368,5 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     public String getLocaledescription() {
         return (String) get(5);
     }
+// @formatter:on
 }

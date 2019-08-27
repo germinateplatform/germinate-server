@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Megaenvironments;
 
 
+// @formatter:off
 /**
  * Defines the mega environments if used and their temperature and precipitation 
  * ranges.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Megaenvironments;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MegaenvironmentsRecord extends UpdatableRecordImpl<MegaenvironmentsRecord> implements Record8<Integer, String, Integer, Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -34498464;
+    private static final long serialVersionUID = 1875946;
 
     /**
      * Create a detached MegaenvironmentsRecord
@@ -480,4 +481,5 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

@@ -41,4 +41,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_datasets` AS 
 DROP VIEW IF EXISTS `view_table_licenses`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_licenses` AS select `licenses`.`id` AS `licenseId`,`licenses`.`name` AS `licenseName`,`licenses`.`description` AS `licenseDescription`,`licensedata`.`content` AS `licenseContent`,`locales`.`name` AS `localeName`,`locales`.`description` AS `localeDescription` from ((`licenses` left join `licensedata` on((`licensedata`.`license_id` = `licenses`.`id`))) left join `locales` on((`locales`.`id` = `licensedata`.`locale_id`)));
 
+DROP VIEW IF EXISTS `view_stats_overview`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_stats_overview` AS select (select count(1) from `germinatebase`) AS `germplasm`,(select count(1) from `markers`) AS `markers`,(select count(1) from `phenotypes`) AS `traits`,(select count(1) from `compounds`) AS `compounds`,(select count(1) from `locations`) AS `locations`,(select count(1) from `groups`) AS `groups`;
+
 SET FOREIGN_KEY_CHECKS=1;

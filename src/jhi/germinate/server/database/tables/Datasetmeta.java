@@ -13,10 +13,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.DatasetmetaRecord;
 
 
+// @formatter:off
 /**
  * Defines dataset sizes for the items in the datasets table. This table is 
  * automatically updated every hour.
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.DatasetmetaRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
 
-    private static final long serialVersionUID = -1243580763;
+    private static final long serialVersionUID = 1427450907;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasetmeta</code>
@@ -105,10 +106,6 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines dataset sizes for the items in the datasets table. This table is automatically updated every hour."));
     }
 
-    public <O extends Record> Datasetmeta(Table<O> child, ForeignKey<O, DatasetmetaRecord> key) {
-        super(child, key, DATASETMETA);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -121,16 +118,8 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.DATASETMETA_DATASETMETA_IBFK_DATASETS, Indexes.DATASETMETA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<DatasetmetaRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_DATASETMETA;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Datasetmeta.DATASETMETA, jhi.germinate.server.database.tables.Datasetmeta.DATASETMETA.ID);
     }
 
     /**
@@ -138,7 +127,7 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
      */
     @Override
     public UniqueKey<DatasetmetaRecord> getPrimaryKey() {
-        return Keys.KEY_DATASETMETA_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasetmeta.DATASETMETA, "KEY_datasetmeta_PRIMARY", jhi.germinate.server.database.tables.Datasetmeta.DATASETMETA.ID);
     }
 
     /**
@@ -146,19 +135,9 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
      */
     @Override
     public List<UniqueKey<DatasetmetaRecord>> getKeys() {
-        return Arrays.<UniqueKey<DatasetmetaRecord>>asList(Keys.KEY_DATASETMETA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<DatasetmetaRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<DatasetmetaRecord, ?>>asList(Keys.DATASETMETA_IBFK_1);
-    }
-
-    public Datasets datasets() {
-        return new Datasets(this, Keys.DATASETMETA_IBFK_1);
+        return Arrays.<UniqueKey<DatasetmetaRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Datasetmeta.DATASETMETA, "KEY_datasetmeta_PRIMARY", jhi.germinate.server.database.tables.Datasetmeta.DATASETMETA.ID)
+        );
     }
 
     /**
@@ -192,4 +171,5 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
     public Datasetmeta rename(Name name) {
         return new Datasetmeta(name, null);
     }
+// @formatter:on
 }

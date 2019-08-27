@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Synonymtypes;
 
 
+// @formatter:off
 /**
  * Synonym type definitions.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Synonymtypes;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1701441830;
+    private static final long serialVersionUID = 1917696870;
 
     /**
      * Create a detached SynonymtypesRecord
@@ -381,4 +382,5 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

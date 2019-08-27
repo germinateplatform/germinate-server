@@ -10,6 +10,7 @@ import java.sql.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Germinatebase is the Germinate base table which contains passport and other 
  * germplasm definition data.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Germinatebase implements Serializable {
 
-    private static final long serialVersionUID = -2053588529;
+    private static final long serialVersionUID = -602147695;
 
     private Integer   id;
     private String    generalIdentifier;
@@ -460,4 +461,5 @@ public class Germinatebase implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

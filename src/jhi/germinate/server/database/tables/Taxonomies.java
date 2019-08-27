@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.TaxonomiesRecord;
 
 
+// @formatter:off
 /**
  * The species table holds information relating to the species that are deinfed 
  * within a particular Germinate instance including common names and ploidy 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.TaxonomiesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Taxonomies extends TableImpl<TaxonomiesRecord> {
 
-    private static final long serialVersionUID = -1341062298;
+    private static final long serialVersionUID = 1186356750;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.taxonomies</code>
@@ -125,10 +126,6 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("The species table holds information relating to the species that are deinfed within a particular Germinate instance including common names and ploidy levels."));
     }
 
-    public <O extends Record> Taxonomies(Table<O> child, ForeignKey<O, TaxonomiesRecord> key) {
-        super(child, key, TAXONOMIES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -141,16 +138,8 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TAXONOMIES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<TaxonomiesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_TAXONOMIES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Taxonomies.TAXONOMIES, jhi.germinate.server.database.tables.Taxonomies.TAXONOMIES.ID);
     }
 
     /**
@@ -158,7 +147,7 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
      */
     @Override
     public UniqueKey<TaxonomiesRecord> getPrimaryKey() {
-        return Keys.KEY_TAXONOMIES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Taxonomies.TAXONOMIES, "KEY_taxonomies_PRIMARY", jhi.germinate.server.database.tables.Taxonomies.TAXONOMIES.ID);
     }
 
     /**
@@ -166,7 +155,9 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
      */
     @Override
     public List<UniqueKey<TaxonomiesRecord>> getKeys() {
-        return Arrays.<UniqueKey<TaxonomiesRecord>>asList(Keys.KEY_TAXONOMIES_PRIMARY);
+        return Arrays.<UniqueKey<TaxonomiesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Taxonomies.TAXONOMIES, "KEY_taxonomies_PRIMARY", jhi.germinate.server.database.tables.Taxonomies.TAXONOMIES.ID)
+        );
     }
 
     /**
@@ -200,4 +191,5 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
     public Taxonomies rename(Name name) {
         return new Taxonomies(name, null);
     }
+// @formatter:on
 }

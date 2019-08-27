@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Describes a location.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locationtypes implements Serializable {
 
-    private static final long serialVersionUID = 721657718;
+    private static final long serialVersionUID = 1677817236;
 
     private Integer   id;
     private String    name;
@@ -108,4 +109,5 @@ public class Locationtypes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

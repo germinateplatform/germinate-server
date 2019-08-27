@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines which entities are contained within a group. These can be the primary 
  * key from any table.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groupmembers implements Serializable {
 
-    private static final long serialVersionUID = -826430574;
+    private static final long serialVersionUID = 51182062;
 
     private Integer   id;
     private Integer   foreignId;
@@ -109,4 +110,5 @@ public class Groupmembers implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

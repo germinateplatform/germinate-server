@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ClimateoverlaysRecord;
 
 
+// @formatter:off
 /**
  * Climate overlays can be used in conjunction with OpenStreetMap in order 
  * to visualize climate data in a geographic context.
@@ -30,13 +31,12 @@ import jhi.germinate.server.database.tables.records.ClimateoverlaysRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
 
-    private static final long serialVersionUID = -1373654213;
+    private static final long serialVersionUID = -1801303118;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.climateoverlays</code>
      */
     public static final Climateoverlays CLIMATEOVERLAYS = new Climateoverlays();
-
     /**
      * The column <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
@@ -129,10 +129,6 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Climate overlays can be used in conjunction with OpenStreetMap in order to visualize climate data in a geographic context."));
     }
 
-    public <O extends Record> Climateoverlays(Table<O> child, ForeignKey<O, ClimateoverlaysRecord> key) {
-        super(child, key, CLIMATEOVERLAYS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -145,16 +141,8 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CLIMATEOVERLAYS_CLIMATEOVERLAYS_CLIMATE_ID, Indexes.CLIMATEOVERLAYS_CLIMATEOVERLAYS_DESCRIPTION, Indexes.CLIMATEOVERLAYS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<ClimateoverlaysRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_CLIMATEOVERLAYS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Climateoverlays.CLIMATEOVERLAYS, jhi.germinate.server.database.tables.Climateoverlays.CLIMATEOVERLAYS.ID);
     }
 
     /**
@@ -162,7 +150,7 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
      */
     @Override
     public UniqueKey<ClimateoverlaysRecord> getPrimaryKey() {
-        return Keys.KEY_CLIMATEOVERLAYS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Climateoverlays.CLIMATEOVERLAYS, "KEY_climateoverlays_PRIMARY", jhi.germinate.server.database.tables.Climateoverlays.CLIMATEOVERLAYS.ID);
     }
 
     /**
@@ -170,19 +158,9 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
      */
     @Override
     public List<UniqueKey<ClimateoverlaysRecord>> getKeys() {
-        return Arrays.<UniqueKey<ClimateoverlaysRecord>>asList(Keys.KEY_CLIMATEOVERLAYS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<ClimateoverlaysRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ClimateoverlaysRecord, ?>>asList(Keys.CLIMATEOVERLAYS_IBFK_1);
-    }
-
-    public Climates climates() {
-        return new Climates(this, Keys.CLIMATEOVERLAYS_IBFK_1);
+        return Arrays.<UniqueKey<ClimateoverlaysRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Climateoverlays.CLIMATEOVERLAYS, "KEY_climateoverlays_PRIMARY", jhi.germinate.server.database.tables.Climateoverlays.CLIMATEOVERLAYS.ID)
+        );
     }
 
     /**
@@ -216,4 +194,5 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
     public Climateoverlays rename(Name name) {
         return new Climateoverlays(name, null);
     }
+// @formatter:on
 }

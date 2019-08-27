@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Allows the definition of groups within Germinate. Germinate supports a 
  * number of different group types such as germinatebase accesion groups and 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groups implements Serializable {
 
-    private static final long serialVersionUID = 1659746189;
+    private static final long serialVersionUID = -83914669;
 
     private Integer   id;
     private Integer   grouptypeId;
@@ -149,4 +150,5 @@ public class Groups implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

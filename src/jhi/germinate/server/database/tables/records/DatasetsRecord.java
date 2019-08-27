@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Datasets;
 
 
+// @formatter:off
 /**
  * Datasets which are defined within Germinate although there can be external 
  * datasets which are links out to external data sources most will be held 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Datasets;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implements Record19<Integer, Integer, Integer, String, String, Date, Date, String, String, Object, String, Integer, Integer, Integer, Byte, String, Timestamp, Timestamp, String> {
 
-    private static final long serialVersionUID = -721592011;
+    private static final long serialVersionUID = 1538483061;
 
     /**
      * Create a detached DatasetsRecord
@@ -1028,4 +1029,5 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     public void setContact(String value) {
         set(18, value);
     }
+// @formatter:on
 }

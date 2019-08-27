@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ClimatedataRecord;
 
 
+// @formatter:off
 /**
  * Holds montly average climate data such as rainfall, temperature or cloud 
  * cover. This is based on locations rather than accessions like most of the 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.records.ClimatedataRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climatedata extends TableImpl<ClimatedataRecord> {
 
-    private static final long serialVersionUID = -2078874218;
+    private static final long serialVersionUID = 897795106;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.climatedata</code>
@@ -115,10 +116,6 @@ public class Climatedata extends TableImpl<ClimatedataRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Holds montly average climate data such as rainfall, temperature or cloud cover. This is based on locations rather than accessions like most of the other tables in Germinate."));
     }
 
-    public <O extends Record> Climatedata(Table<O> child, ForeignKey<O, ClimatedataRecord> key) {
-        super(child, key, CLIMATEDATA);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -131,16 +128,8 @@ public class Climatedata extends TableImpl<ClimatedataRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CLIMATEDATA_CLIMATE_ID, Indexes.CLIMATEDATA_CLIMATE_LOCATION_ID, Indexes.CLIMATEDATA_DATASET_ID, Indexes.CLIMATEDATA_LOCATION_ID, Indexes.CLIMATEDATA_PRIMARY, Indexes.CLIMATEDATA_RECORDING_DATE_CLIMATE_CALUE);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<ClimatedataRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_CLIMATEDATA;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Climatedata.CLIMATEDATA, jhi.germinate.server.database.tables.Climatedata.CLIMATEDATA.ID);
     }
 
     /**
@@ -148,7 +137,7 @@ public class Climatedata extends TableImpl<ClimatedataRecord> {
      */
     @Override
     public UniqueKey<ClimatedataRecord> getPrimaryKey() {
-        return Keys.KEY_CLIMATEDATA_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Climatedata.CLIMATEDATA, "KEY_climatedata_PRIMARY", jhi.germinate.server.database.tables.Climatedata.CLIMATEDATA.ID);
     }
 
     /**
@@ -156,27 +145,9 @@ public class Climatedata extends TableImpl<ClimatedataRecord> {
      */
     @Override
     public List<UniqueKey<ClimatedataRecord>> getKeys() {
-        return Arrays.<UniqueKey<ClimatedataRecord>>asList(Keys.KEY_CLIMATEDATA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<ClimatedataRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ClimatedataRecord, ?>>asList(Keys.CLIMATEDATA_IBFK_2, Keys.CLIMATEDATA_IBFK_3, Keys.CLIMATEDATA_IBFK_1);
-    }
-
-    public Climates climates() {
-        return new Climates(this, Keys.CLIMATEDATA_IBFK_2);
-    }
-
-    public Locations locations() {
-        return new Locations(this, Keys.CLIMATEDATA_IBFK_3);
-    }
-
-    public Datasets datasets() {
-        return new Datasets(this, Keys.CLIMATEDATA_IBFK_1);
+        return Arrays.<UniqueKey<ClimatedataRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Climatedata.CLIMATEDATA, "KEY_climatedata_PRIMARY", jhi.germinate.server.database.tables.Climatedata.CLIMATEDATA.ID)
+        );
     }
 
     /**
@@ -210,4 +181,5 @@ public class Climatedata extends TableImpl<ClimatedataRecord> {
     public Climatedata rename(Name name) {
         return new Climatedata(name, null);
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Countries;
 
 
+// @formatter:off
 /**
  * Countries that are used in the locations type tables in Germinate. These 
  * are the ISO codes for countries.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Countries;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1264058467;
+    private static final long serialVersionUID = 983792071;
 
     /**
      * Create a detached CountriesRecord
@@ -382,4 +383,5 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

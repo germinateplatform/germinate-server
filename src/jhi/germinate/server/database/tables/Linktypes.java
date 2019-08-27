@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.LinktypesRecord;
 
 
+// @formatter:off
 /**
  * The link type determines which database table and column are used to construct 
  * the final
@@ -33,7 +34,7 @@ import jhi.germinate.server.database.tables.records.LinktypesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Linktypes extends TableImpl<LinktypesRecord> {
 
-    private static final long serialVersionUID = 1217469456;
+    private static final long serialVersionUID = 1108271659;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.linktypes</code>
@@ -113,10 +114,6 @@ public class Linktypes extends TableImpl<LinktypesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("The link type determines which database table and column are used to construct the final\r\nlink. The ”placeholder” in the link (from the links table) will be replaced by the value of the\r\n”target column” in the ”target table”"));
     }
 
-    public <O extends Record> Linktypes(Table<O> child, ForeignKey<O, LinktypesRecord> key) {
-        super(child, key, LINKTYPES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -129,16 +126,8 @@ public class Linktypes extends TableImpl<LinktypesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.LINKTYPES_LINKTYPES_ID, Indexes.LINKTYPES_LINKTYPES_TARGET_TABLE, Indexes.LINKTYPES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<LinktypesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_LINKTYPES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Linktypes.LINKTYPES, jhi.germinate.server.database.tables.Linktypes.LINKTYPES.ID);
     }
 
     /**
@@ -146,7 +135,7 @@ public class Linktypes extends TableImpl<LinktypesRecord> {
      */
     @Override
     public UniqueKey<LinktypesRecord> getPrimaryKey() {
-        return Keys.KEY_LINKTYPES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Linktypes.LINKTYPES, "KEY_linktypes_PRIMARY", jhi.germinate.server.database.tables.Linktypes.LINKTYPES.ID);
     }
 
     /**
@@ -154,7 +143,9 @@ public class Linktypes extends TableImpl<LinktypesRecord> {
      */
     @Override
     public List<UniqueKey<LinktypesRecord>> getKeys() {
-        return Arrays.<UniqueKey<LinktypesRecord>>asList(Keys.KEY_LINKTYPES_PRIMARY);
+        return Arrays.<UniqueKey<LinktypesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Linktypes.LINKTYPES, "KEY_linktypes_PRIMARY", jhi.germinate.server.database.tables.Linktypes.LINKTYPES.ID)
+        );
     }
 
     /**
@@ -188,4 +179,5 @@ public class Linktypes extends TableImpl<LinktypesRecord> {
     public Linktypes rename(Name name) {
         return new Linktypes(name, null);
     }
+// @formatter:on
 }

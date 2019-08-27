@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.PhenotypedataRecord;
 
 
+// @formatter:off
 /**
  * Contains phenotypic data which has been collected.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.PhenotypedataRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
 
-    private static final long serialVersionUID = 441088461;
+    private static final long serialVersionUID = -1238364447;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.phenotypedata</code>
@@ -128,10 +129,6 @@ public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Contains phenotypic data which has been collected."));
     }
 
-    public <O extends Record> Phenotypedata(Table<O> child, ForeignKey<O, PhenotypedataRecord> key) {
-        super(child, key, PHENOTYPEDATA);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -144,16 +141,8 @@ public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PHENOTYPEDATA_DATASET_ID, Indexes.PHENOTYPEDATA_DATASET_ID_2, Indexes.PHENOTYPEDATA_GERMINATEBASE_ID, Indexes.PHENOTYPEDATA_PHENOTYPEDATA_RECORDING_DATE, Indexes.PHENOTYPEDATA_PHENOTYPES_IBFK_LOCATIONS, Indexes.PHENOTYPEDATA_PHENOTYPES_IBFK_TREATMENT, Indexes.PHENOTYPEDATA_PHENOTYPES_IBFK_TRIALSERIES, Indexes.PHENOTYPEDATA_PHENOTYPE_ID, Indexes.PHENOTYPEDATA_PRIMARY, Indexes.PHENOTYPEDATA_TRIALS_QUERY_INDEX);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<PhenotypedataRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PHENOTYPEDATA;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Phenotypedata.PHENOTYPEDATA, jhi.germinate.server.database.tables.Phenotypedata.PHENOTYPEDATA.ID);
     }
 
     /**
@@ -161,7 +150,7 @@ public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
      */
     @Override
     public UniqueKey<PhenotypedataRecord> getPrimaryKey() {
-        return Keys.KEY_PHENOTYPEDATA_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Phenotypedata.PHENOTYPEDATA, "KEY_phenotypedata_PRIMARY", jhi.germinate.server.database.tables.Phenotypedata.PHENOTYPEDATA.ID);
     }
 
     /**
@@ -169,39 +158,9 @@ public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
      */
     @Override
     public List<UniqueKey<PhenotypedataRecord>> getKeys() {
-        return Arrays.<UniqueKey<PhenotypedataRecord>>asList(Keys.KEY_PHENOTYPEDATA_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<PhenotypedataRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PhenotypedataRecord, ?>>asList(Keys.PHENOTYPEDATA_IBFK_2, Keys.PHENOTYPEDATA_IBFK_3, Keys.PHENOTYPEDATA_IBFK_1, Keys.PHENOTYPEDATA_IBFK_4, Keys.PHENOTYPEDATA_IBFK_5, Keys.PHENOTYPEDATA_IBFK_6);
-    }
-
-    public Phenotypes phenotypes() {
-        return new Phenotypes(this, Keys.PHENOTYPEDATA_IBFK_2);
-    }
-
-    public Germinatebase germinatebase() {
-        return new Germinatebase(this, Keys.PHENOTYPEDATA_IBFK_3);
-    }
-
-    public Datasets datasets() {
-        return new Datasets(this, Keys.PHENOTYPEDATA_IBFK_1);
-    }
-
-    public Locations locations() {
-        return new Locations(this, Keys.PHENOTYPEDATA_IBFK_4);
-    }
-
-    public Treatments treatments() {
-        return new Treatments(this, Keys.PHENOTYPEDATA_IBFK_5);
-    }
-
-    public Trialseries trialseries() {
-        return new Trialseries(this, Keys.PHENOTYPEDATA_IBFK_6);
+        return Arrays.<UniqueKey<PhenotypedataRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Phenotypedata.PHENOTYPEDATA, "KEY_phenotypedata_PRIMARY", jhi.germinate.server.database.tables.Phenotypedata.PHENOTYPEDATA.ID)
+        );
     }
 
     /**
@@ -235,4 +194,5 @@ public class Phenotypedata extends TableImpl<PhenotypedataRecord> {
     public Phenotypedata rename(Name name) {
         return new Phenotypedata(name, null);
     }
+// @formatter:on
 }

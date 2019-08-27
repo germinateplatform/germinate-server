@@ -9,6 +9,7 @@ import org.jooq.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Describes the data type of the attribute. This can be INT, FLOAT or CHAR 
  * type.
@@ -66,4 +67,5 @@ public enum AttributesDatatype implements EnumType {
     public String getLiteral() {
         return literal;
     }
+// @formatter:on
 }

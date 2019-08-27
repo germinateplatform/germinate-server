@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.MarkersRecord;
 
 
+// @formatter:off
 /**
  * Defines genetic markers within the database and assigns a type (markertypes).
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.MarkersRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Markers extends TableImpl<MarkersRecord> {
 
-    private static final long serialVersionUID = -551372124;
+    private static final long serialVersionUID = -940116218;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.markers</code>
@@ -99,10 +100,6 @@ public class Markers extends TableImpl<MarkersRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines genetic markers within the database and assigns a type (markertypes)."));
     }
 
-    public <O extends Record> Markers(Table<O> child, ForeignKey<O, MarkersRecord> key) {
-        super(child, key, MARKERS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -115,16 +112,8 @@ public class Markers extends TableImpl<MarkersRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MARKERS_MARKERTYPE_ID, Indexes.MARKERS_MARKER_NAME, Indexes.MARKERS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<MarkersRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_MARKERS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Markers.MARKERS, jhi.germinate.server.database.tables.Markers.MARKERS.ID);
     }
 
     /**
@@ -132,7 +121,7 @@ public class Markers extends TableImpl<MarkersRecord> {
      */
     @Override
     public UniqueKey<MarkersRecord> getPrimaryKey() {
-        return Keys.KEY_MARKERS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Markers.MARKERS, "KEY_markers_PRIMARY", jhi.germinate.server.database.tables.Markers.MARKERS.ID);
     }
 
     /**
@@ -140,19 +129,9 @@ public class Markers extends TableImpl<MarkersRecord> {
      */
     @Override
     public List<UniqueKey<MarkersRecord>> getKeys() {
-        return Arrays.<UniqueKey<MarkersRecord>>asList(Keys.KEY_MARKERS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<MarkersRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<MarkersRecord, ?>>asList(Keys.MARKERS_IBFK_1);
-    }
-
-    public Markertypes markertypes() {
-        return new Markertypes(this, Keys.MARKERS_IBFK_1);
+        return Arrays.<UniqueKey<MarkersRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Markers.MARKERS, "KEY_markers_PRIMARY", jhi.germinate.server.database.tables.Markers.MARKERS.ID)
+        );
     }
 
     /**
@@ -186,4 +165,5 @@ public class Markers extends TableImpl<MarkersRecord> {
     public Markers rename(Name name) {
         return new Markers(name, null);
     }
+// @formatter:on
 }

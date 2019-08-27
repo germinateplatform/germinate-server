@@ -10,6 +10,7 @@ import java.sql.*;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Datasets which are defined within Germinate although there can be external 
  * datasets which are links out to external data sources most will be held 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets implements Serializable {
 
-    private static final long serialVersionUID = 1606431412;
+    private static final long serialVersionUID = -67230698;
 
     private Integer   id;
     private Integer   experimentId;
@@ -302,4 +303,5 @@ public class Datasets implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

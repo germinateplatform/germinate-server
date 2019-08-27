@@ -2,6 +2,19 @@
 <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
 	<!-- Configure the database connection here -->
 	<generator>
+		<generate>
+			<pojos>true</pojos>
+			<globalCatalogReferences>false</globalCatalogReferences>
+			<globalKeyReferences>false</globalKeyReferences>
+			<globalLinkReferences>false</globalLinkReferences>>
+			<globalQueueReferences>false</globalQueueReferences>
+			<globalRoutineReferences>false</globalRoutineReferences>
+			<globalSchemaReferences>false</globalSchemaReferences>
+			<globalSequenceReferences>false</globalSequenceReferences>
+			<globalTableReferences>false</globalTableReferences>
+			<globalUDTReferences>false</globalUDTReferences>
+		</generate>
+
 		<database>
 			<excludes>
 			</excludes>
@@ -10,9 +23,7 @@
 			<name>org.jooq.meta.mysql.MySQLDatabase</name>
 		</database>
 
-		<generate>
-			<pojos>true</pojos>
-		</generate>
+		<name>jhi.germinate.util.CustomCodegen</name>
 
 		<target>
 			<directory>src/</directory>

@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Defines the mega environments if used and their temperature and precipitation 
  * ranges.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironments implements Serializable {
 
-    private static final long serialVersionUID = -174602988;
+    private static final long serialVersionUID = 680234870;
 
     private Integer   id;
     private String    name;
@@ -148,4 +149,5 @@ public class Megaenvironments implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

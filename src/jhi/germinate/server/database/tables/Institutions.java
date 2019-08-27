@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.InstitutionsRecord;
 
 
+// @formatter:off
 /**
  * Defines institutions within Germinate. Accessions may be associated with 
  * an institute and this can be defined here.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.InstitutionsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Institutions extends TableImpl<InstitutionsRecord> {
 
-    private static final long serialVersionUID = -1937239775;
+    private static final long serialVersionUID = 2114187590;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.institutions</code>
@@ -129,10 +130,6 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines institutions within Germinate. Accessions may be associated with an institute and this can be defined here."));
     }
 
-    public <O extends Record> Institutions(Table<O> child, ForeignKey<O, InstitutionsRecord> key) {
-        super(child, key, INSTITUTIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -145,16 +142,8 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.INSTITUTIONS_COUNTRY_ID, Indexes.INSTITUTIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<InstitutionsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_INSTITUTIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Institutions.INSTITUTIONS, jhi.germinate.server.database.tables.Institutions.INSTITUTIONS.ID);
     }
 
     /**
@@ -162,7 +151,7 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
      */
     @Override
     public UniqueKey<InstitutionsRecord> getPrimaryKey() {
-        return Keys.KEY_INSTITUTIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Institutions.INSTITUTIONS, "KEY_institutions_PRIMARY", jhi.germinate.server.database.tables.Institutions.INSTITUTIONS.ID);
     }
 
     /**
@@ -170,19 +159,9 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
      */
     @Override
     public List<UniqueKey<InstitutionsRecord>> getKeys() {
-        return Arrays.<UniqueKey<InstitutionsRecord>>asList(Keys.KEY_INSTITUTIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<InstitutionsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<InstitutionsRecord, ?>>asList(Keys.INSTITUTIONS_IBFK_1);
-    }
-
-    public Countries countries() {
-        return new Countries(this, Keys.INSTITUTIONS_IBFK_1);
+        return Arrays.<UniqueKey<InstitutionsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Institutions.INSTITUTIONS, "KEY_institutions_PRIMARY", jhi.germinate.server.database.tables.Institutions.INSTITUTIONS.ID)
+        );
     }
 
     /**
@@ -216,4 +195,5 @@ public class Institutions extends TableImpl<InstitutionsRecord> {
     public Institutions rename(Name name) {
         return new Institutions(name, null);
     }
+// @formatter:on
 }

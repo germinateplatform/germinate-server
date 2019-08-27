@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Megaenvironmentdata;
 
 
+// @formatter:off
 /**
  * Describes mega environment data by grouping collection sites (locations) 
  * into mega environments. Mega environments in this context are collections 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Megaenvironmentdata;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MegaenvironmentdataRecord extends UpdatableRecordImpl<MegaenvironmentdataRecord> implements Record7<Integer, Integer, Integer, Integer, Byte, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1734347094;
+    private static final long serialVersionUID = 1643868822;
 
     /**
      * Create a detached MegaenvironmentdataRecord
@@ -432,4 +433,5 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     public void setUpdatedOn(Timestamp value) {
         set(6, value);
     }
+// @formatter:on
 }

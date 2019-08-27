@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Pedigreedescriptions;
 
 
+// @formatter:off
 /**
  * Description of pedigrees. Pedigrees can have a description which details 
  * additional information about the pedigree, how it was constructed and who 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Pedigreedescriptions;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PedigreedescriptionsRecord extends UpdatableRecordImpl<PedigreedescriptionsRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -518228294;
+    private static final long serialVersionUID = -1438407920;
 
     /**
      * Create a detached PedigreedescriptionsRecord
@@ -383,4 +384,5 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

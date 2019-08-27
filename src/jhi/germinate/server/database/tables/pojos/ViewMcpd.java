@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd implements Serializable {
 
-    private static final long serialVersionUID = 1651747679;
+    private static final long serialVersionUID = 81507403;
 
     private Integer    id;
     private String     puid;
@@ -615,4 +616,5 @@ public class ViewMcpd implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

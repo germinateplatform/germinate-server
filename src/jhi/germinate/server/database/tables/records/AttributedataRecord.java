@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Attributedata;
 
 
+// @formatter:off
 /**
  * Defines attributes data. Attributes which are defined in attributes can 
  * have values associated with them. Data which does not warrant new column 
@@ -31,7 +32,7 @@ import jhi.germinate.server.database.tables.Attributedata;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord> implements Record6<Integer, Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1304575807;
+    private static final long serialVersionUID = -1978501217;
 
     /**
      * Create a detached AttributedataRecord
@@ -385,4 +386,5 @@ public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
+// @formatter:on
 }

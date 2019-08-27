@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.MapsRecord;
 
 
+// @formatter:off
 /**
  * Describes genetic maps that have been defined within Germinate.
  */
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.records.MapsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Maps extends TableImpl<MapsRecord> {
 
-    private static final long serialVersionUID = -1615724194;
+    private static final long serialVersionUID = -1248352217;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.maps</code>
@@ -108,10 +109,6 @@ public class Maps extends TableImpl<MapsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Describes genetic maps that have been defined within Germinate."));
     }
 
-    public <O extends Record> Maps(Table<O> child, ForeignKey<O, MapsRecord> key) {
-        super(child, key, MAPS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -124,16 +121,8 @@ public class Maps extends TableImpl<MapsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MAPS_PRIMARY, Indexes.MAPS_USER_ID);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<MapsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_MAPS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Maps.MAPS, jhi.germinate.server.database.tables.Maps.MAPS.ID);
     }
 
     /**
@@ -141,7 +130,7 @@ public class Maps extends TableImpl<MapsRecord> {
      */
     @Override
     public UniqueKey<MapsRecord> getPrimaryKey() {
-        return Keys.KEY_MAPS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Maps.MAPS, "KEY_maps_PRIMARY", jhi.germinate.server.database.tables.Maps.MAPS.ID);
     }
 
     /**
@@ -149,7 +138,9 @@ public class Maps extends TableImpl<MapsRecord> {
      */
     @Override
     public List<UniqueKey<MapsRecord>> getKeys() {
-        return Arrays.<UniqueKey<MapsRecord>>asList(Keys.KEY_MAPS_PRIMARY);
+        return Arrays.<UniqueKey<MapsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Maps.MAPS, "KEY_maps_PRIMARY", jhi.germinate.server.database.tables.Maps.MAPS.ID)
+        );
     }
 
     /**
@@ -183,4 +174,5 @@ public class Maps extends TableImpl<MapsRecord> {
     public Maps rename(Name name) {
         return new Maps(name, null);
     }
+// @formatter:on
 }

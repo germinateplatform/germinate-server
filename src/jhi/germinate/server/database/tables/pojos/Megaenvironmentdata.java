@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Describes mega environment data by grouping collection sites (locations) 
  * into mega environments. Mega environments in this context are collections 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentdata implements Serializable {
 
-    private static final long serialVersionUID = 1156234605;
+    private static final long serialVersionUID = -952480067;
 
     private Integer   id;
     private Integer   locationId;
@@ -136,4 +137,5 @@ public class Megaenvironmentdata implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

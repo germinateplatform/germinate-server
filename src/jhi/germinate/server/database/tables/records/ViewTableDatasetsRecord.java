@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.ViewTableDatasets;
 
 
+// @formatter:off
 /**
  * VIEW
  */
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.ViewTableDatasets;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRecord> implements Record19<Integer, String, String, String, String, String, String, String, String, String, Integer, String, String, Date, Date, ULong, ULong, Byte, String> {
 
-    private static final long serialVersionUID = -1951832443;
+    private static final long serialVersionUID = -1789599899;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.datasetId</code>. Primary id for this table. This uniquely identifies the row.
@@ -177,34 +178,6 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
-     */
-    public void setLocation(String value) {
-        set(7, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.countryName</code>. Country name.
-     */
-    public String getCountryname() {
-        return (String) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.countryCode</code>. ISO 2 Code for country.
-     */
-    public void setCountrycode(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.licenseId</code>.
-     */
-    public Integer getLicenseid() {
-        return (Integer) get(10);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.countryName</code>. Country name.
      */
     public void setCountryname(String value) {
@@ -212,10 +185,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.licenseName</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
      */
-    public String getLicensename() {
-        return (String) get(11);
+    public void setLocation(String value) {
+        set(7, value);
     }
 
     /**
@@ -226,10 +199,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.countryCode</code>. ISO 2 Code for country.
      */
-    public String getContact() {
-        return (String) get(12);
+    public void setCountrycode(String value) {
+        set(8, value);
     }
 
     /**
@@ -240,10 +213,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.startDate</code>. Date that the dataset was generated.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.countryName</code>. Country name.
      */
-    public Date getStartdate() {
-        return (Date) get(13);
+    public String getCountryname() {
+        return (String) get(9);
     }
 
     /**
@@ -254,10 +227,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.endDate</code>. Date at which the dataset recording ended.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.licenseId</code>.
      */
-    public Date getEnddate() {
-        return (Date) get(14);
+    public Integer getLicenseid() {
+        return (Integer) get(10);
     }
 
     /**
@@ -268,10 +241,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataObjectCount</code>. The number of data objects contained in this dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.licenseName</code>.
      */
-    public ULong getDataobjectcount() {
-        return (ULong) get(15);
+    public String getLicensename() {
+        return (String) get(11);
     }
 
     /**
@@ -282,10 +255,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
-    public ULong getDatapointcount() {
-        return (ULong) get(16);
+    public String getContact() {
+        return (String) get(12);
     }
 
     /**
@@ -296,6 +269,13 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.startDate</code>. Date that the dataset was generated.
+     */
+    public Date getStartdate() {
+        return (Date) get(13);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
      */
     public void setDatapointcount(ULong value) {
@@ -303,10 +283,31 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.endDate</code>. Date at which the dataset recording ended.
+     */
+    public Date getEnddate() {
+        return (Date) get(14);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataObjectCount</code>. The number of data objects contained in this dataset.
+     */
+    public ULong getDataobjectcount() {
+        return (ULong) get(15);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.isExternal</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
     public Byte getIsexternal() {
         return (Byte) get(17);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
+     */
+    public ULong getDatapointcount() {
+        return (ULong) get(16);
     }
 
     /**
@@ -1007,4 +1008,5 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     public void setAcceptedby(String value) {
         set(18, value);
     }
+// @formatter:on
 }

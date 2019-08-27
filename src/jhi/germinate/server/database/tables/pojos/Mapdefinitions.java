@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Relates genetic markers to a map and assigns a position (if known). Maps 
  * are made up of lists of markers and positions (genetic or physiscal and 
@@ -27,7 +28,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapdefinitions implements Serializable {
 
-    private static final long serialVersionUID = 67943696;
+    private static final long serialVersionUID = -786203974;
 
     private Integer   id;
     private Integer   mapfeaturetypeId;
@@ -177,4 +178,5 @@ public class Mapdefinitions implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

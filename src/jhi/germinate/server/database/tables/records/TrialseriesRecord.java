@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Trialseries;
 
 
+// @formatter:off
 /**
  * Holds the names of trial series. Trial series define the name of the trial 
  * to which trials data is associated. Examples would include the overarching 
@@ -29,7 +30,7 @@ import jhi.germinate.server.database.tables.Trialseries;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -383364198;
+    private static final long serialVersionUID = -600813968;
 
     /**
      * Create a detached TrialseriesRecord
@@ -285,4 +286,5 @@ public class TrialseriesRecord extends UpdatableRecordImpl<TrialseriesRecord> im
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
+// @formatter:on
 }

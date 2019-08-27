@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.PedigreenotationsRecord;
 
 
+// @formatter:off
 /**
  * Allows additional supporting data to be associated with a pedigree definition 
  * such as the contributing data source.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.PedigreenotationsRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
 
-    private static final long serialVersionUID = 1240047047;
+    private static final long serialVersionUID = 249539036;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.pedigreenotations</code>
@@ -104,10 +105,6 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Allows additional supporting data to be associated with a pedigree definition such as the contributing data source."));
     }
 
-    public <O extends Record> Pedigreenotations(Table<O> child, ForeignKey<O, PedigreenotationsRecord> key) {
-        super(child, key, PEDIGREENOTATIONS);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -120,16 +117,8 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PEDIGREENOTATIONS_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<PedigreenotationsRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PEDIGREENOTATIONS;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Pedigreenotations.PEDIGREENOTATIONS, jhi.germinate.server.database.tables.Pedigreenotations.PEDIGREENOTATIONS.ID);
     }
 
     /**
@@ -137,7 +126,7 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
      */
     @Override
     public UniqueKey<PedigreenotationsRecord> getPrimaryKey() {
-        return Keys.KEY_PEDIGREENOTATIONS_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigreenotations.PEDIGREENOTATIONS, "KEY_pedigreenotations_PRIMARY", jhi.germinate.server.database.tables.Pedigreenotations.PEDIGREENOTATIONS.ID);
     }
 
     /**
@@ -145,7 +134,9 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
      */
     @Override
     public List<UniqueKey<PedigreenotationsRecord>> getKeys() {
-        return Arrays.<UniqueKey<PedigreenotationsRecord>>asList(Keys.KEY_PEDIGREENOTATIONS_PRIMARY);
+        return Arrays.<UniqueKey<PedigreenotationsRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Pedigreenotations.PEDIGREENOTATIONS, "KEY_pedigreenotations_PRIMARY", jhi.germinate.server.database.tables.Pedigreenotations.PEDIGREENOTATIONS.ID)
+        );
     }
 
     /**
@@ -179,4 +170,5 @@ public class Pedigreenotations extends TableImpl<PedigreenotationsRecord> {
     public Pedigreenotations rename(Name name) {
         return new Pedigreenotations(name, null);
     }
+// @formatter:on
 }

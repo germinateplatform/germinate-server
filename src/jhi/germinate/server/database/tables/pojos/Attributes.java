@@ -12,6 +12,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.enums.AttributesDatatype;
 
 
+// @formatter:off
 /**
  * Describes attributes. Attributes are bits of information that can be joined 
  * to, for example, a germinatebase entry. These are bits of data that while 
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.enums.AttributesDatatype;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Attributes implements Serializable {
 
-    private static final long serialVersionUID = 932503171;
+    private static final long serialVersionUID = -1447057369;
 
     private Integer            id;
     private String             name;
@@ -139,4 +140,5 @@ public class Attributes implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

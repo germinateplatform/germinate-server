@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * For trials data the treatment is used to distinguish between factors. Examples 
  * would include whether the trial was treated with fungicides or not.
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Treatments implements Serializable {
 
-    private static final long serialVersionUID = 1496328099;
+    private static final long serialVersionUID = 312925821;
 
     private Integer   id;
     private String    name;
@@ -109,4 +110,5 @@ public class Treatments implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

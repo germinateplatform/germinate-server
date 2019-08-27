@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * Describes genetic maps that have been defined within Germinate.
  */
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Maps implements Serializable {
 
-    private static final long serialVersionUID = 928486513;
+    private static final long serialVersionUID = -1441227783;
 
     private Integer   id;
     private String    name;
@@ -134,4 +135,5 @@ public class Maps implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }

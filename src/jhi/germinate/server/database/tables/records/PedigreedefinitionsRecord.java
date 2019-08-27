@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Pedigreedefinitions;
 
 
+// @formatter:off
 /**
  * This table holds the actual pedigree definition data.
  */
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.Pedigreedefinitions;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PedigreedefinitionsRecord extends UpdatableRecordImpl<PedigreedefinitionsRecord> implements Record7<Integer, Integer, Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1867951694;
+    private static final long serialVersionUID = 147623474;
 
     /**
      * Create a detached PedigreedefinitionsRecord
@@ -430,4 +431,5 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     public void setUpdatedOn(Timestamp value) {
         set(6, value);
     }
+// @formatter:on
 }

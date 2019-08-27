@@ -4,10 +4,10 @@
 
 Linux:
 ```shell script
-java -cp ./lib/lib-dev/*:./lib/* org.jooq.codegen.GenerationTool ./res/jooq.xml
+java -cp ./lib/lib-dev/*:./lib/*:./germinate.jar org.jooq.codegen.GenerationTool ./res/jooq.xml
 ```
 
 Windows:
 ```
-java -cp ./lib/lib-dev/*;./lib/* org.jooq.codegen.GenerationTool ./res/jooq.xml
+java -cp ./lib/lib-dev/*;./lib/*;./germinate.jar org.jooq.codegen.GenerationTool ./res/jooq.xml
 ```

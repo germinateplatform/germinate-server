@@ -12,10 +12,11 @@ import java.util.*;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.MapfeaturetypesRecord;
 
 
+// @formatter:off
 /**
  * Defines features which can exist on maps. In general this will be the marker 
  * type but it can also be used to identify QTL regions.
@@ -30,7 +31,7 @@ import jhi.germinate.server.database.tables.records.MapfeaturetypesRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
 
-    private static final long serialVersionUID = -550733399;
+    private static final long serialVersionUID = -1061623375;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.mapfeaturetypes</code>
@@ -94,10 +95,6 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
         super(alias, null, aliased, parameters, DSL.comment("Defines features which can exist on maps. In general this will be the marker type but it can also be used to identify QTL regions."));
     }
 
-    public <O extends Record> Mapfeaturetypes(Table<O> child, ForeignKey<O, MapfeaturetypesRecord> key) {
-        super(child, key, MAPFEATURETYPES);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -110,16 +107,8 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
      * {@inheritDoc}
      */
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.MAPFEATURETYPES_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Identity<MapfeaturetypesRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_MAPFEATURETYPES;
+        return Internal.createIdentity(jhi.germinate.server.database.tables.Mapfeaturetypes.MAPFEATURETYPES, jhi.germinate.server.database.tables.Mapfeaturetypes.MAPFEATURETYPES.ID);
     }
 
     /**
@@ -127,7 +116,7 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
      */
     @Override
     public UniqueKey<MapfeaturetypesRecord> getPrimaryKey() {
-        return Keys.KEY_MAPFEATURETYPES_PRIMARY;
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Mapfeaturetypes.MAPFEATURETYPES, "KEY_mapfeaturetypes_PRIMARY", jhi.germinate.server.database.tables.Mapfeaturetypes.MAPFEATURETYPES.ID);
     }
 
     /**
@@ -135,7 +124,9 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
      */
     @Override
     public List<UniqueKey<MapfeaturetypesRecord>> getKeys() {
-        return Arrays.<UniqueKey<MapfeaturetypesRecord>>asList(Keys.KEY_MAPFEATURETYPES_PRIMARY);
+        return Arrays.<UniqueKey<MapfeaturetypesRecord>>asList(
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Mapfeaturetypes.MAPFEATURETYPES, "KEY_mapfeaturetypes_PRIMARY", jhi.germinate.server.database.tables.Mapfeaturetypes.MAPFEATURETYPES.ID)
+        );
     }
 
     /**
@@ -169,4 +160,5 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
     public Mapfeaturetypes rename(Name name) {
         return new Mapfeaturetypes(name, null);
     }
+// @formatter:on
 }

@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Comments;
 
 
+// @formatter:off
 /**
  * Comments can be added to different entries in Germinate such as entries 
  * from germinatebase or markers from the markers table.
@@ -28,7 +29,7 @@ import jhi.germinate.server.database.tables.Comments;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implements Record8<Integer, Integer, Integer, Byte, String, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1630260203;
+    private static final long serialVersionUID = 2138084043;
 
     /**
      * Create a detached CommentsRecord
@@ -480,4 +481,5 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
+// @formatter:on
 }

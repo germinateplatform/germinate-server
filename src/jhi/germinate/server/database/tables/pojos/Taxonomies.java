@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 
+// @formatter:off
 /**
  * The species table holds information relating to the species that are deinfed 
  * within a particular Germinate instance including common names and ploidy 
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Taxonomies implements Serializable {
 
-    private static final long serialVersionUID = -1836902381;
+    private static final long serialVersionUID = 1103224333;
 
     private Integer   id;
     private String    genus;
@@ -175,4 +176,5 @@ public class Taxonomies implements Serializable {
         sb.append(")");
         return sb.toString();
     }
+// @formatter:on
 }
