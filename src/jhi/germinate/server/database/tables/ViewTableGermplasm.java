@@ -4,9 +4,6 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -14,6 +11,14 @@ import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableGermplasmRecord;
+
+import org.jooq.Field;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -36,6 +41,7 @@ public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
      * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm</code>
      */
     public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = new ViewTableGermplasm();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.collDate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].

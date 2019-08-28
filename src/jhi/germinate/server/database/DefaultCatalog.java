@@ -4,9 +4,9 @@
 package jhi.germinate.server.database;
 
 
-import org.jooq.impl.CatalogImpl;
-
 import javax.annotation.Generated;
+
+import org.jooq.impl.CatalogImpl;
 
 
 // @formatter:off

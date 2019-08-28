@@ -4,17 +4,26 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.LocationsRecord;
+
+import org.jooq.Field;
+import org.jooq.Identity;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -38,6 +47,7 @@ public class Locations extends TableImpl<LocationsRecord> {
      * The reference instance of <code>germinate_template_3_7_0.locations</code>
      */
     public static final Locations LOCATIONS = new Locations();
+
     /**
      * The column <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */

@@ -4,15 +4,18 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Locations;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record15;
+import org.jooq.Row15;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off
@@ -168,6 +171,13 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     */
+    public BigDecimal getLatitude() {
+        return (BigDecimal) get(8);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
     public void setState(String value) {
@@ -175,10 +185,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
+     * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
-    public void setLongitude(BigDecimal value) {
-        set(9, value);
+    public BigDecimal getLongitude() {
+        return (BigDecimal) get(9);
     }
 
     /**
@@ -189,17 +199,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locations.latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
-    public BigDecimal getLatitude() {
-        return (BigDecimal) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
-     */
-    public BigDecimal getLongitude() {
-        return (BigDecimal) get(9);
+    public void setLongitude(BigDecimal value) {
+        set(9, value);
     }
 
     /**

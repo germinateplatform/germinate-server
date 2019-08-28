@@ -4,14 +4,17 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Climateoverlays;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record11;
+import org.jooq.Row11;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off
@@ -156,6 +159,13 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     */
+    public void setDescription(String value) {
+        set(8, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
     public Byte getIsLegend() {
@@ -163,10 +173,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
-    public String getDescription() {
-        return (String) get(8);
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
@@ -177,24 +187,17 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     */
+    public String getDescription() {
+        return (String) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
-     */
-    public void setDescription(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
     }
 
     // -------------------------------------------------------------------------

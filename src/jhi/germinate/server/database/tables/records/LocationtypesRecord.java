@@ -4,14 +4,17 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Locationtypes;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record5;
+import org.jooq.Row5;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off
@@ -31,17 +34,17 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     private static final long serialVersionUID = 609459217;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached LocationtypesRecord
      */
     public LocationtypesRecord() {
         super(Locationtypes.LOCATIONTYPES);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getId() {
-        return (Integer) get(0);
     }
 
     /**
@@ -58,17 +61,10 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
-     */
-    public void setDescription(String value) {
-        set(2, value);
+    public Integer getId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -79,10 +75,10 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(3, value);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -93,17 +89,24 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
-     */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     */
+    public void setDescription(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(3, value);
     }
 
     // -------------------------------------------------------------------------

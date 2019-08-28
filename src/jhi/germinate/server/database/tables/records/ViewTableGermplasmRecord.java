@@ -4,15 +4,17 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.TableRecordImpl;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.ViewTableGermplasm;
+
+import org.jooq.Field;
+import org.jooq.Record21;
+import org.jooq.Row21;
+import org.jooq.impl.TableRecordImpl;
 
 
 // @formatter:off

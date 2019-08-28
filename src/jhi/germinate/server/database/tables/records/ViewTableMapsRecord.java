@@ -4,12 +4,14 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.TableRecordImpl;
-
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.ViewTableMaps;
+
+import org.jooq.Field;
+import org.jooq.Record6;
+import org.jooq.Row6;
+import org.jooq.impl.TableRecordImpl;
 
 
 // @formatter:off

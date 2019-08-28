@@ -67,7 +67,11 @@ public class ClientLocaleResource extends ServerResource
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 			}
 		}
-		catch (URISyntaxException | NullPointerException e)
+		catch (NullPointerException e) {
+			e.printStackTrace();
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+		}
+		catch (URISyntaxException e)
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

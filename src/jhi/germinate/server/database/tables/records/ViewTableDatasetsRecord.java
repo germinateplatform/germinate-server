@@ -4,15 +4,17 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.TableRecordImpl;
-import org.jooq.types.ULong;
-
 import java.sql.Date;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.ViewTableDatasets;
+
+import org.jooq.Field;
+import org.jooq.Record19;
+import org.jooq.Row19;
+import org.jooq.impl.TableRecordImpl;
+import org.jooq.types.ULong;
 
 
 // @formatter:off
@@ -185,34 +187,6 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
-     */
-    public void setLocation(String value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.licenseId</code>.
-     */
-    public void setLicenseid(Integer value) {
-        set(10, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.countryCode</code>. ISO 2 Code for country.
-     */
-    public void setCountrycode(String value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.licenseName</code>.
-     */
-    public void setLicensename(String value) {
-        set(11, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.countryName</code>. Country name.
      */
     public String getCountryname() {
@@ -220,10 +194,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
      */
-    public void setContact(String value) {
-        set(12, value);
+    public void setLocation(String value) {
+        set(7, value);
     }
 
     /**
@@ -234,10 +208,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.startDate</code>. Date that the dataset was generated.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.countryCode</code>. ISO 2 Code for country.
      */
-    public void setStartdate(Date value) {
-        set(13, value);
+    public void setCountrycode(String value) {
+        set(8, value);
     }
 
     /**
@@ -248,10 +222,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.endDate</code>. Date at which the dataset recording ended.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.licenseId</code>.
      */
-    public void setEnddate(Date value) {
-        set(14, value);
+    public void setLicenseid(Integer value) {
+        set(10, value);
     }
 
     /**
@@ -262,10 +236,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataObjectCount</code>. The number of data objects contained in this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.licenseName</code>.
      */
-    public void setDataobjectcount(ULong value) {
-        set(15, value);
+    public void setLicensename(String value) {
+        set(11, value);
     }
 
     /**
@@ -276,10 +250,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
-    public void setDatapointcount(ULong value) {
-        set(16, value);
+    public void setContact(String value) {
+        set(12, value);
     }
 
     /**
@@ -290,10 +264,38 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.startDate</code>. Date that the dataset was generated.
+     */
+    public void setStartdate(Date value) {
+        set(13, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataObjectCount</code>. The number of data objects contained in this dataset.
      */
     public ULong getDataobjectcount() {
         return (ULong) get(15);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.endDate</code>. Date at which the dataset recording ended.
+     */
+    public void setEnddate(Date value) {
+        set(14, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataObjectCount</code>. The number of data objects contained in this dataset.
+     */
+    public void setDataobjectcount(ULong value) {
+        set(15, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
+     */
+    public ULong getDatapointcount() {
+        return (ULong) get(16);
     }
 
     /**
@@ -304,10 +306,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataPointCount</code>. The number of individual data points contained in this dataset.
      */
-    public ULong getDatapointcount() {
-        return (ULong) get(16);
+    public void setDatapointcount(ULong value) {
+        set(16, value);
     }
 
     /**

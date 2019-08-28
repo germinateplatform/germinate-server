@@ -4,16 +4,21 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-import org.jooq.types.ULong;
-
 import java.sql.Date;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
+
+import org.jooq.Field;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
+import org.jooq.types.ULong;
 
 
 // @formatter:off

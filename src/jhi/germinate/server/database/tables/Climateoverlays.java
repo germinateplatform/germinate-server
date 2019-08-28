@@ -4,16 +4,25 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ClimateoverlaysRecord;
+
+import org.jooq.Field;
+import org.jooq.Identity;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -37,6 +46,7 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
      * The reference instance of <code>germinate_template_3_7_0.climateoverlays</code>
      */
     public static final Climateoverlays CLIMATEOVERLAYS = new Climateoverlays();
+
     /**
      * The column <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */

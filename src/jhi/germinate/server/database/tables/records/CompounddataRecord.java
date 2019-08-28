@@ -4,15 +4,18 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Compounddata;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record9;
+import org.jooq.Row9;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off

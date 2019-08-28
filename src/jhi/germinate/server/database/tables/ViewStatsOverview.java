@@ -4,13 +4,18 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewStatsOverviewRecord;
+
+import org.jooq.Field;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -27,31 +32,46 @@ import jhi.germinate.server.database.tables.records.ViewStatsOverviewRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
 
+    private static final long serialVersionUID = -897296133;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_stats_overview</code>
      */
     public static final ViewStatsOverview VIEW_STATS_OVERVIEW = new ViewStatsOverview();
-    private static final long serialVersionUID = -897296133;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewStatsOverviewRecord> getRecordType() {
+        return ViewStatsOverviewRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> GERMPLASM = createField("germplasm", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> MARKERS = createField("markers", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_stats_overview.traits</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> TRAITS = createField("traits", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> COMPOUNDS = createField("compounds", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> LOCATIONS = createField("locations", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
      */
@@ -84,14 +104,6 @@ public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
 
     private ViewStatsOverview(Name alias, Table<ViewStatsOverviewRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewStatsOverviewRecord> getRecordType() {
-        return ViewStatsOverviewRecord.class;
     }
 
     /**

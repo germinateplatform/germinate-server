@@ -4,9 +4,11 @@
 package jhi.germinate.server.database.enums;
 
 
-import org.jooq.*;
-
 import javax.annotation.Generated;
+
+import org.jooq.Catalog;
+import org.jooq.EnumType;
+import org.jooq.Schema;
 
 
 // @formatter:off

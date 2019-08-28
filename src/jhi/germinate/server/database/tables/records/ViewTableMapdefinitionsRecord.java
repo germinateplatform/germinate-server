@@ -4,12 +4,14 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.TableRecordImpl;
-
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.ViewTableMapdefinitions;
+
+import org.jooq.Field;
+import org.jooq.Record10;
+import org.jooq.Row10;
+import org.jooq.impl.TableRecordImpl;
 
 
 // @formatter:off
@@ -161,6 +163,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     */
+    public String getChromosome() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.userId</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserid(Integer value) {
@@ -172,13 +181,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      */
     public void setVisibility(Byte value) {
         set(6, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
-     */
-    public String getChromosome() {
-        return (String) get(8);
     }
 
     // -------------------------------------------------------------------------

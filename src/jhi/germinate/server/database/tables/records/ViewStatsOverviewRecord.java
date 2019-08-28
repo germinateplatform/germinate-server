@@ -4,12 +4,14 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.TableRecordImpl;
-
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.ViewStatsOverview;
+
+import org.jooq.Field;
+import org.jooq.Record6;
+import org.jooq.Row6;
+import org.jooq.impl.TableRecordImpl;
 
 
 // @formatter:off
@@ -36,6 +38,13 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
+     */
+    public Long getGermplasm() {
+        return (Long) get(0);
+    }
+
+    /**
      * Create a detached, initialised ViewStatsOverviewRecord
      */
     public ViewStatsOverviewRecord(Long germplasm, Long markers, Long traits, Long compounds, Long locations, Long groups) {
@@ -50,38 +59,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
-     */
-    public Long getGermplasm() {
-        return (Long) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
-     */
-    public void setGermplasm(Long value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
      */
     public Long getMarkers() {
         return (Long) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
-     */
-    public void setMarkers(Long value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.traits</code>.
-     */
-    public Long getTraits() {
-        return (Long) get(2);
     }
 
     /**
@@ -92,10 +73,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
      */
-    public Long getCompounds() {
-        return (Long) get(3);
+    public void setGermplasm(Long value) {
+        set(0, value);
     }
 
     /**
@@ -106,10 +87,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
      */
-    public Long getLocations() {
-        return (Long) get(4);
+    public void setMarkers(Long value) {
+        set(1, value);
     }
 
     /**
@@ -119,23 +100,30 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
         set(4, value);
     }
 
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.traits</code>.
+     */
+    public Long getTraits() {
+        return (Long) get(2);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
+     */
+    public Long getCompounds() {
+        return (Long) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
+     */
+    public Long getLocations() {
+        return (Long) get(4);
+    }
+
     // -------------------------------------------------------------------------
     // Record6 type implementation
     // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
-     */
-    public Long getGroups() {
-        return (Long) get(5);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
-     */
-    public void setGroups(Long value) {
-        set(5, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -342,10 +330,6 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -367,6 +351,24 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
+     */
+    public Long getGroups() {
+        return (Long) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
+     */
+    public void setGroups(Long value) {
+        set(5, value);
     }
 // @formatter:on
 }

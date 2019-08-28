@@ -4,14 +4,18 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
-import java.sql.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Experiments;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record8;
+import org.jooq.Row8;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off

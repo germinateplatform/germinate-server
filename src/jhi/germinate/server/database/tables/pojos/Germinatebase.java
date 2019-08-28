@@ -5,7 +5,8 @@ package jhi.germinate.server.database.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 

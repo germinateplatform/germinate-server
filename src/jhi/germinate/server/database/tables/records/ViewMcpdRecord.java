@@ -4,13 +4,13 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.impl.TableRecordImpl;
-
 import java.math.BigDecimal;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.ViewMcpd;
+
+import org.jooq.impl.TableRecordImpl;
 
 
 // @formatter:off
@@ -27,7 +27,7 @@ import jhi.germinate.server.database.tables.ViewMcpd;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = 1666862101;
+    private static final long serialVersionUID = -512647297;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
@@ -53,7 +53,7 @@ public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
     /**
      * Create a detached, initialised ViewMcpdRecord
      */
-    public ViewMcpdRecord(Integer id, String puid, String instcode, String accenumb, String collnumb, String collcode, String collname, String collinstaddress, String collmissid, String genus, String species, String spauthor, String subtaxa, String subtauthor, String cropname, String accename, String acqdate, String origcty, String collsite, BigDecimal declatitude, byte[] latitude, BigDecimal declongitude, byte[] longitude, Integer coorduncert, String coorddatum, String georefmeth, BigDecimal elevation, String colldate, String bredcode, String bredname, Integer sampstat, String ancest, Integer collsrc, String donorcode, String donorname, String donornumb, String othernumb, String duplsite, String duplinstname, String storage, Integer mlsstat, String remarks, String entityType, byte[] entityParentAccenumb) {
+    public ViewMcpdRecord(Integer id, String puid, String instcode, String accenumb, String collnumb, String collcode, String collname, String collinstaddress, String collmissid, String genus, String species, String spauthor, String subtaxa, String subtauthor, String cropname, String accename, String acqdate, String origcty, String collsite, BigDecimal declatitude, byte[] latitude, BigDecimal declongitude, byte[] longitude, Integer coorduncert, String coorddatum, String georefmeth, BigDecimal elevation, String colldate, String bredcode, String bredname, Integer sampstat, String ancest, Integer collsrc, String donorcode, String donorname, String donornumb, String othernumb, String duplsite, String duplinstname, String storage, Integer mlsstat, String remarks, String entitytype, String entityparentaccenumb) {
         super(ViewMcpd.VIEW_MCPD);
 
         set(0, id);
@@ -98,8 +98,8 @@ public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
         set(39, storage);
         set(40, mlsstat);
         set(41, remarks);
-        set(42, entityType);
-        set(43, entityParentAccenumb);
+        set(42, entitytype);
+        set(43, entityparentaccenumb);
     }
 
     /**
@@ -157,6 +157,16 @@ without space.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLCODE</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
+material, the collecting institute code (COLLCODE) should be the same as the holding institute
+code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
+without space.
+     */
+    public String getCollcode() {
+        return (String) get(5);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.ACCENUMB</code>. A unique identifier.
      */
     public String getAccenumb() {
@@ -164,10 +174,10 @@ without space.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
      */
-    public void setCollname(String value) {
-        set(6, value);
+    public String getCollname() {
+        return (String) get(6);
     }
 
     /**
@@ -180,20 +190,31 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
+     */
+    public String getCollinstaddress() {
+        return (String) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
+     */
+    public void setCollname(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
+     */
+    public String getCollmissid() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
      */
     public void setCollinstaddress(String value) {
         set(7, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLCODE</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the
-material, the collecting institute code (COLLCODE) should be the same as the holding institute
-code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon
-without space.
-     */
-    public String getCollcode() {
-        return (String) get(5);
     }
 
     /**
@@ -204,31 +225,10 @@ without space.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.GENUS</code>. Genus name for the species.
      */
-    public String getCollname() {
-        return (String) get(6);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.GENUS</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(9, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLINSTADDRESS</code>. The postal address of the institute.
-     */
-    public String getCollinstaddress() {
-        return (String) get(7);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
-     */
-    public String getCollmissid() {
-        return (String) get(8);
+    public String getGenus() {
+        return (String) get(9);
     }
 
     /**
@@ -246,10 +246,10 @@ without space.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.GENUS</code>. Genus name for the species.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.GENUS</code>. Genus name for the species.
      */
-    public String getGenus() {
-        return (String) get(9);
+    public void setGenus(String value) {
+        set(9, value);
     }
 
     /**
@@ -303,34 +303,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.SUBTAUTHOR</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
-     */
-    public String getSubtauthor() {
-        return (String) get(13);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ACQDATE</code>.
-     */
-    public void setAcqdate(String value) {
-        set(16, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
-     */
-    public String getCropname() {
-        return (String) get(14);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ORIGCTY</code>. ISO 3 Code for country.
-     */
-    public void setOrigcty(String value) {
-        set(17, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
 entered into the genebank collection (e.g. ‘PI 113869’).
      */
@@ -339,10 +311,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLSITE</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.SUBTAUTHOR</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
      */
-    public void setCollsite(String value) {
-        set(18, value);
+    public String getSubtauthor() {
+        return (String) get(13);
     }
 
     /**
@@ -353,10 +325,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.DECLATITUDE</code>. Latitude of the location.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
-    public void setDeclatitude(BigDecimal value) {
-        set(19, value);
+    public String getCropname() {
+        return (String) get(14);
     }
 
     /**
@@ -367,10 +339,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.LATITUDE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ACQDATE</code>.
      */
-    public void setLatitude(byte... value) {
-        set(20, value);
+    public void setAcqdate(String value) {
+        set(16, value);
     }
 
     /**
@@ -381,10 +353,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ORIGCTY</code>. ISO 3 Code for country.
      */
-    public void setDeclongitude(BigDecimal value) {
-        set(21, value);
+    public void setOrigcty(String value) {
+        set(17, value);
     }
 
     /**
@@ -395,10 +367,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLSITE</code>. The site name where the location is.
      */
-    public void setLongitude(byte... value) {
-        set(22, value);
+    public void setCollsite(String value) {
+        set(18, value);
     }
 
     /**
@@ -409,10 +381,24 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DECLATITUDE</code>. Latitude of the location.
+     */
+    public void setDeclatitude(BigDecimal value) {
+        set(19, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
      */
     public BigDecimal getDeclongitude() {
         return (BigDecimal) get(21);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.LATITUDE</code>.
+     */
+    public void setLatitude(byte... value) {
+        set(20, value);
     }
 
     /**
@@ -423,10 +409,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DECLONGITUDE</code>. Longitude of the location.
      */
-    public void setCoorddatum(String value) {
-        set(24, value);
+    public void setDeclongitude(BigDecimal value) {
+        set(21, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
+     */
+    public void setLongitude(byte... value) {
+        set(22, value);
     }
 
     /**
@@ -437,10 +430,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
-    public void setGeorefmeth(String value) {
-        set(25, value);
+    public String getCoorddatum() {
+        return (String) get(24);
     }
 
     /**
@@ -451,27 +444,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
-     */
-    public void setElevation(BigDecimal value) {
-        set(26, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
-     */
-    public String getCoorddatum() {
-        return (String) get(24);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
-     */
-    public void setColldate(String value) {
-        set(27, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
      */
     public String getGeorefmeth() {
@@ -479,10 +451,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
-    public void setBredcode(String value) {
-        set(28, value);
+    public void setCoorddatum(String value) {
+        set(24, value);
     }
 
     /**
@@ -493,10 +465,38 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     */
+    public void setGeorefmeth(String value) {
+        set(25, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
      */
     public String getColldate() {
         return (String) get(27);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(26, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
+     */
+    public void setColldate(String value) {
+        set(27, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     */
+    public String getBredcode() {
+        return (String) get(28);
     }
 
     /**
@@ -514,10 +514,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
      */
-    public String getBredcode() {
-        return (String) get(28);
+    public void setBredcode(String value) {
+        set(28, value);
     }
 
     /**
@@ -613,34 +613,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.DONORNUMB</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
-     */
-    public String getDonornumb() {
-        return (String) get(35);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
-     */
-    public void setDuplinstname(String value) {
-        set(38, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
-     */
-    public String getOthernumb() {
-        return (String) get(36);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.STORAGE</code>.
-     */
-    public void setStorage(String value) {
-        set(39, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.DUPLSITE</code>. FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained.
 Multiple values are separated by a semicolon without space. Follows INSTCODE standard.
      */
@@ -649,10 +621,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DONORNUMB</code>. Identifier assigned to an accession by the donor. Follows ACCENUMB standard.
      */
-    public void setMlsstat(Integer value) {
-        set(40, value);
+    public String getDonornumb() {
+        return (String) get(35);
     }
 
     /**
@@ -663,10 +635,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
      */
-    public void setRemarks(String value) {
-        set(41, value);
+    public String getOthernumb() {
+        return (String) get(36);
     }
 
     /**
@@ -677,10 +649,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
      */
-    public void setEntityType(String value) {
-        set(42, value);
+    public void setDuplinstname(String value) {
+        set(38, value);
     }
 
     /**
@@ -691,10 +663,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.STORAGE</code>.
      */
-    public void setEntityParentAccenumb(byte... value) {
-        set(43, value);
+    public void setStorage(String value) {
+        set(39, value);
     }
 
     /**
@@ -704,22 +676,50 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
         return (String) get(41);
     }
 
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
+     */
+    public void setMlsstat(Integer value) {
+        set(40, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
+     */
+    public void setRemarks(String value) {
+        set(41, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
+     */
+    public String getEntitytype() {
+        return (String) get(42);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
+     */
+    public void setEntitytype(String value) {
+        set(42, value);
+    }
+
     // -------------------------------------------------------------------------
     // Constructors
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
      */
-    public String getEntityType() {
-        return (String) get(42);
+    public String getEntityparentaccenumb() {
+        return (String) get(43);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
      */
-    public byte[] getEntityParentAccenumb() {
-        return (byte[]) get(43);
+    public void setEntityparentaccenumb(String value) {
+        set(43, value);
     }
 // @formatter:on
 }

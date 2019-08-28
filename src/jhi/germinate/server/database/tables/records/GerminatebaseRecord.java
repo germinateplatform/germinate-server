@@ -4,14 +4,15 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.Record1;
-import org.jooq.impl.UpdatableRecordImpl;
-
-import java.sql.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Germinatebase;
+
+import org.jooq.Record1;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off
@@ -214,6 +215,13 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.germinatebase.donor_code</code>. FAO WIEWS code of the donor institute. Follows INSTCODE standard.
+     */
+    public String getDonorCode() {
+        return (String) get(10);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.germinatebase.institution_id</code>. Foreign key to institutions (institutions.id).
      */
     public void setInstitutionId(Integer value) {
@@ -232,13 +240,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
      */
     public String getDonorName() {
         return (String) get(11);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.germinatebase.donor_code</code>. FAO WIEWS code of the donor institute. Follows INSTCODE standard.
-     */
-    public String getDonorCode() {
-        return (String) get(10);
     }
 
     /**

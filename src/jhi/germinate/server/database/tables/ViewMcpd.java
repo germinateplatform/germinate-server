@@ -4,15 +4,20 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-
 import java.math.BigDecimal;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewMcpdRecord;
+
+import org.jooq.Field;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -29,7 +34,7 @@ import jhi.germinate.server.database.tables.records.ViewMcpdRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = -535575593;
+    private static final long serialVersionUID = 210222245;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_mcpd</code>
@@ -159,14 +164,10 @@ without space.
      * The column <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
      */
     public final TableField<ViewMcpdRecord, byte[]> LONGITUDE = createField("LONGITUDE", org.jooq.impl.SQLDataType.BINARY, this, "");
-
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
      */
-    @Override
-    public Class<ViewMcpdRecord> getRecordType() {
-        return ViewMcpdRecord.class;
-    }
+    public final TableField<ViewMcpdRecord, String> ENTITYTYPE = createField("ENTITYTYPE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
@@ -258,16 +259,18 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      * The column <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
      */
     public final TableField<ViewMcpdRecord, String> REMARKS = createField("REMARKS", org.jooq.impl.SQLDataType.CLOB, this, "");
+    /**
+     * The column <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
+     */
+    public final TableField<ViewMcpdRecord, String> ENTITYPARENTACCENUMB = createField("ENTITYPARENTACCENUMB", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>.
+     * The class holding records for this type
      */
-    public final TableField<ViewMcpdRecord, String> ENTITY_TYPE = createField("Entity Type", org.jooq.impl.SQLDataType.VARCHAR(9).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
-
-    /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
-     */
-    public final TableField<ViewMcpdRecord, byte[]> ENTITY_PARENT_ACCENUMB = createField("Entity parent ACCENUMB", org.jooq.impl.SQLDataType.BINARY, this, "");
+    @Override
+    public Class<ViewMcpdRecord> getRecordType() {
+        return ViewMcpdRecord.class;
+    }
 
     /**
      * Create a <code>germinate_template_3_7_0.view_mcpd</code> table reference

@@ -4,14 +4,17 @@
 package jhi.germinate.server.database.tables.records;
 
 
-import org.jooq.*;
-import org.jooq.impl.UpdatableRecordImpl;
-
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.tables.Synonyms;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record6;
+import org.jooq.Row6;
+import org.jooq.impl.UpdatableRecordImpl;
 
 
 // @formatter:off
@@ -32,6 +35,14 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     private static final long serialVersionUID = -1780152286;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
+
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached SynonymsRecord
      */
     public SynonymsRecord() {
@@ -39,11 +50,10 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
-
+     * Setter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setForeignId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -61,25 +71,18 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
+
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
      */
     public Integer getForeignId() {
         return (Integer) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.synonyms.id</code>. Primary id for this table. This uniquely identifies the row.
-
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
-     */
-    public void setForeignId(Integer value) {
-        set(1, value);
     }
 
     /**

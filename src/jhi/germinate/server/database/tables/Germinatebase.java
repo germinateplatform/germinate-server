@@ -4,17 +4,26 @@
 package jhi.germinate.server.database.tables;
 
 
-import org.jooq.*;
-import org.jooq.impl.*;
-
 import java.sql.Date;
-import java.sql.*;
-import java.util.*;
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.GerminatebaseRecord;
+
+import org.jooq.Field;
+import org.jooq.Identity;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
+import org.jooq.impl.TableImpl;
 
 
 // @formatter:off
@@ -38,6 +47,7 @@ public class Germinatebase extends TableImpl<GerminatebaseRecord> {
      * The reference instance of <code>germinate_template_3_7_0.germinatebase</code>
      */
     public static final Germinatebase GERMINATEBASE = new Germinatebase();
+
     /**
      * The column <code>germinate_template_3_7_0.germinatebase.colldate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].

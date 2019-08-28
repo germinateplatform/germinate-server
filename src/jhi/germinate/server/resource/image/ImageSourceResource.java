@@ -62,7 +62,7 @@ public class ImageSourceResource extends ServerResource
 
 			if (file != null && file.exists() && file.isFile())
 			{
-				FileRepresentation representation = new FileRepresentation(file, MediaType.IMAGE_JPEG);
+				FileRepresentation representation = new FileRepresentation(file, MediaType.IMAGE_ALL);
 				representation.setSize(file.length());
 				representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
 				return representation;
