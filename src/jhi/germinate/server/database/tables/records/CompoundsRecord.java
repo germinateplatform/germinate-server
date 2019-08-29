@@ -158,17 +158,17 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
      */
     public String getMolecularFormula() {
         return (String) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
     }
 
     /**
@@ -179,10 +179,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------

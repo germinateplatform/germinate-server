@@ -173,17 +173,17 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
      */
     public Integer getCountryId() {
         return (Integer) get(4);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(9);
     }
 
     /**
@@ -194,10 +194,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------

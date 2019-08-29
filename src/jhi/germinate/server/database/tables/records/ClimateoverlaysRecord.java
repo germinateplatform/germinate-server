@@ -159,31 +159,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
-     */
-    public void setDescription(String value) {
-        set(8, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
     public Byte getIsLegend() {
         return (Byte) get(7);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
-     */
-    public void setIsLegend(Byte value) {
-        set(7, value);
     }
 
     /**
@@ -194,10 +173,31 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
+     */
+    public void setIsLegend(Byte value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.
+     */
+    public void setDescription(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------

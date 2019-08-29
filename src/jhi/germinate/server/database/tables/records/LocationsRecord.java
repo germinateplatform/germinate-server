@@ -178,17 +178,17 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(9, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
     public void setState(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
-     */
-    public BigDecimal getLongitude() {
-        return (BigDecimal) get(9);
     }
 
     /**
@@ -199,10 +199,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
+     * Getter for <code>germinate_template_3_7_0.locations.longitude</code>. Longitude of the location.
      */
-    public void setLongitude(BigDecimal value) {
-        set(9, value);
+    public BigDecimal getLongitude() {
+        return (BigDecimal) get(9);
     }
 
     /**

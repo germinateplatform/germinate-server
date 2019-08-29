@@ -157,17 +157,17 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
+     */
+    public void setExecutionTime(Integer value) {
+        set(8, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
      */
     public String getType() {
         return (String) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
-     */
-    public Integer getExecutionTime() {
-        return (Integer) get(8);
     }
 
     /**
@@ -178,10 +178,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
+     * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
      */
-    public void setExecutionTime(Integer value) {
-        set(8, value);
+    public Integer getExecutionTime() {
+        return (Integer) get(8);
     }
 
     // -------------------------------------------------------------------------

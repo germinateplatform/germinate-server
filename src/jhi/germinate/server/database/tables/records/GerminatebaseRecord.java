@@ -229,17 +229,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.germinatebase.plant_passport</code>. Record if the entry has a plant passport.
-     */
-    public void setPlantPassport(String value) {
-        set(9, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.germinatebase.donor_name</code>. Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.
      */
     public String getDonorName() {
         return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.germinatebase.plant_passport</code>. Record if the entry has a plant passport.
+     */
+    public void setPlantPassport(String value) {
+        set(9, value);
     }
 
     /**

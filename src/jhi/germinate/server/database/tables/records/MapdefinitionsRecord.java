@@ -161,17 +161,17 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
     public Integer getMapId() {
         return (Integer) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
     }
 
     /**
@@ -182,10 +182,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------

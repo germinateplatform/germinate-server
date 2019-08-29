@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.*;
 
 import jhi.gatekeeper.resource.*;
+import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.*;
@@ -37,14 +38,15 @@ public class MapResource extends PaginatedServerResource
 		}
 	}
 
-	@Get("json")
-	public PaginatedResult<List<Maps>> getJson()
+	@Post("json")
+	public PaginatedResult<List<Maps>> getJson(PaginatedRequest request)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
 
 		if (userDetails == null)
 			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
 
+		processRequest(request);
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{

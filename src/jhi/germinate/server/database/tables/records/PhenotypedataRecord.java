@@ -172,17 +172,17 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
+     */
+    public void setTreatmentId(Integer value) {
+        set(9, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
     public Integer getDatasetId() {
         return (Integer) get(4);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
-     */
-    public Integer getTreatmentId() {
-        return (Integer) get(9);
     }
 
     /**
@@ -193,10 +193,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.treatment_id</code>. Foreign key to treatments (treatments.id).
      */
-    public void setTreatmentId(Integer value) {
-        set(9, value);
+    public Integer getTreatmentId() {
+        return (Integer) get(9);
     }
 
     // -------------------------------------------------------------------------
