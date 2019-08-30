@@ -14,7 +14,7 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
-import jhi.germinate.server.resource.group.GroupTableResource;
+import jhi.germinate.server.resource.group.*;
 import jhi.germinate.server.resource.image.ImageSourceResource;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.MapMarkerDefinitionTableResource;
@@ -101,6 +101,8 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
 		attachToRouter(routerAuth, "/group/table", GroupTableResource.class);
+		attachToRouter(routerAuth, "/group", GroupResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}", GroupResource.class);
 //		attachToRouter(routerAuth, "/image", ImageResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
 		attachToRouter(routerAuth, "/image/src", ImageSourceResource.class);

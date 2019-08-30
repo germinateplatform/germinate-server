@@ -1,27 +1,26 @@
-package jhi.germinate.server.resource.maps;
+package jhi.germinate.server.resource.group;
 
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
-import jhi.gatekeeper.resource.*;
-import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.server.*;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.*;
-import jhi.germinate.server.resource.*;
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.database.tables.pojos.Groups;
+import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Maps.*;
+import static jhi.germinate.server.database.tables.Groups.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class MapResource extends PaginatedServerResource
+public class GroupResource extends PaginatedServerResource
 {
-	private Integer mapId;
+	private Integer groupId;
 
 	@Override
 	protected void doInit()
@@ -31,7 +30,7 @@ public class MapResource extends PaginatedServerResource
 
 		try
 		{
-			this.mapId = Integer.parseInt(getRequestAttributes().get("mapId").toString());
+			this.groupId = Integer.parseInt(getRequestAttributes().get("groupId").toString());
 		}
 		catch (NullPointerException | NumberFormatException e)
 		{
@@ -39,7 +38,7 @@ public class MapResource extends PaginatedServerResource
 	}
 
 	@Get("json")
-	public PaginatedResult<List<Maps>> getJson()
+	public PaginatedResult<List<Groups>> getJson()
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
 
@@ -54,17 +53,17 @@ public class MapResource extends PaginatedServerResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(MAPS);
+			SelectJoinStep<Record> from = select.from(GROUPS);
 
-			from.where(MAPS.VISIBILITY.eq((byte) 1)
-									  .or(MAPS.USER_ID.eq(userDetails.getId())));
+			from.where(GROUPS.VISIBILITY.eq((byte) 1)
+										.or(GROUPS.CREATED_BY.eq(userDetails.getId())));
 
-			if (mapId != null)
-				from.where(MAPS.ID.eq(mapId));
+			if (groupId != null)
+				from.where(GROUPS.ID.eq(groupId));
 
-			List<Maps> result = setPaginationAndOrderBy(from)
+			List<Groups> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(Maps.class);
+				.into(Groups.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

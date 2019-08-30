@@ -1,9 +1,13 @@
 package jhi.germinate.server.resource;
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.DSL;
 
-import jhi.germinate.resource.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import jhi.germinate.resource.Filter;
+import jhi.germinate.server.util.StringUtils;
 
 /**
  * @author Sebastian Raubach
@@ -35,9 +39,12 @@ public interface FilteredResource
 	{
 		Field<Object> field = DSL.field(filter.getColumn());
 
-		String[] values = filter.getValues();
-		String first = values[0].trim();
-		String second = values.length > 1 ? values[1].trim() : null;
+		List<String> values = Arrays.stream(filter.getValues())
+									.filter(v -> !StringUtils.isEmpty(v))
+									.map(String::trim)
+									.collect(Collectors.toList());
+		String first = values.get(0);
+		String second = values.size() > 1 ? values.get(1) : null;
 
 		switch (filter.getComparator())
 		{
@@ -56,9 +63,21 @@ public interface FilteredResource
 			case "lessOrEquals":
 				return field.lessOrEqual(first);
 			case "inSet":
-				String[] temp = values.length > 1 ? values : first.split(",");
-				for (int i = 0; i < temp.length; i++)
-					temp[i] = temp[i].trim();
+				List<String> temp;
+
+				if (values.size() > 1)
+				{
+					// If there are multiple values, just use them
+					temp = values;
+				}
+				else
+				{
+					// Otherwise, try and split the first one on commas and then use the individual entries
+					temp = Arrays.stream(first.split(","))
+								 .filter(v -> !StringUtils.isEmpty(v))
+								 .map(String::trim)
+								 .collect(Collectors.toList());
+				}
 
 				return field.in(temp);
 		}
