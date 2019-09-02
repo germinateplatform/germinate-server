@@ -11,7 +11,7 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.*;
 
 import static jhi.germinate.server.database.tables.ViewTableGroups.*;
@@ -26,9 +26,6 @@ public class GroupTableResource extends PaginatedServerResource implements Filte
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
 
-		if (userDetails == null)
-			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
-
 		processRequest(request);
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
@@ -41,7 +38,7 @@ public class GroupTableResource extends PaginatedServerResource implements Filte
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GROUPS);
 
 			from.where(VIEW_TABLE_GROUPS.GROUPVISIBILITY.eq((byte) 1)
-									  .or(VIEW_TABLE_GROUPS.USERID.eq(userDetails.getId())));
+														.or(VIEW_TABLE_GROUPS.USERID.eq(userDetails.getId())));
 
 			// Filter here!
 			filter(from, filters);

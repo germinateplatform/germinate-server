@@ -24,11 +24,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroups implements Serializable {
 
-    private static final long serialVersionUID = -1175346677;
+    private static final long serialVersionUID = -797680813;
 
     private Integer   groupid;
     private String    groupname;
     private String    groupdescription;
+    private Integer   grouptypeid;
     private String    grouptype;
     private Integer   userid;
     private Byte      groupvisibility;
@@ -42,6 +43,7 @@ public class ViewTableGroups implements Serializable {
         this.groupid = value.groupid;
         this.groupname = value.groupname;
         this.groupdescription = value.groupdescription;
+        this.grouptypeid = value.grouptypeid;
         this.grouptype = value.grouptype;
         this.userid = value.userid;
         this.groupvisibility = value.groupvisibility;
@@ -54,6 +56,7 @@ public class ViewTableGroups implements Serializable {
         Integer   groupid,
         String    groupname,
         String    groupdescription,
+        Integer   grouptypeid,
         String    grouptype,
         Integer   userid,
         Byte      groupvisibility,
@@ -64,6 +67,7 @@ public class ViewTableGroups implements Serializable {
         this.groupid = groupid;
         this.groupname = groupname;
         this.groupdescription = groupdescription;
+        this.grouptypeid = grouptypeid;
         this.grouptype = grouptype;
         this.userid = userid;
         this.groupvisibility = groupvisibility;
@@ -94,6 +98,14 @@ public class ViewTableGroups implements Serializable {
 
     public void setGroupdescription(String groupdescription) {
         this.groupdescription = groupdescription;
+    }
+
+    public Integer getGrouptypeid() {
+        return this.grouptypeid;
+    }
+
+    public void setGrouptypeid(Integer grouptypeid) {
+        this.grouptypeid = grouptypeid;
     }
 
     public String getGrouptype() {
@@ -151,6 +163,7 @@ public class ViewTableGroups implements Serializable {
         sb.append(groupid);
         sb.append(", ").append(groupname);
         sb.append(", ").append(groupdescription);
+        sb.append(", ").append(grouptypeid);
         sb.append(", ").append(grouptype);
         sb.append(", ").append(userid);
         sb.append(", ").append(groupvisibility);

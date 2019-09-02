@@ -204,6 +204,13 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
+     */
+    public String getCollmissid() {
+        return (String) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLNAME</code>. Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.
      */
     public String getCollname() {
@@ -222,13 +229,6 @@ identifying duplicates held in different collections.
      */
     public String getGenus() {
         return (String) get(9);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLMISSID</code>. Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. 'CIATFOR-052', 'CN426').
-     */
-    public String getCollmissid() {
-        return (String) get(8);
     }
 
     /**
@@ -402,6 +402,13 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
+     */
+    public byte[] getLongitude() {
+        return (byte[]) get(22);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.LATITUDE</code>.
      */
     public byte[] getLatitude() {
@@ -416,45 +423,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
-     */
-    public byte[] getLongitude() {
-        return (byte[]) get(22);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
-     */
-    public void setCoorddatum(String value) {
-        set(24, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
     public Integer getCoorduncert() {
         return (Integer) get(23);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
-     */
-    public void setGeorefmeth(String value) {
-        set(25, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
-     */
-    public void setCoorduncert(Integer value) {
-        set(23, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
-     */
-    public void setElevation(BigDecimal value) {
-        set(26, value);
     }
 
     /**
@@ -465,10 +437,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
      */
-    public void setColldate(String value) {
-        set(27, value);
+    public void setCoorduncert(Integer value) {
+        set(23, value);
     }
 
     /**
@@ -479,6 +451,13 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     */
+    public void setCoorddatum(String value) {
+        set(24, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
@@ -486,10 +465,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
      */
-    public String getBredcode() {
-        return (String) get(28);
+    public void setGeorefmeth(String value) {
+        set(25, value);
     }
 
     /**
@@ -497,6 +476,27 @@ entered into the genebank collection (e.g. ‘PI 113869’).
      */
     public String getColldate() {
         return (String) get(27);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(26, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
+     */
+    public void setColldate(String value) {
+        set(27, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     */
+    public String getBredcode() {
+        return (String) get(28);
     }
 
     /**
@@ -642,38 +642,17 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
-     */
-    public String getOthernumb() {
-        return (String) get(36);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
-     */
-    public void setMlsstat(Integer value) {
-        set(40, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
-     */
-    public String getDuplinstname() {
-        return (String) get(38);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
-     */
-    public void setRemarks(String value) {
-        set(41, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.STORAGE</code>.
      */
     public String getStorage() {
         return (String) get(39);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.OTHERNUMB</code>. Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.
+     */
+    public String getOthernumb() {
+        return (String) get(36);
     }
 
     /**
@@ -684,10 +663,10 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.DUPLINSTNAME</code>. Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.
      */
-    public String getEntitytype() {
-        return (String) get(42);
+    public String getDuplinstname() {
+        return (String) get(38);
     }
 
     /**
@@ -702,6 +681,27 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      */
     public void setEntitytype(String value) {
         set(42, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
+     */
+    public void setMlsstat(Integer value) {
+        set(40, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
+     */
+    public void setRemarks(String value) {
+        set(41, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
+     */
+    public String getEntitytype() {
+        return (String) get(42);
     }
 
     // -------------------------------------------------------------------------

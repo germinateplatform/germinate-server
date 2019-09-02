@@ -16,6 +16,7 @@ import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.group.*;
 import jhi.germinate.server.resource.image.ImageSourceResource;
+import jhi.germinate.server.resource.importer.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.MapMarkerDefinitionTableResource;
 import jhi.germinate.server.resource.settings.*;
@@ -26,6 +27,7 @@ import jhi.germinate.server.resource.stats.OverviewStatsResource;
  */
 public class Germinate extends Application
 {
+	public static  Germinate              INSTANCE;
 	private static CustomVerifier         verifier = new CustomVerifier();
 	public         Router                 routerAuth;
 	private        ChallengeAuthenticator authenticator;
@@ -39,6 +41,8 @@ public class Germinate extends Application
 		setDescription("This is the server implementation for the Germinate");
 		setOwner("The James Hutton Institute");
 		setAuthor("Sebastian Raubach, Information & Computational Sciences");
+
+		INSTANCE = this;
 	}
 
 	private void setUpAuthentication(Context context)
@@ -103,6 +107,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/group/table", GroupTableResource.class);
 		attachToRouter(routerAuth, "/group", GroupResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}", GroupResource.class);
+		attachToRouter(routerAuth, "/grouptype", GroupTypeResource.class);
 //		attachToRouter(routerAuth, "/image", ImageResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
 		attachToRouter(routerAuth, "/image/src", ImageSourceResource.class);
@@ -113,10 +118,14 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/map/{mapId}/export", MapExportResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/mapdefinition/table", MapMarkerDefinitionTableResource.class);
 		attachToRouter(routerAuth, "/stats/overview", OverviewStatsResource.class);
+		attachToRouter(routerAuth, "/settings/write", SettingsWriterResource.class);
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
 		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);
 		attachToRouter(routerUnauth, "/settings", SettingsResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
+
+		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
+		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
 
 		// CORS first, then encoder
 		corsFilter.setNext(routerUnauth);

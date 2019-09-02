@@ -26,7 +26,7 @@ public class Token
 	private String  username;
 	private String  fullName;
 	private String  email;
-	private Boolean isAdmin = false;
+	private String  userType = null;
 	private Long    lifetime;
 	private Long    createdOn;
 
@@ -34,14 +34,14 @@ public class Token
 	{
 	}
 
-	public Token(String token, Integer id, String username, String fullName, String email, Boolean isAdmin, Long lifetime, Long createdOn)
+	public Token(String token, Integer id, String username, String fullName, String email, String userType, Long lifetime, Long createdOn)
 	{
 		this.token = token;
 		this.id = id;
 		this.fullName = fullName;
 		this.username = username;
 		this.email = email;
-		this.isAdmin = isAdmin;
+		this.userType = userType;
 		this.lifetime = lifetime;
 		this.createdOn = createdOn;
 	}
@@ -101,14 +101,14 @@ public class Token
 		return this;
 	}
 
-	public Boolean getAdmin()
+	public String getUserType()
 	{
-		return isAdmin;
+		return userType;
 	}
 
-	public Token setAdmin(Boolean admin)
+	public Token setUserType(String userType)
 	{
-		isAdmin = admin;
+		this.userType = userType;
 		return this;
 	}
 

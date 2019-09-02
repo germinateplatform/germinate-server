@@ -109,6 +109,13 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
      */
     public Integer getSynonymtypeId() {
@@ -120,13 +127,6 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      */
     public void setSynonymtypeId(Integer value) {
         set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------

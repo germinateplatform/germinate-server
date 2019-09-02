@@ -166,6 +166,13 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
      */
     public String getSubtaxa() {
@@ -177,13 +184,6 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
      */
     public void setSubtaxaAuthor(String value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------

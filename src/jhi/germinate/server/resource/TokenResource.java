@@ -19,17 +19,17 @@ package jhi.germinate.server.resource;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
 
-import jhi.gatekeeper.resource.*;
+import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.*;
-import jhi.germinate.resource.Token;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.*;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.gatekeeper.*;
-import retrofit2.*;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.gatekeeper.GatekeeperClient;
+import jhi.germinate.server.util.StringUtils;
+import retrofit2.Response;
 
 /**
  * {@link ServerResource} handling {@link TokenResource} requests.
@@ -68,7 +68,7 @@ public class TokenResource extends ServerResource
 	public Token postJson(LoginDetails request)
 	{
 		boolean canAccess = false;
-		boolean isAdmin = false;
+		String userType;
 
 		Users user = new Users();
 		user.setUsername(request.getUsername());
@@ -85,16 +85,14 @@ public class TokenResource extends ServerResource
 
 				if (permissions.isSuccessful() && permissions.body() != null)
 				{
-					Optional<String> userType = permissions.body().getData().stream()
-														   .map(ViewUserPermissions::getUserType)
-														   .filter(p -> !Objects.equals(p, "Suspended User"))
-														   .findFirst();
+					userType = permissions.body().getData().stream()
+										  .map(ViewUserPermissions::getUserType)
+										  .filter(p -> !Objects.equals(p, "Suspended User"))
+										  .findFirst()
+										  .orElse(null);
 
-					if (userType.isPresent())
-					{
+					if (!StringUtils.isEmpty(userType))
 						canAccess = true;
-						isAdmin = Objects.equals(userType.get(), "Administrator");
-					}
 				}
 				else
 				{
@@ -117,13 +115,13 @@ public class TokenResource extends ServerResource
 		if (canAccess)
 		{
 			token = UUID.randomUUID().toString();
-			CustomVerifier.addToken(getResponse(), token, isAdmin, user.getId());
+			CustomVerifier.addToken(getResponse(), token, userType, user.getId());
 		}
 		else
 		{
 			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS);
 		}
 
-		return new Token(token, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), isAdmin, CustomVerifier.AGE, System.currentTimeMillis());
+		return new Token(token, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), userType, CustomVerifier.AGE, System.currentTimeMillis());
 	}
 }

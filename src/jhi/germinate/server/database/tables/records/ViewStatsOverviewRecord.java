@@ -80,6 +80,13 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
+     */
+    public void setCompounds(Long value) {
+        set(3, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
      */
     public void setGermplasm(Long value) {
@@ -87,10 +94,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
      */
-    public Long getCompounds() {
-        return (Long) get(3);
+    public void setLocations(Long value) {
+        set(4, value);
     }
 
     /**
@@ -101,24 +108,17 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
+     */
+    public Long getCompounds() {
+        return (Long) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
      */
     public Long getLocations() {
         return (Long) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
-     */
-    public void setCompounds(Long value) {
-        set(3, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
-     */
-    public void setLocations(Long value) {
-        set(4, value);
     }
 
     // -------------------------------------------------------------------------

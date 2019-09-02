@@ -25,6 +25,7 @@ import java.util.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.AuthenticationMode;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.TokenResource;
 import jhi.germinate.server.util.*;
@@ -388,6 +389,23 @@ public class PropertyWatcher
 			return String.format(value, parameters);
 		else
 			return value;
+	}
+
+	public static <T> T get(ServerProperty property, Class<T> type)
+	{
+		String value = get(property);
+
+		if (StringUtils.isEmpty(value))
+		{
+			return null;
+		}
+		else
+		{
+			if (type.equals(AuthenticationMode.class))
+				return type.cast(AuthenticationMode.valueOf(value));
+			else
+				return null;
+		}
 	}
 
 	public static <T> List<T> getPropertyList(ServerProperty property, Class<T> type)

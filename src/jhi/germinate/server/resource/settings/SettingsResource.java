@@ -20,6 +20,7 @@ import org.restlet.resource.*;
 
 import jhi.germinate.resource.ClientConfiguration;
 import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.auth.AuthenticationMode;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
@@ -35,6 +36,7 @@ public class SettingsResource extends ServerResource
 		ClientConfiguration result = new ClientConfiguration();
 		result.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class));
 		result.setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class));
+		result.setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class));
 
 		return result;
 	}

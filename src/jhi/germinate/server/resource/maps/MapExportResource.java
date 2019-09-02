@@ -1,18 +1,20 @@
 package jhi.germinate.server.resource.maps;
 
-import org.jooq.*;
+import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.data.*;
-import org.restlet.representation.*;
+import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.*;
-import java.nio.charset.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
-import jhi.germinate.server.*;
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.tables.Maps.*;
@@ -44,9 +46,6 @@ public class MapExportResource extends BaseServerResource
 	public FileRepresentation getFile()
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
-
-		if (userDetails == null)
-			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
 
 		FileRepresentation representation;
 		try

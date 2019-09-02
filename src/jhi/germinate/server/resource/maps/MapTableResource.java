@@ -5,13 +5,13 @@ import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
-import jhi.gatekeeper.resource.*;
-import jhi.germinate.resource.*;
-import jhi.germinate.server.*;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.database.tables.pojos.ViewTableMaps;
 import jhi.germinate.server.resource.*;
 
 import static jhi.germinate.server.database.tables.ViewTableMaps.*;

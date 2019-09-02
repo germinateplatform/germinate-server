@@ -5,6 +5,7 @@ package jhi.germinate.resource.enums;
  */
 public enum ServerProperty
 {
+	AUTHENTICATION_MODE("authentication.mode", "none", true),
 	BCRYPT_SALT("bcrypt.salt", "10", true),
 	COLORS_CHART("colors.charts", "#FF9E15,#799900,#00748C,#853175,#555559,#FFD100,#C2002F,#CF009E,#6AA2B8,#D6C200", true),
 	COLORS_TEMPLATE("colors.template", "#FF9E15,#799900,#00748C,#853175,#555559,#FFD100,#C2002F,#CF009E,#6AA2B8,#D6C200", true),

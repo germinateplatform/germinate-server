@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource;
 
-import org.restlet.resource.*;
+import org.restlet.resource.ServerResource;
 
 import java.io.*;
 import java.util.*;

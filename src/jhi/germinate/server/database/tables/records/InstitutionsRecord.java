@@ -180,6 +180,13 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(9);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
      */
     public Integer getCountryId() {
@@ -191,13 +198,6 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
      */
     public void setPhone(String value) {
         set(6, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------

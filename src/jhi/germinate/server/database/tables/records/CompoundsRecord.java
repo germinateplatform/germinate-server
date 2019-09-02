@@ -165,6 +165,13 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
      */
     public String getMolecularFormula() {
@@ -176,13 +183,6 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
      */
     public void setAverageMass(BigDecimal value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.compounds.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------

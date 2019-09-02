@@ -1,22 +1,24 @@
 package jhi.germinate.server.resource.datasets;
 
-import com.google.gson.*;
-import com.google.gson.reflect.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
-import jhi.gatekeeper.resource.*;
-import jhi.germinate.resource.*;
-import jhi.germinate.server.*;
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.Datasetpermissions.*;
 import static jhi.germinate.server.database.tables.Usergroupmembers.*;
@@ -31,8 +33,7 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 	@Post("json")
 	public PaginatedResult<List<ViewTableDatasets>> getJson(PaginatedRequest request)
 	{
-		// TODO: Handle public mode!
-		boolean isPublic = false;
+		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
 
@@ -47,7 +48,7 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_DATASETS);
 
-			if (!userDetails.getAdmin())
+			if (!userDetails.isAtLeast(UserType.ADMIN))
 			{
 				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
 				from.where(VIEW_TABLE_DATASETS.DATASETSTATE.eq("public"))
@@ -66,7 +67,7 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 				.fetch()
 				.into(ViewTableDatasets.class);
 
-			if (!isPublic)
+			if (mode != AuthenticationMode.FULL)
 			{
 				Gson gson = new Gson();
 				Type type = new TypeToken<List<Integer>>()

@@ -164,6 +164,13 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
+     */
+    public Integer getExecutionTime() {
+        return (Integer) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
      */
     public String getType() {
@@ -175,13 +182,6 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
      */
     public void setChecksum(Integer value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.execution_time</code>.
-     */
-    public Integer getExecutionTime() {
-        return (Integer) get(8);
     }
 
     // -------------------------------------------------------------------------

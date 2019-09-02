@@ -5,12 +5,12 @@ import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
-import jhi.gatekeeper.resource.*;
-import jhi.germinate.server.*;
-import jhi.germinate.server.database.tables.pojos.*;
-import jhi.germinate.server.resource.*;
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.tables.pojos.Germinatebase;
+import jhi.germinate.server.resource.PaginatedServerResource;
 
 import static jhi.germinate.server.database.tables.Germinatebase.*;
 

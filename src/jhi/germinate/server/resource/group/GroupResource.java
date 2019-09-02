@@ -2,16 +2,21 @@ package jhi.germinate.server.resource.group;
 
 import org.jooq.*;
 import org.restlet.data.Status;
+import org.restlet.resource.Delete;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.Groups;
+import jhi.germinate.server.database.tables.records.GroupsRecord;
 import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.Groups.*;
 
@@ -37,13 +42,79 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
+	@Delete("json")
+	@MinUserType(UserType.AUTH_USER)
+	public boolean deleteJson()
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+
+		if (groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			GroupsRecord dbGroup = context.selectFrom(GROUPS)
+										  .where(GROUPS.ID.eq(groupId))
+										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+										  .fetchOneInto(GroupsRecord.class);
+
+			// If it's null, then the id doesn't exist or the user doesn't have access
+			if (dbGroup == null)
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			else
+				return dbGroup.delete() == 1;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
+	@Patch("json")
+	@MinUserType(UserType.AUTH_USER)
+	public boolean patchJson(Groups group)
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+
+		if (group == null || groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id or payload");
+		if (!Objects.equals(group.getId(), groupId))
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Id mismatch");
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			GroupsRecord dbGroup = context.selectFrom(GROUPS)
+										  .where(GROUPS.ID.eq(groupId))
+										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+										  .fetchOneInto(GroupsRecord.class);
+
+			if (dbGroup == null)
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+
+			// Only update the name if it's not empty
+			if (!StringUtils.isEmpty(group.getName()))
+				dbGroup.setName(group.getName());
+			// Only update visibility if it's not null
+			if (group.getVisibility() != null)
+				dbGroup.setVisibility(group.getVisibility());
+			// Update the description
+			dbGroup.setDescription(group.getDescription());
+			return dbGroup.store() == 1;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
 	@Get("json")
 	public PaginatedResult<List<Groups>> getJson()
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
-
-		if (userDetails == null)
-			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))

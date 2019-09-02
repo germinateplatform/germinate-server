@@ -18,12 +18,18 @@ package jhi.germinate.server.auth;
 
 import org.restlet.*;
 import org.restlet.data.*;
-import org.restlet.security.*;
-import org.restlet.util.*;
+import org.restlet.resource.Finder;
+import org.restlet.routing.Route;
+import org.restlet.security.Verifier;
+import org.restlet.util.Series;
 
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.Germinate;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach
@@ -44,7 +50,7 @@ public class CustomVerifier implements Verifier
 			{
 				tokenToTimestamp.entrySet().removeIf(token -> token.getValue().timestamp < (System.currentTimeMillis() - AGE));
 			}
-		}, 0, AGE);
+		}, 0, 60000);
 	}
 
 	public static boolean removeToken(Request request)
@@ -52,9 +58,9 @@ public class CustomVerifier implements Verifier
 		return tokenToTimestamp.remove(getToken(request)) != null;
 	}
 
-	public static boolean removeToken(String password)
+	public static boolean removeToken(String token)
 	{
-		return tokenToTimestamp.remove(password) != null;
+		return tokenToTimestamp.remove(token) != null;
 	}
 
 	public static Integer getUserId(Request request)
@@ -103,33 +109,33 @@ public class CustomVerifier implements Verifier
 		return null;
 	}
 
-	public static boolean isAdmin(Request request)
-	{
-		return isAdmin(getToken(request));
-	}
-
 	public static UserDetails getFromSession(Request request)
 	{
-		return tokenToTimestamp.get(getToken(request));
+		String token = getToken(request);
+		return token == null ? new UserDetails(-1000, null, UserType.UNKNOWN, AGE) : tokenToTimestamp.get(token);
 	}
 
-	public static boolean isAdmin(String token)
-	{
-		UserDetails details = tokenToTimestamp.get(token);
-
-		if (details == null)
-			return false;
-
-		return details.isAdmin;
-	}
-
-	public static void addToken(Response response, String token, Boolean isAdmin, Integer userId)
+	public static void addToken(Response response, String token, String userType, Integer userId)
 	{
 		setCookie(response, token);
 		UserDetails details = new UserDetails();
 		details.timestamp = System.currentTimeMillis();
 		details.token = token;
-		details.isAdmin = isAdmin;
+		switch (userType)
+		{
+			case "Administrator":
+				details.userType = UserType.ADMIN;
+				break;
+			case "Data Curator":
+				details.userType = UserType.DATA_CURATOR;
+				break;
+			case "Regular User":
+				details.userType = UserType.AUTH_USER;
+				break;
+			case "Suspended User":
+			default:
+				details.userType = UserType.UNKNOWN;
+		}
 		details.id = userId;
 		tokenToTimestamp.put(token, details);
 	}
@@ -143,76 +149,125 @@ public class CustomVerifier implements Verifier
 		response.getCookieSettings().add(cookie);
 	}
 
+	private boolean canAccess(UserType minUserType, AuthenticationMode mode, UserDetails userDetails)
+	{
+		switch (mode)
+		{
+			case FULL:
+				// In full authentication mode, just rely on the users type.
+				return userDetails != null && userDetails.isAtLeast(minUserType);
+			case SELECTIVE:
+				// In selective mode, users may or may not be logged in. Check their status for those calls that require a specific user type.
+				if (minUserType == UserType.ADMIN || minUserType == UserType.DATA_CURATOR || minUserType == UserType.AUTH_USER)
+					return userDetails != null && userDetails.isAtLeast(minUserType);
+				else
+					return true;
+			case NONE:
+				// In no-auth mode, allow it for those methods without user type requirements.
+				return minUserType != UserType.ADMIN && minUserType != UserType.DATA_CURATOR && minUserType != UserType.AUTH_USER;
+			default:
+				return false;
+		}
+	}
+
 	@Override
 	public int verify(Request request, Response response)
 	{
-//		Route route = Gatekeeper.INSTANCE.routerAuth.getRoutes().getBest(request, response, 0);
-//
-//		Finder finder = (Finder) route.getNext();
-//
-//		Class<?> clazz = finder.getTargetClass();
-//		String method = request.getMethod().getName();
-//		long count = Arrays.stream(clazz.getDeclaredMethods())
-//						   // Only get the ones that require admin permissions
-//						   .filter(m -> m.isAnnotationPresent(OnlyAdmin.class))
-//						   // Then filter for all Java methods that have a matching HTTP method annotation
-//						   .filter(m -> Arrays.stream(m.getDeclaredAnnotations()) // Stream over all annotations
-//											  .map(a -> a.annotationType().getSimpleName()) // Map them to their simple name
-//											  .anyMatch(method::equalsIgnoreCase)) // Compare them to the request method
-//						   .count();
-//
-//		// If there is a method of the requested type and it has the {@link OnlyAdmin} annotation, but the user isn't an admin, return INVALID.
-//		if (count > 0 && !isAdmin(request))
-//			return RESULT_INVALID;
+		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
-		ChallengeResponse cr = request.getChallengeResponse();
-		if (cr != null)
+		Route route = Germinate.INSTANCE.routerAuth.getRoutes().getBest(request, response, 0);
+
+		Finder finder = (Finder) route.getNext();
+
+		Class<?> clazz = finder.getTargetClass();
+		String method = request.getMethod().getName();
+		Boolean passesAnnotationRequirements = Arrays.stream(clazz.getDeclaredMethods())
+													 // Only get the ones that have the annotation
+													 .filter(m -> m.isAnnotationPresent(MinUserType.class))
+													 // Then filter for all Java methods that have a matching HTTP method annotation
+													 .filter(m -> Arrays.stream(m.getDeclaredAnnotations()) // Stream over all annotations
+																		.map(a -> a.annotationType().getSimpleName()) // Map them to their simple name
+																		.anyMatch(method::equalsIgnoreCase)) // Compare them to the request method
+													 .map(m -> {
+														 MinUserType annotation = m.getAnnotation(MinUserType.class);
+														 UserType userType = annotation.value();
+														 return canAccess(userType, mode, getFromSession(request));
+													 })
+													 .findFirst()
+													 .orElse(true);
+
+		if (!passesAnnotationRequirements)
+			return RESULT_INVALID;
+
+		// If we're in full auth mode OR in selective but it's not a GET or a POST, then check credentials
+		// TODO: Is this safe? Aren't there POSTs that need logged in users or are they covered by the previous check?
+		if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && !Objects.equals(method, "POST") && !Objects.equals(method, "GET")))
 		{
-			String token = getToken(request);
-
-			if (token != null)
+			ChallengeResponse cr = request.getChallengeResponse();
+			if (cr != null)
 			{
-				boolean canAccess = false;
+				String token = getToken(request);
 
-				// Check if it's a valid token
-				UserDetails details = tokenToTimestamp.get(token);
-
-				if (details != null)
+				if (token != null)
 				{
-					// First, check the bearer token and see if we have it in the cache
-					if ((System.currentTimeMillis() - AGE) < details.timestamp)
-					{
-						canAccess = true;
-						// Extend the cookie
-						details.timestamp = System.currentTimeMillis();
-						tokenToTimestamp.put(token, details);
-						setCookie(response, token);
-					}
-					else
-					{
-						return RESULT_STALE;
-					}
-				}
+					boolean canAccess = false;
 
-				return canAccess ? RESULT_VALID : RESULT_INVALID;
+					// Check if it's a valid token
+					UserDetails details = tokenToTimestamp.get(token);
+
+					if (details != null)
+					{
+						// First, check the bearer token and see if we have it in the cache
+						if ((System.currentTimeMillis() - AGE) < details.timestamp)
+						{
+							canAccess = true;
+							// Extend the cookie
+							details.timestamp = System.currentTimeMillis();
+							tokenToTimestamp.put(token, details);
+							setCookie(response, token);
+						}
+						else
+						{
+							return RESULT_STALE;
+						}
+					}
+
+					return canAccess ? RESULT_VALID : RESULT_INVALID;
+				}
+				else
+				{
+					return RESULT_INVALID;
+				}
 			}
 			else
 			{
-				return RESULT_INVALID;
+				return RESULT_MISSING;
 			}
 		}
 		else
 		{
-			return RESULT_MISSING;
+			return RESULT_VALID;
 		}
 	}
 
 	public static class UserDetails
 	{
-		private Integer id;
-		private String  token;
-		private Boolean isAdmin = false;
-		private Long    timestamp;
+		private Integer  id;
+		private String   token;
+		private UserType userType = UserType.UNKNOWN;
+		private Long     timestamp;
+
+		public UserDetails()
+		{
+		}
+
+		public UserDetails(Integer id, String token, UserType userType, Long timestamp)
+		{
+			this.id = id;
+			this.token = token;
+			this.userType = userType;
+			this.timestamp = timestamp;
+		}
 
 		public Integer getId()
 		{
@@ -224,9 +279,19 @@ public class CustomVerifier implements Verifier
 			return token;
 		}
 
-		public Boolean getAdmin()
+		public boolean isAtLeast(UserType atLeast)
 		{
-			return isAdmin;
+			switch (atLeast)
+			{
+				case ADMIN:
+					return userType == UserType.ADMIN;
+				case DATA_CURATOR:
+					return userType == UserType.ADMIN || userType == UserType.DATA_CURATOR;
+				case AUTH_USER:
+					return userType == UserType.ADMIN || userType == UserType.DATA_CURATOR || userType == UserType.AUTH_USER;
+			}
+
+			return true;
 		}
 
 		public Long getTimestamp()
