@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
+import com.google.gson.JsonArray;
+
 import java.io.Serializable;
 
 import javax.annotation.Generated;
@@ -23,130 +25,120 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitions implements Serializable {
 
-    private static final long serialVersionUID = 1886323509;
+    private static final long serialVersionUID = 1586525112;
 
-    private Integer markerid;
-    private String  markername;
-    private Object  synonyms;
-    private String  mapfeaturetype;
-    private Integer mapid;
-    private Integer userid;
-    private Byte    visibility;
-    private String  mapname;
-    private String  chromosome;
-    private Double  position;
+    private Integer   markerId;
+    private String    markerName;
+    private JsonArray synonyms;
+    private String    mapFeatureType;
+    private Integer   mapId;
+    private Integer   userId;
+    private Boolean   visibility;
+    private String    mapMame;
+    private String    chromosome;
+    private Double    position;
 
     public ViewTableMapdefinitions() {}
 
     public ViewTableMapdefinitions(ViewTableMapdefinitions value) {
-        this.markerid = value.markerid;
-        this.markername = value.markername;
+        this.markerId = value.markerId;
+        this.markerName = value.markerName;
         this.synonyms = value.synonyms;
-        this.mapfeaturetype = value.mapfeaturetype;
-        this.mapid = value.mapid;
-        this.userid = value.userid;
+        this.mapFeatureType = value.mapFeatureType;
+        this.mapId = value.mapId;
+        this.userId = value.userId;
         this.visibility = value.visibility;
-        this.mapname = value.mapname;
+        this.mapMame = value.mapMame;
         this.chromosome = value.chromosome;
         this.position = value.position;
     }
 
     public ViewTableMapdefinitions(
-        Integer markerid,
-        String  markername,
-        Object  synonyms,
-        String  mapfeaturetype,
-        Integer mapid,
-        Integer userid,
-        Byte    visibility,
-        String  mapname,
-        String  chromosome,
-        Double  position
+        Integer   markerId,
+        String    markerName,
+        JsonArray synonyms,
+        String    mapFeatureType,
+        Integer   mapId,
+        Integer   userId,
+        Boolean   visibility,
+        String    mapMame,
+        String    chromosome,
+        Double    position
     ) {
-        this.markerid = markerid;
-        this.markername = markername;
+        this.markerId = markerId;
+        this.markerName = markerName;
         this.synonyms = synonyms;
-        this.mapfeaturetype = mapfeaturetype;
-        this.mapid = mapid;
-        this.userid = userid;
+        this.mapFeatureType = mapFeatureType;
+        this.mapId = mapId;
+        this.userId = userId;
         this.visibility = visibility;
-        this.mapname = mapname;
+        this.mapMame = mapMame;
         this.chromosome = chromosome;
         this.position = position;
     }
 
-    public Integer getMarkerid() {
-        return this.markerid;
+    public Integer getMarkerId() {
+        return this.markerId;
     }
 
-    public void setMarkerid(Integer markerid) {
-        this.markerid = markerid;
+    public void setMarkerId(Integer markerId) {
+        this.markerId = markerId;
     }
 
-    public String getMarkername() {
-        return this.markername;
+    public String getMarkerName() {
+        return this.markerName;
     }
 
-    public void setMarkername(String markername) {
-        this.markername = markername;
+    public void setMarkerName(String markerName) {
+        this.markerName = markerName;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public Object getSynonyms() {
+    public JsonArray getSynonyms() {
         return this.synonyms;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setSynonyms(Object synonyms) {
+    public void setSynonyms(JsonArray synonyms) {
         this.synonyms = synonyms;
     }
 
-    public String getMapfeaturetype() {
-        return this.mapfeaturetype;
+    public String getMapFeatureType() {
+        return this.mapFeatureType;
     }
 
-    public void setMapfeaturetype(String mapfeaturetype) {
-        this.mapfeaturetype = mapfeaturetype;
+    public void setMapFeatureType(String mapFeatureType) {
+        this.mapFeatureType = mapFeatureType;
     }
 
-    public Integer getMapid() {
-        return this.mapid;
+    public Integer getMapId() {
+        return this.mapId;
     }
 
-    public void setMapid(Integer mapid) {
-        this.mapid = mapid;
+    public void setMapId(Integer mapId) {
+        this.mapId = mapId;
     }
 
-    public Integer getUserid() {
-        return this.userid;
+    public Integer getUserId() {
+        return this.userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Byte getVisibility() {
+    public Boolean getVisibility() {
         return this.visibility;
     }
 
-    public void setVisibility(Byte visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 
-    public String getMapname() {
-        return this.mapname;
+    public String getMapMame() {
+        return this.mapMame;
     }
 
-    public void setMapname(String mapname) {
-        this.mapname = mapname;
+    public void setMapMame(String mapMame) {
+        this.mapMame = mapMame;
     }
 
     public String getChromosome() {
@@ -169,14 +161,14 @@ public class ViewTableMapdefinitions implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableMapdefinitions (");
 
-        sb.append(markerid);
-        sb.append(", ").append(markername);
+        sb.append(markerId);
+        sb.append(", ").append(markerName);
         sb.append(", ").append(synonyms);
-        sb.append(", ").append(mapfeaturetype);
-        sb.append(", ").append(mapid);
-        sb.append(", ").append(userid);
+        sb.append(", ").append(mapFeatureType);
+        sb.append(", ").append(mapId);
+        sb.append(", ").append(userId);
         sb.append(", ").append(visibility);
-        sb.append(", ").append(mapname);
+        sb.append(", ").append(mapMame);
         sb.append(", ").append(chromosome);
         sb.append(", ").append(position);
 

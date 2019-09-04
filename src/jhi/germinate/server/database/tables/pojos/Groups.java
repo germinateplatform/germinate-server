@@ -26,13 +26,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groups implements Serializable {
 
-    private static final long serialVersionUID = -83914669;
+    private static final long serialVersionUID = -1963341343;
 
     private Integer   id;
     private Integer   grouptypeId;
     private String    name;
     private String    description;
-    private Byte      visibility;
+    private Boolean   visibility;
     private Integer   createdBy;
     private Timestamp createdOn;
     private Timestamp updatedOn;
@@ -55,7 +55,7 @@ public class Groups implements Serializable {
         Integer   grouptypeId,
         String    name,
         String    description,
-        Byte      visibility,
+        Boolean   visibility,
         Integer   createdBy,
         Timestamp createdOn,
         Timestamp updatedOn
@@ -102,11 +102,11 @@ public class Groups implements Serializable {
         this.description = description;
     }
 
-    public Byte getVisibility() {
+    public Boolean getVisibility() {
         return this.visibility;
     }
 
-    public void setVisibility(Byte visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 

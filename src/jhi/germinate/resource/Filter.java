@@ -1,15 +1,15 @@
 package jhi.germinate.resource;
 
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * @author Sebastian Raubach
  */
 public class Filter
 {
-	private String column;
-	private String comparator;
-	private String operator;
+	private String   column;
+	private String   comparator;
+	private String   operator;
 	private String[] values;
 
 	public Filter()
@@ -19,6 +19,11 @@ public class Filter
 	public String getColumn()
 	{
 		return column;
+	}
+
+	public String getSafeColumn()
+	{
+		return column.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
 	}
 
 	public Filter setColumn(String column)

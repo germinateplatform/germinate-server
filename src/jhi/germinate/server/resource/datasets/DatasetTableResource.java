@@ -51,13 +51,13 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 			if (!userDetails.isAtLeast(UserType.ADMIN))
 			{
 				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
-				from.where(VIEW_TABLE_DATASETS.DATASETSTATE.eq("public"))
-					.orExists(context.selectOne().from(DATASETPERMISSIONS)
-									 .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
-									 .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
-									 .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASETID))
-									 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
-																  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId()))));
+				from.where(VIEW_TABLE_DATASETS.DATASET_STATE.eq("public")
+															.orExists(context.selectOne().from(DATASETPERMISSIONS)
+																			 .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
+																			 .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
+																			 .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
+																			 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
+																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
 
 			// Filter here!
@@ -74,13 +74,13 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 				{
 				}.getType();
 				result.stream()
-					  .filter(d -> d.getAcceptedby() != null)
+					  .filter(d -> d.getAcceptedBy() != null)
 					  .forEach(d -> {
-						  String acceptedBy = d.getAcceptedby();
+						  String acceptedBy = d.getAcceptedBy();
 						  List<Integer> ids = gson.fromJson(acceptedBy, type);
 
 						  if (ids != null)
-							  d.setAcceptedby(Integer.toString(userDetails.getId()));
+							  d.setAcceptedBy(Integer.toString(userDetails.getId()));
 					  });
 			}
 

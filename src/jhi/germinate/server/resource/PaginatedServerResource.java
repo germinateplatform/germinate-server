@@ -60,6 +60,9 @@ public class PaginatedServerResource extends BaseServerResource
 		try
 		{
 			this.orderBy = request == null ? getQueryValue(PARAM_ORDER_BY) : request.getOrderBy();
+
+			if (orderBy != null)
+				orderBy = orderBy.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
 		}
 		catch (NullPointerException e)
 		{
@@ -110,5 +113,35 @@ public class PaginatedServerResource extends BaseServerResource
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public long getPreviousCount()
+	{
+		return previousCount;
+	}
+
+	public int getCurrentPage()
+	{
+		return currentPage;
+	}
+
+	public int getPageSize()
+	{
+		return pageSize;
+	}
+
+	public Filter[] getFilters()
+	{
+		return filters;
+	}
+
+	public Boolean getAscending()
+	{
+		return ascending;
+	}
+
+	public String getOrderBy()
+	{
+		return orderBy;
 	}
 }

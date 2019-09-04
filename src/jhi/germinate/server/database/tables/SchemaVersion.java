@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
 
-    private static final long serialVersionUID = -1955193925;
+    private static final long serialVersionUID = 1034752148;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.schema_version</code>
@@ -101,7 +101,7 @@ public class SchemaVersion extends TableImpl<SchemaVersionRecord> {
     /**
      * The column <code>germinate_template_3_7_0.schema_version.success</code>.
      */
-    public final TableField<SchemaVersionRecord, Byte> SUCCESS = createField("success", org.jooq.impl.SQLDataType.TINYINT.nullable(false), this, "");
+    public final TableField<SchemaVersionRecord, Boolean> SUCCESS = createField("success", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false), this, "");
 
     /**
      * Create a <code>germinate_template_3_7_0.schema_version</code> table reference

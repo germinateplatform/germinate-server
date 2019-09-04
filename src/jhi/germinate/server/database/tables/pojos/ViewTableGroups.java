@@ -24,128 +24,128 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroups implements Serializable {
 
-    private static final long serialVersionUID = -797680813;
+    private static final long serialVersionUID = 189755899;
 
-    private Integer   groupid;
-    private String    groupname;
-    private String    groupdescription;
-    private Integer   grouptypeid;
-    private String    grouptype;
-    private Integer   userid;
-    private Byte      groupvisibility;
-    private Timestamp createdon;
-    private Timestamp updatedon;
+    private Integer   groupId;
+    private String    groupName;
+    private String    groupDescription;
+    private Integer   groupTypeId;
+    private String    groupType;
+    private Integer   userId;
+    private Boolean   groupVisibility;
+    private Timestamp createdOn;
+    private Timestamp updatedOn;
     private Long      count;
 
     public ViewTableGroups() {}
 
     public ViewTableGroups(ViewTableGroups value) {
-        this.groupid = value.groupid;
-        this.groupname = value.groupname;
-        this.groupdescription = value.groupdescription;
-        this.grouptypeid = value.grouptypeid;
-        this.grouptype = value.grouptype;
-        this.userid = value.userid;
-        this.groupvisibility = value.groupvisibility;
-        this.createdon = value.createdon;
-        this.updatedon = value.updatedon;
+        this.groupId = value.groupId;
+        this.groupName = value.groupName;
+        this.groupDescription = value.groupDescription;
+        this.groupTypeId = value.groupTypeId;
+        this.groupType = value.groupType;
+        this.userId = value.userId;
+        this.groupVisibility = value.groupVisibility;
+        this.createdOn = value.createdOn;
+        this.updatedOn = value.updatedOn;
         this.count = value.count;
     }
 
     public ViewTableGroups(
-        Integer   groupid,
-        String    groupname,
-        String    groupdescription,
-        Integer   grouptypeid,
-        String    grouptype,
-        Integer   userid,
-        Byte      groupvisibility,
-        Timestamp createdon,
-        Timestamp updatedon,
+        Integer   groupId,
+        String    groupName,
+        String    groupDescription,
+        Integer   groupTypeId,
+        String    groupType,
+        Integer   userId,
+        Boolean   groupVisibility,
+        Timestamp createdOn,
+        Timestamp updatedOn,
         Long      count
     ) {
-        this.groupid = groupid;
-        this.groupname = groupname;
-        this.groupdescription = groupdescription;
-        this.grouptypeid = grouptypeid;
-        this.grouptype = grouptype;
-        this.userid = userid;
-        this.groupvisibility = groupvisibility;
-        this.createdon = createdon;
-        this.updatedon = updatedon;
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.groupDescription = groupDescription;
+        this.groupTypeId = groupTypeId;
+        this.groupType = groupType;
+        this.userId = userId;
+        this.groupVisibility = groupVisibility;
+        this.createdOn = createdOn;
+        this.updatedOn = updatedOn;
         this.count = count;
     }
 
-    public Integer getGroupid() {
-        return this.groupid;
+    public Integer getGroupId() {
+        return this.groupId;
     }
 
-    public void setGroupid(Integer groupid) {
-        this.groupid = groupid;
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 
-    public String getGroupname() {
-        return this.groupname;
+    public String getGroupName() {
+        return this.groupName;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
-    public String getGroupdescription() {
-        return this.groupdescription;
+    public String getGroupDescription() {
+        return this.groupDescription;
     }
 
-    public void setGroupdescription(String groupdescription) {
-        this.groupdescription = groupdescription;
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
-    public Integer getGrouptypeid() {
-        return this.grouptypeid;
+    public Integer getGroupTypeId() {
+        return this.groupTypeId;
     }
 
-    public void setGrouptypeid(Integer grouptypeid) {
-        this.grouptypeid = grouptypeid;
+    public void setGroupTypeId(Integer groupTypeId) {
+        this.groupTypeId = groupTypeId;
     }
 
-    public String getGrouptype() {
-        return this.grouptype;
+    public String getGroupType() {
+        return this.groupType;
     }
 
-    public void setGrouptype(String grouptype) {
-        this.grouptype = grouptype;
+    public void setGroupType(String groupType) {
+        this.groupType = groupType;
     }
 
-    public Integer getUserid() {
-        return this.userid;
+    public Integer getUserId() {
+        return this.userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Byte getGroupvisibility() {
-        return this.groupvisibility;
+    public Boolean getGroupVisibility() {
+        return this.groupVisibility;
     }
 
-    public void setGroupvisibility(Byte groupvisibility) {
-        this.groupvisibility = groupvisibility;
+    public void setGroupVisibility(Boolean groupVisibility) {
+        this.groupVisibility = groupVisibility;
     }
 
-    public Timestamp getCreatedon() {
-        return this.createdon;
+    public Timestamp getCreatedOn() {
+        return this.createdOn;
     }
 
-    public void setCreatedon(Timestamp createdon) {
-        this.createdon = createdon;
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
     }
 
-    public Timestamp getUpdatedon() {
-        return this.updatedon;
+    public Timestamp getUpdatedOn() {
+        return this.updatedOn;
     }
 
-    public void setUpdatedon(Timestamp updatedon) {
-        this.updatedon = updatedon;
+    public void setUpdatedOn(Timestamp updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public Long getCount() {
@@ -160,15 +160,15 @@ public class ViewTableGroups implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableGroups (");
 
-        sb.append(groupid);
-        sb.append(", ").append(groupname);
-        sb.append(", ").append(groupdescription);
-        sb.append(", ").append(grouptypeid);
-        sb.append(", ").append(grouptype);
-        sb.append(", ").append(userid);
-        sb.append(", ").append(groupvisibility);
-        sb.append(", ").append(createdon);
-        sb.append(", ").append(updatedon);
+        sb.append(groupId);
+        sb.append(", ").append(groupName);
+        sb.append(", ").append(groupDescription);
+        sb.append(", ").append(groupTypeId);
+        sb.append(", ").append(groupType);
+        sb.append(", ").append(userId);
+        sb.append(", ").append(groupVisibility);
+        sb.append(", ").append(createdOn);
+        sb.append(", ").append(updatedOn);
         sb.append(", ").append(count);
 
         sb.append(")");

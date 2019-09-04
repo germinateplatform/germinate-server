@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
 
-    private static final long serialVersionUID = -2096238972;
+    private static final long serialVersionUID = -2090791225;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.megaenvironmentdata</code>
@@ -79,7 +79,7 @@ public class Megaenvironmentdata extends TableImpl<MegaenvironmentdataRecord> {
     /**
      * The column <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
      */
-    public final TableField<MegaenvironmentdataRecord, Byte> IS_FINAL = createField("is_final", org.jooq.impl.SQLDataType.TINYINT, this, "The source that was used to determine the megaenvironment data.");
+    public final TableField<MegaenvironmentdataRecord, Boolean> IS_FINAL = createField("is_final", org.jooq.impl.SQLDataType.BOOLEAN, this, "The source that was used to determine the megaenvironment data.");
 
     /**
      * The column <code>germinate_template_3_7_0.megaenvironmentdata.created_on</code>. When the record was created.

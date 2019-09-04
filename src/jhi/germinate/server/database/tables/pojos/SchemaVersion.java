@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SchemaVersion implements Serializable {
 
-    private static final long serialVersionUID = -688640010;
+    private static final long serialVersionUID = -2108381414;
 
     private Integer   installedRank;
     private String    version;
@@ -35,7 +35,7 @@ public class SchemaVersion implements Serializable {
     private String    installedBy;
     private Timestamp installedOn;
     private Integer   executionTime;
-    private Byte      success;
+    private Boolean   success;
 
     public SchemaVersion() {}
 
@@ -62,7 +62,7 @@ public class SchemaVersion implements Serializable {
         String    installedBy,
         Timestamp installedOn,
         Integer   executionTime,
-        Byte      success
+        Boolean   success
     ) {
         this.installedRank = installedRank;
         this.version = version;
@@ -148,11 +148,11 @@ public class SchemaVersion implements Serializable {
         this.executionTime = executionTime;
     }
 
-    public Byte getSuccess() {
+    public Boolean getSuccess() {
         return this.success;
     }
 
-    public void setSuccess(Byte success) {
+    public void setSuccess(Boolean success) {
         this.success = success;
     }
 

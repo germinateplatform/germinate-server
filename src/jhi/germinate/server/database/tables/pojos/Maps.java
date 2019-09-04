@@ -24,12 +24,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Maps implements Serializable {
 
-    private static final long serialVersionUID = -1441227783;
+    private static final long serialVersionUID = -1134409849;
 
     private Integer   id;
     private String    name;
     private String    description;
-    private Byte      visibility;
+    private Boolean   visibility;
     private Timestamp createdOn;
     private Timestamp updatedOn;
     private Integer   userId;
@@ -50,7 +50,7 @@ public class Maps implements Serializable {
         Integer   id,
         String    name,
         String    description,
-        Byte      visibility,
+        Boolean   visibility,
         Timestamp createdOn,
         Timestamp updatedOn,
         Integer   userId
@@ -88,11 +88,11 @@ public class Maps implements Serializable {
         this.description = description;
     }
 
-    public Byte getVisibility() {
+    public Boolean getVisibility() {
         return this.visibility;
     }
 
-    public void setVisibility(Byte visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 

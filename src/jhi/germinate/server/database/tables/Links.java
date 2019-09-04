@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Links extends TableImpl<LinksRecord> {
 
-    private static final long serialVersionUID = -1831990394;
+    private static final long serialVersionUID = -1167149632;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.links</code>
@@ -84,7 +84,7 @@ public class Links extends TableImpl<LinksRecord> {
     /**
      * The column <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
      */
-    public final TableField<LinksRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.TINYINT)), this, "Determines if the link is visible or not: {0, 1}");
+    public final TableField<LinksRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Determines if the link is visible or not: {0, 1}");
 
     /**
      * The column <code>germinate_template_3_7_0.links.created_on</code>. When the record was created.

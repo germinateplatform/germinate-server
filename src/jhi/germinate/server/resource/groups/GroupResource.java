@@ -1,6 +1,8 @@
-package jhi.germinate.server.resource.group;
+package jhi.germinate.server.resource.groups;
 
 import org.jooq.*;
+import org.jooq.impl.TableImpl;
+import org.restlet.Request;
 import org.restlet.data.Status;
 import org.restlet.resource.Delete;
 import org.restlet.resource.*;
@@ -9,15 +11,15 @@ import java.sql.*;
 import java.util.*;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.resource.GroupModification;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.Groups;
-import jhi.germinate.server.database.tables.records.GroupsRecord;
+import jhi.germinate.server.database.tables.records.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
+import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Groups.*;
 
 /**
@@ -111,6 +113,87 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
+	public static int patchGroupMembers(Integer groupId, Request req, GroupModification modification)
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req);
+
+		if (groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			Groups group = context.selectFrom(GROUPS)
+								  .where(GROUPS.ID.eq(groupId))
+								  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+								  .fetchOneInto(Groups.class);
+
+			if (group == null)
+				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+			if (modification == null || modification.getIds() == null)
+				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+
+			if (modification.isAddition())
+			{
+				// We need to make sure not to introduce duplicates
+				List<Integer> newIds = new ArrayList<>(Arrays.asList(modification.getIds()));
+				List<Integer> existingIds = context.select(GROUPMEMBERS.FOREIGN_ID)
+												   .from(GROUPMEMBERS)
+												   .where(GROUPMEMBERS.GROUP_ID.eq(group.getId()))
+												   .fetchInto(Integer.class);
+
+				// Remove all existing ids
+				newIds.removeAll(existingIds);
+
+				// Then insert the remaining ones
+				InsertValuesStep2<GroupmembersRecord, Integer, Integer> step = context.insertInto(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GROUPMEMBERS.GROUP_ID);
+				newIds.forEach(i -> step.values(i, group.getId()));
+				return step.execute();
+			}
+			else
+			{
+				// Simply delete the ids
+				return context.deleteFrom(GROUPMEMBERS)
+							  .where(GROUPMEMBERS.GROUP_ID.eq(group.getId()))
+							  .and(GROUPMEMBERS.FOREIGN_ID.in(modification.getIds()))
+							  .execute();
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
+	public static <T> SelectJoinStep<Record> prepareQuery(Request request, DSLContext context, Integer groupId, TableImpl table, Field<Integer> field, PaginatedServerResource callee)
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(request);
+
+		if (groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
+
+		Groups group = context.selectFrom(GROUPS)
+							  .where(GROUPS.ID.eq(groupId))
+							  .and(GROUPS.VISIBILITY.eq(true)
+													.or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+							  .fetchOneInto(Groups.class);
+
+		if (group == null)
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+
+		SelectSelectStep<Record> select = context.select();
+
+		if (callee.getPreviousCount() == -1)
+			select.hint("SQL_CALC_FOUND_ROWS");
+
+		SelectJoinStep<Record> from = select.from(table);
+
+		from.where(field.eq(group.getId()));
+
+		return from;
+	}
+
 	@Get("json")
 	public PaginatedResult<List<Groups>> getJson()
 	{
@@ -126,7 +209,7 @@ public class GroupResource extends PaginatedServerResource
 
 			SelectJoinStep<Record> from = select.from(GROUPS);
 
-			from.where(GROUPS.VISIBILITY.eq((byte) 1)
+			from.where(GROUPS.VISIBILITY.eq(true)
 										.or(GROUPS.CREATED_BY.eq(userDetails.getId())));
 
 			if (groupId != null)

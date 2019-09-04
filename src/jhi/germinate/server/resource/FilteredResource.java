@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import jhi.germinate.resource.Filter;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 
 /**
  * @author Sebastian Raubach
@@ -22,14 +22,19 @@ public interface FilteredResource
 
 			for (int i = 1; i < filters.length; i++)
 			{
-				switch (filters[i - 1].getOperator())
+				Condition condition = filterIndividual(filters[i]);
+
+				if (condition != null)
 				{
-					case "and":
-						where.and(filterIndividual(filters[i]));
-						break;
-					case "or":
-						where.or(filterIndividual(filters[i]));
-						break;
+					switch (filters[i - 1].getOperator())
+					{
+						case "and":
+							where.and(condition);
+							break;
+						case "or":
+							where.or(condition);
+							break;
+					}
 				}
 			}
 		}
@@ -37,12 +42,16 @@ public interface FilteredResource
 
 	default Condition filterIndividual(Filter filter)
 	{
-		Field<Object> field = DSL.field(filter.getColumn());
+		Field<Object> field = DSL.field(filter.getSafeColumn());
 
 		List<String> values = Arrays.stream(filter.getValues())
 									.filter(v -> !StringUtils.isEmpty(v))
 									.map(String::trim)
 									.collect(Collectors.toList());
+
+		if(CollectionUtils.isEmpty(values))
+			return null;
+
 		String first = values.get(0);
 		String second = values.size() > 1 ? values.get(1) : null;
 

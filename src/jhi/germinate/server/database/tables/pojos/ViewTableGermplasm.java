@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
+import com.google.gson.JsonArray;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -25,198 +27,188 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm implements Serializable {
 
-    private static final long serialVersionUID = 280170777;
+    private static final long serialVersionUID = 1649925947;
 
-    private Integer    germplasmid;
-    private String     germplasmgid;
-    private String     germplasmname;
-    private String     germplasmnumber;
-    private String     germplasmpuid;
-    private Integer    entitytypeid;
-    private String     entitytypename;
-    private Integer    biologicalstatusid;
-    private String     biologicalstatusname;
-    private Object     synonyms;
-    private String     collectornumber;
+    private Integer    germplasmId;
+    private String     germplasmGid;
+    private String     germplasmName;
+    private String     germplasmNumber;
+    private String     germplasmPuid;
+    private Integer    entityTypeId;
+    private String     entityTypeName;
+    private Integer    biologicalStatusId;
+    private String     biologicalStatusName;
+    private JsonArray  synonyms;
+    private String     collectorNumber;
     private String     genus;
     private String     species;
     private String     subtaxa;
     private BigDecimal elevation;
-    private String     countryname;
-    private String     countrycode;
-    private Date       colldate;
+    private String     countryName;
+    private String     countryCode;
+    private Date       collDate;
     private Double     pdci;
-    private Long       imagecount;
-    private String     firstimagepath;
+    private Long       imageCount;
+    private String     firstImagePath;
 
     public ViewTableGermplasm() {}
 
     public ViewTableGermplasm(ViewTableGermplasm value) {
-        this.germplasmid = value.germplasmid;
-        this.germplasmgid = value.germplasmgid;
-        this.germplasmname = value.germplasmname;
-        this.germplasmnumber = value.germplasmnumber;
-        this.germplasmpuid = value.germplasmpuid;
-        this.entitytypeid = value.entitytypeid;
-        this.entitytypename = value.entitytypename;
-        this.biologicalstatusid = value.biologicalstatusid;
-        this.biologicalstatusname = value.biologicalstatusname;
+        this.germplasmId = value.germplasmId;
+        this.germplasmGid = value.germplasmGid;
+        this.germplasmName = value.germplasmName;
+        this.germplasmNumber = value.germplasmNumber;
+        this.germplasmPuid = value.germplasmPuid;
+        this.entityTypeId = value.entityTypeId;
+        this.entityTypeName = value.entityTypeName;
+        this.biologicalStatusId = value.biologicalStatusId;
+        this.biologicalStatusName = value.biologicalStatusName;
         this.synonyms = value.synonyms;
-        this.collectornumber = value.collectornumber;
+        this.collectorNumber = value.collectorNumber;
         this.genus = value.genus;
         this.species = value.species;
         this.subtaxa = value.subtaxa;
         this.elevation = value.elevation;
-        this.countryname = value.countryname;
-        this.countrycode = value.countrycode;
-        this.colldate = value.colldate;
+        this.countryName = value.countryName;
+        this.countryCode = value.countryCode;
+        this.collDate = value.collDate;
         this.pdci = value.pdci;
-        this.imagecount = value.imagecount;
-        this.firstimagepath = value.firstimagepath;
+        this.imageCount = value.imageCount;
+        this.firstImagePath = value.firstImagePath;
     }
 
     public ViewTableGermplasm(
-        Integer    germplasmid,
-        String     germplasmgid,
-        String     germplasmname,
-        String     germplasmnumber,
-        String     germplasmpuid,
-        Integer    entitytypeid,
-        String     entitytypename,
-        Integer    biologicalstatusid,
-        String     biologicalstatusname,
-        Object     synonyms,
-        String     collectornumber,
+        Integer    germplasmId,
+        String     germplasmGid,
+        String     germplasmName,
+        String     germplasmNumber,
+        String     germplasmPuid,
+        Integer    entityTypeId,
+        String     entityTypeName,
+        Integer    biologicalStatusId,
+        String     biologicalStatusName,
+        JsonArray  synonyms,
+        String     collectorNumber,
         String     genus,
         String     species,
         String     subtaxa,
         BigDecimal elevation,
-        String     countryname,
-        String     countrycode,
-        Date       colldate,
+        String     countryName,
+        String     countryCode,
+        Date       collDate,
         Double     pdci,
-        Long       imagecount,
-        String     firstimagepath
+        Long       imageCount,
+        String     firstImagePath
     ) {
-        this.germplasmid = germplasmid;
-        this.germplasmgid = germplasmgid;
-        this.germplasmname = germplasmname;
-        this.germplasmnumber = germplasmnumber;
-        this.germplasmpuid = germplasmpuid;
-        this.entitytypeid = entitytypeid;
-        this.entitytypename = entitytypename;
-        this.biologicalstatusid = biologicalstatusid;
-        this.biologicalstatusname = biologicalstatusname;
+        this.germplasmId = germplasmId;
+        this.germplasmGid = germplasmGid;
+        this.germplasmName = germplasmName;
+        this.germplasmNumber = germplasmNumber;
+        this.germplasmPuid = germplasmPuid;
+        this.entityTypeId = entityTypeId;
+        this.entityTypeName = entityTypeName;
+        this.biologicalStatusId = biologicalStatusId;
+        this.biologicalStatusName = biologicalStatusName;
         this.synonyms = synonyms;
-        this.collectornumber = collectornumber;
+        this.collectorNumber = collectorNumber;
         this.genus = genus;
         this.species = species;
         this.subtaxa = subtaxa;
         this.elevation = elevation;
-        this.countryname = countryname;
-        this.countrycode = countrycode;
-        this.colldate = colldate;
+        this.countryName = countryName;
+        this.countryCode = countryCode;
+        this.collDate = collDate;
         this.pdci = pdci;
-        this.imagecount = imagecount;
-        this.firstimagepath = firstimagepath;
+        this.imageCount = imageCount;
+        this.firstImagePath = firstImagePath;
     }
 
-    public Integer getGermplasmid() {
-        return this.germplasmid;
+    public Integer getGermplasmId() {
+        return this.germplasmId;
     }
 
-    public void setGermplasmid(Integer germplasmid) {
-        this.germplasmid = germplasmid;
+    public void setGermplasmId(Integer germplasmId) {
+        this.germplasmId = germplasmId;
     }
 
-    public String getGermplasmgid() {
-        return this.germplasmgid;
+    public String getGermplasmGid() {
+        return this.germplasmGid;
     }
 
-    public void setGermplasmgid(String germplasmgid) {
-        this.germplasmgid = germplasmgid;
+    public void setGermplasmGid(String germplasmGid) {
+        this.germplasmGid = germplasmGid;
     }
 
-    public String getGermplasmname() {
-        return this.germplasmname;
+    public String getGermplasmName() {
+        return this.germplasmName;
     }
 
-    public void setGermplasmname(String germplasmname) {
-        this.germplasmname = germplasmname;
+    public void setGermplasmName(String germplasmName) {
+        this.germplasmName = germplasmName;
     }
 
-    public String getGermplasmnumber() {
-        return this.germplasmnumber;
+    public String getGermplasmNumber() {
+        return this.germplasmNumber;
     }
 
-    public void setGermplasmnumber(String germplasmnumber) {
-        this.germplasmnumber = germplasmnumber;
+    public void setGermplasmNumber(String germplasmNumber) {
+        this.germplasmNumber = germplasmNumber;
     }
 
-    public String getGermplasmpuid() {
-        return this.germplasmpuid;
+    public String getGermplasmPuid() {
+        return this.germplasmPuid;
     }
 
-    public void setGermplasmpuid(String germplasmpuid) {
-        this.germplasmpuid = germplasmpuid;
+    public void setGermplasmPuid(String germplasmPuid) {
+        this.germplasmPuid = germplasmPuid;
     }
 
-    public Integer getEntitytypeid() {
-        return this.entitytypeid;
+    public Integer getEntityTypeId() {
+        return this.entityTypeId;
     }
 
-    public void setEntitytypeid(Integer entitytypeid) {
-        this.entitytypeid = entitytypeid;
+    public void setEntityTypeId(Integer entityTypeId) {
+        this.entityTypeId = entityTypeId;
     }
 
-    public String getEntitytypename() {
-        return this.entitytypename;
+    public String getEntityTypeName() {
+        return this.entityTypeName;
     }
 
-    public void setEntitytypename(String entitytypename) {
-        this.entitytypename = entitytypename;
+    public void setEntityTypeName(String entityTypeName) {
+        this.entityTypeName = entityTypeName;
     }
 
-    public Integer getBiologicalstatusid() {
-        return this.biologicalstatusid;
+    public Integer getBiologicalStatusId() {
+        return this.biologicalStatusId;
     }
 
-    public void setBiologicalstatusid(Integer biologicalstatusid) {
-        this.biologicalstatusid = biologicalstatusid;
+    public void setBiologicalStatusId(Integer biologicalStatusId) {
+        this.biologicalStatusId = biologicalStatusId;
     }
 
-    public String getBiologicalstatusname() {
-        return this.biologicalstatusname;
+    public String getBiologicalStatusName() {
+        return this.biologicalStatusName;
     }
 
-    public void setBiologicalstatusname(String biologicalstatusname) {
-        this.biologicalstatusname = biologicalstatusname;
+    public void setBiologicalStatusName(String biologicalStatusName) {
+        this.biologicalStatusName = biologicalStatusName;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public Object getSynonyms() {
+    public JsonArray getSynonyms() {
         return this.synonyms;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setSynonyms(Object synonyms) {
+    public void setSynonyms(JsonArray synonyms) {
         this.synonyms = synonyms;
     }
 
-    public String getCollectornumber() {
-        return this.collectornumber;
+    public String getCollectorNumber() {
+        return this.collectorNumber;
     }
 
-    public void setCollectornumber(String collectornumber) {
-        this.collectornumber = collectornumber;
+    public void setCollectorNumber(String collectorNumber) {
+        this.collectorNumber = collectorNumber;
     }
 
     public String getGenus() {
@@ -251,28 +243,28 @@ public class ViewTableGermplasm implements Serializable {
         this.elevation = elevation;
     }
 
-    public String getCountryname() {
-        return this.countryname;
+    public String getCountryName() {
+        return this.countryName;
     }
 
-    public void setCountryname(String countryname) {
-        this.countryname = countryname;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
-    public String getCountrycode() {
-        return this.countrycode;
+    public String getCountryCode() {
+        return this.countryCode;
     }
 
-    public void setCountrycode(String countrycode) {
-        this.countrycode = countrycode;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
-    public Date getColldate() {
-        return this.colldate;
+    public Date getCollDate() {
+        return this.collDate;
     }
 
-    public void setColldate(Date colldate) {
-        this.colldate = colldate;
+    public void setCollDate(Date collDate) {
+        this.collDate = collDate;
     }
 
     public Double getPdci() {
@@ -283,47 +275,47 @@ public class ViewTableGermplasm implements Serializable {
         this.pdci = pdci;
     }
 
-    public Long getImagecount() {
-        return this.imagecount;
+    public Long getImageCount() {
+        return this.imageCount;
     }
 
-    public void setImagecount(Long imagecount) {
-        this.imagecount = imagecount;
+    public void setImageCount(Long imageCount) {
+        this.imageCount = imageCount;
     }
 
-    public String getFirstimagepath() {
-        return this.firstimagepath;
+    public String getFirstImagePath() {
+        return this.firstImagePath;
     }
 
-    public void setFirstimagepath(String firstimagepath) {
-        this.firstimagepath = firstimagepath;
+    public void setFirstImagePath(String firstImagePath) {
+        this.firstImagePath = firstImagePath;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableGermplasm (");
 
-        sb.append(germplasmid);
-        sb.append(", ").append(germplasmgid);
-        sb.append(", ").append(germplasmname);
-        sb.append(", ").append(germplasmnumber);
-        sb.append(", ").append(germplasmpuid);
-        sb.append(", ").append(entitytypeid);
-        sb.append(", ").append(entitytypename);
-        sb.append(", ").append(biologicalstatusid);
-        sb.append(", ").append(biologicalstatusname);
+        sb.append(germplasmId);
+        sb.append(", ").append(germplasmGid);
+        sb.append(", ").append(germplasmName);
+        sb.append(", ").append(germplasmNumber);
+        sb.append(", ").append(germplasmPuid);
+        sb.append(", ").append(entityTypeId);
+        sb.append(", ").append(entityTypeName);
+        sb.append(", ").append(biologicalStatusId);
+        sb.append(", ").append(biologicalStatusName);
         sb.append(", ").append(synonyms);
-        sb.append(", ").append(collectornumber);
+        sb.append(", ").append(collectorNumber);
         sb.append(", ").append(genus);
         sb.append(", ").append(species);
         sb.append(", ").append(subtaxa);
         sb.append(", ").append(elevation);
-        sb.append(", ").append(countryname);
-        sb.append(", ").append(countrycode);
-        sb.append(", ").append(colldate);
+        sb.append(", ").append(countryName);
+        sb.append(", ").append(countryCode);
+        sb.append(", ").append(collDate);
         sb.append(", ").append(pdci);
-        sb.append(", ").append(imagecount);
-        sb.append(", ").append(firstimagepath);
+        sb.append(", ").append(imageCount);
+        sb.append(", ").append(firstImagePath);
 
         sb.append(")");
         return sb.toString();

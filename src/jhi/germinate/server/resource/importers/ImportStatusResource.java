@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.importer;
+package jhi.germinate.server.resource.importers;
 
 import org.restlet.data.Status;
 import org.restlet.resource.*;

@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables;
 
 
+import com.google.gson.JsonArray;
+
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.SynonymsRecord;
+import jhi.germinate.server.util.SynonymBinding;
 
 import org.jooq.Field;
 import org.jooq.Identity;
@@ -40,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonyms extends TableImpl<SynonymsRecord> {
 
-    private static final long serialVersionUID = 980161486;
+    private static final long serialVersionUID = 1557549874;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.synonyms</code>
@@ -72,10 +75,9 @@ public class Synonyms extends TableImpl<SynonymsRecord> {
     public final TableField<SynonymsRecord, Integer> SYNONYMTYPE_ID = createField("synonymtype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to synonymtypes (synonymnstypes.id).");
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     * The column <code>germinate_template_3_7_0.synonyms.synonyms</code>. The synonyms as a json array.
      */
-    @java.lang.Deprecated
-    public final TableField<SynonymsRecord, Object> SYNONYMS_ = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"synonyms_synonyms\""), this, "The synonyms as a json array.");
+    public final TableField<SynonymsRecord, JsonArray> SYNONYMS_ = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"synonyms_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
 
     /**
      * The column <code>germinate_template_3_7_0.synonyms.created_on</code>. When the record was created.

@@ -26,13 +26,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Megaenvironmentdata implements Serializable {
 
-    private static final long serialVersionUID = -952480067;
+    private static final long serialVersionUID = -919585237;
 
     private Integer   id;
     private Integer   locationId;
     private Integer   sourceId;
     private Integer   megaenvironmentId;
-    private Byte      isFinal;
+    private Boolean   isFinal;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -53,7 +53,7 @@ public class Megaenvironmentdata implements Serializable {
         Integer   locationId,
         Integer   sourceId,
         Integer   megaenvironmentId,
-        Byte      isFinal,
+        Boolean   isFinal,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -98,11 +98,11 @@ public class Megaenvironmentdata implements Serializable {
         this.megaenvironmentId = megaenvironmentId;
     }
 
-    public Byte getIsFinal() {
+    public Boolean getIsFinal() {
         return this.isFinal;
     }
 
-    public void setIsFinal(Byte isFinal) {
+    public void setIsFinal(Boolean isFinal) {
         this.isFinal = isFinal;
     }
 

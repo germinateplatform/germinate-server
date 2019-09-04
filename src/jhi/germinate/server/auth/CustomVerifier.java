@@ -17,8 +17,9 @@
 package jhi.germinate.server.auth;
 
 import org.restlet.*;
+import org.restlet.data.Status;
 import org.restlet.data.*;
-import org.restlet.resource.Finder;
+import org.restlet.resource.*;
 import org.restlet.routing.Route;
 import org.restlet.security.Verifier;
 import org.restlet.util.Series;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Germinate;
+import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
@@ -87,12 +89,16 @@ public class CustomVerifier implements Verifier
 			return null;
 	}
 
-	private static String getToken(Request request)
+	private static TokenResult getToken(Request request)
 	{
 		ChallengeResponse cr = request.getChallengeResponse();
 		if (cr != null)
 		{
-			String token = cr.getRawValue();
+			TokenResult result = new TokenResult();
+			result.token = cr.getRawValue();
+
+			if (StringUtils.isEmpty(result.token) || result.token.equalsIgnoreCase("null"))
+				result.token = null;
 
 			// If we do, validate it against the cookie
 			List<Cookie> cookies = request.getCookies()
@@ -101,9 +107,18 @@ public class CustomVerifier implements Verifier
 										  .collect(Collectors.toList());
 
 			if (cookies.size() > 0)
-				return Objects.equals(token, cookies.get(0).getValue()) ? token : null;
+			{
+				result.match = Objects.equals(result.token, cookies.get(0).getValue());
+			}
 			else
-				return null;
+			{
+				if (result.token == null)
+					return null;
+				else
+					result.match = true;
+			}
+
+			return result;
 		}
 
 		return null;
@@ -111,8 +126,27 @@ public class CustomVerifier implements Verifier
 
 	public static UserDetails getFromSession(Request request)
 	{
-		String token = getToken(request);
-		return token == null ? new UserDetails(-1000, null, UserType.UNKNOWN, AGE) : tokenToTimestamp.get(token);
+		TokenResult token = getToken(request);
+		if (token == null)
+		{
+			// We get here if no token is found at all
+			return new UserDetails(-1000, null, UserType.UNKNOWN, AGE);
+		}
+		else if (!StringUtils.isEmpty(token.token) && !token.match)
+		{
+			// We get here if a token is provided, but no matching cookie is found.
+			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+		}
+		else
+		{
+			// We get here if the token is present and it matches the cookie
+			UserDetails details = tokenToTimestamp.get(token.token);
+
+			if (details == null)
+				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+
+			return details;
+		}
 	}
 
 	public static void addToken(Response response, String token, String userType, Integer userId)
@@ -176,44 +210,47 @@ public class CustomVerifier implements Verifier
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		Route route = Germinate.INSTANCE.routerAuth.getRoutes().getBest(request, response, 0);
-
-		Finder finder = (Finder) route.getNext();
-
-		Class<?> clazz = finder.getTargetClass();
 		String method = request.getMethod().getName();
-		Boolean passesAnnotationRequirements = Arrays.stream(clazz.getDeclaredMethods())
-													 // Only get the ones that have the annotation
-													 .filter(m -> m.isAnnotationPresent(MinUserType.class))
-													 // Then filter for all Java methods that have a matching HTTP method annotation
-													 .filter(m -> Arrays.stream(m.getDeclaredAnnotations()) // Stream over all annotations
-																		.map(a -> a.annotationType().getSimpleName()) // Map them to their simple name
-																		.anyMatch(method::equalsIgnoreCase)) // Compare them to the request method
-													 .map(m -> {
-														 MinUserType annotation = m.getAnnotation(MinUserType.class);
-														 UserType userType = annotation.value();
-														 return canAccess(userType, mode, getFromSession(request));
-													 })
-													 .findFirst()
-													 .orElse(true);
 
-		if (!passesAnnotationRequirements)
-			return RESULT_INVALID;
+		if (route != null)
+		{
+
+			Finder finder = (Finder) route.getNext();
+
+			Class<?> clazz = finder.getTargetClass();
+			Boolean passesAnnotationRequirements = Arrays.stream(clazz.getDeclaredMethods())
+														 // Only get the ones that have the annotation
+														 .filter(m -> m.isAnnotationPresent(MinUserType.class))
+														 // Then filter for all Java methods that have a matching HTTP method annotation
+														 .filter(m -> Arrays.stream(m.getDeclaredAnnotations()) // Stream over all annotations
+																			.map(a -> a.annotationType().getSimpleName()) // Map them to their simple name
+																			.anyMatch(method::equalsIgnoreCase)) // Compare them to the request method
+														 .map(m -> {
+															 MinUserType annotation = m.getAnnotation(MinUserType.class);
+															 UserType userType = annotation.value();
+															 return canAccess(userType, mode, getFromSession(request));
+														 })
+														 .findFirst()
+														 .orElse(true);
+
+			if (!passesAnnotationRequirements)
+				return RESULT_INVALID;
+		}
 
 		// If we're in full auth mode OR in selective but it's not a GET or a POST, then check credentials
-		// TODO: Is this safe? Aren't there POSTs that need logged in users or are they covered by the previous check?
 		if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && !Objects.equals(method, "POST") && !Objects.equals(method, "GET")))
 		{
 			ChallengeResponse cr = request.getChallengeResponse();
 			if (cr != null)
 			{
-				String token = getToken(request);
+				TokenResult token = getToken(request);
 
-				if (token != null)
+				if (token != null && token.token != null)
 				{
 					boolean canAccess = false;
 
 					// Check if it's a valid token
-					UserDetails details = tokenToTimestamp.get(token);
+					UserDetails details = tokenToTimestamp.get(token.token);
 
 					if (details != null)
 					{
@@ -223,8 +260,8 @@ public class CustomVerifier implements Verifier
 							canAccess = true;
 							// Extend the cookie
 							details.timestamp = System.currentTimeMillis();
-							tokenToTimestamp.put(token, details);
-							setCookie(response, token);
+							tokenToTimestamp.put(token.token, details);
+							setCookie(response, token.token);
 						}
 						else
 						{
@@ -248,6 +285,12 @@ public class CustomVerifier implements Verifier
 		{
 			return RESULT_VALID;
 		}
+	}
+
+	private static class TokenResult
+	{
+		private String  token;
+		private boolean match;
 	}
 
 	public static class UserDetails

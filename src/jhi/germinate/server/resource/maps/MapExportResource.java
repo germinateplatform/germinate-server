@@ -61,7 +61,7 @@ public class MapExportResource extends BaseServerResource
 
 				context.selectFrom(MAPDEFINITIONS.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
 												 .leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID)))
-					   .where(MAPS.VISIBILITY.eq((byte) 1)
+					   .where(MAPS.VISIBILITY.eq(true)
 											 .or(MAPS.USER_ID.eq(userDetails.getId())))
 					   .and(MAPS.ID.eq(mapId))
 					   .orderBy(MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START, MARKERS.MARKER_NAME)

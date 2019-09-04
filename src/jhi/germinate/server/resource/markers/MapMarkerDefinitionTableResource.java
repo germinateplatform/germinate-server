@@ -54,9 +54,9 @@ public class MapMarkerDefinitionTableResource extends PaginatedServerResource im
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MAPDEFINITIONS);
 
-			from.where(VIEW_TABLE_MAPDEFINITIONS.VISIBILITY.eq((byte) 1)
-														   .or(VIEW_TABLE_MAPDEFINITIONS.USERID.eq(userDetails.getId())))
-				.and(VIEW_TABLE_MAPDEFINITIONS.MAPID.eq(mapId));
+			from.where(VIEW_TABLE_MAPDEFINITIONS.VISIBILITY.eq(true)
+														   .or(VIEW_TABLE_MAPDEFINITIONS.USER_ID.eq(userDetails.getId())))
+				.and(VIEW_TABLE_MAPDEFINITIONS.MAP_ID.eq(mapId));
 
 			// Filter here!
 			filter(from, filters);

@@ -55,7 +55,7 @@ public class MapResource extends PaginatedServerResource
 
 			SelectJoinStep<Record> from = select.from(MAPS);
 
-			from.where(MAPS.VISIBILITY.eq((byte) 1)
+			from.where(MAPS.VISIBILITY.eq(true)
 									  .or(MAPS.USER_ID.eq(userDetails.getId())));
 
 			if (mapId != null)

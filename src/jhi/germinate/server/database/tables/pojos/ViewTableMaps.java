@@ -23,100 +23,100 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMaps implements Serializable {
 
-    private static final long serialVersionUID = 2100070213;
+    private static final long serialVersionUID = -790659433;
 
-    private Integer mapid;
-    private String  mapname;
-    private String  mapdescription;
-    private Integer userid;
-    private Byte    visibility;
-    private Long    markercount;
+    private Integer mapId;
+    private String  mapName;
+    private String  mapDescription;
+    private Integer userId;
+    private Boolean visibility;
+    private Long    markerCount;
 
     public ViewTableMaps() {}
 
     public ViewTableMaps(ViewTableMaps value) {
-        this.mapid = value.mapid;
-        this.mapname = value.mapname;
-        this.mapdescription = value.mapdescription;
-        this.userid = value.userid;
+        this.mapId = value.mapId;
+        this.mapName = value.mapName;
+        this.mapDescription = value.mapDescription;
+        this.userId = value.userId;
         this.visibility = value.visibility;
-        this.markercount = value.markercount;
+        this.markerCount = value.markerCount;
     }
 
     public ViewTableMaps(
-        Integer mapid,
-        String  mapname,
-        String  mapdescription,
-        Integer userid,
-        Byte    visibility,
-        Long    markercount
+        Integer mapId,
+        String  mapName,
+        String  mapDescription,
+        Integer userId,
+        Boolean visibility,
+        Long    markerCount
     ) {
-        this.mapid = mapid;
-        this.mapname = mapname;
-        this.mapdescription = mapdescription;
-        this.userid = userid;
+        this.mapId = mapId;
+        this.mapName = mapName;
+        this.mapDescription = mapDescription;
+        this.userId = userId;
         this.visibility = visibility;
-        this.markercount = markercount;
+        this.markerCount = markerCount;
     }
 
-    public Integer getMapid() {
-        return this.mapid;
+    public Integer getMapId() {
+        return this.mapId;
     }
 
-    public void setMapid(Integer mapid) {
-        this.mapid = mapid;
+    public void setMapId(Integer mapId) {
+        this.mapId = mapId;
     }
 
-    public String getMapname() {
-        return this.mapname;
+    public String getMapName() {
+        return this.mapName;
     }
 
-    public void setMapname(String mapname) {
-        this.mapname = mapname;
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 
-    public String getMapdescription() {
-        return this.mapdescription;
+    public String getMapDescription() {
+        return this.mapDescription;
     }
 
-    public void setMapdescription(String mapdescription) {
-        this.mapdescription = mapdescription;
+    public void setMapDescription(String mapDescription) {
+        this.mapDescription = mapDescription;
     }
 
-    public Integer getUserid() {
-        return this.userid;
+    public Integer getUserId() {
+        return this.userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Byte getVisibility() {
+    public Boolean getVisibility() {
         return this.visibility;
     }
 
-    public void setVisibility(Byte visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 
-    public Long getMarkercount() {
-        return this.markercount;
+    public Long getMarkerCount() {
+        return this.markerCount;
     }
 
-    public void setMarkercount(Long markercount) {
-        this.markercount = markercount;
+    public void setMarkerCount(Long markerCount) {
+        this.markerCount = markerCount;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableMaps (");
 
-        sb.append(mapid);
-        sb.append(", ").append(mapname);
-        sb.append(", ").append(mapdescription);
-        sb.append(", ").append(userid);
+        sb.append(mapId);
+        sb.append(", ").append(mapName);
+        sb.append(", ").append(mapDescription);
+        sb.append(", ").append(userId);
         sb.append(", ").append(visibility);
-        sb.append(", ").append(markercount);
+        sb.append(", ").append(markerCount);
 
         sb.append(")");
         return sb.toString();

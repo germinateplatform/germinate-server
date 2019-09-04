@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.group;
+package jhi.germinate.server.resource.groups;
 
 import org.jooq.*;
 import org.restlet.data.Status;

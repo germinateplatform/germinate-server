@@ -25,10 +25,12 @@ import java.util.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.resource.*;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.auth.*;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import retrofit2.Response;
 
 /**
@@ -43,6 +45,11 @@ public class TokenResource extends ServerResource
 	@Delete("json")
 	public boolean deleteJson(LoginDetails user)
 	{
+		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
+
+		if (mode == AuthenticationMode.NONE)
+			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
+
 		if (user == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, StatusMessage.NOT_FOUND_TOKEN);
 
@@ -67,6 +74,11 @@ public class TokenResource extends ServerResource
 	@Post("json")
 	public Token postJson(LoginDetails request)
 	{
+		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
+
+		if (mode == AuthenticationMode.NONE)
+			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
+
 		boolean canAccess = false;
 		String userType;
 

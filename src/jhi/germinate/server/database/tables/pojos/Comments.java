@@ -25,12 +25,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comments implements Serializable {
 
-    private static final long serialVersionUID = -1960495687;
+    private static final long serialVersionUID = 1422754731;
 
     private Integer   id;
     private Integer   commenttypeId;
     private Integer   userId;
-    private Byte      visibility;
+    private Boolean   visibility;
     private String    description;
     private Integer   referenceId;
     private Timestamp createdOn;
@@ -53,7 +53,7 @@ public class Comments implements Serializable {
         Integer   id,
         Integer   commenttypeId,
         Integer   userId,
-        Byte      visibility,
+        Boolean   visibility,
         String    description,
         Integer   referenceId,
         Timestamp createdOn,
@@ -93,11 +93,11 @@ public class Comments implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getVisibility() {
+    public Boolean getVisibility() {
         return this.visibility;
     }
 
-    public void setVisibility(Byte visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 

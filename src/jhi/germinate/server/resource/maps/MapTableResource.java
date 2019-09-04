@@ -37,8 +37,8 @@ public class MapTableResource extends PaginatedServerResource implements Filtere
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MAPS);
 
-			from.where(VIEW_TABLE_MAPS.VISIBILITY.eq((byte) 1)
-												 .or(VIEW_TABLE_MAPS.USERID.eq(userDetails.getId())));
+			from.where(VIEW_TABLE_MAPS.VISIBILITY.eq(true)
+												 .or(VIEW_TABLE_MAPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
 			filter(from, filters);

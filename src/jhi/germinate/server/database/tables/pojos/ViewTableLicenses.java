@@ -23,100 +23,100 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicenses implements Serializable {
 
-    private static final long serialVersionUID = -1919483272;
+    private static final long serialVersionUID = 2005239288;
 
-    private Integer licenseid;
-    private String  licensename;
-    private String  licensedescription;
-    private String  licensecontent;
-    private String  localename;
-    private String  localedescription;
+    private Integer licenseId;
+    private String  licenseName;
+    private String  licenseDescription;
+    private String  licenseContent;
+    private String  localeName;
+    private String  localeDescription;
 
     public ViewTableLicenses() {}
 
     public ViewTableLicenses(ViewTableLicenses value) {
-        this.licenseid = value.licenseid;
-        this.licensename = value.licensename;
-        this.licensedescription = value.licensedescription;
-        this.licensecontent = value.licensecontent;
-        this.localename = value.localename;
-        this.localedescription = value.localedescription;
+        this.licenseId = value.licenseId;
+        this.licenseName = value.licenseName;
+        this.licenseDescription = value.licenseDescription;
+        this.licenseContent = value.licenseContent;
+        this.localeName = value.localeName;
+        this.localeDescription = value.localeDescription;
     }
 
     public ViewTableLicenses(
-        Integer licenseid,
-        String  licensename,
-        String  licensedescription,
-        String  licensecontent,
-        String  localename,
-        String  localedescription
+        Integer licenseId,
+        String  licenseName,
+        String  licenseDescription,
+        String  licenseContent,
+        String  localeName,
+        String  localeDescription
     ) {
-        this.licenseid = licenseid;
-        this.licensename = licensename;
-        this.licensedescription = licensedescription;
-        this.licensecontent = licensecontent;
-        this.localename = localename;
-        this.localedescription = localedescription;
+        this.licenseId = licenseId;
+        this.licenseName = licenseName;
+        this.licenseDescription = licenseDescription;
+        this.licenseContent = licenseContent;
+        this.localeName = localeName;
+        this.localeDescription = localeDescription;
     }
 
-    public Integer getLicenseid() {
-        return this.licenseid;
+    public Integer getLicenseId() {
+        return this.licenseId;
     }
 
-    public void setLicenseid(Integer licenseid) {
-        this.licenseid = licenseid;
+    public void setLicenseId(Integer licenseId) {
+        this.licenseId = licenseId;
     }
 
-    public String getLicensename() {
-        return this.licensename;
+    public String getLicenseName() {
+        return this.licenseName;
     }
 
-    public void setLicensename(String licensename) {
-        this.licensename = licensename;
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
     }
 
-    public String getLicensedescription() {
-        return this.licensedescription;
+    public String getLicenseDescription() {
+        return this.licenseDescription;
     }
 
-    public void setLicensedescription(String licensedescription) {
-        this.licensedescription = licensedescription;
+    public void setLicenseDescription(String licenseDescription) {
+        this.licenseDescription = licenseDescription;
     }
 
-    public String getLicensecontent() {
-        return this.licensecontent;
+    public String getLicenseContent() {
+        return this.licenseContent;
     }
 
-    public void setLicensecontent(String licensecontent) {
-        this.licensecontent = licensecontent;
+    public void setLicenseContent(String licenseContent) {
+        this.licenseContent = licenseContent;
     }
 
-    public String getLocalename() {
-        return this.localename;
+    public String getLocaleName() {
+        return this.localeName;
     }
 
-    public void setLocalename(String localename) {
-        this.localename = localename;
+    public void setLocaleName(String localeName) {
+        this.localeName = localeName;
     }
 
-    public String getLocaledescription() {
-        return this.localedescription;
+    public String getLocaleDescription() {
+        return this.localeDescription;
     }
 
-    public void setLocaledescription(String localedescription) {
-        this.localedescription = localedescription;
+    public void setLocaleDescription(String localeDescription) {
+        this.localeDescription = localeDescription;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableLicenses (");
 
-        sb.append(licenseid);
-        sb.append(", ").append(licensename);
-        sb.append(", ").append(licensedescription);
-        sb.append(", ").append(licensecontent);
-        sb.append(", ").append(localename);
-        sb.append(", ").append(localedescription);
+        sb.append(licenseId);
+        sb.append(", ").append(licenseName);
+        sb.append(", ").append(licenseDescription);
+        sb.append(", ").append(licenseContent);
+        sb.append(", ").append(localeName);
+        sb.append(", ").append(localeDescription);
 
         sb.append(")");
         return sb.toString();

@@ -26,132 +26,132 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1405224479;
+    private static final long serialVersionUID = 1401536103;
 
-    private Integer datasetid;
-    private String  datasetname;
-    private String  datesetdescription;
-    private String  experimenttype;
-    private String  experimentname;
+    private Integer datasetId;
+    private String  datasetName;
+    private String  datesetDescription;
+    private String  experimentType;
+    private String  experimentName;
     private String  datatype;
-    private String  datasetstate;
+    private String  datasetState;
     private String  location;
-    private String  countrycode;
-    private String  countryname;
-    private Integer licenseid;
-    private String  licensename;
+    private String  countryCode;
+    private String  countryName;
+    private Integer licenseId;
+    private String  licenseName;
     private String  contact;
-    private Date    startdate;
-    private Date    enddate;
-    private ULong   dataobjectcount;
-    private ULong   datapointcount;
-    private Byte    isexternal;
-    private String  acceptedby;
+    private Date    startDate;
+    private Date    endDate;
+    private ULong   dataObjectCount;
+    private ULong   dataPointCount;
+    private Boolean isExternal;
+    private String  acceptedBy;
 
     public ViewTableDatasets() {}
 
     public ViewTableDatasets(ViewTableDatasets value) {
-        this.datasetid = value.datasetid;
-        this.datasetname = value.datasetname;
-        this.datesetdescription = value.datesetdescription;
-        this.experimenttype = value.experimenttype;
-        this.experimentname = value.experimentname;
+        this.datasetId = value.datasetId;
+        this.datasetName = value.datasetName;
+        this.datesetDescription = value.datesetDescription;
+        this.experimentType = value.experimentType;
+        this.experimentName = value.experimentName;
         this.datatype = value.datatype;
-        this.datasetstate = value.datasetstate;
+        this.datasetState = value.datasetState;
         this.location = value.location;
-        this.countrycode = value.countrycode;
-        this.countryname = value.countryname;
-        this.licenseid = value.licenseid;
-        this.licensename = value.licensename;
+        this.countryCode = value.countryCode;
+        this.countryName = value.countryName;
+        this.licenseId = value.licenseId;
+        this.licenseName = value.licenseName;
         this.contact = value.contact;
-        this.startdate = value.startdate;
-        this.enddate = value.enddate;
-        this.dataobjectcount = value.dataobjectcount;
-        this.datapointcount = value.datapointcount;
-        this.isexternal = value.isexternal;
-        this.acceptedby = value.acceptedby;
+        this.startDate = value.startDate;
+        this.endDate = value.endDate;
+        this.dataObjectCount = value.dataObjectCount;
+        this.dataPointCount = value.dataPointCount;
+        this.isExternal = value.isExternal;
+        this.acceptedBy = value.acceptedBy;
     }
 
     public ViewTableDatasets(
-        Integer datasetid,
-        String  datasetname,
-        String  datesetdescription,
-        String  experimenttype,
-        String  experimentname,
+        Integer datasetId,
+        String  datasetName,
+        String  datesetDescription,
+        String  experimentType,
+        String  experimentName,
         String  datatype,
-        String  datasetstate,
+        String  datasetState,
         String  location,
-        String  countrycode,
-        String  countryname,
-        Integer licenseid,
-        String  licensename,
+        String  countryCode,
+        String  countryName,
+        Integer licenseId,
+        String  licenseName,
         String  contact,
-        Date    startdate,
-        Date    enddate,
-        ULong   dataobjectcount,
-        ULong   datapointcount,
-        Byte    isexternal,
-        String  acceptedby
+        Date    startDate,
+        Date    endDate,
+        ULong   dataObjectCount,
+        ULong   dataPointCount,
+        Boolean isExternal,
+        String  acceptedBy
     ) {
-        this.datasetid = datasetid;
-        this.datasetname = datasetname;
-        this.datesetdescription = datesetdescription;
-        this.experimenttype = experimenttype;
-        this.experimentname = experimentname;
+        this.datasetId = datasetId;
+        this.datasetName = datasetName;
+        this.datesetDescription = datesetDescription;
+        this.experimentType = experimentType;
+        this.experimentName = experimentName;
         this.datatype = datatype;
-        this.datasetstate = datasetstate;
+        this.datasetState = datasetState;
         this.location = location;
-        this.countrycode = countrycode;
-        this.countryname = countryname;
-        this.licenseid = licenseid;
-        this.licensename = licensename;
+        this.countryCode = countryCode;
+        this.countryName = countryName;
+        this.licenseId = licenseId;
+        this.licenseName = licenseName;
         this.contact = contact;
-        this.startdate = startdate;
-        this.enddate = enddate;
-        this.dataobjectcount = dataobjectcount;
-        this.datapointcount = datapointcount;
-        this.isexternal = isexternal;
-        this.acceptedby = acceptedby;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dataObjectCount = dataObjectCount;
+        this.dataPointCount = dataPointCount;
+        this.isExternal = isExternal;
+        this.acceptedBy = acceptedBy;
     }
 
-    public Integer getDatasetid() {
-        return this.datasetid;
+    public Integer getDatasetId() {
+        return this.datasetId;
     }
 
-    public void setDatasetid(Integer datasetid) {
-        this.datasetid = datasetid;
+    public void setDatasetId(Integer datasetId) {
+        this.datasetId = datasetId;
     }
 
-    public String getDatasetname() {
-        return this.datasetname;
+    public String getDatasetName() {
+        return this.datasetName;
     }
 
-    public void setDatasetname(String datasetname) {
-        this.datasetname = datasetname;
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
     }
 
-    public String getDatesetdescription() {
-        return this.datesetdescription;
+    public String getDatesetDescription() {
+        return this.datesetDescription;
     }
 
-    public void setDatesetdescription(String datesetdescription) {
-        this.datesetdescription = datesetdescription;
+    public void setDatesetDescription(String datesetDescription) {
+        this.datesetDescription = datesetDescription;
     }
 
-    public String getExperimenttype() {
-        return this.experimenttype;
+    public String getExperimentType() {
+        return this.experimentType;
     }
 
-    public void setExperimenttype(String experimenttype) {
-        this.experimenttype = experimenttype;
+    public void setExperimentType(String experimentType) {
+        this.experimentType = experimentType;
     }
 
-    public String getExperimentname() {
-        return this.experimentname;
+    public String getExperimentName() {
+        return this.experimentName;
     }
 
-    public void setExperimentname(String experimentname) {
-        this.experimentname = experimentname;
+    public void setExperimentName(String experimentName) {
+        this.experimentName = experimentName;
     }
 
     public String getDatatype() {
@@ -162,12 +162,12 @@ public class ViewTableDatasets implements Serializable {
         this.datatype = datatype;
     }
 
-    public String getDatasetstate() {
-        return this.datasetstate;
+    public String getDatasetState() {
+        return this.datasetState;
     }
 
-    public void setDatasetstate(String datasetstate) {
-        this.datasetstate = datasetstate;
+    public void setDatasetState(String datasetState) {
+        this.datasetState = datasetState;
     }
 
     public String getLocation() {
@@ -178,36 +178,36 @@ public class ViewTableDatasets implements Serializable {
         this.location = location;
     }
 
-    public String getCountrycode() {
-        return this.countrycode;
+    public String getCountryCode() {
+        return this.countryCode;
     }
 
-    public void setCountrycode(String countrycode) {
-        this.countrycode = countrycode;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
-    public String getCountryname() {
-        return this.countryname;
+    public String getCountryName() {
+        return this.countryName;
     }
 
-    public void setCountryname(String countryname) {
-        this.countryname = countryname;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
-    public Integer getLicenseid() {
-        return this.licenseid;
+    public Integer getLicenseId() {
+        return this.licenseId;
     }
 
-    public void setLicenseid(Integer licenseid) {
-        this.licenseid = licenseid;
+    public void setLicenseId(Integer licenseId) {
+        this.licenseId = licenseId;
     }
 
-    public String getLicensename() {
-        return this.licensename;
+    public String getLicenseName() {
+        return this.licenseName;
     }
 
-    public void setLicensename(String licensename) {
-        this.licensename = licensename;
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
     }
 
     public String getContact() {
@@ -218,77 +218,77 @@ public class ViewTableDatasets implements Serializable {
         this.contact = contact;
     }
 
-    public Date getStartdate() {
-        return this.startdate;
+    public Date getStartDate() {
+        return this.startDate;
     }
 
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnddate() {
-        return this.enddate;
+    public Date getEndDate() {
+        return this.endDate;
     }
 
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public ULong getDataobjectcount() {
-        return this.dataobjectcount;
+    public ULong getDataObjectCount() {
+        return this.dataObjectCount;
     }
 
-    public void setDataobjectcount(ULong dataobjectcount) {
-        this.dataobjectcount = dataobjectcount;
+    public void setDataObjectCount(ULong dataObjectCount) {
+        this.dataObjectCount = dataObjectCount;
     }
 
-    public ULong getDatapointcount() {
-        return this.datapointcount;
+    public ULong getDataPointCount() {
+        return this.dataPointCount;
     }
 
-    public void setDatapointcount(ULong datapointcount) {
-        this.datapointcount = datapointcount;
+    public void setDataPointCount(ULong dataPointCount) {
+        this.dataPointCount = dataPointCount;
     }
 
-    public Byte getIsexternal() {
-        return this.isexternal;
+    public Boolean getIsExternal() {
+        return this.isExternal;
     }
 
-    public void setIsexternal(Byte isexternal) {
-        this.isexternal = isexternal;
+    public void setIsExternal(Boolean isExternal) {
+        this.isExternal = isExternal;
     }
 
-    public String getAcceptedby() {
-        return this.acceptedby;
+    public String getAcceptedBy() {
+        return this.acceptedBy;
     }
 
-    public void setAcceptedby(String acceptedby) {
-        this.acceptedby = acceptedby;
+    public void setAcceptedBy(String acceptedBy) {
+        this.acceptedBy = acceptedBy;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableDatasets (");
 
-        sb.append(datasetid);
-        sb.append(", ").append(datasetname);
-        sb.append(", ").append(datesetdescription);
-        sb.append(", ").append(experimenttype);
-        sb.append(", ").append(experimentname);
+        sb.append(datasetId);
+        sb.append(", ").append(datasetName);
+        sb.append(", ").append(datesetDescription);
+        sb.append(", ").append(experimentType);
+        sb.append(", ").append(experimentName);
         sb.append(", ").append(datatype);
-        sb.append(", ").append(datasetstate);
+        sb.append(", ").append(datasetState);
         sb.append(", ").append(location);
-        sb.append(", ").append(countrycode);
-        sb.append(", ").append(countryname);
-        sb.append(", ").append(licenseid);
-        sb.append(", ").append(licensename);
+        sb.append(", ").append(countryCode);
+        sb.append(", ").append(countryName);
+        sb.append(", ").append(licenseId);
+        sb.append(", ").append(licenseName);
         sb.append(", ").append(contact);
-        sb.append(", ").append(startdate);
-        sb.append(", ").append(enddate);
-        sb.append(", ").append(dataobjectcount);
-        sb.append(", ").append(datapointcount);
-        sb.append(", ").append(isexternal);
-        sb.append(", ").append(acceptedby);
+        sb.append(", ").append(startDate);
+        sb.append(", ").append(endDate);
+        sb.append(", ").append(dataObjectCount);
+        sb.append(", ").append(dataPointCount);
+        sb.append(", ").append(isExternal);
+        sb.append(", ").append(acceptedBy);
 
         sb.append(")");
         return sb.toString();

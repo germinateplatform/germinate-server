@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.importer;
+package jhi.germinate.server.resource.importers;
 
 import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;

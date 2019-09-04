@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comments extends TableImpl<CommentsRecord> {
 
-    private static final long serialVersionUID = 1875649038;
+    private static final long serialVersionUID = -1049005575;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.comments</code>
@@ -73,7 +73,7 @@ public class Comments extends TableImpl<CommentsRecord> {
     /**
      * The column <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
-    public final TableField<CommentsRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT, this, "Defines if the comment is available or masked (hidden) from the interface.");
+    public final TableField<CommentsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN, this, "Defines if the comment is available or masked (hidden) from the interface.");
 
     /**
      * The column <code>germinate_template_3_7_0.comments.description</code>. The comment content.

@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets implements Serializable {
 
-    private static final long serialVersionUID = -67230698;
+    private static final long serialVersionUID = 1087027230;
 
     private Integer   id;
     private Integer   experimentId;
@@ -43,7 +43,7 @@ public class Datasets implements Serializable {
     private Integer   createdBy;
     private Integer   datasetStateId;
     private Integer   licenseId;
-    private Byte      isExternal;
+    private Boolean   isExternal;
     private String    hyperlink;
     private Timestamp createdOn;
     private Timestamp updatedOn;
@@ -88,7 +88,7 @@ public class Datasets implements Serializable {
         Integer   createdBy,
         Integer   datasetStateId,
         Integer   licenseId,
-        Byte      isExternal,
+        Boolean   isExternal,
         String    hyperlink,
         Timestamp createdOn,
         Timestamp updatedOn,
@@ -237,11 +237,11 @@ public class Datasets implements Serializable {
         this.licenseId = licenseId;
     }
 
-    public Byte getIsExternal() {
+    public Boolean getIsExternal() {
         return this.isExternal;
     }
 
-    public void setIsExternal(Byte isExternal) {
+    public void setIsExternal(Boolean isExternal) {
         this.isExternal = isExternal;
     }
 

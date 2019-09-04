@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climateoverlays implements Serializable {
 
-    private static final long serialVersionUID = 1050563180;
+    private static final long serialVersionUID = -759475152;
 
     private Integer   id;
     private Integer   climateId;
@@ -34,7 +34,7 @@ public class Climateoverlays implements Serializable {
     private Double    bottomLeftLatitude;
     private Double    topRightLongitude;
     private Double    topRightLatitude;
-    private Byte      isLegend;
+    private Boolean   isLegend;
     private String    description;
     private Timestamp createdOn;
     private Timestamp updatedOn;
@@ -63,7 +63,7 @@ public class Climateoverlays implements Serializable {
         Double    bottomLeftLatitude,
         Double    topRightLongitude,
         Double    topRightLatitude,
-        Byte      isLegend,
+        Boolean   isLegend,
         String    description,
         Timestamp createdOn,
         Timestamp updatedOn
@@ -137,11 +137,11 @@ public class Climateoverlays implements Serializable {
         this.topRightLatitude = topRightLatitude;
     }
 
-    public Byte getIsLegend() {
+    public Boolean getIsLegend() {
         return this.isLegend;
     }
 
-    public void setIsLegend(Byte isLegend) {
+    public void setIsLegend(Boolean isLegend) {
         this.isLegend = isLegend;
     }
 

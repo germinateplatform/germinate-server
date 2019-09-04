@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Groups extends TableImpl<GroupsRecord> {
 
-    private static final long serialVersionUID = 594607594;
+    private static final long serialVersionUID = 807555135;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.groups</code>
@@ -79,7 +79,7 @@ public class Groups extends TableImpl<GroupsRecord> {
     /**
      * The column <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
-    public final TableField<GroupsRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT, this, "Defines if the group is visuble or hidden from the Germinate user interface.");
+    public final TableField<GroupsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN, this, "Defines if the group is visuble or hidden from the Germinate user interface.");
 
     /**
      * The column <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).

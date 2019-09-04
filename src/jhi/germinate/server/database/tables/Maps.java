@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Maps extends TableImpl<MapsRecord> {
 
-    private static final long serialVersionUID = -1248352217;
+    private static final long serialVersionUID = -979476289;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.maps</code>
@@ -72,7 +72,7 @@ public class Maps extends TableImpl<MapsRecord> {
     /**
      * The column <code>germinate_template_3_7_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
-    public final TableField<MapsRecord, Byte> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.TINYINT)), this, "Determines if the map is visible to the Germinate interface or hidden.");
+    public final TableField<MapsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Determines if the map is visible to the Germinate interface or hidden.");
 
     /**
      * The column <code>germinate_template_3_7_0.maps.created_on</code>. When the record was created.

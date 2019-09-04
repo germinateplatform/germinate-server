@@ -14,11 +14,12 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
-import jhi.germinate.server.resource.group.*;
-import jhi.germinate.server.resource.image.ImageSourceResource;
-import jhi.germinate.server.resource.importer.*;
+import jhi.germinate.server.resource.groups.*;
+import jhi.germinate.server.resource.images.ImageSourceResource;
+import jhi.germinate.server.resource.importers.*;
+import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
-import jhi.germinate.server.resource.markers.MapMarkerDefinitionTableResource;
+import jhi.germinate.server.resource.markers.*;
 import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.OverviewStatsResource;
 
@@ -100,32 +101,64 @@ public class Germinate extends Application
 		corsFilter.setAllowedCredentials(true);
 
 		// Attach the url handlers
+		// DATA IMPORT
+		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
+		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
+
+		// DATASETS
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
+		attachToRouter(routerAuth, "/dataset/table/ids", DatasetTableIdResource.class);
+
+		// GERMPLASM
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
+
+		// GROUPS
 		attachToRouter(routerAuth, "/group/table", GroupTableResource.class);
 		attachToRouter(routerAuth, "/group", GroupResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}", GroupResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/germplasm", GermplasmGroupTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/germplasm/ids", GermplasmGroupTableIdResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/location", LocationGroupTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/location/ids", LocationGroupTableIdResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/marker", MarkerGroupTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/marker/ids", MarkerGroupTableIdResource.class);
 		attachToRouter(routerAuth, "/grouptype", GroupTypeResource.class);
+
+		// IMAGES
 //		attachToRouter(routerAuth, "/image", ImageResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
 		attachToRouter(routerAuth, "/image/src", ImageSourceResource.class);
+
+		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
+
+		// LOCATIONS
+		attachToRouter(routerAuth, "/location/table", LocationTableResource.class);
+		attachToRouter(routerAuth, "/location/table/ids", LocationTableIdResource.class);
+
+		// MAPS
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);
 		attachToRouter(routerAuth, "/map", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/export", MapExportResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/mapdefinition/table", MapMarkerDefinitionTableResource.class);
+
+		// MARKERS
+		attachToRouter(routerAuth, "/marker/table", MarkerTableResource.class);
+
+		// STATS
 		attachToRouter(routerAuth, "/stats/overview", OverviewStatsResource.class);
+
+		// SETTINGS
 		attachToRouter(routerAuth, "/settings/write", SettingsWriterResource.class);
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
+
+		// UNAUTH
 		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);
 		attachToRouter(routerUnauth, "/settings", SettingsResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
-
-		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
-		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
 
 		// CORS first, then encoder
 		corsFilter.setNext(routerUnauth);

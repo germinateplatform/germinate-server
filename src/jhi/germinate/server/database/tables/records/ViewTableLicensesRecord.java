@@ -28,14 +28,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRecord> implements Record6<Integer, String, String, String, String, String> {
 
-    private static final long serialVersionUID = -1816829304;
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
-     */
-    public void setLicenseid(Integer value) {
-        set(0, value);
-    }
+    private static final long serialVersionUID = 1956842292;
 
     /**
      * Create a detached ViewTableLicensesRecord
@@ -45,80 +38,87 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
-     */
-    public void setLicensename(String value) {
-        set(1, value);
-    }
-
-    /**
      * Create a detached, initialised ViewTableLicensesRecord
      */
-    public ViewTableLicensesRecord(Integer licenseid, String licensename, String licensedescription, String licensecontent, String localename, String localedescription) {
+    public ViewTableLicensesRecord(Integer licenseId, String licenseName, String licenseDescription, String licenseContent, String localeName, String localeDescription) {
         super(ViewTableLicenses.VIEW_TABLE_LICENSES);
 
-        set(0, licenseid);
-        set(1, licensename);
-        set(2, licensedescription);
-        set(3, licensecontent);
-        set(4, localename);
-        set(5, localedescription);
+        set(0, licenseId);
+        set(1, licenseName);
+        set(2, licenseDescription);
+        set(3, licenseContent);
+        set(4, localeName);
+        set(5, localeDescription);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseDescription</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
      */
-    public void setLicensedescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseId</code>.
-     */
-    public Integer getLicenseid() {
+    public Integer getLicenseId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.licenseContent</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
      */
-    public void setLicensecontent(String value) {
-        set(3, value);
+    public void setLicenseId(Integer value) {
+        set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseName</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
      */
-    public String getLicensename() {
+    public String getLicenseName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.localeName</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
      */
-    public void setLocalename(String value) {
-        set(4, value);
+    public void setLicenseName(String value) {
+        set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseDescription</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
      */
-    public String getLicensedescription() {
+    public String getLicenseDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.localeDescription</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
      */
-    public void setLocaledescription(String value) {
-        set(5, value);
+    public void setLicenseDescription(String value) {
+        set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.licenseContent</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
      */
-    public String getLicensecontent() {
+    public String getLicenseContent() {
         return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
+     */
+    public void setLicenseContent(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
+     */
+    public String getLocaleName() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
+     */
+    public void setLocaleName(String value) {
+        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -142,11 +142,25 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
+     */
+    public String getLocaleDescription() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
+     */
+    public void setLocaleDescription(String value) {
+        set(5, value);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public Field<Integer> field1() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSEID;
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSE_ID;
     }
 
     /**
@@ -154,7 +168,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Field<String> field2() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSENAME;
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSE_NAME;
     }
 
     /**
@@ -162,7 +176,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Field<String> field3() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSEDESCRIPTION;
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSE_DESCRIPTION;
     }
 
     /**
@@ -170,7 +184,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Field<String> field4() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSECONTENT;
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.LICENSE_CONTENT;
     }
 
     /**
@@ -178,7 +192,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Field<String> field5() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.LOCALENAME;
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.LOCALE_NAME;
     }
 
     /**
@@ -186,7 +200,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Field<String> field6() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.LOCALEDESCRIPTION;
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.LOCALE_DESCRIPTION;
     }
 
     /**
@@ -194,7 +208,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Integer component1() {
-        return getLicenseid();
+        return getLicenseId();
     }
 
     /**
@@ -202,7 +216,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String component2() {
-        return getLicensename();
+        return getLicenseName();
     }
 
     /**
@@ -210,7 +224,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String component3() {
-        return getLicensedescription();
+        return getLicenseDescription();
     }
 
     /**
@@ -218,7 +232,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String component4() {
-        return getLicensecontent();
+        return getLicenseContent();
     }
 
     /**
@@ -226,7 +240,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String component5() {
-        return getLocalename();
+        return getLocaleName();
     }
 
     /**
@@ -234,7 +248,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String component6() {
-        return getLocaledescription();
+        return getLocaleDescription();
     }
 
     /**
@@ -242,7 +256,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public Integer value1() {
-        return getLicenseid();
+        return getLicenseId();
     }
 
     /**
@@ -250,7 +264,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String value2() {
-        return getLicensename();
+        return getLicenseName();
     }
 
     /**
@@ -258,7 +272,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String value3() {
-        return getLicensedescription();
+        return getLicenseDescription();
     }
 
     /**
@@ -266,7 +280,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String value4() {
-        return getLicensecontent();
+        return getLicenseContent();
     }
 
     /**
@@ -274,7 +288,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String value5() {
-        return getLocalename();
+        return getLocaleName();
     }
 
     /**
@@ -282,7 +296,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public String value6() {
-        return getLocaledescription();
+        return getLocaleDescription();
     }
 
     /**
@@ -290,7 +304,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public ViewTableLicensesRecord value1(Integer value) {
-        setLicenseid(value);
+        setLicenseId(value);
         return this;
     }
 
@@ -299,7 +313,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public ViewTableLicensesRecord value2(String value) {
-        setLicensename(value);
+        setLicenseName(value);
         return this;
     }
 
@@ -308,7 +322,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public ViewTableLicensesRecord value3(String value) {
-        setLicensedescription(value);
+        setLicenseDescription(value);
         return this;
     }
 
@@ -317,25 +331,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     @Override
     public ViewTableLicensesRecord value4(String value) {
-        setLicensecontent(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ViewTableLicensesRecord value5(String value) {
-        setLocalename(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ViewTableLicensesRecord value6(String value) {
-        setLocaledescription(value);
+        setLicenseContent(value);
         return this;
     }
 
@@ -358,17 +354,21 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.localeName</code>.
+     * {@inheritDoc}
      */
-    public String getLocalename() {
-        return (String) get(4);
+    @Override
+    public ViewTableLicensesRecord value5(String value) {
+        setLocaleName(value);
+        return this;
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.localeDescription</code>.
+     * {@inheritDoc}
      */
-    public String getLocaledescription() {
-        return (String) get(5);
+    @Override
+    public ViewTableLicensesRecord value6(String value) {
+        setLocaleDescription(value);
+        return this;
     }
 // @formatter:on
 }

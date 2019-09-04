@@ -34,31 +34,12 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroups extends TableImpl<ViewTableGroupsRecord> {
 
-    private static final long serialVersionUID = 1157444915;
+    private static final long serialVersionUID = 1777847886;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_groups</code>
      */
     public static final ViewTableGroups VIEW_TABLE_GROUPS = new ViewTableGroups();
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.groupTypeId</code>.
-     */
-    public final TableField<ViewTableGroupsRecord, Integer> GROUPTYPEID = createField("groupTypeId", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.groupId</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public final TableField<ViewTableGroupsRecord, Integer> GROUPID = createField("groupId", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
-
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.groupName</code>. The name of the group which can be used to identify it.
-     */
-    public final TableField<ViewTableGroupsRecord, String> GROUPNAME = createField("groupName", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the group which can be used to identify it.");
-
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.groupDescription</code>. A free text description of the group. This has no length limitations.
-     */
-    public final TableField<ViewTableGroupsRecord, String> GROUPDESCRIPTION = createField("groupDescription", org.jooq.impl.SQLDataType.CLOB, this, "A free text description of the group. This has no length limitations.");
 
     /**
      * The class holding records for this type
@@ -69,29 +50,49 @@ public class ViewTableGroups extends TableImpl<ViewTableGroupsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.groupType</code>.
+     * The column <code>germinate_template_3_7_0.view_table_groups.group_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public final TableField<ViewTableGroupsRecord, String> GROUPTYPE = createField("groupType", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+    public final TableField<ViewTableGroupsRecord, Integer> GROUP_ID = createField("group_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.userId</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
      */
-    public final TableField<ViewTableGroupsRecord, Integer> USERID = createField("userId", org.jooq.impl.SQLDataType.INTEGER, this, "Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).");
+    public final TableField<ViewTableGroupsRecord, String> GROUP_NAME = createField("group_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the group which can be used to identify it.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.groupVisibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * The column <code>germinate_template_3_7_0.view_table_groups.group_description</code>. A free text description of the group. This has no length limitations.
      */
-    public final TableField<ViewTableGroupsRecord, Byte> GROUPVISIBILITY = createField("groupVisibility", org.jooq.impl.SQLDataType.TINYINT, this, "Defines if the group is visuble or hidden from the Germinate user interface.");
+    public final TableField<ViewTableGroupsRecord, String> GROUP_DESCRIPTION = createField("group_description", org.jooq.impl.SQLDataType.CLOB, this, "A free text description of the group. This has no length limitations.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.createdOn</code>. Foreign key to locations (locations.id).
+     * The column <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
      */
-    public final TableField<ViewTableGroupsRecord, Timestamp> CREATEDON = createField("createdOn", org.jooq.impl.SQLDataType.TIMESTAMP, this, "Foreign key to locations (locations.id).");
+    public final TableField<ViewTableGroupsRecord, Integer> GROUP_TYPE_ID = createField("group_type_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_groups.updatedOn</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
      */
-    public final TableField<ViewTableGroupsRecord, Timestamp> UPDATEDON = createField("updatedOn", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
+    public final TableField<ViewTableGroupsRecord, String> GROUP_TYPE = createField("group_type", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public final TableField<ViewTableGroupsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     */
+    public final TableField<ViewTableGroupsRecord, Boolean> GROUP_VISIBILITY = createField("group_visibility", org.jooq.impl.SQLDataType.BOOLEAN, this, "Defines if the group is visuble or hidden from the Germinate user interface.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
+     */
+    public final TableField<ViewTableGroupsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "Foreign key to locations (locations.id).");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public final TableField<ViewTableGroupsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_groups.count</code>.

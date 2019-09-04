@@ -26,14 +26,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Links implements Serializable {
 
-    private static final long serialVersionUID = 1365314266;
+    private static final long serialVersionUID = 1040725032;
 
     private Integer   id;
     private Integer   linktypeId;
     private Integer   foreignId;
     private String    hyperlink;
     private String    description;
-    private Byte      visibility;
+    private Boolean   visibility;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -56,7 +56,7 @@ public class Links implements Serializable {
         Integer   foreignId,
         String    hyperlink,
         String    description,
-        Byte      visibility,
+        Boolean   visibility,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -110,11 +110,11 @@ public class Links implements Serializable {
         this.description = description;
     }
 
-    public Byte getVisibility() {
+    public Boolean getVisibility() {
         return this.visibility;
     }
 
-    public void setVisibility(Byte visibility) {
+    public void setVisibility(Boolean visibility) {
         this.visibility = visibility;
     }
 

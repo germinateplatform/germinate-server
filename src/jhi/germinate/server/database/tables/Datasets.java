@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets extends TableImpl<DatasetsRecord> {
 
-    private static final long serialVersionUID = -167060999;
+    private static final long serialVersionUID = 1249243159;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasets</code>
@@ -131,7 +131,7 @@ public class Datasets extends TableImpl<DatasetsRecord> {
     /**
      * The column <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
-    public final TableField<DatasetsRecord, Byte> IS_EXTERNAL = createField("is_external", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "Defines if the dataset is contained within Germinate or from an external source and not stored in the database.");
+    public final TableField<DatasetsRecord, Boolean> IS_EXTERNAL = createField("is_external", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Defines if the dataset is contained within Germinate or from an external source and not stored in the database.");
 
     /**
      * The column <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.

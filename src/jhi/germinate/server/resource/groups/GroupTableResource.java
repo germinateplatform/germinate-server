@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.group;
+package jhi.germinate.server.resource.groups;
 
 import org.jooq.*;
 import org.restlet.data.Status;
@@ -37,8 +37,8 @@ public class GroupTableResource extends PaginatedServerResource implements Filte
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GROUPS);
 
-			from.where(VIEW_TABLE_GROUPS.GROUPVISIBILITY.eq((byte) 1)
-														.or(VIEW_TABLE_GROUPS.USERID.eq(userDetails.getId())));
+			from.where(VIEW_TABLE_GROUPS.GROUP_VISIBILITY.eq(true)
+														.or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
 			filter(from, filters);

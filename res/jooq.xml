@@ -21,6 +21,20 @@
 			<includes>.*</includes>
 			<inputSchema>germinate_template_3_7_0</inputSchema>
 			<name>org.jooq.meta.mysql.MySQLDatabase</name>
+
+			<forcedTypes>
+				<forcedType>
+					<binding>jhi.germinate.server.util.SynonymBinding</binding>
+					<expression>.*\..*(synonym).*</expression>
+					<types>.*json.*</types>
+					<userType>com.google.gson.JsonArray</userType>
+				</forcedType>
+				<forcedType>
+					<expression>.*</expression>
+					<name>BOOLEAN</name>
+					<types>.*tinyint.*</types>
+				</forcedType>
+			</forcedTypes>
 		</database>
 
 		<name>jhi.germinate.util.CustomCodegen</name>

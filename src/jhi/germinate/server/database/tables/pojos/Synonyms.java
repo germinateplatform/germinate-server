@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
+import com.google.gson.JsonArray;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -25,12 +27,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Synonyms implements Serializable {
 
-    private static final long serialVersionUID = 90175617;
+    private static final long serialVersionUID = -2069393053;
 
     private Integer   id;
     private Integer   foreignId;
     private Integer   synonymtypeId;
-    private Object    synonyms;
+    private JsonArray synonyms;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -49,7 +51,7 @@ public class Synonyms implements Serializable {
         Integer   id,
         Integer   foreignId,
         Integer   synonymtypeId,
-        Object    synonyms,
+        JsonArray synonyms,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -85,21 +87,11 @@ public class Synonyms implements Serializable {
         this.synonymtypeId = synonymtypeId;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public Object getSynonyms() {
+    public JsonArray getSynonyms() {
         return this.synonyms;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setSynonyms(Object synonyms) {
+    public void setSynonyms(JsonArray synonyms) {
         this.synonyms = synonyms;
     }
 
