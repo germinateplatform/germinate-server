@@ -26,11 +26,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1401536103;
+    private static final long serialVersionUID = 1784355371;
 
     private Integer datasetId;
     private String  datasetName;
     private String  datesetDescription;
+    private String  hyperlink;
     private String  experimentType;
     private String  experimentName;
     private String  datatype;
@@ -54,6 +55,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetId = value.datasetId;
         this.datasetName = value.datasetName;
         this.datesetDescription = value.datesetDescription;
+        this.hyperlink = value.hyperlink;
         this.experimentType = value.experimentType;
         this.experimentName = value.experimentName;
         this.datatype = value.datatype;
@@ -76,6 +78,7 @@ public class ViewTableDatasets implements Serializable {
         Integer datasetId,
         String  datasetName,
         String  datesetDescription,
+        String  hyperlink,
         String  experimentType,
         String  experimentName,
         String  datatype,
@@ -96,6 +99,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetId = datasetId;
         this.datasetName = datasetName;
         this.datesetDescription = datesetDescription;
+        this.hyperlink = hyperlink;
         this.experimentType = experimentType;
         this.experimentName = experimentName;
         this.datatype = datatype;
@@ -136,6 +140,14 @@ public class ViewTableDatasets implements Serializable {
 
     public void setDatesetDescription(String datesetDescription) {
         this.datesetDescription = datesetDescription;
+    }
+
+    public String getHyperlink() {
+        return this.hyperlink;
+    }
+
+    public void setHyperlink(String hyperlink) {
+        this.hyperlink = hyperlink;
     }
 
     public String getExperimentType() {
@@ -273,6 +285,7 @@ public class ViewTableDatasets implements Serializable {
         sb.append(datasetId);
         sb.append(", ").append(datasetName);
         sb.append(", ").append(datesetDescription);
+        sb.append(", ").append(hyperlink);
         sb.append(", ").append(experimentType);
         sb.append(", ").append(experimentName);
         sb.append(", ").append(datatype);

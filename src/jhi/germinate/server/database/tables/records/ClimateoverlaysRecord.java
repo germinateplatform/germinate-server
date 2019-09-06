@@ -173,17 +173,17 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(9, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
     public Boolean getIsLegend() {
         return (Boolean) get(7);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(9);
     }
 
     /**
@@ -194,10 +194,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(9, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -596,27 +596,6 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      * {@inheritDoc}
      */
     @Override
-    public Boolean value8() {
-        return getIsLegend();
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ClimateoverlaysRecord value8(Boolean value) {
-        setIsLegend(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ClimateoverlaysRecord values(Integer value1, Integer value2, String value3, Double value4, Double value5, Double value6, Double value7, Boolean value8, String value9, Timestamp value10, Timestamp value11) {
         value1(value1);
         value2(value2);
@@ -629,6 +608,27 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
         value9(value9);
         value10(value10);
         value11(value11);
+        return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean value8() {
+        return getIsLegend();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ClimateoverlaysRecord value8(Boolean value) {
+        setIsLegend(value);
         return this;
     }
 // @formatter:on

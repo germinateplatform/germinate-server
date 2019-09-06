@@ -46,6 +46,7 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
      * The reference instance of <code>germinate_template_3_7_0.climateoverlays</code>
      */
     public static final Climateoverlays CLIMATEOVERLAYS = new Climateoverlays();
+
     /**
      * The column <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */

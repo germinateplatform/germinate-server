@@ -40,6 +40,20 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getGroupId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
+     */
+    public void setGroupName(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised ViewTableGroupsRecord
      */
     public ViewTableGroupsRecord(Integer groupId, String groupName, String groupDescription, Integer groupTypeId, String groupType, Integer userId, Boolean groupVisibility, Timestamp createdOn, Timestamp updatedOn, Long count) {
@@ -58,10 +72,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_description</code>. A free text description of the group. This has no length limitations.
      */
-    public Integer getGroupId() {
-        return (Integer) get(0);
+    public void setGroupDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -79,10 +93,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
      */
-    public void setGroupName(String value) {
-        set(1, value);
+    public Integer getGroupTypeId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -93,45 +107,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_description</code>. A free text description of the group. This has no length limitations.
-     */
-    public void setGroupDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
-     */
-    public Integer getGroupTypeId() {
-        return (Integer) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
-     */
-    public void setGroupTypeId(Integer value) {
-        set(3, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
      */
     public String getGroupType() {
         return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
-     */
-    public void setGroupType(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
-     */
-    public Integer getUserId() {
-        return (Integer) get(5);
     }
 
     /**
@@ -142,10 +121,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
      */
-    public Boolean getGroupVisibility() {
-        return (Boolean) get(6);
+    public void setGroupTypeId(Integer value) {
+        set(3, value);
     }
 
     /**
@@ -156,10 +135,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
      */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
+    public void setGroupType(String value) {
+        set(4, value);
     }
 
     /**
@@ -170,10 +149,31 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getUserId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     */
+    public Boolean getGroupVisibility() {
+        return (Boolean) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -186,20 +186,6 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     // -------------------------------------------------------------------------
     // Record10 type implementation
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(8, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.count</code>.
-     */
-    public void setCount(Long value) {
-        set(9, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -524,23 +510,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
      * {@inheritDoc}
      */
     @Override
-    public ViewTableGroupsRecord value10(Long value) {
-        setCount(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ViewTableGroupsRecord value8(Timestamp value) {
         setCreatedOn(value);
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -549,6 +522,13 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     public ViewTableGroupsRecord value9(Timestamp value) {
         setUpdatedOn(value);
         return this;
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(8, value);
     }
 
     /**
@@ -566,6 +546,26 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
         value8(value8);
         value9(value9);
         value10(value10);
+        return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.count</code>.
+     */
+    public void setCount(Long value) {
+        set(9, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ViewTableGroupsRecord value10(Long value) {
+        setCount(value);
         return this;
     }
 // @formatter:on

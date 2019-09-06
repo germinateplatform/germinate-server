@@ -453,8 +453,16 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      * {@inheritDoc}
      */
     @Override
-    public Boolean value6() {
-        return getVisibility();
+    public LinksRecord values(Integer value1, Integer value2, Integer value3, String value4, String value5, Boolean value6, Timestamp value7, Timestamp value8) {
+        value1(value1);
+        value2(value2);
+        value3(value3);
+        value4(value4);
+        value5(value5);
+        value6(value6);
+        value7(value7);
+        value8(value8);
+        return this;
     }
 
     // -------------------------------------------------------------------------
@@ -465,24 +473,16 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      * {@inheritDoc}
      */
     @Override
-    public LinksRecord value6(Boolean value) {
-        setVisibility(value);
-        return this;
+    public Boolean value6() {
+        return getVisibility();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public LinksRecord values(Integer value1, Integer value2, Integer value3, String value4, String value5, Boolean value6, Timestamp value7, Timestamp value8) {
-        value1(value1);
-        value2(value2);
-        value3(value3);
-        value4(value4);
-        value5(value5);
-        value6(value6);
-        value7(value7);
-        value8(value8);
+    public LinksRecord value6(Boolean value) {
+        setVisibility(value);
         return this;
     }
 // @formatter:on

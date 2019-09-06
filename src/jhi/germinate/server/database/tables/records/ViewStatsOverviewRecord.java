@@ -94,17 +94,17 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
+     */
+    public void setLocations(Long value) {
+        set(4, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
      */
     public void setGermplasm(Long value) {
         set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
-     */
-    public Long getLocations() {
-        return (Long) get(4);
     }
 
     /**
@@ -115,10 +115,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
      */
-    public void setLocations(Long value) {
-        set(4, value);
+    public Long getLocations() {
+        return (Long) get(4);
     }
 
     // -------------------------------------------------------------------------

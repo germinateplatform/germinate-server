@@ -405,8 +405,15 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      * {@inheritDoc}
      */
     @Override
-    public Boolean value5() {
-        return getIsFinal();
+    public MegaenvironmentdataRecord values(Integer value1, Integer value2, Integer value3, Integer value4, Boolean value5, Timestamp value6, Timestamp value7) {
+        value1(value1);
+        value2(value2);
+        value3(value3);
+        value4(value4);
+        value5(value5);
+        value6(value6);
+        value7(value7);
+        return this;
     }
 
     // -------------------------------------------------------------------------
@@ -417,23 +424,16 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      * {@inheritDoc}
      */
     @Override
-    public MegaenvironmentdataRecord value5(Boolean value) {
-        setIsFinal(value);
-        return this;
+    public Boolean value5() {
+        return getIsFinal();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public MegaenvironmentdataRecord values(Integer value1, Integer value2, Integer value3, Integer value4, Boolean value5, Timestamp value6, Timestamp value7) {
-        value1(value1);
-        value2(value2);
-        value3(value3);
-        value4(value4);
-        value5(value5);
-        value6(value6);
-        value7(value7);
+    public MegaenvironmentdataRecord value5(Boolean value) {
+        setIsFinal(value);
         return this;
     }
 // @formatter:on

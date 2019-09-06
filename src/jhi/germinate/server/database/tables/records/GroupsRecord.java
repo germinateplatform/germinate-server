@@ -453,8 +453,16 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      * {@inheritDoc}
      */
     @Override
-    public Boolean value5() {
-        return getVisibility();
+    public GroupsRecord values(Integer value1, Integer value2, String value3, String value4, Boolean value5, Integer value6, Timestamp value7, Timestamp value8) {
+        value1(value1);
+        value2(value2);
+        value3(value3);
+        value4(value4);
+        value5(value5);
+        value6(value6);
+        value7(value7);
+        value8(value8);
+        return this;
     }
 
     // -------------------------------------------------------------------------
@@ -465,24 +473,16 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      * {@inheritDoc}
      */
     @Override
-    public GroupsRecord value5(Boolean value) {
-        setVisibility(value);
-        return this;
+    public Boolean value5() {
+        return getVisibility();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GroupsRecord values(Integer value1, Integer value2, String value3, String value4, Boolean value5, Integer value6, Timestamp value7, Timestamp value8) {
-        value1(value1);
-        value2(value2);
-        value3(value3);
-        value4(value4);
-        value5(value5);
-        value6(value6);
-        value7(value7);
-        value8(value8);
+    public GroupsRecord value5(Boolean value) {
+        setVisibility(value);
         return this;
     }
 // @formatter:on

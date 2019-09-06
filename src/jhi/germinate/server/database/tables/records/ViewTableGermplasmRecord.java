@@ -43,6 +43,20 @@ public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasm
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getGermplasmId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
+     */
+    public void setGermplasmGid(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised ViewTableGermplasmRecord
      */
     public ViewTableGermplasmRecord(Integer germplasmId, String germplasmGid, String germplasmName, String germplasmNumber, String germplasmPuid, Integer entityTypeId, String entityTypeName, Integer biologicalStatusId, String biologicalStatusName, JsonArray synonyms, String collectorNumber, String genus, String species, String subtaxa, BigDecimal elevation, String countryName, String countryCode, Date collDate, Double pdci, Long imageCount, String firstImagePath) {
@@ -72,10 +86,10 @@ public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasm
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public Integer getGermplasmId() {
-        return (Integer) get(0);
+    public void setGermplasmName(String value) {
+        set(2, value);
     }
 
     /**
@@ -93,10 +107,11 @@ public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasm
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
+entered into the genebank collection (e.g. ‘PI 113869’).
      */
-    public void setGermplasmGid(String value) {
-        set(1, value);
+    public String getGermplasmNumber() {
+        return (String) get(3);
     }
 
     /**
@@ -107,18 +122,17 @@ public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasm
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
      */
-    public void setGermplasmName(String value) {
-        set(2, value);
+    public String getGermplasmPuid() {
+        return (String) get(4);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
-entered into the genebank collection (e.g. ‘PI 113869’).
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getGermplasmNumber() {
-        return (String) get(3);
+    public void setEntityTypeId(Integer value) {
+        set(5, value);
     }
 
     /**
@@ -130,10 +144,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.entity_type_name</code>. The name of the entity type.
      */
-    public String getGermplasmPuid() {
-        return (String) get(4);
+    public void setEntityTypeName(String value) {
+        set(6, value);
     }
 
     /**
@@ -144,17 +158,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setBiologicalStatusId(Integer value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getEntityTypeId() {
         return (Integer) get(5);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setEntityTypeId(Integer value) {
-        set(5, value);
     }
 
     /**
@@ -165,10 +179,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.entity_type_name</code>. The name of the entity type.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
      */
-    public void setEntityTypeName(String value) {
-        set(6, value);
+    public String getBiologicalStatusName() {
+        return (String) get(8);
     }
 
     /**
@@ -179,17 +193,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.synonyms</code>. The synonyms as a json array.
      */
-    public void setBiologicalStatusId(Integer value) {
-        set(7, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
-     */
-    public String getBiologicalStatusName() {
-        return (String) get(8);
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(9);
     }
 
     /**
@@ -200,10 +207,12 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.synonyms</code>. The synonyms as a json array.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
+identifying duplicates held in different collections.
      */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(9);
+    public String getCollectorNumber() {
+        return (String) get(10);
     }
 
     /**
@@ -211,15 +220,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
      */
     public void setSynonyms(JsonArray value) {
         set(9, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
-initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
-identifying duplicates held in different collections.
-     */
-    public String getCollectorNumber() {
-        return (String) get(10);
     }
 
     /**
@@ -244,40 +244,19 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public void setSubtaxa(String value) {
+        set(13, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
 initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
 identifying duplicates held in different collections.
      */
     public void setCollectorNumber(String value) {
         set(10, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
-     */
-    public String getSubtaxa() {
-        return (String) get(13);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(11, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
-     */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(14);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
-     */
-    public void setSubtaxa(String value) {
-        set(13, value);
     }
 
     /**
@@ -288,6 +267,20 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
+     */
+    public void setGenus(String value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public String getSubtaxa() {
+        return (String) get(13);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
      */
     public String getCountryName() {
@@ -295,10 +288,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
-    public void setCountryName(String value) {
-        set(15, value);
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(14);
     }
 
     /**
@@ -309,10 +302,24 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(15, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
      */
     public void setCountryCode(String value) {
         set(16, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(18, value);
     }
 
     /**
@@ -324,10 +331,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
      */
-    public Double getPdci() {
-        return (Double) get(18);
+    public void setImageCount(Long value) {
+        set(19, value);
     }
 
     /**
@@ -339,29 +346,11 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
      */
-    public void setPdci(Double value) {
-        set(18, value);
+    public Double getPdci() {
+        return (Double) get(18);
     }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
-     */
-    public Long getImageCount() {
-        return (Long) get(19);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
-     */
-    public void setImageCount(Long value) {
-        set(19, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Record21 type implementation
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
@@ -370,12 +359,9 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
         return (String) get(20);
     }
 
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
-     */
-    public void setFirstImagePath(String value) {
-        set(20, value);
-    }
+    // -------------------------------------------------------------------------
+    // Record21 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -466,6 +452,20 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
+     */
+    public Long getImageCount() {
+        return (Long) get(19);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
+     */
+    public void setFirstImagePath(String value) {
+        set(20, value);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -501,32 +501,8 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
-    public Field<JsonArray> field10() {
-        return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.SYNONYMS;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Field<String> field11() {
-        return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.COLLECTOR_NUMBER;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Field<String> field16() {
         return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.COUNTRY_NAME;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Field<Double> field19() {
-        return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.PDCI;
     }
 
     /**
@@ -543,6 +519,14 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     @Override
     public Field<Date> field18() {
         return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.COLL_DATE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Field<JsonArray> field10() {
+        return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.SYNONYMS;
     }
 
     /**
@@ -637,6 +621,22 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
+    public Field<String> field11() {
+        return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.COLLECTOR_NUMBER;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Field<Double> field19() {
+        return ViewTableGermplasm.VIEW_TABLE_GERMPLASM.PDCI;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String component12() {
         return getGenus();
     }
@@ -669,32 +669,8 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
-    public JsonArray component10() {
-        return getSynonyms();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String component11() {
-        return getCollectorNumber();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String component16() {
         return getCountryName();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double component19() {
-        return getPdci();
     }
 
     /**
@@ -711,6 +687,14 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     @Override
     public Date component18() {
         return getCollDate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonArray component10() {
+        return getSynonyms();
     }
 
     /**
@@ -805,6 +789,22 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
+    public String component11() {
+        return getCollectorNumber();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double component19() {
+        return getPdci();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String value12() {
         return getGenus();
     }
@@ -837,32 +837,8 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
-    public JsonArray value10() {
-        return getSynonyms();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String value11() {
-        return getCollectorNumber();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String value16() {
         return getCountryName();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double value19() {
-        return getPdci();
     }
 
     /**
@@ -879,6 +855,14 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     @Override
     public Date value18() {
         return getCollDate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonArray value10() {
+        return getSynonyms();
     }
 
     /**
@@ -982,6 +966,22 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
+    public String value11() {
+        return getCollectorNumber();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double value19() {
+        return getPdci();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ViewTableGermplasmRecord value12(String value) {
         setGenus(value);
         return this;
@@ -1018,35 +1018,8 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
-    public ViewTableGermplasmRecord value10(JsonArray value) {
-        setSynonyms(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ViewTableGermplasmRecord value11(String value) {
-        setCollectorNumber(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ViewTableGermplasmRecord value16(String value) {
         setCountryName(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ViewTableGermplasmRecord value19(Double value) {
-        setPdci(value);
         return this;
     }
 
@@ -1072,14 +1045,19 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * {@inheritDoc}
      */
     @Override
+    public ViewTableGermplasmRecord value10(JsonArray value) {
+        setSynonyms(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ViewTableGermplasmRecord value20(Long value) {
         setImageCount(value);
         return this;
     }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -1116,6 +1094,28 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
         value19(value19);
         value20(value20);
         value21(value21);
+        return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ViewTableGermplasmRecord value11(String value) {
+        setCollectorNumber(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ViewTableGermplasmRecord value19(Double value) {
+        setPdci(value);
         return this;
     }
 // @formatter:on

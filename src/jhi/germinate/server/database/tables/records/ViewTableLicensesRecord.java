@@ -38,6 +38,13 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
+     */
+    public Integer getLicenseId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ViewTableLicensesRecord
      */
     public ViewTableLicensesRecord(Integer licenseId, String licenseName, String licenseDescription, String licenseContent, String localeName, String localeDescription) {
@@ -52,10 +59,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
      */
-    public Integer getLicenseId() {
-        return (Integer) get(0);
+    public String getLicenseName() {
+        return (String) get(1);
     }
 
     /**
@@ -66,10 +73,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
      */
-    public String getLicenseName() {
-        return (String) get(1);
+    public String getLicenseDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -80,10 +87,17 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
      */
-    public String getLicenseDescription() {
-        return (String) get(2);
+    public String getLicenseContent() {
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
+     */
+    public void setLocaleName(String value) {
+        set(4, value);
     }
 
     /**
@@ -91,13 +105,6 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     public void setLicenseDescription(String value) {
         set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
-     */
-    public String getLicenseContent() {
-        return (String) get(3);
     }
 
     /**
@@ -112,13 +119,6 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     public String getLocaleName() {
         return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
-     */
-    public void setLocaleName(String value) {
-        set(4, value);
     }
 
     // -------------------------------------------------------------------------
@@ -139,20 +139,6 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     @Override
     public Row6<Integer, String, String, String, String, String> valuesRow() {
         return (Row6) super.valuesRow();
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
-     */
-    public String getLocaleDescription() {
-        return (String) get(5);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
-     */
-    public void setLocaleDescription(String value) {
-        set(5, value);
     }
 
     /**
@@ -333,6 +319,20 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     public ViewTableLicensesRecord value4(String value) {
         setLicenseContent(value);
         return this;
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
+     */
+    public String getLocaleDescription() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
+     */
+    public void setLocaleDescription(String value) {
+        set(5, value);
     }
 
     /**

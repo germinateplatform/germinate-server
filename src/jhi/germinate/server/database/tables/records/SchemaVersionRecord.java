@@ -539,26 +539,6 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
      * {@inheritDoc}
      */
     @Override
-    public Boolean component10() {
-        return getSuccess();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Boolean value10() {
-        return getSuccess();
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public SchemaVersionRecord value10(Boolean value) {
         setSuccess(value);
         return this;
@@ -580,6 +560,26 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean component10() {
+        return getSuccess();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean value10() {
+        return getSuccess();
     }
 // @formatter:on
 }

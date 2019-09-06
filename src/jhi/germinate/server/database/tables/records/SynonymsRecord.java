@@ -60,6 +60,20 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
+     */
+    public Integer getForeignId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
+     */
+    public void setSynonymtypeId(Integer value) {
+        set(2, value);
+    }
+
+    /**
      * Create a detached SynonymsRecord
      */
     public SynonymsRecord() {
@@ -81,24 +95,10 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.foreign_id</code>. Foreign key to target table (l[targettable].id).
-     */
-    public Integer getForeignId() {
-        return (Integer) get(1);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
      */
     public Integer getSynonymtypeId() {
         return (Integer) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
-     */
-    public void setSynonymtypeId(Integer value) {
-        set(2, value);
     }
 
     /**
@@ -360,8 +360,14 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public JsonArray value4() {
-        return getSynonyms();
+    public SynonymsRecord values(Integer value1, Integer value2, Integer value3, JsonArray value4, Timestamp value5, Timestamp value6) {
+        value1(value1);
+        value2(value2);
+        value3(value3);
+        value4(value4);
+        value5(value5);
+        value6(value6);
+        return this;
     }
 
     // -------------------------------------------------------------------------
@@ -372,22 +378,16 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public SynonymsRecord value4(JsonArray value) {
-        setSynonyms(value);
-        return this;
+    public JsonArray value4() {
+        return getSynonyms();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public SynonymsRecord values(Integer value1, Integer value2, Integer value3, JsonArray value4, Timestamp value5, Timestamp value6) {
-        value1(value1);
-        value2(value2);
-        value3(value3);
-        value4(value4);
-        value5(value5);
-        value6(value6);
+    public SynonymsRecord value4(JsonArray value) {
+        setSynonyms(value);
         return this;
     }
 // @formatter:on

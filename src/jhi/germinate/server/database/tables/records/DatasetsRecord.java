@@ -248,10 +248,24 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.license_id</code>.
+     */
+    public Integer getLicenseId() {
+        return (Integer) get(13);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasets.created_by</code>. Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).
      */
     public void setCreatedBy(Integer value) {
         set(11, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     */
+    public Boolean getIsExternal() {
+        return (Boolean) get(14);
     }
 
     /**
@@ -262,24 +276,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.license_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
-    public Integer getLicenseId() {
-        return (Integer) get(13);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
-     */
-    public void setHyperlink(String value) {
-        set(15, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
-     */
-    public Boolean getIsExternal() {
-        return (Boolean) get(14);
+    public void setIsExternal(Boolean value) {
+        set(14, value);
     }
 
     /**
@@ -299,17 +299,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     * Setter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setIsExternal(Boolean value) {
-        set(14, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
-     */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(17);
+    public void setUpdatedOn(Timestamp value) {
+        set(17, value);
     }
 
     /**
@@ -320,10 +313,17 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(17, value);
+    public void setHyperlink(String value) {
+        set(15, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(17);
     }
 
     // -------------------------------------------------------------------------
@@ -990,27 +990,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Boolean value15() {
-        return getIsExternal();
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DatasetsRecord value15(Boolean value) {
-        setIsExternal(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public DatasetsRecord values(Integer value1, Integer value2, Integer value3, String value4, String value5, Date value6, Date value7, String value8, String value9, Object value10, String value11, Integer value12, Integer value13, Integer value14, Boolean value15, String value16, Timestamp value17, Timestamp value18, String value19) {
         value1(value1);
         value2(value2);
@@ -1031,6 +1010,27 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
         value17(value17);
         value18(value18);
         value19(value19);
+        return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean value15() {
+        return getIsExternal();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatasetsRecord value15(Boolean value) {
+        setIsExternal(value);
         return this;
     }
 // @formatter:on

@@ -79,20 +79,6 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
-     */
-    public void setCommenttypeId(Integer value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getUserId() {
@@ -100,10 +86,24 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
     public Boolean getVisibility() {
         return (Boolean) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
+     */
+    public void setCommenttypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -452,8 +452,16 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Boolean value4() {
-        return getVisibility();
+    public CommentsRecord values(Integer value1, Integer value2, Integer value3, Boolean value4, String value5, Integer value6, Timestamp value7, Timestamp value8) {
+        value1(value1);
+        value2(value2);
+        value3(value3);
+        value4(value4);
+        value5(value5);
+        value6(value6);
+        value7(value7);
+        value8(value8);
+        return this;
     }
 
     // -------------------------------------------------------------------------
@@ -464,24 +472,16 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public CommentsRecord value4(Boolean value) {
-        setVisibility(value);
-        return this;
+    public Boolean value4() {
+        return getVisibility();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CommentsRecord values(Integer value1, Integer value2, Integer value3, Boolean value4, String value5, Integer value6, Timestamp value7, Timestamp value8) {
-        value1(value1);
-        value2(value2);
-        value3(value3);
-        value4(value4);
-        value5(value5);
-        value6(value6);
-        value7(value7);
-        value8(value8);
+    public CommentsRecord value4(Boolean value) {
+        setVisibility(value);
         return this;
     }
 // @formatter:on

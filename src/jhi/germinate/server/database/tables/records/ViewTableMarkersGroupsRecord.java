@@ -33,10 +33,24 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
     private static final long serialVersionUID = -861338251;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setMarkerId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableMarkersGroupsRecord
      */
     public ViewTableMarkersGroupsRecord() {
         super(ViewTableMarkersGroups.VIEW_TABLE_MARKERS_GROUPS);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     */
+    public void setMarkerName(String value) {
+        set(1, value);
     }
 
     /**
@@ -53,6 +67,13 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     */
+    public void setMarkerType(String value) {
+        set(2, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getMarkerId() {
@@ -60,10 +81,10 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_synonyms</code>. The synonyms as a json array.
      */
-    public void setMarkerId(Integer value) {
-        set(0, value);
+    public void setMarkerSynonyms(JsonArray value) {
+        set(3, value);
     }
 
     /**
@@ -74,10 +95,10 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.group_id</code>. Foreign key to groups (groups.id).
      */
-    public void setMarkerName(String value) {
-        set(1, value);
+    public void setGroupId(Integer value) {
+        set(4, value);
     }
 
     /**
@@ -87,44 +108,9 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
         return (String) get(2);
     }
 
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
-     */
-    public void setMarkerType(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_synonyms</code>. The synonyms as a json array.
-     */
-    public JsonArray getMarkerSynonyms() {
-        return (JsonArray) get(3);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_synonyms</code>. The synonyms as a json array.
-     */
-    public void setMarkerSynonyms(JsonArray value) {
-        set(3, value);
-    }
-
     // -------------------------------------------------------------------------
     // Record5 type implementation
     // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers_groups.group_id</code>. Foreign key to groups (groups.id).
-     */
-    public Integer getGroupId() {
-        return (Integer) get(4);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers_groups.group_id</code>. Foreign key to groups (groups.id).
-     */
-    public void setGroupId(Integer value) {
-        set(4, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -298,10 +284,6 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -322,6 +304,24 @@ public class ViewTableMarkersGroupsRecord extends TableRecordImpl<ViewTableMarke
         value4(value4);
         value5(value5);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_markers_groups.marker_synonyms</code>. The synonyms as a json array.
+     */
+    public JsonArray getMarkerSynonyms() {
+        return (JsonArray) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_markers_groups.group_id</code>. Foreign key to groups (groups.id).
+     */
+    public Integer getGroupId() {
+        return (Integer) get(4);
     }
 // @formatter:on
 }

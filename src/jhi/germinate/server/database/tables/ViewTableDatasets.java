@@ -35,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 1951787363;
+    private static final long serialVersionUID = -862763528;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
@@ -64,6 +64,11 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_datasets.dateset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableDatasetsRecord, String> DATESET_DESCRIPTION = createField("dateset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
+     */
+    public final TableField<ViewTableDatasetsRecord, String> HYPERLINK = createField("hyperlink", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Link to access the external dasets.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_type</code>. Describes the experiment type.

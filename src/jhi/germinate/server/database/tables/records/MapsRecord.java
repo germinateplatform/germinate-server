@@ -77,20 +77,6 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.maps.description</code>. The name of this map.
      */
     public String getDescription() {
@@ -98,10 +84,24 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public Boolean getVisibility() {
         return (Boolean) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
+     */
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -403,8 +403,15 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      * {@inheritDoc}
      */
     @Override
-    public Boolean value4() {
-        return getVisibility();
+    public MapsRecord values(Integer value1, String value2, String value3, Boolean value4, Timestamp value5, Timestamp value6, Integer value7) {
+        value1(value1);
+        value2(value2);
+        value3(value3);
+        value4(value4);
+        value5(value5);
+        value6(value6);
+        value7(value7);
+        return this;
     }
 
     // -------------------------------------------------------------------------
@@ -415,23 +422,16 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      * {@inheritDoc}
      */
     @Override
-    public MapsRecord value4(Boolean value) {
-        setVisibility(value);
-        return this;
+    public Boolean value4() {
+        return getVisibility();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public MapsRecord values(Integer value1, String value2, String value3, Boolean value4, Timestamp value5, Timestamp value6, Integer value7) {
-        value1(value1);
-        value2(value2);
-        value3(value3);
-        value4(value4);
-        value5(value5);
-        value6(value6);
-        value7(value7);
+    public MapsRecord value4(Boolean value) {
+        setVisibility(value);
         return this;
     }
 // @formatter:on

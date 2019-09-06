@@ -444,38 +444,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
-     */
-    public void setCoorduncert(Integer value) {
-        set(23, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
-     */
-    public void setElevation(BigDecimal value) {
-        set(26, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
-     */
-    public void setCoorddatum(String value) {
-        set(24, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
-     */
-    public void setColldate(String value) {
-        set(27, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.GEOREFMETH</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
      */
     public String getGeorefmeth() {
         return (String) get(25);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     */
+    public void setCoorduncert(Integer value) {
+        set(23, value);
     }
 
     /**
@@ -486,10 +465,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
      */
-    public String getBredcode() {
-        return (String) get(28);
+    public void setCoorddatum(String value) {
+        set(24, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(26, value);
     }
 
     /**
@@ -497,6 +483,20 @@ entered into the genebank collection (e.g. ‘PI 113869’).
      */
     public String getColldate() {
         return (String) get(27);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.BREDCODE</code>. FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.
+     */
+    public String getBredcode() {
+        return (String) get(28);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
+     */
+    public void setColldate(String value) {
+        set(27, value);
     }
 
     /**
