@@ -40,6 +40,13 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getLocationId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached ViewTableLocationsRecord
      */
     public ViewTableLocationsRecord() {
@@ -47,10 +54,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_name</code>. The site name where the location is.
      */
-    public void setLocationName(String value) {
-        set(1, value);
+    public String getLocationName() {
+        return (String) get(1);
     }
 
     /**
@@ -73,38 +80,17 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_region</code>. The region where the location is if this exists.
-     */
-    public void setLocationRegion(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getLocationId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_state</code>. The state where the location is if this exists.
-     */
-    public void setLocationState(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_name</code>. The site name where the location is.
-     */
-    public String getLocationName() {
-        return (String) get(1);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_locations.location_region</code>. The region where the location is if this exists.
      */
     public String getLocationRegion() {
         return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_name</code>. The site name where the location is.
+     */
+    public void setLocationName(String value) {
+        set(1, value);
     }
 
     /**
@@ -115,10 +101,17 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_region</code>. The region where the location is if this exists.
      */
-    public void setLocationLatitude(BigDecimal value) {
-        set(5, value);
+    public void setLocationRegion(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_state</code>. The state where the location is if this exists.
+     */
+    public void setLocationState(String value) {
+        set(3, value);
     }
 
     /**
@@ -129,6 +122,13 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_type</code>. The name of the location type.
+     */
+    public void setLocationType(String value) {
+        set(4, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_locations.location_longitude</code>. Longitude of the location.
      */
     public void setLocationLongitude(BigDecimal value) {
@@ -136,10 +136,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_type</code>. The name of the location type.
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_latitude</code>. Latitude of the location.
      */
-    public void setLocationType(String value) {
-        set(4, value);
+    public BigDecimal getLocationLatitude() {
+        return (BigDecimal) get(5);
     }
 
     /**
@@ -150,10 +150,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_latitude</code>. Latitude of the location.
      */
-    public BigDecimal getLocationLatitude() {
-        return (BigDecimal) get(5);
+    public void setLocationLatitude(BigDecimal value) {
+        set(5, value);
     }
 
     /**

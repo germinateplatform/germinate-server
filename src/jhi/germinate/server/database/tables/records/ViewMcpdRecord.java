@@ -472,17 +472,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
-     */
-    public void setElevation(BigDecimal value) {
-        set(26, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.COLLDATE</code>.
      */
     public String getColldate() {
         return (String) get(27);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ELEVATION</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(26, value);
     }
 
     /**

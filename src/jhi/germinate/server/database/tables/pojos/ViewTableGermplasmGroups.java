@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmGroups implements Serializable {
 
-    private static final long serialVersionUID = 1923524889;
+    private static final long serialVersionUID = -423519604;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -36,6 +36,7 @@ public class ViewTableGermplasmGroups implements Serializable {
     private String     germplasmPuid;
     private Integer    entityTypeId;
     private String     entityTypeName;
+    private Integer    entityParentId;
     private Integer    biologicalStatusId;
     private String     biologicalStatusName;
     private JsonArray  synonyms;
@@ -43,6 +44,7 @@ public class ViewTableGermplasmGroups implements Serializable {
     private String     genus;
     private String     species;
     private String     subtaxa;
+    private String     location;
     private BigDecimal elevation;
     private String     countryName;
     private String     countryCode;
@@ -62,6 +64,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         this.germplasmPuid = value.germplasmPuid;
         this.entityTypeId = value.entityTypeId;
         this.entityTypeName = value.entityTypeName;
+        this.entityParentId = value.entityParentId;
         this.biologicalStatusId = value.biologicalStatusId;
         this.biologicalStatusName = value.biologicalStatusName;
         this.synonyms = value.synonyms;
@@ -69,6 +72,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         this.genus = value.genus;
         this.species = value.species;
         this.subtaxa = value.subtaxa;
+        this.location = value.location;
         this.elevation = value.elevation;
         this.countryName = value.countryName;
         this.countryCode = value.countryCode;
@@ -87,6 +91,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         String     germplasmPuid,
         Integer    entityTypeId,
         String     entityTypeName,
+        Integer    entityParentId,
         Integer    biologicalStatusId,
         String     biologicalStatusName,
         JsonArray  synonyms,
@@ -94,6 +99,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         String     genus,
         String     species,
         String     subtaxa,
+        String     location,
         BigDecimal elevation,
         String     countryName,
         String     countryCode,
@@ -110,6 +116,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         this.germplasmPuid = germplasmPuid;
         this.entityTypeId = entityTypeId;
         this.entityTypeName = entityTypeName;
+        this.entityParentId = entityParentId;
         this.biologicalStatusId = biologicalStatusId;
         this.biologicalStatusName = biologicalStatusName;
         this.synonyms = synonyms;
@@ -117,6 +124,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         this.genus = genus;
         this.species = species;
         this.subtaxa = subtaxa;
+        this.location = location;
         this.elevation = elevation;
         this.countryName = countryName;
         this.countryCode = countryCode;
@@ -183,6 +191,14 @@ public class ViewTableGermplasmGroups implements Serializable {
         this.entityTypeName = entityTypeName;
     }
 
+    public Integer getEntityParentId() {
+        return this.entityParentId;
+    }
+
+    public void setEntityParentId(Integer entityParentId) {
+        this.entityParentId = entityParentId;
+    }
+
     public Integer getBiologicalStatusId() {
         return this.biologicalStatusId;
     }
@@ -237,6 +253,14 @@ public class ViewTableGermplasmGroups implements Serializable {
 
     public void setSubtaxa(String subtaxa) {
         this.subtaxa = subtaxa;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public BigDecimal getElevation() {
@@ -314,6 +338,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         sb.append(", ").append(germplasmPuid);
         sb.append(", ").append(entityTypeId);
         sb.append(", ").append(entityTypeName);
+        sb.append(", ").append(entityParentId);
         sb.append(", ").append(biologicalStatusId);
         sb.append(", ").append(biologicalStatusName);
         sb.append(", ").append(synonyms);
@@ -321,6 +346,7 @@ public class ViewTableGermplasmGroups implements Serializable {
         sb.append(", ").append(genus);
         sb.append(", ").append(species);
         sb.append(", ").append(subtaxa);
+        sb.append(", ").append(location);
         sb.append(", ").append(elevation);
         sb.append(", ").append(countryName);
         sb.append(", ").append(countryCode);

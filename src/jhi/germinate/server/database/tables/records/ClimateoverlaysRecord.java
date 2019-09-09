@@ -180,6 +180,13 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(9);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
      */
     public Boolean getIsLegend() {
@@ -191,13 +198,6 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      */
     public void setIsLegend(Boolean value) {
         set(7, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.created_on</code>. When the record was created.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------

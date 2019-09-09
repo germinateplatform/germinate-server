@@ -101,6 +101,13 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
+     */
+    public String getLocaleName() {
+        return (String) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
      */
     public void setLicenseDescription(String value) {
@@ -112,13 +119,6 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      */
     public void setLicenseContent(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
-     */
-    public String getLocaleName() {
-        return (String) get(4);
     }
 
     // -------------------------------------------------------------------------

@@ -22,6 +22,7 @@ package jhi.germinate.resource;
 public class Token
 {
 	private String  token;
+	private String  imageToken;
 	private Integer id;
 	private String  username;
 	private String  fullName;
@@ -34,9 +35,10 @@ public class Token
 	{
 	}
 
-	public Token(String token, Integer id, String username, String fullName, String email, String userType, Long lifetime, Long createdOn)
+	public Token(String token, String imageToken, Integer id, String username, String fullName, String email, String userType, Long lifetime, Long createdOn)
 	{
 		this.token = token;
+		this.imageToken = imageToken;
 		this.id = id;
 		this.fullName = fullName;
 		this.username = username;
@@ -54,6 +56,17 @@ public class Token
 	public Token setToken(String token)
 	{
 		this.token = token;
+		return this;
+	}
+
+	public String getImageToken()
+	{
+		return imageToken;
+	}
+
+	public Token setImageToken(String imageToken)
+	{
+		this.imageToken = imageToken;
 		return this;
 	}
 

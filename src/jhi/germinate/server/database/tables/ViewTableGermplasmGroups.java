@@ -38,17 +38,16 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmGroups extends TableImpl<ViewTableGermplasmGroupsRecord> {
 
-    private static final long serialVersionUID = 301982715;
+    private static final long serialVersionUID = 799481700;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm_groups</code>
      */
     public static final ViewTableGermplasmGroups VIEW_TABLE_GERMPLASM_GROUPS = new ViewTableGermplasmGroups();
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
-Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
+     * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
-    public final TableField<ViewTableGermplasmGroupsRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
+    public final TableField<ViewTableGermplasmGroupsRecord, Integer> ENTITY_PARENT_ID = createField("entity_parent_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to germinatebase (germinatebase.id).");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -85,6 +84,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
      * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.entity_type_name</code>. The name of the entity type.
      */
     public final TableField<ViewTableGermplasmGroupsRecord, String> ENTITY_TYPE_NAME = createField("entity_type_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.location</code>. The site name where the location is.
+     */
+    public final TableField<ViewTableGermplasmGroupsRecord, String> LOCATION = createField("location", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -122,6 +125,11 @@ identifying duplicates held in different collections.
      * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.subtaxa</code>. Subtaxa name.
      */
     public final TableField<ViewTableGermplasmGroupsRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Subtaxa name.");
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
+Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
+     */
+    public final TableField<ViewTableGermplasmGroupsRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.elevation</code>. The elevation of the site in metres.

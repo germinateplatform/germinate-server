@@ -79,10 +79,31 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_description</code>. A free text description of the group. This has no length limitations.
+     */
+    public String getGroupDescription() {
+        return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
+     */
+    public void setGroupTypeId(Integer value) {
+        set(3, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_groups.group_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setGroupId(Integer value) {
         set(0, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
+     */
+    public void setGroupType(String value) {
+        set(4, value);
     }
 
     /**
@@ -100,10 +121,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_description</code>. A free text description of the group. This has no length limitations.
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
-    public String getGroupDescription() {
-        return (String) get(2);
+    public Integer getUserId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -114,6 +135,13 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     */
+    public Boolean getGroupVisibility() {
+        return (Boolean) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserId(Integer value) {
@@ -121,10 +149,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
      */
-    public void setGroupTypeId(Integer value) {
-        set(3, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -135,13 +163,6 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
-     */
-    public void setGroupType(String value) {
-        set(4, value);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
      */
     public void setCreatedOn(Timestamp value) {
@@ -149,31 +170,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
-     */
-    public Integer getUserId() {
-        return (Integer) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
-     */
-    public Boolean getGroupVisibility() {
-        return (Boolean) get(6);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     /**

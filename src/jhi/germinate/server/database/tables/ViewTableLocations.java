@@ -40,6 +40,7 @@ public class ViewTableLocations extends TableImpl<ViewTableLocationsRecord> {
      * The reference instance of <code>germinate_template_3_7_0.view_table_locations</code>
      */
     public static final ViewTableLocations VIEW_TABLE_LOCATIONS = new ViewTableLocations();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_locations.location_type</code>. The name of the location type.
      */

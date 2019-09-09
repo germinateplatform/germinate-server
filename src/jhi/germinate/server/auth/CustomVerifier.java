@@ -40,7 +40,8 @@ public class CustomVerifier implements Verifier
 {
 	public static final long AGE = 1800000;
 
-	private static Map<String, UserDetails> tokenToTimestamp = new ConcurrentHashMap<>();
+	private static Map<String, UserDetails> tokenToTimestamp  = new ConcurrentHashMap<>();
+	private static Map<String, String>      tokenToImageToken = new ConcurrentHashMap<>();
 
 	public CustomVerifier()
 	{
@@ -50,19 +51,31 @@ public class CustomVerifier implements Verifier
 			@Override
 			public void run()
 			{
-				tokenToTimestamp.entrySet().removeIf(token -> token.getValue().timestamp < (System.currentTimeMillis() - AGE));
+				tokenToTimestamp.entrySet().removeIf(token -> {
+					boolean expired = token.getValue().timestamp < (System.currentTimeMillis() - AGE);
+
+					if (expired)
+						tokenToImageToken.remove(token.getKey());
+
+					return expired;
+				});
 			}
 		}, 0, 60000);
 	}
 
-	public static boolean removeToken(Request request)
-	{
-		return tokenToTimestamp.remove(getToken(request)) != null;
-	}
-
 	public static boolean removeToken(String token)
 	{
-		return tokenToTimestamp.remove(token) != null;
+		UserDetails exists = tokenToTimestamp.remove(token);
+
+		if (exists != null)
+		{
+			tokenToImageToken.remove(exists.imageToken);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public static Integer getUserId(Request request)
@@ -130,7 +143,7 @@ public class CustomVerifier implements Verifier
 		if (token == null)
 		{
 			// We get here if no token is found at all
-			return new UserDetails(-1000, null, UserType.UNKNOWN, AGE);
+			return new UserDetails(-1000, null, null, UserType.UNKNOWN, AGE);
 		}
 		else if (!StringUtils.isEmpty(token.token) && !token.match)
 		{
@@ -149,11 +162,12 @@ public class CustomVerifier implements Verifier
 		}
 	}
 
-	public static void addToken(Response response, String token, String userType, Integer userId)
+	public static void addToken(Response response, String token, String imageToken, String userType, Integer userId)
 	{
 		setCookie(response, token);
 		UserDetails details = new UserDetails();
 		details.timestamp = System.currentTimeMillis();
+		details.imageToken = imageToken;
 		details.token = token;
 		switch (userType)
 		{
@@ -172,6 +186,7 @@ public class CustomVerifier implements Verifier
 		}
 		details.id = userId;
 		tokenToTimestamp.put(token, details);
+		tokenToImageToken.put(token, details.imageToken);
 	}
 
 	private static void setCookie(Response response, String token)
@@ -181,6 +196,11 @@ public class CustomVerifier implements Verifier
 		cookie.setMaxAge((int) (AGE / 1000));
 		cookie.setPath("/");
 		response.getCookieSettings().add(cookie);
+	}
+
+	public static boolean isValidImageToken(String imageToken)
+	{
+		return tokenToImageToken.containsValue(imageToken);
 	}
 
 	private boolean canAccess(UserType minUserType, AuthenticationMode mode, UserDetails userDetails)
@@ -297,6 +317,7 @@ public class CustomVerifier implements Verifier
 	{
 		private Integer  id;
 		private String   token;
+		private String   imageToken;
 		private UserType userType = UserType.UNKNOWN;
 		private Long     timestamp;
 
@@ -304,10 +325,11 @@ public class CustomVerifier implements Verifier
 		{
 		}
 
-		public UserDetails(Integer id, String token, UserType userType, Long timestamp)
+		public UserDetails(Integer id, String token, String imageToken, UserType userType, Long timestamp)
 		{
 			this.id = id;
 			this.token = token;
+			this.imageToken = imageToken;
 			this.userType = userType;
 			this.timestamp = timestamp;
 		}
@@ -320,6 +342,11 @@ public class CustomVerifier implements Verifier
 		public String getToken()
 		{
 			return token;
+		}
+
+		public String getImageToken()
+		{
+			return imageToken;
 		}
 
 		public boolean isAtLeast(UserType atLeast)

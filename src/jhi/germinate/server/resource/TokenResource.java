@@ -123,17 +123,19 @@ public class TokenResource extends ServerResource
 		}
 
 		String token;
+		String imageToken;
 
 		if (canAccess)
 		{
 			token = UUID.randomUUID().toString();
-			CustomVerifier.addToken(getResponse(), token, userType, user.getId());
+			imageToken = UUID.randomUUID().toString();
+			CustomVerifier.addToken(getResponse(), token, imageToken, userType, user.getId());
 		}
 		else
 		{
 			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS);
 		}
 
-		return new Token(token, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), userType, CustomVerifier.AGE, System.currentTimeMillis());
+		return new Token(token, imageToken, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), userType, CustomVerifier.AGE, System.currentTimeMillis());
 	}
 }

@@ -54,6 +54,20 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     */
+    public String getMarkerName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
+     */
+    public void setSynonyms(JsonArray value) {
+        set(2, value);
+    }
+
+    /**
      * Create a detached, initialised ViewTableMapdefinitionsRecord
      */
     public ViewTableMapdefinitionsRecord(Integer markerId, String markerName, JsonArray synonyms, String mapFeatureType, Integer mapId, Integer userId, Boolean visibility, String mapMame, String chromosome, Double position) {
@@ -79,41 +93,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
-     */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
-     */
-    public void setMapFeatureType(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
-     */
-    public String getMarkerName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setMapId(Integer value) {
-        set(4, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
-     */
-    public void setSynonyms(JsonArray value) {
-        set(2, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public String getMapFeatureType() {
@@ -121,10 +100,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
      */
-    public Integer getUserId() {
-        return (Integer) get(5);
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(2);
     }
 
     /**
@@ -135,13 +114,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
-     */
-    public Boolean getVisibility() {
-        return (Boolean) get(6);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserId(Integer value) {
@@ -149,10 +121,38 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     */
+    public void setMapFeatureType(String value) {
+        set(3, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public void setVisibility(Boolean value) {
         set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setMapId(Integer value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     */
+    public Integer getUserId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     */
+    public Boolean getVisibility() {
+        return (Boolean) get(6);
     }
 
     /**
@@ -499,22 +499,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      * {@inheritDoc}
      */
     @Override
-    public String value9() {
-        return getChromosome();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double value10() {
-        return getPosition();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ViewTableMapdefinitionsRecord value7(Boolean value) {
         setVisibility(value);
         return this;
@@ -527,6 +511,22 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     public ViewTableMapdefinitionsRecord value8(String value) {
         setMapMame(value);
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String value9() {
+        return getChromosome();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double value10() {
+        return getPosition();
     }
 
     /**

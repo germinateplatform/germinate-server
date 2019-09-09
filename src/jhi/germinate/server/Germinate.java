@@ -15,7 +15,7 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.groups.*;
-import jhi.germinate.server.resource.images.ImageSourceResource;
+import jhi.germinate.server.resource.images.*;
 import jhi.germinate.server.resource.importers.*;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
@@ -114,6 +114,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/table/ids", GermplasmTableIdResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
+		attachToRouter(routerAuth, "/germplasm/entity", GermplasmEntityResource.class);
 
 		// GROUPS
 		attachToRouter(routerAuth, "/group/table", GroupTableResource.class);
@@ -128,9 +129,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/grouptype", GroupTypeResource.class);
 
 		// IMAGES
-//		attachToRouter(routerAuth, "/image", ImageResource.class);
+		attachToRouter(routerAuth, "/image/table", ImageTableResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
-		attachToRouter(routerAuth, "/image/src", ImageSourceResource.class);
+		attachToRouter(routerUnauth, "/image/src", ImageSourceResource.class);
 
 		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);

@@ -74,6 +74,13 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
+     */
+    public Integer getSynonymtypeId() {
+        return (Integer) get(2);
+    }
+
+    /**
      * Create a detached SynonymsRecord
      */
     public SynonymsRecord() {
@@ -92,13 +99,6 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
         set(3, synonyms);
         set(4, createdOn);
         set(5, updatedOn);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.synonymtype_id</code>. Foreign key to synonymtypes (synonymnstypes.id).
-     */
-    public Integer getSynonymtypeId() {
-        return (Integer) get(2);
     }
 
     /**
