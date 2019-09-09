@@ -50,7 +50,7 @@ public interface FilteredResource
 									.collect(Collectors.toList());
 
 		if(CollectionUtils.isEmpty(values))
-			return null;
+			values.add("");
 
 		String first = values.get(0);
 		String second = values.size() > 1 ? values.get(1) : null;
