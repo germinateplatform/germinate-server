@@ -102,7 +102,7 @@ public class CustomVerifier implements Verifier
 			return null;
 	}
 
-	private static TokenResult getToken(Request request)
+	private static TokenResult getToken(Request request, Response response)
 	{
 		ChallengeResponse cr = request.getChallengeResponse();
 		if (cr != null)
@@ -122,6 +122,9 @@ public class CustomVerifier implements Verifier
 			if (cookies.size() > 0)
 			{
 				result.match = Objects.equals(result.token, cookies.get(0).getValue());
+
+				if (!result.match)
+					response.getCookieSettings().removeIf(c -> Objects.equals(c.getName(), "token"));
 			}
 			else
 			{
@@ -137,9 +140,14 @@ public class CustomVerifier implements Verifier
 		return null;
 	}
 
-	public static UserDetails getFromSession(Request request)
+	public static UserDetails getFromSession(Request request, Response response)
 	{
-		TokenResult token = getToken(request);
+		TokenResult token = getToken(request, response);
+
+		// If there is no token or token and cookie don't match, remove the cookie
+		if (token == null || !token.match)
+			request.getCookies().removeIf(c -> Objects.equals(c.getName(), "token"));
+
 		if (token == null)
 		{
 			// We get here if no token is found at all
@@ -153,7 +161,7 @@ public class CustomVerifier implements Verifier
 		else
 		{
 			// We get here if the token is present and it matches the cookie
-			UserDetails details = tokenToTimestamp.get(token.token);
+			UserDetails details = token.token != null ? tokenToTimestamp.get(token.token) : null;
 
 			if (details == null)
 				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
@@ -248,7 +256,7 @@ public class CustomVerifier implements Verifier
 														 .map(m -> {
 															 MinUserType annotation = m.getAnnotation(MinUserType.class);
 															 UserType userType = annotation.value();
-															 return canAccess(userType, mode, getFromSession(request));
+															 return canAccess(userType, mode, getFromSession(request, response));
 														 })
 														 .findFirst()
 														 .orElse(true);
@@ -263,7 +271,7 @@ public class CustomVerifier implements Verifier
 			ChallengeResponse cr = request.getChallengeResponse();
 			if (cr != null)
 			{
-				TokenResult token = getToken(request);
+				TokenResult token = getToken(request, response);
 
 				if (token != null && token.token != null)
 				{

@@ -32,35 +32,51 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
 
+    private static final long serialVersionUID = -613354420;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_images</code>
      */
     public static final ViewTableImages VIEW_TABLE_IMAGES = new ViewTableImages();
-    private static final long serialVersionUID = -613354420;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableImagesRecord> getRecordType() {
+        return ViewTableImagesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.image_id</code>.
      */
     public final TableField<ViewTableImagesRecord, Integer> IMAGE_ID = createField("image_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.image_description</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_DESCRIPTION = createField("image_description", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.image_foreign_id</code>.
      */
     public final TableField<ViewTableImagesRecord, Integer> IMAGE_FOREIGN_ID = createField("image_foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.image_path</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_PATH = createField("image_path", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.image_type</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_TYPE = createField("image_type", org.jooq.impl.SQLDataType.CLOB, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_REF_TABLE = createField("image_ref_table", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_images.reference_name</code>.
      */
@@ -93,14 +109,6 @@ public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
 
     private ViewTableImages(Name alias, Table<ViewTableImagesRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableImagesRecord> getRecordType() {
-        return ViewTableImagesRecord.class;
     }
 
     /**

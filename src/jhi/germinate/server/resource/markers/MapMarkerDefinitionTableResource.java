@@ -41,7 +41,7 @@ public class MapMarkerDefinitionTableResource extends PaginatedServerResource im
 	@Post("json")
 	public PaginatedResult<List<ViewTableMapdefinitions>> getJson(PaginatedRequest request)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection();

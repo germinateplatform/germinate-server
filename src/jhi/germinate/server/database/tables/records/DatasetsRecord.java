@@ -262,6 +262,13 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     */
+    public Boolean getIsExternal() {
+        return (Boolean) get(14);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasets.created_by</code>. Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).
      */
     public void setCreatedBy(Integer value) {
@@ -273,13 +280,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      */
     public void setDatasetStateId(Integer value) {
         set(12, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
-     */
-    public Boolean getIsExternal() {
-        return (Boolean) get(14);
     }
 
     /**

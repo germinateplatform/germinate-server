@@ -41,7 +41,7 @@ public class GermplasmGroupTableResource extends PaginatedServerResource impleme
 	@Patch("json")
 	public int patchJson(GroupModification modification)
 	{
-		return GroupResource.patchGroupMembers(groupId, getRequest(), modification);
+		return GroupResource.patchGroupMembers(groupId, getRequest(), getResponse(), modification);
 	}
 
 	@Post("json")
@@ -51,7 +51,7 @@ public class GermplasmGroupTableResource extends PaginatedServerResource impleme
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), context, groupId, VIEW_TABLE_GERMPLASM_GROUPS, VIEW_TABLE_GERMPLASM_GROUPS.GROUP_ID, this);
+			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), getResponse(), context, groupId, VIEW_TABLE_GERMPLASM_GROUPS, VIEW_TABLE_GERMPLASM_GROUPS.GROUP_ID, this);
 
 			// Filter here!
 			filter(from, filters);

@@ -45,7 +45,7 @@ public class MapExportResource extends BaseServerResource
 	@Get()
 	public FileRepresentation getFile()
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		FileRepresentation representation;
 		try

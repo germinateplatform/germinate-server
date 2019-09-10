@@ -24,7 +24,7 @@ public class MapTableResource extends PaginatedServerResource implements Filtere
 	@Post("json")
 	public PaginatedResult<List<ViewTableMaps>> getJson(PaginatedRequest request)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection();

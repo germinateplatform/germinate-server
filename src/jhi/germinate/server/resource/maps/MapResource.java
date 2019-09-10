@@ -40,7 +40,7 @@ public class MapResource extends PaginatedServerResource
 	@Get("json")
 	public PaginatedResult<List<Maps>> getJson()
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		if (userDetails == null)
 			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);

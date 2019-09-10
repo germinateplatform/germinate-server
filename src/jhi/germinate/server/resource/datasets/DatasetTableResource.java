@@ -35,7 +35,7 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection();

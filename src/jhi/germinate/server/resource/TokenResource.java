@@ -53,7 +53,7 @@ public class TokenResource extends ServerResource
 		if (user == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, StatusMessage.NOT_FOUND_TOKEN);
 
-		CustomVerifier.UserDetails sessionUser = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails sessionUser = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		if (sessionUser == null || !Objects.equals(sessionUser.getToken(), user.getPassword()))
 			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_ACCESS_TO_OTHER_USER);

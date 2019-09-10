@@ -26,7 +26,7 @@ public class DatasetTableIdResource extends PaginatedServerResource implements F
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedRequest request)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection();

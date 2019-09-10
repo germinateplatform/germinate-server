@@ -31,10 +31,24 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     private static final long serialVersionUID = 1886627763;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_images.image_id</code>.
+     */
+    public void setImageId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableImagesRecord
      */
     public ViewTableImagesRecord() {
         super(ViewTableImages.VIEW_TABLE_IMAGES);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_images.image_description</code>.
+     */
+    public void setImageDescription(String value) {
+        set(1, value);
     }
 
     /**
@@ -53,41 +67,6 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_id</code>.
-     */
-    public Integer getImageId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_images.image_id</code>.
-     */
-    public void setImageId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_description</code>.
-     */
-    public String getImageDescription() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_images.image_description</code>.
-     */
-    public void setImageDescription(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_foreign_id</code>.
-     */
-    public Integer getImageForeignId() {
-        return (Integer) get(2);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_images.image_foreign_id</code>.
      */
     public void setImageForeignId(Integer value) {
@@ -95,10 +74,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_path</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_id</code>.
      */
-    public String getImagePath() {
-        return (String) get(3);
+    public Integer getImageId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -109,10 +88,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_description</code>.
      */
-    public String getImageType() {
-        return (String) get(4);
+    public String getImageDescription() {
+        return (String) get(1);
     }
 
     /**
@@ -123,10 +102,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_foreign_id</code>.
      */
-    public String getImageRefTable() {
-        return (String) get(5);
+    public Integer getImageForeignId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -136,15 +115,11 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
         set(5, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record7 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.reference_name</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_path</code>.
      */
-    public String getReferenceName() {
-        return (String) get(6);
+    public String getImagePath() {
+        return (String) get(3);
     }
 
     /**
@@ -153,6 +128,17 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     public void setReferenceName(String value) {
         set(6, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
+     */
+    public String getImageType() {
+        return (String) get(4);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record7 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -392,10 +378,6 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -418,6 +400,24 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
         value6(value6);
         value7(value7);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
+     */
+    public String getImageRefTable() {
+        return (String) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_images.reference_name</code>.
+     */
+    public String getReferenceName() {
+        return (String) get(6);
     }
 // @formatter:on
 }

@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.groups;
 
 import org.jooq.*;
 import org.jooq.impl.TableImpl;
-import org.restlet.Request;
+import org.restlet.*;
 import org.restlet.data.Status;
 import org.restlet.resource.Delete;
 import org.restlet.resource.*;
@@ -44,78 +44,9 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
-	@Delete("json")
-	@MinUserType(UserType.AUTH_USER)
-	public boolean deleteJson()
+	public static int patchGroupMembers(Integer groupId, Request req, Response resp, GroupModification modification)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
-
-		if (groupId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
-
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
-		{
-			GroupsRecord dbGroup = context.selectFrom(GROUPS)
-										  .where(GROUPS.ID.eq(groupId))
-										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-										  .fetchOneInto(GroupsRecord.class);
-
-			// If it's null, then the id doesn't exist or the user doesn't have access
-			if (dbGroup == null)
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-			else
-				return dbGroup.delete() == 1;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
-	}
-
-	@Patch("json")
-	@MinUserType(UserType.AUTH_USER)
-	public boolean patchJson(Groups group)
-	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
-
-		if (group == null || groupId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id or payload");
-		if (!Objects.equals(group.getId(), groupId))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Id mismatch");
-
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
-		{
-			GroupsRecord dbGroup = context.selectFrom(GROUPS)
-										  .where(GROUPS.ID.eq(groupId))
-										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-										  .fetchOneInto(GroupsRecord.class);
-
-			if (dbGroup == null)
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-
-			// Only update the name if it's not empty
-			if (!StringUtils.isEmpty(group.getName()))
-				dbGroup.setName(group.getName());
-			// Only update visibility if it's not null
-			if (group.getVisibility() != null)
-				dbGroup.setVisibility(group.getVisibility());
-			// Update the description
-			dbGroup.setDescription(group.getDescription());
-			return dbGroup.store() == 1;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
-	}
-
-	public static int patchGroupMembers(Integer groupId, Request req, GroupModification modification)
-	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req);
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req, resp);
 
 		if (groupId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
@@ -166,9 +97,9 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
-	public static <T> SelectJoinStep<Record> prepareQuery(Request request, DSLContext context, Integer groupId, TableImpl table, Field<Integer> field, PaginatedServerResource callee)
+	public static <T> SelectJoinStep<Record> prepareQuery(Request request, Response response, DSLContext context, Integer groupId, TableImpl table, Field<Integer> field, PaginatedServerResource callee)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(request);
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(request, response);
 
 		if (groupId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
@@ -194,10 +125,79 @@ public class GroupResource extends PaginatedServerResource
 		return from;
 	}
 
+	@Delete("json")
+	@MinUserType(UserType.AUTH_USER)
+	public boolean deleteJson()
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+
+		if (groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			GroupsRecord dbGroup = context.selectFrom(GROUPS)
+										  .where(GROUPS.ID.eq(groupId))
+										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+										  .fetchOneInto(GroupsRecord.class);
+
+			// If it's null, then the id doesn't exist or the user doesn't have access
+			if (dbGroup == null)
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			else
+				return dbGroup.delete() == 1;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
+	@Patch("json")
+	@MinUserType(UserType.AUTH_USER)
+	public boolean patchJson(Groups group)
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+
+		if (group == null || groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id or payload");
+		if (!Objects.equals(group.getId(), groupId))
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Id mismatch");
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			GroupsRecord dbGroup = context.selectFrom(GROUPS)
+										  .where(GROUPS.ID.eq(groupId))
+										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+										  .fetchOneInto(GroupsRecord.class);
+
+			if (dbGroup == null)
+				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+
+			// Only update the name if it's not empty
+			if (!StringUtils.isEmpty(group.getName()))
+				dbGroup.setName(group.getName());
+			// Only update visibility if it's not null
+			if (group.getVisibility() != null)
+				dbGroup.setVisibility(group.getVisibility());
+			// Update the description
+			dbGroup.setDescription(group.getDescription());
+			return dbGroup.store() == 1;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
 	@Get("json")
 	public PaginatedResult<List<Groups>> getJson()
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest());
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))

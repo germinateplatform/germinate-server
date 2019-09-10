@@ -44,6 +44,7 @@ public class ViewTableGermplasmGroups extends TableImpl<ViewTableGermplasmGroups
      * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm_groups</code>
      */
     public static final ViewTableGermplasmGroups VIEW_TABLE_GERMPLASM_GROUPS = new ViewTableGermplasmGroups();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm_groups.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */

@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitions implements Serializable {
 
-    private static final long serialVersionUID = 1586525112;
+    private static final long serialVersionUID = -260203199;
 
     private Integer   markerId;
     private String    markerName;
@@ -34,7 +34,7 @@ public class ViewTableMapdefinitions implements Serializable {
     private Integer   mapId;
     private Integer   userId;
     private Boolean   visibility;
-    private String    mapMame;
+    private String    mapName;
     private String    chromosome;
     private Double    position;
 
@@ -48,7 +48,7 @@ public class ViewTableMapdefinitions implements Serializable {
         this.mapId = value.mapId;
         this.userId = value.userId;
         this.visibility = value.visibility;
-        this.mapMame = value.mapMame;
+        this.mapName = value.mapName;
         this.chromosome = value.chromosome;
         this.position = value.position;
     }
@@ -61,7 +61,7 @@ public class ViewTableMapdefinitions implements Serializable {
         Integer   mapId,
         Integer   userId,
         Boolean   visibility,
-        String    mapMame,
+        String    mapName,
         String    chromosome,
         Double    position
     ) {
@@ -72,7 +72,7 @@ public class ViewTableMapdefinitions implements Serializable {
         this.mapId = mapId;
         this.userId = userId;
         this.visibility = visibility;
-        this.mapMame = mapMame;
+        this.mapName = mapName;
         this.chromosome = chromosome;
         this.position = position;
     }
@@ -133,12 +133,12 @@ public class ViewTableMapdefinitions implements Serializable {
         this.visibility = visibility;
     }
 
-    public String getMapMame() {
-        return this.mapMame;
+    public String getMapName() {
+        return this.mapName;
     }
 
-    public void setMapMame(String mapMame) {
-        this.mapMame = mapMame;
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 
     public String getChromosome() {
@@ -168,7 +168,7 @@ public class ViewTableMapdefinitions implements Serializable {
         sb.append(", ").append(mapId);
         sb.append(", ").append(userId);
         sb.append(", ").append(visibility);
-        sb.append(", ").append(mapMame);
+        sb.append(", ").append(mapName);
         sb.append(", ").append(chromosome);
         sb.append(", ").append(position);
 

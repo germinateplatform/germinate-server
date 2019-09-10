@@ -44,7 +44,7 @@ public class MarkerGroupTableIdResource extends PaginatedServerResource implemen
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), context, groupId, VIEW_TABLE_MARKERS_GROUPS, VIEW_TABLE_MARKERS_GROUPS.GROUP_ID, this);
+			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), getResponse(), context, groupId, VIEW_TABLE_MARKERS_GROUPS, VIEW_TABLE_MARKERS_GROUPS.GROUP_ID, this);
 
 			// Filter here!
 			filter(from, filters);

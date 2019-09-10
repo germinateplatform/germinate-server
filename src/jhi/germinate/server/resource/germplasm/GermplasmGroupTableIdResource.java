@@ -44,7 +44,7 @@ public class GermplasmGroupTableIdResource extends PaginatedServerResource imple
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), context, groupId, VIEW_TABLE_GERMPLASM_GROUPS, VIEW_TABLE_GERMPLASM_GROUPS.GROUP_ID, this);
+			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), getResponse(), context, groupId, VIEW_TABLE_GERMPLASM_GROUPS, VIEW_TABLE_GERMPLASM_GROUPS.GROUP_ID, this);
 
 			// Filter here!
 			filter(from, filters);

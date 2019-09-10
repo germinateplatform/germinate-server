@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRecord> {
 
-    private static final long serialVersionUID = 221019497;
+    private static final long serialVersionUID = -2001213336;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_mapdefinitions</code>
@@ -86,9 +86,9 @@ public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRe
     public final TableField<ViewTableMapdefinitionsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Determines if the map is visible to the Germinate interface or hidden.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.map_mame</code>. Describes the map.
+     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.map_name</code>. Describes the map.
      */
-    public final TableField<ViewTableMapdefinitionsRecord, String> MAP_MAME = createField("map_mame", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the map.");
+    public final TableField<ViewTableMapdefinitionsRecord, String> MAP_NAME = createField("map_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the map.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.

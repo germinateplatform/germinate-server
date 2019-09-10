@@ -22,6 +22,7 @@ import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
 import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.OverviewStatsResource;
+import jhi.germinate.server.resource.traits.*;
 
 /**
  * @author Sebastian Raubach
@@ -150,6 +151,9 @@ public class Germinate extends Application
 		// MARKERS
 		attachToRouter(routerAuth, "/marker/table", MarkerTableResource.class);
 		attachToRouter(routerAuth, "/marker/table/ids", MarkerTableIdResource.class);
+
+		// TRAITS
+		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
 
 		// STATS
 		attachToRouter(routerAuth, "/stats/overview", OverviewStatsResource.class);
