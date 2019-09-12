@@ -4,10 +4,14 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
+import com.google.gson.JsonArray;
+
 import java.io.Serializable;
 import java.sql.Date;
 
 import javax.annotation.Generated;
+
+import jhi.germinate.resource.DublinCore;
 
 import org.jooq.types.ULong;
 
@@ -26,28 +30,31 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1784355371;
+    private static final long serialVersionUID = 1125931536;
 
-    private Integer datasetId;
-    private String  datasetName;
-    private String  datesetDescription;
-    private String  hyperlink;
-    private String  experimentType;
-    private String  experimentName;
-    private String  datatype;
-    private String  datasetState;
-    private String  location;
-    private String  countryCode;
-    private String  countryName;
-    private Integer licenseId;
-    private String  licenseName;
-    private String  contact;
-    private Date    startDate;
-    private Date    endDate;
-    private ULong   dataObjectCount;
-    private ULong   dataPointCount;
-    private Boolean isExternal;
-    private String  acceptedBy;
+    private Integer    datasetId;
+    private String     datasetName;
+    private String     datesetDescription;
+    private String     hyperlink;
+    private String     experimentType;
+    private String     experimentName;
+    private String     datatype;
+    private String     datasetState;
+    private String     location;
+    private String     countryCode;
+    private String     countryName;
+    private Integer    licenseId;
+    private String     licenseName;
+    private String     contact;
+    private Date       startDate;
+    private Date       endDate;
+    private DublinCore dublinCore;
+    private ULong      dataObjectCount;
+    private ULong      dataPointCount;
+    private Boolean    isExternal;
+    private Long       collaborators;
+    private Long       attributes;
+    private JsonArray  acceptedBy;
 
     public ViewTableDatasets() {}
 
@@ -68,33 +75,39 @@ public class ViewTableDatasets implements Serializable {
         this.contact = value.contact;
         this.startDate = value.startDate;
         this.endDate = value.endDate;
+        this.dublinCore = value.dublinCore;
         this.dataObjectCount = value.dataObjectCount;
         this.dataPointCount = value.dataPointCount;
         this.isExternal = value.isExternal;
+        this.collaborators = value.collaborators;
+        this.attributes = value.attributes;
         this.acceptedBy = value.acceptedBy;
     }
 
     public ViewTableDatasets(
-        Integer datasetId,
-        String  datasetName,
-        String  datesetDescription,
-        String  hyperlink,
-        String  experimentType,
-        String  experimentName,
-        String  datatype,
-        String  datasetState,
-        String  location,
-        String  countryCode,
-        String  countryName,
-        Integer licenseId,
-        String  licenseName,
-        String  contact,
-        Date    startDate,
-        Date    endDate,
-        ULong   dataObjectCount,
-        ULong   dataPointCount,
-        Boolean isExternal,
-        String  acceptedBy
+        Integer    datasetId,
+        String     datasetName,
+        String     datesetDescription,
+        String     hyperlink,
+        String     experimentType,
+        String     experimentName,
+        String     datatype,
+        String     datasetState,
+        String     location,
+        String     countryCode,
+        String     countryName,
+        Integer    licenseId,
+        String     licenseName,
+        String     contact,
+        Date       startDate,
+        Date       endDate,
+        DublinCore dublinCore,
+        ULong      dataObjectCount,
+        ULong      dataPointCount,
+        Boolean    isExternal,
+        Long       collaborators,
+        Long       attributes,
+        JsonArray  acceptedBy
     ) {
         this.datasetId = datasetId;
         this.datasetName = datasetName;
@@ -112,9 +125,12 @@ public class ViewTableDatasets implements Serializable {
         this.contact = contact;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.dublinCore = dublinCore;
         this.dataObjectCount = dataObjectCount;
         this.dataPointCount = dataPointCount;
         this.isExternal = isExternal;
+        this.collaborators = collaborators;
+        this.attributes = attributes;
         this.acceptedBy = acceptedBy;
     }
 
@@ -246,6 +262,14 @@ public class ViewTableDatasets implements Serializable {
         this.endDate = endDate;
     }
 
+    public DublinCore getDublinCore() {
+        return this.dublinCore;
+    }
+
+    public void setDublinCore(DublinCore dublinCore) {
+        this.dublinCore = dublinCore;
+    }
+
     public ULong getDataObjectCount() {
         return this.dataObjectCount;
     }
@@ -270,11 +294,27 @@ public class ViewTableDatasets implements Serializable {
         this.isExternal = isExternal;
     }
 
-    public String getAcceptedBy() {
+    public Long getCollaborators() {
+        return this.collaborators;
+    }
+
+    public void setCollaborators(Long collaborators) {
+        this.collaborators = collaborators;
+    }
+
+    public Long getAttributes() {
+        return this.attributes;
+    }
+
+    public void setAttributes(Long attributes) {
+        this.attributes = attributes;
+    }
+
+    public JsonArray getAcceptedBy() {
         return this.acceptedBy;
     }
 
-    public void setAcceptedBy(String acceptedBy) {
+    public void setAcceptedBy(JsonArray acceptedBy) {
         this.acceptedBy = acceptedBy;
     }
 
@@ -298,9 +338,12 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(contact);
         sb.append(", ").append(startDate);
         sb.append(", ").append(endDate);
+        sb.append(", ").append(dublinCore);
         sb.append(", ").append(dataObjectCount);
         sb.append(", ").append(dataPointCount);
         sb.append(", ").append(isExternal);
+        sb.append(", ").append(collaborators);
+        sb.append(", ").append(attributes);
         sb.append(", ").append(acceptedBy);
 
         sb.append(")");

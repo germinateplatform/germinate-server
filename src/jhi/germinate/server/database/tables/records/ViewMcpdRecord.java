@@ -27,7 +27,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = -512647297;
+    private static final long serialVersionUID = -1051004427;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
@@ -53,7 +53,7 @@ public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
     /**
      * Create a detached, initialised ViewMcpdRecord
      */
-    public ViewMcpdRecord(Integer id, String puid, String instcode, String accenumb, String collnumb, String collcode, String collname, String collinstaddress, String collmissid, String genus, String species, String spauthor, String subtaxa, String subtauthor, String cropname, String accename, String acqdate, String origcty, String collsite, BigDecimal declatitude, byte[] latitude, BigDecimal declongitude, byte[] longitude, Integer coorduncert, String coorddatum, String georefmeth, BigDecimal elevation, String colldate, String bredcode, String bredname, Integer sampstat, String ancest, Integer collsrc, String donorcode, String donorname, String donornumb, String othernumb, String duplsite, String duplinstname, String storage, Integer mlsstat, String remarks, String entitytype, String entityparentaccenumb) {
+    public ViewMcpdRecord(Integer id, String puid, String instcode, String accenumb, String collnumb, String collcode, String collname, String collinstaddress, String collmissid, String genus, String species, String spauthor, String subtaxa, String subtauthor, String cropname, String accename, String acqdate, String origcty, String collsite, BigDecimal declatitude, byte[] latitude, BigDecimal declongitude, byte[] longitude, Integer coorduncert, String coorddatum, String georefmeth, BigDecimal elevation, String colldate, String bredcode, String bredname, Integer sampstat, String ancest, Integer collsrc, String donorcode, String donorname, String donornumb, String othernumb, String duplsite, String duplinstname, String storage, Integer mlsstat, String remarks, String entityType, String entityParentAccenumb) {
         super(ViewMcpd.VIEW_MCPD);
 
         set(0, id);
@@ -98,8 +98,8 @@ public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
         set(39, storage);
         set(40, mlsstat);
         set(41, remarks);
-        set(42, entitytype);
-        set(43, entityparentaccenumb);
+        set(42, entityType);
+        set(43, entityParentAccenumb);
     }
 
     /**
@@ -677,20 +677,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
-     */
-    public void setEntitytype(String value) {
-        set(42, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
-     */
-    public String getEntitytype() {
-        return (String) get(42);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_mcpd.MLSSTAT</code>. Foreign key to mlsstatus (mlsstatus.id).
      */
     public void setMlsstat(Integer value) {
@@ -704,21 +690,35 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
         set(41, value);
     }
 
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
+     */
+    public String getEntityType() {
+        return (String) get(42);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
+     */
+    public void setEntityType(String value) {
+        set(42, value);
+    }
+
     // -------------------------------------------------------------------------
     // Constructors
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
      */
-    public String getEntityparentaccenumb() {
+    public String getEntityParentAccenumb() {
         return (String) get(43);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
      */
-    public void setEntityparentaccenumb(String value) {
+    public void setEntityParentAccenumb(String value) {
         set(43, value);
     }
 // @formatter:on

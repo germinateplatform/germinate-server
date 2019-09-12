@@ -94,6 +94,13 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_state</code>. The state where the location is if this exists.
+     */
+    public String getLocationState() {
+        return (String) get(3);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_locations.location_name</code>. The site name where the location is.
      */
     public String getLocationName() {
@@ -105,13 +112,6 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
      */
     public String getLocationRegion() {
         return (String) get(2);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_state</code>. The state where the location is if this exists.
-     */
-    public String getLocationState() {
-        return (String) get(3);
     }
 
     /**
@@ -136,20 +136,6 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_latitude</code>. Latitude of the location.
-     */
-    public void setLocationLatitude(BigDecimal value) {
-        set(5, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
-     */
-    public void setLocationElevation(BigDecimal value) {
-        set(7, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_locations.location_longitude</code>. Longitude of the location.
      */
     public BigDecimal getLocationLongitude() {
@@ -157,10 +143,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_latitude</code>. Latitude of the location.
      */
-    public void setCountryName(String value) {
-        set(8, value);
+    public void setLocationLatitude(BigDecimal value) {
+        set(5, value);
     }
 
     /**
@@ -171,10 +157,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
      */
-    public void setCountryCode2(String value) {
-        set(9, value);
+    public void setCountryName(String value) {
+        set(8, value);
     }
 
     /**
@@ -182,6 +168,20 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
      */
     public BigDecimal getLocationElevation() {
         return (BigDecimal) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_code2</code>. ISO 2 Code for country.
+     */
+    public void setCountryCode2(String value) {
+        set(9, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
+     */
+    public void setLocationElevation(BigDecimal value) {
+        set(7, value);
     }
 
     /**

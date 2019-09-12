@@ -11,8 +11,10 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.resource.DublinCore;
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.DatasetsRecord;
+import jhi.germinate.server.util.DublinCoreBinding;
 
 import org.jooq.Field;
 import org.jooq.Identity;
@@ -42,7 +44,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets extends TableImpl<DatasetsRecord> {
 
-    private static final long serialVersionUID = 1249243159;
+    private static final long serialVersionUID = 1937975405;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.datasets</code>
@@ -103,10 +105,9 @@ public class Datasets extends TableImpl<DatasetsRecord> {
     public final TableField<DatasetsRecord, String> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A description of the data type of the contained data. Examples might be: \"raw data\", \"BLUPs\", etc.");
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     * The column <code>germinate_template_3_7_0.datasets.dublin_core</code>.
      */
-    @java.lang.Deprecated
-    public final TableField<DatasetsRecord, Object> DUBLIN_CORE = createField("dublin_core", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"datasets_dublin_core\""), this, "");
+    public final TableField<DatasetsRecord, DublinCore> DUBLIN_CORE = createField("dublin_core", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"datasets_dublin_core\""), this, "", new DublinCoreBinding());
 
     /**
      * The column <code>germinate_template_3_7_0.datasets.version</code>. Dataset version if this exists.

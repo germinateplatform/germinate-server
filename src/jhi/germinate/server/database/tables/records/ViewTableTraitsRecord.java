@@ -40,6 +40,20 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getTraitId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.trait_name</code>. Phenotype full name.
+     */
+    public void setTraitName(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised ViewTableTraitsRecord
      */
     public ViewTableTraitsRecord(Integer traitId, String traitName, String traitNameShort, String traitDescription, Integer unitId, String unitName, String unitDescription, String unitAbbreviation, JsonArray synonyms, Long count) {
@@ -58,10 +72,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
-    public Integer getTraitId() {
-        return (Integer) get(0);
+    public void setTraitNameShort(String value) {
+        set(2, value);
     }
 
     /**
@@ -72,41 +86,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name</code>. Phenotype full name.
-     */
-    public String getTraitName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.trait_name</code>. Phenotype full name.
-     */
-    public void setTraitName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
-     */
-    public String getTraitNameShort() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
-     */
-    public void setTraitNameShort(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
-     */
-    public String getTraitDescription() {
-        return (String) get(3);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_traits.trait_description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public void setTraitDescription(String value) {
@@ -114,10 +93,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name</code>. Phenotype full name.
      */
-    public Integer getUnitId() {
-        return (Integer) get(4);
+    public String getTraitName() {
+        return (String) get(1);
     }
 
     /**
@@ -128,10 +107,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
-    public String getUnitName() {
-        return (String) get(5);
+    public String getTraitNameShort() {
+        return (String) get(2);
     }
 
     /**
@@ -142,10 +121,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
-    public String getUnitDescription() {
-        return (String) get(6);
+    public String getTraitDescription() {
+        return (String) get(3);
     }
 
     /**
@@ -156,10 +135,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_abbreviation</code>. This should be the unit abbreviation.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getUnitAbbreviation() {
-        return (String) get(7);
+    public Integer getUnitId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -170,10 +149,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(8);
+    public String getUnitName() {
+        return (String) get(5);
     }
 
     /**
@@ -183,15 +162,11 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
         set(8, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record10 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.count</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
-    public Long getCount() {
-        return (Long) get(9);
+    public String getUnitDescription() {
+        return (String) get(6);
     }
 
     /**
@@ -200,6 +175,17 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     public void setCount(Long value) {
         set(9, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_abbreviation</code>. This should be the unit abbreviation.
+     */
+    public String getUnitAbbreviation() {
+        return (String) get(7);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -538,10 +524,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -567,6 +549,24 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
+     */
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.count</code>.
+     */
+    public Long getCount() {
+        return (Long) get(9);
     }
 // @formatter:on
 }

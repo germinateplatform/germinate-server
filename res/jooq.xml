@@ -25,9 +25,21 @@
 			<forcedTypes>
 				<forcedType>
 					<binding>jhi.germinate.server.util.SynonymBinding</binding>
+					<expression>.*(view_table_).*\..*(accepted_by).*</expression>
+					<types>.*json.*</types>
+					<userType>com.google.gson.JsonArray</userType>
+				</forcedType>
+				<forcedType>
+					<binding>jhi.germinate.server.util.SynonymBinding</binding>
 					<expression>.*\..*(synonym).*</expression>
 					<types>.*json.*</types>
 					<userType>com.google.gson.JsonArray</userType>
+				</forcedType>
+				<forcedType>
+					<binding>jhi.germinate.server.util.DublinCoreBinding</binding>
+					<expression>.*\..*(dublin_core).*</expression>
+					<types>.*json.*</types>
+					<userType>jhi.germinate.resource.DublinCore</userType>
 				</forcedType>
 				<forcedType>
 					<expression>.*</expression>

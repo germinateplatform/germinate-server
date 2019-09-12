@@ -45,9 +45,30 @@ public class CollectionUtils
 		builder.append(it.next());
 
 		while (it.hasNext())
-		{
 			builder.append(delimiter).append(it.next());
-		}
+
+		return builder.toString();
+	}
+
+	/**
+	 * Joins the given input {@link Collection} with the given delimiter into a String
+	 *
+	 * @param input     The input {@link List}
+	 * @param delimiter The delimiter to use
+	 * @return The joined String
+	 */
+	public static <T> String join(T[] input, String delimiter)
+	{
+		if (input == null || input.length < 1)
+			return "";
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(input[0]);
+
+		for (int i = 1; i < input.length; i++)
+			builder.append(delimiter)
+				   .append(input[i]);
 
 		return builder.toString();
 	}

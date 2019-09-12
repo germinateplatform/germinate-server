@@ -68,6 +68,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
+     */
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(2);
+    }
+
+    /**
      * Create a detached, initialised ViewTableMapdefinitionsRecord
      */
     public ViewTableMapdefinitionsRecord(Integer markerId, String markerName, JsonArray synonyms, String mapFeatureType, Integer mapId, Integer userId, Boolean visibility, String mapName, String chromosome, Double position) {
@@ -97,13 +104,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      */
     public String getMapFeatureType() {
         return (String) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
-     */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(2);
     }
 
     /**
@@ -260,6 +260,14 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Field<String> field8() {
+        return ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS.MAP_NAME;
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public Double getPosition() {
@@ -271,14 +279,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      */
     public void setPosition(Double value) {
         set(9, value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Field<String> field8() {
-        return ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS.MAP_NAME;
     }
 
     /**

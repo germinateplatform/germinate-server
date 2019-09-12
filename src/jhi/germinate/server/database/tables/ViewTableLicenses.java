@@ -4,10 +4,13 @@
 package jhi.germinate.server.database.tables;
 
 
+import com.google.gson.JsonArray;
+
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableLicensesRecord;
+import jhi.germinate.server.util.SynonymBinding;
 
 import org.jooq.Field;
 import org.jooq.Name;
@@ -32,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
 
-    private static final long serialVersionUID = -948296992;
+    private static final long serialVersionUID = 337824191;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_licenses</code>
@@ -76,6 +79,16 @@ public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
      * The column <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LOCALE_DESCRIPTION = createField("locale_description", org.jooq.impl.SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableLicensesRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_licenses.accepted_by</code>.
+     */
+    public final TableField<ViewTableLicensesRecord, JsonArray> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_licenses_accepted_by\""), this, "", new SynonymBinding());
 
     /**
      * Create a <code>germinate_template_3_7_0.view_table_licenses</code> table reference

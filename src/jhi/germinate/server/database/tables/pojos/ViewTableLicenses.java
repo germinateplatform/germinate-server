@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
+import com.google.gson.JsonArray;
+
 import java.io.Serializable;
 
 import javax.annotation.Generated;
@@ -23,14 +25,16 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicenses implements Serializable {
 
-    private static final long serialVersionUID = 2005239288;
+    private static final long serialVersionUID = -218045731;
 
-    private Integer licenseId;
-    private String  licenseName;
-    private String  licenseDescription;
-    private String  licenseContent;
-    private String  localeName;
-    private String  localeDescription;
+    private Integer   licenseId;
+    private String    licenseName;
+    private String    licenseDescription;
+    private String    licenseContent;
+    private String    localeName;
+    private String    localeDescription;
+    private Integer   datasetId;
+    private JsonArray acceptedBy;
 
     public ViewTableLicenses() {}
 
@@ -41,15 +45,19 @@ public class ViewTableLicenses implements Serializable {
         this.licenseContent = value.licenseContent;
         this.localeName = value.localeName;
         this.localeDescription = value.localeDescription;
+        this.datasetId = value.datasetId;
+        this.acceptedBy = value.acceptedBy;
     }
 
     public ViewTableLicenses(
-        Integer licenseId,
-        String  licenseName,
-        String  licenseDescription,
-        String  licenseContent,
-        String  localeName,
-        String  localeDescription
+        Integer   licenseId,
+        String    licenseName,
+        String    licenseDescription,
+        String    licenseContent,
+        String    localeName,
+        String    localeDescription,
+        Integer   datasetId,
+        JsonArray acceptedBy
     ) {
         this.licenseId = licenseId;
         this.licenseName = licenseName;
@@ -57,6 +65,8 @@ public class ViewTableLicenses implements Serializable {
         this.licenseContent = licenseContent;
         this.localeName = localeName;
         this.localeDescription = localeDescription;
+        this.datasetId = datasetId;
+        this.acceptedBy = acceptedBy;
     }
 
     public Integer getLicenseId() {
@@ -107,6 +117,22 @@ public class ViewTableLicenses implements Serializable {
         this.localeDescription = localeDescription;
     }
 
+    public Integer getDatasetId() {
+        return this.datasetId;
+    }
+
+    public void setDatasetId(Integer datasetId) {
+        this.datasetId = datasetId;
+    }
+
+    public JsonArray getAcceptedBy() {
+        return this.acceptedBy;
+    }
+
+    public void setAcceptedBy(JsonArray acceptedBy) {
+        this.acceptedBy = acceptedBy;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableLicenses (");
@@ -117,6 +143,8 @@ public class ViewTableLicenses implements Serializable {
         sb.append(", ").append(licenseContent);
         sb.append(", ").append(localeName);
         sb.append(", ").append(localeDescription);
+        sb.append(", ").append(datasetId);
+        sb.append(", ").append(acceptedBy);
 
         sb.append(")");
         return sb.toString();

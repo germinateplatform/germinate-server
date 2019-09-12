@@ -222,40 +222,19 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
-     */
-    public void setBiologicalStatusName(String value) {
-        set(9, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(12, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.synonyms</code>. The synonyms as a json array.
-     */
-    public void setSynonyms(JsonArray value) {
-        set(10, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
-     */
-    public void setSpecies(String value) {
-        set(13, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
 initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
 identifying duplicates held in different collections.
      */
     public String getCollectorNumber() {
         return (String) get(11);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
+     */
+    public void setBiologicalStatusName(String value) {
+        set(9, value);
     }
 
     /**
@@ -266,10 +245,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.synonyms</code>. The synonyms as a json array.
      */
-    public String getSubtaxa() {
-        return (String) get(14);
+    public void setSynonyms(JsonArray value) {
+        set(10, value);
     }
 
     /**
@@ -280,13 +259,6 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.location</code>. The site name where the location is.
-     */
-    public String getLocation() {
-        return (String) get(15);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
      */
     public void setSubtaxa(String value) {
@@ -294,10 +266,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
      */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(16);
+    public void setGenus(String value) {
+        set(12, value);
     }
 
     /**
@@ -308,10 +280,38 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
+     */
+    public void setSpecies(String value) {
+        set(13, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public void setElevation(BigDecimal value) {
         set(16, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public String getSubtaxa() {
+        return (String) get(14);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.location</code>. The site name where the location is.
+     */
+    public String getLocation() {
+        return (String) get(15);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     */
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(16);
     }
 
     /**
@@ -343,33 +343,11 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
-     */
-    public void setPdci(Double value) {
-        set(20, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
     public Date getCollDate() {
         return (Date) get(19);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
-Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
-     */
-    public void setCollDate(Date value) {
-        set(19, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
-     */
-    public Long getImageCount() {
-        return (Long) get(21);
     }
 
     /**
@@ -386,15 +364,12 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
         set(21, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
+Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
-    public String getFirstImagePath() {
-        return (String) get(22);
+    public void setCollDate(Date value) {
+        set(19, value);
     }
 
     /**
@@ -402,6 +377,31 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     public void setFirstImagePath(String value) {
         set(22, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(20, value);
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
+     */
+    public Long getImageCount() {
+        return (Long) get(21);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
+     */
+    public String getFirstImagePath() {
+        return (String) get(22);
     }
 // @formatter:on
 }

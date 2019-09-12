@@ -13,10 +13,12 @@ import java.util.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
+import jhi.germinate.server.resource.datasets.export.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.groups.*;
 import jhi.germinate.server.resource.images.*;
 import jhi.germinate.server.resource.importers.*;
+import jhi.germinate.server.resource.license.*;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
@@ -109,6 +111,9 @@ public class Germinate extends Application
 		// DATASETS
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
 		attachToRouter(routerAuth, "/dataset/table/ids", DatasetTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/{datasetId}/collaborator", CollaboratorTableResource.class);
+		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
 
 		// GERMPLASM
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
@@ -136,6 +141,7 @@ public class Germinate extends Application
 
 		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
+		attachToRouter(routerAuth, "/license/{licenseId}/accept", LicenseDecisionResource.class);
 
 		// LOCATIONS
 		attachToRouter(routerAuth, "/location/table", LocationTableResource.class);

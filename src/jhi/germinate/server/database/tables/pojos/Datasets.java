@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.resource.DublinCore;
+
 
 // @formatter:off
 /**
@@ -27,27 +29,27 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets implements Serializable {
 
-    private static final long serialVersionUID = 1087027230;
+    private static final long serialVersionUID = 1115491922;
 
-    private Integer   id;
-    private Integer   experimentId;
-    private Integer   locationId;
-    private String    name;
-    private String    description;
-    private Date      dateStart;
-    private Date      dateEnd;
-    private String    sourceFile;
-    private String    datatype;
-    private Object    dublinCore;
-    private String    version;
-    private Integer   createdBy;
-    private Integer   datasetStateId;
-    private Integer   licenseId;
-    private Boolean   isExternal;
-    private String    hyperlink;
-    private Timestamp createdOn;
-    private Timestamp updatedOn;
-    private String    contact;
+    private Integer    id;
+    private Integer    experimentId;
+    private Integer    locationId;
+    private String     name;
+    private String     description;
+    private Date       dateStart;
+    private Date       dateEnd;
+    private String     sourceFile;
+    private String     datatype;
+    private DublinCore dublinCore;
+    private String     version;
+    private Integer    createdBy;
+    private Integer    datasetStateId;
+    private Integer    licenseId;
+    private Boolean    isExternal;
+    private String     hyperlink;
+    private Timestamp  createdOn;
+    private Timestamp  updatedOn;
+    private String     contact;
 
     public Datasets() {}
 
@@ -74,25 +76,25 @@ public class Datasets implements Serializable {
     }
 
     public Datasets(
-        Integer   id,
-        Integer   experimentId,
-        Integer   locationId,
-        String    name,
-        String    description,
-        Date      dateStart,
-        Date      dateEnd,
-        String    sourceFile,
-        String    datatype,
-        Object    dublinCore,
-        String    version,
-        Integer   createdBy,
-        Integer   datasetStateId,
-        Integer   licenseId,
-        Boolean   isExternal,
-        String    hyperlink,
-        Timestamp createdOn,
-        Timestamp updatedOn,
-        String    contact
+        Integer    id,
+        Integer    experimentId,
+        Integer    locationId,
+        String     name,
+        String     description,
+        Date       dateStart,
+        Date       dateEnd,
+        String     sourceFile,
+        String     datatype,
+        DublinCore dublinCore,
+        String     version,
+        Integer    createdBy,
+        Integer    datasetStateId,
+        Integer    licenseId,
+        Boolean    isExternal,
+        String     hyperlink,
+        Timestamp  createdOn,
+        Timestamp  updatedOn,
+        String     contact
     ) {
         this.id = id;
         this.experimentId = experimentId;
@@ -187,21 +189,11 @@ public class Datasets implements Serializable {
         this.datatype = datatype;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public Object getDublinCore() {
+    public DublinCore getDublinCore() {
         return this.dublinCore;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setDublinCore(Object dublinCore) {
+    public void setDublinCore(DublinCore dublinCore) {
         this.dublinCore = dublinCore;
     }
 

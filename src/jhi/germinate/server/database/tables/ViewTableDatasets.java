@@ -4,12 +4,17 @@
 package jhi.germinate.server.database.tables;
 
 
+import com.google.gson.JsonArray;
+
 import java.sql.Date;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.resource.DublinCore;
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
+import jhi.germinate.server.util.DublinCoreBinding;
+import jhi.germinate.server.util.SynonymBinding;
 
 import org.jooq.Field;
 import org.jooq.Name;
@@ -35,7 +40,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -862763528;
+    private static final long serialVersionUID = 1267409650;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
@@ -131,6 +136,11 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public final TableField<ViewTableDatasetsRecord, Date> END_DATE = createField("end_date", org.jooq.impl.SQLDataType.DATE, this, "Date at which the dataset recording ended.");
 
     /**
+     * The column <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
+     */
+    public final TableField<ViewTableDatasetsRecord, DublinCore> DUBLIN_CORE = createField("dublin_core", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_datasets_dublin_core\""), this, "", new DublinCoreBinding());
+
+    /**
      * The column <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
     public final TableField<ViewTableDatasetsRecord, ULong> DATA_OBJECT_COUNT = createField("data_object_count", org.jooq.impl.SQLDataType.BIGINTUNSIGNED, this, "The number of data objects contained in this dataset.");
@@ -146,9 +156,19 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public final TableField<ViewTableDatasetsRecord, Boolean> IS_EXTERNAL = createField("is_external", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Defines if the dataset is contained within Germinate or from an external source and not stored in the database.");
 
     /**
+     * The column <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     */
+    public final TableField<ViewTableDatasetsRecord, Long> COLLABORATORS = createField("collaborators", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
+     */
+    public final TableField<ViewTableDatasetsRecord, Long> ATTRIBUTES = createField("attributes", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
      * The column <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
      */
-    public final TableField<ViewTableDatasetsRecord, String> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.SQLDataType.CLOB, this, "");
+    public final TableField<ViewTableDatasetsRecord, JsonArray> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_datasets_accepted_by\""), this, "", new SynonymBinding());
 
     /**
      * Create a <code>germinate_template_3_7_0.view_table_datasets</code> table reference

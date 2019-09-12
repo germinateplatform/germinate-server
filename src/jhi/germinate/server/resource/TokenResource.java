@@ -62,7 +62,7 @@ public class TokenResource extends ServerResource
 		{
 			// Try and see if it's a valid UUID
 			UUID.fromString(user.getPassword());
-			return CustomVerifier.removeToken(user.getPassword());
+			return CustomVerifier.removeToken(user.getPassword(), getRequest(), getResponse());
 		}
 		catch (Exception e)
 		{
@@ -129,7 +129,7 @@ public class TokenResource extends ServerResource
 		{
 			token = UUID.randomUUID().toString();
 			imageToken = UUID.randomUUID().toString();
-			CustomVerifier.addToken(getResponse(), token, imageToken, userType, user.getId());
+			CustomVerifier.addToken(getRequest(), getResponse(), token, imageToken, userType, user.getId());
 		}
 		else
 		{

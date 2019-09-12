@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Germinate;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
@@ -63,13 +63,15 @@ public class CustomVerifier implements Verifier
 		}, 0, 60000);
 	}
 
-	public static boolean removeToken(String token)
+	public static boolean removeToken(String token, Request request, Response response)
 	{
 		UserDetails exists = tokenToTimestamp.remove(token);
 
 		if (exists != null)
 		{
 			tokenToImageToken.remove(exists.imageToken);
+			setCookie(request, response, null);
+			setDatasetCookie(request, response, true);
 			return true;
 		}
 		else
@@ -124,7 +126,7 @@ public class CustomVerifier implements Verifier
 				result.match = Objects.equals(result.token, cookies.get(0).getValue());
 
 				if (!result.match)
-					response.getCookieSettings().removeIf(c -> Objects.equals(c.getName(), "token"));
+					setCookie(request, response, null);
 			}
 			else
 			{
@@ -146,7 +148,7 @@ public class CustomVerifier implements Verifier
 
 		// If there is no token or token and cookie don't match, remove the cookie
 		if (token == null || !token.match)
-			request.getCookies().removeIf(c -> Objects.equals(c.getName(), "token"));
+			setCookie(request, response, null);
 
 		if (token == null)
 		{
@@ -170,9 +172,9 @@ public class CustomVerifier implements Verifier
 		}
 	}
 
-	public static void addToken(Response response, String token, String imageToken, String userType, Integer userId)
+	public static void addToken(Request request, Response response, String token, String imageToken, String userType, Integer userId)
 	{
-		setCookie(response, token);
+		setCookie(request, response, token);
 		UserDetails details = new UserDetails();
 		details.timestamp = System.currentTimeMillis();
 		details.imageToken = imageToken;
@@ -197,18 +199,47 @@ public class CustomVerifier implements Verifier
 		tokenToImageToken.put(token, details.imageToken);
 	}
 
-	private static void setCookie(Response response, String token)
+	private static void setCookie(Request request, Response response, String token)
 	{
+		boolean delete = StringUtils.isEmpty(token);
+
 		CookieSetting cookie = new CookieSetting(0, "token", token);
 		cookie.setAccessRestricted(true);
-		cookie.setMaxAge((int) (AGE / 1000));
+		cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
 		cookie.setPath("/");
 		response.getCookieSettings().add(cookie);
+
+		setDatasetCookie(request, response, false);
+	}
+
+	private static void setDatasetCookie(Request request, Response response, boolean delete)
+	{
+		Set<Integer> ids = getAcceptedDatasets(request);
+		if (!CollectionUtils.isEmpty(ids))
+		{
+			CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
+			cookie.setAccessRestricted(true);
+			cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
+			cookie.setPath("/");
+			response.getCookieSettings().add(cookie);
+		}
 	}
 
 	public static boolean isValidImageToken(String imageToken)
 	{
 		return tokenToImageToken.containsValue(imageToken);
+	}
+
+	public static void updateAcceptedDatasets(Request request, Response response, Integer licenseId)
+	{
+		Set<Integer> ids = getAcceptedDatasets(request);
+		ids.add(licenseId);
+
+		CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
+		cookie.setAccessRestricted(true);
+		cookie.setMaxAge((int) (AGE / 1000));
+		cookie.setPath("/");
+		response.getCookieSettings().add(cookie);
 	}
 
 	private boolean canAccess(UserType minUserType, AuthenticationMode mode, UserDetails userDetails)
@@ -230,6 +261,29 @@ public class CustomVerifier implements Verifier
 			default:
 				return false;
 		}
+	}
+
+	public static Set<Integer> getAcceptedDatasets(Request request)
+	{
+		return request.getCookies().stream()
+					  .filter(c -> c.getName().equals("accepted-licenses"))
+					  .map(c -> {
+						  String[] values = c.getValue().split(",");
+						  Set<Integer> result = new HashSet<>();
+						  for (String value : values)
+						  {
+							  try
+							  {
+								  result.add(Integer.parseInt(value));
+							  }
+							  catch (NumberFormatException e)
+							  {
+							  }
+						  }
+						  return result;
+					  })
+					  .findFirst()
+					  .orElse(new HashSet<>());
 	}
 
 	@Override
@@ -289,7 +343,7 @@ public class CustomVerifier implements Verifier
 							// Extend the cookie
 							details.timestamp = System.currentTimeMillis();
 							tokenToTimestamp.put(token.token, details);
-							setCookie(response, token.token);
+							setCookie(request, response, token.token);
 						}
 						else
 						{
@@ -297,10 +351,21 @@ public class CustomVerifier implements Verifier
 						}
 					}
 
-					return canAccess ? RESULT_VALID : RESULT_INVALID;
+					if (canAccess)
+					{
+						// Extend the cookie here
+						setCookie(request, response, token.token);
+						return RESULT_VALID;
+					}
+					else
+					{
+						removeToken(token.token, request, response);
+						return RESULT_INVALID;
+					}
 				}
 				else
 				{
+					removeToken(null, request, response);
 					return RESULT_INVALID;
 				}
 			}
@@ -369,7 +434,7 @@ public class CustomVerifier implements Verifier
 					return userType == UserType.ADMIN || userType == UserType.DATA_CURATOR || userType == UserType.AUTH_USER;
 			}
 
-			return true;
+			return false;
 		}
 
 		public Long getTimestamp()
@@ -382,6 +447,9 @@ public class CustomVerifier implements Verifier
 		{
 			return "UserDetails{" +
 				"id=" + id +
+				", token='" + token + '\'' +
+				", imageToken='" + imageToken + '\'' +
+				", userType=" + userType +
 				", timestamp=" + timestamp +
 				'}';
 		}

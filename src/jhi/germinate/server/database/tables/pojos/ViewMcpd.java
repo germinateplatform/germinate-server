@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd implements Serializable {
 
-    private static final long serialVersionUID = -1743891257;
+    private static final long serialVersionUID = -798797785;
 
     private Integer    id;
     private String     puid;
@@ -68,8 +68,8 @@ public class ViewMcpd implements Serializable {
     private String     storage;
     private Integer    mlsstat;
     private String     remarks;
-    private String     entitytype;
-    private String     entityparentaccenumb;
+    private String     entityType;
+    private String     entityParentAccenumb;
 
     public ViewMcpd() {}
 
@@ -116,8 +116,8 @@ public class ViewMcpd implements Serializable {
         this.storage = value.storage;
         this.mlsstat = value.mlsstat;
         this.remarks = value.remarks;
-        this.entitytype = value.entitytype;
-        this.entityparentaccenumb = value.entityparentaccenumb;
+        this.entityType = value.entityType;
+        this.entityParentAccenumb = value.entityParentAccenumb;
     }
 
     public ViewMcpd(
@@ -163,8 +163,8 @@ public class ViewMcpd implements Serializable {
         String     storage,
         Integer    mlsstat,
         String     remarks,
-        String     entitytype,
-        String     entityparentaccenumb
+        String     entityType,
+        String     entityParentAccenumb
     ) {
         this.id = id;
         this.puid = puid;
@@ -208,8 +208,8 @@ public class ViewMcpd implements Serializable {
         this.storage = storage;
         this.mlsstat = mlsstat;
         this.remarks = remarks;
-        this.entitytype = entitytype;
-        this.entityparentaccenumb = entityparentaccenumb;
+        this.entityType = entityType;
+        this.entityParentAccenumb = entityParentAccenumb;
     }
 
     public Integer getId() {
@@ -548,20 +548,20 @@ public class ViewMcpd implements Serializable {
         this.remarks = remarks;
     }
 
-    public String getEntitytype() {
-        return this.entitytype;
+    public String getEntityType() {
+        return this.entityType;
     }
 
-    public void setEntitytype(String entitytype) {
-        this.entitytype = entitytype;
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
 
-    public String getEntityparentaccenumb() {
-        return this.entityparentaccenumb;
+    public String getEntityParentAccenumb() {
+        return this.entityParentAccenumb;
     }
 
-    public void setEntityparentaccenumb(String entityparentaccenumb) {
-        this.entityparentaccenumb = entityparentaccenumb;
+    public void setEntityParentAccenumb(String entityParentAccenumb) {
+        this.entityParentAccenumb = entityParentAccenumb;
     }
 
     @Override
@@ -610,8 +610,8 @@ public class ViewMcpd implements Serializable {
         sb.append(", ").append(storage);
         sb.append(", ").append(mlsstat);
         sb.append(", ").append(remarks);
-        sb.append(", ").append(entitytype);
-        sb.append(", ").append(entityparentaccenumb);
+        sb.append(", ").append(entityType);
+        sb.append(", ").append(entityParentAccenumb);
 
         sb.append(")");
         return sb.toString();
