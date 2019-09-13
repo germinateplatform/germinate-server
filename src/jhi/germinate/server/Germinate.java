@@ -114,6 +114,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/{datasetId}/collaborator", CollaboratorTableResource.class);
 		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
+		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
 
 		// GERMPLASM
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);

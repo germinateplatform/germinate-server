@@ -128,38 +128,17 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
-     */
-    public String getGroupName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
-     */
-    public Boolean getGroupVisibility() {
-        return (Boolean) get(6);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
-     */
-    public Integer getGroupTypeId() {
-        return (Integer) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
     public void setGroupVisibility(Boolean value) {
         set(6, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
+     */
+    public String getGroupName() {
+        return (String) get(1);
     }
 
     /**
@@ -170,10 +149,31 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
+     */
+    public Integer getGroupTypeId() {
+        return (Integer) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     */
+    public Boolean getGroupVisibility() {
+        return (Boolean) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**

@@ -94,6 +94,11 @@ public class CollectionUtils
 		return result;
 	}
 
+	public static <T> boolean isEmpty(T[] input)
+	{
+		return input == null || input.length < 1;
+	}
+
 	public static <T> boolean isEmptyOrNull(Collection<T> input)
 	{
 		if (input == null || input.size() < 1)

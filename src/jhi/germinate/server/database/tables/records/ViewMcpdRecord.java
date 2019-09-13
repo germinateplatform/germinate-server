@@ -684,17 +684,17 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
-     */
-    public void setRemarks(String value) {
-        set(41, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
      */
     public String getEntityType() {
         return (String) get(42);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
+     */
+    public void setRemarks(String value) {
+        set(41, value);
     }
 
     /**

@@ -16,6 +16,14 @@ public class Filter
 	{
 	}
 
+	public Filter(String column, String comparator, String operator, String[] values)
+	{
+		this.column = column;
+		this.comparator = comparator;
+		this.operator = operator;
+		this.values = values;
+	}
+
 	public String getColumn()
 	{
 		return column;
@@ -23,7 +31,7 @@ public class Filter
 
 	public String getSafeColumn()
 	{
-		return column.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+		return column.replaceAll("[^a-zA-Z0-9_-]", "").replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
 	}
 
 	public Filter setColumn(String column)

@@ -170,6 +170,13 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
+     */
+    public void setDatatype(String value) {
+        set(8, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
      */
     public void setDescription(String value) {
@@ -188,13 +195,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      */
     public String getDatatype() {
         return (String) get(8);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
-     */
-    public void setDatatype(String value) {
-        set(8, value);
     }
 
     /**
@@ -984,28 +984,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public DatasetsRecord value10(DublinCore value) {
-        setDublinCore(value);
-        return this;
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public DatasetsRecord value15(Boolean value) {
-        setIsExternal(value);
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public DatasetsRecord values(Integer value1, Integer value2, Integer value3, String value4, String value5, Date value6, Date value7, String value8, String value9, DublinCore value10, String value11, Integer value12, Integer value13, Integer value14, Boolean value15, String value16, Timestamp value17, Timestamp value18, String value19) {
         value1(value1);
         value2(value2);
@@ -1026,6 +1004,28 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
         value17(value17);
         value18(value18);
         value19(value19);
+        return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatasetsRecord value10(DublinCore value) {
+        setDublinCore(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatasetsRecord value15(Boolean value) {
+        setIsExternal(value);
         return this;
     }
 // @formatter:on

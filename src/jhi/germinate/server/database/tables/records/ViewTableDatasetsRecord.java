@@ -31,7 +31,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 279952754;
+    private static final long serialVersionUID = -515905038;
 
     /**
      * Create a detached ViewTableDatasetsRecord
@@ -62,21 +62,14 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dateset_description</code>. The name of this dataset.
-     */
-    public void setDatesetDescription(String value) {
-        set(2, value);
-    }
-
-    /**
      * Create a detached, initialised ViewTableDatasetsRecord
      */
-    public ViewTableDatasetsRecord(Integer datasetId, String datasetName, String datesetDescription, String hyperlink, String experimentType, String experimentName, String datatype, String datasetState, String location, String countryCode, String countryName, Integer licenseId, String licenseName, String contact, Date startDate, Date endDate, DublinCore dublinCore, ULong dataObjectCount, ULong dataPointCount, Boolean isExternal, Long collaborators, Long attributes, JsonArray acceptedBy) {
+    public ViewTableDatasetsRecord(Integer datasetId, String datasetName, String datasetDescription, String hyperlink, String experimentType, String experimentName, String datatype, String datasetState, String location, String countryCode, String countryName, Integer licenseId, String licenseName, String contact, Date startDate, Date endDate, DublinCore dublinCore, ULong dataObjectCount, ULong dataPointCount, Boolean isExternal, Long collaborators, Long attributes, JsonArray acceptedBy) {
         super(ViewTableDatasets.VIEW_TABLE_DATASETS);
 
         set(0, datasetId);
         set(1, datasetName);
-        set(2, datesetDescription);
+        set(2, datasetDescription);
         set(3, hyperlink);
         set(4, experimentType);
         set(5, experimentName);
@@ -100,6 +93,13 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setDatasetId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
      */
     public void setHyperlink(String value) {
@@ -107,10 +107,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
      */
-    public void setDatasetId(Integer value) {
-        set(0, value);
+    public String getDatasetDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -121,10 +121,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dateset_description</code>. The name of this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
      */
-    public String getDatesetDescription() {
-        return (String) get(2);
+    public void setDatasetDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -149,17 +149,17 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
-     */
-    public String getExperimentType() {
-        return (String) get(4);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
      */
     public String getDatatype() {
         return (String) get(6);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
+     */
+    public String getExperimentType() {
+        return (String) get(4);
     }
 
     /**
@@ -282,6 +282,13 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
+     */
+    public void setDublinCore(DublinCore value) {
+        set(16, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
     public void setContact(String value) {
@@ -296,20 +303,6 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
-     */
-    public DublinCore getDublinCore() {
-        return (DublinCore) get(16);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
-     */
-    public void setDublinCore(DublinCore value) {
-        set(16, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
     public ULong getDataObjectCount() {
@@ -317,10 +310,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
      */
-    public void setDataObjectCount(ULong value) {
-        set(17, value);
+    public DublinCore getDublinCore() {
+        return (DublinCore) get(16);
     }
 
     /**
@@ -331,10 +324,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
-    public void setDataPointCount(ULong value) {
-        set(18, value);
+    public void setDataObjectCount(ULong value) {
+        set(17, value);
     }
 
     /**
@@ -345,10 +338,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
      */
-    public void setIsExternal(Boolean value) {
-        set(19, value);
+    public void setDataPointCount(ULong value) {
+        set(18, value);
     }
 
     /**
@@ -359,10 +352,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
-    public void setCollaborators(Long value) {
-        set(20, value);
+    public void setIsExternal(Boolean value) {
+        set(19, value);
     }
 
     /**
@@ -370,6 +363,13 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
      */
     public Long getAttributes() {
         return (Long) get(21);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     */
+    public void setCollaborators(Long value) {
+        set(20, value);
     }
 
     /**

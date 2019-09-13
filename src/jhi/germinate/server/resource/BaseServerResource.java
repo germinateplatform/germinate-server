@@ -12,6 +12,8 @@ import java.util.stream.*;
  */
 public class BaseServerResource extends ServerResource
 {
+	protected static final String CRLF = "\r\n";
+
 	protected File createTempFile(String filename, String extension)
 		throws IOException
 	{
@@ -40,10 +42,10 @@ public class BaseServerResource extends ServerResource
 	protected static void exportToFile(PrintWriter bw, Result<Record> results)
 	{
 		Row row = results.fieldsRow();
-		bw.println(row.fieldStream()
+		bw.print(row.fieldStream()
 					  .map(Field::getName)
-					  .collect(Collectors.joining("\t")));
-		results.forEach(r -> bw.println(IntStream.range(0, row.size())
+					  .collect(Collectors.joining("\t", "", CRLF)));
+		results.forEach(r -> bw.print(IntStream.range(0, row.size())
 												 .boxed()
 												 .map(i -> {
 													 Object value = r.getValue(i);
@@ -52,6 +54,6 @@ public class BaseServerResource extends ServerResource
 													 else
 														 return value.toString();
 												 })
-												 .collect(Collectors.joining("\t"))));
+												 .collect(Collectors.joining("\t", "", CRLF))));
 	}
 }

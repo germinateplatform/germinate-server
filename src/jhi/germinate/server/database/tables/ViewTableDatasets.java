@@ -40,7 +40,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 1267409650;
+    private static final long serialVersionUID = -1565104530;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
@@ -66,9 +66,9 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public final TableField<ViewTableDatasetsRecord, String> DATASET_NAME = createField("dataset_name", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "Describes the dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.dateset_description</code>. The name of this dataset.
+     * The column <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
      */
-    public final TableField<ViewTableDatasetsRecord, String> DATESET_DESCRIPTION = createField("dateset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
+    public final TableField<ViewTableDatasetsRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.

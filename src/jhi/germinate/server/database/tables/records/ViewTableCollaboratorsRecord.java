@@ -31,10 +31,24 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     private static final long serialVersionUID = -1716339333;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_id</code>.
+     */
+    public void setCollaboratorId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableCollaboratorsRecord
      */
     public ViewTableCollaboratorsRecord() {
         super(ViewTableCollaborators.VIEW_TABLE_COLLABORATORS);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     */
+    public void setCollaboratorFirstName(String value) {
+        set(1, value);
     }
 
     /**
@@ -59,41 +73,6 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_id</code>.
-     */
-    public Integer getCollaboratorId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_id</code>.
-     */
-    public void setCollaboratorId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
-     */
-    public String getCollaboratorFirstName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
-     */
-    public void setCollaboratorFirstName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
-     */
-    public String getCollaboratorLastName() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public void setCollaboratorLastName(String value) {
@@ -101,10 +80,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_id</code>.
      */
-    public String getCollaboratorEmail() {
-        return (String) get(3);
+    public Integer getCollaboratorId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -115,10 +94,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public String getCollaboratorPhone() {
-        return (String) get(4);
+    public String getCollaboratorFirstName() {
+        return (String) get(1);
     }
 
     /**
@@ -129,10 +108,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public Integer getInstitutionId() {
-        return (Integer) get(5);
+    public String getCollaboratorLastName() {
+        return (String) get(2);
     }
 
     /**
@@ -143,10 +122,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_name</code>. The institute name.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public String getInstitutionName() {
-        return (String) get(6);
+    public String getCollaboratorEmail() {
+        return (String) get(3);
     }
 
     /**
@@ -157,10 +136,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_address</code>. The postal address of the institute.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public String getInstitutionAddress() {
-        return (String) get(7);
+    public String getCollaboratorPhone() {
+        return (String) get(4);
     }
 
     /**
@@ -171,10 +150,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(8);
+    public Integer getInstitutionId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -185,10 +164,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_name</code>. The institute name.
      */
-    public Integer getCountryId() {
-        return (Integer) get(9);
+    public String getInstitutionName() {
+        return (String) get(6);
     }
 
     /**
@@ -199,10 +178,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_name</code>. Country name.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_address</code>. The postal address of the institute.
      */
-    public String getCountryName() {
-        return (String) get(10);
+    public String getInstitutionAddress() {
+        return (String) get(7);
     }
 
     /**
@@ -213,10 +192,10 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getCountryCode2() {
-        return (String) get(11);
+    public Integer getDatasetId() {
+        return (Integer) get(8);
     }
 
     /**
@@ -226,15 +205,11 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
         set(11, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record13 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_code3</code>. ISO 3 Code for country.
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getCountryCode3() {
-        return (String) get(12);
+    public Integer getCountryId() {
+        return (Integer) get(9);
     }
 
     /**
@@ -243,6 +218,17 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
     public void setCountryCode3(String value) {
         set(12, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_name</code>. Country name.
+     */
+    public String getCountryName() {
+        return (String) get(10);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record13 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -680,10 +666,6 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -712,6 +694,24 @@ public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableColla
         value12(value12);
         value13(value13);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_code2</code>. ISO 2 Code for country.
+     */
+    public String getCountryCode2() {
+        return (String) get(11);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_code3</code>. ISO 3 Code for country.
+     */
+    public String getCountryCode3() {
+        return (String) get(12);
     }
 // @formatter:on
 }

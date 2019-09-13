@@ -26,23 +26,27 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportCompoundData extends AbstractRoutine<java.lang.Void> {
 
+    private static final long serialVersionUID = -1374835788;
+
     /**
      * The parameter <code>germinate_template_3_7_0.export_compound_data.groupIds</code>.
      */
     public static final Parameter<String> GROUPIDS = Internal.createParameter("groupIds", org.jooq.impl.SQLDataType.CLOB, false, false);
+
     /**
      * The parameter <code>germinate_template_3_7_0.export_compound_data.markedIds</code>.
      */
     public static final Parameter<String> MARKEDIDS = Internal.createParameter("markedIds", org.jooq.impl.SQLDataType.CLOB, false, false);
+
     /**
      * The parameter <code>germinate_template_3_7_0.export_compound_data.datasetIds</code>.
      */
     public static final Parameter<String> DATASETIDS = Internal.createParameter("datasetIds", org.jooq.impl.SQLDataType.CLOB, false, false);
+
     /**
      * The parameter <code>germinate_template_3_7_0.export_compound_data.compoundIds</code>.
      */
     public static final Parameter<String> COMPOUNDIDS = Internal.createParameter("compoundIds", org.jooq.impl.SQLDataType.CLOB, false, false);
-    private static final long serialVersionUID = -1374835788;
 
     /**
      * Create a new routine call instance

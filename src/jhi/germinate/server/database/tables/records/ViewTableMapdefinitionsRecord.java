@@ -93,17 +93,17 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getMarkerId() {
-        return (Integer) get(0);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public String getMapFeatureType() {
         return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getMarkerId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -128,17 +128,17 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     */
+    public void setVisibility(Boolean value) {
+        set(6, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public void setMapFeatureType(String value) {
         set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
-     */
-    public Boolean getVisibility() {
-        return (Boolean) get(6);
     }
 
     /**
@@ -149,10 +149,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
-    public void setVisibility(Boolean value) {
-        set(6, value);
+    public Boolean getVisibility() {
+        return (Boolean) get(6);
     }
 
     /**

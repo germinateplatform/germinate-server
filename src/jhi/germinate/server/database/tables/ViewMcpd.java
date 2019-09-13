@@ -40,6 +40,7 @@ public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
      * The reference instance of <code>germinate_template_3_7_0.view_mcpd</code>
      */
     public static final ViewMcpd VIEW_MCPD = new ViewMcpd();
+
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
 entered into the genebank collection (e.g. ‘PI 113869’).
@@ -259,10 +260,6 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
      * The column <code>germinate_template_3_7_0.view_mcpd.REMARKS</code>.
      */
     public final TableField<ViewMcpdRecord, String> REMARKS = createField("REMARKS", org.jooq.impl.SQLDataType.CLOB, this, "");
-    /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
-     */
-    public final TableField<ViewMcpdRecord, String> ENTITY_PARENT_ACCENUMB = createField("Entity parent ACCENUMB", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The class holding records for this type
@@ -271,6 +268,11 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     public Class<ViewMcpdRecord> getRecordType() {
         return ViewMcpdRecord.class;
     }
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
+     */
+    public final TableField<ViewMcpdRecord, String> ENTITY_PARENT_ACCENUMB = createField("Entity parent ACCENUMB", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * Create a <code>germinate_template_3_7_0.view_mcpd</code> table reference

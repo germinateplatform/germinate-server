@@ -16,13 +16,18 @@ public interface FilteredResource
 {
 	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters)
 	{
+		filter(step, filters, false);
+	}
+
+	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters, boolean arrayOperationsAllowed)
+	{
 		if (filters != null && filters.length > 0)
 		{
-			SelectConditionStep<T> where = step.where(filterIndividual(filters[0]));
+			SelectConditionStep<T> where = step.where(filterIndividual(filters[0], arrayOperationsAllowed));
 
 			for (int i = 1; i < filters.length; i++)
 			{
-				Condition condition = filterIndividual(filters[i]);
+				Condition condition = filterIndividual(filters[i], arrayOperationsAllowed);
 
 				if (condition != null)
 				{
@@ -40,7 +45,7 @@ public interface FilteredResource
 		}
 	}
 
-	default Condition filterIndividual(Filter filter)
+	default Condition filterIndividual(Filter filter, boolean arrayOperationsAllowed)
 	{
 		Field<Object> field = DSL.field(filter.getSafeColumn());
 
@@ -49,7 +54,7 @@ public interface FilteredResource
 									.map(String::trim)
 									.collect(Collectors.toList());
 
-		if(CollectionUtils.isEmpty(values))
+		if (CollectionUtils.isEmpty(values))
 			values.add("");
 
 		String first = values.get(0);
@@ -71,6 +76,27 @@ public interface FilteredResource
 				return field.lessThan(first);
 			case "lessOrEquals":
 				return field.lessOrEqual(first);
+			case "arrayContains":
+				if (arrayOperationsAllowed)
+				{
+					List<Condition> conditions = values.stream()
+													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
+													   .map(v -> DSL.condition("JSON_CONTAINS(" + field.getName() + ", '" + v + "')"))
+													   .collect(Collectors.toList());
+
+					Condition result = conditions.get(0);
+
+					for (int i = 1; i < conditions.size(); i++)
+					{
+						result = result.or(conditions.get(i));
+					}
+
+					return result;
+				}
+				else
+				{
+					return null;
+				}
 			case "inSet":
 				List<String> temp;
 
@@ -91,6 +117,6 @@ public interface FilteredResource
 				return field.in(temp);
 		}
 
-		return DSL.condition("1=1");
+		return null;
 	}
 }

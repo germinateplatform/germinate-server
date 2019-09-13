@@ -57,7 +57,7 @@ public class MapExportResource extends BaseServerResource
 				 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
 			{
 				bw.write("# fjFile = MAP");
-				bw.newLine();
+				bw.write(CRLF);
 
 				context.selectFrom(MAPDEFINITIONS.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
 												 .leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID)))
@@ -78,7 +78,7 @@ public class MapExportResource extends BaseServerResource
 							   bw.write(chromosome == null ? "" : chromosome);
 							   bw.write("\t");
 							   bw.write(defStart == null ? "" : Double.toString(defStart));
-							   bw.newLine();
+							   bw.write(CRLF);
 						   }
 						   catch (IOException e)
 						   {

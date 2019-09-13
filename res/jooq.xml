@@ -36,6 +36,12 @@
 					<userType>com.google.gson.JsonArray</userType>
 				</forcedType>
 				<forcedType>
+					<binding>jhi.germinate.server.util.SynonymBinding</binding>
+					<expression>.*(view_table_).*\..*(_ids).*</expression>
+					<types>.*json.*</types>
+					<userType>com.google.gson.JsonArray</userType>
+				</forcedType>
+				<forcedType>
 					<binding>jhi.germinate.server.util.DublinCoreBinding</binding>
 					<expression>.*\..*(dublin_core).*</expression>
 					<types>.*json.*</types>

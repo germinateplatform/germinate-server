@@ -129,17 +129,17 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_longitude</code>. Longitude of the location.
+     */
+    public void setLocationLongitude(BigDecimal value) {
+        set(6, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_locations.location_type</code>. The name of the location type.
      */
     public void setLocationType(String value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_longitude</code>. Longitude of the location.
-     */
-    public BigDecimal getLocationLongitude() {
-        return (BigDecimal) get(6);
     }
 
     /**
@@ -150,20 +150,6 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.location_longitude</code>. Longitude of the location.
-     */
-    public void setLocationLongitude(BigDecimal value) {
-        set(6, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(8, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getLocationElevation() {
@@ -171,10 +157,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_longitude</code>. Longitude of the location.
      */
-    public void setCountryCode2(String value) {
-        set(9, value);
+    public BigDecimal getLocationLongitude() {
+        return (BigDecimal) get(6);
     }
 
     /**
@@ -185,10 +171,10 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_code3</code>. ISO 3 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_code2</code>. ISO 2 Code for country.
      */
-    public void setCountryCode3(String value) {
-        set(10, value);
+    public void setCountryCode2(String value) {
+        set(9, value);
     }
 
     /**
@@ -196,6 +182,20 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
      */
     public String getCountryName() {
         return (String) get(8);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_code3</code>. ISO 3 Code for country.
+     */
+    public void setCountryCode3(String value) {
+        set(10, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(8, value);
     }
 
     // -------------------------------------------------------------------------

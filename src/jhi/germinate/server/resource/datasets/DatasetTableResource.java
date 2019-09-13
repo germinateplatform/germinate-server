@@ -53,15 +53,7 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
 
-			List<ViewTableDatasets> datasets = from.fetchInto(ViewTableDatasets.class);
-
-			Logger.getLogger("").log(Level.INFO, datasets.toString());
-
-			List<ViewTableDatasets> result = restrictBasedOnLicenseAgreement(datasets, req, userDetails);
-
-			Logger.getLogger("").log(Level.INFO, result.toString());
-
-			return result;
+			return restrictBasedOnLicenseAgreement(from.fetchInto(ViewTableDatasets.class), req, userDetails);
 		}
 		catch (SQLException e)
 		{

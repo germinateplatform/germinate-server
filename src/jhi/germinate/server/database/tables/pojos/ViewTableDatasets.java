@@ -30,11 +30,11 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1125931536;
+    private static final long serialVersionUID = -898776412;
 
     private Integer    datasetId;
     private String     datasetName;
-    private String     datesetDescription;
+    private String     datasetDescription;
     private String     hyperlink;
     private String     experimentType;
     private String     experimentName;
@@ -61,7 +61,7 @@ public class ViewTableDatasets implements Serializable {
     public ViewTableDatasets(ViewTableDatasets value) {
         this.datasetId = value.datasetId;
         this.datasetName = value.datasetName;
-        this.datesetDescription = value.datesetDescription;
+        this.datasetDescription = value.datasetDescription;
         this.hyperlink = value.hyperlink;
         this.experimentType = value.experimentType;
         this.experimentName = value.experimentName;
@@ -87,7 +87,7 @@ public class ViewTableDatasets implements Serializable {
     public ViewTableDatasets(
         Integer    datasetId,
         String     datasetName,
-        String     datesetDescription,
+        String     datasetDescription,
         String     hyperlink,
         String     experimentType,
         String     experimentName,
@@ -111,7 +111,7 @@ public class ViewTableDatasets implements Serializable {
     ) {
         this.datasetId = datasetId;
         this.datasetName = datasetName;
-        this.datesetDescription = datesetDescription;
+        this.datasetDescription = datasetDescription;
         this.hyperlink = hyperlink;
         this.experimentType = experimentType;
         this.experimentName = experimentName;
@@ -150,12 +150,12 @@ public class ViewTableDatasets implements Serializable {
         this.datasetName = datasetName;
     }
 
-    public String getDatesetDescription() {
-        return this.datesetDescription;
+    public String getDatasetDescription() {
+        return this.datasetDescription;
     }
 
-    public void setDatesetDescription(String datesetDescription) {
-        this.datesetDescription = datesetDescription;
+    public void setDatasetDescription(String datasetDescription) {
+        this.datasetDescription = datasetDescription;
     }
 
     public String getHyperlink() {
@@ -324,7 +324,7 @@ public class ViewTableDatasets implements Serializable {
 
         sb.append(datasetId);
         sb.append(", ").append(datasetName);
-        sb.append(", ").append(datesetDescription);
+        sb.append(", ").append(datasetDescription);
         sb.append(", ").append(hyperlink);
         sb.append(", ").append(experimentType);
         sb.append(", ").append(experimentName);
