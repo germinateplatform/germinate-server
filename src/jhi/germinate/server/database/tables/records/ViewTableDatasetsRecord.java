@@ -289,38 +289,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
-     */
-    public void setContact(String value) {
-        set(13, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.start_date</code>. Date that the dataset was generated.
-     */
-    public void setStartDate(Date value) {
-        set(14, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
-     */
-    public ULong getDataObjectCount() {
-        return (ULong) get(17);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
      */
     public DublinCore getDublinCore() {
         return (DublinCore) get(16);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
-     */
-    public ULong getDataPointCount() {
-        return (ULong) get(18);
     }
 
     /**
@@ -331,10 +303,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
-    public Boolean getIsExternal() {
-        return (Boolean) get(19);
+    public void setContact(String value) {
+        set(13, value);
     }
 
     /**
@@ -345,10 +317,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.start_date</code>. Date that the dataset was generated.
      */
-    public Long getCollaborators() {
-        return (Long) get(20);
+    public void setStartDate(Date value) {
+        set(14, value);
     }
 
     /**
@@ -359,10 +331,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
-    public Long getAttributes() {
-        return (Long) get(21);
+    public ULong getDataObjectCount() {
+        return (ULong) get(17);
     }
 
     /**
@@ -373,21 +345,24 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
+     */
+    public ULong getDataPointCount() {
+        return (ULong) get(18);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
      */
     public void setAttributes(Long value) {
         set(21, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
-    public JsonArray getAcceptedBy() {
-        return (JsonArray) get(22);
+    public Boolean getIsExternal() {
+        return (Boolean) get(19);
     }
 
     /**
@@ -395,6 +370,31 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
      */
     public void setAcceptedBy(JsonArray value) {
         set(22, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     */
+    public Long getCollaborators() {
+        return (Long) get(20);
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
+     */
+    public Long getAttributes() {
+        return (Long) get(21);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
+     */
+    public JsonArray getAcceptedBy() {
+        return (JsonArray) get(22);
     }
 // @formatter:on
 }

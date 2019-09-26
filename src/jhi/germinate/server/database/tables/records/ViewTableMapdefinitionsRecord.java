@@ -135,6 +135,13 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     */
+    public Boolean getVisibility() {
+        return (Boolean) get(6);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public void setMapFeatureType(String value) {
@@ -146,13 +153,6 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      */
     public void setMapId(Integer value) {
         set(4, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
-     */
-    public Boolean getVisibility() {
-        return (Boolean) get(6);
     }
 
     /**

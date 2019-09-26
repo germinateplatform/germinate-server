@@ -12,8 +12,10 @@ import java.util.*;
 
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.attributes.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
+import jhi.germinate.server.resource.entities.EntityTableResource;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.groups.*;
 import jhi.germinate.server.resource.images.*;
@@ -22,8 +24,9 @@ import jhi.germinate.server.resource.license.*;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
+import jhi.germinate.server.resource.pedigrees.PedigreeTableResource;
 import jhi.germinate.server.resource.settings.*;
-import jhi.germinate.server.resource.stats.OverviewStatsResource;
+import jhi.germinate.server.resource.stats.*;
 import jhi.germinate.server.resource.traits.*;
 
 /**
@@ -112,14 +115,27 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
 		attachToRouter(routerAuth, "/dataset/table/ids", DatasetTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/{datasetId}/collaborator", CollaboratorTableResource.class);
+		attachToRouter(routerAuth, "/dataset/{datasetId}/attribute", DatasetAttributeTableResource.class);
 		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
+		attachToRouter(routerAuth, "/dataset/data/trial", TrialsDataTableResource.class);
+		attachToRouter(routerAuth, "/dataset/data/trial/ids", TrialsDataTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/stats/trial", TraitStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
+		attachToRouter(routerAuth, "/dataset/group/trial", DatasetTrialGroupResource.class);
+
+		// ENTITIES
+		attachToRouter(routerAuth, "/entity/table", EntityTableResource.class);
 
 		// GERMPLASM
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);
+		attachToRouter(routerAuth, "/germplasm/{germplasmId}/group", GermplasmGroupTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/{germplasmId}/dataset", GermplasmDatasetTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/{germplasmId}/attribute", GermplasmAttributeTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/table/ids", GermplasmTableIdResource.class);
+		attachToRouter(routerAuth, "/germplasm/table/export", GermplasmTableExportResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
 		attachToRouter(routerAuth, "/germplasm/entity", GermplasmEntityResource.class);
 
@@ -127,12 +143,12 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/group/table", GroupTableResource.class);
 		attachToRouter(routerAuth, "/group", GroupResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}", GroupResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/germplasm", GermplasmGroupTableResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/germplasm/ids", GermplasmGroupTableIdResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/location", LocationGroupTableResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/location/ids", LocationGroupTableIdResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/marker", MarkerGroupTableResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/marker/ids", MarkerGroupTableIdResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/germplasm", GroupGermplasmTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/germplasm/ids", GroupGermplasmTableIdResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/location", GroupLocationTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/location/ids", GroupLocationTableIdResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/marker", GroupMarkerTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/marker/ids", GroupMarkerTableIdResource.class);
 		attachToRouter(routerAuth, "/grouptype", GroupTypeResource.class);
 
 		// IMAGES
@@ -159,10 +175,14 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/marker/table", MarkerTableResource.class);
 		attachToRouter(routerAuth, "/marker/table/ids", MarkerTableIdResource.class);
 
+		// PEDIGREES
+		attachToRouter(routerAuth, "/pedigree/table", PedigreeTableResource.class);
+
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
 
 		// STATS
+		attachToRouter(routerAuth, "/stats/entitytype", EntityTypeStatsResource.class);
 		attachToRouter(routerAuth, "/stats/overview", OverviewStatsResource.class);
 
 		// SETTINGS

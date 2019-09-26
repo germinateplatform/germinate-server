@@ -97,7 +97,7 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
-	public static <T> SelectJoinStep<Record> prepareQuery(Request request, Response response, DSLContext context, Integer groupId, TableImpl table, Field<Integer> field, PaginatedServerResource callee)
+	public static SelectJoinStep<Record> prepareQuery(Request request, Response response, DSLContext context, Integer groupId, TableImpl table, Field<Integer> field, PaginatedServerResource callee, boolean isIdQuery)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(request, response);
 
@@ -113,9 +113,14 @@ public class GroupResource extends PaginatedServerResource
 		if (group == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-		SelectSelectStep<Record> select = context.select();
+		SelectSelectStep<Record> select;
 
-		if (callee.getPreviousCount() == -1)
+		if (isIdQuery)
+			select = context.selectDistinct();
+		else
+			select = context.select();
+
+		if (!isIdQuery && callee.getPreviousCount() == -1)
 			select.hint("SQL_CALC_FOUND_ROWS");
 
 		SelectJoinStep<Record> from = select.from(table);

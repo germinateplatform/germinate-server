@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.server.database.enums.ViewTableTraitsDataType;
+
 
 // @formatter:off
 /**
@@ -25,18 +27,19 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTraits implements Serializable {
 
-    private static final long serialVersionUID = 2074393160;
+    private static final long serialVersionUID = 339836375;
 
-    private Integer   traitId;
-    private String    traitName;
-    private String    traitNameShort;
-    private String    traitDescription;
-    private Integer   unitId;
-    private String    unitName;
-    private String    unitDescription;
-    private String    unitAbbreviation;
-    private JsonArray synonyms;
-    private Long      count;
+    private Integer                 traitId;
+    private String                  traitName;
+    private String                  traitNameShort;
+    private String                  traitDescription;
+    private ViewTableTraitsDataType dataType;
+    private Integer                 unitId;
+    private String                  unitName;
+    private String                  unitDescription;
+    private String                  unitAbbreviation;
+    private JsonArray               synonyms;
+    private Long                    count;
 
     public ViewTableTraits() {}
 
@@ -45,6 +48,7 @@ public class ViewTableTraits implements Serializable {
         this.traitName = value.traitName;
         this.traitNameShort = value.traitNameShort;
         this.traitDescription = value.traitDescription;
+        this.dataType = value.dataType;
         this.unitId = value.unitId;
         this.unitName = value.unitName;
         this.unitDescription = value.unitDescription;
@@ -54,21 +58,23 @@ public class ViewTableTraits implements Serializable {
     }
 
     public ViewTableTraits(
-        Integer   traitId,
-        String    traitName,
-        String    traitNameShort,
-        String    traitDescription,
-        Integer   unitId,
-        String    unitName,
-        String    unitDescription,
-        String    unitAbbreviation,
-        JsonArray synonyms,
-        Long      count
+        Integer                 traitId,
+        String                  traitName,
+        String                  traitNameShort,
+        String                  traitDescription,
+        ViewTableTraitsDataType dataType,
+        Integer                 unitId,
+        String                  unitName,
+        String                  unitDescription,
+        String                  unitAbbreviation,
+        JsonArray               synonyms,
+        Long                    count
     ) {
         this.traitId = traitId;
         this.traitName = traitName;
         this.traitNameShort = traitNameShort;
         this.traitDescription = traitDescription;
+        this.dataType = dataType;
         this.unitId = unitId;
         this.unitName = unitName;
         this.unitDescription = unitDescription;
@@ -107,6 +113,14 @@ public class ViewTableTraits implements Serializable {
 
     public void setTraitDescription(String traitDescription) {
         this.traitDescription = traitDescription;
+    }
+
+    public ViewTableTraitsDataType getDataType() {
+        return this.dataType;
+    }
+
+    public void setDataType(ViewTableTraitsDataType dataType) {
+        this.dataType = dataType;
     }
 
     public Integer getUnitId() {
@@ -165,6 +179,7 @@ public class ViewTableTraits implements Serializable {
         sb.append(", ").append(traitName);
         sb.append(", ").append(traitNameShort);
         sb.append(", ").append(traitDescription);
+        sb.append(", ").append(dataType);
         sb.append(", ").append(unitId);
         sb.append(", ").append(unitName);
         sb.append(", ").append(unitDescription);

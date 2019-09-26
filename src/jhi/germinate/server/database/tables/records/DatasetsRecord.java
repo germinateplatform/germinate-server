@@ -177,6 +177,13 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
+     */
+    public String getDatatype() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
      */
     public void setDescription(String value) {
@@ -188,13 +195,6 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      */
     public void setDateStart(Date value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
-     */
-    public String getDatatype() {
-        return (String) get(8);
     }
 
     /**

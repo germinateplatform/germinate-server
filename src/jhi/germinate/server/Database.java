@@ -72,7 +72,7 @@ public class Database
 
 	private static String getDatabaseUrl()
 	{
-		return "jdbc:mysql://" + databaseServer + ":" + (databasePort != null ? databasePort : "3306") + "/" + databaseName;
+		return "jdbc:mysql://" + databaseServer + ":" + (databasePort != null ? databasePort : "3306") + "/" + databaseName + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 	}
 
 	public static Connection getConnection()

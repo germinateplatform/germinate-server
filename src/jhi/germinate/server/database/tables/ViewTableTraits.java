@@ -9,6 +9,7 @@ import com.google.gson.JsonArray;
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.enums.ViewTableTraitsDataType;
 import jhi.germinate.server.database.tables.records.ViewTableTraitsRecord;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -35,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTraits extends TableImpl<ViewTableTraitsRecord> {
 
-    private static final long serialVersionUID = 16581827;
+    private static final long serialVersionUID = -1529586508;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_traits</code>
@@ -69,6 +70,11 @@ public class ViewTableTraits extends TableImpl<ViewTableTraitsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_traits.trait_description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public final TableField<ViewTableTraitsRecord, String> TRAIT_DESCRIPTION = createField("trait_description", org.jooq.impl.SQLDataType.CLOB, this, "Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_traits.data_type</code>. Defines the data type of the phenotype. This can be of float, int or char types.
+     */
+    public final TableField<ViewTableTraitsRecord, ViewTableTraitsDataType> DATA_TYPE = createField("data_type", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.ViewTableTraitsDataType.class), this, "Defines the data type of the phenotype. This can be of float, int or char types.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_traits.unit_id</code>. Primary id for this table. This uniquely identifies the row.

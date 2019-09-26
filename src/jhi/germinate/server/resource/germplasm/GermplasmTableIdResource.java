@@ -24,15 +24,13 @@ public class GermplasmTableIdResource extends PaginatedServerResource implements
 	public PaginatedResult<List<Integer>> getJson(PaginatedRequest request)
 	{
 		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectSelectStep<Record1<Integer>> select = context.select(VIEW_TABLE_GERMPLASM.GERMPLASM_ID);
-
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
-
-			SelectJoinStep<Record1<Integer>> from = select.from(VIEW_TABLE_GERMPLASM);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_GERMPLASM.GERMPLASM_ID)
+														   .from(VIEW_TABLE_GERMPLASM);
 
 			// Filter here!
 			filter(from, filters);
@@ -41,9 +39,7 @@ public class GermplasmTableIdResource extends PaginatedServerResource implements
 				.fetch()
 				.into(Integer.class);
 
-			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
-
-			return new PaginatedResult<>(result, count);
+			return new PaginatedResult<>(result, result.size());
 		}
 		catch (SQLException e)
 		{

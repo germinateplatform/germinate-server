@@ -18,6 +18,7 @@ import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
@@ -190,6 +191,11 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 	@Post("json")
 	public PaginatedResult<List<ViewTableDatasets>> getJson(PaginatedRequest request)
 	{
+		return runQuery(request, null);
+	}
+
+	public PaginatedResult<List<ViewTableDatasets>> runQuery(PaginatedRequest request, AdjustQuery optionalAdjuster)
+	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
@@ -216,6 +222,9 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 																			 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
 																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
+
+			if (optionalAdjuster != null)
+				optionalAdjuster.adjustQuery(from);
 
 			// Filter here!
 			filter(from, filters);
@@ -303,5 +312,10 @@ public class DatasetTableResource extends PaginatedServerResource implements Fil
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
+	}
+
+	public interface AdjustQuery
+	{
+		void adjustQuery(SelectJoinStep<Record> query);
 	}
 }

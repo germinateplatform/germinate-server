@@ -287,17 +287,17 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(16, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
      */
     public void setSpecies(String value) {
         set(13, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
-     */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(16);
     }
 
     /**
@@ -308,10 +308,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
-    public void setElevation(BigDecimal value) {
-        set(16, value);
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(16);
     }
 
     /**

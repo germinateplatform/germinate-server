@@ -135,6 +135,13 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     */
+    public Boolean getGroupVisibility() {
+        return (Boolean) get(6);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
      */
     public String getGroupName() {
@@ -142,10 +149,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
      */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     /**
@@ -156,10 +163,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
      */
-    public Boolean getGroupVisibility() {
-        return (Boolean) get(6);
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
@@ -167,13 +174,6 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     /**
