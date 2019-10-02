@@ -95,24 +95,17 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name</code>. Phenotype full name.
-     */
-    public String getTraitName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
-     */
-    public String getTraitNameShort() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public String getTraitDescription() {
         return (String) get(3);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name</code>. Phenotype full name.
+     */
+    public String getTraitName() {
+        return (String) get(1);
     }
 
     /**
@@ -123,10 +116,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.data_type</code>. Defines the data type of the phenotype. This can be of float, int or char types.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
-    public void setDataType(ViewTableTraitsDataType value) {
-        set(4, value);
+    public String getTraitNameShort() {
+        return (String) get(2);
     }
 
     /**
@@ -137,10 +130,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.data_type</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
-    public void setUnitId(Integer value) {
-        set(5, value);
+    public void setDataType(ViewTableTraitsDataType value) {
+        set(4, value);
     }
 
     /**
@@ -151,10 +144,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public void setUnitName(String value) {
-        set(6, value);
+    public void setUnitId(Integer value) {
+        set(5, value);
     }
 
     /**
@@ -162,6 +155,27 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
      */
     public String getUnitDescription() {
         return (String) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_abbreviation</code>. This should be the unit abbreviation.
+     */
+    public void setUnitAbbreviation(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     */
+    public void setUnitName(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
+     */
+    public void setSynonyms(JsonArray value) {
+        set(9, value);
     }
 
     /**
@@ -179,24 +193,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_abbreviation</code>. This should be the unit abbreviation.
-     */
-    public void setUnitAbbreviation(String value) {
-        set(8, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
      */
     public JsonArray getSynonyms() {
         return (JsonArray) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
-     */
-    public void setSynonyms(JsonArray value) {
-        set(9, value);
     }
 
     // -------------------------------------------------------------------------
@@ -253,22 +253,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
      * {@inheritDoc}
      */
     @Override
-    public Row11<Integer, String, String, String, ViewTableTraitsDataType, Integer, String, String, String, JsonArray, Long> fieldsRow() {
-        return (Row11) super.fieldsRow();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Row11<Integer, String, String, String, ViewTableTraitsDataType, Integer, String, String, String, JsonArray, Long> valuesRow() {
-        return (Row11) super.valuesRow();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Field<ViewTableTraitsDataType> field5() {
         return ViewTableTraits.VIEW_TABLE_TRAITS.DATA_TYPE;
     }
@@ -309,6 +293,22 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
      * {@inheritDoc}
      */
     @Override
+    public Row11<Integer, String, String, String, ViewTableTraitsDataType, Integer, String, String, String, JsonArray, Long> fieldsRow() {
+        return (Row11) super.fieldsRow();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Row11<Integer, String, String, String, ViewTableTraitsDataType, Integer, String, String, String, JsonArray, Long> valuesRow() {
+        return (Row11) super.valuesRow();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Integer component1() {
         return getTraitId();
     }
@@ -335,22 +335,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     @Override
     public String component4() {
         return getTraitDescription();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Field<JsonArray> field10() {
-        return ViewTableTraits.VIEW_TABLE_TRAITS.SYNONYMS;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Field<Long> field11() {
-        return ViewTableTraits.VIEW_TABLE_TRAITS.COUNT;
     }
 
     /**
@@ -397,6 +381,22 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
      * {@inheritDoc}
      */
     @Override
+    public Field<JsonArray> field10() {
+        return ViewTableTraits.VIEW_TABLE_TRAITS.SYNONYMS;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Field<Long> field11() {
+        return ViewTableTraits.VIEW_TABLE_TRAITS.COUNT;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Integer value1() {
         return getTraitId();
     }
@@ -423,22 +423,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     @Override
     public String value4() {
         return getTraitDescription();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public JsonArray component10() {
-        return getSynonyms();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Long component11() {
-        return getCount();
     }
 
     /**
@@ -485,6 +469,22 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
      * {@inheritDoc}
      */
     @Override
+    public JsonArray component10() {
+        return getSynonyms();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long component11() {
+        return getCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ViewTableTraitsRecord value1(Integer value) {
         setTraitId(value);
         return this;
@@ -515,22 +515,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     public ViewTableTraitsRecord value4(String value) {
         setTraitDescription(value);
         return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public JsonArray value10() {
-        return getSynonyms();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Long value11() {
-        return getCount();
     }
 
     /**
@@ -587,10 +571,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -617,6 +597,26 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
         value10(value10);
         value11(value11);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JsonArray value10() {
+        return getSynonyms();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long value11() {
+        return getCount();
     }
 // @formatter:on
 }

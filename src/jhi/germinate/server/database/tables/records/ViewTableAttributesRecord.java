@@ -32,10 +32,24 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
     private static final long serialVersionUID = 1018991601;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setAttributeId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableAttributesRecord
      */
     public ViewTableAttributesRecord() {
         super(ViewTableAttributes.VIEW_TABLE_ATTRIBUTES);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_attributes.attribute_name</code>. Defines the name of the attribute.
+     */
+    public void setAttributeName(String value) {
+        set(1, value);
     }
 
     /**
@@ -54,41 +68,6 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getAttributeId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setAttributeId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_name</code>. Defines the name of the attribute.
-     */
-    public String getAttributeName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_attributes.attribute_name</code>. Defines the name of the attribute.
-     */
-    public void setAttributeName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
-     */
-    public String getAttributeDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public void setAttributeDescription(String value) {
@@ -96,10 +75,10 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableAttributesAttributeType getAttributeType() {
-        return (ViewTableAttributesAttributeType) get(3);
+    public Integer getAttributeId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -110,10 +89,10 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.target_table</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_name</code>. Defines the name of the attribute.
      */
-    public String getTargetTable() {
-        return (String) get(4);
+    public String getAttributeName() {
+        return (String) get(1);
     }
 
     /**
@@ -124,10 +103,10 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
-    public Integer getForeignId() {
-        return (Integer) get(5);
+    public String getAttributeDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -137,15 +116,11 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
         set(5, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record7 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_value</code>. The value of the attribute.
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
-    public String getAttributeValue() {
-        return (String) get(6);
+    public ViewTableAttributesAttributeType getAttributeType() {
+        return (ViewTableAttributesAttributeType) get(3);
     }
 
     /**
@@ -154,6 +129,17 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
     public void setAttributeValue(String value) {
         set(6, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.target_table</code>.
+     */
+    public String getTargetTable() {
+        return (String) get(4);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record7 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -393,10 +379,6 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -419,6 +401,24 @@ public class ViewTableAttributesRecord extends TableRecordImpl<ViewTableAttribut
         value6(value6);
         value7(value7);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     */
+    public Integer getForeignId() {
+        return (Integer) get(5);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_attributes.attribute_value</code>. The value of the attribute.
+     */
+    public String getAttributeValue() {
+        return (String) get(6);
     }
 // @formatter:on
 }

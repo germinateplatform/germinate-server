@@ -155,6 +155,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/image/table", ImageTableResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
 		attachToRouter(routerUnauth, "/image/src", ImageSourceResource.class);
+		attachToRouter(routerUnauth, "/image/src-svg/{name}", ImageSvgSourceResource.class); // This is a fix, because <img /> tags don't like SVGs without an extension in their "src" attribute
 
 		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);

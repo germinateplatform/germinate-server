@@ -150,6 +150,20 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
+     */
+    public BigDecimal getLocationElevation() {
+        return (BigDecimal) get(7);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(8, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_locations.location_type</code>. The name of the location type.
      */
     public void setLocationType(String value) {
@@ -168,20 +182,6 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
      */
     public String getCountryName() {
         return (String) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
-     */
-    public BigDecimal getLocationElevation() {
-        return (BigDecimal) get(7);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(8, value);
     }
 
     /**

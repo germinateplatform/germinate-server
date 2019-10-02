@@ -93,6 +93,13 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
+     */
+    public String getDatasetDescription() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
@@ -100,17 +107,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
      */
-    public void setHyperlink(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
-     */
-    public String getDatasetDescription() {
-        return (String) get(2);
+    public void setDatasetDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -121,10 +121,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
      */
-    public void setDatasetDescription(String value) {
-        set(2, value);
+    public String getHyperlink() {
+        return (String) get(3);
     }
 
     /**
@@ -142,10 +142,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
      */
-    public String getHyperlink() {
-        return (String) get(3);
+    public void setHyperlink(String value) {
+        set(3, value);
     }
 
     /**
@@ -331,6 +331,13 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     */
+    public Boolean getIsExternal() {
+        return (Boolean) get(19);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
     public ULong getDataObjectCount() {
@@ -338,10 +345,10 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
      */
-    public void setCollaborators(Long value) {
-        set(20, value);
+    public Long getCollaborators() {
+        return (Long) get(20);
     }
 
     /**
@@ -352,38 +359,6 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
-     */
-    public void setAttributes(Long value) {
-        set(21, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
-     */
-    public Boolean getIsExternal() {
-        return (Boolean) get(19);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
-     */
-    public void setAcceptedBy(JsonArray value) {
-        set(22, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
-     */
-    public Long getCollaborators() {
-        return (Long) get(20);
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
      */
     public Long getAttributes() {
@@ -391,10 +366,35 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     */
+    public void setCollaborators(Long value) {
+        set(20, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
      */
     public JsonArray getAcceptedBy() {
         return (JsonArray) get(22);
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
+     */
+    public void setAttributes(Long value) {
+        set(21, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
+     */
+    public void setAcceptedBy(JsonArray value) {
+        set(22, value);
     }
 // @formatter:on
 }

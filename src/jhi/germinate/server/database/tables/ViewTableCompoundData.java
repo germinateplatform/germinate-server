@@ -35,51 +35,71 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCompoundData extends TableImpl<ViewTableCompoundDataRecord> {
 
+    private static final long serialVersionUID = 1930056036;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_compound_data</code>
      */
     public static final ViewTableCompoundData VIEW_TABLE_COMPOUND_DATA = new ViewTableCompoundData();
-    private static final long serialVersionUID = 1930056036;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableCompoundDataRecord> getRecordType() {
+        return ViewTableCompoundDataRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableCompoundDataRecord, Integer> GERMPLASM_ID = createField("germplasm_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.germplasm_gid</code>. A unique identifier.
      */
     public final TableField<ViewTableCompoundDataRecord, String> GERMPLASM_GID = createField("germplasm_gid", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTableCompoundDataRecord, String> GERMPLASM_NAME = createField("germplasm_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.entity_type</code>. The name of the entity type.
      */
     public final TableField<ViewTableCompoundDataRecord, String> ENTITY_TYPE = createField("entity_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableCompoundDataRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.dataset_name</code>. Describes the dataset.
      */
     public final TableField<ViewTableCompoundDataRecord, String> DATASET_NAME = createField("dataset_name", org.jooq.impl.SQLDataType.CLOB, this, "Describes the dataset.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.dataset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableCompoundDataRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.compound_name</code>. Compound full name.
      */
     public final TableField<ViewTableCompoundDataRecord, String> COMPOUND_NAME = createField("compound_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Compound full name.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public final TableField<ViewTableCompoundDataRecord, String> UNIT_NAME = createField("unit_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The name of the unit. This should be the name of the unit in full.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public final TableField<ViewTableCompoundDataRecord, Timestamp> RECORDING_DATE = createField("recording_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
@@ -112,14 +132,6 @@ public class ViewTableCompoundData extends TableImpl<ViewTableCompoundDataRecord
 
     private ViewTableCompoundData(Name alias, Table<ViewTableCompoundDataRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableCompoundDataRecord> getRecordType() {
-        return ViewTableCompoundDataRecord.class;
     }
 
     /**

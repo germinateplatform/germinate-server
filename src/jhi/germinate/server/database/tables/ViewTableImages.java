@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables;
 
 
+import java.sql.Timestamp;
+
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
@@ -32,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
 
-    private static final long serialVersionUID = -613354420;
+    private static final long serialVersionUID = 1120401730;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_images</code>
@@ -81,6 +83,11 @@ public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
      * The column <code>germinate_template_3_7_0.view_table_images.reference_name</code>.
      */
     public final TableField<ViewTableImagesRecord, String> REFERENCE_NAME = createField("reference_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_images.created_on</code>.
+     */
+    public final TableField<ViewTableImagesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
      * Create a <code>germinate_template_3_7_0.view_table_images</code> table reference

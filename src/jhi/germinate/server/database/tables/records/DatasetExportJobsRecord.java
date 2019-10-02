@@ -42,6 +42,20 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
+     */
+    public Integer getId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.uuid</code>.
+     */
+    public void setUuid(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised DatasetExportJobsRecord
      */
     public DatasetExportJobsRecord(Integer id, String uuid, String jobId, Integer userId, String filepath, DatasetExportJobsStatus status, Integer experimentTypeId, Object metadata, Timestamp createdOn, Timestamp updatedOn) {
@@ -60,10 +74,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
      */
-    public Integer getId() {
-        return (Integer) get(0);
+    public void setJobId(String value) {
+        set(2, value);
     }
 
     /**
@@ -81,10 +95,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.uuid</code>.
+     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.user_id</code>.
      */
-    public void setUuid(String value) {
-        set(1, value);
+    public Integer getUserId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -95,17 +109,17 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
+     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.filepath</code>.
      */
-    public void setJobId(String value) {
-        set(2, value);
+    public String getFilepath() {
+        return (String) get(4);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.user_id</code>.
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
      */
-    public Integer getUserId() {
-        return (Integer) get(3);
+    public void setStatus(DatasetExportJobsStatus value) {
+        set(5, value);
     }
 
     /**
@@ -116,10 +130,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.filepath</code>.
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
      */
-    public String getFilepath() {
-        return (String) get(4);
+    public void setExperimentTypeId(Integer value) {
+        set(6, value);
     }
 
     /**
@@ -137,24 +151,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
-     */
-    public void setStatus(DatasetExportJobsStatus value) {
-        set(5, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
      */
     public Integer getExperimentTypeId() {
         return (Integer) get(6);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
-     */
-    public void setExperimentTypeId(Integer value) {
-        set(6, value);
     }
 
     /**
@@ -166,14 +166,6 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setMetadata(Object value) {
-        set(7, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
      */
     public Timestamp getCreatedOn() {
@@ -181,15 +173,12 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
+     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    @java.lang.Deprecated
+    public void setMetadata(Object value) {
+        set(7, value);
     }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
@@ -199,15 +188,8 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     // -------------------------------------------------------------------------
-    // Record10 type implementation
+    // Primary key information
     // -------------------------------------------------------------------------
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
-     */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
-    }
 
     /**
      * {@inheritDoc}
@@ -216,6 +198,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     public Record1<Integer> key() {
         return (Record1) super.key();
     }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -558,10 +544,6 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -587,6 +569,24 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 // @formatter:on
 }

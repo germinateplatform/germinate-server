@@ -38,7 +38,7 @@ import jhi.germinate.server.util.watcher.PropertyWatcher;
  */
 public class CustomVerifier implements Verifier
 {
-	public static final long AGE = 1800000;
+	public static final long AGE = 43200000; // 12 hours
 
 	private static Map<String, UserDetails> tokenToTimestamp  = new ConcurrentHashMap<>();
 	private static Map<String, String>      tokenToImageToken = new ConcurrentHashMap<>();

@@ -33,10 +33,24 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     private static final long serialVersionUID = -397250747;
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setGermplasmId(Integer value) {
+        set(0, value);
+    }
+
+    /**
      * Create a detached ViewTableTrialsDataRecord
      */
     public ViewTableTrialsDataRecord() {
         super(ViewTableTrialsData.VIEW_TABLE_TRIALS_DATA);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
+     */
+    public void setGermplasmGid(String value) {
+        set(1, value);
     }
 
     /**
@@ -63,41 +77,6 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getGermplasmId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setGermplasmId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
-     */
-    public String getGermplasmGid() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
-     */
-    public void setGermplasmGid(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
-     */
-    public String getGermplasmName() {
-        return (String) get(2);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setGermplasmName(String value) {
@@ -105,10 +84,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.entity_type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getEntityType() {
-        return (String) get(3);
+    public Integer getGermplasmId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -119,10 +98,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(4);
+    public String getGermplasmGid() {
+        return (String) get(1);
     }
 
     /**
@@ -133,10 +112,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public String getDatasetName() {
-        return (String) get(5);
+    public String getGermplasmName() {
+        return (String) get(2);
     }
 
     /**
@@ -147,10 +126,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.entity_type</code>. The name of the entity type.
      */
-    public String getDatasetDescription() {
-        return (String) get(6);
+    public String getEntityType() {
+        return (String) get(3);
     }
 
     /**
@@ -161,10 +140,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.location_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getLocationName() {
-        return (String) get(7);
+    public Integer getDatasetId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -175,10 +154,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.country_name</code>. Country name.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
      */
-    public String getCountryName() {
-        return (String) get(8);
+    public String getDatasetName() {
+        return (String) get(5);
     }
 
     /**
@@ -189,10 +168,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
      */
-    public String getCountryCode2() {
-        return (String) get(9);
+    public String getDatasetDescription() {
+        return (String) get(6);
     }
 
     /**
@@ -203,10 +182,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name</code>. Phenotype full name.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.location_name</code>. The site name where the location is.
      */
-    public String getTraitName() {
-        return (String) get(10);
+    public String getLocationName() {
+        return (String) get(7);
     }
 
     /**
@@ -217,10 +196,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.country_name</code>. Country name.
      */
-    public String getTraitNameShort() {
-        return (String) get(11);
+    public String getCountryName() {
+        return (String) get(8);
     }
 
     /**
@@ -231,10 +210,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
      */
-    public String getUnitName() {
-        return (String) get(12);
+    public String getCountryCode2() {
+        return (String) get(9);
     }
 
     /**
@@ -245,10 +224,10 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name</code>. Phenotype full name.
      */
-    public Timestamp getRecordingDate() {
-        return (Timestamp) get(13);
+    public String getTraitName() {
+        return (String) get(10);
     }
 
     /**
@@ -258,15 +237,11 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
         set(13, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record15 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
-    public String getTraitValue() {
-        return (String) get(14);
+    public String getTraitNameShort() {
+        return (String) get(11);
     }
 
     /**
@@ -275,6 +250,17 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
     public void setTraitValue(String value) {
         set(14, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     */
+    public String getUnitName() {
+        return (String) get(12);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record15 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -778,10 +764,6 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -812,6 +794,24 @@ public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDa
         value14(value14);
         value15(value15);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     */
+    public Timestamp getRecordingDate() {
+        return (Timestamp) get(13);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
+     */
+    public String getTraitValue() {
+        return (String) get(14);
     }
 // @formatter:on
 }

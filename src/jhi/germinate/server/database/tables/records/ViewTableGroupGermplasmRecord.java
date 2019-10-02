@@ -40,6 +40,13 @@ public class ViewTableGroupGermplasmRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getGermplasmId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached, initialised ViewTableGroupGermplasmRecord
      */
     public ViewTableGroupGermplasmRecord(Integer germplasmId, String germplasmGid, String germplasmName, String germplasmNumber, String germplasmPuid, Integer entityTypeId, String entityTypeName, Integer entityParentId, Integer biologicalStatusId, String biologicalStatusName, JsonArray synonyms, String collectorNumber, String genus, String species, String subtaxa, String location, BigDecimal elevation, String countryName, String countryCode, Date collDate, Double pdci, Long imageCount, String firstImagePath, Integer groupId) {
@@ -72,10 +79,10 @@ public class ViewTableGroupGermplasmRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_gid</code>. A unique identifier.
      */
-    public Integer getGermplasmId() {
-        return (Integer) get(0);
+    public String getGermplasmGid() {
+        return (String) get(1);
     }
 
     /**
@@ -86,20 +93,6 @@ public class ViewTableGroupGermplasmRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_gid</code>. A unique identifier.
-     */
-    public String getGermplasmGid() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_gid</code>. A unique identifier.
-     */
-    public void setGermplasmGid(String value) {
-        set(1, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getGermplasmName() {
@@ -107,10 +100,10 @@ public class ViewTableGroupGermplasmRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_gid</code>. A unique identifier.
      */
-    public void setGermplasmName(String value) {
-        set(2, value);
+    public void setGermplasmGid(String value) {
+        set(1, value);
     }
 
     /**
@@ -122,11 +115,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
-entered into the genebank collection (e.g. ‘PI 113869’).
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public void setGermplasmNumber(String value) {
-        set(3, value);
+    public void setGermplasmName(String value) {
+        set(2, value);
     }
 
     /**
@@ -137,10 +129,11 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
+entered into the genebank collection (e.g. ‘PI 113869’).
      */
-    public void setGermplasmPuid(String value) {
-        set(4, value);
+    public void setGermplasmNumber(String value) {
+        set(3, value);
     }
 
     /**
@@ -151,10 +144,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
      */
-    public void setEntityTypeId(Integer value) {
-        set(5, value);
+    public void setGermplasmPuid(String value) {
+        set(4, value);
     }
 
     /**
@@ -165,20 +158,6 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_type_name</code>. The name of the entity type.
-     */
-    public void setEntityTypeName(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
-     */
-    public Integer getEntityParentId() {
-        return (Integer) get(7);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public void setEntityParentId(Integer value) {
@@ -186,10 +165,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getBiologicalStatusId() {
-        return (Integer) get(8);
+    public void setEntityTypeId(Integer value) {
+        set(5, value);
     }
 
     /**
@@ -200,10 +179,10 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_type_name</code>. The name of the entity type.
      */
-    public String getBiologicalStatusName() {
-        return (String) get(9);
+    public void setEntityTypeName(String value) {
+        set(6, value);
     }
 
     /**
@@ -214,26 +193,24 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
+     */
+    public Integer getEntityParentId() {
+        return (Integer) get(7);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getBiologicalStatusId() {
+        return (Integer) get(8);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.synonyms</code>. The synonyms as a json array.
      */
     public JsonArray getSynonyms() {
         return (JsonArray) get(10);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.synonyms</code>. The synonyms as a json array.
-     */
-    public void setSynonyms(JsonArray value) {
-        set(10, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
-initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
-identifying duplicates held in different collections.
-     */
-    public String getCollectorNumber() {
-        return (String) get(11);
     }
 
     /**
@@ -246,10 +223,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.genus</code>. Genus name for the species.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
      */
-    public String getGenus() {
-        return (String) get(12);
+    public String getBiologicalStatusName() {
+        return (String) get(9);
     }
 
     /**
@@ -260,10 +237,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.species</code>. Species name in lowercase.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.synonyms</code>. The synonyms as a json array.
      */
-    public String getSpecies() {
-        return (String) get(13);
+    public void setSynonyms(JsonArray value) {
+        set(10, value);
     }
 
     /**
@@ -274,10 +251,12 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.subtaxa</code>. Subtaxa name.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
+identifying duplicates held in different collections.
      */
-    public String getSubtaxa() {
-        return (String) get(14);
+    public String getCollectorNumber() {
+        return (String) get(11);
     }
 
     /**
@@ -288,10 +267,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.location</code>. The site name where the location is.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.genus</code>. Genus name for the species.
      */
-    public String getLocation() {
-        return (String) get(15);
+    public String getGenus() {
+        return (String) get(12);
     }
 
     /**
@@ -302,6 +281,20 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.species</code>. Species name in lowercase.
+     */
+    public String getSpecies() {
+        return (String) get(13);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public String getSubtaxa() {
+        return (String) get(14);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
@@ -309,10 +302,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.location</code>. The site name where the location is.
      */
-    public void setElevation(BigDecimal value) {
-        set(16, value);
+    public String getLocation() {
+        return (String) get(15);
     }
 
     /**
@@ -323,10 +316,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_name</code>. Country name.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
      */
-    public void setCountryName(String value) {
-        set(17, value);
+    public void setElevation(BigDecimal value) {
+        set(16, value);
     }
 
     /**
@@ -334,6 +327,13 @@ identifying duplicates held in different collections.
      */
     public String getCountryCode() {
         return (String) get(18);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(17, value);
     }
 
     /**
@@ -352,14 +352,6 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
-Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
-     */
-    public void setCollDate(Date value) {
-        set(19, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
      */
     public Double getPdci() {
@@ -367,10 +359,11 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
+Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
-    public void setPdci(Double value) {
-        set(20, value);
+    public void setCollDate(Date value) {
+        set(19, value);
     }
 
     /**
@@ -381,10 +374,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.image_count</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
      */
-    public void setImageCount(Long value) {
-        set(21, value);
+    public void setPdci(Double value) {
+        set(20, value);
     }
 
     /**
@@ -392,6 +385,13 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     public String getFirstImagePath() {
         return (String) get(22);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.image_count</code>.
+     */
+    public void setImageCount(Long value) {
+        set(21, value);
     }
 
     /**

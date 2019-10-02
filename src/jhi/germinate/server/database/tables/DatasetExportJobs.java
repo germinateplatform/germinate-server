@@ -40,48 +40,67 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
 
+    private static final long serialVersionUID = -559733256;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.dataset_export_jobs</code>
      */
     public static final DatasetExportJobs DATASET_EXPORT_JOBS = new DatasetExportJobs();
-    private static final long serialVersionUID = -559733256;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<DatasetExportJobsRecord> getRecordType() {
+        return DatasetExportJobsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
      */
     public final TableField<DatasetExportJobsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.uuid</code>.
      */
     public final TableField<DatasetExportJobsRecord, String> UUID = createField("uuid", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
      */
     public final TableField<DatasetExportJobsRecord, String> JOB_ID = createField("job_id", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.user_id</code>.
      */
     public final TableField<DatasetExportJobsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.filepath</code>.
      */
     public final TableField<DatasetExportJobsRecord, String> FILEPATH = createField("filepath", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
      */
     public final TableField<DatasetExportJobsRecord, DatasetExportJobsStatus> STATUS = createField("status", org.jooq.impl.SQLDataType.VARCHAR(9).nullable(false).defaultValue(org.jooq.impl.DSL.inline("waiting", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.DatasetExportJobsStatus.class), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
      */
     public final TableField<DatasetExportJobsRecord, Integer> EXPERIMENT_TYPE_ID = createField("experiment_type_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
     /**
      * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
      */
     @java.lang.Deprecated
     public final TableField<DatasetExportJobsRecord, Object> METADATA = createField("metadata", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"dataset_export_jobs_metadata\""), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
      */
     public final TableField<DatasetExportJobsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
      */
@@ -114,14 +133,6 @@ public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
 
     private DatasetExportJobs(Name alias, Table<DatasetExportJobsRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment(""));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<DatasetExportJobsRecord> getRecordType() {
-        return DatasetExportJobsRecord.class;
     }
 
     /**

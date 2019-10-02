@@ -35,27 +35,41 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupMarkers extends TableImpl<ViewTableGroupMarkersRecord> {
 
+    private static final long serialVersionUID = 1742792758;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_group_markers</code>
      */
     public static final ViewTableGroupMarkers VIEW_TABLE_GROUP_MARKERS = new ViewTableGroupMarkers();
-    private static final long serialVersionUID = 1742792758;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableGroupMarkersRecord> getRecordType() {
+        return ViewTableGroupMarkersRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGroupMarkersRecord, Integer> MARKER_ID = createField("marker_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public final TableField<ViewTableGroupMarkersRecord, String> MARKER_NAME = createField("marker_name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "The name of the marker. This should be a unique name which identifies the marker.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
     public final TableField<ViewTableGroupMarkersRecord, String> MARKER_TYPE = createField("marker_type", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_synonyms</code>. The synonyms as a json array.
      */
     public final TableField<ViewTableGroupMarkersRecord, JsonArray> MARKER_SYNONYMS = createField("marker_synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_group_markers_marker_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_markers.group_id</code>. Foreign key to groups (groups.id).
      */
@@ -88,14 +102,6 @@ public class ViewTableGroupMarkers extends TableImpl<ViewTableGroupMarkersRecord
 
     private ViewTableGroupMarkers(Name alias, Table<ViewTableGroupMarkersRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableGroupMarkersRecord> getRecordType() {
-        return ViewTableGroupMarkersRecord.class;
     }
 
     /**

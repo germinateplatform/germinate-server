@@ -34,67 +34,91 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTrialsData extends TableImpl<ViewTableTrialsDataRecord> {
 
+    private static final long serialVersionUID = 129473837;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_trials_data</code>
      */
     public static final ViewTableTrialsData VIEW_TABLE_TRIALS_DATA = new ViewTableTrialsData();
-    private static final long serialVersionUID = 129473837;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableTrialsDataRecord> getRecordType() {
+        return ViewTableTrialsDataRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableTrialsDataRecord, Integer> GERMPLASM_ID = createField("germplasm_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
      */
     public final TableField<ViewTableTrialsDataRecord, String> GERMPLASM_GID = createField("germplasm_gid", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTableTrialsDataRecord, String> GERMPLASM_NAME = createField("germplasm_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.entity_type</code>. The name of the entity type.
      */
     public final TableField<ViewTableTrialsDataRecord, String> ENTITY_TYPE = createField("entity_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableTrialsDataRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
      */
     public final TableField<ViewTableTrialsDataRecord, String> DATASET_NAME = createField("dataset_name", org.jooq.impl.SQLDataType.CLOB, this, "Describes the dataset.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableTrialsDataRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.location_name</code>. The site name where the location is.
      */
     public final TableField<ViewTableTrialsDataRecord, String> LOCATION_NAME = createField("location_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.country_name</code>. Country name.
      */
     public final TableField<ViewTableTrialsDataRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
      */
     public final TableField<ViewTableTrialsDataRecord, String> COUNTRY_CODE2 = createField("country_code2", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.trait_name</code>. Phenotype full name.
      */
     public final TableField<ViewTableTrialsDataRecord, String> TRAIT_NAME = createField("trait_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Phenotype full name.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public final TableField<ViewTableTrialsDataRecord, String> TRAIT_NAME_SHORT = createField("trait_name_short", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened name for the phenotype. This is used in table columns where space is an issue.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public final TableField<ViewTableTrialsDataRecord, String> UNIT_NAME = createField("unit_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The name of the unit. This should be the name of the unit in full.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public final TableField<ViewTableTrialsDataRecord, Timestamp> RECORDING_DATE = createField("recording_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
      */
@@ -127,14 +151,6 @@ public class ViewTableTrialsData extends TableImpl<ViewTableTrialsDataRecord> {
 
     private ViewTableTrialsData(Name alias, Table<ViewTableTrialsDataRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableTrialsDataRecord> getRecordType() {
-        return ViewTableTrialsDataRecord.class;
     }
 
     /**

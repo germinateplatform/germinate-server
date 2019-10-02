@@ -39,6 +39,20 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getParentId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
+     */
+    public void setParentGid(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised ViewTablePedigreesRecord
      */
     public ViewTablePedigreesRecord(Integer parentId, String parentGid, String parentName, Integer childId, String childGid, String childName, ViewTablePedigreesRelationshipType relationshipType, String relationshipDescription, String pedigreeDescription, String pedigreeAuthor) {
@@ -57,10 +71,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public Integer getParentId() {
-        return (Integer) get(0);
+    public void setParentName(String value) {
+        set(2, value);
     }
 
     /**
@@ -71,41 +85,6 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
-     */
-    public String getParentGid() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
-     */
-    public void setParentGid(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
-     */
-    public String getParentName() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
-     */
-    public void setParentName(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getChildId() {
-        return (Integer) get(3);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setChildId(Integer value) {
@@ -113,10 +92,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
      */
-    public String getChildGid() {
-        return (String) get(4);
+    public String getParentGid() {
+        return (String) get(1);
     }
 
     /**
@@ -127,10 +106,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public String getChildName() {
-        return (String) get(5);
+    public String getParentName() {
+        return (String) get(2);
     }
 
     /**
@@ -141,10 +120,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTablePedigreesRelationshipType getRelationshipType() {
-        return (ViewTablePedigreesRelationshipType) get(6);
+    public Integer getChildId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -155,10 +134,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_gid</code>. A unique identifier.
      */
-    public String getRelationshipDescription() {
-        return (String) get(7);
+    public String getChildGid() {
+        return (String) get(4);
     }
 
     /**
@@ -169,10 +148,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public String getPedigreeDescription() {
-        return (String) get(8);
+    public String getChildName() {
+        return (String) get(5);
     }
 
     /**
@@ -182,15 +161,11 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
         set(8, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record10 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
-    public String getPedigreeAuthor() {
-        return (String) get(9);
+    public ViewTablePedigreesRelationshipType getRelationshipType() {
+        return (ViewTablePedigreesRelationshipType) get(6);
     }
 
     /**
@@ -199,6 +174,17 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     public void setPedigreeAuthor(String value) {
         set(9, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     */
+    public String getRelationshipDescription() {
+        return (String) get(7);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -537,10 +523,6 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -566,6 +548,24 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
+     */
+    public String getPedigreeDescription() {
+        return (String) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     */
+    public String getPedigreeAuthor() {
+        return (String) get(9);
     }
 // @formatter:on
 }

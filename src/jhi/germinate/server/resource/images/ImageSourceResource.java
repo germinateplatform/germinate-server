@@ -2,9 +2,10 @@ package jhi.germinate.server.resource.images;
 
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.apache.commons.io.IOUtils;
 import org.restlet.data.Status;
 import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
+import org.restlet.representation.ByteArrayRepresentation;
 import org.restlet.resource.*;
 
 import java.io.*;
@@ -52,8 +53,8 @@ public class ImageSourceResource extends ServerResource
 		token = getQueryValue(PARAM_TOKEN);
 	}
 
-	@Get
-	public FileRepresentation getImage()
+	@Get("image/*")
+	public void getImage()
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -72,6 +73,26 @@ public class ImageSourceResource extends ServerResource
 		{
 			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type), name);
 			File small = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type), "thumbnail-" + name);
+
+			String extension = name.substring(name.lastIndexOf(".") + 1, name.length() - 1).toLowerCase();
+
+			MediaType mediaType;
+
+			switch (extension)
+			{
+				case "jpg":
+				case "jpeg":
+					mediaType = MediaType.IMAGE_JPEG;
+					break;
+				case "png":
+					mediaType = MediaType.IMAGE_PNG;
+					break;
+				case "svg":
+					mediaType = MediaType.IMAGE_SVG;
+					break;
+				default:
+					mediaType = MediaType.IMAGE_ALL;
+			}
 
 			if (large.exists() && large.isFile())
 			{
@@ -97,10 +118,17 @@ public class ImageSourceResource extends ServerResource
 				else
 					file = small;
 
-				FileRepresentation representation = new FileRepresentation(file, MediaType.IMAGE_ALL);
-				representation.setSize(file.length());
-				representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
-				return representation;
+				try
+				{
+					byte[] bytes = IOUtils.toByteArray(file.toURI());
+					ByteArrayRepresentation bar = new ByteArrayRepresentation(bytes, mediaType);
+					getResponse().setEntity(bar);
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+					throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				}
 			}
 			else
 			{
