@@ -81,6 +81,20 @@ public class ViewTableGroupLocationsRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_locations.location_region</code>. The region where the location is if this exists.
+     */
+    public String getLocationRegion() {
+        return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_state</code>. The state where the location is if this exists.
+     */
+    public void setLocationState(String value) {
+        set(3, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setLocationId(Integer value) {
@@ -99,20 +113,6 @@ public class ViewTableGroupLocationsRecord extends TableRecordImpl<ViewTableGrou
      */
     public String getLocationState() {
         return (String) get(3);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_locations.location_region</code>. The region where the location is if this exists.
-     */
-    public String getLocationRegion() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_state</code>. The state where the location is if this exists.
-     */
-    public void setLocationState(String value) {
-        set(3, value);
     }
 
     /**
@@ -137,27 +137,6 @@ public class ViewTableGroupLocationsRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_type</code>. The name of the location type.
-     */
-    public void setLocationType(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_elevation</code>. The elevation of the site in metres.
-     */
-    public void setLocationElevation(BigDecimal value) {
-        set(7, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_latitude</code>. Latitude of the location.
-     */
-    public void setLocationLatitude(BigDecimal value) {
-        set(5, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_locations.location_longitude</code>. Longitude of the location.
      */
     public BigDecimal getLocationLongitude() {
@@ -165,17 +144,10 @@ public class ViewTableGroupLocationsRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_locations.country_name</code>. Country name.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_type</code>. The name of the location type.
      */
-    public String getCountryName() {
-        return (String) get(8);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.country_code2</code>. ISO 2 Code for country.
-     */
-    public void setCountryCode2(String value) {
-        set(9, value);
+    public void setLocationType(String value) {
+        set(4, value);
     }
 
     /**
@@ -193,6 +165,34 @@ public class ViewTableGroupLocationsRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_latitude</code>. Latitude of the location.
+     */
+    public void setLocationLatitude(BigDecimal value) {
+        set(5, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.location_elevation</code>. The elevation of the site in metres.
+     */
+    public void setLocationElevation(BigDecimal value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_locations.country_name</code>. Country name.
+     */
+    public String getCountryName() {
+        return (String) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_locations.country_code2</code>. ISO 2 Code for country.
+     */
+    public String getCountryCode2() {
+        return (String) get(9);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_locations.country_code3</code>. ISO 3 Code for country.
      */
     public String getCountryCode3() {
@@ -207,10 +207,10 @@ public class ViewTableGroupLocationsRecord extends TableRecordImpl<ViewTableGrou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_locations.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_locations.country_code2</code>. ISO 2 Code for country.
      */
-    public String getCountryCode2() {
-        return (String) get(9);
+    public void setCountryCode2(String value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------

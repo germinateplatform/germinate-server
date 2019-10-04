@@ -26,14 +26,14 @@ import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs implements Serializable {
 
-    private static final long serialVersionUID = -980201138;
+    private static final long serialVersionUID = -1014862549;
 
     private Integer                 id;
     private String                  uuid;
     private String                  jobId;
     private Integer                 userId;
-    private String                  filepath;
     private DatasetExportJobsStatus status;
+    private Boolean                 visibility;
     private Integer                 experimentTypeId;
     private Object                  metadata;
     private Timestamp               createdOn;
@@ -46,8 +46,8 @@ public class DatasetExportJobs implements Serializable {
         this.uuid = value.uuid;
         this.jobId = value.jobId;
         this.userId = value.userId;
-        this.filepath = value.filepath;
         this.status = value.status;
+        this.visibility = value.visibility;
         this.experimentTypeId = value.experimentTypeId;
         this.metadata = value.metadata;
         this.createdOn = value.createdOn;
@@ -59,8 +59,8 @@ public class DatasetExportJobs implements Serializable {
         String                  uuid,
         String                  jobId,
         Integer                 userId,
-        String                  filepath,
         DatasetExportJobsStatus status,
+        Boolean                 visibility,
         Integer                 experimentTypeId,
         Object                  metadata,
         Timestamp               createdOn,
@@ -70,8 +70,8 @@ public class DatasetExportJobs implements Serializable {
         this.uuid = uuid;
         this.jobId = jobId;
         this.userId = userId;
-        this.filepath = filepath;
         this.status = status;
+        this.visibility = visibility;
         this.experimentTypeId = experimentTypeId;
         this.metadata = metadata;
         this.createdOn = createdOn;
@@ -110,20 +110,20 @@ public class DatasetExportJobs implements Serializable {
         this.userId = userId;
     }
 
-    public String getFilepath() {
-        return this.filepath;
-    }
-
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
-    }
-
     public DatasetExportJobsStatus getStatus() {
         return this.status;
     }
 
     public void setStatus(DatasetExportJobsStatus status) {
         this.status = status;
+    }
+
+    public Boolean getVisibility() {
+        return this.visibility;
+    }
+
+    public void setVisibility(Boolean visibility) {
+        this.visibility = visibility;
     }
 
     public Integer getExperimentTypeId() {
@@ -176,8 +176,8 @@ public class DatasetExportJobs implements Serializable {
         sb.append(", ").append(uuid);
         sb.append(", ").append(jobId);
         sb.append(", ").append(userId);
-        sb.append(", ").append(filepath);
         sb.append(", ").append(status);
+        sb.append(", ").append(visibility);
         sb.append(", ").append(experimentTypeId);
         sb.append(", ").append(metadata);
         sb.append(", ").append(createdOn);

@@ -294,13 +294,15 @@ public class CustomVerifier implements Verifier
 		Route route = Germinate.INSTANCE.routerAuth.getRoutes().getBest(request, response, 0);
 		String method = request.getMethod().getName();
 
+		boolean isFreeForAll = false;
+
 		if (route != null)
 		{
 
 			Finder finder = (Finder) route.getNext();
 
 			Class<?> clazz = finder.getTargetClass();
-			Boolean passesAnnotationRequirements = Arrays.stream(clazz.getDeclaredMethods())
+			boolean passesAnnotationRequirements = Arrays.stream(clazz.getDeclaredMethods())
 														 // Only get the ones that have the annotation
 														 .filter(m -> m.isAnnotationPresent(MinUserType.class))
 														 // Then filter for all Java methods that have a matching HTTP method annotation
@@ -317,10 +319,17 @@ public class CustomVerifier implements Verifier
 
 			if (!passesAnnotationRequirements)
 				return RESULT_INVALID;
+
+
+			isFreeForAll = Arrays.stream(clazz.getDeclaredMethods())
+								 .filter(m -> m.isAnnotationPresent(FreeForAll.class))
+								 .anyMatch(m -> Arrays.stream(m.getDeclaredAnnotations())
+													  .map(a -> a.annotationType().getSimpleName())
+													  .anyMatch(method::equalsIgnoreCase));
 		}
 
-		// If we're in full auth mode OR in selective but it's not a GET or a POST, then check credentials
-		if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && !Objects.equals(method, "POST") && !Objects.equals(method, "GET")))
+		// If we're in full auth mode OR in selective but it's not a GET or a POST and it's not a FreeForAll, then check credentials
+		if (mode == AuthenticationMode.FULL || (!isFreeForAll && mode == AuthenticationMode.SELECTIVE && !Objects.equals(method, "POST") && !Objects.equals(method, "GET")))
 		{
 			ChallengeResponse cr = request.getChallengeResponse();
 			if (cr != null)

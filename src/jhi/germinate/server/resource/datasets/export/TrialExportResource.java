@@ -1,6 +1,5 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import org.jooq.Result;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -13,7 +12,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.*;
 
-import jhi.germinate.resource.TrialsExportRequest;
+import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.routines.ExportTrialsData;
 import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
@@ -26,8 +25,8 @@ import jhi.germinate.server.util.*;
  */
 public class TrialExportResource extends BaseServerResource
 {
-	@Post()
-	public FileRepresentation postJson(TrialsExportRequest request)
+	@Post
+	public FileRepresentation postJson(SubsettedDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -69,7 +68,7 @@ public class TrialExportResource extends BaseServerResource
 				procedure.execute(context.configuration());
 
 				bw.write("#input=PHENOTYPE" + CRLF);
-				exportToFile(bw, procedure.getResults().get(0));
+				exportToFile(bw, procedure.getResults().get(0), true);
 			}
 			catch (SQLException | IOException e)
 			{

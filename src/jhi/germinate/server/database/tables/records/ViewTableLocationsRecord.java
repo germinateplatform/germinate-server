@@ -164,6 +164,13 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
+     */
+    public String getCountryName() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_locations.location_type</code>. The name of the location type.
      */
     public void setLocationType(String value) {
@@ -175,13 +182,6 @@ public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocations
      */
     public void setLocationLatitude(BigDecimal value) {
         set(5, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_locations.country_name</code>. Country name.
-     */
-    public String getCountryName() {
-        return (String) get(8);
     }
 
     /**

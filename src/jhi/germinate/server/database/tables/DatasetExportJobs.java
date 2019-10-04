@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
 
-    private static final long serialVersionUID = -559733256;
+    private static final long serialVersionUID = -987473141;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.dataset_export_jobs</code>
@@ -76,14 +76,14 @@ public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
     public final TableField<DatasetExportJobsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.filepath</code>.
-     */
-    public final TableField<DatasetExportJobsRecord, String> FILEPATH = createField("filepath", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
-
-    /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
      */
     public final TableField<DatasetExportJobsRecord, DatasetExportJobsStatus> STATUS = createField("status", org.jooq.impl.SQLDataType.VARCHAR(9).nullable(false).defaultValue(org.jooq.impl.DSL.inline("waiting", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.DatasetExportJobsStatus.class), this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.dataset_export_jobs.visibility</code>.
+     */
+    public final TableField<DatasetExportJobsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.

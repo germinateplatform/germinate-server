@@ -92,17 +92,17 @@ public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasm
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setGermplasmId(Integer value) {
-        set(0, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getGermplasmName() {
         return (String) get(2);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setGermplasmId(Integer value) {
+        set(0, value);
     }
 
     /**

@@ -165,6 +165,13 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_abbreviation</code>. This should be the unit abbreviation.
+     */
+    public String getUnitAbbreviation() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
@@ -172,10 +179,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
      */
-    public void setSynonyms(JsonArray value) {
-        set(9, value);
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(9);
     }
 
     /**
@@ -186,17 +193,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.unit_abbreviation</code>. This should be the unit abbreviation.
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
      */
-    public String getUnitAbbreviation() {
-        return (String) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
-     */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(9);
+    public void setSynonyms(JsonArray value) {
+        set(9, value);
     }
 
     // -------------------------------------------------------------------------

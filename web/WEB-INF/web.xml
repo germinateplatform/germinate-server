@@ -8,10 +8,6 @@
 		Germinate web server
 	</display-name>
 
-	<listener>
-		<listener-class>jhi.germinate.server.ApplicationListener</listener-class>
-	</listener>
-
 	<servlet>
 		<init-param>
 			<param-name>org.restlet.application</param-name>

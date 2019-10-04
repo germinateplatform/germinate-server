@@ -44,6 +44,7 @@ public class SettingsFileResource extends ServerResource
 	{
 		try
 		{
+			// TODO: Get this from the external data directory
 			File file = new File(ClientLocaleResource.class.getClassLoader().getResource(name).toURI());
 
 			if (file.exists() && file.isFile())

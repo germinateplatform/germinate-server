@@ -44,6 +44,7 @@ public class ViewTableGroupGermplasm extends TableImpl<ViewTableGroupGermplasmRe
      * The reference instance of <code>germinate_template_3_7_0.view_table_group_germplasm</code>
      */
     public static final ViewTableGroupGermplasm VIEW_TABLE_GROUP_GERMPLASM = new ViewTableGroupGermplasm();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].

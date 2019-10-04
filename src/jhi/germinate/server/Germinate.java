@@ -118,12 +118,15 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/{datasetId}/attribute", DatasetAttributeTableResource.class);
 		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/genotype", GenotypeExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/data/trial", TrialsDataTableResource.class);
 		attachToRouter(routerAuth, "/dataset/data/trial/ids", TrialsDataTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/map", DatasetMapResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/trial", TraitStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
-		attachToRouter(routerAuth, "/dataset/group/trial", DatasetTrialGroupResource.class);
+		attachToRouter(routerAuth, "/dataset/group", DatasetGroupResource.class);
 
 		// ENTITIES
 		attachToRouter(routerAuth, "/entity/table", EntityTableResource.class);

@@ -42,7 +42,7 @@ public class GermplasmTableExportResource extends PaginatedServerResource implem
 				// Filter here!
 				filter(from, filters);
 
-				exportToFile(bw, setPaginationAndOrderBy(from).fetch());
+				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true);
 			}
 			catch (SQLException e)
 			{

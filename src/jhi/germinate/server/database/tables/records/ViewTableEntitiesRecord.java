@@ -38,6 +38,13 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getEntityParentId() {
+        return (Integer) get(0);
+    }
+
+    /**
      * Create a detached ViewTableEntitiesRecord
      */
     public ViewTableEntitiesRecord() {
@@ -45,10 +52,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
      */
-    public void setEntityParentGid(String value) {
-        set(1, value);
+    public String getEntityParentGid() {
+        return (String) get(1);
     }
 
     /**
@@ -68,41 +75,6 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
-     */
-    public void setEntityParentName(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getEntityParentId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
-     */
-    public void setEntityParentType(String value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
-     */
-    public String getEntityParentGid() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setEntityChildId(Integer value) {
-        set(4, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getEntityParentName() {
@@ -110,10 +82,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
      */
-    public void setEntityChildGid(String value) {
-        set(5, value);
+    public void setEntityParentGid(String value) {
+        set(1, value);
     }
 
     /**
@@ -124,10 +96,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public void setEntityChildName(String value) {
-        set(6, value);
+    public void setEntityParentName(String value) {
+        set(2, value);
     }
 
     /**
@@ -138,10 +110,38 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
+     */
+    public void setEntityParentType(String value) {
+        set(3, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
      */
     public String getEntityChildGid() {
         return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setEntityChildId(Integer value) {
+        set(4, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
+     */
+    public void setEntityChildGid(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
+     */
+    public String getEntityChildName() {
+        return (String) get(6);
     }
 
     /**
@@ -456,10 +456,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public String getEntityChildName() {
-        return (String) get(6);
+    public void setEntityChildName(String value) {
+        set(6, value);
     }
 
     /**

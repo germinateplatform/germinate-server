@@ -40,7 +40,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -1565104530;
+    private static final long serialVersionUID = 855626129;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
@@ -74,6 +74,11 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
      */
     public final TableField<ViewTableDatasetsRecord, String> HYPERLINK = createField("hyperlink", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Link to access the external dasets.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_datasets.source_file</code>.
+     */
+    public final TableField<ViewTableDatasetsRecord, String> SOURCE_FILE = createField("source_file", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_type</code>. Describes the experiment type.

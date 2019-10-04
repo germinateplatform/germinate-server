@@ -133,11 +133,29 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_images.reference_name</code>.
+     */
+    public String getReferenceName() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_images.created_on</code>.
+     */
+    public void setCreatedOn(Timestamp value) {
+        set(7, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
      */
     public String getImageType() {
         return (String) get(4);
     }
+
+    // -------------------------------------------------------------------------
+    // Record8 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
@@ -147,28 +165,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.reference_name</code>.
-     */
-    public String getReferenceName() {
-        return (String) get(6);
-    }
-
-    // -------------------------------------------------------------------------
-    // Record8 type implementation
-    // -------------------------------------------------------------------------
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_images.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_images.created_on</code>.
-     */
-    public void setCreatedOn(Timestamp value) {
-        set(7, value);
     }
 
     /**
@@ -430,26 +430,6 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
      * {@inheritDoc}
      */
     @Override
-    public Timestamp component8() {
-        return getCreatedOn();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Timestamp value8() {
-        return getCreatedOn();
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ViewTableImagesRecord value8(Timestamp value) {
         setCreatedOn(value);
         return this;
@@ -469,6 +449,26 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
         value7(value7);
         value8(value8);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Timestamp component8() {
+        return getCreatedOn();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Timestamp value8() {
+        return getCreatedOn();
     }
 // @formatter:on
 }

@@ -149,6 +149,13 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
+     */
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
      */
     public String getGroupName() {
@@ -167,13 +174,6 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.created_on</code>. Foreign key to locations (locations.id).
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     /**

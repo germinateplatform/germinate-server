@@ -40,6 +40,7 @@ public class ViewTableGroupLocations extends TableImpl<ViewTableGroupLocationsRe
      * The reference instance of <code>germinate_template_3_7_0.view_table_group_locations</code>
      */
     public static final ViewTableGroupLocations VIEW_TABLE_GROUP_LOCATIONS = new ViewTableGroupLocations();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_locations.location_type</code>. The name of the location type.
      */

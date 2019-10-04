@@ -53,6 +53,7 @@ public class ClientLocaleResource extends ServerResource
 	{
 		try
 		{
+			// TODO: Get this from the external data directory instead!
 			File file = new File(ClientLocaleResource.class.getClassLoader().getResource(locale + ".json").toURI());
 
 			if (file.exists() && file.isFile())
