@@ -147,10 +147,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.created_on</code>.
      */
-    public String getImageType() {
-        return (String) get(4);
+    public Timestamp getCreatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -158,17 +158,17 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     // -------------------------------------------------------------------------
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
+     */
+    public String getImageType() {
+        return (String) get(4);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
      */
     public String getImageRefTable() {
         return (String) get(5);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.created_on</code>.
-     */
-    public Timestamp getCreatedOn() {
-        return (Timestamp) get(7);
     }
 
     /**

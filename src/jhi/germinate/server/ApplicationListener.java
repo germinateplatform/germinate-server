@@ -1,10 +1,13 @@
 package jhi.germinate.server;
 
+import java.util.Arrays;
 import java.util.concurrent.*;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebListener;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.tasks.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.*;
@@ -27,14 +30,34 @@ public class ApplicationListener implements ServletContextListener
 	public void contextInitialized(ServletContextEvent sce)
 	{
 		PropertyWatcher.initialize();
-		// TODO: Init scheduler based on config
+		// TODO: Init async scheduler based on config
+
+		Long asyncDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
+		Long tempDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);
 
 		backgroundScheduler = Executors.newSingleThreadScheduledExecutor();
 		// Every hour, update the dataset sizes
 		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 0, 1, TimeUnit.HOURS);
 		// Every minute, check the async job status
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 0, 1, TimeUnit.MINUTES);
-//		backgroundScheduler.scheduleAtFixedRate(new PDCIRunnable(), 0, 4, TimeUnit.HOURS);
+		// Every specified amount of minues, delete the async folders that aren't needed anymore
+		if (asyncDeleteDelay != null)
+			backgroundScheduler.scheduleAtFixedRate(new AsyncFolderCleanupTask(), 0, asyncDeleteDelay, TimeUnit.HOURS);
+
+		String path = sce.getServletContext().getContextPath();
+		if (!StringUtils.isEmpty(path) && tempDeleteDelay != null)
+		{
+			String[] parts = path.split("/");
+			String firstNonEmptyPart = Arrays.stream(parts)
+											 .filter(p -> !StringUtils.isEmpty(p))
+											 .findFirst()
+											 .orElse(null);
+
+			if (!StringUtils.isEmpty(firstNonEmptyPart))
+				backgroundScheduler.scheduleAtFixedRate(new TempFolderCleanupTask(firstNonEmptyPart), 0, tempDeleteDelay, TimeUnit.HOURS);
+		}
+
+		//		backgroundScheduler.scheduleAtFixedRate(new PDCIRunnable(), 0, 4, TimeUnit.HOURS);
 	}
 
 	@Override

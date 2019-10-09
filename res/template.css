@@ -1,0 +1,202 @@
+a {
+color: {{PRIMARY}};
+}
+
+a:hover {
+color: {{PRIMARY_HOVER}};
+}
+
+.btn-primary {
+background-color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.btn-primary:hover {
+background-color: {{PRIMARY_DARKER}};
+border-color: {{PRIMARY_DARKER}};
+}
+
+.btn-primary:focus, .btn-primary.focus {
+box-shadow: 0 0 0 0.2rem {{PRIMARY_DARKER_SHADOW}};
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+background-color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+background-color: {{PRIMARY_DARKER}};
+border-color: #005cbf;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+box-shadow: 0 0 0 0.2rem {{PRIMARY_DARKER_SHADOW}};
+}
+
+.btn-outline-primary {
+color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.btn-outline-primary:hover {
+background-color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+box-shadow: 0 0 0 0.2rem {{PRIMARY_SHADOW}};
+}
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+color: {{PRIMARY}};
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+background-color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-primary.dropdown-toggle:focus {
+box-shadow: 0 0 0 0.2rem {{PRIMARY_SHADOW}};
+}
+
+.btn-link {
+color: {{PRIMARY}};
+}
+
+.btn-link:hover {
+color: {{PRIMARY_HOVER}};
+}
+
+.dropdown-item.active, .dropdown-item:active {
+background-color: {{PRIMARY}};
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+border-color: {{PRIMARY}};
+background-color: {{PRIMARY}};
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+border-color: {{PRIMARY}};
+background-color: {{PRIMARY}};
+}
+
+
+.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+background-color: {{PRIMARY_SHADOW}};
+}
+
+.custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
+background-color: {{PRIMARY_SHADOW}};
+}
+
+.custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before {
+background-color: {{PRIMARY_SHADOW}};
+}
+
+.custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
+background-color: {{PRIMARY_SHADOW}};
+}
+
+.custom-select:focus {
+border-color: {{PRIMARY_LIGHTER_BORDER}};
+box-shadow: 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
+
+.custom-file-input:focus ~ .custom-file-label {
+border-color: {{PRIMARY_LIGHTER_BORDER}};
+box-shadow: 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
+
+.custom-range:focus::-webkit-slider-thumb {
+box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
+
+.custom-range:focus::-moz-range-thumb {
+box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
+
+.custom-range:focus::-ms-thumb {
+box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
+
+.custom-range::-webkit-slider-thumb {
+background-color: {{PRIMARY}};
+}
+
+.custom-range::-moz-range-thumb {
+background-color: {{PRIMARY}};
+}
+
+.custom-range::-ms-thumb {
+background-color: {{PRIMARY}};
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+background-color: {{PRIMARY}};
+}
+
+.page-link {
+color: {{PRIMARY}};
+}
+
+.aside-menu .nav-tabs .nav-link.active {
+color: {{PRIMARY}};
+}
+
+.sidebar .nav-link:hover {
+background: {{PRIMARY}};
+}
+
+.sidebar .nav-link.active .nav-icon {
+color: {{PRIMARY}};
+}
+
+.page-link:hover {
+color: {{PRIMARY_HOVER}};
+}
+
+.page-item.active .page-link {
+background-color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.badge-primary {
+background-color: {{PRIMARY}};
+}
+
+a.badge-primary:hover, a.badge-primary:focus {
+background-color: {{PRIMARY_DARKER}};
+}
+
+a.badge-primary:focus, a.badge-primary.focus {
+box-shadow: 0 0 0 0.2rem {{PRIMARY_SHADOW}};
+}
+
+.progress-bar {
+background-color: {{PRIMARY}};
+}
+
+.list-group-item.active {
+background-color: {{PRIMARY}};
+border-color: {{PRIMARY}};
+}
+
+.bg-primary {
+background-color: {{PRIMARY}} !important;
+}
+
+.border-primary {
+border-color: {{PRIMARY}} !important;
+}
+
+.text-primary {
+color: {{PRIMARY}} !important;
+}

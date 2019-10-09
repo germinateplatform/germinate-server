@@ -8,8 +8,9 @@ import java.sql.*;
 import java.util.*;
 
 import jhi.germinate.resource.DatasetAsyncJobRequest;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.auth.*;
+import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.tables.pojos.DatasetExportJobs;
 import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.util.*;
@@ -64,11 +65,18 @@ public class AsyncDatasetExportResource extends ServerResource
 													.where(DATASET_EXPORT_JOBS.UUID.in(jobUuid))
 													.fetchOneInto(DatasetExportJobsRecord.class);
 
+			boolean isCancelRequest = record.getStatus() == DatasetExportJobsStatus.running;
+
 			// If the user is logged in
 			if (userDetails.getId() != -1000)
 			{
 				if (Objects.equals(record.getUserId(), userDetails.getId()))
 				{
+					if (isCancelRequest)
+					{
+						record.setStatus(DatasetExportJobsStatus.cancelled);
+						cancelJob(record.getJobId());
+					}
 					record.setVisibility(false);
 					record.store();
 					return true;
@@ -78,6 +86,11 @@ public class AsyncDatasetExportResource extends ServerResource
 			}
 			else
 			{
+				if (isCancelRequest)
+				{
+					record.setStatus(DatasetExportJobsStatus.cancelled);
+					cancelJob(record.getJobId());
+				}
 				record.setVisibility(false);
 				record.store();
 				return true;
@@ -90,13 +103,26 @@ public class AsyncDatasetExportResource extends ServerResource
 		}
 	}
 
+	private void cancelJob(String jobId)
+	{
+		try
+		{
+			ApplicationListener.SCHEDULER.initialize();
+			ApplicationListener.SCHEDULER.cancelJob(jobId);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	@Post("json")
 	public List<DatasetExportJobs> postJson(DatasetAsyncJobRequest request)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		if (CollectionUtils.isEmpty(request.getUuids()) && (userDetails.getId() == -1000))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			return new ArrayList<>();
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
@@ -105,6 +131,7 @@ public class AsyncDatasetExportResource extends ServerResource
 						  .where(DATASET_EXPORT_JOBS.UUID.in(request.getUuids())
 														 .or(DATASET_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
 						  .and(DATASET_EXPORT_JOBS.VISIBILITY.eq(true))
+						  .orderBy(DATASET_EXPORT_JOBS.UPDATED_ON.desc())
 						  .fetchInto(DatasetExportJobs.class);
 
 			// TODO: Add json parsing to code generator

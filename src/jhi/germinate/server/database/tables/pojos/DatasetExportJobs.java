@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables.pojos;
 
 
+import com.google.gson.JsonArray;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -26,7 +28,7 @@ import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs implements Serializable {
 
-    private static final long serialVersionUID = -1014862549;
+    private static final long serialVersionUID = -1992491636;
 
     private Integer                 id;
     private String                  uuid;
@@ -35,7 +37,7 @@ public class DatasetExportJobs implements Serializable {
     private DatasetExportJobsStatus status;
     private Boolean                 visibility;
     private Integer                 experimentTypeId;
-    private Object                  metadata;
+    private JsonArray               datasetIds;
     private Timestamp               createdOn;
     private Timestamp               updatedOn;
 
@@ -49,7 +51,7 @@ public class DatasetExportJobs implements Serializable {
         this.status = value.status;
         this.visibility = value.visibility;
         this.experimentTypeId = value.experimentTypeId;
-        this.metadata = value.metadata;
+        this.datasetIds = value.datasetIds;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -62,7 +64,7 @@ public class DatasetExportJobs implements Serializable {
         DatasetExportJobsStatus status,
         Boolean                 visibility,
         Integer                 experimentTypeId,
-        Object                  metadata,
+        JsonArray               datasetIds,
         Timestamp               createdOn,
         Timestamp               updatedOn
     ) {
@@ -73,7 +75,7 @@ public class DatasetExportJobs implements Serializable {
         this.status = status;
         this.visibility = visibility;
         this.experimentTypeId = experimentTypeId;
-        this.metadata = metadata;
+        this.datasetIds = datasetIds;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -134,22 +136,12 @@ public class DatasetExportJobs implements Serializable {
         this.experimentTypeId = experimentTypeId;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public Object getMetadata() {
-        return this.metadata;
+    public JsonArray getDatasetIds() {
+        return this.datasetIds;
     }
 
-
-    /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
-     */
-    @java.lang.Deprecated
-    public void setMetadata(Object metadata) {
-        this.metadata = metadata;
+    public void setDatasetIds(JsonArray datasetIds) {
+        this.datasetIds = datasetIds;
     }
 
     public Timestamp getCreatedOn() {
@@ -179,7 +171,7 @@ public class DatasetExportJobs implements Serializable {
         sb.append(", ").append(status);
         sb.append(", ").append(visibility);
         sb.append(", ").append(experimentTypeId);
-        sb.append(", ").append(metadata);
+        sb.append(", ").append(datasetIds);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

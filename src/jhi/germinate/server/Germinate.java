@@ -121,6 +121,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/export/genotype", GenotypeExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}", AsyncDatasetExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}/download", AsyncDatasetExportDownloadResource.class);
 		attachToRouter(routerAuth, "/dataset/data/trial", TrialsDataTableResource.class);
 		attachToRouter(routerAuth, "/dataset/data/trial/ids", TrialsDataTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/map", DatasetMapResource.class);
@@ -167,6 +168,9 @@ public class Germinate extends Application
 		// LOCATIONS
 		attachToRouter(routerAuth, "/location/table", LocationTableResource.class);
 		attachToRouter(routerAuth, "/location/table/ids", LocationTableIdResource.class);
+		attachToRouter(routerAuth, "/location/polygon/table", LocationPolygonTableResource.class);
+		attachToRouter(routerAuth, "/location/polygon/table/ids", LocationPolygonTableIdResource.class);
+		attachToRouter(routerAuth, "/location/distance/table", LocationDistanceTableResource.class);
 
 		// MAPS
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);
@@ -192,6 +196,7 @@ public class Germinate extends Application
 		// SETTINGS
 		attachToRouter(routerAuth, "/settings/write", SettingsWriterResource.class);
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
+		attachToRouter(routerUnauth, "/settings/css", SettingsCssResource.class);
 
 		// UNAUTH
 		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);

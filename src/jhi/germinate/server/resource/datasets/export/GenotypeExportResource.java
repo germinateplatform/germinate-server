@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource.datasets.export;
 
+import com.google.gson.*;
+
 import org.jooq.Result;
 import org.jooq.*;
 import org.restlet.Request;
@@ -60,6 +62,11 @@ public class GenotypeExportResource extends BaseServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn);)
 		{
+			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
+
+			if (CollectionUtils.isEmpty(ds))
+				return null;
+
 			Set<String> germplasmNames = getGermplasmNames(context, request);
 			Set<String> markerNames = getMarkerNames(context, request);
 
@@ -80,31 +87,31 @@ public class GenotypeExportResource extends BaseServerResource
 				exportToFile(bw, mapResult, false);
 			}
 
-			String uuid = UUID.randomUUID().toString();
-			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
+			String dsName = "dataset-" + ds.get(0).getDatasetId() + "-map-" + request.getMapId();
 
-			if (CollectionUtils.isEmpty(ds))
-				return null;
+			String uuid = UUID.randomUUID().toString();
+
+			// Get the target folder for all generated files
+			File asyncFolder = getFromExternal(uuid, "async");
+			asyncFolder.mkdirs();
+
+			// Get the source hdf5 file
+			File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "genotypes");
 
 			// Create all temporary files
-			File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "genotypes");
-			File output = createTempFile(uuid, "result", "flapjack");
-			File tabbed = createTempFile(uuid, "tabbed", "txt");
-			File mapFile = createTempFile(uuid, "map-" + request.getMapId(), "map");
-			File headerFile = createTempFile(uuid, "header", "header");
+			File mapFile = new File(asyncFolder, dsName + ".map");
 			Files.copy(sharedMapFile.toPath(), mapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			File headerFile = new File(asyncFolder, dsName + ".header");
 
-			File germplasmFile = null;
 			if (!CollectionUtils.isEmpty(germplasmNames))
 			{
-				germplasmFile = createTempFile(uuid, "germplasm", "txt");
+				File germplasmFile = new File(asyncFolder, dsName + ".germplasm");
 				Files.write(germplasmFile.toPath(), new ArrayList<>(germplasmNames), Charset.defaultCharset());
 			}
 
-			File markerFile = null;
 			if (!CollectionUtils.isEmpty(markerNames))
 			{
-				markerFile = createTempFile(uuid, "markers", "txt");
+				File markerFile = new File(asyncFolder, dsName + ".markers");
 				Files.write(markerFile.toPath(), new ArrayList<>(markerNames), Charset.defaultCharset());
 			}
 			Files.write(headerFile.toPath(), getFlapjackHeaders(getRequest()), Charset.defaultCharset());
@@ -115,20 +122,21 @@ public class GenotypeExportResource extends BaseServerResource
 			args.add(libFolder.getAbsolutePath() + File.separator + "*");
 			args.add(GenotypeExporter.class.getCanonicalName());
 			args.add(hdf5.getAbsolutePath());
-			args.add(mapFile.getAbsolutePath());
-			args.add(tabbed.getAbsolutePath());
-			args.add(germplasmFile != null ? germplasmFile.getAbsolutePath() : "''");
-			args.add(markerFile != null ? markerFile.getAbsolutePath() : "''");
-			args.add(headerFile != null ? headerFile.getAbsolutePath() : "''");
-			args.add(output.getAbsolutePath());
+			args.add(asyncFolder.getAbsolutePath());
+			args.add(dsName);
+			args.add(Boolean.toString(request.isGenerateFlapjackProject()));
 
 			ApplicationListener.SCHEDULER.initialize();
-			String jobId = ApplicationListener.SCHEDULER.submit("java", args, getTempDir(uuid).getAbsolutePath());
+			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
+
+			JsonArray array = new JsonArray(1);
+			array.add(ds.get(0).getDatasetId());
 
 			// Store the job information in the database
 			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
 			dbJob.setUuid(uuid);
 			dbJob.setJobId(jobId);
+			dbJob.setDatasetIds(array);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setExperimentTypeId(1);
 			dbJob.setStatus(DatasetExportJobsStatus.running);

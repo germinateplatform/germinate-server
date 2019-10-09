@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupGermplasm implements Serializable {
 
-    private static final long serialVersionUID = -1608945024;
+    private static final long serialVersionUID = -908671989;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -45,6 +45,8 @@ public class ViewTableGroupGermplasm implements Serializable {
     private String     species;
     private String     subtaxa;
     private String     location;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
     private BigDecimal elevation;
     private String     countryName;
     private String     countryCode;
@@ -73,6 +75,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.species = value.species;
         this.subtaxa = value.subtaxa;
         this.location = value.location;
+        this.latitude = value.latitude;
+        this.longitude = value.longitude;
         this.elevation = value.elevation;
         this.countryName = value.countryName;
         this.countryCode = value.countryCode;
@@ -100,6 +104,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         String     species,
         String     subtaxa,
         String     location,
+        BigDecimal latitude,
+        BigDecimal longitude,
         BigDecimal elevation,
         String     countryName,
         String     countryCode,
@@ -125,6 +131,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.species = species;
         this.subtaxa = subtaxa;
         this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.elevation = elevation;
         this.countryName = countryName;
         this.countryCode = countryCode;
@@ -263,6 +271,22 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.location = location;
     }
 
+    public BigDecimal getLatitude() {
+        return this.latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return this.longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
     public BigDecimal getElevation() {
         return this.elevation;
     }
@@ -347,6 +371,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         sb.append(", ").append(species);
         sb.append(", ").append(subtaxa);
         sb.append(", ").append(location);
+        sb.append(", ").append(latitude);
+        sb.append(", ").append(longitude);
         sb.append(", ").append(elevation);
         sb.append(", ").append(countryName);
         sb.append(", ").append(countryCode);

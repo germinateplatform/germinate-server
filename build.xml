@@ -9,7 +9,7 @@
 	<property name="cls" location="web/WEB-INF/classes"/>
 
 	<property name="web" location="web"/>
-	<property name="path" value="${deploy.name}/v${api.version}"/>
+	<property name="path" value="${project.name}/v${api.version}"/>
 
 	<!-- Development classpath -->
 	<property name="jar" value="germinate.jar"/>
@@ -87,7 +87,7 @@
 
 			<zipfileset dir="." includes="config.properties" prefix="WEB-INF/classes"/>
 			<zipfileset dir="." includes="logging.properties" prefix="WEB-INF/classes"/>
-			<zipfileset dir="${res}" includes="*.json" prefix="WEB-INF/classes"/>
+			<zipfileset dir="${res}" includes="*.json,*.css" prefix="WEB-INF/classes"/>
 
 			<zipfileset dir="${src}" includes="**/*.sql" prefix="WEB-INF/classes"/>
 		</war>

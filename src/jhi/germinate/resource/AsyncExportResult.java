@@ -1,15 +1,12 @@
 package jhi.germinate.resource;
 
-import java.util.List;
-
 /**
  * @author Sebastian Raubach
  */
 public class AsyncExportResult
 {
-	private String           status;
-	private String           uuid;
-	private List<ResultFile> files;
+	private String status;
+	private String uuid;
 
 	public String getStatus()
 	{
@@ -30,17 +27,6 @@ public class AsyncExportResult
 	public AsyncExportResult setUuid(String uuid)
 	{
 		this.uuid = uuid;
-		return this;
-	}
-
-	public List<ResultFile> getFiles()
-	{
-		return files;
-	}
-
-	public AsyncExportResult setFiles(List<ResultFile> files)
-	{
-		this.files = files;
 		return this;
 	}
 }

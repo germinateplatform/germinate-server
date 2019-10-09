@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables;
 
 
+import com.google.gson.JsonArray;
+
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +15,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.util.SynonymBinding;
 
 import org.jooq.Field;
 import org.jooq.Identity;
@@ -40,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
 
-    private static final long serialVersionUID = -987473141;
+    private static final long serialVersionUID = 551664251;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.dataset_export_jobs</code>
@@ -91,10 +94,9 @@ public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
     public final TableField<DatasetExportJobsRecord, Integer> EXPERIMENT_TYPE_ID = createField("experiment_type_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * @deprecated Unknown data type. Please define an explicit {@link org.jooq.Binding} to specify how this type should be handled. Deprecation can be turned off using {@literal <deprecationOnUnknownTypes/>} in your code generator configuration.
+     * The column <code>germinate_template_3_7_0.dataset_export_jobs.dataset_ids</code>.
      */
-    @java.lang.Deprecated
-    public final TableField<DatasetExportJobsRecord, Object> METADATA = createField("metadata", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"dataset_export_jobs_metadata\""), this, "");
+    public final TableField<DatasetExportJobsRecord, JsonArray> DATASET_IDS = createField("dataset_ids", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"dataset_export_jobs_dataset_ids\""), this, "", new SynonymBinding());
 
     /**
      * The column <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.

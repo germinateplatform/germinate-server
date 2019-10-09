@@ -6,6 +6,7 @@ import org.restlet.resource.ServerResource;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 import java.util.stream.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
@@ -87,6 +88,7 @@ public class BaseServerResource extends ServerResource
 		extension = extension.replace(".", "");
 
 		List<String> segments = getReference().getSegments(true);
+
 		String path;
 		if (CollectionUtils.isEmpty(segments))
 			path = "germinate";

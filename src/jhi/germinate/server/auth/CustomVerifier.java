@@ -26,6 +26,7 @@ import org.restlet.util.Series;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.*;
 import java.util.stream.Collectors;
 
 import jhi.germinate.resource.enums.ServerProperty;
@@ -145,6 +146,8 @@ public class CustomVerifier implements Verifier
 	public static UserDetails getFromSession(Request request, Response response)
 	{
 		TokenResult token = getToken(request, response);
+
+		Logger.getLogger("").log(Level.INFO, token == null ? "null" : token.toString());
 
 		// If there is no token or token and cookie don't match, remove the cookie
 		if (token == null || !token.match)
@@ -393,6 +396,15 @@ public class CustomVerifier implements Verifier
 	{
 		private String  token;
 		private boolean match;
+
+		@Override
+		public String toString()
+		{
+			return "TokenResult{" +
+				"token='" + token + '\'' +
+				", match=" + match +
+				'}';
+		}
 	}
 
 	public static class UserDetails

@@ -31,7 +31,9 @@ public enum DatasetExportJobsStatus implements EnumType {
 
     failed("failed"),
 
-    completed("completed");
+    completed("completed"),
+
+    cancelled("cancelled");
 
     private final String literal;
 

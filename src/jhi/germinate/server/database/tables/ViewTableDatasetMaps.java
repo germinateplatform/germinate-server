@@ -32,35 +32,51 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetMaps extends TableImpl<ViewTableDatasetMapsRecord> {
 
+    private static final long serialVersionUID = -429052511;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_dataset_maps</code>
      */
     public static final ViewTableDatasetMaps VIEW_TABLE_DATASET_MAPS = new ViewTableDatasetMaps();
-    private static final long serialVersionUID = -429052511;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableDatasetMapsRecord> getRecordType() {
+        return ViewTableDatasetMapsRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableDatasetMapsRecord, Integer> MAP_ID = createField("map_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.map_name</code>. Describes the map.
      */
     public final TableField<ViewTableDatasetMapsRecord, String> MAP_NAME = createField("map_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Describes the map.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.map_description</code>. The name of this map.
      */
     public final TableField<ViewTableDatasetMapsRecord, String> MAP_DESCRIPTION = createField("map_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this map.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<ViewTableDatasetMapsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public final TableField<ViewTableDatasetMapsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Determines if the map is visible to the Germinate interface or hidden.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.dataset_id</code>.
      */
     public final TableField<ViewTableDatasetMapsRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_maps.marker_count</code>.
      */
@@ -93,14 +109,6 @@ public class ViewTableDatasetMaps extends TableImpl<ViewTableDatasetMapsRecord> 
 
     private ViewTableDatasetMaps(Name alias, Table<ViewTableDatasetMapsRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableDatasetMapsRecord> getRecordType() {
-        return ViewTableDatasetMapsRecord.class;
     }
 
     /**

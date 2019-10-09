@@ -163,17 +163,17 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
-     */
-    public Integer getGroupTypeId() {
-        return (Integer) get(3);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
+     */
+    public Integer getGroupTypeId() {
+        return (Integer) get(3);
     }
 
     /**

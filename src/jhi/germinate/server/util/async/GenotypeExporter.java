@@ -1,29 +1,34 @@
 package jhi.germinate.server.util.async;
 
 import java.io.*;
-import java.nio.file.Files;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.*;
 import java.util.*;
 
 import jhi.flapjack.io.FlapjackFile;
 import jhi.flapjack.io.cmd.*;
 import jhi.germinate.server.util.Hdf5ToFJTabbedConverter;
-import jhi.germinate.server.util.*;
 
 /**
  * @author Sebastian Raubach
  */
 public class GenotypeExporter
 {
-	private File hdf5File;
-	private File mapFile;
-	private File tabbedFile;
-	private File germplasmFile;
-	private File markersFile;
-	private File headerFile;
-	private File outputFile;
+	private File        folder;
+	private File        hdf5File;
+	private File        mapFile;
+	private File        tabbedFile;
+	private File        germplasmFile;
+	private File        markersFile;
+	private File        headerFile;
+	private File        flapjackProjectFile;
+	private File        zipFile;
 	private Set<String> germplasm;
 	private Set<String> markers;
 	private String      headers = "";
+	private String      projectName;
+
 	public GenotypeExporter()
 	{
 	}
@@ -32,21 +37,30 @@ public class GenotypeExporter
 		throws IOException
 	{
 		int i = 0;
-		String part;
 		GenotypeExporter exporter = new GenotypeExporter();
 		exporter.hdf5File = new File(args[i++]);
-		exporter.mapFile = new File(args[i++]);
-		exporter.tabbedFile = new File(args[i++]);
-		part = args[i++];
-		if (!StringUtils.isEmpty(part))
-			exporter.germplasmFile = new File(part);
-		part = args[i++];
-		if (!StringUtils.isEmpty(part))
-			exporter.markersFile = new File(part);
-		part = args[i++];
-		if (!StringUtils.isEmpty(part))
-			exporter.headerFile = new File(part);
-		exporter.outputFile = new File(args[i++]);
+
+		exporter.folder = new File(args[i++]);
+		exporter.projectName = args[i++];
+		boolean createFlapjackProject = Boolean.parseBoolean(args[i++]);
+
+		exporter.mapFile = new File(exporter.folder, exporter.projectName + ".map");
+		exporter.tabbedFile = new File(exporter.folder, exporter.projectName + ".txt");
+		exporter.zipFile = new File(exporter.folder, exporter.projectName + ".zip");
+
+		File germplasmFile = new File(exporter.folder, exporter.projectName + ".germplasm");
+		File markersFile = new File(exporter.folder, exporter.projectName + ".markers");
+		File headersFile = new File(exporter.folder, exporter.projectName + ".header");
+
+		if (germplasmFile.exists() && germplasmFile.isFile())
+			exporter.germplasmFile = germplasmFile;
+		if (markersFile.exists() && markersFile.isFile())
+			exporter.markersFile = markersFile;
+		if (headersFile.exists() && headersFile.isFile())
+			exporter.headerFile = headersFile;
+		if (createFlapjackProject)
+			exporter.flapjackProjectFile = new File(exporter.folder, exporter.projectName + ".flapjack");
+
 
 		exporter.run();
 	}
@@ -54,151 +68,70 @@ public class GenotypeExporter
 	private void init()
 		throws IOException
 	{
-		if (germplasmFile != null && CollectionUtils.isEmpty(germplasm))
+		if (germplasmFile != null)
 		{
 			germplasm = new LinkedHashSet<>(Files.readAllLines(germplasmFile.toPath()));
 			germplasmFile.delete();
 		}
 
-		if (markersFile != null && CollectionUtils.isEmpty(markers))
+		if (markersFile != null)
 		{
 			markers = new LinkedHashSet<>(Files.readAllLines(markersFile.toPath()));
 			markersFile.delete();
 		}
 
-		if (headerFile != null && headers == null)
+		if (headerFile != null)
 		{
-			headers = String.join("\n", Files.readAllLines(headerFile.toPath()));
+			headers = String.join("\n", Files.readAllLines(headerFile.toPath())) + "\n";
 			headerFile.delete();
 		}
 	}
 
-	public List<String> run()
+	private List<String> run()
 		throws IOException
 	{
 		init();
+
+		List<File> resultFiles = new ArrayList<>();
+		resultFiles.add(tabbedFile);
+		resultFiles.add(mapFile);
 
 		Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File, germplasm, markers, tabbedFile.getAbsolutePath(), false);
 		converter.readInput();
 		converter.extractData(headers);
 
-		FlapjackFile project = new FlapjackFile(outputFile.getAbsolutePath());
+		List<String> logs = new ArrayList<>();
 
-		CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, "Germinate"); // TODO: Name
+		if (flapjackProjectFile != null)
+		{
+			FlapjackFile project = new FlapjackFile(flapjackProjectFile.getAbsolutePath());
+			CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
 
-		CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
-		List<String> logs = createProject.doProjectCreation();
+			CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
+			logs.addAll(createProject.doProjectCreation());
+
+			resultFiles.add(flapjackProjectFile);
+		}
+
+		URI uri = URI.create("jar:file:/" + zipFile.getAbsolutePath().replace("\\", "/"));
+
+		Map<String, String> env = new HashMap<>();
+		env.put("create", "true");
+		env.put("encoding", "UTF-8");
+
+		try (FileSystem fs = FileSystems.newFileSystem(uri, env, null))
+		{
+			for (File f : resultFiles)
+			{
+				Files.copy(f.toPath(), fs.getPath("/" + f.getName()), StandardCopyOption.REPLACE_EXISTING);
+				f.delete();
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 
 		return logs;
-	}
-
-	public File getHdf5File()
-	{
-		return hdf5File;
-	}
-
-	public GenotypeExporter setHdf5File(File hdf5File)
-	{
-		this.hdf5File = hdf5File;
-		return this;
-	}
-
-	public File getMapFile()
-	{
-		return mapFile;
-	}
-
-	public GenotypeExporter setMapFile(File mapFile)
-	{
-		this.mapFile = mapFile;
-		return this;
-	}
-
-	public File getTabbedFile()
-	{
-		return tabbedFile;
-	}
-
-	public GenotypeExporter setTabbedFile(File tabbedFile)
-	{
-		this.tabbedFile = tabbedFile;
-		return this;
-	}
-
-	public File getGermplasmFile()
-	{
-		return germplasmFile;
-	}
-
-	public GenotypeExporter setGermplasmFile(File germplasmFile)
-	{
-		this.germplasmFile = germplasmFile;
-		return this;
-	}
-
-	public File getMarkersFile()
-	{
-		return markersFile;
-	}
-
-	public GenotypeExporter setMarkersFile(File markersFile)
-	{
-		this.markersFile = markersFile;
-		return this;
-	}
-
-	public File getHeaderFile()
-	{
-		return headerFile;
-	}
-
-	public GenotypeExporter setHeaderFile(File headerFile)
-	{
-		this.headerFile = headerFile;
-		return this;
-	}
-
-	public File getOutputFile()
-	{
-		return outputFile;
-	}
-
-	public GenotypeExporter setOutputFile(File outputFile)
-	{
-		this.outputFile = outputFile;
-		return this;
-	}
-
-	public Set<String> getGermplasm()
-	{
-		return germplasm;
-	}
-
-	public GenotypeExporter setGermplasm(Set<String> germplasm)
-	{
-		this.germplasm = germplasm;
-		return this;
-	}
-
-	public Set<String> getMarkers()
-	{
-		return markers;
-	}
-
-	public GenotypeExporter setMarkers(Set<String> markers)
-	{
-		this.markers = markers;
-		return this;
-	}
-
-	public String getHeaders()
-	{
-		return headers;
-	}
-
-	public GenotypeExporter setHeaders(String headers)
-	{
-		this.headers = headers;
-		return this;
 	}
 }
