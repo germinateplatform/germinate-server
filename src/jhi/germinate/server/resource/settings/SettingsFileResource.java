@@ -6,14 +6,13 @@ import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.File;
-import java.net.URISyntaxException;
 
-import jhi.germinate.server.resource.ClientLocaleResource;
+import jhi.germinate.server.resource.BaseServerResource;
 
 /**
  * @author Sebastian Raubach
  */
-public class SettingsFileResource extends ServerResource
+public class SettingsFileResource extends BaseServerResource
 {
 	public static final String PARAM_FILE_TYPE = "file-type";
 
@@ -44,8 +43,7 @@ public class SettingsFileResource extends ServerResource
 	{
 		try
 		{
-			// TODO: Get this from the external data directory
-			File file = new File(SettingsFileResource.class.getClassLoader().getResource(name).toURI());
+			File file = getFromExternal(name, "template");
 
 			if (file.exists() && file.isFile())
 			{
@@ -59,7 +57,7 @@ public class SettingsFileResource extends ServerResource
 				throw new ResourceException(org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND);
 			}
 		}
-		catch (URISyntaxException | NullPointerException e)
+		catch (NullPointerException e)
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

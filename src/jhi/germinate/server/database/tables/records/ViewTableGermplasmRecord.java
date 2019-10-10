@@ -296,6 +296,13 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.latitude</code>. Latitude of the location.
+     */
+    public BigDecimal getLatitude() {
+        return (BigDecimal) get(16);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
      */
     public String getSubtaxa() {
@@ -303,10 +310,17 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.latitude</code>. Latitude of the location.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
      */
-    public BigDecimal getLatitude() {
-        return (BigDecimal) get(16);
+    public BigDecimal getLongitude() {
+        return (BigDecimal) get(17);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     */
+    public void setElevation(BigDecimal value) {
+        set(18, value);
     }
 
     /**
@@ -317,10 +331,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
      */
-    public BigDecimal getLongitude() {
-        return (BigDecimal) get(17);
+    public void setCountryName(String value) {
+        set(19, value);
     }
 
     /**
@@ -338,10 +352,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
      */
-    public void setElevation(BigDecimal value) {
-        set(18, value);
+    public String getCountryCode() {
+        return (String) get(20);
     }
 
     /**
@@ -349,20 +363,6 @@ identifying duplicates held in different collections.
      */
     public String getCountryName() {
         return (String) get(19);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(19, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
-     */
-    public String getCountryCode() {
-        return (String) get(20);
     }
 
     /**
@@ -381,6 +381,13 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public Double getPdci() {
+        return (Double) get(22);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
@@ -389,10 +396,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
      */
-    public Double getPdci() {
-        return (Double) get(22);
+    public Long getImageCount() {
+        return (Long) get(23);
     }
 
     /**
@@ -400,13 +407,6 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     public void setPdci(Double value) {
         set(22, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
-     */
-    public Long getImageCount() {
-        return (Long) get(23);
     }
 
     /**

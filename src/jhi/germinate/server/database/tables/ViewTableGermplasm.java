@@ -44,6 +44,7 @@ public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
      * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm</code>
      */
     public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = new ViewTableGermplasm();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
@@ -126,32 +127,33 @@ identifying duplicates held in different collections.
      */
     public final TableField<ViewTableGermplasmRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Subtaxa name.");
     /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
+     */
+    public final TableField<ViewTableGermplasmRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
+
+    /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.latitude</code>. Latitude of the location.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> LATITUDE = createField("latitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Latitude of the location.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> LONGITUDE = createField("longitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Longitude of the location.");
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
-     */
-    public final TableField<ViewTableGermplasmRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> ELEVATION = createField("elevation", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The elevation of the site in metres.");
     /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
+     */
+    public final TableField<ViewTableGermplasmRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
+    /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
     public final TableField<ViewTableGermplasmRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
-
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
-     */
-    public final TableField<ViewTableGermplasmRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
      */

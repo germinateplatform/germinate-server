@@ -58,10 +58,10 @@ public class PropertyWatcher
 			if (resource != null)
 			{
 				config = new File(resource.toURI());
-				loadProperties();
+				loadProperties(false);
 
 				// Then check if there's another version in the external data directory
-				String path = get(ServerProperty.EXTERNAL_DATA_FOLDER);
+				String path = get(ServerProperty.DATA_DIRECTORY_EXTERNAL);
 				if (path != null)
 				{
 					File folder = new File(path);
@@ -69,15 +69,16 @@ public class PropertyWatcher
 					{
 						File potential = new File(folder, PROPERTIES_FILE);
 
-						if (potential.exists())
+						if (potential.exists() && potential.isFile())
 						{
 							// Use it
 							config = potential;
-							// Load the external properties
-							loadProperties();
 						}
 					}
 				}
+
+				// Finally, load it properly. This is either the original file or the external file.
+				loadProperties(true);
 
 				// Then watch whichever file exists for changes
 				FileAlterationObserver observer = new FileAlterationObserver(config.getParentFile());
@@ -89,7 +90,7 @@ public class PropertyWatcher
 					{
 						if (file.equals(config))
 						{
-							loadProperties();
+							loadProperties(true);
 						}
 					}
 				});
@@ -103,7 +104,7 @@ public class PropertyWatcher
 		}
 	}
 
-	private static void loadProperties()
+	private static void loadProperties(boolean checkAndInit)
 	{
 		try (FileInputStream stream = new FileInputStream(config))
 		{
@@ -114,11 +115,14 @@ public class PropertyWatcher
 			throw new RuntimeException(e);
 		}
 
-		checkRequiredProperties();
+		if (checkAndInit)
+		{
+			checkRequiredProperties();
 
-		Database.init(get(ServerProperty.DATABASE_SERVER), get(ServerProperty.DATABASE_NAME), get(ServerProperty.DATABASE_PORT), get(ServerProperty.DATABASE_USERNAME), get(ServerProperty.DATABASE_PASSWORD));
-		GatekeeperClient.init(get(ServerProperty.GATEKEEPER_URL), get(ServerProperty.GATEKEEPER_USERNAME), get(ServerProperty.GATEKEEPER_PASSWORD));
-		TokenResource.SALT = getInteger(ServerProperty.BCRYPT_SALT);
+			Database.init(get(ServerProperty.DATABASE_SERVER), get(ServerProperty.DATABASE_NAME), get(ServerProperty.DATABASE_PORT), get(ServerProperty.DATABASE_USERNAME), get(ServerProperty.DATABASE_PASSWORD));
+			GatekeeperClient.init(get(ServerProperty.GATEKEEPER_URL), get(ServerProperty.GATEKEEPER_USERNAME), get(ServerProperty.GATEKEEPER_PASSWORD));
+			TokenResource.SALT = getInteger(ServerProperty.BCRYPT_SALT);
+		}
 	}
 
 	public static void stopFileWatcher()

@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.locations;
+package jhi.germinate.server.resource.germplasm;
 
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -13,15 +13,16 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.resource.*;
 
+import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 import static jhi.germinate.server.database.tables.ViewTableLocations.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class LocationDistanceTableResource extends PaginatedServerResource implements FilteredResource
+public class GermplasmDistanceTableResource extends PaginatedServerResource implements FilteredResource
 {
 	@Post("json")
-	public PaginatedResult<List<LocationDistance>> getJson(PaginatedLocationRequest request)
+	public PaginatedResult<List<GermplasmDistance>> getJson(PaginatedLocationRequest request)
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -35,13 +36,13 @@ public class LocationDistanceTableResource extends PaginatedServerResource imple
 				DSL.cast(
 					DSL.acos(
 						DSL.sin(
-							DSL.rad(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE))
+							DSL.rad(VIEW_TABLE_GERMPLASM.LATITUDE))
 						   .times(
 							   DSL.sin(
 								   DSL.rad(request.getLatitude())))
 						   .plus(
 							   DSL.cos(
-								   DSL.rad(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE))
+								   DSL.rad(VIEW_TABLE_GERMPLASM.LATITUDE))
 								  .times(
 									  DSL.cos(
 										  DSL.rad(request.getLatitude())))
@@ -49,24 +50,24 @@ public class LocationDistanceTableResource extends PaginatedServerResource imple
 									  DSL.cos(
 										  DSL.rad(request.getLongitude())
 											 .minus(
-												 DSL.rad(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE))))))
+												 DSL.rad(VIEW_TABLE_GERMPLASM.LONGITUDE))))))
 					   .times(6378.7), Double.class).as("distance")
 			);
 
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<? extends Record> from = select.from(VIEW_TABLE_LOCATIONS);
+			SelectJoinStep<? extends Record> from = select.from(VIEW_TABLE_GERMPLASM);
 
-			from.where(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE.isNotNull()
-															  .and(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE.isNotNull()));
+			from.where(VIEW_TABLE_GERMPLASM.LONGITUDE.isNotNull()
+															  .and(VIEW_TABLE_GERMPLASM.LATITUDE.isNotNull()));
 
 			// Filter here!
 			filter(from, filters);
 
-			List<LocationDistance> result = setPaginationAndOrderBy(from)
+			List<GermplasmDistance> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(LocationDistance.class);
+				.into(GermplasmDistance.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

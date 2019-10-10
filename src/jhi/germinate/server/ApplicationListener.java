@@ -76,7 +76,8 @@ public class ApplicationListener implements ServletContextListener
 		try
 		{
 			// Stop the scheduler
-			backgroundScheduler.shutdownNow();
+			if (backgroundScheduler != null)
+				backgroundScheduler.shutdownNow();
 		}
 		catch (Exception e)
 		{

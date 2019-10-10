@@ -29,7 +29,7 @@ import java.net.URISyntaxException;
  *
  * @author Sebastian Raubach
  */
-public class ClientLocaleResource extends ServerResource
+public class ClientLocaleResource extends BaseServerResource
 {
 	private String locale;
 
@@ -53,8 +53,7 @@ public class ClientLocaleResource extends ServerResource
 	{
 		try
 		{
-			// TODO: Get this from the external data directory instead!
-			File file = new File(ClientLocaleResource.class.getClassLoader().getResource(locale + ".json").toURI());
+			File file = getFromExternal(locale + ".json", "template");
 
 			if (file.exists() && file.isFile())
 			{
@@ -72,11 +71,6 @@ public class ClientLocaleResource extends ServerResource
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-		}
-		catch (URISyntaxException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

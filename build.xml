@@ -87,7 +87,7 @@
 
 			<zipfileset dir="." includes="config.properties" prefix="WEB-INF/classes"/>
 			<zipfileset dir="." includes="logging.properties" prefix="WEB-INF/classes"/>
-			<zipfileset dir="${res}" includes="*.json,*.css" prefix="WEB-INF/classes"/>
+			<zipfileset dir="${res}" includes="*.css" prefix="WEB-INF/classes"/>
 
 			<zipfileset dir="${src}" includes="**/*.sql" prefix="WEB-INF/classes"/>
 		</war>

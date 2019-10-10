@@ -137,6 +137,10 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/group", GermplasmGroupTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/dataset", GermplasmDatasetTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/attribute", GermplasmAttributeTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/distance/table", GermplasmDistanceTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/distance/table/ids", GermplasmDistanceTableIdResource.class);
+		attachToRouter(routerAuth, "/germplasm/polygon/table", GermplasmPolygonTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/polygon/table/ids", GermplasmPolygonTableIdResource.class);
 		attachToRouter(routerAuth, "/germplasm/table", GermplasmTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/table/ids", GermplasmTableIdResource.class);
 		attachToRouter(routerAuth, "/germplasm/table/export", GermplasmTableExportResource.class);
@@ -171,6 +175,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/location/polygon/table", LocationPolygonTableResource.class);
 		attachToRouter(routerAuth, "/location/polygon/table/ids", LocationPolygonTableIdResource.class);
 		attachToRouter(routerAuth, "/location/distance/table", LocationDistanceTableResource.class);
+		attachToRouter(routerAuth, "/location/distance/table/ids", LocationDistanceTableIdResource.class);
 
 		// MAPS
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);

@@ -44,6 +44,7 @@ public class ViewTableGroupGermplasm extends TableImpl<ViewTableGroupGermplasmRe
      * The reference instance of <code>germinate_template_3_7_0.view_table_group_germplasm</code>
      */
     public static final ViewTableGroupGermplasm VIEW_TABLE_GROUP_GERMPLASM = new ViewTableGroupGermplasm();
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
      */
@@ -132,14 +133,15 @@ identifying duplicates held in different collections.
      */
     public final TableField<ViewTableGroupGermplasmRecord, String> LOCATION = createField("location", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
-     */
-    public final TableField<ViewTableGroupGermplasmRecord, BigDecimal> LONGITUDE = createField("longitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Longitude of the location.");
-    /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
     public final TableField<ViewTableGroupGermplasmRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, BigDecimal> LONGITUDE = createField("longitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Longitude of the location.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.

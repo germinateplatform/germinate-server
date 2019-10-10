@@ -179,11 +179,29 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
+     */
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.count</code>.
+     */
+    public void setCount(Long value) {
+        set(10, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
         set(6, value);
     }
+
+    // -------------------------------------------------------------------------
+    // Record11 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
@@ -197,24 +215,6 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
      */
     public Long getCount() {
         return (Long) get(10);
-    }
-
-    // -------------------------------------------------------------------------
-    // Record11 type implementation
-    // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.synonyms</code>. The synonyms as a json array.
-     */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.count</code>.
-     */
-    public void setCount(Long value) {
-        set(10, value);
     }
 
     /**

@@ -103,6 +103,13 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getEntityChildId() {
+        return (Integer) get(4);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setEntityParentName(String value) {
@@ -110,10 +117,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
      */
-    public void setEntityChildGid(String value) {
-        set(5, value);
+    public String getEntityChildGid() {
+        return (String) get(5);
     }
 
     /**
@@ -124,10 +131,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
      */
-    public Integer getEntityChildId() {
-        return (Integer) get(4);
+    public void setEntityChildGid(String value) {
+        set(5, value);
     }
 
     /**
@@ -135,13 +142,6 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
      */
     public String getEntityChildName() {
         return (String) get(6);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
-     */
-    public String getEntityChildGid() {
-        return (String) get(5);
     }
 
     /**
