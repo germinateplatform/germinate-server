@@ -23,7 +23,7 @@ import static jhi.germinate.server.database.tables.ViewTableLicenses.*;
 /**
  * @author Sebastian Raubach
  */
-public class LicenseTableResource extends PaginatedServerResource implements FilteredResource
+public class LicenseTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableLicenses>> getJson(PaginatedRequest request)

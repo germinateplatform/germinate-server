@@ -19,7 +19,7 @@ import static jhi.germinate.server.database.tables.ViewTableGroupMarkers.*;
 /**
  * @author Sebastian Raubach
  */
-public class GroupMarkerTableResource extends PaginatedServerResource implements FilteredResource
+public class GroupMarkerTableResource extends PaginatedServerResource
 {
 	private Integer groupId;
 

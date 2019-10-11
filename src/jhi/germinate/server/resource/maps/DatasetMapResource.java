@@ -6,7 +6,6 @@ import org.restlet.resource.*;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
@@ -22,7 +21,7 @@ import static jhi.germinate.server.database.tables.ViewTableDatasetMaps.*;
 /**
  * @author Sebastian Raubach
  */
-public class DatasetMapResource extends PaginatedServerResource implements FilteredResource
+public class DatasetMapResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableDatasetMaps>> getJson(DatasetRequest request)
@@ -32,10 +31,10 @@ public class DatasetMapResource extends PaginatedServerResource implements Filte
 
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
-		List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
-		requestedIds.retainAll(datasets.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList()));
+		requestedIds.retainAll(datasets);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);

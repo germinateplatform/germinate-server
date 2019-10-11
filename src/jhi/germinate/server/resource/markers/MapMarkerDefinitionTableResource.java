@@ -19,7 +19,7 @@ import static jhi.germinate.server.database.tables.ViewTableMapdefinitions.*;
 /**
  * @author Sebastian Raubach
  */
-public class MapMarkerDefinitionTableResource extends PaginatedServerResource implements FilteredResource
+public class MapMarkerDefinitionTableResource extends PaginatedServerResource
 {
 	private Integer mapId;
 

@@ -19,7 +19,7 @@ import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmDistanceTableIdResource extends PaginatedServerResource implements FilteredResource
+public class GermplasmDistanceTableIdResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedLocationRequest request)

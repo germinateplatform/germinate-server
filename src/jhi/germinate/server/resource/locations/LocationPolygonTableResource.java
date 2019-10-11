@@ -22,7 +22,7 @@ import static jhi.germinate.server.database.tables.ViewTableLocations.*;
 /**
  * @author Sebastian Raubach
  */
-public class LocationPolygonTableResource extends PaginatedServerResource implements FilteredResource
+public class LocationPolygonTableResource extends PaginatedServerResource
 {
 	public static String buildSqlPolygon(LatLng[][] points)
 	{

@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableLocations.*;
 /**
  * @author Sebastian Raubach
  */
-public class LocationPolygonTableIdResource extends PaginatedServerResource implements FilteredResource
+public class LocationPolygonTableIdResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedPolygonRequest request)

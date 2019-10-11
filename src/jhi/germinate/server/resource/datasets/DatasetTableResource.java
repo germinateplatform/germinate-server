@@ -9,7 +9,6 @@ import org.restlet.resource.*;
 
 import java.sql.*;
 import java.util.*;
-import java.util.logging.*;
 import java.util.stream.Collectors;
 
 import jhi.gatekeeper.resource.PaginatedResult;
@@ -18,8 +17,7 @@ import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.Datasetpermissions.*;
@@ -30,8 +28,15 @@ import static jhi.germinate.server.database.tables.ViewTableDatasets.*;
 /**
  * @author Sebastian Raubach
  */
-public class DatasetTableResource extends PaginatedServerResource implements FilteredResource
+public class DatasetTableResource extends PaginatedServerResource
 {
+	public static List<Integer> getDatasetIdsForUser(Request req, Response resp)
+	{
+		return getDatasetsForUser(req, resp).stream()
+											  .map(ViewTableDatasets::getDatasetId)
+											  .collect(Collectors.toList());
+	}
+
 	public static List<ViewTableDatasets> getDatasetsForUser(Request req, Response resp)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req, resp);

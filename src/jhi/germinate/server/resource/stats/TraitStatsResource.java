@@ -26,26 +26,6 @@ import static jhi.germinate.server.database.tables.ViewTableTraits.*;
  */
 public class TraitStatsResource extends ServerResource
 {
-	public static void main(String[] args)
-	{
-		try
-		{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3307/germinate_cimmyt_maize?serverTimezone=UTC", "germinate3", "g3rm1n@t3");
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from germinatebase limit 1");
-			while (rs.next())
-			{
-				System.out.println(rs.getTimestamp("created_on"));
-			}
-			con.close();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
 	@Post("json")
 	public TraitDatasetStats postJson(PaginatedDatasetRequest request)
 	{
@@ -55,7 +35,7 @@ public class TraitStatsResource extends ServerResource
 		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
-		requestedIds.retainAll(datasetsForUser.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList()));
+		requestedIds.retainAll(datasetsForUser);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);

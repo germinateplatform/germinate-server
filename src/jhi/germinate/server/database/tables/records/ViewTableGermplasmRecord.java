@@ -324,27 +324,6 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.latitude</code>. Latitude of the location.
-     */
-    public void setLatitude(BigDecimal value) {
-        set(16, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(19, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
-     */
-    public void setLongitude(BigDecimal value) {
-        set(17, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
@@ -352,10 +331,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.latitude</code>. Latitude of the location.
      */
-    public String getCountryCode() {
-        return (String) get(20);
+    public void setLatitude(BigDecimal value) {
+        set(16, value);
     }
 
     /**
@@ -373,6 +352,34 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(17, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(19, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
+     */
+    public String getCountryCode() {
+        return (String) get(20);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(22, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
@@ -381,10 +388,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
      */
-    public Double getPdci() {
-        return (Double) get(22);
+    public void setImageCount(Long value) {
+        set(23, value);
     }
 
     /**
@@ -396,24 +403,17 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
      */
-    public Long getImageCount() {
-        return (Long) get(23);
+    public void setFirstImagePath(String value) {
+        set(24, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
      */
-    public void setPdci(Double value) {
-        set(22, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
-     */
-    public void setImageCount(Long value) {
-        set(23, value);
+    public Double getPdci() {
+        return (Double) get(22);
     }
 
     // -------------------------------------------------------------------------
@@ -421,17 +421,17 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     // -------------------------------------------------------------------------
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
+     */
+    public Long getImageCount() {
+        return (Long) get(23);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
      */
     public String getFirstImagePath() {
         return (String) get(24);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
-     */
-    public void setFirstImagePath(String value) {
-        set(24, value);
     }
 // @formatter:on
 }

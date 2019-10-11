@@ -113,9 +113,12 @@ public class Germinate extends Application
 
 		// DATASETS
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
-		attachToRouter(routerAuth, "/dataset/table/ids", DatasetTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/table/export", DatasetTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/{datasetId}/collaborator", CollaboratorTableResource.class);
 		attachToRouter(routerAuth, "/dataset/{datasetId}/attribute", DatasetAttributeTableResource.class);
+		attachToRouter(routerAuth, "/dataset/{datasetId}/attribute/export", DatasetAttributeTableExportResource.class);
+		attachToRouter(routerAuth, "/dataset/attribute", DatasetAttributeTableResource.class);
+		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/genotype", GenotypeExportResource.class);
@@ -137,6 +140,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/group", GermplasmGroupTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/dataset", GermplasmDatasetTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/attribute", GermplasmAttributeTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/{germplasmId}/attribute/export", GermplasmAttributeTableExportResource.class);
+		attachToRouter(routerAuth, "/germplasm/attribute", GermplasmAttributeTableResource.class);
+		attachToRouter(routerAuth, "/germplasm/attribute/export", GermplasmAttributeTableExportResource.class);
 		attachToRouter(routerAuth, "/germplasm/distance/table", GermplasmDistanceTableResource.class);
 		attachToRouter(routerAuth, "/germplasm/distance/table/ids", GermplasmDistanceTableIdResource.class);
 		attachToRouter(routerAuth, "/germplasm/polygon/table", GermplasmPolygonTableResource.class);

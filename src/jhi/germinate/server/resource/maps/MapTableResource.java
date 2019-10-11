@@ -19,7 +19,7 @@ import static jhi.germinate.server.database.tables.ViewTableMaps.*;
 /**
  * @author Sebastian Raubach
  */
-public class MapTableResource extends PaginatedServerResource implements FilteredResource
+public class MapTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableMaps>> getJson(PaginatedRequest request)

@@ -195,17 +195,17 @@ entered into the genebank collection (e.g. ‘PI 113869’).
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_type_name</code>. The name of the entity type.
-     */
-    public void setEntityTypeName(String value) {
-        set(6, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
      */
     public String getBiologicalStatusName() {
         return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.entity_type_name</code>. The name of the entity type.
+     */
+    public void setEntityTypeName(String value) {
+        set(6, value);
     }
 
     /**
@@ -255,34 +255,6 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.synonyms</code>. The synonyms as a json array.
-     */
-    public void setSynonyms(JsonArray value) {
-        set(10, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.subtaxa</code>. Subtaxa name.
-     */
-    public void setSubtaxa(String value) {
-        set(14, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.genus</code>. Genus name for the species.
-     */
-    public void setGenus(String value) {
-        set(12, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.location</code>. The site name where the location is.
-     */
-    public void setLocation(String value) {
-        set(15, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.species</code>. Species name in lowercase.
      */
     public String getSpecies() {
@@ -290,10 +262,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.synonyms</code>. The synonyms as a json array.
      */
-    public void setLatitude(BigDecimal value) {
-        set(16, value);
+    public void setSynonyms(JsonArray value) {
+        set(10, value);
     }
 
     /**
@@ -304,10 +276,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.genus</code>. Genus name for the species.
      */
-    public void setLongitude(BigDecimal value) {
-        set(17, value);
+    public void setGenus(String value) {
+        set(12, value);
     }
 
     /**
@@ -318,6 +290,13 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.subtaxa</code>. Subtaxa name.
+     */
+    public void setSubtaxa(String value) {
+        set(14, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
      */
     public BigDecimal getLatitude() {
@@ -325,10 +304,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.location</code>. The site name where the location is.
      */
-    public BigDecimal getElevation() {
-        return (BigDecimal) get(18);
+    public void setLocation(String value) {
+        set(15, value);
     }
 
     /**
@@ -339,13 +318,6 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_name</code>. Country name.
-     */
-    public String getCountryName() {
-        return (String) get(19);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public void setElevation(BigDecimal value) {
@@ -353,10 +325,10 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_code</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
      */
-    public String getCountryCode() {
-        return (String) get(20);
+    public void setLatitude(BigDecimal value) {
+        set(16, value);
     }
 
     /**
@@ -367,10 +339,38 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(17, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_code</code>. ISO 2 Code for country.
      */
     public void setCountryCode(String value) {
         set(20, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
+     */
+    public BigDecimal getElevation() {
+        return (BigDecimal) get(18);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_name</code>. Country name.
+     */
+    public String getCountryName() {
+        return (String) get(19);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_code</code>. ISO 2 Code for country.
+     */
+    public String getCountryCode() {
+        return (String) get(20);
     }
 
     /**

@@ -17,7 +17,7 @@ import static jhi.germinate.server.database.tables.ViewTableLocations.*;
 /**
  * @author Sebastian Raubach
  */
-public class LocationDistanceTableIdResource extends PaginatedServerResource implements FilteredResource
+public class LocationDistanceTableIdResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedLocationRequest request)

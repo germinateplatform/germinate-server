@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableGroupLocations.*;
 /**
  * @author Sebastian Raubach
  */
-public class GroupLocationTableIdResource extends PaginatedServerResource implements FilteredResource
+public class GroupLocationTableIdResource extends PaginatedServerResource
 {
 	private Integer groupId;
 

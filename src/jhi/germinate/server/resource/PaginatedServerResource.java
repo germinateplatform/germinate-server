@@ -1,18 +1,25 @@
 package jhi.germinate.server.resource;
 
 import org.jooq.*;
-import org.jooq.impl.DSL;
+import org.jooq.impl.*;
+import org.restlet.data.*;
+import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.ResourceException;
 
+import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 
 import jhi.germinate.resource.*;
+import jhi.germinate.server.Database;
+
+import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class PaginatedServerResource extends BaseServerResource
+public class PaginatedServerResource extends BaseServerResource implements FilteredResource
 {
 	public static final String PARAM_PREVIOUS_COUNT = "prevCount";
 	public static final String PARAM_PAGE           = "page";
@@ -143,5 +150,47 @@ public class PaginatedServerResource extends BaseServerResource
 	public String getOrderBy()
 	{
 		return orderBy;
+	}
+
+	protected FileRepresentation export(TableImpl<? extends Record> table, String name)
+	{
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+
+		FileRepresentation representation;
+		try
+		{
+			File file = createTempFile(name, ".tsv");
+			try (Connection conn = Database.getConnection();
+				 DSLContext context = Database.getContext(conn);
+				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+			{
+				SelectJoinStep<Record> from = context.select()
+													 .from(table);
+
+				// Filter here!
+				filter(from, filters);
+
+				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true);
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			}
+
+			representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
+			representation.setSize(file.length());
+			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+			// Remember to delete this after the call, we don't need it anymore
+			representation.setAutoDeleting(true);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+
+		return representation;
 	}
 }

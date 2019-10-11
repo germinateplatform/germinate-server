@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableTraits.*;
 /**
  * @author Sebastian Raubach
  */
-public class TraitTableResource extends PaginatedServerResource implements FilteredResource
+public class TraitTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableTraits>> getJson(PaginatedRequest request)

@@ -5,21 +5,20 @@ import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.database.tables.pojos.ViewTableGermplasmAttributes;
+import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.ViewTableAttributes.*;
+import static jhi.germinate.server.database.tables.ViewTableGermplasmAttributes.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmAttributeTableResource extends PaginatedServerResource implements FilteredResource
+public class GermplasmAttributeTableResource extends PaginatedServerResource
 {
 	private Integer germplasmId;
 
@@ -33,44 +32,35 @@ public class GermplasmAttributeTableResource extends PaginatedServerResource imp
 		{
 			this.germplasmId = Integer.parseInt(getRequestAttributes().get("germplasmId").toString());
 		}
-		catch (NullPointerException | NumberFormatException e)
+		catch (NumberFormatException | NullPointerException e)
 		{
+			e.printStackTrace();
 		}
 	}
 
 	@Post("json")
-	public PaginatedResult<List<GermplasmAttributeData>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableGermplasmAttributes>> getJson(PaginatedRequest request)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
-
-		if (germplasmId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
 		processRequest(request);
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectSelectStep<Record> select = context.select(
-				GERMINATEBASE.ID.as("germplasm_id"),
-				GERMINATEBASE.GENERAL_IDENTIFIER.as("germplasm_gid"),
-				GERMINATEBASE.NAME.as("germplasm_name"),
-				VIEW_TABLE_ATTRIBUTES.asterisk()
-			);
+			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(GERMINATEBASE)
-												.leftJoin(VIEW_TABLE_ATTRIBUTES).on(VIEW_TABLE_ATTRIBUTES.TARGET_TABLE.eq("germinatebase").and(GERMINATEBASE.ID.eq(VIEW_TABLE_ATTRIBUTES.FOREIGN_ID)));
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GERMPLASM_ATTRIBUTES);
 
-			from.where(GERMINATEBASE.ID.eq(germplasmId));
+			if (germplasmId != null)
+				from.where(VIEW_TABLE_GERMPLASM_ATTRIBUTES.GERMPLASM_ID.eq(germplasmId));
 
 			// Filter here!
 			filter(from, filters);
 
-			List<GermplasmAttributeData> result = setPaginationAndOrderBy(from)
+			List<ViewTableGermplasmAttributes> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(GermplasmAttributeData.class);
+				.into(ViewTableGermplasmAttributes.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

@@ -13,7 +13,6 @@ import java.nio.charset.*;
 import java.nio.file.*;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
@@ -48,10 +47,7 @@ public class GenotypeExportResource extends BaseServerResource
 
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse())
-															  .stream()
-															  .map(ViewTableDatasets::getDatasetId)
-															  .collect(Collectors.toList());
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);

@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource;
 
 import org.jooq.*;
-import org.jooq.impl.DSL;
+import org.jooq.impl.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

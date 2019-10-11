@@ -19,7 +19,7 @@ import static jhi.germinate.server.database.tables.ViewTableGroups.*;
 /**
  * @author Sebastian Raubach
  */
-public class GroupTableResource extends PaginatedServerResource implements FilteredResource
+public class GroupTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableGroups>> getJson(PaginatedRequest request)

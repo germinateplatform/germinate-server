@@ -10,12 +10,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.*;
 
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.routines.ExportTrialsData;
-import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
@@ -31,10 +29,7 @@ public class TrialExportResource extends BaseServerResource
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse())
-															  .stream()
-															  .map(ViewTableDatasets::getDatasetId)
-															  .collect(Collectors.toList());
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);

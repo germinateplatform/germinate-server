@@ -19,7 +19,7 @@ import static jhi.germinate.server.database.tables.ViewTableCollaborators.*;
 /**
  * @author Sebastian Raubach
  */
-public class CollaboratorTableResource extends PaginatedServerResource implements FilteredResource
+public class CollaboratorTableResource extends PaginatedServerResource
 {
 	private Integer datasetId = null;
 

@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableEntities.*;
 /**
  * @author Sebastian Raubach
  */
-public class EntityTableResource extends PaginatedServerResource implements FilteredResource
+public class EntityTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableEntities>> postJson(PaginatedRequest request)

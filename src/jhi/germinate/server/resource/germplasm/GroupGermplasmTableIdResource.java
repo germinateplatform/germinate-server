@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableGroupGermplasm.*;
 /**
  * @author Sebastian Raubach
  */
-public class GroupGermplasmTableIdResource extends PaginatedServerResource implements FilteredResource
+public class GroupGermplasmTableIdResource extends PaginatedServerResource
 {
 	private Integer groupId;
 

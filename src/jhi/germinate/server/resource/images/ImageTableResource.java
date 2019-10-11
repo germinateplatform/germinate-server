@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableImages.*;
 /**
  * @author Sebastian Raubach
  */
-public class ImageTableResource extends PaginatedServerResource implements FilteredResource
+public class ImageTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableImages>> getJson(PaginatedRequest request)

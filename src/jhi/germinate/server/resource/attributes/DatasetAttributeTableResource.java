@@ -5,21 +5,22 @@ import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.database.tables.pojos.ViewTableDatasetAttributes;
+import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Datasets.*;
-import static jhi.germinate.server.database.tables.ViewTableAttributes.*;
+import static jhi.germinate.server.database.tables.ViewTableDatasetAttributes.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class DatasetAttributeTableResource extends PaginatedServerResource implements FilteredResource
+public class DatasetAttributeTableResource extends PaginatedServerResource
 {
 	private Integer datasetId;
 
@@ -33,44 +34,74 @@ public class DatasetAttributeTableResource extends PaginatedServerResource imple
 		{
 			this.datasetId = Integer.parseInt(getRequestAttributes().get("datasetId").toString());
 		}
-		catch (NullPointerException | NumberFormatException e)
+		catch (NumberFormatException | NullPointerException e)
 		{
+			e.printStackTrace();
 		}
 	}
 
 	@Post("json")
-	public PaginatedResult<List<DatasetAttributeData>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableDatasetAttributes>> getJson(PaginatedRequest request)
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		List<Integer> requestedIds = new ArrayList<>();
 
-		if (datasetId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		if (datasetId != null)
+		{
+			requestedIds.add(datasetId);
+		}
+		else if (request.getFilter() != null)
+		{
+			Filter matchingFilter = Arrays.stream(request.getFilter())
+										  .filter(f -> f.getColumn().equals("datasetId"))
+										  .findFirst()
+										  .orElse(null);
+
+			if (matchingFilter != null)
+			{
+				for (String value : matchingFilter.getValues())
+				{
+					try
+					{
+						requestedIds.add(Integer.parseInt(value));
+					}
+					catch (NumberFormatException e)
+					{
+					}
+				}
+			}
+		}
+
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+
+		// If nothing has been requested, return data for all datasets, else, use the requested ones that the user has access to
+		if (CollectionUtils.isEmpty(requestedIds))
+			requestedIds = availableDatasets;
+		else
+			requestedIds.retainAll(availableDatasets);
+
+		// If either nothing is available or the user has access to nothing, return a 404
+		if (CollectionUtils.isEmpty(availableDatasets) || CollectionUtils.isEmpty(requestedIds))
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectSelectStep<Record> select = context.select(
-				DATASETS.ID.as("dataset_id"),
-				DATASETS.NAME.as("dataset_name"),
-				DATASETS.DESCRIPTION.as("dataset_description"),
-				VIEW_TABLE_ATTRIBUTES.asterisk()
-			);
+			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(DATASETS)
-												.leftJoin(VIEW_TABLE_ATTRIBUTES).on(VIEW_TABLE_ATTRIBUTES.TARGET_TABLE.eq("datasets").and(DATASETS.ID.eq(VIEW_TABLE_ATTRIBUTES.FOREIGN_ID)));
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_DATASET_ATTRIBUTES);
 
-			from.where(DATASETS.ID.eq(datasetId));
+			from.where(VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);
 
-			List<DatasetAttributeData> result = setPaginationAndOrderBy(from)
+			List<ViewTableDatasetAttributes> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(DatasetAttributeData.class);
+				.into(ViewTableDatasetAttributes.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

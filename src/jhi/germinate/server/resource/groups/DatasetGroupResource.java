@@ -7,7 +7,6 @@ import org.restlet.resource.*;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.Database;
@@ -33,10 +32,10 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
-		requestedIds.retainAll(datasets.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList()));
+		requestedIds.retainAll(datasets);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);

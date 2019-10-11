@@ -193,10 +193,10 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_3_7_0.view_table_traits.count</code>.
      */
-    public void setUnitName(String value) {
-        set(6, value);
+    public Long getCount() {
+        return (Long) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -204,17 +204,17 @@ public class ViewTableTraitsRecord extends TableRecordImpl<ViewTableTraitsRecord
     // -------------------------------------------------------------------------
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     */
+    public void setUnitName(String value) {
+        set(6, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_traits.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
     public void setUnitDescription(String value) {
         set(7, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_traits.count</code>.
-     */
-    public Long getCount() {
-        return (Long) get(10);
     }
 
     /**

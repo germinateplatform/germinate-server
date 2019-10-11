@@ -11,15 +11,14 @@ import java.util.List;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.PaginatedServerResource;
 
 import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
-import static jhi.germinate.server.database.tables.ViewTableLocations.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmDistanceTableResource extends PaginatedServerResource implements FilteredResource
+public class GermplasmDistanceTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<GermplasmDistance>> getJson(PaginatedLocationRequest request)
@@ -60,7 +59,7 @@ public class GermplasmDistanceTableResource extends PaginatedServerResource impl
 			SelectJoinStep<? extends Record> from = select.from(VIEW_TABLE_GERMPLASM);
 
 			from.where(VIEW_TABLE_GERMPLASM.LONGITUDE.isNotNull()
-															  .and(VIEW_TABLE_GERMPLASM.LATITUDE.isNotNull()));
+													 .and(VIEW_TABLE_GERMPLASM.LATITUDE.isNotNull()));
 
 			// Filter here!
 			filter(from, filters);

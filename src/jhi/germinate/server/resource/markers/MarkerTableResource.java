@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTableMarkers.*;
 /**
  * @author Sebastian Raubach
  */
-public class MarkerTableResource extends PaginatedServerResource implements FilteredResource
+public class MarkerTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTableMarkers>> getJson(PaginatedRequest request)

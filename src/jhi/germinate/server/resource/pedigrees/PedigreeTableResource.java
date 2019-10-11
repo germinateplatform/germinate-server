@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.tables.ViewTablePedigrees.*;
 /**
  * @author Sebastian Raubach
  */
-public class PedigreeTableResource extends PaginatedServerResource implements FilteredResource
+public class PedigreeTableResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<ViewTablePedigrees>> postJson(PaginatedRequest request)
