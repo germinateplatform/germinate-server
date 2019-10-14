@@ -33,47 +33,66 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetAttributes extends TableImpl<ViewTableDatasetAttributesRecord> {
 
+    private static final long serialVersionUID = 2092777875;
+
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_dataset_attributes</code>
      */
     public static final ViewTableDatasetAttributes VIEW_TABLE_DATASET_ATTRIBUTES = new ViewTableDatasetAttributes();
-    private static final long serialVersionUID = 2092777875;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<ViewTableDatasetAttributesRecord> getRecordType() {
+        return ViewTableDatasetAttributesRecord.class;
+    }
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableDatasetAttributesRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
      */
     public final TableField<ViewTableDatasetAttributesRecord, String> DATASET_NAME = createField("dataset_name", org.jooq.impl.SQLDataType.CLOB, this, "Describes the dataset.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableDatasetAttributesRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableDatasetAttributesRecord, Integer> ATTRIBUTE_ID = createField("attribute_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
      */
     public final TableField<ViewTableDatasetAttributesRecord, String> ATTRIBUTE_NAME = createField("attribute_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Defines the name of the attribute.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public final TableField<ViewTableDatasetAttributesRecord, String> ATTRIBUTE_DESCRIPTION = createField("attribute_description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the attribute. This should expand on the name to make it clear what the attribute actually is.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public final TableField<ViewTableDatasetAttributesRecord, ViewTableDatasetAttributesAttributeType> ATTRIBUTE_TYPE = createField("attribute_type", org.jooq.impl.SQLDataType.VARCHAR(5).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.ViewTableDatasetAttributesAttributeType.class), this, "Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.target_table</code>.
      */
     public final TableField<ViewTableDatasetAttributesRecord, String> TARGET_TABLE = createField("target_table", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("germinatebase", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public final TableField<ViewTableDatasetAttributesRecord, Integer> FOREIGN_ID = createField("foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to germinatebase (germinatebase.id).");
+
     /**
      * The column <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
      */
@@ -106,14 +125,6 @@ public class ViewTableDatasetAttributes extends TableImpl<ViewTableDatasetAttrib
 
     private ViewTableDatasetAttributes(Name alias, Table<ViewTableDatasetAttributesRecord> aliased, Field<?>[] parameters) {
         super(alias, null, aliased, parameters, DSL.comment("VIEW"));
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<ViewTableDatasetAttributesRecord> getRecordType() {
-        return ViewTableDatasetAttributesRecord.class;
     }
 
     /**

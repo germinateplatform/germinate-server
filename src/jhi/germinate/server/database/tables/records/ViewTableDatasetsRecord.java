@@ -234,20 +234,6 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
-     */
-    public String getLocation() {
-        return (String) get(9);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_datasets.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(11, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.license_id</code>.
      */
     public Integer getLicenseId() {
@@ -255,10 +241,24 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
+     */
+    public String getLocation() {
+        return (String) get(9);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_datasets.license_name</code>.
      */
     public String getLicenseName() {
         return (String) get(13);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_datasets.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(11, value);
     }
 
     /**

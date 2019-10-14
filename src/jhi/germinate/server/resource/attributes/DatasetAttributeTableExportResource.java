@@ -1,16 +1,16 @@
 package jhi.germinate.server.resource.attributes;
 
+import org.jooq.Condition;
 import org.restlet.data.Status;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.util.*;
-import java.util.logging.*;
 
 import jhi.germinate.resource.*;
-import jhi.germinate.resource.Filter;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.tables.ViewTableDatasetAttributes.*;
 
@@ -40,70 +40,49 @@ public class DatasetAttributeTableExportResource extends PaginatedServerResource
 	@Post("json")
 	public FileRepresentation getJson(PaginatedRequest request)
 	{
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
-
-		Logger.getLogger("").log(Level.INFO, "DATASET_IDS: " + availableDatasets.toString());
-
-		List<Filter> filter = new ArrayList<>();
-		Filter[] oldFilter = request.getFilter();
-		if (oldFilter != null)
-			filter.addAll(Arrays.asList(oldFilter));
+		List<Integer> requestedIds = new ArrayList<>();
 
 		if (datasetId != null)
 		{
-			if (!availableDatasets.contains(datasetId))
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			requestedIds.add(datasetId);
+		}
+		else if (request.getFilter() != null)
+		{
+			Filter matchingFilter = Arrays.stream(request.getFilter())
+										  .filter(f -> f.getColumn().equals("datasetId"))
+										  .findFirst()
+										  .orElse(null);
 
-			boolean found = false;
-			if (oldFilter != null)
+			if (matchingFilter != null)
 			{
-				for (Filter f : filter)
+				for (String value : matchingFilter.getValues())
 				{
-					if (Objects.equals(f.getColumn(), "datasetId"))
+					try
 					{
-						f.setValues(new String[]{Integer.toString(datasetId)});
-						found = true;
+						requestedIds.add(Integer.parseInt(value));
+					}
+					catch (NumberFormatException e)
+					{
 					}
 				}
 			}
-
-			if (!found)
-			{
-				// If no id was requested, add a single filter asking for the id
-				filter.add(new Filter("datasetId", "equals", "and", new String[]{Integer.toString(datasetId)}));
-			}
 		}
+
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+
+		// If nothing has been requested, return data for all datasets, else, use the requested ones that the user has access to
+		if (CollectionUtils.isEmpty(requestedIds))
+			requestedIds = availableDatasets;
 		else
-		{
-			filter.stream()
-				  .filter(f -> Objects.equals(f.getColumn(), "datasetId"))
-				  .forEach(f -> {
-					  // Get requested values
-					  String[] values = f.getValues();
-					  // Keep track of the ones that are allowed
-					  List<String> acceptableValues = new ArrayList<>();
-					  // For each requested
-					  for (String v : values)
-					  {
-						  try
-						  {
-							  // Parse to int, then check if available. If so, add to acceptable
-							  Integer id = Integer.parseInt(v);
-							  if (availableDatasets.contains(id))
-								  acceptableValues.add(v);
-						  }
-						  catch (Exception e)
-						  {
-						  }
-					  }
-					  // Update the values
-					  f.setValues(acceptableValues.toArray(new String[0]));
-				  });
-		}
+			requestedIds.retainAll(availableDatasets);
 
-		request.setFilter(filter.toArray(new Filter[0]));
+		// If either nothing is available or the user has access to nothing, return a 404
+		if (CollectionUtils.isEmpty(availableDatasets) || CollectionUtils.isEmpty(requestedIds))
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+
 		processRequest(request);
-
-		return export(VIEW_TABLE_DATASET_ATTRIBUTES, "dataset-attributes-table-");
+		ExportSettings settings = new ExportSettings();
+		settings.conditions = new Condition[] {VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds)};
+		return export(VIEW_TABLE_DATASET_ATTRIBUTES, "dataset-attributes-table-", settings);
 	}
 }

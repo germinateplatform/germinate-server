@@ -14,8 +14,6 @@ import java.sql.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
-
 /**
  * @author Sebastian Raubach
  */
@@ -152,7 +150,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		return orderBy;
 	}
 
-	protected FileRepresentation export(TableImpl<? extends Record> table, String name)
+	protected FileRepresentation export(TableImpl<? extends Record> table, String name, ExportSettings settings)
 	{
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
@@ -168,10 +166,16 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 				SelectJoinStep<Record> from = context.select()
 													 .from(table);
 
+				if (settings != null && settings.conditions != null)
+				{
+					for (Condition condition : settings.conditions)
+						from.where(condition);
+				}
+
 				// Filter here!
 				filter(from, filters);
 
-				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true);
+				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true, settings);
 			}
 			catch (SQLException e)
 			{
@@ -192,5 +196,14 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		}
 
 		return representation;
+	}
+
+	protected class ExportSettings
+	{
+		public Condition[] conditions;
+		public Field[]     fieldsToNull;
+		public ExportSettings()
+		{
+		}
 	}
 }

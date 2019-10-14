@@ -26,13 +26,17 @@ public class TrialsDataTableIdResource extends PaginatedServerResource
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedDatasetRequest request)
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
-		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> requestedIds =request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
-		requestedIds.retainAll(datasets);
+		// If nothing specific was requested, just return everything, else restrict to available datasets
+		if (CollectionUtils.isEmpty(requestedIds))
+			requestedIds = datasets;
+		else
+			requestedIds.retainAll(datasets);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);

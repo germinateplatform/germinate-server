@@ -352,6 +352,13 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
+     */
+    public String getCountryCode() {
+        return (String) get(20);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
      */
     public void setLongitude(BigDecimal value) {
@@ -366,32 +373,11 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
-     */
-    public String getCountryCode() {
-        return (String) get(20);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
-     */
-    public void setPdci(Double value) {
-        set(22, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
     public Date getCollDate() {
         return (Date) get(21);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
-     */
-    public void setImageCount(Long value) {
-        set(23, value);
     }
 
     /**
@@ -403,10 +389,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
      */
-    public void setFirstImagePath(String value) {
-        set(24, value);
+    public void setImageCount(Long value) {
+        set(23, value);
     }
 
     /**
@@ -414,6 +400,20 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     public Double getPdci() {
         return (Double) get(22);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
+     */
+    public void setFirstImagePath(String value) {
+        set(24, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     */
+    public void setPdci(Double value) {
+        set(22, value);
     }
 
     // -------------------------------------------------------------------------

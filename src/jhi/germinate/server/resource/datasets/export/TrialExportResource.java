@@ -63,7 +63,7 @@ public class TrialExportResource extends BaseServerResource
 				procedure.execute(context.configuration());
 
 				bw.write("#input=PHENOTYPE" + CRLF);
-				exportToFile(bw, procedure.getResults().get(0), true);
+				exportToFile(bw, procedure.getResults().get(0), true, null);
 			}
 			catch (SQLException | IOException e)
 			{

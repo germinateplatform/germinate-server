@@ -325,38 +325,17 @@ identifying duplicates held in different collections.
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
-     */
-    public void setLatitude(BigDecimal value) {
-        set(16, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_name</code>. Country name.
-     */
-    public void setCountryName(String value) {
-        set(19, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
-     */
-    public void setLongitude(BigDecimal value) {
-        set(17, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_code</code>. ISO 2 Code for country.
-     */
-    public void setCountryCode(String value) {
-        set(20, value);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getElevation() {
         return (BigDecimal) get(18);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
+     */
+    public void setLatitude(BigDecimal value) {
+        set(16, value);
     }
 
     /**
@@ -367,10 +346,31 @@ identifying duplicates held in different collections.
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
+     */
+    public void setLongitude(BigDecimal value) {
+        set(17, value);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_code</code>. ISO 2 Code for country.
      */
     public String getCountryCode() {
         return (String) get(20);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_name</code>. Country name.
+     */
+    public void setCountryName(String value) {
+        set(19, value);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.country_code</code>. ISO 2 Code for country.
+     */
+    public void setCountryCode(String value) {
+        set(20, value);
     }
 
     /**
@@ -389,6 +389,13 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.image_count</code>.
+     */
+    public void setImageCount(Long value) {
+        set(23, value);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
@@ -397,10 +404,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.image_count</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.first_image_path</code>.
      */
-    public Long getImageCount() {
-        return (Long) get(23);
+    public void setFirstImagePath(String value) {
+        set(24, value);
     }
 
     /**
@@ -411,24 +418,17 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.image_count</code>.
+     */
+    public Long getImageCount() {
+        return (Long) get(23);
+    }
+
+    /**
      * Getter for <code>germinate_template_3_7_0.view_table_group_germplasm.first_image_path</code>.
      */
     public String getFirstImagePath() {
         return (String) get(24);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.image_count</code>.
-     */
-    public void setImageCount(Long value) {
-        set(23, value);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_group_germplasm.first_image_path</code>.
-     */
-    public void setFirstImagePath(String value) {
-        set(24, value);
     }
 
     // -------------------------------------------------------------------------

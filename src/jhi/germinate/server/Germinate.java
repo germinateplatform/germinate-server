@@ -13,6 +13,7 @@ import java.util.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
+import jhi.germinate.server.resource.compound.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
 import jhi.germinate.server.resource.entities.EntityTableResource;
@@ -24,7 +25,7 @@ import jhi.germinate.server.resource.license.*;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
-import jhi.germinate.server.resource.pedigrees.PedigreeTableResource;
+import jhi.germinate.server.resource.pedigrees.*;
 import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.*;
 import jhi.germinate.server.resource.traits.*;
@@ -125,8 +126,12 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}/download", AsyncDatasetExportDownloadResource.class);
-		attachToRouter(routerAuth, "/dataset/data/trial", TrialsDataTableResource.class);
-		attachToRouter(routerAuth, "/dataset/data/trial/ids", TrialsDataTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/data/compound/table", CompoundDataTableResource.class);
+		attachToRouter(routerAuth, "/dataset/data/compound/table/ids", CompoundDataTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/data/compound/table/export", CompoundDataTableExportResource.class);
+		attachToRouter(routerAuth, "/dataset/data/trial/table", TrialsDataTableResource.class);
+		attachToRouter(routerAuth, "/dataset/data/trial/table/ids", TrialsDataTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/data/trial/table/export", TrialsDataTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/map", DatasetMapResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/trial", TraitStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
@@ -178,6 +183,7 @@ public class Germinate extends Application
 		// LOCATIONS
 		attachToRouter(routerAuth, "/location/table", LocationTableResource.class);
 		attachToRouter(routerAuth, "/location/table/ids", LocationTableIdResource.class);
+		attachToRouter(routerAuth, "/location/table/export", LocationTableExportResource.class);
 		attachToRouter(routerAuth, "/location/polygon/table", LocationPolygonTableResource.class);
 		attachToRouter(routerAuth, "/location/polygon/table/ids", LocationPolygonTableIdResource.class);
 		attachToRouter(routerAuth, "/location/distance/table", LocationDistanceTableResource.class);
@@ -188,7 +194,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/map", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/export", MapExportResource.class);
-		attachToRouter(routerAuth, "/map/{mapId}/mapdefinition/table", MapMarkerDefinitionTableResource.class);
+		attachToRouter(routerAuth, "/map/mapdefinition/table", MapMarkerDefinitionTableResource.class);
+		attachToRouter(routerAuth, "/map/mapdefinition/table/ids", MapMarkerDefinitionTableIdResource.class);
+		attachToRouter(routerAuth, "/map/mapdefinition/table/export", MapMarkerDefinitionTableExportResource.class);
 
 		// MARKERS
 		attachToRouter(routerAuth, "/marker/table", MarkerTableResource.class);
@@ -196,6 +204,7 @@ public class Germinate extends Application
 
 		// PEDIGREES
 		attachToRouter(routerAuth, "/pedigree/table", PedigreeTableResource.class);
+		attachToRouter(routerAuth, "/pedigree/table/export", PedigreeTableExportResource.class);
 
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);

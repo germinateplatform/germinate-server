@@ -62,7 +62,7 @@ public class CompoundExportResource extends BaseServerResource
 
 				procedure.execute(context.configuration());
 
-				exportToFile(bw, procedure.getResults().get(0), true);
+				exportToFile(bw, procedure.getResults().get(0), true, null);
 			}
 			catch (SQLException | IOException e)
 			{

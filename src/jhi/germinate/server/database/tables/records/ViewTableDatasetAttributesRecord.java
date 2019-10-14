@@ -39,6 +39,20 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getDatasetId() {
+        return (Integer) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
+     */
+    public void setDatasetName(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised ViewTableDatasetAttributesRecord
      */
     public ViewTableDatasetAttributesRecord(Integer datasetId, String datasetName, String datasetDescription, Integer attributeId, String attributeName, String attributeDescription, ViewTableDatasetAttributesAttributeType attributeType, String targetTable, Integer foreignId, String attributeValue) {
@@ -57,10 +71,10 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(0);
+    public void setDatasetDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -71,41 +85,6 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
-     */
-    public String getDatasetName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
-     */
-    public void setDatasetName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
-     */
-    public String getDatasetDescription() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
-     */
-    public void setDatasetDescription(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getAttributeId() {
-        return (Integer) get(3);
-    }
-
-    /**
      * Setter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setAttributeId(Integer value) {
@@ -113,10 +92,10 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
      */
-    public String getAttributeName() {
-        return (String) get(4);
+    public String getDatasetName() {
+        return (String) get(1);
     }
 
     /**
@@ -127,10 +106,10 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
      */
-    public String getAttributeDescription() {
-        return (String) get(5);
+    public String getDatasetDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -141,10 +120,10 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableDatasetAttributesAttributeType getAttributeType() {
-        return (ViewTableDatasetAttributesAttributeType) get(6);
+    public Integer getAttributeId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -155,10 +134,10 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.target_table</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
      */
-    public String getTargetTable() {
-        return (String) get(7);
+    public String getAttributeName() {
+        return (String) get(4);
     }
 
     /**
@@ -169,10 +148,10 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
-    public Integer getForeignId() {
-        return (Integer) get(8);
+    public String getAttributeDescription() {
+        return (String) get(5);
     }
 
     /**
@@ -182,15 +161,11 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
         set(8, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Record10 type implementation
-    // -------------------------------------------------------------------------
-
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
-    public String getAttributeValue() {
-        return (String) get(9);
+    public ViewTableDatasetAttributesAttributeType getAttributeType() {
+        return (ViewTableDatasetAttributesAttributeType) get(6);
     }
 
     /**
@@ -199,6 +174,17 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
     public void setAttributeValue(String value) {
         set(9, value);
     }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.target_table</code>.
+     */
+    public String getTargetTable() {
+        return (String) get(7);
+    }
+
+    // -------------------------------------------------------------------------
+    // Record10 type implementation
+    // -------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -537,10 +523,6 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
         return this;
     }
 
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * {@inheritDoc}
      */
@@ -566,6 +548,24 @@ public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableD
         value9(value9);
         value10(value10);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     */
+    public Integer getForeignId() {
+        return (Integer) get(8);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
+     */
+    public String getAttributeValue() {
+        return (String) get(9);
     }
 // @formatter:on
 }

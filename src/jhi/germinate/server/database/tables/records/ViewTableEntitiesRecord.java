@@ -117,6 +117,13 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
+     */
+    public String getEntityChildGid() {
+        return (String) get(5);
+    }
+
+    /**
      * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setEntityParentName(String value) {
@@ -135,13 +142,6 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
      */
     public String getEntityChildName() {
         return (String) get(6);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
-     */
-    public String getEntityChildGid() {
-        return (String) get(5);
     }
 
     /**

@@ -20,17 +20,24 @@ public class BaseServerResource extends ServerResource
 {
 	protected static final String CRLF = "\r\n";
 
-	protected static void exportToFile(PrintWriter bw, Result<? extends Record> results, boolean includeHeaders)
+	protected static void exportToFile(PrintWriter bw, Result<? extends Record> results, boolean includeHeaders, PaginatedServerResource.ExportSettings settings)
 	{
+		List<Field> columnsToNullList = new ArrayList<>();
+		if (settings != null && settings.fieldsToNull != null)
+		{
+			columnsToNullList.addAll(Arrays.asList(settings.fieldsToNull));
+		}
 		Row row = results.fieldsRow();
 		if (includeHeaders)
 		{
 			bw.print(row.fieldStream()
+						.filter(f -> !columnsToNullList.contains(f))
 						.map(Field::getName)
 						.collect(Collectors.joining("\t", "", CRLF)));
 		}
 		results.forEach(r -> bw.print(IntStream.range(0, row.size())
 											   .boxed()
+											   .filter(i -> !columnsToNullList.contains(row.field(i)))
 											   .map(i -> {
 												   Object value = r.getValue(i);
 												   if (value == null)

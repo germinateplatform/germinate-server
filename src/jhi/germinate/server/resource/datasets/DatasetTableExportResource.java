@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.datasets;
 
+import org.jooq.Field;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.Post;
 
@@ -18,6 +19,8 @@ public class DatasetTableExportResource extends PaginatedServerResource
 	{
 		processRequest(request);
 
-		return export(VIEW_TABLE_DATASETS, "dataset-table-");
+		ExportSettings settings = new ExportSettings();
+		settings.fieldsToNull = new Field[] { VIEW_TABLE_DATASETS.ACCEPTED_BY };
+		return export(VIEW_TABLE_DATASETS, "dataset-table-", settings);
 	}
 }

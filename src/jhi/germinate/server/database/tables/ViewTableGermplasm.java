@@ -146,15 +146,14 @@ identifying duplicates held in different collections.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> ELEVATION = createField("elevation", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The elevation of the site in metres.");
     /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
+     */
+    public final TableField<ViewTableGermplasmRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
+    /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
      */
     public final TableField<ViewTableGermplasmRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
-
-    /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
-     */
-    public final TableField<ViewTableGermplasmRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
      */

@@ -42,7 +42,7 @@ public class GenotypeExportResource extends BaseServerResource
 	@Post("json")
 	public AsyncExportResult postJson(SubsettedGenotypeDatasetRequest request)
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()) || request.getMapId() == null)
+		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
@@ -66,24 +66,10 @@ public class GenotypeExportResource extends BaseServerResource
 			Set<String> germplasmNames = getGermplasmNames(context, request);
 			Set<String> markerNames = getMarkerNames(context, request);
 
-			File sharedMapFile = createTempFile("map-" + request.getMapId(), "map");
-			try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8))))
-			{
-				bw.write("# fjFile = MAP" + CRLF);
-				SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
-																					.from(MAPDEFINITIONS)
-																					.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-																					.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
+			String dsName = "dataset-" + ds.get(0).getDatasetId();
 
-				if (!CollectionUtils.isEmpty(markerNames))
-					query.and(MARKERS.MARKER_NAME.in(markerNames));
-
-				Result<Record3<String, String, Double>> mapResult = query.fetch();
-
-				exportToFile(bw, mapResult, false);
-			}
-
-			String dsName = "dataset-" + ds.get(0).getDatasetId() + "-map-" + request.getMapId();
+			if (request.getMapId() != null)
+				dsName += "-map-" + request.getMapId();
 
 			String uuid = UUID.randomUUID().toString();
 
@@ -91,12 +77,36 @@ public class GenotypeExportResource extends BaseServerResource
 			File asyncFolder = getFromExternal(uuid, "async");
 			asyncFolder.mkdirs();
 
+			File sharedMapFile = null;
+
+			if (request.getMapId() != null) {
+				sharedMapFile = createTempFile("map-" + request.getMapId(), "map");
+
+				try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8))))
+				{
+					bw.write("# fjFile = MAP" + CRLF);
+					SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
+																						.from(MAPDEFINITIONS)
+																						.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
+																						.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
+
+					if (!CollectionUtils.isEmpty(markerNames))
+						query.and(MARKERS.MARKER_NAME.in(markerNames));
+
+					Result<Record3<String, String, Double>> mapResult = query.fetch();
+
+					exportToFile(bw, mapResult, false, null);
+				}
+
+				File mapFile = new File(asyncFolder, dsName + ".map");
+				Files.copy(sharedMapFile.toPath(), mapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}
+
 			// Get the source hdf5 file
 			File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "genotypes");
 
 			// Create all temporary files
-			File mapFile = new File(asyncFolder, dsName + ".map");
-			Files.copy(sharedMapFile.toPath(), mapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
 			File headerFile = new File(asyncFolder, dsName + ".header");
 
 			if (!CollectionUtils.isEmpty(germplasmNames))
@@ -110,7 +120,7 @@ public class GenotypeExportResource extends BaseServerResource
 				File markerFile = new File(asyncFolder, dsName + ".markers");
 				Files.write(markerFile.toPath(), new ArrayList<>(markerNames), Charset.defaultCharset());
 			}
-			Files.write(headerFile.toPath(), getFlapjackHeaders(getRequest()), Charset.defaultCharset());
+			Files.write(headerFile.toPath(), getFlapjackHeaders(), Charset.defaultCharset());
 
 			File libFolder = getLibFolder();
 			List<String> args = new ArrayList<>();
@@ -153,7 +163,7 @@ public class GenotypeExportResource extends BaseServerResource
 		}
 	}
 
-	private List<String> getFlapjackHeaders(Request request)
+	private List<String> getFlapjackHeaders()
 	{
 		String serverBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
 
@@ -198,12 +208,15 @@ public class GenotypeExportResource extends BaseServerResource
 									 .fetchInto(String.class));
 			}
 
-			// Only keep those that are actually on the map
-			result.retainAll(context.selectDistinct(MARKERS.MARKER_NAME)
-									.from(MARKERS)
-									.leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
-									.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()))
-									.fetchInto(String.class));
+			if (request.getMapId() != null)
+			{
+				// Only keep those that are actually on the map
+				result.retainAll(context.selectDistinct(MARKERS.MARKER_NAME)
+										.from(MARKERS)
+										.leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
+										.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()))
+										.fetchInto(String.class));
+			}
 
 			return result;
 		}
