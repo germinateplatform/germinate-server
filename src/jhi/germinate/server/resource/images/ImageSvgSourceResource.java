@@ -18,10 +18,7 @@ import jhi.germinate.server.util.watcher.PropertyWatcher;
  */
 public class ImageSvgSourceResource extends ServerResource
 {
-	public static final String PARAM_TOKEN = "token";
-
 	private String name;
-	private String token;
 
 	@Override
 	protected void doInit()
@@ -36,21 +33,11 @@ public class ImageSvgSourceResource extends ServerResource
 		catch (NumberFormatException | NullPointerException e)
 		{
 		}
-
-		token = getQueryValue(PARAM_TOKEN);
 	}
 
 	@Get("image/svg+xml")
 	public void getImage()
 	{
-		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
-
-		if (mode == AuthenticationMode.FULL)
-		{
-			if (StringUtils.isEmpty(token) || !CustomVerifier.isValidImageToken(token))
-				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
-		}
-
 		if (!StringUtils.isEmpty(name))
 		{
 			File file = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), "template"), name);

@@ -56,7 +56,7 @@ public class GenotypeExportResource extends BaseServerResource
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
 		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn);)
+			 DSLContext context = Database.getContext(conn))
 		{
 			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
 

@@ -11,6 +11,7 @@ public class ClientConfiguration
 {
 	private List<String>       colorsTemplate;
 	private List<String>       colorsCharts;
+	private List<String>       hiddenPages;
 	private AuthenticationMode authMode;
 
 	public ClientConfiguration()
@@ -36,6 +37,17 @@ public class ClientConfiguration
 	public ClientConfiguration setColorsCharts(List<String> colorsCharts)
 	{
 		this.colorsCharts = colorsCharts;
+		return this;
+	}
+
+	public List<String> getHiddenPages()
+	{
+		return hiddenPages;
+	}
+
+	public ClientConfiguration setHiddenPages(List<String> hiddenPages)
+	{
+		this.hiddenPages = hiddenPages;
 		return this;
 	}
 

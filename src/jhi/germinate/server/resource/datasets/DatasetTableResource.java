@@ -33,8 +33,8 @@ public class DatasetTableResource extends PaginatedServerResource
 	public static List<Integer> getDatasetIdsForUser(Request req, Response resp)
 	{
 		return getDatasetsForUser(req, resp).stream()
-											  .map(ViewTableDatasets::getDatasetId)
-											  .collect(Collectors.toList());
+											.map(ViewTableDatasets::getDatasetId)
+											.collect(Collectors.toList());
 	}
 
 	public static List<ViewTableDatasets> getDatasetsForUser(Request req, Response resp)
@@ -93,10 +93,17 @@ public class DatasetTableResource extends PaginatedServerResource
 			ViewTableDatasets dataset = from.where(VIEW_TABLE_DATASETS.DATASET_ID.eq(datasetId))
 											.fetchAnyInto(ViewTableDatasets.class);
 
-			if (checkIfLicenseAccepted)
-				return restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), req, userDetails);
+			if (dataset == null)
+			{
+				return new ArrayList<>();
+			}
 			else
-				return Collections.singletonList(dataset);
+			{
+				if (checkIfLicenseAccepted)
+					return restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), req, userDetails);
+				else
+					return Collections.singletonList(dataset);
+			}
 		}
 		catch (SQLException e)
 		{
