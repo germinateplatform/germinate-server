@@ -34,10 +34,10 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     private static final long serialVersionUID = 1282978094;
 
     /**
-     * Create a detached MapsRecord
+     * Setter for <code>germinate_template_3_7_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MapsRecord() {
-        super(Maps.MAPS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,18 +48,10 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Create a detached, initialised MapsRecord
+     * Setter for <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
      */
-    public MapsRecord(Integer id, String name, String description, Boolean visibility, Timestamp createdOn, Timestamp updatedOn, Integer userId) {
-        super(Maps.MAPS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, visibility);
-        set(4, createdOn);
-        set(5, updatedOn);
-        set(6, userId);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -84,10 +76,10 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setVisibility(Boolean value) {
+        set(3, value);
     }
 
     /**
@@ -98,10 +90,10 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.name</code>. Describes the map.
+     * Setter for <code>germinate_template_3_7_0.maps.created_on</code>. When the record was created.
      */
-    public void setName(String value) {
-        set(1, value);
+    public void setCreatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
@@ -126,17 +118,17 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Setter for <code>germinate_template_3_7_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
-    public void setVisibility(Boolean value) {
-        set(3, value);
+    public void setUserId(Integer value) {
+        set(6, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
-    public void setCreatedOn(Timestamp value) {
-        set(4, value);
+    public Integer getUserId() {
+        return (Integer) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -156,17 +148,19 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * {@inheritDoc}
      */
-    public Integer getUserId() {
-        return (Integer) get(6);
+    @Override
+    public Row7<Integer, String, String, Boolean, Timestamp, Timestamp, Integer> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * {@inheritDoc}
      */
-    public void setUserId(Integer value) {
-        set(6, value);
+    @Override
+    public Row7<Integer, String, String, Boolean, Timestamp, Timestamp, Integer> valuesRow() {
+        return (Row7) super.valuesRow();
     }
 
     /**
@@ -197,8 +191,8 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      * {@inheritDoc}
      */
     @Override
-    public Row7<Integer, String, String, Boolean, Timestamp, Timestamp, Integer> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Field<Boolean> field4() {
+        return Maps.MAPS.VISIBILITY;
     }
 
     /**
@@ -253,8 +247,8 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      * {@inheritDoc}
      */
     @Override
-    public Row7<Integer, String, String, Boolean, Timestamp, Timestamp, Integer> valuesRow() {
-        return (Row7) super.valuesRow();
+    public Boolean component4() {
+        return getVisibility();
     }
 
     /**
@@ -309,8 +303,8 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field4() {
-        return Maps.MAPS.VISIBILITY;
+    public Boolean value4() {
+        return getVisibility();
     }
 
     /**
@@ -368,8 +362,9 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
      * {@inheritDoc}
      */
     @Override
-    public Boolean component4() {
-        return getVisibility();
+    public MapsRecord value4(Boolean value) {
+        setVisibility(value);
+        return this;
     }
 
     /**
@@ -419,20 +414,25 @@ public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Recor
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached MapsRecord
      */
-    @Override
-    public Boolean value4() {
-        return getVisibility();
+    public MapsRecord() {
+        super(Maps.MAPS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised MapsRecord
      */
-    @Override
-    public MapsRecord value4(Boolean value) {
-        setVisibility(value);
-        return this;
+    public MapsRecord(Integer id, String name, String description, Boolean visibility, Timestamp createdOn, Timestamp updatedOn, Integer userId) {
+        super(Maps.MAPS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, visibility);
+        set(4, createdOn);
+        set(5, updatedOn);
+        set(6, userId);
     }
 // @formatter:on
 }

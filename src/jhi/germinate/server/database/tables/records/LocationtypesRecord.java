@@ -48,23 +48,17 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Create a detached LocationtypesRecord
+     * Setter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type. 
      */
-    public LocationtypesRecord() {
-        super(Locationtypes.LOCATIONTYPES);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
-     * Create a detached, initialised LocationtypesRecord
+     * Getter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type. 
      */
-    public LocationtypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Locationtypes.LOCATIONTYPES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public String getName() {
+        return (String) get(1);
     }
 
     /**
@@ -75,10 +69,10 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type.
+     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
      */
-    public String getName() {
-        return (String) get(1);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -89,24 +83,24 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
-     */
-    public String getDescription() {
-        return (String) get(2);
-    }
-
-    /**
      * Getter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached LocationtypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public LocationtypesRecord() {
+        super(Locationtypes.LOCATIONTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised LocationtypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public LocationtypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Locationtypes.LOCATIONTYPES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

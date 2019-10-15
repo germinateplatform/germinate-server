@@ -37,10 +37,10 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     private static final long serialVersionUID = -329619977;
 
     /**
-     * Create a detached MarkertypesRecord
+     * Setter for <code>germinate_template_3_7_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MarkertypesRecord() {
-        super(Markertypes.MARKERTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -58,15 +58,10 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     }
 
     /**
-     * Create a detached, initialised MarkertypesRecord
+     * Getter for <code>germinate_template_3_7_0.markertypes.description</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
-    public MarkertypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Markertypes.MARKERTYPES);
-
-        set(0, id);
-        set(1, description);
-        set(2, createdOn);
-        set(3, updatedOn);
+    public String getDescription() {
+        return (String) get(1);
     }
 
     /**
@@ -84,17 +79,17 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.markertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markertypes.description</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * Getter for <code>germinate_template_3_7_0.markertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -278,17 +273,22 @@ public class MarkertypesRecord extends UpdatableRecordImpl<MarkertypesRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached MarkertypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public MarkertypesRecord() {
+        super(Markertypes.MARKERTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised MarkertypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public MarkertypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Markertypes.MARKERTYPES);
+
+        set(0, id);
+        set(1, description);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

@@ -38,10 +38,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     private static final long serialVersionUID = -2020795099;
 
     /**
-     * Create a detached DatasetsRecord
+     * Setter for <code>germinate_template_3_7_0.datasets.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public DatasetsRecord() {
-        super(Datasets.DATASETS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -52,30 +52,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Create a detached, initialised DatasetsRecord
+     * Setter for <code>germinate_template_3_7_0.datasets.experiment_id</code>. Foreign key to experiments (experiments.id).
      */
-    public DatasetsRecord(Integer id, Integer experimentId, Integer locationId, String name, String description, Date dateStart, Date dateEnd, String sourceFile, String datatype, DublinCore dublinCore, String version, Integer createdBy, Integer datasetStateId, Integer licenseId, Boolean isExternal, String hyperlink, Timestamp createdOn, Timestamp updatedOn, String contact) {
-        super(Datasets.DATASETS);
-
-        set(0, id);
-        set(1, experimentId);
-        set(2, locationId);
-        set(3, name);
-        set(4, description);
-        set(5, dateStart);
-        set(6, dateEnd);
-        set(7, sourceFile);
-        set(8, datatype);
-        set(9, dublinCore);
-        set(10, version);
-        set(11, createdBy);
-        set(12, datasetStateId);
-        set(13, licenseId);
-        set(14, isExternal);
-        set(15, hyperlink);
-        set(16, createdOn);
-        set(17, updatedOn);
-        set(18, contact);
+    public void setExperimentId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -86,10 +66,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.datasets.location_id</code>. Foreign key to locations (locations.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setLocationId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -100,10 +80,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.experiment_id</code>. Foreign key to experiments (experiments.id).
+     * Setter for <code>germinate_template_3_7_0.datasets.name</code>. Describes the dataset.
      */
-    public void setExperimentId(Integer value) {
-        set(1, value);
+    public void setName(String value) {
+        set(3, value);
     }
 
     /**
@@ -114,10 +94,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.location_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
      */
-    public void setLocationId(Integer value) {
-        set(2, value);
+    public void setDescription(String value) {
+        set(4, value);
     }
 
     /**
@@ -128,10 +108,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.name</code>. Describes the dataset.
+     * Setter for <code>germinate_template_3_7_0.datasets.date_start</code>. Date that the dataset was generated.
      */
-    public void setName(String value) {
-        set(3, value);
+    public void setDateStart(Date value) {
+        set(5, value);
     }
 
     /**
@@ -184,17 +164,17 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.description</code>. The name of this dataset.
+     * Setter for <code>germinate_template_3_7_0.datasets.dublin_core</code>.
      */
-    public void setDescription(String value) {
-        set(4, value);
+    public void setDublinCore(DublinCore value) {
+        set(9, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.date_start</code>. Date that the dataset was generated.
+     * Getter for <code>germinate_template_3_7_0.datasets.dublin_core</code>.
      */
-    public void setDateStart(Date value) {
-        set(5, value);
+    public DublinCore getDublinCore() {
+        return (DublinCore) get(9);
     }
 
     /**
@@ -212,10 +192,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.dublin_core</code>.
+     * Setter for <code>germinate_template_3_7_0.datasets.created_by</code>. Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).
      */
-    public DublinCore getDublinCore() {
-        return (DublinCore) get(9);
+    public void setCreatedBy(Integer value) {
+        set(11, value);
     }
 
     /**
@@ -226,10 +206,10 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.dublin_core</code>.
+     * Setter for <code>germinate_template_3_7_0.datasets.dataset_state_id</code>. Foreign key to datasetstates (datasetstates.id).
      */
-    public void setDublinCore(DublinCore value) {
-        set(9, value);
+    public void setDatasetStateId(Integer value) {
+        set(12, value);
     }
 
     /**
@@ -268,17 +248,17 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.created_by</code>. Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).
+     * Setter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
      */
-    public void setCreatedBy(Integer value) {
-        set(11, value);
+    public void setHyperlink(String value) {
+        set(15, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.dataset_state_id</code>. Foreign key to datasetstates (datasetstates.id).
+     * Getter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
      */
-    public void setDatasetStateId(Integer value) {
-        set(12, value);
+    public String getHyperlink() {
+        return (String) get(15);
     }
 
     /**
@@ -312,17 +292,17 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
+     * Setter for <code>germinate_template_3_7_0.datasets.contact</code>. The contact to get more information about this dataset.
      */
-    public String getHyperlink() {
-        return (String) get(15);
+    public void setContact(String value) {
+        set(18, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.hyperlink</code>. Link to access the external dasets.
+     * Getter for <code>germinate_template_3_7_0.datasets.contact</code>. The contact to get more information about this dataset.
      */
-    public void setHyperlink(String value) {
-        set(15, value);
+    public String getContact() {
+        return (String) get(18);
     }
 
     // -------------------------------------------------------------------------
@@ -342,17 +322,19 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasets.contact</code>. The contact to get more information about this dataset.
+     * {@inheritDoc}
      */
-    public String getContact() {
-        return (String) get(18);
+    @Override
+    public Row19<Integer, Integer, Integer, String, String, Date, Date, String, String, DublinCore, String, Integer, Integer, Integer, Boolean, String, Timestamp, Timestamp, String> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasets.contact</code>. The contact to get more information about this dataset.
+     * {@inheritDoc}
      */
-    public void setContact(String value) {
-        set(18, value);
+    @Override
+    public Row19<Integer, Integer, Integer, String, String, Date, Date, String, String, DublinCore, String, Integer, Integer, Integer, Boolean, String, Timestamp, Timestamp, String> valuesRow() {
+        return (Row19) super.valuesRow();
     }
 
     /**
@@ -431,8 +413,8 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Row19<Integer, Integer, Integer, String, String, Date, Date, String, String, DublinCore, String, Integer, Integer, Integer, Boolean, String, Timestamp, Timestamp, String> fieldsRow() {
-        return (Row19) super.fieldsRow();
+    public Field<DublinCore> field10() {
+        return Datasets.DATASETS.DUBLIN_CORE;
     }
 
     /**
@@ -471,8 +453,8 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Row19<Integer, Integer, Integer, String, String, Date, Date, String, String, DublinCore, String, Integer, Integer, Integer, Boolean, String, Timestamp, Timestamp, String> valuesRow() {
-        return (Row19) super.valuesRow();
+    public Field<Boolean> field15() {
+        return Datasets.DATASETS.IS_EXTERNAL;
     }
 
     /**
@@ -583,8 +565,8 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Field<DublinCore> field10() {
-        return Datasets.DATASETS.DUBLIN_CORE;
+    public DublinCore component10() {
+        return getDublinCore();
     }
 
     /**
@@ -623,8 +605,8 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field15() {
-        return Datasets.DATASETS.IS_EXTERNAL;
+    public Boolean component15() {
+        return getIsExternal();
     }
 
     /**
@@ -735,7 +717,7 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public DublinCore component10() {
+    public DublinCore value10() {
         return getDublinCore();
     }
 
@@ -775,7 +757,7 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Boolean component15() {
+    public Boolean value15() {
         return getIsExternal();
     }
 
@@ -896,8 +878,9 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public DublinCore value10() {
-        return getDublinCore();
+    public DatasetsRecord value10(DublinCore value) {
+        setDublinCore(value);
+        return this;
     }
 
     /**
@@ -940,8 +923,9 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Boolean value15() {
-        return getIsExternal();
+    public DatasetsRecord value15(Boolean value) {
+        setIsExternal(value);
+        return this;
     }
 
     /**
@@ -1012,21 +996,37 @@ public class DatasetsRecord extends UpdatableRecordImpl<DatasetsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached DatasetsRecord
      */
-    @Override
-    public DatasetsRecord value10(DublinCore value) {
-        setDublinCore(value);
-        return this;
+    public DatasetsRecord() {
+        super(Datasets.DATASETS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised DatasetsRecord
      */
-    @Override
-    public DatasetsRecord value15(Boolean value) {
-        setIsExternal(value);
-        return this;
+    public DatasetsRecord(Integer id, Integer experimentId, Integer locationId, String name, String description, Date dateStart, Date dateEnd, String sourceFile, String datatype, DublinCore dublinCore, String version, Integer createdBy, Integer datasetStateId, Integer licenseId, Boolean isExternal, String hyperlink, Timestamp createdOn, Timestamp updatedOn, String contact) {
+        super(Datasets.DATASETS);
+
+        set(0, id);
+        set(1, experimentId);
+        set(2, locationId);
+        set(3, name);
+        set(4, description);
+        set(5, dateStart);
+        set(6, dateEnd);
+        set(7, sourceFile);
+        set(8, datatype);
+        set(9, dublinCore);
+        set(10, version);
+        set(11, createdBy);
+        set(12, datasetStateId);
+        set(13, licenseId);
+        set(14, isExternal);
+        set(15, hyperlink);
+        set(16, createdOn);
+        set(17, updatedOn);
+        set(18, contact);
     }
 // @formatter:on
 }

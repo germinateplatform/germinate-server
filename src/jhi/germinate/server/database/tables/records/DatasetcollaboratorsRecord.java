@@ -34,10 +34,10 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     private static final long serialVersionUID = -858315437;
 
     /**
-     * Create a detached DatasetcollaboratorsRecord
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.id</code>.
      */
-    public DatasetcollaboratorsRecord() {
-        super(Datasetcollaborators.DATASETCOLLABORATORS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
-     * Create a detached, initialised DatasetcollaboratorsRecord
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.dataset_id</code>.
      */
-    public DatasetcollaboratorsRecord(Integer id, Integer datasetId, Integer collaboratorId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Datasetcollaborators.DATASETCOLLABORATORS);
-
-        set(0, id);
-        set(1, datasetId);
-        set(2, collaboratorId);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setDatasetId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.dataset_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDatasetId(Integer value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<Datasetcolla
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached DatasetcollaboratorsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public DatasetcollaboratorsRecord() {
+        super(Datasetcollaborators.DATASETCOLLABORATORS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised DatasetcollaboratorsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public DatasetcollaboratorsRecord(Integer id, Integer datasetId, Integer collaboratorId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Datasetcollaborators.DATASETCOLLABORATORS);
+
+        set(0, id);
+        set(1, datasetId);
+        set(2, collaboratorId);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

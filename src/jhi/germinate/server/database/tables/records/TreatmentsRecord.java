@@ -35,10 +35,10 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     private static final long serialVersionUID = -802690257;
 
     /**
-     * Create a detached TreatmentsRecord
+     * Setter for <code>germinate_template_3_7_0.treatments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public TreatmentsRecord() {
-        super(Treatments.TREATMENTS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,16 +49,10 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     }
 
     /**
-     * Create a detached, initialised TreatmentsRecord
+     * Setter for <code>germinate_template_3_7_0.treatments.name</code>. The name which defines the treatment.
      */
-    public TreatmentsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Treatments.TREATMENTS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -97,17 +91,17 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.treatments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.treatments.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.treatments.name</code>. The name which defines the treatment.
+     * Getter for <code>germinate_template_3_7_0.treatments.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -325,17 +319,23 @@ public class TreatmentsRecord extends UpdatableRecordImpl<TreatmentsRecord> impl
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.treatments.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Create a detached TreatmentsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public TreatmentsRecord() {
+        super(Treatments.TREATMENTS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.treatments.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Create a detached, initialised TreatmentsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public TreatmentsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Treatments.TREATMENTS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

@@ -40,10 +40,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Create a detached ViewTableMapdefinitionsRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableMapdefinitionsRecord() {
-        super(ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS);
+    public Integer getMarkerId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -75,21 +75,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Create a detached, initialised ViewTableMapdefinitionsRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
-    public ViewTableMapdefinitionsRecord(Integer markerId, String markerName, JsonArray synonyms, String mapFeatureType, Integer mapId, Integer userId, Boolean visibility, String mapName, String chromosome, Double position) {
-        super(ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS);
-
-        set(0, markerId);
-        set(1, markerName);
-        set(2, synonyms);
-        set(3, mapFeatureType);
-        set(4, mapId);
-        set(5, userId);
-        set(6, visibility);
-        set(7, mapName);
-        set(8, chromosome);
-        set(9, position);
+    public void setMapFeatureType(String value) {
+        set(3, value);
     }
 
     /**
@@ -100,10 +89,10 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public Integer getMarkerId() {
-        return (Integer) get(0);
+    public void setMapId(Integer value) {
+        set(4, value);
     }
 
     /**
@@ -142,17 +131,17 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_name</code>. Describes the map.
      */
-    public void setMapFeatureType(String value) {
-        set(3, value);
+    public void setMapName(String value) {
+        set(7, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_name</code>. Describes the map.
      */
-    public void setMapId(Integer value) {
-        set(4, value);
+    public String getMapName() {
+        return (String) get(7);
     }
 
     /**
@@ -170,17 +159,17 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_name</code>. Describes the map.
+     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
-    public String getMapName() {
-        return (String) get(7);
+    public void setPosition(Double value) {
+        set(9, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.map_name</code>. Describes the map.
+     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
-    public void setMapName(String value) {
-        set(7, value);
+    public Double getPosition() {
+        return (Double) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -268,17 +257,19 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * {@inheritDoc}
      */
-    public Double getPosition() {
-        return (Double) get(9);
+    @Override
+    public Field<String> field9() {
+        return ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS.CHROMOSOME;
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * {@inheritDoc}
      */
-    public void setPosition(Double value) {
-        set(9, value);
+    @Override
+    public Field<Double> field10() {
+        return ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS.POSITION;
     }
 
     /**
@@ -341,24 +332,24 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      * {@inheritDoc}
      */
     @Override
-    public Field<String> field9() {
-        return ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS.CHROMOSOME;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Field<Double> field10() {
-        return ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS.POSITION;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String component8() {
         return getMapName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String component9() {
+        return getChromosome();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double component10() {
+        return getPosition();
     }
 
     /**
@@ -421,7 +412,15 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      * {@inheritDoc}
      */
     @Override
-    public String component9() {
+    public String value8() {
+        return getMapName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String value9() {
         return getChromosome();
     }
 
@@ -429,16 +428,8 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      * {@inheritDoc}
      */
     @Override
-    public Double component10() {
+    public Double value10() {
         return getPosition();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String value8() {
-        return getMapName();
     }
 
     /**
@@ -508,24 +499,26 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
      * {@inheritDoc}
      */
     @Override
-    public String value9() {
-        return getChromosome();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Double value10() {
-        return getPosition();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ViewTableMapdefinitionsRecord value8(String value) {
         setMapName(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ViewTableMapdefinitionsRecord value9(String value) {
+        setChromosome(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ViewTableMapdefinitionsRecord value10(Double value) {
+        setPosition(value);
         return this;
     }
 
@@ -552,21 +545,28 @@ public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapd
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached ViewTableMapdefinitionsRecord
      */
-    @Override
-    public ViewTableMapdefinitionsRecord value9(String value) {
-        setChromosome(value);
-        return this;
+    public ViewTableMapdefinitionsRecord() {
+        super(ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised ViewTableMapdefinitionsRecord
      */
-    @Override
-    public ViewTableMapdefinitionsRecord value10(Double value) {
-        setPosition(value);
-        return this;
+    public ViewTableMapdefinitionsRecord(Integer markerId, String markerName, JsonArray synonyms, String mapFeatureType, Integer mapId, Integer userId, Boolean visibility, String mapName, String chromosome, Double position) {
+        super(ViewTableMapdefinitions.VIEW_TABLE_MAPDEFINITIONS);
+
+        set(0, markerId);
+        set(1, markerName);
+        set(2, synonyms);
+        set(3, mapFeatureType);
+        set(4, mapId);
+        set(5, userId);
+        set(6, visibility);
+        set(7, mapName);
+        set(8, chromosome);
+        set(9, position);
     }
 // @formatter:on
 }

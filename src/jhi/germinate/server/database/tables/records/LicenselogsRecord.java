@@ -34,10 +34,10 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     private static final long serialVersionUID = -957333576;
 
     /**
-     * Create a detached LicenselogsRecord
+     * Setter for <code>germinate_template_3_7_0.licenselogs.id</code>.
      */
-    public LicenselogsRecord() {
-        super(Licenselogs.LICENSELOGS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -55,15 +55,10 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
-     * Create a detached, initialised LicenselogsRecord
+     * Getter for <code>germinate_template_3_7_0.licenselogs.license_id</code>.
      */
-    public LicenselogsRecord(Integer id, Integer licenseId, Integer userId, Timestamp acceptedOn) {
-        super(Licenselogs.LICENSELOGS);
-
-        set(0, id);
-        set(1, licenseId);
-        set(2, userId);
-        set(3, acceptedOn);
+    public Integer getLicenseId() {
+        return (Integer) get(1);
     }
 
     /**
@@ -81,17 +76,17 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.id</code>.
+     * Setter for <code>germinate_template_3_7_0.licenselogs.accepted_on</code>.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setAcceptedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.license_id</code>.
+     * Getter for <code>germinate_template_3_7_0.licenselogs.accepted_on</code>.
      */
-    public Integer getLicenseId() {
-        return (Integer) get(1);
+    public Timestamp getAcceptedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -275,17 +270,22 @@ public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.accepted_on</code>.
+     * Create a detached LicenselogsRecord
      */
-    public Timestamp getAcceptedOn() {
-        return (Timestamp) get(3);
+    public LicenselogsRecord() {
+        super(Licenselogs.LICENSELOGS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.accepted_on</code>.
+     * Create a detached, initialised LicenselogsRecord
      */
-    public void setAcceptedOn(Timestamp value) {
-        set(3, value);
+    public LicenselogsRecord(Integer id, Integer licenseId, Integer userId, Timestamp acceptedOn) {
+        super(Licenselogs.LICENSELOGS);
+
+        set(0, id);
+        set(1, licenseId);
+        set(2, userId);
+        set(3, acceptedOn);
     }
 // @formatter:on
 }

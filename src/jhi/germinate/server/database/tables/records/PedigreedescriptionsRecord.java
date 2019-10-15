@@ -36,10 +36,10 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     private static final long serialVersionUID = -1438407920;
 
     /**
-     * Create a detached PedigreedescriptionsRecord
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PedigreedescriptionsRecord() {
-        super(Pedigreedescriptions.PEDIGREEDESCRIPTIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,17 +50,10 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
-     * Create a detached, initialised PedigreedescriptionsRecord
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
      */
-    public PedigreedescriptionsRecord(Integer id, String name, String description, String author, Timestamp createdOn, Timestamp updatedOn) {
-        super(Pedigreedescriptions.PEDIGREEDESCRIPTIONS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, author);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -85,10 +78,10 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setAuthor(String value) {
+        set(3, value);
     }
 
     /**
@@ -113,17 +106,17 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
+     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setAuthor(String value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -375,17 +368,24 @@ public class PedigreedescriptionsRecord extends UpdatableRecordImpl<Pedigreedesc
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached PedigreedescriptionsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public PedigreedescriptionsRecord() {
+        super(Pedigreedescriptions.PEDIGREEDESCRIPTIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised PedigreedescriptionsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public PedigreedescriptionsRecord(Integer id, String name, String description, String author, Timestamp createdOn, Timestamp updatedOn) {
+        super(Pedigreedescriptions.PEDIGREEDESCRIPTIONS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, author);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

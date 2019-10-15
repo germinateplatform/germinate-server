@@ -35,10 +35,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     private static final long serialVersionUID = 1351732082;
 
     /**
-     * Create a detached InstitutionsRecord
+     * Setter for <code>germinate_template_3_7_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public InstitutionsRecord() {
-        super(Institutions.INSTITUTIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,22 +49,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Create a detached, initialised InstitutionsRecord
+     * Setter for <code>germinate_template_3_7_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
      */
-    public InstitutionsRecord(Integer id, String code, String name, String acronym, Integer countryId, String contact, String phone, String email, String address, Timestamp createdOn, Timestamp updatedOn) {
-        super(Institutions.INSTITUTIONS);
-
-        set(0, id);
-        set(1, code);
-        set(2, name);
-        set(3, acronym);
-        set(4, countryId);
-        set(5, contact);
-        set(6, phone);
-        set(7, email);
-        set(8, address);
-        set(9, createdOn);
-        set(10, updatedOn);
+    public void setCode(String value) {
+        set(1, value);
     }
 
     /**
@@ -75,10 +63,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.institutions.name</code>. The institute name.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setName(String value) {
+        set(2, value);
     }
 
     /**
@@ -96,10 +84,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
+     * Getter for <code>germinate_template_3_7_0.institutions.acronym</code>. If there is an acronym for the institute.
      */
-    public void setCode(String value) {
-        set(1, value);
+    public String getAcronym() {
+        return (String) get(3);
     }
 
     /**
@@ -110,10 +98,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.name</code>. The institute name.
+     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
      */
-    public void setName(String value) {
-        set(2, value);
+    public Integer getCountryId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -131,10 +119,10 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.acronym</code>. If there is an acronym for the institute.
+     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
      */
-    public String getAcronym() {
-        return (String) get(3);
+    public void setPhone(String value) {
+        set(6, value);
     }
 
     /**
@@ -187,17 +175,17 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
+     * Setter for <code>germinate_template_3_7_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getCountryId() {
-        return (Integer) get(4);
+    public void setUpdatedOn(Timestamp value) {
+        set(10, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
+     * Getter for <code>germinate_template_3_7_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setPhone(String value) {
-        set(6, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -619,17 +607,29 @@ public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached InstitutionsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(10);
+    public InstitutionsRecord() {
+        super(Institutions.INSTITUTIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised InstitutionsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(10, value);
+    public InstitutionsRecord(Integer id, String code, String name, String acronym, Integer countryId, String contact, String phone, String email, String address, Timestamp createdOn, Timestamp updatedOn) {
+        super(Institutions.INSTITUTIONS);
+
+        set(0, id);
+        set(1, code);
+        set(2, name);
+        set(3, acronym);
+        set(4, countryId);
+        set(5, contact);
+        set(6, phone);
+        set(7, email);
+        set(8, address);
+        set(9, createdOn);
+        set(10, updatedOn);
     }
 // @formatter:on
 }

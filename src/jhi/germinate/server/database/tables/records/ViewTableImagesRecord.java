@@ -40,10 +40,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Create a detached ViewTableImagesRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_id</code>.
      */
-    public ViewTableImagesRecord() {
-        super(ViewTableImages.VIEW_TABLE_IMAGES);
+    public Integer getImageId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -54,19 +54,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Create a detached, initialised ViewTableImagesRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_description</code>.
      */
-    public ViewTableImagesRecord(Integer imageId, String imageDescription, Integer imageForeignId, String imagePath, String imageType, String imageRefTable, String referenceName, Timestamp createdOn) {
-        super(ViewTableImages.VIEW_TABLE_IMAGES);
-
-        set(0, imageId);
-        set(1, imageDescription);
-        set(2, imageForeignId);
-        set(3, imagePath);
-        set(4, imageType);
-        set(5, imageRefTable);
-        set(6, referenceName);
-        set(7, createdOn);
+    public String getImageDescription() {
+        return (String) get(1);
     }
 
     /**
@@ -77,10 +68,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_id</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_foreign_id</code>.
      */
-    public Integer getImageId() {
-        return (Integer) get(0);
+    public Integer getImageForeignId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -91,10 +82,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_description</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_path</code>.
      */
-    public String getImageDescription() {
-        return (String) get(1);
+    public String getImagePath() {
+        return (String) get(3);
     }
 
     /**
@@ -105,10 +96,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_foreign_id</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
      */
-    public Integer getImageForeignId() {
-        return (Integer) get(2);
+    public String getImageType() {
+        return (String) get(4);
     }
 
     /**
@@ -119,10 +110,10 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_path</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
      */
-    public String getImagePath() {
-        return (String) get(3);
+    public String getImageRefTable() {
+        return (String) get(5);
     }
 
     /**
@@ -158,17 +149,19 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_type</code>.
+     * {@inheritDoc}
      */
-    public String getImageType() {
-        return (String) get(4);
+    @Override
+    public Row8<Integer, String, Integer, String, String, String, String, Timestamp> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_images.image_ref_table</code>.
+     * {@inheritDoc}
      */
-    public String getImageRefTable() {
-        return (String) get(5);
+    @Override
+    public Row8<Integer, String, Integer, String, String, String, String, Timestamp> valuesRow() {
+        return (Row8) super.valuesRow();
     }
 
     /**
@@ -231,8 +224,8 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, String, Integer, String, String, String, String, Timestamp> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Field<Timestamp> field8() {
+        return ViewTableImages.VIEW_TABLE_IMAGES.CREATED_ON;
     }
 
     /**
@@ -295,8 +288,8 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, String, Integer, String, String, String, String, Timestamp> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Timestamp component8() {
+        return getCreatedOn();
     }
 
     /**
@@ -359,8 +352,8 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
      * {@inheritDoc}
      */
     @Override
-    public Field<Timestamp> field8() {
-        return ViewTableImages.VIEW_TABLE_IMAGES.CREATED_ON;
+    public Timestamp value8() {
+        return getCreatedOn();
     }
 
     /**
@@ -456,19 +449,26 @@ public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached ViewTableImagesRecord
      */
-    @Override
-    public Timestamp component8() {
-        return getCreatedOn();
+    public ViewTableImagesRecord() {
+        super(ViewTableImages.VIEW_TABLE_IMAGES);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised ViewTableImagesRecord
      */
-    @Override
-    public Timestamp value8() {
-        return getCreatedOn();
+    public ViewTableImagesRecord(Integer imageId, String imageDescription, Integer imageForeignId, String imagePath, String imageType, String imageRefTable, String referenceName, Timestamp createdOn) {
+        super(ViewTableImages.VIEW_TABLE_IMAGES);
+
+        set(0, imageId);
+        set(1, imageDescription);
+        set(2, imageForeignId);
+        set(3, imagePath);
+        set(4, imageType);
+        set(5, imageRefTable);
+        set(6, referenceName);
+        set(7, createdOn);
     }
 // @formatter:on
 }

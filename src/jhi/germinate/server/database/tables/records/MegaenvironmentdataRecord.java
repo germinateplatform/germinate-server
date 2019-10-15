@@ -36,10 +36,10 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     private static final long serialVersionUID = 1746698004;
 
     /**
-     * Create a detached MegaenvironmentdataRecord
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MegaenvironmentdataRecord() {
-        super(Megaenvironmentdata.MEGAENVIRONMENTDATA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,18 +50,10 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Create a detached, initialised MegaenvironmentdataRecord
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
      */
-    public MegaenvironmentdataRecord(Integer id, Integer locationId, Integer sourceId, Integer megaenvironmentId, Boolean isFinal, Timestamp createdOn, Timestamp updatedOn) {
-        super(Megaenvironmentdata.MEGAENVIRONMENTDATA);
-
-        set(0, id);
-        set(1, locationId);
-        set(2, sourceId);
-        set(3, megaenvironmentId);
-        set(4, isFinal);
-        set(5, createdOn);
-        set(6, updatedOn);
+    public void setLocationId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -79,10 +71,10 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getSourceId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -100,17 +92,17 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.location_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
      */
-    public void setLocationId(Integer value) {
-        set(1, value);
+    public void setIsFinal(Boolean value) {
+        set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.source_id</code>. Source ID
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
      */
-    public Integer getSourceId() {
-        return (Integer) get(2);
+    public Boolean getIsFinal() {
+        return (Boolean) get(4);
     }
 
     /**
@@ -128,17 +120,17 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
+     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Boolean getIsFinal() {
-        return (Boolean) get(4);
+    public void setUpdatedOn(Timestamp value) {
+        set(6, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.is_final</code>. The source that was used to determine the megaenvironment data.
+     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setIsFinal(Boolean value) {
-        set(4, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -158,17 +150,19 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    @Override
+    public Row7<Integer, Integer, Integer, Integer, Boolean, Timestamp, Timestamp> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironmentdata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(6, value);
+    @Override
+    public Row7<Integer, Integer, Integer, Integer, Boolean, Timestamp, Timestamp> valuesRow() {
+        return (Row7) super.valuesRow();
     }
 
     /**
@@ -207,8 +201,8 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      * {@inheritDoc}
      */
     @Override
-    public Row7<Integer, Integer, Integer, Integer, Boolean, Timestamp, Timestamp> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Field<Boolean> field5() {
+        return Megaenvironmentdata.MEGAENVIRONMENTDATA.IS_FINAL;
     }
 
     /**
@@ -263,8 +257,8 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      * {@inheritDoc}
      */
     @Override
-    public Row7<Integer, Integer, Integer, Integer, Boolean, Timestamp, Timestamp> valuesRow() {
-        return (Row7) super.valuesRow();
+    public Boolean component5() {
+        return getIsFinal();
     }
 
     /**
@@ -319,8 +313,8 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field5() {
-        return Megaenvironmentdata.MEGAENVIRONMENTDATA.IS_FINAL;
+    public Boolean value5() {
+        return getIsFinal();
     }
 
     /**
@@ -379,8 +373,9 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
      * {@inheritDoc}
      */
     @Override
-    public Boolean component5() {
-        return getIsFinal();
+    public MegaenvironmentdataRecord value5(Boolean value) {
+        setIsFinal(value);
+        return this;
     }
 
     /**
@@ -421,20 +416,25 @@ public class MegaenvironmentdataRecord extends UpdatableRecordImpl<Megaenvironme
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached MegaenvironmentdataRecord
      */
-    @Override
-    public Boolean value5() {
-        return getIsFinal();
+    public MegaenvironmentdataRecord() {
+        super(Megaenvironmentdata.MEGAENVIRONMENTDATA);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised MegaenvironmentdataRecord
      */
-    @Override
-    public MegaenvironmentdataRecord value5(Boolean value) {
-        setIsFinal(value);
-        return this;
+    public MegaenvironmentdataRecord(Integer id, Integer locationId, Integer sourceId, Integer megaenvironmentId, Boolean isFinal, Timestamp createdOn, Timestamp updatedOn) {
+        super(Megaenvironmentdata.MEGAENVIRONMENTDATA);
+
+        set(0, id);
+        set(1, locationId);
+        set(2, sourceId);
+        set(3, megaenvironmentId);
+        set(4, isFinal);
+        set(5, createdOn);
+        set(6, updatedOn);
     }
 // @formatter:on
 }

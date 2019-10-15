@@ -31,10 +31,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     private static final long serialVersionUID = 554633676;
 
     /**
-     * Create a detached ViewStatsOverviewRecord
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
      */
-    public ViewStatsOverviewRecord() {
-        super(ViewStatsOverview.VIEW_STATS_OVERVIEW);
+    public void setGermplasm(Long value) {
+        set(0, value);
     }
 
     /**
@@ -45,17 +45,10 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Create a detached, initialised ViewStatsOverviewRecord
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
      */
-    public ViewStatsOverviewRecord(Long germplasm, Long markers, Long traits, Long compounds, Long locations, Long groups) {
-        super(ViewStatsOverview.VIEW_STATS_OVERVIEW);
-
-        set(0, germplasm);
-        set(1, markers);
-        set(2, traits);
-        set(3, compounds);
-        set(4, locations);
-        set(5, groups);
+    public void setMarkers(Long value) {
+        set(1, value);
     }
 
     /**
@@ -108,17 +101,17 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
+     * Setter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
      */
-    public void setGermplasm(Long value) {
-        set(0, value);
+    public void setGroups(Long value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
+     * Getter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
      */
-    public void setMarkers(Long value) {
-        set(1, value);
+    public Long getGroups() {
+        return (Long) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -358,17 +351,24 @@ public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
+     * Create a detached ViewStatsOverviewRecord
      */
-    public Long getGroups() {
-        return (Long) get(5);
+    public ViewStatsOverviewRecord() {
+        super(ViewStatsOverview.VIEW_STATS_OVERVIEW);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
+     * Create a detached, initialised ViewStatsOverviewRecord
      */
-    public void setGroups(Long value) {
-        set(5, value);
+    public ViewStatsOverviewRecord(Long germplasm, Long markers, Long traits, Long compounds, Long locations, Long groups) {
+        super(ViewStatsOverview.VIEW_STATS_OVERVIEW);
+
+        set(0, germplasm);
+        set(1, markers);
+        set(2, traits);
+        set(3, compounds);
+        set(4, locations);
+        set(5, groups);
     }
 // @formatter:on
 }

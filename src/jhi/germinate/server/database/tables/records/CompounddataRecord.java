@@ -35,10 +35,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     private static final long serialVersionUID = 1672379864;
 
     /**
-     * Create a detached CompounddataRecord
+     * Setter for <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public CompounddataRecord() {
-        super(Compounddata.COMPOUNDDATA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,20 +49,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Create a detached, initialised CompounddataRecord
+     * Setter for <code>germinate_template_3_7_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
-    public CompounddataRecord(Integer id, Integer compoundId, Integer germinatebaseId, Integer datasetId, Integer analysismethodId, BigDecimal compoundValue, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn) {
-        super(Compounddata.COMPOUNDDATA);
-
-        set(0, id);
-        set(1, compoundId);
-        set(2, germinatebaseId);
-        set(3, datasetId);
-        set(4, analysismethodId);
-        set(5, compoundValue);
-        set(6, recordingDate);
-        set(7, createdOn);
-        set(8, updatedOn);
+    public void setCompoundId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +70,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getGerminatebaseId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -94,10 +84,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
+     * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
-    public void setCompoundId(Integer value) {
-        set(1, value);
+    public Integer getDatasetId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -115,10 +105,10 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_3_7_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
-    public Integer getGerminatebaseId() {
-        return (Integer) get(2);
+    public void setCompoundValue(BigDecimal value) {
+        set(5, value);
     }
 
     /**
@@ -157,17 +147,17 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(3);
+    public void setUpdatedOn(Timestamp value) {
+        set(8, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Getter for <code>germinate_template_3_7_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setCompoundValue(BigDecimal value) {
-        set(5, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -521,17 +511,27 @@ public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached CompounddataRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(8);
+    public CompounddataRecord() {
+        super(Compounddata.COMPOUNDDATA);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised CompounddataRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(8, value);
+    public CompounddataRecord(Integer id, Integer compoundId, Integer germinatebaseId, Integer datasetId, Integer analysismethodId, BigDecimal compoundValue, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn) {
+        super(Compounddata.COMPOUNDDATA);
+
+        set(0, id);
+        set(1, compoundId);
+        set(2, germinatebaseId);
+        set(3, datasetId);
+        set(4, analysismethodId);
+        set(5, compoundValue);
+        set(6, recordingDate);
+        set(7, createdOn);
+        set(8, updatedOn);
     }
 // @formatter:on
 }

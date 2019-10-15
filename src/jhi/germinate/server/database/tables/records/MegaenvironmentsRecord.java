@@ -35,10 +35,10 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     private static final long serialVersionUID = 1875946;
 
     /**
-     * Create a detached MegaenvironmentsRecord
+     * Setter for <code>germinate_template_3_7_0.megaenvironments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MegaenvironmentsRecord() {
-        super(Megaenvironments.MEGAENVIRONMENTS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,19 +49,10 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     }
 
     /**
-     * Create a detached, initialised MegaenvironmentsRecord
+     * Setter for <code>germinate_template_3_7_0.megaenvironments.name</code>. The mega environment name.
      */
-    public MegaenvironmentsRecord(Integer id, String name, Integer maxTempLower, Integer maxTempUpper, Integer precipLower, Integer precipUpper, Timestamp createdOn, Timestamp updatedOn) {
-        super(Megaenvironments.MEGAENVIRONMENTS);
-
-        set(0, id);
-        set(1, name);
-        set(2, maxTempLower);
-        set(3, maxTempUpper);
-        set(4, precipLower);
-        set(5, precipUpper);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -79,10 +70,10 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.megaenvironments.max_temp_lower</code>. The lower maximum temperature for this environment.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getMaxTempLower() {
+        return (Integer) get(2);
     }
 
     /**
@@ -100,10 +91,10 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironments.name</code>. The mega environment name.
+     * Setter for <code>germinate_template_3_7_0.megaenvironments.precip_lower</code>. The minimum precipitation for this environment.
      */
-    public void setName(String value) {
-        set(1, value);
+    public void setPrecipLower(Integer value) {
+        set(4, value);
     }
 
     /**
@@ -121,10 +112,10 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironments.max_temp_lower</code>. The lower maximum temperature for this environment.
+     * Getter for <code>germinate_template_3_7_0.megaenvironments.precip_upper</code>. the maximum precipitation for this environment.
      */
-    public Integer getMaxTempLower() {
-        return (Integer) get(2);
+    public Integer getPrecipUpper() {
+        return (Integer) get(5);
     }
 
     /**
@@ -142,17 +133,17 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironments.precip_lower</code>. The minimum precipitation for this environment.
+     * Setter for <code>germinate_template_3_7_0.megaenvironments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setPrecipLower(Integer value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironments.precip_upper</code>. the maximum precipitation for this environment.
+     * Getter for <code>germinate_template_3_7_0.megaenvironments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getPrecipUpper() {
-        return (Integer) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -472,17 +463,26 @@ public class MegaenvironmentsRecord extends UpdatableRecordImpl<Megaenvironments
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.megaenvironments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached MegaenvironmentsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    public MegaenvironmentsRecord() {
+        super(Megaenvironments.MEGAENVIRONMENTS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.megaenvironments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised MegaenvironmentsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    public MegaenvironmentsRecord(Integer id, String name, Integer maxTempLower, Integer maxTempUpper, Integer precipLower, Integer precipUpper, Timestamp createdOn, Timestamp updatedOn) {
+        super(Megaenvironments.MEGAENVIRONMENTS);
+
+        set(0, id);
+        set(1, name);
+        set(2, maxTempLower);
+        set(3, maxTempUpper);
+        set(4, precipLower);
+        set(5, precipUpper);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

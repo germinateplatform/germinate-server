@@ -36,10 +36,10 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     private static final long serialVersionUID = 92364881;
 
     /**
-     * Create a detached NewstypesRecord
+     * Setter for <code>germinate_template_3_7_0.newstypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public NewstypesRecord() {
-        super(Newstypes.NEWSTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,16 +50,10 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     }
 
     /**
-     * Create a detached, initialised NewstypesRecord
+     * Setter for <code>germinate_template_3_7_0.newstypes.name</code>. Name of the news type.
      */
-    public NewstypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Newstypes.NEWSTYPES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -98,17 +92,17 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.newstypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.newstypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.newstypes.name</code>. Name of the news type.
+     * Getter for <code>germinate_template_3_7_0.newstypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -326,17 +320,23 @@ public class NewstypesRecord extends UpdatableRecordImpl<NewstypesRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.newstypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached NewstypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public NewstypesRecord() {
+        super(Newstypes.NEWSTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.newstypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised NewstypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public NewstypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Newstypes.NEWSTYPES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

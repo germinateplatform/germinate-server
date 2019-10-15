@@ -35,10 +35,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     private static final long serialVersionUID = 799596889;
 
     /**
-     * Create a detached CommentsRecord
+     * Setter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public CommentsRecord() {
-        super(Comments.COMMENTS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,19 +49,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Create a detached, initialised CommentsRecord
+     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
-    public CommentsRecord(Integer id, Integer commenttypeId, Integer userId, Boolean visibility, String description, Integer referenceId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Comments.COMMENTS);
-
-        set(0, id);
-        set(1, commenttypeId);
-        set(2, userId);
-        set(3, visibility);
-        set(4, description);
-        set(5, referenceId);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setCommenttypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -86,10 +77,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setVisibility(Boolean value) {
+        set(3, value);
     }
 
     /**
@@ -100,10 +91,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
+     * Setter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
      */
-    public void setCommenttypeId(Integer value) {
-        set(1, value);
+    public void setDescription(String value) {
+        set(4, value);
     }
 
     /**
@@ -121,10 +112,10 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
+     * Getter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
      */
-    public void setVisibility(Boolean value) {
-        set(3, value);
+    public Integer getReferenceId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -142,17 +133,17 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.description</code>. The comment content.
+     * Setter for <code>germinate_template_3_7_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDescription(String value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     * Getter for <code>germinate_template_3_7_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getReferenceId() {
-        return (Integer) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -172,17 +163,19 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    @Override
+    public Row8<Integer, Integer, Integer, Boolean, String, Integer, Timestamp, Timestamp> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    @Override
+    public Row8<Integer, Integer, Integer, Boolean, String, Integer, Timestamp, Timestamp> valuesRow() {
+        return (Row8) super.valuesRow();
     }
 
     /**
@@ -213,8 +206,8 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, Integer, Integer, Boolean, String, Integer, Timestamp, Timestamp> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Field<Boolean> field4() {
+        return Comments.COMMENTS.VISIBILITY;
     }
 
     /**
@@ -277,8 +270,8 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, Integer, Integer, Boolean, String, Integer, Timestamp, Timestamp> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Boolean component4() {
+        return getVisibility();
     }
 
     /**
@@ -341,8 +334,8 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field4() {
-        return Comments.COMMENTS.VISIBILITY;
+    public Boolean value4() {
+        return getVisibility();
     }
 
     /**
@@ -408,8 +401,9 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Boolean component4() {
-        return getVisibility();
+    public CommentsRecord value4(Boolean value) {
+        setVisibility(value);
+        return this;
     }
 
     /**
@@ -469,20 +463,26 @@ public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached CommentsRecord
      */
-    @Override
-    public Boolean value4() {
-        return getVisibility();
+    public CommentsRecord() {
+        super(Comments.COMMENTS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised CommentsRecord
      */
-    @Override
-    public CommentsRecord value4(Boolean value) {
-        setVisibility(value);
-        return this;
+    public CommentsRecord(Integer id, Integer commenttypeId, Integer userId, Boolean visibility, String description, Integer referenceId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Comments.COMMENTS);
+
+        set(0, id);
+        set(1, commenttypeId);
+        set(2, userId);
+        set(3, visibility);
+        set(4, description);
+        set(5, referenceId);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

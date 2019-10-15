@@ -35,10 +35,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     private static final long serialVersionUID = -741683637;
 
     /**
-     * Create a detached ExperimentsRecord
+     * Setter for <code>germinate_template_3_7_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ExperimentsRecord() {
-        super(Experiments.EXPERIMENTS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,19 +49,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Create a detached, initialised ExperimentsRecord
+     * Setter for <code>germinate_template_3_7_0.experiments.experiment_name</code>. The name of the experiment.
      */
-    public ExperimentsRecord(Integer id, String experimentName, Integer userId, String description, Date experimentDate, Integer experimentTypeId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Experiments.EXPERIMENTS);
-
-        set(0, id);
-        set(1, experimentName);
-        set(2, userId);
-        set(3, description);
-        set(4, experimentDate);
-        set(5, experimentTypeId);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setExperimentName(String value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +71,11 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getUserId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -101,10 +93,10 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_name</code>. The name of the experiment.
+     * Setter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
      */
-    public void setExperimentName(String value) {
-        set(1, value);
+    public void setExperimentDate(Date value) {
+        set(4, value);
     }
 
     /**
@@ -123,11 +115,11 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_3_7_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
 
      */
-    public Integer getUserId() {
-        return (Integer) get(2);
+    public Integer getExperimentTypeId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -145,18 +137,17 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Setter for <code>germinate_template_3_7_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setExperimentDate(Date value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
-
+     * Getter for <code>germinate_template_3_7_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getExperimentTypeId() {
-        return (Integer) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -476,17 +467,26 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached ExperimentsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    public ExperimentsRecord() {
+        super(Experiments.EXPERIMENTS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised ExperimentsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    public ExperimentsRecord(Integer id, String experimentName, Integer userId, String description, Date experimentDate, Integer experimentTypeId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Experiments.EXPERIMENTS);
+
+        set(0, id);
+        set(1, experimentName);
+        set(2, userId);
+        set(3, description);
+        set(4, experimentDate);
+        set(5, experimentTypeId);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

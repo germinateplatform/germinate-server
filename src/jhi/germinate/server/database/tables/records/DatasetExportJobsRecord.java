@@ -37,10 +37,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     private static final long serialVersionUID = 70112028;
 
     /**
-     * Create a detached DatasetExportJobsRecord
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
      */
-    public DatasetExportJobsRecord() {
-        super(DatasetExportJobs.DATASET_EXPORT_JOBS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -65,21 +65,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Create a detached, initialised DatasetExportJobsRecord
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
      */
-    public DatasetExportJobsRecord(Integer id, String uuid, String jobId, Integer userId, DatasetExportJobsStatus status, Boolean visibility, Integer experimentTypeId, JsonArray datasetIds, Timestamp createdOn, Timestamp updatedOn) {
-        super(DatasetExportJobs.DATASET_EXPORT_JOBS);
-
-        set(0, id);
-        set(1, uuid);
-        set(2, jobId);
-        set(3, userId);
-        set(4, status);
-        set(5, visibility);
-        set(6, experimentTypeId);
-        set(7, datasetIds);
-        set(8, createdOn);
-        set(9, updatedOn);
+    public void setJobId(String value) {
+        set(2, value);
     }
 
     /**
@@ -125,10 +114,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
+     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.visibility</code>.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Boolean getVisibility() {
+        return (Boolean) get(5);
     }
 
     /**
@@ -139,17 +128,17 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
+     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
      */
-    public void setJobId(String value) {
-        set(2, value);
+    public Integer getExperimentTypeId() {
+        return (Integer) get(6);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.visibility</code>.
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.dataset_ids</code>.
      */
-    public Boolean getVisibility() {
-        return (Boolean) get(5);
+    public void setDatasetIds(JsonArray value) {
+        set(7, value);
     }
 
     /**
@@ -160,10 +149,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
      */
-    public Integer getExperimentTypeId() {
-        return (Integer) get(6);
+    public void setCreatedOn(Timestamp value) {
+        set(8, value);
     }
 
     /**
@@ -174,10 +163,10 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.dataset_ids</code>.
+     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
      */
-    public void setDatasetIds(JsonArray value) {
-        set(7, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
@@ -204,17 +193,19 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     // -------------------------------------------------------------------------
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
+     * {@inheritDoc}
      */
-    public void setCreatedOn(Timestamp value) {
-        set(8, value);
+    @Override
+    public Row10<Integer, String, String, Integer, DatasetExportJobsStatus, Boolean, Integer, JsonArray, Timestamp, Timestamp> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
+    @Override
+    public Row10<Integer, String, String, Integer, DatasetExportJobsStatus, Boolean, Integer, JsonArray, Timestamp, Timestamp> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     /**
@@ -269,16 +260,16 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      * {@inheritDoc}
      */
     @Override
-    public Row10<Integer, String, String, Integer, DatasetExportJobsStatus, Boolean, Integer, JsonArray, Timestamp, Timestamp> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Field<Integer> field7() {
+        return DatasetExportJobs.DATASET_EXPORT_JOBS.EXPERIMENT_TYPE_ID;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Row10<Integer, String, String, Integer, DatasetExportJobsStatus, Boolean, Integer, JsonArray, Timestamp, Timestamp> valuesRow() {
-        return (Row10) super.valuesRow();
+    public Field<JsonArray> field8() {
+        return DatasetExportJobs.DATASET_EXPORT_JOBS.DATASET_IDS;
     }
 
     /**
@@ -349,16 +340,16 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      * {@inheritDoc}
      */
     @Override
-    public Field<Integer> field7() {
-        return DatasetExportJobs.DATASET_EXPORT_JOBS.EXPERIMENT_TYPE_ID;
+    public Integer component7() {
+        return getExperimentTypeId();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Field<JsonArray> field8() {
-        return DatasetExportJobs.DATASET_EXPORT_JOBS.DATASET_IDS;
+    public JsonArray component8() {
+        return getDatasetIds();
     }
 
     /**
@@ -429,7 +420,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      * {@inheritDoc}
      */
     @Override
-    public Integer component7() {
+    public Integer value7() {
         return getExperimentTypeId();
     }
 
@@ -437,7 +428,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      * {@inheritDoc}
      */
     @Override
-    public JsonArray component8() {
+    public JsonArray value8() {
         return getDatasetIds();
     }
 
@@ -515,22 +506,6 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      * {@inheritDoc}
      */
     @Override
-    public Integer value7() {
-        return getExperimentTypeId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public JsonArray value8() {
-        return getDatasetIds();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public DatasetExportJobsRecord value7(Integer value) {
         setExperimentTypeId(value);
         return this;
@@ -542,6 +517,24 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     @Override
     public DatasetExportJobsRecord value8(JsonArray value) {
         setDatasetIds(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatasetExportJobsRecord value9(Timestamp value) {
+        setCreatedOn(value);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DatasetExportJobsRecord value10(Timestamp value) {
+        setUpdatedOn(value);
         return this;
     }
 
@@ -568,21 +561,28 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached DatasetExportJobsRecord
      */
-    @Override
-    public DatasetExportJobsRecord value9(Timestamp value) {
-        setCreatedOn(value);
-        return this;
+    public DatasetExportJobsRecord() {
+        super(DatasetExportJobs.DATASET_EXPORT_JOBS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised DatasetExportJobsRecord
      */
-    @Override
-    public DatasetExportJobsRecord value10(Timestamp value) {
-        setUpdatedOn(value);
-        return this;
+    public DatasetExportJobsRecord(Integer id, String uuid, String jobId, Integer userId, DatasetExportJobsStatus status, Boolean visibility, Integer experimentTypeId, JsonArray datasetIds, Timestamp createdOn, Timestamp updatedOn) {
+        super(DatasetExportJobs.DATASET_EXPORT_JOBS);
+
+        set(0, id);
+        set(1, uuid);
+        set(2, jobId);
+        set(3, userId);
+        set(4, status);
+        set(5, visibility);
+        set(6, experimentTypeId);
+        set(7, datasetIds);
+        set(8, createdOn);
+        set(9, updatedOn);
     }
 // @formatter:on
 }

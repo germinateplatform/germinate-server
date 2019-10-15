@@ -34,10 +34,10 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     private static final long serialVersionUID = -545570439;
 
     /**
-     * Create a detached GrouptypesRecord
+     * Setter for <code>germinate_template_3_7_0.grouptypes.id</code>.
      */
-    public GrouptypesRecord() {
-        super(Grouptypes.GROUPTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     }
 
     /**
-     * Create a detached, initialised GrouptypesRecord
+     * Setter for <code>germinate_template_3_7_0.grouptypes.description</code>.
      */
-    public GrouptypesRecord(Integer id, String description, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
-        super(Grouptypes.GROUPTYPES);
-
-        set(0, id);
-        set(1, description);
-        set(2, targetTable);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setDescription(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.grouptypes.id</code>.
+     * Setter for <code>germinate_template_3_7_0.grouptypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.grouptypes.description</code>.
+     * Getter for <code>germinate_template_3_7_0.grouptypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDescription(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class GrouptypesRecord extends UpdatableRecordImpl<GrouptypesRecord> impl
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.grouptypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached GrouptypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public GrouptypesRecord() {
+        super(Grouptypes.GROUPTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.grouptypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised GrouptypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public GrouptypesRecord(Integer id, String description, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
+        super(Grouptypes.GROUPTYPES);
+
+        set(0, id);
+        set(1, description);
+        set(2, targetTable);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

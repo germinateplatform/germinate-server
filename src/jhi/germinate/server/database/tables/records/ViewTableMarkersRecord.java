@@ -40,10 +40,10 @@ public class ViewTableMarkersRecord extends TableRecordImpl<ViewTableMarkersReco
     }
 
     /**
-     * Create a detached ViewTableMarkersRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableMarkersRecord() {
-        super(ViewTableMarkers.VIEW_TABLE_MARKERS);
+    public Integer getMarkerId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -54,15 +54,10 @@ public class ViewTableMarkersRecord extends TableRecordImpl<ViewTableMarkersReco
     }
 
     /**
-     * Create a detached, initialised ViewTableMarkersRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
-    public ViewTableMarkersRecord(Integer markerId, String markerName, String markerType, JsonArray markerSynonyms) {
-        super(ViewTableMarkers.VIEW_TABLE_MARKERS);
-
-        set(0, markerId);
-        set(1, markerName);
-        set(2, markerType);
-        set(3, markerSynonyms);
+    public String getMarkerName() {
+        return (String) get(1);
     }
 
     /**
@@ -73,10 +68,10 @@ public class ViewTableMarkersRecord extends TableRecordImpl<ViewTableMarkersReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
-    public Integer getMarkerId() {
-        return (Integer) get(0);
+    public String getMarkerType() {
+        return (String) get(2);
     }
 
     /**
@@ -87,10 +82,10 @@ public class ViewTableMarkersRecord extends TableRecordImpl<ViewTableMarkersReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
      */
-    public String getMarkerName() {
-        return (String) get(1);
+    public JsonArray getMarkerSynonyms() {
+        return (JsonArray) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -262,17 +257,22 @@ public class ViewTableMarkersRecord extends TableRecordImpl<ViewTableMarkersReco
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * Create a detached ViewTableMarkersRecord
      */
-    public String getMarkerType() {
-        return (String) get(2);
+    public ViewTableMarkersRecord() {
+        super(ViewTableMarkers.VIEW_TABLE_MARKERS);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
+     * Create a detached, initialised ViewTableMarkersRecord
      */
-    public JsonArray getMarkerSynonyms() {
-        return (JsonArray) get(3);
+    public ViewTableMarkersRecord(Integer markerId, String markerName, String markerType, JsonArray markerSynonyms) {
+        super(ViewTableMarkers.VIEW_TABLE_MARKERS);
+
+        set(0, markerId);
+        set(1, markerName);
+        set(2, markerType);
+        set(3, markerSynonyms);
     }
 // @formatter:on
 }

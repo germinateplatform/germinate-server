@@ -34,10 +34,10 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     private static final long serialVersionUID = 1079158594;
 
     /**
-     * Create a detached CollaboratorsRecord
+     * Setter for <code>germinate_template_3_7_0.collaborators.id</code>.
      */
-    public CollaboratorsRecord() {
-        super(Collaborators.COLLABORATORS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,19 +48,10 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Create a detached, initialised CollaboratorsRecord
+     * Setter for <code>germinate_template_3_7_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public CollaboratorsRecord(Integer id, String firstName, String lastName, String email, String phone, Integer institutionId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Collaborators.COLLABORATORS);
-
-        set(0, id);
-        set(1, firstName);
-        set(2, lastName);
-        set(3, email);
-        set(4, phone);
-        set(5, institutionId);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setFirstName(String value) {
+        set(1, value);
     }
 
     /**
@@ -78,10 +69,10 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collaborators.id</code>.
+     * Getter for <code>germinate_template_3_7_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getLastName() {
+        return (String) get(2);
     }
 
     /**
@@ -99,10 +90,10 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Setter for <code>germinate_template_3_7_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
-    public void setFirstName(String value) {
-        set(1, value);
+    public void setPhone(String value) {
+        set(4, value);
     }
 
     /**
@@ -120,10 +111,10 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_3_7_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
      */
-    public String getLastName() {
-        return (String) get(2);
+    public Integer getInstitutionId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -141,17 +132,17 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Setter for <code>germinate_template_3_7_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setPhone(String value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
+     * Getter for <code>germinate_template_3_7_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getInstitutionId() {
-        return (Integer) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -471,17 +462,26 @@ public class CollaboratorsRecord extends UpdatableRecordImpl<CollaboratorsRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached CollaboratorsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    public CollaboratorsRecord() {
+        super(Collaborators.COLLABORATORS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised CollaboratorsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    public CollaboratorsRecord(Integer id, String firstName, String lastName, String email, String phone, Integer institutionId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Collaborators.COLLABORATORS);
+
+        set(0, id);
+        set(1, firstName);
+        set(2, lastName);
+        set(3, email);
+        set(4, phone);
+        set(5, institutionId);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

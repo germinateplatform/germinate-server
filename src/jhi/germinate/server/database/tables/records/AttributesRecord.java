@@ -38,10 +38,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     private static final long serialVersionUID = 264368925;
 
     /**
-     * Create a detached AttributesRecord
+     * Setter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public AttributesRecord() {
-        super(Attributes.ATTRIBUTES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -52,18 +52,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Create a detached, initialised AttributesRecord
+     * Setter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
      */
-    public AttributesRecord(Integer id, String name, String description, AttributesDatatype datatype, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
-        super(Attributes.ATTRIBUTES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, datatype);
-        set(4, targetTable);
-        set(5, createdOn);
-        set(6, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -81,10 +73,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -102,10 +94,10 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
+     * Setter for <code>germinate_template_3_7_0.attributes.target_table</code>.
      */
-    public void setName(String value) {
-        set(1, value);
+    public void setTargetTable(String value) {
+        set(4, value);
     }
 
     /**
@@ -130,17 +122,17 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Setter for <code>germinate_template_3_7_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(2);
+    public void setUpdatedOn(Timestamp value) {
+        set(6, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.target_table</code>.
+     * Getter for <code>germinate_template_3_7_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setTargetTable(String value) {
-        set(4, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -426,17 +418,25 @@ public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> impl
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached AttributesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public AttributesRecord() {
+        super(Attributes.ATTRIBUTES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised AttributesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(6, value);
+    public AttributesRecord(Integer id, String name, String description, AttributesDatatype datatype, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
+        super(Attributes.ATTRIBUTES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, datatype);
+        set(4, targetTable);
+        set(5, createdOn);
+        set(6, updatedOn);
     }
 // @formatter:on
 }

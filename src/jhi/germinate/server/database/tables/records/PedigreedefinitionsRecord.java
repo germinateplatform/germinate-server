@@ -34,10 +34,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     private static final long serialVersionUID = 147623474;
 
     /**
-     * Create a detached PedigreedefinitionsRecord
+     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PedigreedefinitionsRecord() {
-        super(Pedigreedefinitions.PEDIGREEDEFINITIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,18 +48,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Create a detached, initialised PedigreedefinitionsRecord
+     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.germinatebase_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
-    public PedigreedefinitionsRecord(Integer id, Integer germinatebaseId, Integer pedigreenotationId, Integer pedigreedescriptionId, String definition, Timestamp createdOn, Timestamp updatedOn) {
-        super(Pedigreedefinitions.PEDIGREEDEFINITIONS);
-
-        set(0, id);
-        set(1, germinatebaseId);
-        set(2, pedigreenotationId);
-        set(3, pedigreedescriptionId);
-        set(4, definition);
-        set(5, createdOn);
-        set(6, updatedOn);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -77,10 +69,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreenotation_id</code>. Foreign key to pedigreenotations (pedigreenotations.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getPedigreenotationId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -98,10 +90,10 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.germinatebase_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.definition</code>. The pedigree string which is used to represent the germinatebase entry.
      */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
+    public void setDefinition(String value) {
+        set(4, value);
     }
 
     /**
@@ -126,17 +118,17 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.pedigreenotation_id</code>. Foreign key to pedigreenotations (pedigreenotations.id).
+     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getPedigreenotationId() {
-        return (Integer) get(2);
+    public void setUpdatedOn(Timestamp value) {
+        set(6, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.definition</code>. The pedigree string which is used to represent the germinatebase entry.
+     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDefinition(String value) {
-        set(4, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -422,17 +414,25 @@ public class PedigreedefinitionsRecord extends UpdatableRecordImpl<Pedigreedefin
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreedefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached PedigreedefinitionsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public PedigreedefinitionsRecord() {
+        super(Pedigreedefinitions.PEDIGREEDEFINITIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreedefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised PedigreedefinitionsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(6, value);
+    public PedigreedefinitionsRecord(Integer id, Integer germinatebaseId, Integer pedigreenotationId, Integer pedigreedescriptionId, String definition, Timestamp createdOn, Timestamp updatedOn) {
+        super(Pedigreedefinitions.PEDIGREEDEFINITIONS);
+
+        set(0, id);
+        set(1, germinatebaseId);
+        set(2, pedigreenotationId);
+        set(3, pedigreedescriptionId);
+        set(4, definition);
+        set(5, createdOn);
+        set(6, updatedOn);
     }
 // @formatter:on
 }

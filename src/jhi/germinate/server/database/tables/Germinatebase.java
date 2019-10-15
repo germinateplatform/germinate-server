@@ -49,10 +49,12 @@ public class Germinatebase extends TableImpl<GerminatebaseRecord> {
     public static final Germinatebase GERMINATEBASE = new Germinatebase();
 
     /**
-     * The column <code>germinate_template_3_7_0.germinatebase.colldate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
-Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
+     * The class holding records for this type
      */
-    public final TableField<GerminatebaseRecord, Date> COLLDATE = createField("colldate", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
+    @Override
+    public Class<GerminatebaseRecord> getRecordType() {
+        return GerminatebaseRecord.class;
+    }
 
     /**
      * The column <code>germinate_template_3_7_0.germinatebase.id</code>. Primary id for this table. This uniquely identifies the row.
@@ -134,12 +136,10 @@ identifying duplicates held in different collections.
     public final TableField<GerminatebaseRecord, String> COLLNUMB = createField("collnumb", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Original identifier assigned by the collector(s) of the sample, normally composed of the name or\ninitials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for\nidentifying duplicates held in different collections.");
 
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.germinatebase.colldate</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
+Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. 
      */
-    @Override
-    public Class<GerminatebaseRecord> getRecordType() {
-        return GerminatebaseRecord.class;
-    }
+    public final TableField<GerminatebaseRecord, Date> COLLDATE = createField("colldate", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
 
     /**
      * The column <code>germinate_template_3_7_0.germinatebase.collcode</code>. FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the

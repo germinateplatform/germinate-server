@@ -34,10 +34,10 @@ public class EntitytypesRecord extends UpdatableRecordImpl<EntitytypesRecord> im
     private static final long serialVersionUID = 483473728;
 
     /**
-     * Create a detached EntitytypesRecord
+     * Setter for <code>germinate_template_3_7_0.entitytypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public EntitytypesRecord() {
-        super(Entitytypes.ENTITYTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class EntitytypesRecord extends UpdatableRecordImpl<EntitytypesRecord> im
     }
 
     /**
-     * Create a detached, initialised EntitytypesRecord
+     * Setter for <code>germinate_template_3_7_0.entitytypes.name</code>. The name of the entity type.
      */
-    public EntitytypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Entitytypes.ENTITYTYPES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class EntitytypesRecord extends UpdatableRecordImpl<EntitytypesRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.entitytypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.entitytypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.entitytypes.name</code>. The name of the entity type.
+     * Getter for <code>germinate_template_3_7_0.entitytypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class EntitytypesRecord extends UpdatableRecordImpl<EntitytypesRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.entitytypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached EntitytypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public EntitytypesRecord() {
+        super(Entitytypes.ENTITYTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.entitytypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised EntitytypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public EntitytypesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Entitytypes.ENTITYTYPES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

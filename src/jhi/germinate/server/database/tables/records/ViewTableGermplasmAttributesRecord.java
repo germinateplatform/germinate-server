@@ -32,10 +32,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     private static final long serialVersionUID = 2078734004;
 
     /**
-     * Create a detached ViewTableGermplasmAttributesRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableGermplasmAttributesRecord() {
-        super(ViewTableGermplasmAttributes.VIEW_TABLE_GERMPLASM_ATTRIBUTES);
+    public void setGermplasmId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -53,21 +53,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Create a detached, initialised ViewTableGermplasmAttributesRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_gid</code>. A unique identifier.
      */
-    public ViewTableGermplasmAttributesRecord(Integer germplasmId, String germplasmGid, String germplasmName, Integer attributeId, String attributeName, String attributeDescription, ViewTableGermplasmAttributesAttributeType attributeType, String targetTable, Integer foreignId, String attributeValue) {
-        super(ViewTableGermplasmAttributes.VIEW_TABLE_GERMPLASM_ATTRIBUTES);
-
-        set(0, germplasmId);
-        set(1, germplasmGid);
-        set(2, germplasmName);
-        set(3, attributeId);
-        set(4, attributeName);
-        set(5, attributeDescription);
-        set(6, attributeType);
-        set(7, targetTable);
-        set(8, foreignId);
-        set(9, attributeValue);
+    public String getGermplasmGid() {
+        return (String) get(1);
     }
 
     /**
@@ -78,10 +67,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public void setGermplasmId(Integer value) {
-        set(0, value);
+    public String getGermplasmName() {
+        return (String) get(2);
     }
 
     /**
@@ -92,10 +81,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getGermplasmGid() {
-        return (String) get(1);
+    public Integer getAttributeId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -106,10 +95,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_name</code>. Defines the name of the attribute.
      */
-    public String getGermplasmName() {
-        return (String) get(2);
+    public String getAttributeName() {
+        return (String) get(4);
     }
 
     /**
@@ -120,10 +109,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
-    public Integer getAttributeId() {
-        return (Integer) get(3);
+    public String getAttributeDescription() {
+        return (String) get(5);
     }
 
     /**
@@ -134,10 +123,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_name</code>. Defines the name of the attribute.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
-    public String getAttributeName() {
-        return (String) get(4);
+    public ViewTableGermplasmAttributesAttributeType getAttributeType() {
+        return (ViewTableGermplasmAttributesAttributeType) get(6);
     }
 
     /**
@@ -148,10 +137,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.target_table</code>.
      */
-    public String getAttributeDescription() {
-        return (String) get(5);
+    public String getTargetTable() {
+        return (String) get(7);
     }
 
     /**
@@ -162,10 +151,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
-    public ViewTableGermplasmAttributesAttributeType getAttributeType() {
-        return (ViewTableGermplasmAttributesAttributeType) get(6);
+    public Integer getForeignId() {
+        return (Integer) get(8);
     }
 
     /**
@@ -176,10 +165,10 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.target_table</code>.
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.
      */
-    public String getTargetTable() {
-        return (String) get(7);
+    public String getAttributeValue() {
+        return (String) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -555,17 +544,28 @@ public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTabl
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Create a detached ViewTableGermplasmAttributesRecord
      */
-    public Integer getForeignId() {
-        return (Integer) get(8);
+    public ViewTableGermplasmAttributesRecord() {
+        super(ViewTableGermplasmAttributes.VIEW_TABLE_GERMPLASM_ATTRIBUTES);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.
+     * Create a detached, initialised ViewTableGermplasmAttributesRecord
      */
-    public String getAttributeValue() {
-        return (String) get(9);
+    public ViewTableGermplasmAttributesRecord(Integer germplasmId, String germplasmGid, String germplasmName, Integer attributeId, String attributeName, String attributeDescription, ViewTableGermplasmAttributesAttributeType attributeType, String targetTable, Integer foreignId, String attributeValue) {
+        super(ViewTableGermplasmAttributes.VIEW_TABLE_GERMPLASM_ATTRIBUTES);
+
+        set(0, germplasmId);
+        set(1, germplasmGid);
+        set(2, germplasmName);
+        set(3, attributeId);
+        set(4, attributeName);
+        set(5, attributeDescription);
+        set(6, attributeType);
+        set(7, targetTable);
+        set(8, foreignId);
+        set(9, attributeValue);
     }
 // @formatter:on
 }

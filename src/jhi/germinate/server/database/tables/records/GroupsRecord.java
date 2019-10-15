@@ -36,10 +36,10 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     private static final long serialVersionUID = -902814846;
 
     /**
-     * Create a detached GroupsRecord
+     * Setter for <code>germinate_template_3_7_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public GroupsRecord() {
-        super(Groups.GROUPS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,19 +50,10 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Create a detached, initialised GroupsRecord
+     * Setter for <code>germinate_template_3_7_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
      */
-    public GroupsRecord(Integer id, Integer grouptypeId, String name, String description, Boolean visibility, Integer createdBy, Timestamp createdOn, Timestamp updatedOn) {
-        super(Groups.GROUPS);
-
-        set(0, id);
-        set(1, grouptypeId);
-        set(2, name);
-        set(3, description);
-        set(4, visibility);
-        set(5, createdBy);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setGrouptypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +71,10 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.groups.name</code>. The name of the group which can be used to identify it.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getName() {
+        return (String) get(2);
     }
 
     /**
@@ -101,17 +92,17 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
+     * Setter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
-    public void setGrouptypeId(Integer value) {
-        set(1, value);
+    public void setVisibility(Boolean value) {
+        set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.name</code>. The name of the group which can be used to identify it.
+     * Getter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
-    public String getName() {
-        return (String) get(2);
+    public Boolean getVisibility() {
+        return (Boolean) get(4);
     }
 
     /**
@@ -122,10 +113,10 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * Getter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
-    public Boolean getVisibility() {
-        return (Boolean) get(4);
+    public Integer getCreatedBy() {
+        return (Integer) get(5);
     }
 
     /**
@@ -143,17 +134,17 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * Setter for <code>germinate_template_3_7_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setVisibility(Boolean value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_3_7_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getCreatedBy() {
-        return (Integer) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -173,17 +164,19 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    @Override
+    public Row8<Integer, Integer, String, String, Boolean, Integer, Timestamp, Timestamp> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    @Override
+    public Row8<Integer, Integer, String, String, Boolean, Integer, Timestamp, Timestamp> valuesRow() {
+        return (Row8) super.valuesRow();
     }
 
     /**
@@ -222,8 +215,8 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, Integer, String, String, Boolean, Integer, Timestamp, Timestamp> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Field<Boolean> field5() {
+        return Groups.GROUPS.VISIBILITY;
     }
 
     /**
@@ -286,8 +279,8 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, Integer, String, String, Boolean, Integer, Timestamp, Timestamp> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Boolean component5() {
+        return getVisibility();
     }
 
     /**
@@ -350,8 +343,8 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field5() {
-        return Groups.GROUPS.VISIBILITY;
+    public Boolean value5() {
+        return getVisibility();
     }
 
     /**
@@ -418,8 +411,9 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
      * {@inheritDoc}
      */
     @Override
-    public Boolean component5() {
-        return getVisibility();
+    public GroupsRecord value5(Boolean value) {
+        setVisibility(value);
+        return this;
     }
 
     /**
@@ -470,20 +464,26 @@ public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements R
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached GroupsRecord
      */
-    @Override
-    public Boolean value5() {
-        return getVisibility();
+    public GroupsRecord() {
+        super(Groups.GROUPS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised GroupsRecord
      */
-    @Override
-    public GroupsRecord value5(Boolean value) {
-        setVisibility(value);
-        return this;
+    public GroupsRecord(Integer id, Integer grouptypeId, String name, String description, Boolean visibility, Integer createdBy, Timestamp createdOn, Timestamp updatedOn) {
+        super(Groups.GROUPS);
+
+        set(0, id);
+        set(1, grouptypeId);
+        set(2, name);
+        set(3, description);
+        set(4, visibility);
+        set(5, createdBy);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

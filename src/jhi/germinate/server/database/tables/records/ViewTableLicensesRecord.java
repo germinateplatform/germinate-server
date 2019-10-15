@@ -33,10 +33,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     private static final long serialVersionUID = -1404965746;
 
     /**
-     * Create a detached ViewTableLicensesRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
      */
-    public ViewTableLicensesRecord() {
-        super(ViewTableLicenses.VIEW_TABLE_LICENSES);
+    public void setLicenseId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -47,19 +47,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Create a detached, initialised ViewTableLicensesRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
      */
-    public ViewTableLicensesRecord(Integer licenseId, String licenseName, String licenseDescription, String licenseContent, String localeName, String localeDescription, Integer datasetId, JsonArray acceptedBy) {
-        super(ViewTableLicenses.VIEW_TABLE_LICENSES);
-
-        set(0, licenseId);
-        set(1, licenseName);
-        set(2, licenseDescription);
-        set(3, licenseContent);
-        set(4, localeName);
-        set(5, localeDescription);
-        set(6, datasetId);
-        set(7, acceptedBy);
+    public void setLicenseName(String value) {
+        set(1, value);
     }
 
     /**
@@ -70,10 +61,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
      */
-    public void setLicenseId(Integer value) {
-        set(0, value);
+    public void setLicenseDescription(String value) {
+        set(2, value);
     }
 
     /**
@@ -84,10 +75,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
      */
-    public void setLicenseName(String value) {
-        set(1, value);
+    public void setLicenseContent(String value) {
+        set(3, value);
     }
 
     /**
@@ -112,10 +103,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
      */
-    public void setLicenseDescription(String value) {
-        set(2, value);
+    public void setLocaleDescription(String value) {
+        set(5, value);
     }
 
     /**
@@ -126,10 +117,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public void setLicenseContent(String value) {
-        set(3, value);
+    public void setDatasetId(Integer value) {
+        set(6, value);
     }
 
     /**
@@ -140,10 +131,10 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_licenses.accepted_by</code>.
      */
-    public void setLocaleDescription(String value) {
-        set(5, value);
+    public void setAcceptedBy(JsonArray value) {
+        set(7, value);
     }
 
     /**
@@ -158,17 +149,19 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     // -------------------------------------------------------------------------
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * {@inheritDoc}
      */
-    public void setDatasetId(Integer value) {
-        set(6, value);
+    @Override
+    public Row8<Integer, String, String, String, String, String, Integer, JsonArray> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_licenses.accepted_by</code>.
+     * {@inheritDoc}
      */
-    public void setAcceptedBy(JsonArray value) {
-        set(7, value);
+    @Override
+    public Row8<Integer, String, String, String, String, String, Integer, JsonArray> valuesRow() {
+        return (Row8) super.valuesRow();
     }
 
     /**
@@ -223,16 +216,16 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, String, String, String, String, String, Integer, JsonArray> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Field<Integer> field7() {
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.DATASET_ID;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, String, String, String, String, String, Integer, JsonArray> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Field<JsonArray> field8() {
+        return ViewTableLicenses.VIEW_TABLE_LICENSES.ACCEPTED_BY;
     }
 
     /**
@@ -287,16 +280,16 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      * {@inheritDoc}
      */
     @Override
-    public Field<Integer> field7() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.DATASET_ID;
+    public Integer component7() {
+        return getDatasetId();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Field<JsonArray> field8() {
-        return ViewTableLicenses.VIEW_TABLE_LICENSES.ACCEPTED_BY;
+    public JsonArray component8() {
+        return getAcceptedBy();
     }
 
     /**
@@ -351,7 +344,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      * {@inheritDoc}
      */
     @Override
-    public Integer component7() {
+    public Integer value7() {
         return getDatasetId();
     }
 
@@ -359,7 +352,7 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
      * {@inheritDoc}
      */
     @Override
-    public JsonArray component8() {
+    public JsonArray value8() {
         return getAcceptedBy();
     }
 
@@ -456,19 +449,26 @@ public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRe
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached ViewTableLicensesRecord
      */
-    @Override
-    public Integer value7() {
-        return getDatasetId();
+    public ViewTableLicensesRecord() {
+        super(ViewTableLicenses.VIEW_TABLE_LICENSES);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised ViewTableLicensesRecord
      */
-    @Override
-    public JsonArray value8() {
-        return getAcceptedBy();
+    public ViewTableLicensesRecord(Integer licenseId, String licenseName, String licenseDescription, String licenseContent, String localeName, String localeDescription, Integer datasetId, JsonArray acceptedBy) {
+        super(ViewTableLicenses.VIEW_TABLE_LICENSES);
+
+        set(0, licenseId);
+        set(1, licenseName);
+        set(2, licenseDescription);
+        set(3, licenseContent);
+        set(4, localeName);
+        set(5, localeDescription);
+        set(6, datasetId);
+        set(7, acceptedBy);
     }
 // @formatter:on
 }

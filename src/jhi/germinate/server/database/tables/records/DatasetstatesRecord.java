@@ -34,10 +34,10 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     private static final long serialVersionUID = 286203650;
 
     /**
-     * Create a detached DatasetstatesRecord
+     * Setter for <code>germinate_template_3_7_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public DatasetstatesRecord() {
-        super(Datasetstates.DATASETSTATES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Create a detached, initialised DatasetstatesRecord
+     * Setter for <code>germinate_template_3_7_0.datasetstates.name</code>. Defines the datasetstate.
      */
-    public DatasetstatesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Datasetstates.DATASETSTATES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetstates.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.datasetstates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetstates.name</code>. Defines the datasetstate.
+     * Getter for <code>germinate_template_3_7_0.datasetstates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class DatasetstatesRecord extends UpdatableRecordImpl<DatasetstatesRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetstates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached DatasetstatesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public DatasetstatesRecord() {
+        super(Datasetstates.DATASETSTATES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetstates.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised DatasetstatesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public DatasetstatesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Datasetstates.DATASETSTATES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

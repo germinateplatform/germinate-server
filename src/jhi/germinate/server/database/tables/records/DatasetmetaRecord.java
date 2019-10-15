@@ -36,10 +36,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     private static final long serialVersionUID = 1220372900;
 
     /**
-     * Create a detached DatasetmetaRecord
+     * Setter for <code>germinate_template_3_7_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public DatasetmetaRecord() {
-        super(Datasetmeta.DATASETMETA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,17 +50,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Create a detached, initialised DatasetmetaRecord
+     * Setter for <code>germinate_template_3_7_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
-    public DatasetmetaRecord(Integer id, Integer datasetId, ULong nrOfDataObjects, ULong nrOfDataPoints, Timestamp createdOn, Timestamp updatedOn) {
-        super(Datasetmeta.DATASETMETA);
-
-        set(0, id);
-        set(1, datasetId);
-        set(2, nrOfDataObjects);
-        set(3, nrOfDataPoints);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setDatasetId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -85,10 +78,10 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setNrOfDataPoints(ULong value) {
+        set(3, value);
     }
 
     /**
@@ -113,17 +106,17 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
+     * Setter for <code>germinate_template_3_7_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDatasetId(Integer value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
+     * Getter for <code>germinate_template_3_7_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setNrOfDataPoints(ULong value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -375,17 +368,24 @@ public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached DatasetmetaRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public DatasetmetaRecord() {
+        super(Datasetmeta.DATASETMETA);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised DatasetmetaRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public DatasetmetaRecord(Integer id, Integer datasetId, ULong nrOfDataObjects, ULong nrOfDataPoints, Timestamp createdOn, Timestamp updatedOn) {
+        super(Datasetmeta.DATASETMETA);
+
+        set(0, id);
+        set(1, datasetId);
+        set(2, nrOfDataObjects);
+        set(3, nrOfDataPoints);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

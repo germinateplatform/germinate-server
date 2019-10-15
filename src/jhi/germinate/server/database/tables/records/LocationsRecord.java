@@ -36,10 +36,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     private static final long serialVersionUID = 41422012;
 
     /**
-     * Create a detached LocationsRecord
+     * Setter for <code>germinate_template_3_7_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public LocationsRecord() {
-        super(Locations.LOCATIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,26 +50,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Create a detached, initialised LocationsRecord
+     * Setter for <code>germinate_template_3_7_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
      */
-    public LocationsRecord(Integer id, Integer locationtypeId, Integer countryId, String state, String region, String siteName, String siteNameShort, BigDecimal elevation, BigDecimal latitude, BigDecimal longitude, Integer coordinateUncertainty, String coordinateDatum, String georeferencingMethod, Timestamp createdOn, Timestamp updatedOn) {
-        super(Locations.LOCATIONS);
-
-        set(0, id);
-        set(1, locationtypeId);
-        set(2, countryId);
-        set(3, state);
-        set(4, region);
-        set(5, siteName);
-        set(6, siteNameShort);
-        set(7, elevation);
-        set(8, latitude);
-        set(9, longitude);
-        set(10, coordinateUncertainty);
-        set(11, coordinateDatum);
-        set(12, georeferencingMethod);
-        set(13, createdOn);
-        set(14, updatedOn);
+    public void setLocationtypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +64,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.locations.country_id</code>. Foreign key to countries (countries.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setCountryId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -94,10 +78,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.locationtype_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
      */
-    public void setLocationtypeId(Integer value) {
-        set(1, value);
+    public void setState(String value) {
+        set(3, value);
     }
 
     /**
@@ -115,10 +99,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.country_id</code>. Foreign key to countries (countries.id).
+     * Getter for <code>germinate_template_3_7_0.locations.region</code>. The region where the location is if this exists.
      */
-    public void setCountryId(Integer value) {
-        set(2, value);
+    public String getRegion() {
+        return (String) get(4);
     }
 
     /**
@@ -192,24 +176,24 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.state</code>. The state where the location is if this exists.
+     * Setter for <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
      */
-    public void setState(String value) {
-        set(3, value);
+    public void setCoordinateUncertainty(Integer value) {
+        set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locations.region</code>. The region where the location is if this exists.
-     */
-    public String getRegion() {
-        return (String) get(4);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * Getter for <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
      */
     public Integer getCoordinateUncertainty() {
         return (Integer) get(10);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     */
+    public void setCoordinateDatum(String value) {
+        set(11, value);
     }
 
     /**
@@ -220,10 +204,10 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * Setter for <code>germinate_template_3_7_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
      */
-    public void setCoordinateUncertainty(Integer value) {
-        set(10, value);
+    public void setGeoreferencingMethod(String value) {
+        set(12, value);
     }
 
     /**
@@ -248,17 +232,17 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
+     * Setter for <code>germinate_template_3_7_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setCoordinateDatum(String value) {
-        set(11, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(14, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.georeferencing_method</code>. The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.
+     * Getter for <code>germinate_template_3_7_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setGeoreferencingMethod(String value) {
-        set(12, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(14);
     }
 
     // -------------------------------------------------------------------------
@@ -816,17 +800,33 @@ public class LocationsRecord extends UpdatableRecordImpl<LocationsRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached LocationsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(14);
+    public LocationsRecord() {
+        super(Locations.LOCATIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised LocationsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(14, value);
+    public LocationsRecord(Integer id, Integer locationtypeId, Integer countryId, String state, String region, String siteName, String siteNameShort, BigDecimal elevation, BigDecimal latitude, BigDecimal longitude, Integer coordinateUncertainty, String coordinateDatum, String georeferencingMethod, Timestamp createdOn, Timestamp updatedOn) {
+        super(Locations.LOCATIONS);
+
+        set(0, id);
+        set(1, locationtypeId);
+        set(2, countryId);
+        set(3, state);
+        set(4, region);
+        set(5, siteName);
+        set(6, siteNameShort);
+        set(7, elevation);
+        set(8, latitude);
+        set(9, longitude);
+        set(10, coordinateUncertainty);
+        set(11, coordinateDatum);
+        set(12, georeferencingMethod);
+        set(13, createdOn);
+        set(14, updatedOn);
     }
 // @formatter:on
 }

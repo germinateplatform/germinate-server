@@ -40,10 +40,10 @@ public class ViewTableGroupMarkersRecord extends TableRecordImpl<ViewTableGroupM
     }
 
     /**
-     * Create a detached ViewTableGroupMarkersRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableGroupMarkersRecord() {
-        super(ViewTableGroupMarkers.VIEW_TABLE_GROUP_MARKERS);
+    public Integer getMarkerId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -54,16 +54,10 @@ public class ViewTableGroupMarkersRecord extends TableRecordImpl<ViewTableGroupM
     }
 
     /**
-     * Create a detached, initialised ViewTableGroupMarkersRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
-    public ViewTableGroupMarkersRecord(Integer markerId, String markerName, String markerType, JsonArray markerSynonyms, Integer groupId) {
-        super(ViewTableGroupMarkers.VIEW_TABLE_GROUP_MARKERS);
-
-        set(0, markerId);
-        set(1, markerName);
-        set(2, markerType);
-        set(3, markerSynonyms);
-        set(4, groupId);
+    public String getMarkerName() {
+        return (String) get(1);
     }
 
     /**
@@ -74,10 +68,10 @@ public class ViewTableGroupMarkersRecord extends TableRecordImpl<ViewTableGroupM
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
-    public Integer getMarkerId() {
-        return (Integer) get(0);
+    public String getMarkerType() {
+        return (String) get(2);
     }
 
     /**
@@ -88,10 +82,10 @@ public class ViewTableGroupMarkersRecord extends TableRecordImpl<ViewTableGroupM
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_synonyms</code>. The synonyms as a json array.
      */
-    public String getMarkerName() {
-        return (String) get(1);
+    public JsonArray getMarkerSynonyms() {
+        return (JsonArray) get(3);
     }
 
     /**
@@ -102,10 +96,10 @@ public class ViewTableGroupMarkersRecord extends TableRecordImpl<ViewTableGroupM
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.group_id</code>. Foreign key to groups (groups.id).
      */
-    public String getMarkerType() {
-        return (String) get(2);
+    public Integer getGroupId() {
+        return (Integer) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -311,17 +305,23 @@ public class ViewTableGroupMarkersRecord extends TableRecordImpl<ViewTableGroupM
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.marker_synonyms</code>. The synonyms as a json array.
+     * Create a detached ViewTableGroupMarkersRecord
      */
-    public JsonArray getMarkerSynonyms() {
-        return (JsonArray) get(3);
+    public ViewTableGroupMarkersRecord() {
+        super(ViewTableGroupMarkers.VIEW_TABLE_GROUP_MARKERS);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_group_markers.group_id</code>. Foreign key to groups (groups.id).
+     * Create a detached, initialised ViewTableGroupMarkersRecord
      */
-    public Integer getGroupId() {
-        return (Integer) get(4);
+    public ViewTableGroupMarkersRecord(Integer markerId, String markerName, String markerType, JsonArray markerSynonyms, Integer groupId) {
+        super(ViewTableGroupMarkers.VIEW_TABLE_GROUP_MARKERS);
+
+        set(0, markerId);
+        set(1, markerName);
+        set(2, markerType);
+        set(3, markerSynonyms);
+        set(4, groupId);
     }
 // @formatter:on
 }

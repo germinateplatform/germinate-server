@@ -48,9 +48,12 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
     public static final Climateoverlays CLIMATEOVERLAYS = new Climateoverlays();
 
     /**
-     * The column <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
+     * The class holding records for this type
      */
-    public final TableField<ClimateoverlaysRecord, Boolean> IS_LEGEND = createField("is_legend", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "The legend for the image. What colours represent in the overlays. This is not required but used if present. ");
+    @Override
+    public Class<ClimateoverlaysRecord> getRecordType() {
+        return ClimateoverlaysRecord.class;
+    }
 
     /**
      * The column <code>germinate_template_3_7_0.climateoverlays.id</code>. Primary id for this table. This uniquely identifies the row.
@@ -88,12 +91,9 @@ public class Climateoverlays extends TableImpl<ClimateoverlaysRecord> {
     public final TableField<ClimateoverlaysRecord, Double> TOP_RIGHT_LATITUDE = createField("top_right_latitude", org.jooq.impl.SQLDataType.DOUBLE, this, "Allows the allignment of images against OpenStreetMap API.");
 
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present. 
      */
-    @Override
-    public Class<ClimateoverlaysRecord> getRecordType() {
-        return ClimateoverlaysRecord.class;
-    }
+    public final TableField<ClimateoverlaysRecord, Boolean> IS_LEGEND = createField("is_legend", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "The legend for the image. What colours represent in the overlays. This is not required but used if present. ");
 
     /**
      * The column <code>germinate_template_3_7_0.climateoverlays.description</code>. Describes the climate overlay if additional explanation of  the overlay image is required.

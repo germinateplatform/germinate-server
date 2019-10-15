@@ -34,10 +34,10 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     private static final long serialVersionUID = 557988787;
 
     /**
-     * Create a detached MlsstatusRecord
+     * Setter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
      */
-    public MlsstatusRecord() {
-        super(Mlsstatus.MLSSTATUS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -55,15 +55,10 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     }
 
     /**
-     * Create a detached, initialised MlsstatusRecord
+     * Getter for <code>germinate_template_3_7_0.mlsstatus.description</code>.
      */
-    public MlsstatusRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Mlsstatus.MLSSTATUS);
-
-        set(0, id);
-        set(1, description);
-        set(2, createdOn);
-        set(3, updatedOn);
+    public String getDescription() {
+        return (String) get(1);
     }
 
     /**
@@ -81,17 +76,17 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
+     * Setter for <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.description</code>.
+     * Getter for <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -275,17 +270,22 @@ public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached MlsstatusRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public MlsstatusRecord() {
+        super(Mlsstatus.MLSSTATUS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised MlsstatusRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public MlsstatusRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Mlsstatus.MLSSTATUS);
+
+        set(0, id);
+        set(1, description);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

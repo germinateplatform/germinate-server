@@ -34,10 +34,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     private static final long serialVersionUID = 1917696870;
 
     /**
-     * Create a detached SynonymtypesRecord
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public SynonymtypesRecord() {
-        super(Synonymtypes.SYNONYMTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,17 +48,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Create a detached, initialised SynonymtypesRecord
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.target_table</code>. The target table.
      */
-    public SynonymtypesRecord(Integer id, String targetTable, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Synonymtypes.SYNONYMTYPES);
-
-        set(0, id);
-        set(1, targetTable);
-        set(2, name);
-        set(3, description);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setTargetTable(String value) {
+        set(1, value);
     }
 
     /**
@@ -83,10 +76,10 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.description</code>. Description of the type.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setDescription(String value) {
+        set(3, value);
     }
 
     /**
@@ -111,17 +104,17 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.target_table</code>. The target table.
+     * Setter for <code>germinate_template_3_7_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setTargetTable(String value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.description</code>. Description of the type.
+     * Getter for <code>germinate_template_3_7_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDescription(String value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -373,17 +366,24 @@ public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached SynonymtypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public SynonymtypesRecord() {
+        super(Synonymtypes.SYNONYMTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised SynonymtypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public SynonymtypesRecord(Integer id, String targetTable, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Synonymtypes.SYNONYMTYPES);
+
+        set(0, id);
+        set(1, targetTable);
+        set(2, name);
+        set(3, description);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

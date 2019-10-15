@@ -35,10 +35,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     private static final long serialVersionUID = 1268873208;
 
     /**
-     * Create a detached CompoundsRecord
+     * Setter for <code>germinate_template_3_7_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public CompoundsRecord() {
-        super(Compounds.COMPOUNDS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,21 +49,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Create a detached, initialised CompoundsRecord
+     * Setter for <code>germinate_template_3_7_0.compounds.name</code>. Compound full name.
      */
-    public CompoundsRecord(Integer id, String name, String description, String molecularFormula, BigDecimal monoisotopicMass, BigDecimal averageMass, String compoundClass, Integer unitId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Compounds.COMPOUNDS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, molecularFormula);
-        set(4, monoisotopicMass);
-        set(5, averageMass);
-        set(6, compoundClass);
-        set(7, unitId);
-        set(8, createdOn);
-        set(9, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -81,10 +70,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -95,10 +84,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.name</code>. Compound full name.
+     * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
      */
-    public void setName(String value) {
-        set(1, value);
+    public String getMolecularFormula() {
+        return (String) get(3);
     }
 
     /**
@@ -116,10 +105,10 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
+     * Setter for <code>germinate_template_3_7_0.compounds.average_mass</code>. The average mass of the compound.
      */
-    public String getDescription() {
-        return (String) get(2);
+    public void setAverageMass(BigDecimal value) {
+        set(5, value);
     }
 
     /**
@@ -172,17 +161,17 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.molecular_formula</code>. The molecular formula of the compound.
+     * Setter for <code>germinate_template_3_7_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getMolecularFormula() {
-        return (String) get(3);
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.average_mass</code>. The average mass of the compound.
+     * Getter for <code>germinate_template_3_7_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setAverageMass(BigDecimal value) {
-        set(5, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -570,17 +559,28 @@ public class CompoundsRecord extends UpdatableRecordImpl<CompoundsRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached CompoundsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(9);
+    public CompoundsRecord() {
+        super(Compounds.COMPOUNDS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised CompoundsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
+    public CompoundsRecord(Integer id, String name, String description, String molecularFormula, BigDecimal monoisotopicMass, BigDecimal averageMass, String compoundClass, Integer unitId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Compounds.COMPOUNDS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, molecularFormula);
+        set(4, monoisotopicMass);
+        set(5, averageMass);
+        set(6, compoundClass);
+        set(7, unitId);
+        set(8, createdOn);
+        set(9, updatedOn);
     }
 // @formatter:on
 }

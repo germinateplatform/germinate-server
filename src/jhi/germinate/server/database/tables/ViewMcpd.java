@@ -42,10 +42,12 @@ public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
     public static final ViewMcpd VIEW_MCPD = new ViewMcpd();
 
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
-entered into the genebank collection (e.g. ‘PI 113869’).
+     * The class holding records for this type
      */
-    public final TableField<ViewMcpdRecord, String> ACCENAME = createField("ACCENAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).");
+    @Override
+    public Class<ViewMcpdRecord> getRecordType() {
+        return ViewMcpdRecord.class;
+    }
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
@@ -126,10 +128,12 @@ without space.
      * The column <code>germinate_template_3_7_0.view_mcpd.CROPNAME</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public final TableField<ViewMcpdRecord, String> CROPNAME = createField("CROPNAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.");
+
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * The column <code>germinate_template_3_7_0.view_mcpd.ACCENAME</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
+entered into the genebank collection (e.g. ‘PI 113869’).
      */
-    public final TableField<ViewMcpdRecord, Integer> COORDUNCERT = createField("COORDUNCERT", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
+    public final TableField<ViewMcpdRecord, String> ACCENAME = createField("ACCENAME", org.jooq.impl.SQLDataType.VARCHAR(255), this, "This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.ACQDATE</code>.
@@ -165,10 +169,11 @@ without space.
      * The column <code>germinate_template_3_7_0.view_mcpd.LONGITUDE</code>.
      */
     public final TableField<ViewMcpdRecord, byte[]> LONGITUDE = createField("LONGITUDE", org.jooq.impl.SQLDataType.BINARY, this, "");
+
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
+     * The column <code>germinate_template_3_7_0.view_mcpd.COORDUNCERT</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
      */
-    public final TableField<ViewMcpdRecord, String> ENTITY_TYPE = createField("Entity Type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
+    public final TableField<ViewMcpdRecord, Integer> COORDUNCERT = createField("COORDUNCERT", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.COORDDATUM</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.
@@ -262,12 +267,9 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     public final TableField<ViewMcpdRecord, String> REMARKS = createField("REMARKS", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
      */
-    @Override
-    public Class<ViewMcpdRecord> getRecordType() {
-        return ViewMcpdRecord.class;
-    }
+    public final TableField<ViewMcpdRecord, String> ENTITY_TYPE = createField("Entity Type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.

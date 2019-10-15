@@ -38,10 +38,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     private static final long serialVersionUID = 550967829;
 
     /**
-     * Create a detached PedigreesRecord
+     * Setter for <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PedigreesRecord() {
-        super(Pedigrees.PEDIGREES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -52,19 +52,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Create a detached, initialised PedigreesRecord
+     * Setter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public PedigreesRecord(Integer id, Integer germinatebaseId, Integer parentId, PedigreesRelationshipType relationshipType, Integer pedigreedescriptionId, String relationshipDescription, Timestamp createdOn, Timestamp updatedOn) {
-        super(Pedigrees.PEDIGREES);
-
-        set(0, id);
-        set(1, germinatebaseId);
-        set(2, parentId);
-        set(3, relationshipType);
-        set(4, pedigreedescriptionId);
-        set(5, relationshipDescription);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -82,10 +73,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getParentId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -103,10 +94,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
      */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
+    public void setPedigreedescriptionId(Integer value) {
+        set(4, value);
     }
 
     /**
@@ -124,10 +115,10 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.parent_id</code>. Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.
+     * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
-    public Integer getParentId() {
-        return (Integer) get(2);
+    public String getRelationshipDescription() {
+        return (String) get(5);
     }
 
     /**
@@ -145,17 +136,17 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.pedigreedescription_id</code>. Foreign key pedigreedescriptions (pedigreedescriptions.id).
+     * Setter for <code>germinate_template_3_7_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setPedigreedescriptionId(Integer value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Getter for <code>germinate_template_3_7_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getRelationshipDescription() {
-        return (String) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -475,17 +466,26 @@ public class PedigreesRecord extends UpdatableRecordImpl<PedigreesRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached PedigreesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    public PedigreesRecord() {
+        super(Pedigrees.PEDIGREES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigrees.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised PedigreesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    public PedigreesRecord(Integer id, Integer germinatebaseId, Integer parentId, PedigreesRelationshipType relationshipType, Integer pedigreedescriptionId, String relationshipDescription, Timestamp createdOn, Timestamp updatedOn) {
+        super(Pedigrees.PEDIGREES);
+
+        set(0, id);
+        set(1, germinatebaseId);
+        set(2, parentId);
+        set(3, relationshipType);
+        set(4, pedigreedescriptionId);
+        set(5, relationshipDescription);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

@@ -32,10 +32,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     private static final long serialVersionUID = 1194954075;
 
     /**
-     * Create a detached ViewTablePedigreesRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTablePedigreesRecord() {
-        super(ViewTablePedigrees.VIEW_TABLE_PEDIGREES);
+    public void setParentId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -53,21 +53,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Create a detached, initialised ViewTablePedigreesRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
      */
-    public ViewTablePedigreesRecord(Integer parentId, String parentGid, String parentName, Integer childId, String childGid, String childName, ViewTablePedigreesRelationshipType relationshipType, String relationshipDescription, String pedigreeDescription, String pedigreeAuthor) {
-        super(ViewTablePedigrees.VIEW_TABLE_PEDIGREES);
-
-        set(0, parentId);
-        set(1, parentGid);
-        set(2, parentName);
-        set(3, childId);
-        set(4, childGid);
-        set(5, childName);
-        set(6, relationshipType);
-        set(7, relationshipDescription);
-        set(8, pedigreeDescription);
-        set(9, pedigreeAuthor);
+    public String getParentGid() {
+        return (String) get(1);
     }
 
     /**
@@ -78,10 +67,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public void setParentId(Integer value) {
-        set(0, value);
+    public String getParentName() {
+        return (String) get(2);
     }
 
     /**
@@ -92,10 +81,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getParentGid() {
-        return (String) get(1);
+    public Integer getChildId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -106,10 +95,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_gid</code>. A unique identifier.
      */
-    public String getParentName() {
-        return (String) get(2);
+    public String getChildGid() {
+        return (String) get(4);
     }
 
     /**
@@ -120,10 +109,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public Integer getChildId() {
-        return (Integer) get(3);
+    public String getChildName() {
+        return (String) get(5);
     }
 
     /**
@@ -134,10 +123,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
-    public String getChildGid() {
-        return (String) get(4);
+    public ViewTablePedigreesRelationshipType getRelationshipType() {
+        return (ViewTablePedigreesRelationshipType) get(6);
     }
 
     /**
@@ -148,10 +137,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
-    public String getChildName() {
-        return (String) get(5);
+    public String getRelationshipDescription() {
+        return (String) get(7);
     }
 
     /**
@@ -162,10 +151,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
      */
-    public ViewTablePedigreesRelationshipType getRelationshipType() {
-        return (ViewTablePedigreesRelationshipType) get(6);
+    public String getPedigreeDescription() {
+        return (String) get(8);
     }
 
     /**
@@ -176,10 +165,10 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
-    public String getRelationshipDescription() {
-        return (String) get(7);
+    public String getPedigreeAuthor() {
+        return (String) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -555,17 +544,28 @@ public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigrees
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
+     * Create a detached ViewTablePedigreesRecord
      */
-    public String getPedigreeDescription() {
-        return (String) get(8);
+    public ViewTablePedigreesRecord() {
+        super(ViewTablePedigrees.VIEW_TABLE_PEDIGREES);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Create a detached, initialised ViewTablePedigreesRecord
      */
-    public String getPedigreeAuthor() {
-        return (String) get(9);
+    public ViewTablePedigreesRecord(Integer parentId, String parentGid, String parentName, Integer childId, String childGid, String childName, ViewTablePedigreesRelationshipType relationshipType, String relationshipDescription, String pedigreeDescription, String pedigreeAuthor) {
+        super(ViewTablePedigrees.VIEW_TABLE_PEDIGREES);
+
+        set(0, parentId);
+        set(1, parentGid);
+        set(2, parentName);
+        set(3, childId);
+        set(4, childGid);
+        set(5, childName);
+        set(6, relationshipType);
+        set(7, relationshipDescription);
+        set(8, pedigreeDescription);
+        set(9, pedigreeAuthor);
     }
 // @formatter:on
 }

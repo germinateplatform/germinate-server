@@ -37,10 +37,10 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     private static final long serialVersionUID = -1636780223;
 
     /**
-     * Create a detached UnitsRecord
+     * Setter for <code>germinate_template_3_7_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public UnitsRecord() {
-        super(Units.UNITS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -51,17 +51,10 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Create a detached, initialised UnitsRecord
+     * Setter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
-    public UnitsRecord(Integer id, String unitName, String unitAbbreviation, String unitDescription, Timestamp createdOn, Timestamp updatedOn) {
-        super(Units.UNITS);
-
-        set(0, id);
-        set(1, unitName);
-        set(2, unitAbbreviation);
-        set(3, unitDescription);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setUnitName(String value) {
+        set(1, value);
     }
 
     /**
@@ -86,10 +79,10 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.units.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUnitDescription(String value) {
+        set(3, value);
     }
 
     /**
@@ -114,17 +107,17 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.units.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_3_7_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public void setUnitName(String value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.units.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * Getter for <code>germinate_template_3_7_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public void setUnitDescription(String value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -376,17 +369,24 @@ public class UnitsRecord extends UpdatableRecordImpl<UnitsRecord> implements Rec
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Create a detached UnitsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public UnitsRecord() {
+        super(Units.UNITS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.units.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Create a detached, initialised UnitsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public UnitsRecord(Integer id, String unitName, String unitAbbreviation, String unitDescription, Timestamp createdOn, Timestamp updatedOn) {
+        super(Units.UNITS);
+
+        set(0, id);
+        set(1, unitName);
+        set(2, unitAbbreviation);
+        set(3, unitDescription);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

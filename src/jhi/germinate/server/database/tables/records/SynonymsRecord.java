@@ -81,24 +81,17 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Create a detached SynonymsRecord
+     * Setter for <code>germinate_template_3_7_0.synonyms.synonyms</code>. The synonyms as a json array.
      */
-    public SynonymsRecord() {
-        super(Synonyms.SYNONYMS);
+    public void setSynonyms(JsonArray value) {
+        set(3, value);
     }
 
     /**
-     * Create a detached, initialised SynonymsRecord
+     * Getter for <code>germinate_template_3_7_0.synonyms.synonyms</code>. The synonyms as a json array.
      */
-    public SynonymsRecord(Integer id, Integer foreignId, Integer synonymtypeId, JsonArray synonyms, Timestamp createdOn, Timestamp updatedOn) {
-        super(Synonyms.SYNONYMS);
-
-        set(0, id);
-        set(1, foreignId);
-        set(2, synonymtypeId);
-        set(3, synonyms);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public JsonArray getSynonyms() {
+        return (JsonArray) get(3);
     }
 
     /**
@@ -116,17 +109,17 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.synonyms</code>. The synonyms as a json array.
+     * Setter for <code>germinate_template_3_7_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public JsonArray getSynonyms() {
-        return (JsonArray) get(3);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonyms.synonyms</code>. The synonyms as a json array.
+     * Getter for <code>germinate_template_3_7_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setSynonyms(JsonArray value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -146,17 +139,19 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    @Override
+    public Row6<Integer, Integer, Integer, JsonArray, Timestamp, Timestamp> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.synonyms.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    @Override
+    public Row6<Integer, Integer, Integer, JsonArray, Timestamp, Timestamp> valuesRow() {
+        return (Row6) super.valuesRow();
     }
 
     /**
@@ -187,8 +182,8 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Row6<Integer, Integer, Integer, JsonArray, Timestamp, Timestamp> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Field<JsonArray> field4() {
+        return Synonyms.SYNONYMS.SYNONYMS_;
     }
 
     /**
@@ -235,8 +230,8 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Row6<Integer, Integer, Integer, JsonArray, Timestamp, Timestamp> valuesRow() {
-        return (Row6) super.valuesRow();
+    public JsonArray component4() {
+        return getSynonyms();
     }
 
     /**
@@ -283,8 +278,8 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public Field<JsonArray> field4() {
-        return Synonyms.SYNONYMS.SYNONYMS_;
+    public JsonArray value4() {
+        return getSynonyms();
     }
 
     /**
@@ -334,8 +329,9 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
      * {@inheritDoc}
      */
     @Override
-    public JsonArray component4() {
-        return getSynonyms();
+    public SynonymsRecord value4(JsonArray value) {
+        setSynonyms(value);
+        return this;
     }
 
     /**
@@ -375,20 +371,24 @@ public class SynonymsRecord extends UpdatableRecordImpl<SynonymsRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached SynonymsRecord
      */
-    @Override
-    public JsonArray value4() {
-        return getSynonyms();
+    public SynonymsRecord() {
+        super(Synonyms.SYNONYMS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised SynonymsRecord
      */
-    @Override
-    public SynonymsRecord value4(JsonArray value) {
-        setSynonyms(value);
-        return this;
+    public SynonymsRecord(Integer id, Integer foreignId, Integer synonymtypeId, JsonArray synonyms, Timestamp createdOn, Timestamp updatedOn) {
+        super(Synonyms.SYNONYMS);
+
+        set(0, id);
+        set(1, foreignId);
+        set(2, synonymtypeId);
+        set(3, synonyms);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

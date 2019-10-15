@@ -34,10 +34,10 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     private static final long serialVersionUID = -1863973216;
 
     /**
-     * Create a detached ImagesRecord
+     * Setter for <code>germinate_template_3_7_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ImagesRecord() {
-        super(Images.IMAGES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,18 +48,10 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     }
 
     /**
-     * Create a detached, initialised ImagesRecord
+     * Setter for <code>germinate_template_3_7_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
      */
-    public ImagesRecord(Integer id, Integer imagetypeId, String description, Integer foreignId, String path, Timestamp createdOn, Timestamp updatedOn) {
-        super(Images.IMAGES);
-
-        set(0, id);
-        set(1, imagetypeId);
-        set(2, description);
-        set(3, foreignId);
-        set(4, path);
-        set(5, createdOn);
-        set(6, updatedOn);
+    public void setImagetypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -77,10 +69,10 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.images.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.images.description</code>. A description of what the image shows if required.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -98,10 +90,10 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.images.imagetype_id</code>. Foreign key to imagetypes (imagetypes.id).
+     * Setter for <code>germinate_template_3_7_0.images.path</code>. The file system path to the image.
      */
-    public void setImagetypeId(Integer value) {
-        set(1, value);
+    public void setPath(String value) {
+        set(4, value);
     }
 
     /**
@@ -126,17 +118,17 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.images.description</code>. A description of what the image shows if required.
+     * Setter for <code>germinate_template_3_7_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(2);
+    public void setUpdatedOn(Timestamp value) {
+        set(6, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.images.path</code>. The file system path to the image.
+     * Getter for <code>germinate_template_3_7_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setPath(String value) {
-        set(4, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -422,17 +414,25 @@ public class ImagesRecord extends UpdatableRecordImpl<ImagesRecord> implements R
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached ImagesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public ImagesRecord() {
+        super(Images.IMAGES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.images.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised ImagesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(6, value);
+    public ImagesRecord(Integer id, Integer imagetypeId, String description, Integer foreignId, String path, Timestamp createdOn, Timestamp updatedOn) {
+        super(Images.IMAGES);
+
+        set(0, id);
+        set(1, imagetypeId);
+        set(2, description);
+        set(3, foreignId);
+        set(4, path);
+        set(5, createdOn);
+        set(6, updatedOn);
     }
 // @formatter:on
 }

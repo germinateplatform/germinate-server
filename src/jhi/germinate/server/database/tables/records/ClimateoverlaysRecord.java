@@ -35,10 +35,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     private static final long serialVersionUID = 2073297399;
 
     /**
-     * Create a detached ClimateoverlaysRecord
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ClimateoverlaysRecord() {
-        super(Climateoverlays.CLIMATEOVERLAYS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,22 +49,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Create a detached, initialised ClimateoverlaysRecord
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.climate_id</code>. Foreign key to climates (climates.id).
      */
-    public ClimateoverlaysRecord(Integer id, Integer climateId, String path, Double bottomLeftLongitude, Double bottomLeftLatitude, Double topRightLongitude, Double topRightLatitude, Boolean isLegend, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Climateoverlays.CLIMATEOVERLAYS);
-
-        set(0, id);
-        set(1, climateId);
-        set(2, path);
-        set(3, bottomLeftLongitude);
-        set(4, bottomLeftLatitude);
-        set(5, topRightLongitude);
-        set(6, topRightLatitude);
-        set(7, isLegend);
-        set(8, description);
-        set(9, createdOn);
-        set(10, updatedOn);
+    public void setClimateId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -75,10 +63,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.path</code>. This is the path for holding images which can be used as overlays for the Google Maps representation in Germinate. The path is relative.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setPath(String value) {
+        set(2, value);
     }
 
     /**
@@ -96,10 +84,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.climate_id</code>. Foreign key to climates (climates.id).
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_longitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
-    public void setClimateId(Integer value) {
-        set(1, value);
+    public Double getBottomLeftLongitude() {
+        return (Double) get(3);
     }
 
     /**
@@ -110,10 +98,10 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.path</code>. This is the path for holding images which can be used as overlays for the Google Maps representation in Germinate. The path is relative.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_latitude</code>. Allows the allignment of images against OpenStreetMap API.
      */
-    public void setPath(String value) {
-        set(2, value);
+    public Double getBottomLeftLatitude() {
+        return (Double) get(4);
     }
 
     /**
@@ -145,17 +133,17 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_longitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present. 
      */
-    public Double getBottomLeftLongitude() {
-        return (Double) get(3);
+    public void setIsLegend(Boolean value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.bottom_left_latitude</code>. Allows the allignment of images against OpenStreetMap API.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present. 
      */
-    public Double getBottomLeftLatitude() {
-        return (Double) get(4);
+    public Boolean getIsLegend() {
+        return (Boolean) get(7);
     }
 
     /**
@@ -187,17 +175,17 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
+     * Setter for <code>germinate_template_3_7_0.climateoverlays.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Boolean getIsLegend() {
-        return (Boolean) get(7);
+    public void setUpdatedOn(Timestamp value) {
+        set(10, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.is_legend</code>. The legend for the image. What colours represent in the overlays. This is not required but used if present.
+     * Getter for <code>germinate_template_3_7_0.climateoverlays.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setIsLegend(Boolean value) {
-        set(7, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -217,17 +205,19 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climateoverlays.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(10);
+    @Override
+    public Row11<Integer, Integer, String, Double, Double, Double, Double, Boolean, String, Timestamp, Timestamp> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climateoverlays.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(10, value);
+    @Override
+    public Row11<Integer, Integer, String, Double, Double, Double, Double, Boolean, String, Timestamp, Timestamp> valuesRow() {
+        return (Row11) super.valuesRow();
     }
 
     /**
@@ -290,8 +280,8 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      * {@inheritDoc}
      */
     @Override
-    public Row11<Integer, Integer, String, Double, Double, Double, Double, Boolean, String, Timestamp, Timestamp> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Field<Boolean> field8() {
+        return Climateoverlays.CLIMATEOVERLAYS.IS_LEGEND;
     }
 
     /**
@@ -378,8 +368,8 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      * {@inheritDoc}
      */
     @Override
-    public Row11<Integer, Integer, String, Double, Double, Double, Double, Boolean, String, Timestamp, Timestamp> valuesRow() {
-        return (Row11) super.valuesRow();
+    public Boolean component8() {
+        return getIsLegend();
     }
 
     /**
@@ -466,8 +456,8 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field8() {
-        return Climateoverlays.CLIMATEOVERLAYS.IS_LEGEND;
+    public Boolean value8() {
+        return getIsLegend();
     }
 
     /**
@@ -561,8 +551,9 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
      * {@inheritDoc}
      */
     @Override
-    public Boolean component8() {
-        return getIsLegend();
+    public ClimateoverlaysRecord value8(Boolean value) {
+        setIsLegend(value);
+        return this;
     }
 
     /**
@@ -616,20 +607,29 @@ public class ClimateoverlaysRecord extends UpdatableRecordImpl<ClimateoverlaysRe
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached ClimateoverlaysRecord
      */
-    @Override
-    public Boolean value8() {
-        return getIsLegend();
+    public ClimateoverlaysRecord() {
+        super(Climateoverlays.CLIMATEOVERLAYS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised ClimateoverlaysRecord
      */
-    @Override
-    public ClimateoverlaysRecord value8(Boolean value) {
-        setIsLegend(value);
-        return this;
+    public ClimateoverlaysRecord(Integer id, Integer climateId, String path, Double bottomLeftLongitude, Double bottomLeftLatitude, Double topRightLongitude, Double topRightLatitude, Boolean isLegend, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Climateoverlays.CLIMATEOVERLAYS);
+
+        set(0, id);
+        set(1, climateId);
+        set(2, path);
+        set(3, bottomLeftLongitude);
+        set(4, bottomLeftLatitude);
+        set(5, topRightLongitude);
+        set(6, topRightLatitude);
+        set(7, isLegend);
+        set(8, description);
+        set(9, createdOn);
+        set(10, updatedOn);
     }
 // @formatter:on
 }

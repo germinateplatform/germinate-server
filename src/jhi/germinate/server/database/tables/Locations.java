@@ -49,9 +49,12 @@ public class Locations extends TableImpl<LocationsRecord> {
     public static final Locations LOCATIONS = new Locations();
 
     /**
-     * The column <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.
+     * The class holding records for this type
      */
-    public final TableField<LocationsRecord, Integer> COORDINATE_UNCERTAINTY = createField("coordinate_uncertainty", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
+    @Override
+    public Class<LocationsRecord> getRecordType() {
+        return LocationsRecord.class;
+    }
 
     /**
      * The column <code>germinate_template_3_7_0.locations.id</code>. Primary id for this table. This uniquely identifies the row.
@@ -104,12 +107,9 @@ public class Locations extends TableImpl<LocationsRecord> {
     public final TableField<LocationsRecord, BigDecimal> LONGITUDE = createField("longitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Longitude of the location.");
 
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.locations.coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
      */
-    @Override
-    public Class<LocationsRecord> getRecordType() {
-        return LocationsRecord.class;
-    }
+    public final TableField<LocationsRecord, Integer> COORDINATE_UNCERTAINTY = createField("coordinate_uncertainty", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
 
     /**
      * The column <code>germinate_template_3_7_0.locations.coordinate_datum</code>. The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.

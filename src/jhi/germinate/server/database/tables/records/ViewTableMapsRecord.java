@@ -38,10 +38,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Create a detached ViewTableMapsRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableMapsRecord() {
-        super(ViewTableMaps.VIEW_TABLE_MAPS);
+    public Integer getMapId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -52,17 +52,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Create a detached, initialised ViewTableMapsRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_name</code>. Describes the map.
      */
-    public ViewTableMapsRecord(Integer mapId, String mapName, String mapDescription, Integer userId, Boolean visibility, Long markerCount) {
-        super(ViewTableMaps.VIEW_TABLE_MAPS);
-
-        set(0, mapId);
-        set(1, mapName);
-        set(2, mapDescription);
-        set(3, userId);
-        set(4, visibility);
-        set(5, markerCount);
+    public String getMapName() {
+        return (String) get(1);
     }
 
     /**
@@ -73,10 +66,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_description</code>. The name of this map.
      */
-    public Integer getMapId() {
-        return (Integer) get(0);
+    public String getMapDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -87,10 +80,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_name</code>. Describes the map.
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
-    public String getMapName() {
-        return (String) get(1);
+    public Integer getUserId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -101,10 +94,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_description</code>. The name of this map.
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
-    public String getMapDescription() {
-        return (String) get(2);
+    public Boolean getVisibility() {
+        return (Boolean) get(4);
     }
 
     /**
@@ -115,10 +108,10 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_maps.marker_count</code>.
      */
-    public Integer getUserId() {
-        return (Integer) get(3);
+    public Long getMarkerCount() {
+        return (Long) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -358,17 +351,24 @@ public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Create a detached ViewTableMapsRecord
      */
-    public Boolean getVisibility() {
-        return (Boolean) get(4);
+    public ViewTableMapsRecord() {
+        super(ViewTableMaps.VIEW_TABLE_MAPS);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.marker_count</code>.
+     * Create a detached, initialised ViewTableMapsRecord
      */
-    public Long getMarkerCount() {
-        return (Long) get(5);
+    public ViewTableMapsRecord(Integer mapId, String mapName, String mapDescription, Integer userId, Boolean visibility, Long markerCount) {
+        super(ViewTableMaps.VIEW_TABLE_MAPS);
+
+        set(0, mapId);
+        set(1, mapName);
+        set(2, mapDescription);
+        set(3, userId);
+        set(4, visibility);
+        set(5, markerCount);
     }
 // @formatter:on
 }

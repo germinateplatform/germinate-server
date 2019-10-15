@@ -38,10 +38,10 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     private static final long serialVersionUID = -917154245;
 
     /**
-     * Create a detached LinktypesRecord
+     * Setter for <code>germinate_template_3_7_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public LinktypesRecord() {
-        super(Linktypes.LINKTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -52,23 +52,14 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Create a detached, initialised LinktypesRecord
+     * Setter for <code>germinate_template_3_7_0.linktypes.description</code>. A description of the link.
      */
-    public LinktypesRecord(Integer id, String description, String targetTable, String targetColumn, String placeholder, Timestamp createdOn, Timestamp updatedOn) {
-        super(Linktypes.LINKTYPES);
-
-        set(0, id);
-        set(1, description);
-        set(2, targetTable);
-        set(3, targetColumn);
-        set(4, placeholder);
-        set(5, createdOn);
-        set(6, updatedOn);
+    public void setDescription(String value) {
+        set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.linktypes.description</code>. A description of the link
-.
+     * Getter for <code>germinate_template_3_7_0.linktypes.description</code>. A description of the link.
      */
     public String getDescription() {
         return (String) get(1);
@@ -82,10 +73,10 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.linktypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.linktypes.target_table</code>. This is the table that the link links to.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getTargetTable() {
+        return (String) get(2);
     }
 
     /**
@@ -103,11 +94,10 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.linktypes.description</code>. A description of the link
-.
+     * Setter for <code>germinate_template_3_7_0.linktypes.placeholder</code>. The part of the link that will be replaced by the value of the target column.
      */
-    public void setDescription(String value) {
-        set(1, value);
+    public void setPlaceholder(String value) {
+        set(4, value);
     }
 
     /**
@@ -132,17 +122,17 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.linktypes.target_table</code>. This is the table that the link links to.
+     * Setter for <code>germinate_template_3_7_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getTargetTable() {
-        return (String) get(2);
+    public void setUpdatedOn(Timestamp value) {
+        set(6, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.linktypes.placeholder</code>. The part of the link that will be replaced by the value of the target column.
+     * Getter for <code>germinate_template_3_7_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setPlaceholder(String value) {
-        set(4, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -428,17 +418,25 @@ public class LinktypesRecord extends UpdatableRecordImpl<LinktypesRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached LinktypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(6);
+    public LinktypesRecord() {
+        super(Linktypes.LINKTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.linktypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised LinktypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(6, value);
+    public LinktypesRecord(Integer id, String description, String targetTable, String targetColumn, String placeholder, Timestamp createdOn, Timestamp updatedOn) {
+        super(Linktypes.LINKTYPES);
+
+        set(0, id);
+        set(1, description);
+        set(2, targetTable);
+        set(3, targetColumn);
+        set(4, placeholder);
+        set(5, createdOn);
+        set(6, updatedOn);
     }
 // @formatter:on
 }

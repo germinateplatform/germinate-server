@@ -41,10 +41,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Create a detached ViewTableCompoundDataRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableCompoundDataRecord() {
-        super(ViewTableCompoundData.VIEW_TABLE_COMPOUND_DATA);
+    public Integer getGermplasmId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -55,22 +55,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Create a detached, initialised ViewTableCompoundDataRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.germplasm_gid</code>. A unique identifier.
      */
-    public ViewTableCompoundDataRecord(Integer germplasmId, String germplasmGid, String germplasmName, String entityType, Integer datasetId, String datasetName, String datasetDescription, String compoundName, String unitName, Timestamp recordingDate, BigDecimal compoundValue) {
-        super(ViewTableCompoundData.VIEW_TABLE_COMPOUND_DATA);
-
-        set(0, germplasmId);
-        set(1, germplasmGid);
-        set(2, germplasmName);
-        set(3, entityType);
-        set(4, datasetId);
-        set(5, datasetName);
-        set(6, datasetDescription);
-        set(7, compoundName);
-        set(8, unitName);
-        set(9, recordingDate);
-        set(10, compoundValue);
+    public String getGermplasmGid() {
+        return (String) get(1);
     }
 
     /**
@@ -81,10 +69,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public Integer getGermplasmId() {
-        return (Integer) get(0);
+    public String getGermplasmName() {
+        return (String) get(2);
     }
 
     /**
@@ -95,10 +83,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.germplasm_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.entity_type</code>. The name of the entity type.
      */
-    public String getGermplasmGid() {
-        return (String) get(1);
+    public String getEntityType() {
+        return (String) get(3);
     }
 
     /**
@@ -109,10 +97,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public String getGermplasmName() {
-        return (String) get(2);
+    public Integer getDatasetId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -123,10 +111,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.entity_type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.dataset_name</code>. Describes the dataset.
      */
-    public String getEntityType() {
-        return (String) get(3);
+    public String getDatasetName() {
+        return (String) get(5);
     }
 
     /**
@@ -137,10 +125,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.dataset_description</code>. The name of this dataset.
      */
-    public Integer getDatasetId() {
-        return (Integer) get(4);
+    public String getDatasetDescription() {
+        return (String) get(6);
     }
 
     /**
@@ -151,10 +139,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.dataset_name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.compound_name</code>. Compound full name.
      */
-    public String getDatasetName() {
-        return (String) get(5);
+    public String getCompoundName() {
+        return (String) get(7);
     }
 
     /**
@@ -165,10 +153,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
-    public String getDatasetDescription() {
-        return (String) get(6);
+    public String getUnitName() {
+        return (String) get(8);
     }
 
     /**
@@ -179,10 +167,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.compound_name</code>. Compound full name.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
-    public String getCompoundName() {
-        return (String) get(7);
+    public Timestamp getRecordingDate() {
+        return (Timestamp) get(9);
     }
 
     /**
@@ -193,10 +181,10 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
-    public String getUnitName() {
-        return (String) get(8);
+    public BigDecimal getCompoundValue() {
+        return (BigDecimal) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -606,17 +594,29 @@ public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompou
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Create a detached ViewTableCompoundDataRecord
      */
-    public Timestamp getRecordingDate() {
-        return (Timestamp) get(9);
+    public ViewTableCompoundDataRecord() {
+        super(ViewTableCompoundData.VIEW_TABLE_COMPOUND_DATA);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Create a detached, initialised ViewTableCompoundDataRecord
      */
-    public BigDecimal getCompoundValue() {
-        return (BigDecimal) get(10);
+    public ViewTableCompoundDataRecord(Integer germplasmId, String germplasmGid, String germplasmName, String entityType, Integer datasetId, String datasetName, String datasetDescription, String compoundName, String unitName, Timestamp recordingDate, BigDecimal compoundValue) {
+        super(ViewTableCompoundData.VIEW_TABLE_COMPOUND_DATA);
+
+        set(0, germplasmId);
+        set(1, germplasmGid);
+        set(2, germplasmName);
+        set(3, entityType);
+        set(4, datasetId);
+        set(5, datasetName);
+        set(6, datasetDescription);
+        set(7, compoundName);
+        set(8, unitName);
+        set(9, recordingDate);
+        set(10, compoundValue);
     }
 // @formatter:on
 }

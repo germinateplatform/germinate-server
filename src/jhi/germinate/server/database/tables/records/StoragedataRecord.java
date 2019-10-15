@@ -34,10 +34,10 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     private static final long serialVersionUID = 1368373091;
 
     /**
-     * Create a detached StoragedataRecord
+     * Setter for <code>germinate_template_3_7_0.storagedata.id</code>.
      */
-    public StoragedataRecord() {
-        super(Storagedata.STORAGEDATA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Create a detached, initialised StoragedataRecord
+     * Setter for <code>germinate_template_3_7_0.storagedata.germinatebase_id</code>.
      */
-    public StoragedataRecord(Integer id, Integer germinatebaseId, Integer storageId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Storagedata.STORAGEDATA);
-
-        set(0, id);
-        set(1, germinatebaseId);
-        set(2, storageId);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setGerminatebaseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.storagedata.id</code>.
+     * Setter for <code>germinate_template_3_7_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.storagedata.germinatebase_id</code>.
+     * Getter for <code>germinate_template_3_7_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setGerminatebaseId(Integer value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached StoragedataRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public StoragedataRecord() {
+        super(Storagedata.STORAGEDATA);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised StoragedataRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public StoragedataRecord(Integer id, Integer germinatebaseId, Integer storageId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Storagedata.STORAGEDATA);
+
+        set(0, id);
+        set(1, germinatebaseId);
+        set(2, storageId);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

@@ -46,9 +46,12 @@ public class ViewTableGroupGermplasm extends TableImpl<ViewTableGroupGermplasmRe
     public static final ViewTableGroupGermplasm VIEW_TABLE_GROUP_GERMPLASM = new ViewTableGroupGermplasm();
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
+     * The class holding records for this type
      */
-    public final TableField<ViewTableGroupGermplasmRecord, BigDecimal> LATITUDE = createField("latitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Latitude of the location.");
+    @Override
+    public Class<ViewTableGroupGermplasmRecord> getRecordType() {
+        return ViewTableGroupGermplasmRecord.class;
+    }
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -132,11 +135,11 @@ identifying duplicates held in different collections.
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.location</code>. The site name where the location is.
      */
     public final TableField<ViewTableGroupGermplasmRecord, String> LOCATION = createField("location", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
+
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
-Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.latitude</code>. Latitude of the location.
      */
-    public final TableField<ViewTableGroupGermplasmRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
+    public final TableField<ViewTableGroupGermplasmRecord, BigDecimal> LATITUDE = createField("latitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Latitude of the location.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.longitude</code>. Longitude of the location.
@@ -159,12 +162,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     public final TableField<ViewTableGroupGermplasmRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
 
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
+Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. 
      */
-    @Override
-    public Class<ViewTableGroupGermplasmRecord> getRecordType() {
-        return ViewTableGroupGermplasmRecord.class;
-    }
+    public final TableField<ViewTableGroupGermplasmRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.

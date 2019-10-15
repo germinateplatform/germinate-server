@@ -35,10 +35,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     private static final long serialVersionUID = 472429134;
 
     /**
-     * Create a detached DatasetpermissionsRecord
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public DatasetpermissionsRecord() {
-        super(Datasetpermissions.DATASETPERMISSIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,17 +49,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Create a detached, initialised DatasetpermissionsRecord
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
-    public DatasetpermissionsRecord(Integer id, Integer datasetId, Integer userId, Integer groupId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Datasetpermissions.DATASETPERMISSIONS);
-
-        set(0, id);
-        set(1, datasetId);
-        set(2, userId);
-        set(3, groupId);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setDatasetId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -84,10 +77,10 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setGroupId(Integer value) {
+        set(3, value);
     }
 
     /**
@@ -112,17 +105,17 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDatasetId(Integer value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.group_id</code>. Foreign key to usergroups table.
+     * Getter for <code>germinate_template_3_7_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setGroupId(Integer value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -374,17 +367,24 @@ public class DatasetpermissionsRecord extends UpdatableRecordImpl<Datasetpermiss
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached DatasetpermissionsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public DatasetpermissionsRecord() {
+        super(Datasetpermissions.DATASETPERMISSIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetpermissions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised DatasetpermissionsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public DatasetpermissionsRecord(Integer id, Integer datasetId, Integer userId, Integer groupId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Datasetpermissions.DATASETPERMISSIONS);
+
+        set(0, id);
+        set(1, datasetId);
+        set(2, userId);
+        set(3, groupId);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

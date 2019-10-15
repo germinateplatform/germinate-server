@@ -34,10 +34,10 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     private static final long serialVersionUID = 1862230420;
 
     /**
-     * Create a detached CommenttypesRecord
+     * Setter for <code>germinate_template_3_7_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public CommenttypesRecord() {
-        super(Commenttypes.COMMENTTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     }
 
     /**
-     * Create a detached, initialised CommenttypesRecord
+     * Setter for <code>germinate_template_3_7_0.commenttypes.description</code>. Describes the comment type.
      */
-    public CommenttypesRecord(Integer id, String description, String referenceTable, Timestamp createdOn, Timestamp updatedOn) {
-        super(Commenttypes.COMMENTTYPES);
-
-        set(0, id);
-        set(1, description);
-        set(2, referenceTable);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setDescription(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.commenttypes.description</code>. Describes the comment type.
+     * Getter for <code>germinate_template_3_7_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDescription(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> 
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached CommenttypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public CommenttypesRecord() {
+        super(Commenttypes.COMMENTTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised CommenttypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public CommenttypesRecord(Integer id, String description, String referenceTable, Timestamp createdOn, Timestamp updatedOn) {
+        super(Commenttypes.COMMENTTYPES);
+
+        set(0, id);
+        set(1, description);
+        set(2, referenceTable);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

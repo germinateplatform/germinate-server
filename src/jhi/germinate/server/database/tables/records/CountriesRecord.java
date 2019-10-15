@@ -35,10 +35,10 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     private static final long serialVersionUID = 983792071;
 
     /**
-     * Create a detached CountriesRecord
+     * Setter for <code>germinate_template_3_7_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public CountriesRecord() {
-        super(Countries.COUNTRIES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,17 +49,10 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Create a detached, initialised CountriesRecord
+     * Setter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
      */
-    public CountriesRecord(Integer id, String countryCode2, String countryCode3, String countryName, Timestamp createdOn, Timestamp updatedOn) {
-        super(Countries.COUNTRIES);
-
-        set(0, id);
-        set(1, countryCode2);
-        set(2, countryCode3);
-        set(3, countryName);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setCountryCode2(String value) {
+        set(1, value);
     }
 
     /**
@@ -84,10 +77,10 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.countries.country_name</code>. Country name.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setCountryName(String value) {
+        set(3, value);
     }
 
     /**
@@ -112,17 +105,17 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.countries.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_3_7_0.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setCountryCode2(String value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.countries.country_name</code>. Country name.
+     * Getter for <code>germinate_template_3_7_0.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setCountryName(String value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -374,17 +367,24 @@ public class CountriesRecord extends UpdatableRecordImpl<CountriesRecord> implem
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached CountriesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public CountriesRecord() {
+        super(Countries.COUNTRIES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised CountriesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public CountriesRecord(Integer id, String countryCode2, String countryCode3, String countryName, Timestamp createdOn, Timestamp updatedOn) {
+        super(Countries.COUNTRIES);
+
+        set(0, id);
+        set(1, countryCode2);
+        set(2, countryCode3);
+        set(3, countryName);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

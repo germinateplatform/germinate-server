@@ -34,10 +34,10 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     private static final long serialVersionUID = 481267936;
 
     /**
-     * Create a detached AnalysismethodsRecord
+     * Setter for <code>germinate_template_3_7_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public AnalysismethodsRecord() {
-        super(Analysismethods.ANALYSISMETHODS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     }
 
     /**
-     * Create a detached, initialised AnalysismethodsRecord
+     * Setter for <code>germinate_template_3_7_0.analysismethods.name</code>. The name of the analysis method.
      */
-    public AnalysismethodsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Analysismethods.ANALYSISMETHODS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -75,10 +69,10 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.analysismethods.description</code>. Describes the analysis method.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -96,17 +90,17 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.analysismethods.name</code>. The name of the analysis method.
+     * Setter for <code>germinate_template_3_7_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.analysismethods.description</code>. Describes the analysis method.
+     * Getter for <code>germinate_template_3_7_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(2);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class AnalysismethodsRecord extends UpdatableRecordImpl<AnalysismethodsRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached AnalysismethodsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public AnalysismethodsRecord() {
+        super(Analysismethods.ANALYSISMETHODS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised AnalysismethodsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public AnalysismethodsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Analysismethods.ANALYSISMETHODS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

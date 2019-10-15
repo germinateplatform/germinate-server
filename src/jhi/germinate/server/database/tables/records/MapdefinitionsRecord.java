@@ -38,10 +38,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     private static final long serialVersionUID = 1002876372;
 
     /**
-     * Create a detached MapdefinitionsRecord
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MapdefinitionsRecord() {
-        super(Mapdefinitions.MAPDEFINITIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -52,21 +52,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Create a detached, initialised MapdefinitionsRecord
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
-    public MapdefinitionsRecord(Integer id, Integer mapfeaturetypeId, Integer markerId, Integer mapId, Double definitionStart, Double definitionEnd, String chromosome, String armImpute, Timestamp createdOn, Timestamp updatedOn) {
-        super(Mapdefinitions.MAPDEFINITIONS);
-
-        set(0, id);
-        set(1, mapfeaturetypeId);
-        set(2, markerId);
-        set(3, mapId);
-        set(4, definitionStart);
-        set(5, definitionEnd);
-        set(6, chromosome);
-        set(7, armImpute);
-        set(8, createdOn);
-        set(9, updatedOn);
+    public void setMapfeaturetypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -84,10 +73,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getMarkerId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -98,10 +87,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
-    public void setMapfeaturetypeId(Integer value) {
-        set(1, value);
+    public Integer getMapId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -119,10 +108,10 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
      */
-    public Integer getMarkerId() {
-        return (Integer) get(2);
+    public void setDefinitionEnd(Double value) {
+        set(5, value);
     }
 
     /**
@@ -175,17 +164,17 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
+     * Setter for <code>germinate_template_3_7_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Integer getMapId() {
-        return (Integer) get(3);
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     * Getter for <code>germinate_template_3_7_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDefinitionEnd(Double value) {
-        set(5, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -573,17 +562,28 @@ public class MapdefinitionsRecord extends UpdatableRecordImpl<MapdefinitionsReco
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached MapdefinitionsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(9);
+    public MapdefinitionsRecord() {
+        super(Mapdefinitions.MAPDEFINITIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised MapdefinitionsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
+    public MapdefinitionsRecord(Integer id, Integer mapfeaturetypeId, Integer markerId, Integer mapId, Double definitionStart, Double definitionEnd, String chromosome, String armImpute, Timestamp createdOn, Timestamp updatedOn) {
+        super(Mapdefinitions.MAPDEFINITIONS);
+
+        set(0, id);
+        set(1, mapfeaturetypeId);
+        set(2, markerId);
+        set(3, mapId);
+        set(4, definitionStart);
+        set(5, definitionEnd);
+        set(6, chromosome);
+        set(7, armImpute);
+        set(8, createdOn);
+        set(9, updatedOn);
     }
 // @formatter:on
 }

@@ -34,10 +34,10 @@ public class DatasetmembertypesRecord extends UpdatableRecordImpl<Datasetmembert
     private static final long serialVersionUID = 717734750;
 
     /**
-     * Create a detached DatasetmembertypesRecord
+     * Setter for <code>germinate_template_3_7_0.datasetmembertypes.id</code>.
      */
-    public DatasetmembertypesRecord() {
-        super(Datasetmembertypes.DATASETMEMBERTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -55,15 +55,10 @@ public class DatasetmembertypesRecord extends UpdatableRecordImpl<Datasetmembert
     }
 
     /**
-     * Create a detached, initialised DatasetmembertypesRecord
+     * Getter for <code>germinate_template_3_7_0.datasetmembertypes.target_table</code>.
      */
-    public DatasetmembertypesRecord(Integer id, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
-        super(Datasetmembertypes.DATASETMEMBERTYPES);
-
-        set(0, id);
-        set(1, targetTable);
-        set(2, createdOn);
-        set(3, updatedOn);
+    public String getTargetTable() {
+        return (String) get(1);
     }
 
     /**
@@ -81,17 +76,17 @@ public class DatasetmembertypesRecord extends UpdatableRecordImpl<Datasetmembert
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembertypes.id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetmembertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmembertypes.target_table</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetmembertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getTargetTable() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -275,17 +270,22 @@ public class DatasetmembertypesRecord extends UpdatableRecordImpl<Datasetmembert
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmembertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached DatasetmembertypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public DatasetmembertypesRecord() {
+        super(Datasetmembertypes.DATASETMEMBERTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised DatasetmembertypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public DatasetmembertypesRecord(Integer id, String targetTable, Timestamp createdOn, Timestamp updatedOn) {
+        super(Datasetmembertypes.DATASETMEMBERTYPES);
+
+        set(0, id);
+        set(1, targetTable);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

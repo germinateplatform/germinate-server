@@ -34,10 +34,10 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     private static final long serialVersionUID = 2060002490;
 
     /**
-     * Create a detached LicensesRecord
+     * Setter for <code>germinate_template_3_7_0.licenses.id</code>.
      */
-    public LicensesRecord() {
-        super(Licenses.LICENSES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Create a detached, initialised LicensesRecord
+     * Setter for <code>germinate_template_3_7_0.licenses.name</code>.
      */
-    public LicensesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Licenses.LICENSES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenses.id</code>.
+     * Setter for <code>germinate_template_3_7_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenses.name</code>.
+     * Getter for <code>germinate_template_3_7_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implemen
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached LicensesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public LicensesRecord() {
+        super(Licenses.LICENSES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised LicensesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public LicensesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Licenses.LICENSES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

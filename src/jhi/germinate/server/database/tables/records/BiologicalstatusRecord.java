@@ -60,10 +60,10 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     private static final long serialVersionUID = 994223704;
 
     /**
-     * Create a detached BiologicalstatusRecord
+     * Setter for <code>germinate_template_3_7_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public BiologicalstatusRecord() {
-        super(Biologicalstatus.BIOLOGICALSTATUS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -81,15 +81,10 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     /**
-     * Create a detached, initialised BiologicalstatusRecord
+     * Getter for <code>germinate_template_3_7_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
-    public BiologicalstatusRecord(Integer id, String sampstat, Timestamp createdOn, Timestamp updatedOn) {
-        super(Biologicalstatus.BIOLOGICALSTATUS);
-
-        set(0, id);
-        set(1, sampstat);
-        set(2, createdOn);
-        set(3, updatedOn);
+    public String getSampstat() {
+        return (String) get(1);
     }
 
     /**
@@ -107,17 +102,17 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
+     * Getter for <code>germinate_template_3_7_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getSampstat() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -301,17 +296,22 @@ public class BiologicalstatusRecord extends UpdatableRecordImpl<Biologicalstatus
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached BiologicalstatusRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public BiologicalstatusRecord() {
+        super(Biologicalstatus.BIOLOGICALSTATUS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised BiologicalstatusRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public BiologicalstatusRecord(Integer id, String sampstat, Timestamp createdOn, Timestamp updatedOn) {
+        super(Biologicalstatus.BIOLOGICALSTATUS);
+
+        set(0, id);
+        set(1, sampstat);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

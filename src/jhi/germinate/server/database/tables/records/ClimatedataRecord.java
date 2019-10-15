@@ -36,10 +36,10 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     private static final long serialVersionUID = 1048835029;
 
     /**
-     * Create a detached ClimatedataRecord
+     * Setter for <code>germinate_template_3_7_0.climatedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ClimatedataRecord() {
-        super(Climatedata.CLIMATEDATA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,19 +50,10 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     }
 
     /**
-     * Create a detached, initialised ClimatedataRecord
+     * Setter for <code>germinate_template_3_7_0.climatedata.climate_id</code>. Foreign key to climates (climates.id).
      */
-    public ClimatedataRecord(Integer id, Integer climateId, Integer locationId, Double climateValue, Integer datasetId, String recordingDate, Timestamp createdOn, Timestamp updatedOn) {
-        super(Climatedata.CLIMATEDATA);
-
-        set(0, id);
-        set(1, climateId);
-        set(2, locationId);
-        set(3, climateValue);
-        set(4, datasetId);
-        set(5, recordingDate);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setClimateId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +71,10 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climatedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.climatedata.location_id</code>. Foreign key to locations (locations.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getLocationId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -101,10 +92,10 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climatedata.climate_id</code>. Foreign key to climates (climates.id).
+     * Setter for <code>germinate_template_3_7_0.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
-    public void setClimateId(Integer value) {
-        set(1, value);
+    public void setDatasetId(Integer value) {
+        set(4, value);
     }
 
     /**
@@ -122,10 +113,10 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climatedata.location_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_7_0.climatedata.recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
      */
-    public Integer getLocationId() {
-        return (Integer) get(2);
+    public String getRecordingDate() {
+        return (String) get(5);
     }
 
     /**
@@ -143,17 +134,17 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDatasetId(Integer value) {
-        set(4, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climatedata.recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
+     * Getter for <code>germinate_template_3_7_0.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getRecordingDate() {
-        return (String) get(5);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -473,17 +464,26 @@ public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached ClimatedataRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    public ClimatedataRecord() {
+        super(Climatedata.CLIMATEDATA);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised ClimatedataRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    public ClimatedataRecord(Integer id, Integer climateId, Integer locationId, Double climateValue, Integer datasetId, String recordingDate, Timestamp createdOn, Timestamp updatedOn) {
+        super(Climatedata.CLIMATEDATA);
+
+        set(0, id);
+        set(1, climateId);
+        set(2, locationId);
+        set(3, climateValue);
+        set(4, datasetId);
+        set(5, recordingDate);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

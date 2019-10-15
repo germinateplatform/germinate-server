@@ -45,10 +45,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Create a detached ViewTableEntitiesRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
      */
-    public ViewTableEntitiesRecord() {
-        super(ViewTableEntities.VIEW_TABLE_ENTITIES);
+    public void setEntityParentGid(String value) {
+        set(1, value);
     }
 
     /**
@@ -59,19 +59,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Create a detached, initialised ViewTableEntitiesRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public ViewTableEntitiesRecord(Integer entityParentId, String entityParentGid, String entityParentName, String entityParentType, Integer entityChildId, String entityChildGid, String entityChildName, String entityChildType) {
-        super(ViewTableEntities.VIEW_TABLE_ENTITIES);
-
-        set(0, entityParentId);
-        set(1, entityParentGid);
-        set(2, entityParentName);
-        set(3, entityParentType);
-        set(4, entityChildId);
-        set(5, entityChildGid);
-        set(6, entityChildName);
-        set(7, entityChildType);
+    public void setEntityParentName(String value) {
+        set(2, value);
     }
 
     /**
@@ -89,10 +80,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
      */
-    public void setEntityParentGid(String value) {
-        set(1, value);
+    public String getEntityParentType() {
+        return (String) get(3);
     }
 
     /**
@@ -124,17 +115,10 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
-    public void setEntityParentName(String value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
-     */
-    public String getEntityParentType() {
-        return (String) get(3);
+    public void setEntityChildName(String value) {
+        set(6, value);
     }
 
     /**
@@ -142,6 +126,13 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
      */
     public String getEntityChildName() {
         return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_type</code>. The name of the entity type.
+     */
+    public void setEntityChildType(String value) {
+        set(7, value);
     }
 
     /**
@@ -456,17 +447,26 @@ public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRe
     // -------------------------------------------------------------------------
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Create a detached ViewTableEntitiesRecord
      */
-    public void setEntityChildName(String value) {
-        set(6, value);
+    public ViewTableEntitiesRecord() {
+        super(ViewTableEntities.VIEW_TABLE_ENTITIES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_type</code>. The name of the entity type.
+     * Create a detached, initialised ViewTableEntitiesRecord
      */
-    public void setEntityChildType(String value) {
-        set(7, value);
+    public ViewTableEntitiesRecord(Integer entityParentId, String entityParentGid, String entityParentName, String entityParentType, Integer entityChildId, String entityChildGid, String entityChildName, String entityChildType) {
+        super(ViewTableEntities.VIEW_TABLE_ENTITIES);
+
+        set(0, entityParentId);
+        set(1, entityParentGid);
+        set(2, entityParentName);
+        set(3, entityParentType);
+        set(4, entityChildId);
+        set(5, entityChildGid);
+        set(6, entityChildName);
+        set(7, entityChildType);
     }
 // @formatter:on
 }

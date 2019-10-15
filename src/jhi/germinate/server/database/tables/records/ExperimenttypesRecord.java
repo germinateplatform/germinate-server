@@ -34,10 +34,10 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     private static final long serialVersionUID = 943939477;
 
     /**
-     * Create a detached ExperimenttypesRecord
+     * Setter for <code>germinate_template_3_7_0.experimenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ExperimenttypesRecord() {
-        super(Experimenttypes.EXPERIMENTTYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -55,15 +55,10 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     }
 
     /**
-     * Create a detached, initialised ExperimenttypesRecord
+     * Getter for <code>germinate_template_3_7_0.experimenttypes.description</code>. Describes the experiment type.
      */
-    public ExperimenttypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Experimenttypes.EXPERIMENTTYPES);
-
-        set(0, id);
-        set(1, description);
-        set(2, createdOn);
-        set(3, updatedOn);
+    public String getDescription() {
+        return (String) get(1);
     }
 
     /**
@@ -81,17 +76,17 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experimenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.experimenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experimenttypes.description</code>. Describes the experiment type.
+     * Getter for <code>germinate_template_3_7_0.experimenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -275,17 +270,22 @@ public class ExperimenttypesRecord extends UpdatableRecordImpl<ExperimenttypesRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experimenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached ExperimenttypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public ExperimenttypesRecord() {
+        super(Experimenttypes.EXPERIMENTTYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experimenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised ExperimenttypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public ExperimenttypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Experimenttypes.EXPERIMENTTYPES);
+
+        set(0, id);
+        set(1, description);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

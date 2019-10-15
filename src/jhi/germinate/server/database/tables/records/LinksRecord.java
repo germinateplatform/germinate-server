@@ -36,10 +36,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     private static final long serialVersionUID = 1585784157;
 
     /**
-     * Create a detached LinksRecord
+     * Setter for <code>germinate_template_3_7_0.links.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public LinksRecord() {
-        super(Links.LINKS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,19 +50,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Create a detached, initialised LinksRecord
+     * Setter for <code>germinate_template_3_7_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
      */
-    public LinksRecord(Integer id, Integer linktypeId, Integer foreignId, String hyperlink, String description, Boolean visibility, Timestamp createdOn, Timestamp updatedOn) {
-        super(Links.LINKS);
-
-        set(0, id);
-        set(1, linktypeId);
-        set(2, foreignId);
-        set(3, hyperlink);
-        set(4, description);
-        set(5, visibility);
-        set(6, createdOn);
-        set(7, updatedOn);
+    public void setLinktypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +71,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.links.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.links.foreign_id</code>.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public Integer getForeignId() {
+        return (Integer) get(2);
     }
 
     /**
@@ -101,10 +92,10 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.links.linktype_id</code>. Foreign key to linktypes (linktypes.id).
+     * Setter for <code>germinate_template_3_7_0.links.description</code>. A description of the link.
      */
-    public void setLinktypeId(Integer value) {
-        set(1, value);
+    public void setDescription(String value) {
+        set(4, value);
     }
 
     /**
@@ -115,17 +106,17 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.links.foreign_id</code>.
+     * Setter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
      */
-    public Integer getForeignId() {
-        return (Integer) get(2);
+    public void setVisibility(Boolean value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.links.description</code>. A description of the link.
+     * Getter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
      */
-    public void setDescription(String value) {
-        set(4, value);
+    public Boolean getVisibility() {
+        return (Boolean) get(5);
     }
 
     /**
@@ -143,17 +134,17 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
+     * Setter for <code>germinate_template_3_7_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public Boolean getVisibility() {
-        return (Boolean) get(5);
+    public void setUpdatedOn(Timestamp value) {
+        set(7, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.links.visibility</code>. Determines if the link is visible or not: {0, 1}
+     * Getter for <code>germinate_template_3_7_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setVisibility(Boolean value) {
-        set(5, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -173,17 +164,19 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(7);
+    @Override
+    public Row8<Integer, Integer, Integer, String, String, Boolean, Timestamp, Timestamp> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.links.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(7, value);
+    @Override
+    public Row8<Integer, Integer, Integer, String, String, Boolean, Timestamp, Timestamp> valuesRow() {
+        return (Row8) super.valuesRow();
     }
 
     /**
@@ -230,8 +223,8 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, Integer, Integer, String, String, Boolean, Timestamp, Timestamp> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Field<Boolean> field6() {
+        return Links.LINKS.VISIBILITY;
     }
 
     /**
@@ -294,8 +287,8 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      * {@inheritDoc}
      */
     @Override
-    public Row8<Integer, Integer, Integer, String, String, Boolean, Timestamp, Timestamp> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Boolean component6() {
+        return getVisibility();
     }
 
     /**
@@ -358,8 +351,8 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field6() {
-        return Links.LINKS.VISIBILITY;
+    public Boolean value6() {
+        return getVisibility();
     }
 
     /**
@@ -427,8 +420,9 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
      * {@inheritDoc}
      */
     @Override
-    public Boolean component6() {
-        return getVisibility();
+    public LinksRecord value6(Boolean value) {
+        setVisibility(value);
+        return this;
     }
 
     /**
@@ -470,20 +464,26 @@ public class LinksRecord extends UpdatableRecordImpl<LinksRecord> implements Rec
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached LinksRecord
      */
-    @Override
-    public Boolean value6() {
-        return getVisibility();
+    public LinksRecord() {
+        super(Links.LINKS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised LinksRecord
      */
-    @Override
-    public LinksRecord value6(Boolean value) {
-        setVisibility(value);
-        return this;
+    public LinksRecord(Integer id, Integer linktypeId, Integer foreignId, String hyperlink, String description, Boolean visibility, Timestamp createdOn, Timestamp updatedOn) {
+        super(Links.LINKS);
+
+        set(0, id);
+        set(1, linktypeId);
+        set(2, foreignId);
+        set(3, hyperlink);
+        set(4, description);
+        set(5, visibility);
+        set(6, createdOn);
+        set(7, updatedOn);
     }
 // @formatter:on
 }

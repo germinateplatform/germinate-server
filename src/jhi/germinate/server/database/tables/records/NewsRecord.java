@@ -34,10 +34,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     private static final long serialVersionUID = -681516482;
 
     /**
-     * Create a detached NewsRecord
+     * Setter for <code>germinate_template_3_7_0.news.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public NewsRecord() {
-        super(News.NEWS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,20 +48,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Create a detached, initialised NewsRecord
+     * Setter for <code>germinate_template_3_7_0.news.newstype_id</code>. Foreign key newstypes (newstypes.id).
      */
-    public NewsRecord(Integer id, Integer newstypeId, String title, String content, String image, String hyperlink, Integer userId, Timestamp createdOn, Timestamp updatedOn) {
-        super(News.NEWS);
-
-        set(0, id);
-        set(1, newstypeId);
-        set(2, title);
-        set(3, content);
-        set(4, image);
-        set(5, hyperlink);
-        set(6, userId);
-        set(7, createdOn);
-        set(8, updatedOn);
+    public void setNewstypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -79,10 +69,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.news.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getTitle() {
+        return (String) get(2);
     }
 
     /**
@@ -93,10 +83,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.news.newstype_id</code>. Foreign key newstypes (newstypes.id).
+     * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
      */
-    public void setNewstypeId(Integer value) {
-        set(1, value);
+    public String getContent() {
+        return (String) get(3);
     }
 
     /**
@@ -114,10 +104,10 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
+     * Setter for <code>germinate_template_3_7_0.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
      */
-    public String getTitle() {
-        return (String) get(2);
+    public void setHyperlink(String value) {
+        set(5, value);
     }
 
     /**
@@ -156,17 +146,17 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.content</code>. The textual content of this news item.
+     * Setter for <code>germinate_template_3_7_0.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getContent() {
-        return (String) get(3);
+    public void setUpdatedOn(Timestamp value) {
+        set(8, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
+     * Getter for <code>germinate_template_3_7_0.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setHyperlink(String value) {
-        set(5, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -520,17 +510,27 @@ public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Recor
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached NewsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(8);
+    public NewsRecord() {
+        super(News.NEWS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised NewsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(8, value);
+    public NewsRecord(Integer id, Integer newstypeId, String title, String content, String image, String hyperlink, Integer userId, Timestamp createdOn, Timestamp updatedOn) {
+        super(News.NEWS);
+
+        set(0, id);
+        set(1, newstypeId);
+        set(2, title);
+        set(3, content);
+        set(4, image);
+        set(5, hyperlink);
+        set(6, userId);
+        set(7, createdOn);
+        set(8, updatedOn);
     }
 // @formatter:on
 }

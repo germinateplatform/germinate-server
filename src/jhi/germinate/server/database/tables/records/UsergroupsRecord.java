@@ -34,10 +34,10 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     private static final long serialVersionUID = 292499373;
 
     /**
-     * Create a detached UsergroupsRecord
+     * Setter for <code>germinate_template_3_7_0.usergroups.id</code>.
      */
-    public UsergroupsRecord() {
-        super(Usergroups.USERGROUPS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Create a detached, initialised UsergroupsRecord
+     * Setter for <code>germinate_template_3_7_0.usergroups.name</code>. The name of the user group.
      */
-    public UsergroupsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Usergroups.USERGROUPS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroups.id</code>.
+     * Setter for <code>germinate_template_3_7_0.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroups.name</code>. The name of the user group.
+     * Getter for <code>germinate_template_3_7_0.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class UsergroupsRecord extends UpdatableRecordImpl<UsergroupsRecord> impl
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Create a detached UsergroupsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public UsergroupsRecord() {
+        super(Usergroups.USERGROUPS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Create a detached, initialised UsergroupsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public UsergroupsRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Usergroups.USERGROUPS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

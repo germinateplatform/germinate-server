@@ -39,10 +39,10 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     private static final long serialVersionUID = -791573790;
 
     /**
-     * Create a detached CollectingsourcesRecord
+     * Setter for <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public CollectingsourcesRecord() {
-        super(Collectingsources.COLLECTINGSOURCES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -61,15 +61,11 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Create a detached, initialised CollectingsourcesRecord
-     */
-    public CollectingsourcesRecord(Integer id, String collsrc, Timestamp createdOn, Timestamp updatedOn) {
-        super(Collectingsources.COLLECTINGSOURCES);
+     * Getter for <code>germinate_template_3_7_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
 
-        set(0, id);
-        set(1, collsrc);
-        set(2, createdOn);
-        set(3, updatedOn);
+     */
+    public String getCollsrc() {
+        return (String) get(1);
     }
 
     /**
@@ -87,18 +83,17 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collectingsources.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collectingsources.collsrc</code>. collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)
-
+     * Getter for <code>germinate_template_3_7_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getCollsrc() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -282,17 +277,22 @@ public class CollectingsourcesRecord extends UpdatableRecordImpl<Collectingsourc
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached CollectingsourcesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public CollectingsourcesRecord() {
+        super(Collectingsources.COLLECTINGSOURCES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.collectingsources.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised CollectingsourcesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public CollectingsourcesRecord(Integer id, String collsrc, Timestamp createdOn, Timestamp updatedOn) {
+        super(Collectingsources.COLLECTINGSOURCES);
+
+        set(0, id);
+        set(1, collsrc);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

@@ -33,10 +33,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     private static final long serialVersionUID = -1861750135;
 
     /**
-     * Create a detached ViewTableGroupsRecord
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableGroupsRecord() {
-        super(ViewTableGroups.VIEW_TABLE_GROUPS);
+    public void setGroupId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -54,21 +54,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Create a detached, initialised ViewTableGroupsRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
      */
-    public ViewTableGroupsRecord(Integer groupId, String groupName, String groupDescription, Integer groupTypeId, String groupType, Integer userId, Boolean groupVisibility, Timestamp createdOn, Timestamp updatedOn, Long count) {
-        super(ViewTableGroups.VIEW_TABLE_GROUPS);
-
-        set(0, groupId);
-        set(1, groupName);
-        set(2, groupDescription);
-        set(3, groupTypeId);
-        set(4, groupType);
-        set(5, userId);
-        set(6, groupVisibility);
-        set(7, createdOn);
-        set(8, updatedOn);
-        set(9, count);
+    public String getGroupName() {
+        return (String) get(1);
     }
 
     /**
@@ -93,10 +82,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.group_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
      */
-    public void setGroupId(Integer value) {
-        set(0, value);
+    public Integer getGroupTypeId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -156,10 +145,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_name</code>. The name of the group which can be used to identify it.
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getGroupName() {
-        return (String) get(1);
+    public void setUpdatedOn(Timestamp value) {
+        set(8, value);
     }
 
     /**
@@ -170,10 +159,10 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_groups.group_type_id</code>.
+     * Setter for <code>germinate_template_3_7_0.view_table_groups.count</code>.
      */
-    public Integer getGroupTypeId() {
-        return (Integer) get(3);
+    public void setCount(Long value) {
+        set(9, value);
     }
 
     /**
@@ -525,10 +514,12 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * {@inheritDoc}
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(8, value);
+    @Override
+    public ViewTableGroupsRecord value10(Long value) {
+        setCount(value);
+        return this;
     }
 
     /**
@@ -554,19 +545,28 @@ public class ViewTableGroupsRecord extends TableRecordImpl<ViewTableGroupsRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_groups.count</code>.
+     * Create a detached ViewTableGroupsRecord
      */
-    public void setCount(Long value) {
-        set(9, value);
+    public ViewTableGroupsRecord() {
+        super(ViewTableGroups.VIEW_TABLE_GROUPS);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised ViewTableGroupsRecord
      */
-    @Override
-    public ViewTableGroupsRecord value10(Long value) {
-        setCount(value);
-        return this;
+    public ViewTableGroupsRecord(Integer groupId, String groupName, String groupDescription, Integer groupTypeId, String groupType, Integer userId, Boolean groupVisibility, Timestamp createdOn, Timestamp updatedOn, Long count) {
+        super(ViewTableGroups.VIEW_TABLE_GROUPS);
+
+        set(0, groupId);
+        set(1, groupName);
+        set(2, groupDescription);
+        set(3, groupTypeId);
+        set(4, groupType);
+        set(5, userId);
+        set(6, groupVisibility);
+        set(7, createdOn);
+        set(8, updatedOn);
+        set(9, count);
     }
 // @formatter:on
 }

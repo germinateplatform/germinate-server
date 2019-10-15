@@ -34,10 +34,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     private static final long serialVersionUID = -1479493521;
 
     /**
-     * Create a detached LicensedataRecord
+     * Setter for <code>germinate_template_3_7_0.licensedata.id</code>.
      */
-    public LicensedataRecord() {
-        super(Licensedata.LICENSEDATA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,17 +48,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Create a detached, initialised LicensedataRecord
+     * Setter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
      */
-    public LicensedataRecord(Integer id, Integer licenseId, Integer localeId, String content, Timestamp createdOn, Timestamp updatedOn) {
-        super(Licensedata.LICENSEDATA);
-
-        set(0, id);
-        set(1, licenseId);
-        set(2, localeId);
-        set(3, content);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setLicenseId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -83,10 +76,10 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.id</code>.
+     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setContent(String value) {
+        set(3, value);
     }
 
     /**
@@ -111,17 +104,17 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.license_id</code>.
+     * Setter for <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setLicenseId(Integer value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.content</code>.
+     * Getter for <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setContent(String value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -373,17 +366,24 @@ public class LicensedataRecord extends UpdatableRecordImpl<LicensedataRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached LicensedataRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public LicensedataRecord() {
+        super(Licensedata.LICENSEDATA);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licensedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised LicensedataRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public LicensedataRecord(Integer id, Integer licenseId, Integer localeId, String content, Timestamp createdOn, Timestamp updatedOn) {
+        super(Licensedata.LICENSEDATA);
+
+        set(0, id);
+        set(1, licenseId);
+        set(2, localeId);
+        set(3, content);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

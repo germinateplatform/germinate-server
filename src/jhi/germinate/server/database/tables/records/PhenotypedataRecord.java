@@ -34,10 +34,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     private static final long serialVersionUID = -988466960;
 
     /**
-     * Create a detached PhenotypedataRecord
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PhenotypedataRecord() {
-        super(Phenotypedata.PHENOTYPEDATA);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,22 +48,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Create a detached, initialised PhenotypedataRecord
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.phenotype_id</code>. Foreign key phenotypes (phenotype.id).
      */
-    public PhenotypedataRecord(Integer id, Integer phenotypeId, Integer germinatebaseId, String phenotypeValue, Integer datasetId, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn, Integer locationId, Integer treatmentId, Integer trialseriesId) {
-        super(Phenotypedata.PHENOTYPEDATA);
-
-        set(0, id);
-        set(1, phenotypeId);
-        set(2, germinatebaseId);
-        set(3, phenotypeValue);
-        set(4, datasetId);
-        set(5, recordingDate);
-        set(6, createdOn);
-        set(7, updatedOn);
-        set(8, locationId);
-        set(9, treatmentId);
-        set(10, trialseriesId);
+    public void setPhenotypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -74,10 +62,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setGerminatebaseId(Integer value) {
+        set(2, value);
     }
 
     /**
@@ -95,10 +83,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.phenotype_id</code>. Foreign key phenotypes (phenotype.id).
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.phenotype_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
      */
-    public void setPhenotypeId(Integer value) {
-        set(1, value);
+    public String getPhenotypeValue() {
+        return (String) get(3);
     }
 
     /**
@@ -109,10 +97,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
-    public void setGerminatebaseId(Integer value) {
-        set(2, value);
+    public Integer getDatasetId() {
+        return (Integer) get(4);
     }
 
     /**
@@ -130,10 +118,10 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.phenotype_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.created_on</code>. When the record was created.
      */
-    public String getPhenotypeValue() {
-        return (String) get(3);
+    public void setCreatedOn(Timestamp value) {
+        set(6, value);
     }
 
     /**
@@ -186,17 +174,17 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.dataset_id</code>. Foreign key datasets (datasets.id).
+     * Setter for <code>germinate_template_3_7_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
      */
-    public Integer getDatasetId() {
-        return (Integer) get(4);
+    public void setTrialseriesId(Integer value) {
+        set(10, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_3_7_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
      */
-    public void setCreatedOn(Timestamp value) {
-        set(6, value);
+    public Integer getTrialseriesId() {
+        return (Integer) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -618,17 +606,29 @@ public class PhenotypedataRecord extends UpdatableRecordImpl<PhenotypedataRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
+     * Create a detached PhenotypedataRecord
      */
-    public Integer getTrialseriesId() {
-        return (Integer) get(10);
+    public PhenotypedataRecord() {
+        super(Phenotypedata.PHENOTYPEDATA);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypedata.trialseries_id</code>. Foreign key to trialseries (trialseries.id).
+     * Create a detached, initialised PhenotypedataRecord
      */
-    public void setTrialseriesId(Integer value) {
-        set(10, value);
+    public PhenotypedataRecord(Integer id, Integer phenotypeId, Integer germinatebaseId, String phenotypeValue, Integer datasetId, Timestamp recordingDate, Timestamp createdOn, Timestamp updatedOn, Integer locationId, Integer treatmentId, Integer trialseriesId) {
+        super(Phenotypedata.PHENOTYPEDATA);
+
+        set(0, id);
+        set(1, phenotypeId);
+        set(2, germinatebaseId);
+        set(3, phenotypeValue);
+        set(4, datasetId);
+        set(5, recordingDate);
+        set(6, createdOn);
+        set(7, updatedOn);
+        set(8, locationId);
+        set(9, treatmentId);
+        set(10, trialseriesId);
     }
 // @formatter:on
 }

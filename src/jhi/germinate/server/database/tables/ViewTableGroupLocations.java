@@ -42,9 +42,12 @@ public class ViewTableGroupLocations extends TableImpl<ViewTableGroupLocationsRe
     public static final ViewTableGroupLocations VIEW_TABLE_GROUP_LOCATIONS = new ViewTableGroupLocations();
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_locations.location_type</code>. The name of the location type.
+     * The class holding records for this type
      */
-    public final TableField<ViewTableGroupLocationsRecord, String> LOCATION_TYPE = createField("location_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the location type. ");
+    @Override
+    public Class<ViewTableGroupLocationsRecord> getRecordType() {
+        return ViewTableGroupLocationsRecord.class;
+    }
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -67,12 +70,9 @@ public class ViewTableGroupLocations extends TableImpl<ViewTableGroupLocationsRe
     public final TableField<ViewTableGroupLocationsRecord, String> LOCATION_STATE = createField("location_state", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The state where the location is if this exists.");
 
     /**
-     * The class holding records for this type
+     * The column <code>germinate_template_3_7_0.view_table_group_locations.location_type</code>. The name of the location type. 
      */
-    @Override
-    public Class<ViewTableGroupLocationsRecord> getRecordType() {
-        return ViewTableGroupLocationsRecord.class;
-    }
+    public final TableField<ViewTableGroupLocationsRecord, String> LOCATION_TYPE = createField("location_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the location type. ");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_locations.location_latitude</code>. Latitude of the location.

@@ -36,10 +36,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     private static final long serialVersionUID = 410154323;
 
     /**
-     * Create a detached TaxonomiesRecord
+     * Setter for <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public TaxonomiesRecord() {
-        super(Taxonomies.TAXONOMIES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -50,21 +50,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Create a detached, initialised TaxonomiesRecord
+     * Setter for <code>germinate_template_3_7_0.taxonomies.genus</code>. Genus name for the species.
      */
-    public TaxonomiesRecord(Integer id, String genus, String species, String subtaxa, String speciesAuthor, String subtaxaAuthor, String cropname, Integer ploidy, Timestamp createdOn, Timestamp updatedOn) {
-        super(Taxonomies.TAXONOMIES);
-
-        set(0, id);
-        set(1, genus);
-        set(2, species);
-        set(3, subtaxa);
-        set(4, speciesAuthor);
-        set(5, subtaxaAuthor);
-        set(6, cropname);
-        set(7, ploidy);
-        set(8, createdOn);
-        set(9, updatedOn);
+    public void setGenus(String value) {
+        set(1, value);
     }
 
     /**
@@ -82,10 +71,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public String getSpecies() {
+        return (String) get(2);
     }
 
     /**
@@ -96,10 +85,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.genus</code>. Genus name for the species.
+     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
      */
-    public void setGenus(String value) {
-        set(1, value);
+    public String getSubtaxa() {
+        return (String) get(3);
     }
 
     /**
@@ -117,10 +106,10 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
+     * Setter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
      */
-    public String getSpecies() {
-        return (String) get(2);
+    public void setSubtaxaAuthor(String value) {
+        set(5, value);
     }
 
     /**
@@ -173,17 +162,17 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
+     * Setter for <code>germinate_template_3_7_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getSubtaxa() {
-        return (String) get(3);
+    public void setUpdatedOn(Timestamp value) {
+        set(9, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     * Getter for <code>germinate_template_3_7_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setSubtaxaAuthor(String value) {
-        set(5, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -571,17 +560,28 @@ public class TaxonomiesRecord extends UpdatableRecordImpl<TaxonomiesRecord> impl
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached TaxonomiesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(9);
+    public TaxonomiesRecord() {
+        super(Taxonomies.TAXONOMIES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised TaxonomiesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(9, value);
+    public TaxonomiesRecord(Integer id, String genus, String species, String subtaxa, String speciesAuthor, String subtaxaAuthor, String cropname, Integer ploidy, Timestamp createdOn, Timestamp updatedOn) {
+        super(Taxonomies.TAXONOMIES);
+
+        set(0, id);
+        set(1, genus);
+        set(2, species);
+        set(3, subtaxa);
+        set(4, speciesAuthor);
+        set(5, subtaxaAuthor);
+        set(6, cropname);
+        set(7, ploidy);
+        set(8, createdOn);
+        set(9, updatedOn);
     }
 // @formatter:on
 }

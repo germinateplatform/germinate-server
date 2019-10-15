@@ -34,10 +34,10 @@ public class LocalesRecord extends UpdatableRecordImpl<LocalesRecord> implements
     private static final long serialVersionUID = -746349263;
 
     /**
-     * Create a detached LocalesRecord
+     * Setter for <code>germinate_template_3_7_0.locales.id</code>.
      */
-    public LocalesRecord() {
-        super(Locales.LOCALES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class LocalesRecord extends UpdatableRecordImpl<LocalesRecord> implements
     }
 
     /**
-     * Create a detached, initialised LocalesRecord
+     * Setter for <code>germinate_template_3_7_0.locales.name</code>.
      */
-    public LocalesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Locales.LOCALES);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -96,17 +90,17 @@ public class LocalesRecord extends UpdatableRecordImpl<LocalesRecord> implements
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locales.id</code>.
+     * Setter for <code>germinate_template_3_7_0.locales.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locales.name</code>.
+     * Getter for <code>germinate_template_3_7_0.locales.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -324,17 +318,23 @@ public class LocalesRecord extends UpdatableRecordImpl<LocalesRecord> implements
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locales.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached LocalesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public LocalesRecord() {
+        super(Locales.LOCALES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locales.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised LocalesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public LocalesRecord(Integer id, String name, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Locales.LOCALES);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

@@ -35,10 +35,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     private static final long serialVersionUID = -1643129463;
 
     /**
-     * Create a detached PedigreenotationsRecord
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public PedigreenotationsRecord() {
-        super(Pedigreenotations.PEDIGREENOTATIONS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -49,17 +49,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Create a detached, initialised PedigreenotationsRecord
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
      */
-    public PedigreenotationsRecord(Integer id, String name, String description, String referenceUrl, Timestamp createdOn, Timestamp updatedOn) {
-        super(Pedigreenotations.PEDIGREENOTATIONS);
-
-        set(0, id);
-        set(1, name);
-        set(2, description);
-        set(3, referenceUrl);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setName(String value) {
+        set(1, value);
     }
 
     /**
@@ -84,10 +77,10 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setReferenceUrl(String value) {
+        set(3, value);
     }
 
     /**
@@ -112,17 +105,17 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.name</code>. Name of the reference notation source.
+     * Setter for <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setName(String value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.reference_url</code>. Hyperlink to the notation source.
+     * Getter for <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setReferenceUrl(String value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -374,17 +367,24 @@ public class PedigreenotationsRecord extends UpdatableRecordImpl<Pedigreenotatio
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached PedigreenotationsRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public PedigreenotationsRecord() {
+        super(Pedigreenotations.PEDIGREENOTATIONS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.pedigreenotations.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised PedigreenotationsRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public PedigreenotationsRecord(Integer id, String name, String description, String referenceUrl, Timestamp createdOn, Timestamp updatedOn) {
+        super(Pedigreenotations.PEDIGREENOTATIONS);
+
+        set(0, id);
+        set(1, name);
+        set(2, description);
+        set(3, referenceUrl);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

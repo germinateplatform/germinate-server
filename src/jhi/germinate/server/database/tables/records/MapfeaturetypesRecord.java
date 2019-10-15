@@ -35,10 +35,10 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     private static final long serialVersionUID = -992517528;
 
     /**
-     * Create a detached MapfeaturetypesRecord
+     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MapfeaturetypesRecord() {
-        super(Mapfeaturetypes.MAPFEATURETYPES);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -56,15 +56,10 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     }
 
     /**
-     * Create a detached, initialised MapfeaturetypesRecord
+     * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
-    public MapfeaturetypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
-        super(Mapfeaturetypes.MAPFEATURETYPES);
-
-        set(0, id);
-        set(1, description);
-        set(2, createdOn);
-        set(3, updatedOn);
+    public String getDescription() {
+        return (String) get(1);
     }
 
     /**
@@ -82,17 +77,17 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public String getDescription() {
-        return (String) get(1);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -276,17 +271,22 @@ public class MapfeaturetypesRecord extends UpdatableRecordImpl<MapfeaturetypesRe
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached MapfeaturetypesRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(3);
+    public MapfeaturetypesRecord() {
+        super(Mapfeaturetypes.MAPFEATURETYPES);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised MapfeaturetypesRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(3, value);
+    public MapfeaturetypesRecord(Integer id, String description, Timestamp createdOn, Timestamp updatedOn) {
+        super(Mapfeaturetypes.MAPFEATURETYPES);
+
+        set(0, id);
+        set(1, description);
+        set(2, createdOn);
+        set(3, updatedOn);
     }
 // @formatter:on
 }

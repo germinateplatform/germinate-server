@@ -38,10 +38,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Create a detached ViewTableDatasetMapsRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public ViewTableDatasetMapsRecord() {
-        super(ViewTableDatasetMaps.VIEW_TABLE_DATASET_MAPS);
+    public Integer getMapId() {
+        return (Integer) get(0);
     }
 
     /**
@@ -52,18 +52,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Create a detached, initialised ViewTableDatasetMapsRecord
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.map_name</code>. Describes the map.
      */
-    public ViewTableDatasetMapsRecord(Integer mapId, String mapName, String mapDescription, Integer userId, Boolean visibility, Integer datasetId, Long markerCount) {
-        super(ViewTableDatasetMaps.VIEW_TABLE_DATASET_MAPS);
-
-        set(0, mapId);
-        set(1, mapName);
-        set(2, mapDescription);
-        set(3, userId);
-        set(4, visibility);
-        set(5, datasetId);
-        set(6, markerCount);
+    public String getMapName() {
+        return (String) get(1);
     }
 
     /**
@@ -74,10 +66,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.map_description</code>. The name of this map.
      */
-    public Integer getMapId() {
-        return (Integer) get(0);
+    public String getMapDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -88,10 +80,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.map_name</code>. Describes the map.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
-    public String getMapName() {
-        return (String) get(1);
+    public Integer getUserId() {
+        return (Integer) get(3);
     }
 
     /**
@@ -102,10 +94,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.map_description</code>. The name of this map.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
-    public String getMapDescription() {
-        return (String) get(2);
+    public Boolean getVisibility() {
+        return (Boolean) get(4);
     }
 
     /**
@@ -116,10 +108,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.dataset_id</code>.
      */
-    public Integer getUserId() {
-        return (Integer) get(3);
+    public Integer getDatasetId() {
+        return (Integer) get(5);
     }
 
     /**
@@ -130,10 +122,10 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.marker_count</code>.
      */
-    public Boolean getVisibility() {
-        return (Boolean) get(4);
+    public Long getMarkerCount() {
+        return (Long) get(6);
     }
 
     // -------------------------------------------------------------------------
@@ -407,17 +399,25 @@ public class ViewTableDatasetMapsRecord extends TableRecordImpl<ViewTableDataset
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.dataset_id</code>.
+     * Create a detached ViewTableDatasetMapsRecord
      */
-    public Integer getDatasetId() {
-        return (Integer) get(5);
+    public ViewTableDatasetMapsRecord() {
+        super(ViewTableDatasetMaps.VIEW_TABLE_DATASET_MAPS);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_dataset_maps.marker_count</code>.
+     * Create a detached, initialised ViewTableDatasetMapsRecord
      */
-    public Long getMarkerCount() {
-        return (Long) get(6);
+    public ViewTableDatasetMapsRecord(Integer mapId, String mapName, String mapDescription, Integer userId, Boolean visibility, Integer datasetId, Long markerCount) {
+        super(ViewTableDatasetMaps.VIEW_TABLE_DATASET_MAPS);
+
+        set(0, mapId);
+        set(1, mapName);
+        set(2, mapDescription);
+        set(3, userId);
+        set(4, visibility);
+        set(5, datasetId);
+        set(6, markerCount);
     }
 // @formatter:on
 }

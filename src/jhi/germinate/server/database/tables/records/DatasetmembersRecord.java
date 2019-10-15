@@ -34,10 +34,10 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     private static final long serialVersionUID = 991550364;
 
     /**
-     * Create a detached DatasetmembersRecord
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.id</code>.
      */
-    public DatasetmembersRecord() {
-        super(Datasetmembers.DATASETMEMBERS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,17 +48,10 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
-     * Create a detached, initialised DatasetmembersRecord
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
      */
-    public DatasetmembersRecord(Integer id, Integer datasetId, Integer foreignId, Integer datasetmembertypeId, Timestamp createdOn, Timestamp updatedOn) {
-        super(Datasetmembers.DATASETMEMBERS);
-
-        set(0, id);
-        set(1, datasetId);
-        set(2, foreignId);
-        set(3, datasetmembertypeId);
-        set(4, createdOn);
-        set(5, updatedOn);
+    public void setDatasetId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -83,10 +76,10 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setDatasetmembertypeId(Integer value) {
+        set(3, value);
     }
 
     /**
@@ -111,17 +104,17 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.dataset_id</code>.
+     * Setter for <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDatasetId(Integer value) {
-        set(1, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(5, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.datasetmembertype_id</code>.
+     * Getter for <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setDatasetmembertypeId(Integer value) {
-        set(3, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(5);
     }
 
     // -------------------------------------------------------------------------
@@ -373,17 +366,24 @@ public class DatasetmembersRecord extends UpdatableRecordImpl<DatasetmembersReco
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached DatasetmembersRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(5);
+    public DatasetmembersRecord() {
+        super(Datasetmembers.DATASETMEMBERS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.datasetmembers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised DatasetmembersRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(5, value);
+    public DatasetmembersRecord(Integer id, Integer datasetId, Integer foreignId, Integer datasetmembertypeId, Timestamp createdOn, Timestamp updatedOn) {
+        super(Datasetmembers.DATASETMEMBERS);
+
+        set(0, id);
+        set(1, datasetId);
+        set(2, foreignId);
+        set(3, datasetmembertypeId);
+        set(4, createdOn);
+        set(5, updatedOn);
     }
 // @formatter:on
 }

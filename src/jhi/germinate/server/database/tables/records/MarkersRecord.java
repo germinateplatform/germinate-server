@@ -34,10 +34,10 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     private static final long serialVersionUID = -1572001183;
 
     /**
-     * Create a detached MarkersRecord
+     * Setter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
-    public MarkersRecord() {
-        super(Markers.MARKERS);
+    public void setId(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,16 +48,10 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Create a detached, initialised MarkersRecord
+     * Setter for <code>germinate_template_3_7_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
      */
-    public MarkersRecord(Integer id, Integer markertypeId, String markerName, Timestamp createdOn, Timestamp updatedOn) {
-        super(Markers.MARKERS);
-
-        set(0, id);
-        set(1, markertypeId);
-        set(2, markerName);
-        set(3, createdOn);
-        set(4, updatedOn);
+    public void setMarkertypeId(Integer value) {
+        set(1, value);
     }
 
     /**
@@ -98,17 +92,17 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_3_7_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setId(Integer value) {
-        set(0, value);
+    public void setUpdatedOn(Timestamp value) {
+        set(4, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_3_7_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
-    public void setMarkertypeId(Integer value) {
-        set(1, value);
+    public Timestamp getUpdatedOn() {
+        return (Timestamp) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -326,17 +320,23 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached MarkersRecord
      */
-    public Timestamp getUpdatedOn() {
-        return (Timestamp) get(4);
+    public MarkersRecord() {
+        super(Markers.MARKERS);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Create a detached, initialised MarkersRecord
      */
-    public void setUpdatedOn(Timestamp value) {
-        set(4, value);
+    public MarkersRecord(Integer id, Integer markertypeId, String markerName, Timestamp createdOn, Timestamp updatedOn) {
+        super(Markers.MARKERS);
+
+        set(0, id);
+        set(1, markertypeId);
+        set(2, markerName);
+        set(3, createdOn);
+        set(4, updatedOn);
     }
 // @formatter:on
 }

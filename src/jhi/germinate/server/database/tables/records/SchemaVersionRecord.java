@@ -34,10 +34,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     private static final long serialVersionUID = -1642349240;
 
     /**
-     * Create a detached SchemaVersionRecord
+     * Setter for <code>germinate_template_3_7_0.schema_version.installed_rank</code>.
      */
-    public SchemaVersionRecord() {
-        super(SchemaVersion.SCHEMA_VERSION);
+    public void setInstalledRank(Integer value) {
+        set(0, value);
     }
 
     /**
@@ -48,21 +48,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Create a detached, initialised SchemaVersionRecord
+     * Setter for <code>germinate_template_3_7_0.schema_version.version</code>.
      */
-    public SchemaVersionRecord(Integer installedRank, String version, String description, String type, String script, Integer checksum, String installedBy, Timestamp installedOn, Integer executionTime, Boolean success) {
-        super(SchemaVersion.SCHEMA_VERSION);
-
-        set(0, installedRank);
-        set(1, version);
-        set(2, description);
-        set(3, type);
-        set(4, script);
-        set(5, checksum);
-        set(6, installedBy);
-        set(7, installedOn);
-        set(8, executionTime);
-        set(9, success);
+    public void setVersion(String value) {
+        set(1, value);
     }
 
     /**
@@ -80,10 +69,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.installed_rank</code>.
+     * Getter for <code>germinate_template_3_7_0.schema_version.description</code>.
      */
-    public void setInstalledRank(Integer value) {
-        set(0, value);
+    public String getDescription() {
+        return (String) get(2);
     }
 
     /**
@@ -94,10 +83,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.version</code>.
+     * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
      */
-    public void setVersion(String value) {
-        set(1, value);
+    public String getType() {
+        return (String) get(3);
     }
 
     /**
@@ -115,10 +104,10 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.description</code>.
+     * Setter for <code>germinate_template_3_7_0.schema_version.checksum</code>.
      */
-    public String getDescription() {
-        return (String) get(2);
+    public void setChecksum(Integer value) {
+        set(5, value);
     }
 
     /**
@@ -171,17 +160,17 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.type</code>.
+     * Setter for <code>germinate_template_3_7_0.schema_version.success</code>.
      */
-    public String getType() {
-        return (String) get(3);
+    public void setSuccess(Boolean value) {
+        set(9, value);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.checksum</code>.
+     * Getter for <code>germinate_template_3_7_0.schema_version.success</code>.
      */
-    public void setChecksum(Integer value) {
-        set(5, value);
+    public Boolean getSuccess() {
+        return (Boolean) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -201,17 +190,19 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     // -------------------------------------------------------------------------
 
     /**
-     * Getter for <code>germinate_template_3_7_0.schema_version.success</code>.
+     * {@inheritDoc}
      */
-    public Boolean getSuccess() {
-        return (Boolean) get(9);
+    @Override
+    public Row10<Integer, String, String, String, String, Integer, String, Timestamp, Integer, Boolean> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.schema_version.success</code>.
+     * {@inheritDoc}
      */
-    public void setSuccess(Boolean value) {
-        set(9, value);
+    @Override
+    public Row10<Integer, String, String, String, String, Integer, String, Timestamp, Integer, Boolean> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     /**
@@ -290,8 +281,8 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
      * {@inheritDoc}
      */
     @Override
-    public Row10<Integer, String, String, String, String, Integer, String, Timestamp, Integer, Boolean> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Field<Boolean> field10() {
+        return SchemaVersion.SCHEMA_VERSION.SUCCESS;
     }
 
     /**
@@ -370,8 +361,8 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
      * {@inheritDoc}
      */
     @Override
-    public Row10<Integer, String, String, String, String, Integer, String, Timestamp, Integer, Boolean> valuesRow() {
-        return (Row10) super.valuesRow();
+    public Boolean component10() {
+        return getSuccess();
     }
 
     /**
@@ -450,8 +441,8 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
      * {@inheritDoc}
      */
     @Override
-    public Field<Boolean> field10() {
-        return SchemaVersion.SCHEMA_VERSION.SUCCESS;
+    public Boolean value10() {
+        return getSuccess();
     }
 
     /**
@@ -567,19 +558,28 @@ public class SchemaVersionRecord extends UpdatableRecordImpl<SchemaVersionRecord
     // -------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Create a detached SchemaVersionRecord
      */
-    @Override
-    public Boolean component10() {
-        return getSuccess();
+    public SchemaVersionRecord() {
+        super(SchemaVersion.SCHEMA_VERSION);
     }
 
     /**
-     * {@inheritDoc}
+     * Create a detached, initialised SchemaVersionRecord
      */
-    @Override
-    public Boolean value10() {
-        return getSuccess();
+    public SchemaVersionRecord(Integer installedRank, String version, String description, String type, String script, Integer checksum, String installedBy, Timestamp installedOn, Integer executionTime, Boolean success) {
+        super(SchemaVersion.SCHEMA_VERSION);
+
+        set(0, installedRank);
+        set(1, version);
+        set(2, description);
+        set(3, type);
+        set(4, script);
+        set(5, checksum);
+        set(6, installedBy);
+        set(7, installedOn);
+        set(8, executionTime);
+        set(9, success);
     }
 // @formatter:on
 }
