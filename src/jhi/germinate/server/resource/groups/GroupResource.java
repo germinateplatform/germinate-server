@@ -199,6 +199,33 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
+	@Put("json")
+	public Integer putJson(Groups group)
+	{
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+
+		if (group.getCreatedBy() == null || !Objects.equals(group.getCreatedBy(), userDetails.getId()))
+			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+		if (StringUtils.isEmpty(group.getName()) || group.getGrouptypeId() == null || group.getId() != null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			group.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			group.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+
+			GroupsRecord record = context.newRecord(GROUPS, group);
+			record.store();
+			return record.getId();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
 	@Get("json")
 	public PaginatedResult<List<Groups>> getJson()
 	{
