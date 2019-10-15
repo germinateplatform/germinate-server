@@ -173,8 +173,6 @@ public class Germinate extends Application
 		// IMAGES
 		attachToRouter(routerAuth, "/image/table", ImageTableResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
-		attachToRouter(routerUnauth, "/image/src", ImageSourceResource.class);
-		attachToRouter(routerUnauth, "/image/src-svg/{name}", ImageSvgSourceResource.class); // This is a fix, because <img /> tags don't like SVGs without an extension in their "src" attribute
 
 		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
@@ -216,11 +214,14 @@ public class Germinate extends Application
 		// SETTINGS
 		attachToRouter(routerAuth, "/settings/write", SettingsWriterResource.class);
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
-		attachToRouter(routerUnauth, "/settings/css", SettingsCssResource.class);
 
 		// UNAUTH
+		attachToRouter(routerUnauth, "/clientlocale", ClientLocaleResource.class);
 		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);
+		attachToRouter(routerUnauth, "/image/src", ImageSourceResource.class);
+		attachToRouter(routerUnauth, "/image/src-svg/{name}", ImageSvgSourceResource.class); // This is a fix, because <img /> tags don't like SVGs without an extension in their "src" attribute
 		attachToRouter(routerUnauth, "/settings", SettingsResource.class);
+		attachToRouter(routerUnauth, "/settings/css", SettingsCssResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
 		// CORS first, then encoder

@@ -22,7 +22,8 @@ import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.File;
-import java.net.URISyntaxException;
+
+import jhi.germinate.server.util.StringUtils;
 
 /**
  * {@link ServerResource} handling {@link ClientLocaleResource} requests.
@@ -53,9 +54,18 @@ public class ClientLocaleResource extends BaseServerResource
 	{
 		try
 		{
-			File file = getFromExternal(locale + ".json", "template");
+			File file;
 
-			if (file.exists() && file.isFile())
+			if (StringUtils.isEmpty(locale))
+			{
+				file = getFromExternal("locales.json", "template");
+			}
+			else
+			{
+				file = getFromExternal(locale + ".json", "template");
+			}
+
+			if (file != null && file.exists() && file.isFile())
 			{
 				FileRepresentation representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
 				representation.setSize(file.length());
