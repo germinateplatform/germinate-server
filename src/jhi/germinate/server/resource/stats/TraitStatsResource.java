@@ -35,7 +35,9 @@ public class TraitStatsResource extends ServerResource
 		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
-		requestedIds.retainAll(datasetsForUser);
+		requestedIds.retainAll(datasetsForUser.stream()
+											  .map(ViewTableDatasets::getDatasetId)
+											  .collect(Collectors.toList()));
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -127,19 +129,6 @@ public class TraitStatsResource extends ServerResource
 			result.setTraits(traits);
 
 			return result;
-
-//			context.select(
-//				DSL.min(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(Float.class)).as("min"),
-//				DSL.avg(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(Float.class)).as("avg"),
-//				DSL.median(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(Float.class)).as("median"),
-//				DSL.max(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(Float.class)).as("max")
-//			)
-//				   .from(PHENOTYPEDATA)
-//				   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-//				   .leftJoin(UNITS).on(UNITS.ID.eq(PHENOTYPES.UNIT_ID))
-//				   .leftJoin(DATASETS).on(DATASETS.ID.eq(PHENOTYPEDATA.DATASET_ID))
-//				   .where(PHENOTYPEDATA.DATASET_ID.in(requestedIds))
-//				   .groupBy(PHENOTYPEDATA.PHENOTYPE_ID, PHENOTYPEDATA.DATASET_ID);
 		}
 		catch (SQLException e)
 		{
