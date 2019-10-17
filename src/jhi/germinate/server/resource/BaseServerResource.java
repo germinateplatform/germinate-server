@@ -6,7 +6,6 @@ import org.restlet.resource.ServerResource;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.logging.*;
 import java.util.stream.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
@@ -76,7 +75,7 @@ public class BaseServerResource extends ServerResource
 		return new File(folder, filename);
 	}
 
-	protected File getTempDir(String parentFolder)
+	protected File getTempDir(String fileOrSubFolder)
 	{
 		List<String> segments = getReference().getSegments(true);
 		String path;
@@ -86,7 +85,7 @@ public class BaseServerResource extends ServerResource
 			path = segments.get(0);
 		File folder = new File(System.getProperty("java.io.tmpdir"), path);
 
-		return new File(folder, parentFolder);
+		return new File(folder, fileOrSubFolder);
 	}
 
 	protected File createTempFile(String parentFolder, String filename, String extension)

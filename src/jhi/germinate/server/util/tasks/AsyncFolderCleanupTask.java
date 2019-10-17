@@ -41,8 +41,8 @@ public class AsyncFolderCleanupTask implements Runnable
 		{
 			// Get all invisible jobs and failed jobs
 			context.selectFrom(DATASET_EXPORT_JOBS)
-				   .where(DATASET_EXPORT_JOBS.VISIBILITY.eq(false))
-				   .or(DATASET_EXPORT_JOBS.STATUS.eq(DatasetExportJobsStatus.failed))
+				   .where(DATASET_EXPORT_JOBS.VISIBILITY.eq(false)
+				   .or(DATASET_EXPORT_JOBS.STATUS.eq(DatasetExportJobsStatus.failed)))
 				   .forEach(j -> {
 					   String uuid = j.getUuid();
 					   File jobFolder = new File(asyncFolder, uuid);

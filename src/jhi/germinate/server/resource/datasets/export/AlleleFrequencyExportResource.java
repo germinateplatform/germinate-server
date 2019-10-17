@@ -4,7 +4,6 @@ import com.google.gson.*;
 
 import org.jooq.Result;
 import org.jooq.*;
-import org.restlet.Request;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -15,7 +14,6 @@ import java.sql.*;
 import java.util.*;
 
 import jhi.germinate.resource.*;
-import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
@@ -24,24 +22,21 @@ import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.async.GenotypeExporter;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.germinate.server.util.async.*;
 
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
 import static jhi.germinate.server.database.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.tables.Markers.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GenotypeExportResource extends BaseServerResource
+public class AlleleFrequencyExportResource extends BaseServerResource
 {
 
 	@Post("json")
-	public AsyncExportResult postJson(SubsettedGenotypeDatasetRequest request)
+	public AsyncExportResult postJson(AlleleFrequencyDatasetRequest request)
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -64,8 +59,8 @@ public class GenotypeExportResource extends BaseServerResource
 			if (CollectionUtils.isEmpty(ds))
 				return null;
 
-			Set<String> germplasmNames = getGermplasmNames(context, request);
-			Set<String> markerNames = getMarkerNames(context, request);
+			Set<String> germplasmNames = GenotypeExportResource.getGermplasmNames(context, request);
+			Set<String> markerNames = GenotypeExportResource.getMarkerNames(context, request);
 
 			String dsName = "dataset-" + ds.get(0).getDatasetId();
 
@@ -106,7 +101,7 @@ public class GenotypeExportResource extends BaseServerResource
 			}
 
 			// Get the source hdf5 file
-			File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "genotypes");
+			File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "allelefreq");
 
 			// Create all temporary files
 			if (!CollectionUtils.isEmpty(germplasmNames))
@@ -121,13 +116,18 @@ public class GenotypeExportResource extends BaseServerResource
 				Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
 			}
 			File headerFile = new File(asyncFolder, dsName + ".header");
-			Files.write(headerFile.toPath(), getFlapjackHeaders(), StandardCharsets.UTF_8);
+			Files.write(headerFile.toPath(), GenotypeExportResource.getFlapjackHeaders(), StandardCharsets.UTF_8);
+
+			if (request.getConfig() != null) {
+				File configFile = new File(asyncFolder, dsName + ".json");
+				Files.write(configFile.toPath(), Collections.singleton(new Gson().toJson(request.getConfig())), StandardCharsets.UTF_8);
+			}
 
 			File libFolder = getLibFolder();
 			List<String> args = new ArrayList<>();
 			args.add("-cp");
 			args.add(libFolder.getAbsolutePath() + File.separator + "*");
-			args.add(GenotypeExporter.class.getCanonicalName());
+			args.add(AllelefreqExporter.class.getCanonicalName());
 			args.add(hdf5.getAbsolutePath());
 			args.add(asyncFolder.getAbsolutePath());
 			args.add(dsName);
@@ -145,7 +145,7 @@ public class GenotypeExportResource extends BaseServerResource
 			dbJob.setJobId(jobId);
 			dbJob.setDatasetIds(array);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-			dbJob.setExperimentTypeId(1);
+			dbJob.setExperimentTypeId(4);
 			dbJob.setStatus(DatasetExportJobsStatus.running);
 			if (userDetails != null && userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
@@ -161,95 +161,6 @@ public class GenotypeExportResource extends BaseServerResource
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
-	}
-
-	static List<String> getFlapjackHeaders()
-	{
-		String serverBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
-
-		List<String> result = new ArrayList<>();
-
-		if (!StringUtils.isEmpty(serverBase))
-		{
-			if (serverBase.endsWith("/"))
-				serverBase = serverBase.substring(0, serverBase.length() - 1);
-			result.add("# fjDatabaseLineSearch = " + serverBase + "/data/germplasm/$LINE");
-			result.add("# fjDatabaseGroupPreview = " + serverBase + "/$GROUP"); // TODO
-			result.add("# fjDatabaseGroupUpload = " + serverBase + "/"); // TODO
-			result.add("# fjDatabaseMarkerSearch = " + serverBase + "/genotypes/marker/$MARKER");
-		}
-
-		return result;
-	}
-
-	static Set<String> getMarkerNames(DSLContext context, SubsettedGenotypeDatasetRequest request)
-	{
-		if (request.getxGroupIds() == null && request.getxIds() == null)
-		{
-			return null;
-		}
-		else
-		{
-			Set<String> result = new LinkedHashSet<>();
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-			{
-				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
-									 .from(MARKERS)
-									 .where(MARKERS.ID.in(request.getxIds()))
-									 .fetchInto(String.class));
-			}
-
-			if (!CollectionUtils.isEmpty(request.getxGroupIds()))
-			{
-				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
-									 .from(MARKERS)
-									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getxGroupIds()))
-									 .fetchInto(String.class));
-			}
-
-			if (request.getMapId() != null)
-			{
-				// Only keep those that are actually on the map
-				result.retainAll(context.selectDistinct(MARKERS.MARKER_NAME)
-										.from(MARKERS)
-										.leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
-										.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()))
-										.fetchInto(String.class));
-			}
-
-			return result;
-		}
-	}
-
-	static Set<String> getGermplasmNames(DSLContext context, SubsettedGenotypeDatasetRequest request)
-	{
-		if (request.getyGroupIds() == null && request.getyIds() == null)
-		{
-			return null;
-		}
-		else
-		{
-			Set<String> result = new LinkedHashSet<>();
-
-			if (!CollectionUtils.isEmpty(request.getyIds()))
-			{
-				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
-									 .from(GERMINATEBASE)
-									 .where(GERMINATEBASE.ID.in(request.getyIds()))
-									 .fetchInto(String.class));
-			}
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-			{
-				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
-									 .from(GERMINATEBASE)
-									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-									 .fetchInto(String.class));
-			}
-
-			return result;
 		}
 	}
 }

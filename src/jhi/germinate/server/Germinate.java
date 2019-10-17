@@ -106,6 +106,7 @@ public class Germinate extends Application
 		corsFilter.setAllowingAllRequestedHeaders(true);
 		corsFilter.setDefaultAllowedMethods(new HashSet<>(Arrays.asList(Method.POST, Method.GET, Method.PUT, Method.PATCH, Method.DELETE, Method.OPTIONS)));
 		corsFilter.setAllowedCredentials(true);
+		corsFilter.setExposedHeaders(Collections.singleton("Content-Disposition"));
 
 		// Attach the url handlers
 		// DATA IMPORT
@@ -114,6 +115,7 @@ public class Germinate extends Application
 
 		// DATASETS
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
+		attachToRouter(routerAuth, "/dataset/table/ids", DatasetTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/table/export", DatasetTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/{datasetId}/collaborator", CollaboratorTableResource.class);
 		attachToRouter(routerAuth, "/dataset/{datasetId}/attribute", DatasetAttributeTableResource.class);
@@ -122,6 +124,8 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/attribute", DatasetAttributeTableResource.class);
 		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/allelefreq/histogram", AlleleFrequencyHistogramExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/allelefreq", AlleleFrequencyExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/genotype", GenotypeExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
