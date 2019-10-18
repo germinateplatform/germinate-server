@@ -40,7 +40,7 @@ public class TempFolderCleanupTask implements Runnable
 		if (files != null)
 		{
 			Arrays.stream(files)
-				  .filter(File::isDirectory)
+				  .filter(File::isFile)
 				  .forEach(f -> {
 					  long timestamp = f.lastModified();
 					  if ((System.currentTimeMillis() - timestamp) > (keepFilesFor * 60 * 60 * 1000))

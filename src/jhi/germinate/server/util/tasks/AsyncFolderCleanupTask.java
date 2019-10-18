@@ -23,7 +23,7 @@ public class AsyncFolderCleanupTask implements Runnable
 	@Override
 	public void run()
 	{
-		File asyncFolder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
+		File asyncFolder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "async");
 		Long keepFilesFor = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 
 		if (keepFilesFor == null)
@@ -42,7 +42,7 @@ public class AsyncFolderCleanupTask implements Runnable
 			// Get all invisible jobs and failed jobs
 			context.selectFrom(DATASET_EXPORT_JOBS)
 				   .where(DATASET_EXPORT_JOBS.VISIBILITY.eq(false)
-				   .or(DATASET_EXPORT_JOBS.STATUS.eq(DatasetExportJobsStatus.failed)))
+														.or(DATASET_EXPORT_JOBS.STATUS.eq(DatasetExportJobsStatus.failed)))
 				   .forEach(j -> {
 					   String uuid = j.getUuid();
 					   File jobFolder = new File(asyncFolder, uuid);
@@ -53,6 +53,7 @@ public class AsyncFolderCleanupTask implements Runnable
 
 						   if (timestamp != null && (System.currentTimeMillis() - timestamp) > (keepFilesFor * 60 * 60 * 1000))
 						   {
+							   Logger.getLogger("").log(Level.INFO, "Deleting async folder: " + uuid);
 							   try
 							   {
 								   FileUtils.forceDelete(jobFolder);
