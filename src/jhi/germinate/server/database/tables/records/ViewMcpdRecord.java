@@ -27,7 +27,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpdRecord extends TableRecordImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = -1051004427;
+    private static final long serialVersionUID = 1835071384;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_mcpd.ID</code>. Primary id for this table. This uniquely identifies the row.
@@ -632,31 +632,45 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
      */
-    public void setEntityType(String value) {
+    public void setEntitytype(String value) {
         set(42, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
      */
-    public String getEntityType() {
+    public String getEntitytype() {
         return (String) get(42);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTID</code>.
      */
-    public void setEntityParentAccenumb(String value) {
+    public void setEntityparentid(Long value) {
         set(43, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTID</code>.
      */
-    public String getEntityParentAccenumb() {
-        return (String) get(43);
+    public Long getEntityparentid() {
+        return (Long) get(43);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
+     */
+    public void setEntityparentaccenumb(String value) {
+        set(44, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
+     */
+    public String getEntityparentaccenumb() {
+        return (String) get(44);
     }
 
     // -------------------------------------------------------------------------
@@ -673,7 +687,7 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     /**
      * Create a detached, initialised ViewMcpdRecord
      */
-    public ViewMcpdRecord(Integer id, String puid, String instcode, String accenumb, String collnumb, String collcode, String collname, String collinstaddress, String collmissid, String genus, String species, String spauthor, String subtaxa, String subtauthor, String cropname, String accename, String acqdate, String origcty, String collsite, BigDecimal declatitude, byte[] latitude, BigDecimal declongitude, byte[] longitude, Integer coorduncert, String coorddatum, String georefmeth, BigDecimal elevation, String colldate, String bredcode, String bredname, Integer sampstat, String ancest, Integer collsrc, String donorcode, String donorname, String donornumb, String othernumb, String duplsite, String duplinstname, String storage, Integer mlsstat, String remarks, String entityType, String entityParentAccenumb) {
+    public ViewMcpdRecord(Integer id, String puid, String instcode, String accenumb, String collnumb, String collcode, String collname, String collinstaddress, String collmissid, String genus, String species, String spauthor, String subtaxa, String subtauthor, String cropname, String accename, String acqdate, String origcty, String collsite, BigDecimal declatitude, byte[] latitude, BigDecimal declongitude, byte[] longitude, Integer coorduncert, String coorddatum, String georefmeth, BigDecimal elevation, String colldate, String bredcode, String bredname, Integer sampstat, String ancest, Integer collsrc, String donorcode, String donorname, String donornumb, String othernumb, String duplsite, String duplinstname, String storage, Integer mlsstat, String remarks, String entitytype, Long entityparentid, String entityparentaccenumb) {
         super(ViewMcpd.VIEW_MCPD);
 
         set(0, id);
@@ -718,8 +732,9 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
         set(39, storage);
         set(40, mlsstat);
         set(41, remarks);
-        set(42, entityType);
-        set(43, entityParentAccenumb);
+        set(42, entitytype);
+        set(43, entityparentid);
+        set(44, entityparentaccenumb);
     }
 // @formatter:on
 }

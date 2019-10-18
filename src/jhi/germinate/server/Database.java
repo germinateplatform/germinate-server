@@ -1,15 +1,16 @@
 package jhi.germinate.server;
 
-import org.flywaydb.core.*;
-import org.flywaydb.core.api.*;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.FlywayException;
 import org.jooq.*;
 import org.jooq.conf.*;
-import org.jooq.impl.*;
+import org.jooq.impl.DSL;
 
 import java.sql.*;
+import java.util.TimeZone;
 import java.util.logging.*;
 
-import jhi.germinate.server.database.*;
+import jhi.germinate.server.database.GerminateTemplate_3_7_0;
 
 /**
  * @author Sebastian Raubach
@@ -21,6 +22,8 @@ public class Database
 	private static String databasePort;
 	private static String username;
 	private static String password;
+
+	private static String utc = TimeZone.getDefault().getID();
 
 	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password)
 	{
@@ -72,7 +75,7 @@ public class Database
 
 	private static String getDatabaseUrl()
 	{
-		return "jdbc:mysql://" + databaseServer + ":" + (databasePort != null ? databasePort : "3306") + "/" + databaseName + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+		return "jdbc:mysql://" + databaseServer + ":" + (databasePort != null ? databasePort : "3306") + "/" + databaseName + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
 	}
 
 	public static Connection getConnection()

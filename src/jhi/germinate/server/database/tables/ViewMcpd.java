@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewMcpd extends TableImpl<ViewMcpdRecord> {
 
-    private static final long serialVersionUID = 817090428;
+    private static final long serialVersionUID = -1591188901;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_mcpd</code>
@@ -267,14 +267,19 @@ Multiple values are separated by a semicolon without space. Follows INSTCODE sta
     public final TableField<ViewMcpdRecord, String> REMARKS = createField("REMARKS", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.Entity Type</code>. The name of the entity type.
+     * The column <code>germinate_template_3_7_0.view_mcpd.ENTITYTYPE</code>. The name of the entity type.
      */
-    public final TableField<ViewMcpdRecord, String> ENTITY_TYPE = createField("Entity Type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
+    public final TableField<ViewMcpdRecord, String> ENTITYTYPE = createField("ENTITYTYPE", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_mcpd.Entity parent ACCENUMB</code>.
+     * The column <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTID</code>.
      */
-    public final TableField<ViewMcpdRecord, String> ENTITY_PARENT_ACCENUMB = createField("Entity parent ACCENUMB", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<ViewMcpdRecord, Long> ENTITYPARENTID = createField("ENTITYPARENTID", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_mcpd.ENTITYPARENTACCENUMB</code>.
+     */
+    public final TableField<ViewMcpdRecord, String> ENTITYPARENTACCENUMB = createField("ENTITYPARENTACCENUMB", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * Create a <code>germinate_template_3_7_0.view_mcpd</code> table reference
