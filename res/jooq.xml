@@ -82,7 +82,7 @@
 				<value></value>
 			</property>
 		</properties>
-		<url>jdbc:mysql://localhost/germinate_template_3_7_0</url>
+		<url>jdbc:mysql://localhost/germinate_template_3_7_0?serverTimezone=UTC</url>
 
 		<!-- You can also pass user/password and other JDBC properties in the optional properties tag: -->
 		<user>root</user>

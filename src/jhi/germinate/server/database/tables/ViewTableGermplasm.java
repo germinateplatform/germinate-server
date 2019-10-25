@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
 
-    private static final long serialVersionUID = -971067351;
+    private static final long serialVersionUID = -2066692647;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm</code>
@@ -130,6 +130,16 @@ identifying duplicates held in different collections.
      * The column <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
      */
     public final TableField<ViewTableGermplasmRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Subtaxa name.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableGermplasmRecord, Integer> INSTITUTION_ID = createField("institution_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_germplasm.institution_name</code>. The institute name.
+     */
+    public final TableField<ViewTableGermplasmRecord, String> INSTITUTION_NAME = createField("institution_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The institute name.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_germplasm.location</code>. The site name where the location is.

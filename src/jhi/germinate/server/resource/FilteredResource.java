@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource;
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.DSL;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,7 +48,6 @@ public interface FilteredResource
 	default Condition filterIndividual(Filter filter, boolean arrayOperationsAllowed)
 	{
 		Field<Object> field = DSL.field(filter.getSafeColumn());
-
 		List<String> values = Arrays.stream(filter.getValues())
 									.filter(v -> !StringUtils.isEmpty(v))
 									.map(String::trim)
@@ -64,7 +63,7 @@ public interface FilteredResource
 		{
 			case "equals":
 				return field.eq(first);
-			case "like":
+			case "contains":
 				return field.like("%" + first + "%");
 			case "between":
 				return field.between(first, second);

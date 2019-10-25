@@ -36,7 +36,6 @@ public class DatasetAttributeTableResource extends PaginatedServerResource
 		}
 		catch (NumberFormatException | NullPointerException e)
 		{
-			e.printStackTrace();
 		}
 	}
 

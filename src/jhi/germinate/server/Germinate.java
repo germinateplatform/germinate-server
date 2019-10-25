@@ -21,6 +21,7 @@ import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.groups.*;
 import jhi.germinate.server.resource.images.*;
 import jhi.germinate.server.resource.importers.*;
+import jhi.germinate.server.resource.institution.InstitutionTableResource;
 import jhi.germinate.server.resource.license.*;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
@@ -179,6 +180,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/image/table", ImageTableResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
 
+		// INSTITUTIONS
+		attachToRouter(routerAuth, "/institution/table", InstitutionTableResource.class);
+
 		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
 		attachToRouter(routerAuth, "/license/{licenseId}/accept", LicenseDecisionResource.class);
@@ -208,6 +212,7 @@ public class Germinate extends Application
 		// PEDIGREES
 		attachToRouter(routerAuth, "/pedigree/table", PedigreeTableResource.class);
 		attachToRouter(routerAuth, "/pedigree/table/export", PedigreeTableExportResource.class);
+		attachToRouter(routerAuth, "/pedigree/export", PedigreeExportResource.class);
 
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);

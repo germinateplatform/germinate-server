@@ -34,7 +34,6 @@ public class GermplasmAttributeTableResource extends PaginatedServerResource
 		}
 		catch (NumberFormatException | NullPointerException e)
 		{
-			e.printStackTrace();
 		}
 	}
 

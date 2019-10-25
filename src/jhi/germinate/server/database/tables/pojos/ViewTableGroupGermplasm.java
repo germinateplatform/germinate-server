@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupGermplasm implements Serializable {
 
-    private static final long serialVersionUID = -908671989;
+    private static final long serialVersionUID = 2016520831;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -44,6 +44,8 @@ public class ViewTableGroupGermplasm implements Serializable {
     private String     genus;
     private String     species;
     private String     subtaxa;
+    private Integer    institutionId;
+    private String     institutionName;
     private String     location;
     private BigDecimal latitude;
     private BigDecimal longitude;
@@ -74,6 +76,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.genus = value.genus;
         this.species = value.species;
         this.subtaxa = value.subtaxa;
+        this.institutionId = value.institutionId;
+        this.institutionName = value.institutionName;
         this.location = value.location;
         this.latitude = value.latitude;
         this.longitude = value.longitude;
@@ -103,6 +107,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         String     genus,
         String     species,
         String     subtaxa,
+        Integer    institutionId,
+        String     institutionName,
         String     location,
         BigDecimal latitude,
         BigDecimal longitude,
@@ -130,6 +136,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.genus = genus;
         this.species = species;
         this.subtaxa = subtaxa;
+        this.institutionId = institutionId;
+        this.institutionName = institutionName;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -263,6 +271,22 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.subtaxa = subtaxa;
     }
 
+    public Integer getInstitutionId() {
+        return this.institutionId;
+    }
+
+    public void setInstitutionId(Integer institutionId) {
+        this.institutionId = institutionId;
+    }
+
+    public String getInstitutionName() {
+        return this.institutionName;
+    }
+
+    public void setInstitutionName(String institutionName) {
+        this.institutionName = institutionName;
+    }
+
     public String getLocation() {
         return this.location;
     }
@@ -370,6 +394,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         sb.append(", ").append(genus);
         sb.append(", ").append(species);
         sb.append(", ").append(subtaxa);
+        sb.append(", ").append(institutionId);
+        sb.append(", ").append(institutionName);
         sb.append(", ").append(location);
         sb.append(", ").append(latitude);
         sb.append(", ").append(longitude);

@@ -5,6 +5,8 @@
 	<property name="src" location="src"/>
 	<property name="res" value="res"/>
 	<property name="lib" location="lib"/>
+	<property name="lib" location="lib"/>
+	<property name="lib-dev" location="lib/lib-dev"/>
 
 	<property name="cls" location="web/WEB-INF/classes"/>
 
@@ -27,6 +29,12 @@
 
 	<path id="project.classpath">
 		<fileset dir="${lib}"/>
+	</path>
+
+	<path id="codegen.classpath">
+		<fileset dir="${lib}"/>
+		<fileset dir="${lib-dev}"/>
+		<fileset file="germinate.jar"/>
 	</path>
 
 	<target name="clean">
@@ -66,6 +74,13 @@
 				<include name="**/client/**"/>
 			</fileset>
 		</jar>
+	</target>
+
+	<target name="codegen" depends="jar">
+		<java classname="org.jooq.codegen.GenerationTool">
+			<arg value="${res}/jooq.xml"/>
+			<classpath refid="codegen.classpath" />
+		</java>
 	</target>
 
 	<target name="war" depends="jar, jar-client">

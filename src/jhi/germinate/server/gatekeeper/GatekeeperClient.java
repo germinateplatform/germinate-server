@@ -1,14 +1,16 @@
 package jhi.germinate.server.gatekeeper;
 
-import java.io.*;
+import org.restlet.data.Status;
+import org.restlet.resource.ResourceException;
 
-import jhi.gatekeeper.client.*;
-import jhi.gatekeeper.resource.*;
-import jhi.gatekeeper.server.database.tables.pojos.*;
-import okhttp3.*;
-import retrofit2.Response;
+import java.io.IOException;
+
+import jhi.gatekeeper.client.GatekeeperService;
+import jhi.gatekeeper.resource.Token;
+import jhi.gatekeeper.server.database.tables.pojos.Users;
+import okhttp3.OkHttpClient;
 import retrofit2.*;
-import retrofit2.converter.gson.*;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author Sebastian Raubach
@@ -53,6 +55,8 @@ public class GatekeeperClient
 
 			if (response.isSuccessful())
 				GatekeeperClient.token = response.body();
+			else
+				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
 		}
 		catch (IOException e)
 		{
