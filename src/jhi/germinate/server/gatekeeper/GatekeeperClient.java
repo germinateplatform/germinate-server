@@ -8,6 +8,7 @@ import java.io.IOException;
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.Token;
 import jhi.gatekeeper.server.database.tables.pojos.Users;
+import jhi.germinate.server.util.StringUtils;
 import okhttp3.OkHttpClient;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,6 +27,9 @@ public class GatekeeperClient
 
 	public static void init(String url, String username, String password)
 	{
+		if (StringUtils.isEmpty(url) || StringUtils.isEmpty(username))
+			return;
+
 		if (!url.endsWith("/"))
 			url += "/";
 
