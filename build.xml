@@ -99,6 +99,7 @@
 			<lib file="${jar}"/>
 			<metainf file="${web}/context.xml"/>
 
+			<fileset erroronmissingdir="false" dir="${web}/dist"/>
 			<webinf dir="${web}/WEB-INF" excludes="**/classes/**"/>
 
 			<zipfileset dir="." includes="config.properties" prefix="WEB-INF/classes"/>
