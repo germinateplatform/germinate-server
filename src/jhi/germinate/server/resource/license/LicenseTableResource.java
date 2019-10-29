@@ -48,11 +48,9 @@ public class LicenseTableResource extends PaginatedServerResource
 				.fetch()
 				.into(ViewTableLicenses.class);
 
-			Set<Integer> acceptedLicenses = CustomVerifier.getAcceptedDatasets(getRequest());
+			Set<Integer> acceptedLicenses = CustomVerifier.getAcceptedLicenses(getRequest());
 
-			result.stream()
-				  .filter(d -> d.getAcceptedBy() != null)
-				  .forEach(d -> {
+			result.forEach(d -> {
 					  JsonArray acceptedBy = d.getAcceptedBy();
 					  JsonElement userId = new JsonParser().parse(Integer.toString(userDetails.getId()));
 					  if (mode == AuthenticationMode.NONE)

@@ -3,6 +3,7 @@ package jhi.germinate.server.resource.datasets;
 import com.google.gson.*;
 
 import org.jooq.*;
+import org.jooq.impl.DSL;
 import org.restlet.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
@@ -12,15 +13,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.Datasetpermissions.*;
+import static jhi.germinate.server.database.tables.Licenselogs.*;
 import static jhi.germinate.server.database.tables.Usergroupmembers.*;
 import static jhi.germinate.server.database.tables.Usergroups.*;
 import static jhi.germinate.server.database.tables.ViewTableDatasets.*;
@@ -115,7 +118,7 @@ public class DatasetTableResource extends PaginatedServerResource
 	private static List<ViewTableDatasets> restrictBasedOnLicenseAgreement(List<ViewTableDatasets> datasets, Request request, CustomVerifier.UserDetails userDetails)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
-		Set<Integer> acceptedLicenses = CustomVerifier.getAcceptedDatasets(request);
+		Set<Integer> acceptedLicenses = CustomVerifier.getAcceptedLicenses(request);
 
 		List<ViewTableDatasets> result = new ArrayList<>(datasets);
 		List<ViewTableDatasets> toRemove = datasets.stream()
@@ -201,9 +204,29 @@ public class DatasetTableResource extends PaginatedServerResource
 	}
 
 	@Post("json")
-	public PaginatedResult<List<ViewTableDatasets>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableDatasets>> getJson(UnacceptedLicenseRequest request)
 	{
-		return runQuery(request, null);
+		AdjustQuery adjuster = null;
+
+		if (request.getJustUnacceptedLicenses() != null && request.getJustUnacceptedLicenses())
+		{
+			CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+			Set<Integer> ids = CustomVerifier.getAcceptedLicenses(getRequest());
+			adjuster = query -> {
+				query.where(VIEW_TABLE_DATASETS.LICENSE_ID.isNotNull())
+					 .and(DSL.notExists(DSL.selectOne()
+										   .from(LICENSELOGS)
+										   .where(LICENSELOGS.LICENSE_ID.eq(VIEW_TABLE_DATASETS.LICENSE_ID))
+										   .and(LICENSELOGS.USER_ID.eq(userDetails.getId()))));
+
+				if (!CollectionUtils.isEmpty(ids) && userDetails.getId() == -1000)
+				{
+					query.where(DSL.not(VIEW_TABLE_DATASETS.LICENSE_ID.in(ids)));
+				}
+			};
+		}
+
+		return runQuery(request, adjuster);
 	}
 
 	public PaginatedResult<List<ViewTableDatasets>> runQuery(PaginatedRequest request, AdjustQuery optionalAdjuster)
@@ -245,75 +268,73 @@ public class DatasetTableResource extends PaginatedServerResource
 				.fetch()
 				.into(ViewTableDatasets.class);
 
-			Set<Integer> acceptedLicenses = CustomVerifier.getAcceptedDatasets(getRequest());
+			Set<Integer> acceptedLicenses = CustomVerifier.getAcceptedLicenses(getRequest());
 
-			result.stream()
-				  .filter(d -> d.getAcceptedBy() != null)
-				  .forEach(d -> {
-					  JsonArray acceptedBy = d.getAcceptedBy();
-					  JsonElement userId = new JsonParser().parse(Integer.toString(userDetails.getId()));
-					  if (mode == AuthenticationMode.NONE)
-					  {
-						  // If there's no authentication, check if the license is in the cookie
-						  if (acceptedLicenses.contains(d.getLicenseId()))
-						  {
-							  acceptedBy = new JsonArray();
-							  acceptedBy.add(userId);
-							  d.setAcceptedBy(acceptedBy);
-						  }
-						  else
-						  {
-							  d.setAcceptedBy(new JsonArray());
-						  }
-					  }
-					  else if (mode == AuthenticationMode.SELECTIVE)
-					  {
-						  if (userDetails.getId() == -1000)
-						  {
-							  // If we offer login, but the user hasn't logged in, check the cookie
-							  if (acceptedLicenses.contains(d.getLicenseId()))
-							  {
-								  acceptedBy = new JsonArray();
-								  acceptedBy.add(userId);
-								  d.setAcceptedBy(acceptedBy);
-							  }
-							  else
-							  {
-								  d.setAcceptedBy(new JsonArray());
-							  }
-						  }
-						  else
-						  {
-							  if (acceptedBy != null && acceptedBy.contains(userId))
-							  {
-								  // If the user accepted the license, set his/her id to indicate this
-								  acceptedBy = new JsonArray();
-								  acceptedBy.add(userId);
-								  d.setAcceptedBy(acceptedBy);
-							  }
-							  else
-							  {
-								  // Else, clear this information
-								  d.setAcceptedBy(new JsonArray());
-							  }
-						  }
-					  }
-					  else
-					  {
-						  if (acceptedBy != null && acceptedBy.contains(userId))
-						  {
-							  // If the user accepted the license, set his/her id to indicate this
-							  acceptedBy = new JsonArray();
-							  acceptedBy.add(userId);
-							  d.setAcceptedBy(acceptedBy);
-						  }
-						  else
-						  {
-							  // Else, clear this information
-							  d.setAcceptedBy(new JsonArray());
-						  }
-					  }
-				  });
+			result.forEach(d -> {
+				JsonArray acceptedBy = d.getAcceptedBy();
+				JsonElement userId = new JsonParser().parse(Integer.toString(userDetails.getId()));
+				if (mode == AuthenticationMode.NONE)
+				{
+					// If there's no authentication, check if the license is in the cookie
+					if (acceptedLicenses.contains(d.getLicenseId()))
+					{
+						acceptedBy = new JsonArray();
+						acceptedBy.add(userId);
+						d.setAcceptedBy(acceptedBy);
+					}
+					else
+					{
+						d.setAcceptedBy(new JsonArray());
+					}
+				}
+				else if (mode == AuthenticationMode.SELECTIVE)
+				{
+					if (userDetails.getId() == -1000)
+					{
+						// If we offer login, but the user hasn't logged in, check the cookie
+						if (acceptedLicenses.contains(d.getLicenseId()))
+						{
+							acceptedBy = new JsonArray();
+							acceptedBy.add(userId);
+							d.setAcceptedBy(acceptedBy);
+						}
+						else
+						{
+							d.setAcceptedBy(new JsonArray());
+						}
+					}
+					else
+					{
+						if (acceptedBy != null && acceptedBy.contains(userId))
+						{
+							// If the user accepted the license, set their id to indicate this
+							acceptedBy = new JsonArray();
+							acceptedBy.add(userId);
+							d.setAcceptedBy(acceptedBy);
+						}
+						else
+						{
+							// Else, clear this information
+							d.setAcceptedBy(new JsonArray());
+						}
+					}
+				}
+				else
+				{
+					if (acceptedBy != null && acceptedBy.contains(userId))
+					{
+						// If the user accepted the license, set their id to indicate this
+						acceptedBy = new JsonArray();
+						acceptedBy.add(userId);
+						d.setAcceptedBy(acceptedBy);
+					}
+					else
+					{
+						// Else, clear this information
+						d.setAcceptedBy(new JsonArray());
+					}
+				}
+			});
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

@@ -5,14 +5,13 @@ import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.*;
+import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.*;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.database.tables.pojos.ViewTableTrialsData;
+import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
@@ -21,23 +20,35 @@ import static jhi.germinate.server.database.tables.ViewTableTrialsData.*;
 /**
  * @author Sebastian Raubach
  */
-public class TrialsDataTableResource extends PaginatedServerResource
+public class TraitDataTableResource extends PaginatedServerResource
 {
+	private Integer traitId;
+
+	@Override
+	protected void doInit()
+		throws ResourceException
+	{
+		super.doInit();
+
+		try
+		{
+			this.traitId = Integer.parseInt(getRequestAttributes().get("traitId").toString());
+		}
+		catch (NullPointerException | NumberFormatException e)
+		{
+		}
+	}
+
 	@Post("json")
-	public PaginatedResult<List<ViewTableTrialsData>> getJson(PaginatedDatasetRequest request)
+	public PaginatedResult<List<ViewTableTrialsData>> getJson(PaginatedRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
-		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> requestedIds = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 
-		// If nothing specific was requested, just return everything, else restrict to available datasets
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = datasets;
-		else
-			requestedIds.retainAll(datasets);
-
+		if (traitId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
@@ -52,7 +63,8 @@ public class TrialsDataTableResource extends PaginatedServerResource
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRIALS_DATA);
 
-			from.where(VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds));
+			from.where(VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds))
+				.and(VIEW_TABLE_TRIALS_DATA.TRAIT_ID.eq(traitId));
 
 			// Filter here!
 			filter(from, filters);

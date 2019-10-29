@@ -45,6 +45,7 @@
 	</target>
 
 	<target name="compile8" depends="clean">
+		<mkdir dir="${cls}" />
 		<javac debug="true" destdir="${cls}" includeantruntime="false" source="8" srcdir="${src}" target="8">
 			<src path="${src}"/>
 			<classpath refid="project.classpath"/>

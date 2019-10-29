@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource.stats;
 
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
@@ -15,7 +15,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.tables.Phenotypes.*;
@@ -27,31 +27,38 @@ import static jhi.germinate.server.database.tables.ViewTableTraits.*;
 public class TraitStatsResource extends ServerResource
 {
 	@Post("json")
-	public TraitDatasetStats postJson(PaginatedDatasetRequest request)
+	public TraitDatasetStats postJson(PaginatedTraitDatasetRequest request)
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
-		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> requestedDatasetIds = CollectionUtils.isEmpty(request.getDatasetIds()) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
-		requestedIds.retainAll(datasetsForUser.stream()
-											  .map(ViewTableDatasets::getDatasetId)
-											  .collect(Collectors.toList()));
+		if (CollectionUtils.isEmpty(requestedDatasetIds))
+			requestedDatasetIds = datasetsForUser.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
+		else
+			requestedDatasetIds.retainAll(datasetsForUser.stream()
+														 .map(ViewTableDatasets::getDatasetId)
+														 .collect(Collectors.toList()));
 
-		if (CollectionUtils.isEmpty(requestedIds))
+		if (CollectionUtils.isEmpty(requestedDatasetIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
 			// All traits within the selected datasets
-			Map<Integer, ViewTableTraits> traitMap = context.selectFrom(VIEW_TABLE_TRAITS)
-															.whereExists(DSL.selectOne()
-																			.from(PHENOTYPEDATA)
-																			.where(PHENOTYPEDATA.DATASET_ID.in(requestedIds))
-																			.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)))
-															.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
+			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_TRAITS)
+																.whereExists(DSL.selectOne()
+																				.from(PHENOTYPEDATA)
+																				.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+																				.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)));
+
+			if (!CollectionUtils.isEmpty(request.getTraitIds()))
+				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getTraitIds()));
+
+			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
 
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
 																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
@@ -66,7 +73,8 @@ public class TraitStatsResource extends ServerResource
 				DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
 			)
 				   .from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-				   .where(PHENOTYPEDATA.DATASET_ID.in(requestedIds))
+				   .where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
 				   .orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
 				   .stream()
 				   .forEachOrdered(pd -> {
@@ -102,7 +110,8 @@ public class TraitStatsResource extends ServerResource
 				   });
 
 			// Add the last one
-			stats.put(tempStats.prev, generateStats(tempStats));
+			if (!StringUtils.isEmpty(tempStats.prev))
+				stats.put(tempStats.prev, generateStats(tempStats));
 
 			TraitDatasetStats result = new TraitDatasetStats();
 			Set<ViewTableTraits> traits = new LinkedHashSet<>();

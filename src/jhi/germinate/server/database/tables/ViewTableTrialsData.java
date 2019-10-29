@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTrialsData extends TableImpl<ViewTableTrialsDataRecord> {
 
-    private static final long serialVersionUID = 129473837;
+    private static final long serialVersionUID = -941366400;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_trials_data</code>
@@ -98,6 +98,11 @@ public class ViewTableTrialsData extends TableImpl<ViewTableTrialsDataRecord> {
      * The column <code>germinate_template_3_7_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
      */
     public final TableField<ViewTableTrialsDataRecord, String> COUNTRY_CODE2 = createField("country_code2", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_trials_data.trait_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableTrialsDataRecord, Integer> TRAIT_ID = createField("trait_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_trials_data.trait_name</code>. Phenotype full name.

@@ -147,8 +147,6 @@ public class CustomVerifier implements Verifier
 	{
 		TokenResult token = getToken(request, response);
 
-		Logger.getLogger("").log(Level.INFO, token == null ? "null" : token.toString());
-
 		// If there is no token or token and cookie don't match, remove the cookie
 		if (token == null || !token.match)
 			setCookie(request, response, null);
@@ -217,7 +215,7 @@ public class CustomVerifier implements Verifier
 
 	private static void setDatasetCookie(Request request, Response response, boolean delete)
 	{
-		Set<Integer> ids = getAcceptedDatasets(request);
+		Set<Integer> ids = getAcceptedLicenses(request);
 		if (!CollectionUtils.isEmpty(ids))
 		{
 			CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
@@ -235,7 +233,7 @@ public class CustomVerifier implements Verifier
 
 	public static void updateAcceptedDatasets(Request request, Response response, Integer licenseId)
 	{
-		Set<Integer> ids = getAcceptedDatasets(request);
+		Set<Integer> ids = getAcceptedLicenses(request);
 		ids.add(licenseId);
 
 		CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
@@ -266,7 +264,7 @@ public class CustomVerifier implements Verifier
 		}
 	}
 
-	public static Set<Integer> getAcceptedDatasets(Request request)
+	public static Set<Integer> getAcceptedLicenses(Request request)
 	{
 		return request.getCookies().stream()
 					  .filter(c -> c.getName().equals("accepted-licenses"))

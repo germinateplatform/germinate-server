@@ -115,6 +115,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
 
 		// DATASETS
+		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeExportResource.class);
 		attachToRouter(routerAuth, "/dataset/table", DatasetTableResource.class);
 		attachToRouter(routerAuth, "/dataset/table/ids", DatasetTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/table/export", DatasetTableExportResource.class);
@@ -216,6 +217,7 @@ public class Germinate extends Application
 
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
+		attachToRouter(routerAuth, "/trait/{traitId}/data", TraitDataTableResource.class);
 
 		// STATS
 		attachToRouter(routerAuth, "/stats/entitytype", EntityTypeStatsResource.class);

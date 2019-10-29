@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTrialsData implements Serializable {
 
-    private static final long serialVersionUID = -1552210986;
+    private static final long serialVersionUID = -474501463;
 
     private Integer   germplasmId;
     private String    germplasmGid;
@@ -36,6 +36,7 @@ public class ViewTableTrialsData implements Serializable {
     private String    locationName;
     private String    countryName;
     private String    countryCode2;
+    private Integer   traitId;
     private String    traitName;
     private String    traitNameShort;
     private String    unitName;
@@ -55,6 +56,7 @@ public class ViewTableTrialsData implements Serializable {
         this.locationName = value.locationName;
         this.countryName = value.countryName;
         this.countryCode2 = value.countryCode2;
+        this.traitId = value.traitId;
         this.traitName = value.traitName;
         this.traitNameShort = value.traitNameShort;
         this.unitName = value.unitName;
@@ -73,6 +75,7 @@ public class ViewTableTrialsData implements Serializable {
         String    locationName,
         String    countryName,
         String    countryCode2,
+        Integer   traitId,
         String    traitName,
         String    traitNameShort,
         String    unitName,
@@ -89,6 +92,7 @@ public class ViewTableTrialsData implements Serializable {
         this.locationName = locationName;
         this.countryName = countryName;
         this.countryCode2 = countryCode2;
+        this.traitId = traitId;
         this.traitName = traitName;
         this.traitNameShort = traitNameShort;
         this.unitName = unitName;
@@ -176,6 +180,14 @@ public class ViewTableTrialsData implements Serializable {
         this.countryCode2 = countryCode2;
     }
 
+    public Integer getTraitId() {
+        return this.traitId;
+    }
+
+    public void setTraitId(Integer traitId) {
+        this.traitId = traitId;
+    }
+
     public String getTraitName() {
         return this.traitName;
     }
@@ -230,6 +242,7 @@ public class ViewTableTrialsData implements Serializable {
         sb.append(", ").append(locationName);
         sb.append(", ").append(countryName);
         sb.append(", ").append(countryCode2);
+        sb.append(", ").append(traitId);
         sb.append(", ").append(traitName);
         sb.append(", ").append(traitNameShort);
         sb.append(", ").append(unitName);

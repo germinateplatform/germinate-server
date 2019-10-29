@@ -54,7 +54,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 				GROUPS.VISIBILITY.as("group_visibility"),
 				GROUPS.CREATED_ON.as("created_on"),
 				GROUPS.UPDATED_ON.as("updated_on"),
-				DSL.count(GROUPMEMBERS.FOREIGN_ID).as("count")
+				DSL.countDistinct(GROUPMEMBERS.FOREIGN_ID).as("count")
 			);
 
 			SelectConditionStep<? extends Record> resultStep = null;
@@ -69,13 +69,9 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 				case "genotype":
 				case "allelefreq":
 					if (Objects.equals(request.getGroupType(), "germinatebase"))
-					{
 						resultStep = getGenotypeAllelefreqGermplasmGroups(step, requestedIds);
-					}
 					else if (Objects.equals(request.getGroupType(), "markers"))
-					{
 						resultStep = getGenotypeAllelefreqMarkerGroups(step, requestedIds);
-					}
 					break;
 			}
 
