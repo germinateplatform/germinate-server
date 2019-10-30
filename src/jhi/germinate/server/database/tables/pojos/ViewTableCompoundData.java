@@ -25,7 +25,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCompoundData implements Serializable {
 
-    private static final long serialVersionUID = 2137734666;
+    private static final long serialVersionUID = -115927088;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -34,6 +34,7 @@ public class ViewTableCompoundData implements Serializable {
     private Integer    datasetId;
     private String     datasetName;
     private String     datasetDescription;
+    private Integer    compoundId;
     private String     compoundName;
     private String     unitName;
     private Timestamp  recordingDate;
@@ -49,6 +50,7 @@ public class ViewTableCompoundData implements Serializable {
         this.datasetId = value.datasetId;
         this.datasetName = value.datasetName;
         this.datasetDescription = value.datasetDescription;
+        this.compoundId = value.compoundId;
         this.compoundName = value.compoundName;
         this.unitName = value.unitName;
         this.recordingDate = value.recordingDate;
@@ -63,6 +65,7 @@ public class ViewTableCompoundData implements Serializable {
         Integer    datasetId,
         String     datasetName,
         String     datasetDescription,
+        Integer    compoundId,
         String     compoundName,
         String     unitName,
         Timestamp  recordingDate,
@@ -75,6 +78,7 @@ public class ViewTableCompoundData implements Serializable {
         this.datasetId = datasetId;
         this.datasetName = datasetName;
         this.datasetDescription = datasetDescription;
+        this.compoundId = compoundId;
         this.compoundName = compoundName;
         this.unitName = unitName;
         this.recordingDate = recordingDate;
@@ -137,6 +141,14 @@ public class ViewTableCompoundData implements Serializable {
         this.datasetDescription = datasetDescription;
     }
 
+    public Integer getCompoundId() {
+        return this.compoundId;
+    }
+
+    public void setCompoundId(Integer compoundId) {
+        this.compoundId = compoundId;
+    }
+
     public String getCompoundName() {
         return this.compoundName;
     }
@@ -180,6 +192,7 @@ public class ViewTableCompoundData implements Serializable {
         sb.append(", ").append(datasetId);
         sb.append(", ").append(datasetName);
         sb.append(", ").append(datasetDescription);
+        sb.append(", ").append(compoundId);
         sb.append(", ").append(compoundName);
         sb.append(", ").append(unitName);
         sb.append(", ").append(recordingDate);

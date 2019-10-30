@@ -12,22 +12,21 @@ import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.Phenotypes.*;
-import static jhi.germinate.server.database.tables.ViewTableTraits.*;
+import static jhi.germinate.server.database.tables.Compounddata.*;
+import static jhi.germinate.server.database.tables.Compounds.*;
+import static jhi.germinate.server.database.tables.ViewTableCompounds.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class TraitStatsResource extends ServerResource
+public class CompoundStatsResource extends ServerResource
 {
 	@Post("json")
-	public TraitDatasetStats postJson(PaginatedXSubsetDatasetRequest request)
+	public CompoundDatasetStats postJson(PaginatedXSubsetDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -49,39 +48,39 @@ public class TraitStatsResource extends ServerResource
 			 DSLContext context = Database.getContext(conn))
 		{
 			// All traits within the selected datasets
-			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_TRAITS)
+			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_COMPOUNDS)
 																.whereExists(DSL.selectOne()
-																				.from(PHENOTYPEDATA)
-																				.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
-																				.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)));
+																				.from(COMPOUNDDATA)
+																				.where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
+																				.and(COMPOUNDDATA.COMPOUND_ID.eq(VIEW_TABLE_COMPOUNDS.COMPOUND_ID)));
 
 			if (!CollectionUtils.isEmpty(request.getxIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getxIds()));
+				step.and(VIEW_TABLE_COMPOUNDS.COMPOUND_ID.in(request.getxIds()));
 
-			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
+			Map<Integer, ViewTableCompounds> compoundMap = step.fetchMap(VIEW_TABLE_COMPOUNDS.COMPOUND_ID, ViewTableCompounds.class);
 
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
 																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
 
 			Map<String, Quantiles> stats = new TreeMap<>();
 
-			TempStats tempStats = new TempStats();
+			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
 
 			context.select(
-				PHENOTYPEDATA.DATASET_ID,
-				PHENOTYPEDATA.PHENOTYPE_ID,
-				DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
+				COMPOUNDDATA.DATASET_ID,
+				COMPOUNDDATA.COMPOUND_ID,
+				COMPOUNDDATA.COMPOUND_VALUE
 			)
-				   .from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-				   .where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
-				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
-				   .orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
+				   .from(COMPOUNDDATA).leftJoin(COMPOUNDS).on(COMPOUNDS.ID.eq(COMPOUNDDATA.COMPOUND_ID))
+				   .where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
+				   .and(COMPOUNDDATA.COMPOUND_ID.in(compoundMap.keySet()))
+				   .orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
 				   .stream()
 				   .forEachOrdered(pd -> {
-					   Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
-					   Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
+					   Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
+					   Integer traitId = pd.get(COMPOUNDDATA.COMPOUND_ID);
 					   String key = datasetId + "," + traitId;
-					   String value = pd.get("phenotype_value", String.class);
+					   float value = pd.get(COMPOUNDDATA.COMPOUND_VALUE).floatValue();
 
 					   if (!Objects.equals(key, tempStats.prev))
 					   {
@@ -98,23 +97,16 @@ public class TraitStatsResource extends ServerResource
 
 					   // Count in any case
 					   tempStats.count++;
-					   try
-					   {
-						   float v = Float.parseFloat(value);
-						   tempStats.avg += v;
-						   tempStats.values.add(v);
-					   }
-					   catch (NumberFormatException | NullPointerException e)
-					   {
-					   }
+					   tempStats.avg += value;
+					   tempStats.values.add(value);
 				   });
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
 				stats.put(tempStats.prev, generateStats(tempStats));
 
-			TraitDatasetStats result = new TraitDatasetStats();
-			Set<ViewTableTraits> traits = new LinkedHashSet<>();
+			CompoundDatasetStats result = new CompoundDatasetStats();
+			Set<ViewTableCompounds> compounds = new LinkedHashSet<>();
 			Set<ViewTableDatasets> datasets = new LinkedHashSet<>();
 
 			result.setStats(stats.keySet().stream()
@@ -123,7 +115,7 @@ public class TraitStatsResource extends ServerResource
 									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer traitId = Integer.parseInt(split[1]);
 
-									 traits.add(traitMap.get(traitId));
+									 compounds.add(compoundMap.get(traitId));
 									 datasets.add(datasetMap.get(datasetId));
 
 									 Quantiles q = stats.get(ids);
@@ -135,7 +127,7 @@ public class TraitStatsResource extends ServerResource
 								 .collect(Collectors.toList()));
 
 			result.setDatasets(datasets);
-			result.setTraits(traits);
+			result.setCompounds(compounds);
 
 			return result;
 		}
@@ -146,7 +138,7 @@ public class TraitStatsResource extends ServerResource
 		}
 	}
 
-	private Quantiles generateStats(TempStats tempStats)
+	private Quantiles generateStats(TraitStatsResource.TempStats tempStats)
 	{
 		Quantiles q = new Quantiles();
 		q.setCount(tempStats.count);
@@ -183,13 +175,5 @@ public class TraitStatsResource extends ServerResource
 		}
 
 		return q;
-	}
-
-	static class TempStats
-	{
-		public String      prev   = null;
-		public List<Float> values = new ArrayList<>();
-		public float       avg    = 0;
-		public int         count  = 0;
 	}
 }

@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCompoundData extends TableImpl<ViewTableCompoundDataRecord> {
 
-    private static final long serialVersionUID = 1930056036;
+    private static final long serialVersionUID = 935923148;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_compound_data</code>
@@ -84,6 +84,11 @@ public class ViewTableCompoundData extends TableImpl<ViewTableCompoundDataRecord
      * The column <code>germinate_template_3_7_0.view_table_compound_data.dataset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableCompoundDataRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_compound_data.compound_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableCompoundDataRecord, Integer> COMPOUND_ID = createField("compound_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_compound_data.compound_name</code>. Compound full name.

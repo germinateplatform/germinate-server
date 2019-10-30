@@ -110,6 +110,9 @@ public class Germinate extends Application
 		corsFilter.setExposedHeaders(Collections.singleton("Content-Disposition"));
 
 		// Attach the url handlers
+		// COMPOUNDS
+		attachToRouter(routerAuth, "/compound/table", CompoundTableResource.class);
+
 		// DATA IMPORT
 		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
 		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
@@ -140,7 +143,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/data/trial/table/ids", TrialsDataTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/data/trial/table/export", TrialsDataTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/map", DatasetMapResource.class);
+		attachToRouter(routerAuth, "/dataset/stats/compound", CompoundStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/trial", TraitStatsResource.class);
+		attachToRouter(routerAuth, "/dataset/compound", DatasetCompoundResource.class);
 		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
 		attachToRouter(routerAuth, "/dataset/group", DatasetGroupResource.class);
 
@@ -217,7 +222,6 @@ public class Germinate extends Application
 
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
-		attachToRouter(routerAuth, "/trait/{traitId}/data", TraitDataTableResource.class);
 
 		// STATS
 		attachToRouter(routerAuth, "/stats/entitytype", EntityTypeStatsResource.class);
