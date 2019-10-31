@@ -177,7 +177,7 @@ public class GenotypeExportResource extends BaseServerResource
 			result.add("# fjDatabaseLineSearch = " + serverBase + "/data/germplasm/$LINE");
 			result.add("# fjDatabaseGroupPreview = " + serverBase + "/$GROUP"); // TODO
 			result.add("# fjDatabaseGroupUpload = " + serverBase + "/"); // TODO
-			result.add("# fjDatabaseMarkerSearch = " + serverBase + "/genotypes/marker/$MARKER");
+			result.add("# fjDatabaseMarkerSearch = " + serverBase + "/genotypes/marker/$MARKER"); // TODO
 		}
 
 		return result;
