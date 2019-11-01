@@ -163,7 +163,7 @@ public class MapExportResource extends BaseServerResource
 					step.and(overall);
 				}
 				break;
-			case "markerinterval":
+			case "markeridinterval":
 				if (request.getMarkerIdInterval() == null || request.getMarkerIdInterval().length != 2)
 					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 

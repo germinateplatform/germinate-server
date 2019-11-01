@@ -206,6 +206,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/map/table", MapTableResource.class);
 		attachToRouter(routerAuth, "/map", MapResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}", MapResource.class);
+		attachToRouter(routerAuth, "/map/{mapId}/chromosome", MapChromosomeResource.class);
 		attachToRouter(routerAuth, "/map/{mapId}/export", MapExportResource.class);
 		attachToRouter(routerAuth, "/map/mapdefinition/table", MapMarkerDefinitionTableResource.class);
 		attachToRouter(routerAuth, "/map/mapdefinition/table/ids", MapMarkerDefinitionTableIdResource.class);

@@ -1,22 +1,3 @@
-/*
- * Copyright $today.year Information and Computational Sciences,
- * The James Hutton Institute.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-SET FOREIGN_KEY_CHECKS=0;
-
 DROP VIEW IF EXISTS `view_mcpd`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_mcpd` AS select `g`.`id` AS `ID`,`g`.`puid` AS `PUID`,`institutions`.`code` AS `INSTCODE`,`g`.`general_identifier` AS `ACCENUMB`,`g`.`collnumb` AS `COLLNUMB`,`g`.`collcode` AS `COLLCODE`,`g`.`collname` AS `COLLNAME`,`institutions`.`address` AS `COLLINSTADDRESS`,`g`.`collmissid` AS `COLLMISSID`,`taxonomies`.`genus` AS `GENUS`,`taxonomies`.`species` AS `SPECIES`,`taxonomies`.`species_author` AS `SPAUTHOR`,`taxonomies`.`subtaxa` AS `SUBTAXA`,`taxonomies`.`subtaxa_author` AS `SUBTAUTHOR`,`taxonomies`.`cropname` AS `CROPNAME`,`g`.`number` AS `ACCENAME`,replace(`g`.`acqdate`,'-','') AS `ACQDATE`,`countries`.`country_code3` AS `ORIGCTY`,`locations`.`site_name` AS `COLLSITE`,`locations`.`latitude` AS `DECLATITUDE`,NULL AS `LATITUDE`,`locations`.`longitude` AS `DECLONGITUDE`,NULL AS `LONGITUDE`,`locations`.`coordinate_uncertainty` AS `COORDUNCERT`,`locations`.`coordinate_datum` AS `COORDDATUM`,`locations`.`georeferencing_method` AS `GEOREFMETH`,`locations`.`elevation` AS `ELEVATION`,replace(`g`.`colldate`,'-','') AS `COLLDATE`,`g`.`breeders_code` AS `BREDCODE`,`g`.`breeders_name` AS `BREDNAME`,`g`.`biologicalstatus_id` AS `SAMPSTAT`,`pedigreedefinitions`.`definition` AS `ANCEST`,`g`.`collsrc_id` AS `COLLSRC`,`g`.`donor_code` AS `DONORCODE`,`g`.`donor_name` AS `DONORNAME`,`g`.`donor_number` AS `DONORNUMB`,`g`.`othernumb` AS `OTHERNUMB`,`g`.`duplsite` AS `DUPLSITE`,`g`.`duplinstname` AS `DUPLINSTNAME`,group_concat(`storage`.`description` separator ',') AS `STORAGE`,`g`.`mlsstatus_id` AS `MLSSTAT`,(select `attributedata`.`value` from (`attributedata` left join `attributes` on((`attributes`.`id` = `attributedata`.`attribute_id`))) where ((`attributes`.`target_table` = 'germinatebase') and (`attributes`.`name` = 'Remarks') and (`attributedata`.`foreign_id` = `g`.`id`)) limit 1) AS `REMARKS`,`entitytypes`.`name` AS `ENTITYTYPE`,(select `p`.`id` from `germinatebase` `p` where (`p`.`id` = `g`.`entityparent_id`)) AS `ENTITYPARENTID`,(select `p`.`general_identifier` from `germinatebase` `p` where (`p`.`id` = `g`.`entityparent_id`)) AS `ENTITYPARENTACCENUMB` from (((((((((`germinatebase` `g` left join `taxonomies` on((`taxonomies`.`id` = `g`.`taxonomy_id`))) left join `locations` on((`locations`.`id` = `g`.`location_id`))) left join `countries` on((`countries`.`id` = `locations`.`country_id`))) left join `institutions` on((`institutions`.`id` = `g`.`institution_id`))) left join `pedigreedefinitions` on((`pedigreedefinitions`.`germinatebase_id` = `g`.`id`))) left join `storagedata` on((`storagedata`.`germinatebase_id` = `g`.`id`))) left join `storage` on((`storage`.`id` = `storagedata`.`storage_id`))) left join `attributedata` on((`attributedata`.`foreign_id` = `g`.`id`))) left join `entitytypes` on((`entitytypes`.`id` = `g`.`entitytype_id`))) group by `g`.`id`,`pedigreedefinitions`.`id`;
 
@@ -103,20 +84,3 @@ CREATE PROCEDURE `dataset_meta` () BEGIN DELETE FROM datasetmeta WHERE NOT EXIST
 
 DROP PROCEDURE IF EXISTS `export_dataset_attributes`;
 CREATE PROCEDURE `export_dataset_attributes` (IN datasetIds TEXT) BEGIN SET @SQL = NULL; SET @@group_concat_max_len = 64000000; SET @QRY = CONCAT('SELECT GROUP_CONCAT(DISTINCT CONCAT( "MAX(CASE WHEN attribute_id = ", `attributes`.`id`, " THEN attributedata.value END) AS ", "`", `attributes`.`name`, "`")) INTO @SQL FROM attributedata LEFT JOIN attributes ON attributes.id = attributedata.id WHERE attributes.target_table = "datasets";'); PREPARE stmtone FROM @QRY; EXECUTE stmtone; DEALLOCATE PREPARE stmtone; IF @SQL IS NULL THEN SELECT NULL as ERROR; ELSE SET @SQL = CONCAT('SELECT datasets.id AS dataset_id, datasets.name AS dataset_name, datasets.description AS dataset_description, datasets.version AS dataset_version, licenses.name AS license_name, ', @SQL, ' FROM datasets LEFT JOIN licenses ON licenses.id = datasets.license_id LEFT JOIN attributedata ON datasets.id = attributedata.foreign_id LEFT JOIN attributes ON (attributes.id = attributedata.attribute_id AND attributes.target_table = "datasets") WHERE datasets.id IN (', datasetIds, ') GROUP BY datasets.id;'); PREPARE stmt FROM @SQL; EXECUTE stmt; DEALLOCATE PREPARE stmt; END IF; END;
-
-CREATE TABLE `dataset_export_jobs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) NOT NULL,
-  `job_id` text NOT NULL,
-  `user_id` int(11) NULL,
-  `status` enum('waiting','running','failed','completed','cancelled') NOT NULL DEFAULT 'waiting',
-  `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `experiment_type_id` int(11) NULL,
-  `dataset_ids` json NULL,
-  `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`experiment_type_id`) REFERENCES `experimenttypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-);
-
-SET FOREIGN_KEY_CHECKS=1;
