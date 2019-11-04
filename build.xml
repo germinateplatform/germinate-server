@@ -5,7 +5,6 @@
 	<property name="src" location="src"/>
 	<property name="res" value="res"/>
 	<property name="lib" location="lib"/>
-	<property name="lib" location="lib"/>
 	<property name="lib-dev" location="lib/lib-dev"/>
 
 	<property name="cls" location="web/WEB-INF/classes"/>
@@ -63,6 +62,17 @@
 				<attribute name="Main-Class" value="jhi.germinate.server.Germinate"/>
 				<attribute name="Class-Path" value="${jar.classpath}"/>
 			</manifest>
+		</jar>
+	</target>
+
+	<target name="jar-for-importer" depends="compile8">
+		<jar jarfile="germinate-core.jar">
+			<fileset dir="${cls}">
+				<include name="**/germinate/resource/**"/>
+				<include name="**/server/database/**"/>
+				<include name="**/Database.class"/>
+				<include name="**/util/**Utils**"/>
+			</fileset>
 		</jar>
 	</target>
 

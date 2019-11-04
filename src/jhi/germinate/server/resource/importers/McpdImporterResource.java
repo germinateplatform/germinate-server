@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.UUID;
 
 import jhi.germinate.server.auth.*;
+import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.importer.McpdImporter;
 
 /**
@@ -20,6 +21,22 @@ import jhi.germinate.server.util.importer.McpdImporter;
  */
 public class McpdImporterResource extends ServerResource
 {
+	public static final String PARAM_IS_UPDATE = "update";
+
+	private boolean isUpdate = false;
+
+	@Override
+	protected void doInit()
+		throws ResourceException
+	{
+		super.doInit();
+
+		String isUpdateString = getQueryValue(PARAM_IS_UPDATE);
+
+		if (!StringUtils.isEmpty(isUpdateString))
+			isUpdate = Boolean.parseBoolean(isUpdateString);
+	}
+
 	@Post
 	@MinUserType(UserType.AUTH_USER)
 	public String accept(Representation entity)
@@ -28,23 +45,19 @@ public class McpdImporterResource extends ServerResource
 		{
 			if (MediaType.MULTIPART_FORM_DATA.equals(entity.getMediaType(), true))
 			{
-				// 1/ Create a factory for disk-based file items
+				// 1. Create a factory for disk-based file items
 				DiskFileItemFactory factory = new DiskFileItemFactory();
 				factory.setSizeThreshold(1000240);
 
-				// 2/ Create a new file upload handler based on the Restlet
-				// FileUpload extension that will parse Restlet requests and
-				// generates FileItems.
+				// 2. Create a new file upload handler based on the Restlet FileUpload extension that will parse Restlet requests and generates FileItems.
 				RestletFileUpload upload = new RestletFileUpload(factory);
 
 				try
 				{
-					// 3/ Request is parsed by the handler which generates a
-					// list of FileItems
+					// 3. Request is parsed by the handler which generates a list of FileItems
 					FileItemIterator fileIterator = upload.getItemIterator(entity);
 
-					// Process only the uploaded item called "fileToUpload"
-					// and return back
+					// Process only the uploaded item called "fileToUpload" and return back
 					while (fileIterator.hasNext())
 					{
 						FileItemStream fi = fileIterator.next();
@@ -55,7 +68,7 @@ public class McpdImporterResource extends ServerResource
 							File tempFile = File.createTempFile("germinate", UUID.randomUUID().toString() + ".xlsx");
 							FileUtils.copyInputStreamToFile(fi.openStream(), tempFile);
 
-							return new McpdImporter(tempFile).run();
+							return new McpdImporter(tempFile, isUpdate).run();
 						}
 					}
 

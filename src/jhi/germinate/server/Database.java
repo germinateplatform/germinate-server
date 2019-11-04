@@ -31,7 +31,7 @@ public class Database
 
 	private static String utc = TimeZone.getDefault().getID();
 
-	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password)
+	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password, boolean initAndUpdate)
 	{
 		Database.databaseServer = databaseServer;
 		Database.databaseName = databaseName;
@@ -60,82 +60,85 @@ public class Database
 			e.printStackTrace();
 		}
 
-		boolean databaseExists = true;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		if (initAndUpdate)
 		{
-			// Try and see if the `germinatebase` table exists
-			context.selectFrom(GERMINATEBASE)
-				   .fetchAny();
-		}
-		catch (SQLException | DataAccessException e)
-		{
-			databaseExists = false;
-		}
+			boolean databaseExists = true;
+			try (Connection conn = Database.getConnection();
+				 DSLContext context = Database.getContext(conn))
+			{
+				// Try and see if the `germinatebase` table exists
+				context.selectFrom(GERMINATEBASE)
+					   .fetchAny();
+			}
+			catch (SQLException | DataAccessException e)
+			{
+				databaseExists = false;
+			}
 
-		if (!databaseExists)
-		{
-			// Set up the database initially
+			if (!databaseExists)
+			{
+				// Set up the database initially
+				try
+				{
+					URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/db_setup.sql");
+
+					if (url != null)
+					{
+						Logger.getLogger("").log(Level.INFO, "RUNNING DATABASE CREATION SCRIPT!");
+						executeFile(new File(url.toURI()));
+					}
+					else
+					{
+						throw new IOException("Setup SQL file not found!");
+					}
+				}
+				catch (IOException | URISyntaxException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				Logger.getLogger("").log(Level.INFO, "DATABASE EXISTS, NO NEED TO CREATE IT!");
+			}
+
+			// Run database update
 			try
 			{
-				URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/db_setup.sql");
+				Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
+				Flyway flyway = new Flyway();
+				flyway.setTable("schema_version");
+				flyway.setValidateOnMigrate(false);
+				flyway.setDataSource(getDatabaseUrl(), username, password);
+				flyway.setLocations("classpath:jhi.germinate.server.util.database.migration");
+				flyway.setBaselineOnMigrate(true);
+				flyway.migrate();
+				flyway.repair();
+			}
+			catch (FlywayException e)
+			{
+				e.printStackTrace();
+			}
+
+			// Then create all views and stored procedures
+			try
+			{
+				URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
 
 				if (url != null)
 				{
-					Logger.getLogger("").log(Level.INFO, "RUNNING DATABASE CREATION SCRIPT!");
+					Logger.getLogger("").log(Level.INFO, "RUNNING VIEW/PROCEDURE CREATION SCRIPT!");
 					executeFile(new File(url.toURI()));
 				}
 				else
 				{
-					throw new IOException("Setup SQL file not found!");
+					throw new IOException("View/procedure SQL file not found!");
 				}
 			}
 			catch (IOException | URISyntaxException e)
 			{
 				e.printStackTrace();
 			}
-		}
-		else
-		{
-			Logger.getLogger("").log(Level.INFO, "DATABASE EXISTS, NO NEED TO CREATE IT!");
-		}
-
-		// Run database update
-		try
-		{
-			Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
-			Flyway flyway = new Flyway();
-			flyway.setTable("schema_version");
-			flyway.setValidateOnMigrate(false);
-			flyway.setDataSource(getDatabaseUrl(), username, password);
-			flyway.setLocations("classpath:jhi.germinate.server.util.database.migration");
-			flyway.setBaselineOnMigrate(true);
-			flyway.migrate();
-			flyway.repair();
-		}
-		catch (FlywayException e)
-		{
-			e.printStackTrace();
-		}
-
-		// Then create all views and stored procedures
-		try
-		{
-			URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
-
-			if (url != null)
-			{
-				Logger.getLogger("").log(Level.INFO, "RUNNING VIEW/PROCEDURE CREATION SCRIPT!");
-				executeFile(new File(url.toURI()));
-			}
-			else
-			{
-				throw new IOException("View/procedure SQL file not found!");
-			}
-		}
-		catch (IOException | URISyntaxException e)
-		{
-			e.printStackTrace();
 		}
 	}
 

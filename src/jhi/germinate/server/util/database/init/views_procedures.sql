@@ -22,6 +22,9 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_licenses` AS 
 DROP VIEW IF EXISTS `view_stats_overview`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_stats_overview` AS select (select count(1) from `germinatebase`) AS `germplasm`,(select count(1) from `markers`) AS `markers`,(select count(1) from `phenotypes`) AS `traits`,(select count(1) from `compounds`) AS `compounds`,(select count(1) from `locations`) AS `locations`,(select count(1) from `groups`) AS `groups`;
 
+DROP VIEW IF EXISTS `view_stats_taxonomy`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_stats_taxonomy` AS select `taxonomies`.`genus` AS `genus`,`taxonomies`.`species` AS `species`,`taxonomies`.`subtaxa` AS `subtaxa`,count(1) AS `count` from (`germinatebase` left join `taxonomies` on((`taxonomies`.`id` = `germinatebase`.`taxonomy_id`))) where (`germinatebase`.`entitytype_id` = 1) group by `taxonomies`.`id` order by count(1) desc;
+
 DROP VIEW IF EXISTS `view_table_groups`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_groups` AS select `groups`.`id` AS `group_id`,`groups`.`name` AS `group_name`,`groups`.`description` AS `group_description`,`grouptypes`.`id` AS `group_type_id`,`grouptypes`.`target_table` AS `group_type`,`groups`.`created_by` AS `user_id`,`groups`.`visibility` AS `group_visibility`,`groups`.`created_on` AS `created_on`,`groups`.`updated_on` AS `updated_on`,count(`groupmembers`.`id`) AS `count` from ((`groups` left join `grouptypes` on((`groups`.`grouptype_id` = `grouptypes`.`id`))) left join `groupmembers` on((`groupmembers`.`group_id` = `groups`.`id`))) group by `groups`.`id`;
 
