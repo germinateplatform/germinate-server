@@ -225,8 +225,12 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
 
 		// STATS
+		attachToRouter(routerAuth, "/stats/biologicalstatus", BiologicalstatusStatsResource.class);
+		attachToRouter(routerAuth, "/stats/country", CountryStatsResource.class);
+		attachToRouter(routerAuth, "/stats/dataset", DatasetStatsResource.class);
 		attachToRouter(routerAuth, "/stats/entitytype", EntityTypeStatsResource.class);
 		attachToRouter(routerAuth, "/stats/overview", OverviewStatsResource.class);
+		attachToRouter(routerAuth, "/stats/pdci", PdciStatsResource.class);
 		attachToRouter(routerAuth, "/stats/taxonomy", TaxonomyStatsResource.class);
 
 		// SETTINGS

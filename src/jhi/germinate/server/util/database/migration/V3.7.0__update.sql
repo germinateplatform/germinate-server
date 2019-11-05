@@ -32,4 +32,12 @@ CREATE TABLE `dataset_export_jobs`  (
   FOREIGN KEY (`experiment_type_id`) REFERENCES `experimenttypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+INSERT INTO `groups` (`name`, `description`, `visibility`, `grouptype_id`) SELECT `name`, `name`, 1, 1 FROM `megaenvironments`;
+
+INSERT INTO `groupmembers` (`foreign_id`, `group_id`) SELECT `location_id`, (SELECT `id` FROM `groups` WHERE `groups`.`name` = `megaenvironments`.`name`) FROM `megaenvironmentdata` LEFT JOIN `megaenvironments` ON `megaenvironmentdata`.`megaenvironment_id` = `megaenvironments`.`id` WHERE `megaenvironmentdata`.`is_final` = 1;
+
+DROP TABLE `megaenvironmentdata`;
+DROP TABLE `megaenvironments`;
+DROP TABLE `megaenvironmentsource`;
+
 SET FOREIGN_KEY_CHECKS=1;

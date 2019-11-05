@@ -3,16 +3,16 @@ package jhi.germinate.server.resource.stats;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.Get;
 
-import static jhi.germinate.server.database.tables.ViewStatsTaxonomy.*;
+import static jhi.germinate.server.database.tables.ViewStatsPdci.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class TaxonomyStatsResource extends StatsResource
+public class PdciStatsResource extends StatsResource
 {
 	@Get
 	public FileRepresentation getJson()
 	{
-		return export("taxonomy", VIEW_STATS_TAXONOMY);
+		return export("pdci", VIEW_STATS_PDCI);
 	}
 }

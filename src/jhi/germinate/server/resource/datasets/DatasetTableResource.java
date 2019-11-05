@@ -35,12 +35,22 @@ public class DatasetTableResource extends PaginatedServerResource
 {
 	public static List<Integer> getDatasetIdsForUser(Request req, Response resp)
 	{
-		return getDatasetsForUser(req, resp).stream()
+		return getDatasetIdsForUser(req, resp, true);
+	}
+
+	public static List<Integer> getDatasetIdsForUser(Request req, Response resp, boolean checkIfLicenseAccepted)
+	{
+		return getDatasetsForUser(req, resp, checkIfLicenseAccepted).stream()
 											.map(ViewTableDatasets::getDatasetId)
 											.collect(Collectors.toList());
 	}
 
 	public static List<ViewTableDatasets> getDatasetsForUser(Request req, Response resp)
+	{
+		return getDatasetsForUser(req, resp, true);
+	}
+
+	public static List<ViewTableDatasets> getDatasetsForUser(Request req, Response resp, boolean checkIfLicenseAccepted)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req, resp);
 
@@ -62,7 +72,10 @@ public class DatasetTableResource extends PaginatedServerResource
 																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
 
-			return restrictBasedOnLicenseAgreement(from.fetchInto(ViewTableDatasets.class), req, userDetails);
+			if (checkIfLicenseAccepted)
+				return restrictBasedOnLicenseAgreement(from.fetchInto(ViewTableDatasets.class), req, userDetails);
+			else
+				return from.fetchInto(ViewTableDatasets.class);
 		}
 		catch (SQLException e)
 		{
