@@ -14,9 +14,11 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
+import static jhi.germinate.server.database.tables.Germinatebase.*;
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.tables.Phenotypes.*;
 import static jhi.germinate.server.database.tables.ViewTableTraits.*;
@@ -24,10 +26,10 @@ import static jhi.germinate.server.database.tables.ViewTableTraits.*;
 /**
  * @author Sebastian Raubach
  */
-public class TraitStatsResource extends ServerResource
+public class TraitStatsResource extends SubsettedServerResource
 {
 	@Post("json")
-	public TraitDatasetStats postJson(PaginatedXSubsetDatasetRequest request)
+	public TraitDatasetStats postJson(SubsettedDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -59,7 +61,6 @@ public class TraitStatsResource extends ServerResource
 				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getxIds()));
 
 			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
-
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
 																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
 
@@ -67,47 +68,59 @@ public class TraitStatsResource extends ServerResource
 
 			TempStats tempStats = new TempStats();
 
-			context.select(
+			SelectConditionStep<? extends Record> dataStep = context.select(
 				PHENOTYPEDATA.DATASET_ID,
 				PHENOTYPEDATA.PHENOTYPE_ID,
 				DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
 			)
-				   .from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-				   .where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
-				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
-				   .orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
-				   .stream()
-				   .forEachOrdered(pd -> {
-					   Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
-					   Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
-					   String key = datasetId + "," + traitId;
-					   String value = pd.get("phenotype_value", String.class);
+																	.from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+																	.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+																	.and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
 
-					   if (!Objects.equals(key, tempStats.prev))
-					   {
-						   if (tempStats.prev != null)
-						   {
-							   stats.put(tempStats.prev, generateStats(tempStats));
-						   }
+			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
+			{
+				Set<Integer> germplasmIds = getYIds(context, GERMINATEBASE, GERMINATEBASE.ID, request);
 
-						   tempStats.avg = 0;
-						   tempStats.count = 0;
-						   tempStats.prev = key;
-						   tempStats.values.clear();
-					   }
+				// If something was requested, but no germplasm found, throw an exception
+				if (CollectionUtils.isEmpty(germplasmIds))
+					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-					   // Count in any case
-					   tempStats.count++;
-					   try
-					   {
-						   float v = Float.parseFloat(value);
-						   tempStats.avg += v;
-						   tempStats.values.add(v);
-					   }
-					   catch (NumberFormatException | NullPointerException e)
-					   {
-					   }
-				   });
+				dataStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds));
+			}
+
+			dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
+					.stream()
+					.forEachOrdered(pd -> {
+						Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
+						Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
+						String key = datasetId + "," + traitId;
+						String value = pd.get("phenotype_value", String.class);
+
+						if (!Objects.equals(key, tempStats.prev))
+						{
+							if (tempStats.prev != null)
+							{
+								stats.put(tempStats.prev, generateStats(tempStats));
+							}
+
+							tempStats.avg = 0;
+							tempStats.count = 0;
+							tempStats.prev = key;
+							tempStats.values.clear();
+						}
+
+						// Count in any case
+						tempStats.count++;
+						try
+						{
+							float v = Float.parseFloat(value);
+							tempStats.avg += v;
+							tempStats.values.add(v);
+						}
+						catch (NumberFormatException | NullPointerException e)
+						{
+						}
+					});
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
@@ -145,6 +158,7 @@ public class TraitStatsResource extends ServerResource
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
+
 
 	private Quantiles generateStats(TempStats tempStats)
 	{

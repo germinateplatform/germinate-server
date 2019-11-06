@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.*;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.resource.BaseServerResource;

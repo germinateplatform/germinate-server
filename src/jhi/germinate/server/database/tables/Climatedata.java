@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climatedata extends TableImpl<ClimatedataRecord> {
 
-    private static final long serialVersionUID = 897795106;
+    private static final long serialVersionUID = -2059259724;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.climatedata</code>
@@ -82,9 +82,14 @@ public class Climatedata extends TableImpl<ClimatedataRecord> {
     public final TableField<ClimatedataRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to datasets (datasets.id).");
 
     /**
-     * The column <code>germinate_template_3_7_0.climatedata.recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
+     * The column <code>germinate_template_3_7_0.climatedata.recording_date</code>. The date at which this data point was recorded.
      */
-    public final TableField<ClimatedataRecord, String> RECORDING_DATE = createField("recording_date", org.jooq.impl.SQLDataType.VARCHAR(32), this, "The month that the data was recorded. This uses an integer to represent the month (1-12).");
+    public final TableField<ClimatedataRecord, Timestamp> RECORDING_DATE = createField("recording_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "The date at which this data point was recorded.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.climatedata.old_recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
+     */
+    public final TableField<ClimatedataRecord, String> OLD_RECORDING_DATE = createField("old_recording_date", org.jooq.impl.SQLDataType.VARCHAR(32), this, "The month that the data was recorded. This uses an integer to represent the month (1-12).");
 
     /**
      * The column <code>germinate_template_3_7_0.climatedata.created_on</code>. When the record was created.

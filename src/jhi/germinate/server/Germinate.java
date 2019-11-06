@@ -13,6 +13,8 @@ import java.util.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
+import jhi.germinate.server.resource.climate.ClimateTableResource;
+import jhi.germinate.server.resource.stats.ClimateStatsResource;
 import jhi.germinate.server.resource.compound.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
@@ -110,6 +112,9 @@ public class Germinate extends Application
 		corsFilter.setExposedHeaders(Collections.singleton("Content-Disposition"));
 
 		// Attach the url handlers
+		// CLIMATE
+		attachToRouter(routerAuth, "/climate/table", ClimateTableResource.class);
+
 		// COMPOUNDS
 		attachToRouter(routerAuth, "/compound/table", CompoundTableResource.class);
 
@@ -143,6 +148,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/data/trial/table/ids", TrialsDataTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/data/trial/table/export", TrialsDataTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/map", DatasetMapResource.class);
+		attachToRouter(routerAuth, "/dataset/stats/climate", ClimateStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/compound", CompoundStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/trial", TraitStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/compound", DatasetCompoundResource.class);

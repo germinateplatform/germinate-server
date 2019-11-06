@@ -40,4 +40,10 @@ DROP TABLE `megaenvironmentdata`;
 DROP TABLE `megaenvironments`;
 DROP TABLE `megaenvironmentsource`;
 
+ALTER TABLE `climatedata` CHANGE COLUMN `recording_date` `old_recording_date` varchar(32) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'The month that the data was recorded. This uses an integer to represent the month (1-12).' AFTER `dataset_id`;
+ALTER TABLE `climatedata` ADD COLUMN `recording_date` datetime(0) NULL COMMENT 'The date at which this data point was recorded.' AFTER `dataset_id`;
+UPDATE `climatedata` SET `recording_date` = STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-', LPAD(`old_recording_date`,2 , '00'), '-01'), '%Y-%m-%d');
+
+ALTER TABLE `climatedata` ADD INDEX `climate_query_index`(`climate_id`, `location_id`, `recording_date`, `dataset_id`, `climate_value`);
+
 SET FOREIGN_KEY_CHECKS=1;

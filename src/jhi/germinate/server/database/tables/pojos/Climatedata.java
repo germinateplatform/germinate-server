@@ -26,14 +26,15 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Climatedata implements Serializable {
 
-    private static final long serialVersionUID = -1294319665;
+    private static final long serialVersionUID = 2121280243;
 
     private Integer   id;
     private Integer   climateId;
     private Integer   locationId;
     private Double    climateValue;
     private Integer   datasetId;
-    private String    recordingDate;
+    private Timestamp recordingDate;
+    private String    oldRecordingDate;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -46,6 +47,7 @@ public class Climatedata implements Serializable {
         this.climateValue = value.climateValue;
         this.datasetId = value.datasetId;
         this.recordingDate = value.recordingDate;
+        this.oldRecordingDate = value.oldRecordingDate;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -56,7 +58,8 @@ public class Climatedata implements Serializable {
         Integer   locationId,
         Double    climateValue,
         Integer   datasetId,
-        String    recordingDate,
+        Timestamp recordingDate,
+        String    oldRecordingDate,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -66,6 +69,7 @@ public class Climatedata implements Serializable {
         this.climateValue = climateValue;
         this.datasetId = datasetId;
         this.recordingDate = recordingDate;
+        this.oldRecordingDate = oldRecordingDate;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -110,12 +114,20 @@ public class Climatedata implements Serializable {
         this.datasetId = datasetId;
     }
 
-    public String getRecordingDate() {
+    public Timestamp getRecordingDate() {
         return this.recordingDate;
     }
 
-    public void setRecordingDate(String recordingDate) {
+    public void setRecordingDate(Timestamp recordingDate) {
         this.recordingDate = recordingDate;
+    }
+
+    public String getOldRecordingDate() {
+        return this.oldRecordingDate;
+    }
+
+    public void setOldRecordingDate(String oldRecordingDate) {
+        this.oldRecordingDate = oldRecordingDate;
     }
 
     public Timestamp getCreatedOn() {
@@ -144,6 +156,7 @@ public class Climatedata implements Serializable {
         sb.append(", ").append(climateValue);
         sb.append(", ").append(datasetId);
         sb.append(", ").append(recordingDate);
+        sb.append(", ").append(oldRecordingDate);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

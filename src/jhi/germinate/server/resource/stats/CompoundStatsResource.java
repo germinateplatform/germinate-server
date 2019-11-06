@@ -8,25 +8,29 @@ import org.restlet.resource.*;
 import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.logging.*;
 import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.Compounddata.*;
 import static jhi.germinate.server.database.tables.Compounds.*;
+import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.tables.ViewTableCompounds.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class CompoundStatsResource extends ServerResource
+public class CompoundStatsResource extends SubsettedServerResource
 {
 	@Post("json")
-	public CompoundDatasetStats postJson(PaginatedXSubsetDatasetRequest request)
+	public CompoundDatasetStats postJson(SubsettedDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -66,40 +70,52 @@ public class CompoundStatsResource extends ServerResource
 
 			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
 
-			context.select(
+			SelectConditionStep<? extends Record> dataStep = context.select(
 				COMPOUNDDATA.DATASET_ID,
 				COMPOUNDDATA.COMPOUND_ID,
 				COMPOUNDDATA.COMPOUND_VALUE
 			)
-				   .from(COMPOUNDDATA).leftJoin(COMPOUNDS).on(COMPOUNDS.ID.eq(COMPOUNDDATA.COMPOUND_ID))
-				   .where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
-				   .and(COMPOUNDDATA.COMPOUND_ID.in(compoundMap.keySet()))
-				   .orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
-				   .stream()
-				   .forEachOrdered(pd -> {
-					   Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
-					   Integer traitId = pd.get(COMPOUNDDATA.COMPOUND_ID);
-					   String key = datasetId + "," + traitId;
-					   float value = pd.get(COMPOUNDDATA.COMPOUND_VALUE).floatValue();
+																	.from(COMPOUNDDATA).leftJoin(COMPOUNDS).on(COMPOUNDS.ID.eq(COMPOUNDDATA.COMPOUND_ID))
+																	.where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
+																	.and(COMPOUNDDATA.COMPOUND_ID.in(compoundMap.keySet()));
 
-					   if (!Objects.equals(key, tempStats.prev))
-					   {
-						   if (tempStats.prev != null)
-						   {
-							   stats.put(tempStats.prev, generateStats(tempStats));
-						   }
+			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
+			{
+				Set<Integer> germplasmIds = getYIds(context, GERMINATEBASE, GERMINATEBASE.ID, request);
 
-						   tempStats.avg = 0;
-						   tempStats.count = 0;
-						   tempStats.prev = key;
-						   tempStats.values.clear();
-					   }
+				// If something was requested, but no germplasm found, throw an exception
+				if (CollectionUtils.isEmpty(germplasmIds))
+					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-					   // Count in any case
-					   tempStats.count++;
-					   tempStats.avg += value;
-					   tempStats.values.add(value);
-				   });
+				dataStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds));
+			}
+
+			dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
+					.stream()
+					.forEachOrdered(pd -> {
+						Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
+						Integer traitId = pd.get(COMPOUNDDATA.COMPOUND_ID);
+						String key = datasetId + "," + traitId;
+						float value = pd.get(COMPOUNDDATA.COMPOUND_VALUE).floatValue();
+
+						if (!Objects.equals(key, tempStats.prev))
+						{
+							if (tempStats.prev != null)
+							{
+								stats.put(tempStats.prev, generateStats(tempStats));
+							}
+
+							tempStats.avg = 0;
+							tempStats.count = 0;
+							tempStats.prev = key;
+							tempStats.values.clear();
+						}
+
+						// Count in any case
+						tempStats.count++;
+						tempStats.avg += value;
+						tempStats.values.add(value);
+					});
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
