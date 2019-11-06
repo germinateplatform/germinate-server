@@ -17,19 +17,19 @@ import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Compounddata.*;
-import static jhi.germinate.server.database.tables.Compounds.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.tables.Climatedata.*;
+import static jhi.germinate.server.database.tables.Climates.*;
+import static jhi.germinate.server.database.tables.Locations.*;
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.ViewTableCompounds.*;
+import static jhi.germinate.server.database.tables.ViewTableClimates.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class CompoundStatsResource extends SubsettedServerResource
+public class ClimateStatsResource extends SubsettedServerResource
 {
 	@Post("json")
-	public CompoundDatasetStats postJson(SubsettedDatasetRequest request)
+	public ClimateDatasetStats postJson(SubsettedDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -50,52 +50,52 @@ public class CompoundStatsResource extends SubsettedServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			// All traits within the selected datasets
-			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_COMPOUNDS)
+			// All climates within the selected datasets
+			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_CLIMATES)
 																.whereExists(DSL.selectOne()
-																				.from(COMPOUNDDATA)
-																				.where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
-																				.and(COMPOUNDDATA.COMPOUND_ID.eq(VIEW_TABLE_COMPOUNDS.COMPOUND_ID)));
+																				.from(CLIMATEDATA)
+																				.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
+																				.and(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)));
 
 			if (!CollectionUtils.isEmpty(request.getxIds()))
-				step.and(VIEW_TABLE_COMPOUNDS.COMPOUND_ID.in(request.getxIds()));
+				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getxIds()));
 
-			Map<Integer, ViewTableCompounds> compoundMap = step.fetchMap(VIEW_TABLE_COMPOUNDS.COMPOUND_ID, ViewTableCompounds.class);
+			Map<Integer, ViewTableClimates> climateMap = step.fetchMap(VIEW_TABLE_CLIMATES.CLIMATE_ID, ViewTableClimates.class);
 
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
 																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
 
 			Map<String, Quantiles> stats = new TreeMap<>();
 
-			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
+			TempStats tempStats = new TempStats();
 
 			SelectConditionStep<? extends Record> dataStep = context.select(
-				COMPOUNDDATA.DATASET_ID,
-				COMPOUNDDATA.COMPOUND_ID,
-				COMPOUNDDATA.COMPOUND_VALUE
+				CLIMATEDATA.DATASET_ID,
+				CLIMATEDATA.CLIMATE_ID,
+				CLIMATEDATA.CLIMATE_VALUE.as("climate_value")
 			)
-																	.from(COMPOUNDDATA).leftJoin(COMPOUNDS).on(COMPOUNDS.ID.eq(COMPOUNDDATA.COMPOUND_ID))
-																	.where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
-																	.and(COMPOUNDDATA.COMPOUND_ID.in(compoundMap.keySet()));
+																	.from(CLIMATEDATA).leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
+																	.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
+																	.and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()));
 
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
-				Set<Integer> germplasmIds = getYIds(context, GERMINATEBASE, GERMINATEBASE.ID, request);
+				Set<Integer> locationIds = getYIds(context, LOCATIONS, LOCATIONS.ID, request);
 
 				// If something was requested, but no germplasm found, throw an exception
-				if (CollectionUtils.isEmpty(germplasmIds))
+				if (CollectionUtils.isEmpty(locationIds))
 					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-				dataStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds));
+				dataStep = dataStep.and(CLIMATEDATA.LOCATION_ID.in(locationIds));
 			}
 
-			dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
+			dataStep.orderBy(CLIMATEDATA.DATASET_ID, CLIMATEDATA.CLIMATE_ID, DSL.cast(CLIMATEDATA.CLIMATE_VALUE, Double.class))
 					.stream()
 					.forEachOrdered(pd -> {
-						Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
-						Integer traitId = pd.get(COMPOUNDDATA.COMPOUND_ID);
-						String key = datasetId + "," + traitId;
-						float value = pd.get(COMPOUNDDATA.COMPOUND_VALUE).floatValue();
+						Integer datasetId = pd.get(CLIMATEDATA.DATASET_ID);
+						Integer climateId = pd.get(CLIMATEDATA.CLIMATE_ID);
+						String key = datasetId + "," + climateId;
+						String value = pd.get("climate_value", String.class);
 
 						if (!Objects.equals(key, tempStats.prev))
 						{
@@ -112,37 +112,44 @@ public class CompoundStatsResource extends SubsettedServerResource
 
 						// Count in any case
 						tempStats.count++;
-						tempStats.avg += value;
-						tempStats.values.add(value);
+						try
+						{
+							float v = Float.parseFloat(value);
+							tempStats.avg += v;
+							tempStats.values.add(v);
+						}
+						catch (NumberFormatException | NullPointerException e)
+						{
+						}
 					});
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
 				stats.put(tempStats.prev, generateStats(tempStats));
 
-			CompoundDatasetStats result = new CompoundDatasetStats();
-			Set<ViewTableCompounds> compounds = new LinkedHashSet<>();
+			ClimateDatasetStats result = new ClimateDatasetStats();
+			Set<ViewTableClimates> climates = new LinkedHashSet<>();
 			Set<ViewTableDatasets> datasets = new LinkedHashSet<>();
 
 			result.setStats(stats.keySet().stream()
 								 .map(ids -> {
 									 String[] split = ids.split(",");
 									 Integer datasetId = Integer.parseInt(split[0]);
-									 Integer traitId = Integer.parseInt(split[1]);
+									 Integer climateId = Integer.parseInt(split[1]);
 
-									 compounds.add(compoundMap.get(traitId));
+									 climates.add(climateMap.get(climateId));
 									 datasets.add(datasetMap.get(datasetId));
 
 									 Quantiles q = stats.get(ids);
 									 q.setDatasetId(datasetId);
-									 q.setxId(traitId);
+									 q.setxId(climateId);
 
 									 return q;
 								 })
 								 .collect(Collectors.toList()));
 
 			result.setDatasets(datasets);
-			result.setCompounds(compounds);
+			result.setClimates(climates);
 
 			return result;
 		}
@@ -153,7 +160,7 @@ public class CompoundStatsResource extends SubsettedServerResource
 		}
 	}
 
-	private Quantiles generateStats(TraitStatsResource.TempStats tempStats)
+	private Quantiles generateStats(TempStats tempStats)
 	{
 		Quantiles q = new Quantiles();
 		q.setCount(tempStats.count);
@@ -190,5 +197,13 @@ public class CompoundStatsResource extends SubsettedServerResource
 		}
 
 		return q;
+	}
+
+	static class TempStats
+	{
+		public String      prev   = null;
+		public List<Float> values = new ArrayList<>();
+		public float       avg    = 0;
+		public int         count  = 0;
 	}
 }
