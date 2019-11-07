@@ -86,7 +86,7 @@ public class CompoundStatsResource extends SubsettedServerResource
 				if (CollectionUtils.isEmpty(germplasmIds))
 					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-				dataStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds));
+				dataStep = dataStep.and(COMPOUNDDATA.GERMINATEBASE_ID.in(germplasmIds));
 			}
 
 			dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
