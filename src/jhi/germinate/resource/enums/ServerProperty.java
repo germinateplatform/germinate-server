@@ -21,6 +21,7 @@ public enum ServerProperty
 	GATEKEEPER_USERNAME("gatekeeper.username", null, false),
 	GATEKEEPER_PASSWORD("gatekeeper.password", null, false),
 	HIDDEN_PAGES("hidden.pages", null, false),
+	PDCI_ENABLED("pdci.enabled", "true", false),
 	FILES_DELETE_AFTER_HOURS_ASYNC("files.delete.after.hours.async", "12", false),
 	FILES_DELETE_AFTER_HOURS_TEMP("files.delete.after.hours.temp", "12", false);
 

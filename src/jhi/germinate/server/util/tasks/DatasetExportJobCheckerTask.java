@@ -20,11 +20,9 @@ package jhi.germinate.server.util.tasks;
 import org.jooq.DSLContext;
 
 import java.sql.*;
-import java.util.List;
 
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
-import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
 
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
 
@@ -36,25 +34,23 @@ public class DatasetExportJobCheckerTask implements Runnable
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			List<DatasetExportJobsRecord> jobs = context.selectFrom(DATASET_EXPORT_JOBS)
-														.fetchInto(DatasetExportJobsRecord.class);
+			context.selectFrom(DATASET_EXPORT_JOBS)
+				   .forEach(j -> {
+					   try
+					   {
+						   boolean finished = ApplicationListener.SCHEDULER.isJobFinished(j.getJobId());
 
-			jobs.forEach(j -> {
-				try
-				{
-					boolean finished = ApplicationListener.SCHEDULER.isJobFinished(j.getJobId());
-
-					if (finished)
-					{
-						j.setStatus(DatasetExportJobsStatus.completed);
-						j.store();
-					}
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			});
+						   if (finished)
+						   {
+							   j.setStatus(DatasetExportJobsStatus.completed);
+							   j.store();
+						   }
+					   }
+					   catch (Exception e)
+					   {
+						   e.printStackTrace();
+					   }
+				   });
 		}
 		catch (SQLException e)
 		{

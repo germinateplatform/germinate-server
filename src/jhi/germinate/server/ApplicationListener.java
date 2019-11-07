@@ -43,7 +43,7 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 0, 1, TimeUnit.HOURS);
 		// Every minute, check the async job status
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 0, 1, TimeUnit.MINUTES);
-		// Every specified amount of minues, delete the async folders that aren't needed anymore
+		// Every specified amount of hours, delete the async folders that aren't needed anymore
 		if (asyncDeleteDelay != null)
 			backgroundScheduler.scheduleAtFixedRate(new AsyncFolderCleanupTask(), 0, asyncDeleteDelay, TimeUnit.HOURS);
 
@@ -56,11 +56,14 @@ public class ApplicationListener implements ServletContextListener
 											 .findFirst()
 											 .orElse(null);
 
+			// Every specified amount of hours, delete the temp files
 			if (!StringUtils.isEmpty(firstNonEmptyPart))
 				backgroundScheduler.scheduleAtFixedRate(new TempFolderCleanupTask(firstNonEmptyPart), 0, tempDeleteDelay, TimeUnit.HOURS);
 		}
 
-		backgroundScheduler.scheduleAtFixedRate(new PDCITask(), 0, 4, TimeUnit.HOURS);
+		// Run automatic PDCI update if enabled
+		if (PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED))
+			backgroundScheduler.scheduleAtFixedRate(new PDCITask(), 0, 4, TimeUnit.HOURS);
 	}
 
 	@Override

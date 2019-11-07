@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.groups;
 
 import org.jooq.*;
-import org.jooq.impl.DSL;
+import org.jooq.impl.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -15,6 +15,7 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
+import static jhi.germinate.server.database.tables.Climatedata.*;
 import static jhi.germinate.server.database.tables.Compounddata.*;
 import static jhi.germinate.server.database.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
@@ -60,6 +61,9 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 			SelectConditionStep<? extends Record> resultStep = null;
 			switch (request.getExperimentType())
 			{
+				case "climate":
+					resultStep = getClimateGroups(step, requestedIds);
+					break;
 				case "trials":
 					resultStep = getTrialsGroups(step, requestedIds);
 					break;
@@ -78,6 +82,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 			if (resultStep != null)
 			{
 				return resultStep.groupBy(GROUPS.ID, GROUPTYPES.ID)
+								 .orderBy(GROUPS.NAME)
 								 .fetchInto(ViewTableGroups.class);
 			}
 			else
@@ -92,45 +97,65 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 		}
 	}
 
+	private SelectConditionStep<? extends Record> getClimateGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
+	{
+		return step.from(GROUPS)
+				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
+				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+				   .where(GROUPS.GROUPTYPE_ID.eq(1))
+				   .andExists(DSL.selectOne().from(CLIMATEDATA)
+								 .where(CLIMATEDATA.LOCATION_ID.eq(GROUPMEMBERS.FOREIGN_ID))
+								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+								 .and(CLIMATEDATA.DATASET_ID.in(requestedIds)));
+	}
+
 	private SelectConditionStep<? extends Record> getTrialsGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
 	{
-		return step.from(PHENOTYPEDATA)
-				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
-				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-				   .leftJoin(GROUPTYPES).on(GROUPS.GROUPTYPE_ID.eq(GROUPTYPES.ID))
+		return step.from(GROUPS)
+				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
+				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(3))
-				   .and(PHENOTYPEDATA.DATASET_ID.in(requestedIds));
+				   .andExists(DSL.selectOne().from(PHENOTYPEDATA)
+								 .where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
+								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+								 .and(PHENOTYPEDATA.DATASET_ID.in(requestedIds)));
 	}
 
 	private SelectConditionStep<? extends Record> getCompoundGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
 	{
-		return step.from(COMPOUNDDATA)
-				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(COMPOUNDDATA.GERMINATEBASE_ID))
-				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-				   .leftJoin(GROUPTYPES).on(GROUPS.GROUPTYPE_ID.eq(GROUPTYPES.ID))
+		return step.from(GROUPS)
+				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
+				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(3))
-				   .and(COMPOUNDDATA.DATASET_ID.in(requestedIds));
+				   .andExists(DSL.selectOne().from(COMPOUNDDATA)
+								 .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
+								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+								 .and(COMPOUNDDATA.DATASET_ID.in(requestedIds)));
 	}
 
 	private SelectConditionStep<? extends Record> getGenotypeAllelefreqMarkerGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
 	{
-		return step.from(DATASETMEMBERS)
-				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(DATASETMEMBERS.FOREIGN_ID))
-				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-				   .leftJoin(GROUPTYPES).on(GROUPS.GROUPTYPE_ID.eq(GROUPTYPES.ID))
-				   .where(DATASETMEMBERS.DATASET_ID.in(requestedIds))
-				   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1))
-				   .and(GROUPS.GROUPTYPE_ID.eq(2));
+		return step.from(GROUPS)
+				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
+				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+				   .where(GROUPS.GROUPTYPE_ID.eq(2))
+				   .andExists(DSL.selectOne().from(DATASETMEMBERS)
+								 .where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1))
+								 .and(DATASETMEMBERS.FOREIGN_ID.eq(GROUPMEMBERS.FOREIGN_ID))
+								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+								 .and(DATASETMEMBERS.DATASET_ID.in(requestedIds)));
 	}
 
 	private SelectConditionStep<? extends Record> getGenotypeAllelefreqGermplasmGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
 	{
-		return step.from(DATASETMEMBERS)
-				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(DATASETMEMBERS.FOREIGN_ID))
-				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-				   .leftJoin(GROUPTYPES).on(GROUPS.GROUPTYPE_ID.eq(GROUPTYPES.ID))
-				   .where(DATASETMEMBERS.DATASET_ID.in(requestedIds))
-				   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-				   .and(GROUPS.GROUPTYPE_ID.eq(3));
+		return step.from(GROUPS)
+				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
+				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+				   .where(GROUPS.GROUPTYPE_ID.eq(3))
+				   .andExists(DSL.selectOne().from(DATASETMEMBERS)
+								 .where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+								 .and(DATASETMEMBERS.FOREIGN_ID.eq(GROUPMEMBERS.FOREIGN_ID))
+								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
+								 .and(DATASETMEMBERS.DATASET_ID.in(requestedIds)));
 	}
 }
