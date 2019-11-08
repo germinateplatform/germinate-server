@@ -19,7 +19,8 @@ public class BaseServerResource extends ServerResource
 {
 	protected static final String CRLF = "\r\n";
 
-	protected static void exportToFile(PrintWriter bw, Result<? extends Record> results, boolean includeHeaders, PaginatedServerResource.ExportSettings settings)
+	protected static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, PaginatedServerResource.ExportSettings settings)
+		throws IOException
 	{
 		List<Field> columnsToNullList = new ArrayList<>();
 		if (settings != null && settings.fieldsToNull != null)
@@ -29,22 +30,31 @@ public class BaseServerResource extends ServerResource
 		Row row = results.fieldsRow();
 		if (includeHeaders)
 		{
-			bw.print(row.fieldStream()
+			bw.write(row.fieldStream()
 						.filter(f -> !columnsToNullList.contains(f))
 						.map(Field::getName)
 						.collect(Collectors.joining("\t", "", CRLF)));
 		}
-		results.forEach(r -> bw.print(IntStream.range(0, row.size())
-											   .boxed()
-											   .filter(i -> !columnsToNullList.contains(row.field(i)))
-											   .map(i -> {
-												   Object value = r.getValue(i);
-												   if (value == null)
-													   return "";
-												   else
-													   return value.toString();
-											   })
-											   .collect(Collectors.joining("\t", "", CRLF))));
+		results.forEach(r -> {
+			try
+			{
+				bw.write(IntStream.range(0, row.size())
+								  .boxed()
+								  .filter(i -> !columnsToNullList.contains(row.field(i)))
+								  .map(i -> {
+									  Object value = r.getValue(i);
+									  if (value == null)
+										  return "";
+									  else
+										  return value.toString();
+								  })
+								  .collect(Collectors.joining("\t", "", CRLF)));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		});
 	}
 
 	protected File getLibFolder()
@@ -88,7 +98,7 @@ public class BaseServerResource extends ServerResource
 		return new File(folder, fileOrSubFolder);
 	}
 
-	protected File createTempFile(String parentFolder, String filename, String extension)
+	protected File createTempFile(String parentFolder, String filename, String extension, boolean create)
 		throws IOException
 	{
 		extension = extension.replace(".", "");
@@ -115,7 +125,8 @@ public class BaseServerResource extends ServerResource
 			file = new File(folder, filename + "-" + UUID.randomUUID() + "." + extension);
 		} while (file.exists());
 
-		file.createNewFile();
+		if (create)
+			file.createNewFile();
 
 		return file;
 	}
@@ -123,6 +134,6 @@ public class BaseServerResource extends ServerResource
 	protected File createTempFile(String filename, String extension)
 		throws IOException
 	{
-		return createTempFile(null, filename, extension);
+		return createTempFile(null, filename, extension, true);
 	}
 }

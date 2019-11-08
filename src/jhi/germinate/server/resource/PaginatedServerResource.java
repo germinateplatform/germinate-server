@@ -7,9 +7,12 @@ import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.ResourceException;
 
 import java.io.*;
-import java.net.URLDecoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.*;
 import java.sql.*;
+import java.util.*;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
@@ -158,10 +161,21 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		FileRepresentation representation;
 		try
 		{
-			File file = createTempFile(name, ".tsv");
+			File zipFile = createTempFile(null, name, ".zip", false);
+
+			URI uri = URI.create("jar:file:/" + zipFile.getAbsolutePath().replace("\\", "/"));
+
+			Map<String, String> env = new HashMap<>();
+			env.put("create", "true");
+			env.put("encoding", "UTF-8");
+
+			if (name.endsWith("-"))
+				name = name.substring(0, name.length() - 2);
+
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);
-				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+				 FileSystem fs = FileSystems.newFileSystem(uri, env, null);
+				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + ".txt"), StandardCharsets.UTF_8)))
 			{
 				SelectJoinStep<Record> from = context.select()
 													 .from(table);
@@ -183,8 +197,8 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 
-			representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
-			representation.setSize(file.length());
+			representation = new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
+			representation.setSize(zipFile.length());
 			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
 			// Remember to delete this after the call, we don't need it anymore
 			representation.setAutoDeleting(true);
@@ -202,6 +216,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 	{
 		public Condition[] conditions;
 		public Field[]     fieldsToNull;
+
 		public ExportSettings()
 		{
 		}

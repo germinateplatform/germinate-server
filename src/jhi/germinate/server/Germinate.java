@@ -13,7 +13,7 @@ import java.util.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
-import jhi.germinate.server.resource.climate.ClimateTableResource;
+import jhi.germinate.server.resource.climate.*;
 import jhi.germinate.server.resource.stats.ClimateStatsResource;
 import jhi.germinate.server.resource.compound.*;
 import jhi.germinate.server.resource.datasets.*;
@@ -142,6 +142,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}/download", AsyncDatasetExportDownloadResource.class);
+		attachToRouter(routerAuth, "/dataset/data/climate/table", ClimateDataTableResource.class);
+		attachToRouter(routerAuth, "/dataset/data/climate/table/ids", ClimateDataTableIdResource.class);
+		attachToRouter(routerAuth, "/dataset/data/climate/table/export", ClimateDataTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/data/compound/table", CompoundDataTableResource.class);
 		attachToRouter(routerAuth, "/dataset/data/compound/table/ids", CompoundDataTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/data/compound/table/export", CompoundDataTableExportResource.class);
