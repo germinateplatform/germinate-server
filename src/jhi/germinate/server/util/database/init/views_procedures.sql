@@ -34,6 +34,9 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_stats_pdci` AS sele
 DROP VIEW IF EXISTS `view_stats_country`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_stats_country` AS select ifnull(`countries`.`country_name`,'UNKNOWN COUNTRY ORIGIN') AS `country`,ifnull(`countries`.`country_code3`,'UNK') AS `code`,count(1) AS `count` from ((`germinatebase` left join `locations` on((`germinatebase`.`location_id` = `locations`.`id`))) left join `countries` on((`countries`.`id` = `locations`.`country_id`))) where (`germinatebase`.`entitytype_id` = 1) group by `countries`.`id` order by count(1) desc;
 
+DROP VIEW IF EXISTS `view_table_usergroups`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_usergroups` AS select `usergroups`.`id` AS `user_group_id`,`usergroups`.`name` AS `user_group_name`,`usergroups`.`description` AS `user_group_description`,`usergroups`.`created_on` AS `created_on`,count(`usergroupmembers`.`id`) AS `count` from (`usergroups` left join `usergroupmembers` on((`usergroupmembers`.`usergroup_id` = `usergroups`.`id`))) group by `usergroups`.`id`;
+
 DROP VIEW IF EXISTS `view_table_groups`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_groups` AS select `groups`.`id` AS `group_id`,`groups`.`name` AS `group_name`,`groups`.`description` AS `group_description`,`grouptypes`.`id` AS `group_type_id`,`grouptypes`.`target_table` AS `group_type`,`groups`.`created_by` AS `user_id`,`groups`.`visibility` AS `group_visibility`,`groups`.`created_on` AS `created_on`,`groups`.`updated_on` AS `updated_on`,count(`groupmembers`.`id`) AS `count` from ((`groups` left join `grouptypes` on((`groups`.`grouptype_id` = `grouptypes`.`id`))) left join `groupmembers` on((`groupmembers`.`group_id` = `groups`.`id`))) group by `groups`.`id`;
 
