@@ -13,9 +13,10 @@ import java.util.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
-import jhi.germinate.server.resource.climate.*;
+import jhi.germinate.server.resource.climates.*;
+import jhi.germinate.server.resource.news.NewsTableResource;
 import jhi.germinate.server.resource.stats.ClimateStatsResource;
-import jhi.germinate.server.resource.compound.*;
+import jhi.germinate.server.resource.compounds.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
 import jhi.germinate.server.resource.entities.EntityTableResource;
@@ -227,6 +228,9 @@ public class Germinate extends Application
 		// MARKERS
 		attachToRouter(routerAuth, "/marker/table", MarkerTableResource.class);
 		attachToRouter(routerAuth, "/marker/table/ids", MarkerTableIdResource.class);
+
+		// NEWS
+		attachToRouter(routerAuth, "/news/table", NewsTableResource.class);
 
 		// PEDIGREES
 		attachToRouter(routerAuth, "/pedigree/table", PedigreeTableResource.class);

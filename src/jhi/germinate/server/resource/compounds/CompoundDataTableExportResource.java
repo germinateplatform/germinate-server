@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.compound;
+package jhi.germinate.server.resource.compounds;
 
 import org.jooq.Condition;
 import org.restlet.data.Status;

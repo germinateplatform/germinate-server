@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.compound;
+package jhi.germinate.server.resource.climates;
 
 import org.jooq.*;
 import org.restlet.data.Status;
@@ -13,15 +13,15 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.ViewTableCompounds.*;
+import static jhi.germinate.server.database.tables.ViewTableClimates.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class CompoundTableResource extends PaginatedServerResource
+public class ClimateTableResource extends PaginatedServerResource
 {
 	@Post("json")
-	public PaginatedResult<List<ViewTableCompounds>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableClimates>> getJson(PaginatedRequest request)
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection();
@@ -32,14 +32,14 @@ public class CompoundTableResource extends PaginatedServerResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_COMPOUNDS);
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_CLIMATES);
 
 			// Filter here!
 			filter(from, filters);
 
-			List<ViewTableCompounds> result = setPaginationAndOrderBy(from)
+			List<ViewTableClimates> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(ViewTableCompounds.class);
+				.into(ViewTableClimates.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

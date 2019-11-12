@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.compound;
+package jhi.germinate.server.resource.climates;
 
 import org.jooq.*;
 import org.restlet.data.Status;
@@ -14,12 +14,12 @@ import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableCompoundData.*;
+import static jhi.germinate.server.database.tables.ViewTableClimateData.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class CompoundDataTableIdResource extends PaginatedServerResource
+public class ClimateDataTableIdResource extends PaginatedServerResource
 {
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedDatasetRequest request)
@@ -45,10 +45,10 @@ public class CompoundDataTableIdResource extends PaginatedServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_COMPOUND_DATA.GERMPLASM_ID)
-														   .from(VIEW_TABLE_COMPOUND_DATA);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_CLIMATE_DATA.LOCATION_ID)
+														   .from(VIEW_TABLE_CLIMATE_DATA);
 
-			from.where(VIEW_TABLE_COMPOUND_DATA.DATASET_ID.in(requestedIds));
+			from.where(VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);

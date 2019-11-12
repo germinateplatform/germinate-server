@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.climate;
+package jhi.germinate.server.resource.climates;
 
 import org.jooq.Condition;
 import org.restlet.data.Status;

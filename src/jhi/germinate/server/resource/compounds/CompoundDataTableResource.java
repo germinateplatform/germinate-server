@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.climate;
+package jhi.germinate.server.resource.compounds;
 
 import org.jooq.*;
 import org.restlet.data.Status;
@@ -10,19 +10,20 @@ import java.util.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedDatasetRequest;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.database.tables.pojos.ViewTableCompoundData;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableClimateData.*;
+import static jhi.germinate.server.database.tables.ViewTableCompoundData.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class ClimateDataTableIdResource extends PaginatedServerResource
+public class CompoundDataTableResource extends PaginatedServerResource
 {
 	@Post("json")
-	public PaginatedResult<List<Integer>> getJson(PaginatedDatasetRequest request)
+	public PaginatedResult<List<ViewTableCompoundData>> getJson(PaginatedDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -40,24 +41,28 @@ public class ClimateDataTableIdResource extends PaginatedServerResource
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
 		processRequest(request);
-		currentPage = 0;
-		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_CLIMATE_DATA.LOCATION_ID)
-														   .from(VIEW_TABLE_CLIMATE_DATA);
+			SelectSelectStep<Record> select = context.select();
 
-			from.where(VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds));
+			if (previousCount == -1)
+				select.hint("SQL_CALC_FOUND_ROWS");
+
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_COMPOUND_DATA);
+
+			from.where(VIEW_TABLE_COMPOUND_DATA.DATASET_ID.in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);
 
-			List<Integer> result = setPaginationAndOrderBy(from)
+			List<ViewTableCompoundData> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(Integer.class);
+				.into(ViewTableCompoundData.class);
 
-			return new PaginatedResult<>(result, result.size());
+			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
+
+			return new PaginatedResult<>(result, count);
 		}
 		catch (SQLException e)
 		{

@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.compound;
+package jhi.germinate.server.resource.climates;
 
 import org.jooq.*;
 import org.restlet.data.Status;
@@ -10,26 +10,26 @@ import java.util.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedDatasetRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableCompoundData;
+import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableCompoundData.*;
+import static jhi.germinate.server.database.tables.ViewTableClimateData.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class CompoundDataTableResource extends PaginatedServerResource
+public class ClimateDataTableResource extends PaginatedServerResource
 {
 	@Post("json")
-	public PaginatedResult<List<ViewTableCompoundData>> getJson(PaginatedDatasetRequest request)
+	public PaginatedResult<List<ViewTableClimateData>> getJson(PaginatedDatasetRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
-		List<Integer> requestedIds =request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets
 		if (CollectionUtils.isEmpty(requestedIds))
@@ -49,16 +49,16 @@ public class CompoundDataTableResource extends PaginatedServerResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_COMPOUND_DATA);
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_CLIMATE_DATA);
 
-			from.where(VIEW_TABLE_COMPOUND_DATA.DATASET_ID.in(requestedIds));
+			from.where(VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);
 
-			List<ViewTableCompoundData> result = setPaginationAndOrderBy(from)
+			List<ViewTableClimateData> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(ViewTableCompoundData.class);
+				.into(ViewTableClimateData.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
