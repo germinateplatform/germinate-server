@@ -33,7 +33,7 @@ import jhi.germinate.server.resource.pedigrees.*;
 import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.*;
 import jhi.germinate.server.resource.traits.*;
-import jhi.germinate.server.resource.usergroups.UsergroupTableResource;
+import jhi.germinate.server.resource.usergroups.*;
 
 /**
  * @author Sebastian Raubach
@@ -255,6 +255,8 @@ public class Germinate extends Application
 
 		// USER PERMISSIONS
 		attachToRouter(routerAuth, "/usergroup/table", UsergroupTableResource.class);
+		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);
+		attachToRouter(routerAuth, "/usergroup/{usergroupId}", UsergroupResource.class);
 
 		// UNAUTH
 		attachToRouter(routerUnauth, "/clientlocale", ClientLocaleResource.class);
