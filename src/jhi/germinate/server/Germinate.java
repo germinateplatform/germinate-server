@@ -14,6 +14,7 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
 import jhi.germinate.server.resource.climates.*;
+import jhi.germinate.server.resource.experiment.ExperimentTableResource;
 import jhi.germinate.server.resource.news.NewsTableResource;
 import jhi.germinate.server.resource.stats.ClimateStatsResource;
 import jhi.germinate.server.resource.compounds.*;
@@ -165,6 +166,9 @@ public class Germinate extends Application
 
 		// ENTITIES
 		attachToRouter(routerAuth, "/entity/table", EntityTableResource.class);
+
+		// EXPERIMENTS
+		attachToRouter(routerAuth, "/experiment/table", ExperimentTableResource.class);
 
 		// GERMPLASM
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);

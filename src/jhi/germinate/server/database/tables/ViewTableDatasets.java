@@ -40,7 +40,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 855626129;
+    private static final long serialVersionUID = -1314635656;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
@@ -84,6 +84,11 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
      */
     public final TableField<ViewTableDatasetsRecord, String> EXPERIMENT_TYPE = createField("experiment_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the experiment type.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableDatasetsRecord, Integer> EXPERIMENT_ID = createField("experiment_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_name</code>. Describes the experiment.
