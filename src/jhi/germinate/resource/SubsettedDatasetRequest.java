@@ -3,7 +3,7 @@ package jhi.germinate.resource;
 /**
  * @author Sebastian Raubach
  */
-public class SubsettedDatasetRequest
+public class SubsettedDatasetRequest extends PaginatedRequest
 {
 	private Integer[] xIds;
 	private Integer[] xGroupIds;

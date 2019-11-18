@@ -141,6 +141,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/export/allelefreq", AlleleFrequencyExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/trial", TrialExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/genotype", GenotypeExportResource.class);
+		attachToRouter(routerAuth, "/dataset/export/genotype/summary", GenotypeExportSummaryResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}/download", AsyncDatasetExportDownloadResource.class);

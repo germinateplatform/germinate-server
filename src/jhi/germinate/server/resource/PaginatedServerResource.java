@@ -95,7 +95,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		}
 	}
 
-	protected <T extends Record> SelectForUpdateStep<T> setPaginationAndOrderBy(SelectJoinStep<T> step)
+	protected <T extends Record> SelectForUpdateStep<T> setPaginationAndOrderBy(SelectOrderByStep<T> step)
 	{
 		if (ascending != null && orderBy != null)
 		{
