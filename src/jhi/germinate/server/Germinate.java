@@ -135,7 +135,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/{datasetId}/attribute/export", DatasetAttributeTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/{datasetId}/download-source", DatasetSourceDownloadResource.class);
 		attachToRouter(routerAuth, "/dataset/attribute", DatasetAttributeTableResource.class);
-		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeTableExportResource.class);
+//		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeTableExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/compound", CompoundExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/climate", ClimateExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/allelefreq/histogram", AlleleFrequencyHistogramExportResource.class);

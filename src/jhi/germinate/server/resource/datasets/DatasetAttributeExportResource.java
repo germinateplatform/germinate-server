@@ -1,8 +1,8 @@
 package jhi.germinate.server.resource.datasets;
 
-import org.jooq.*;
-import org.restlet.data.*;
+import org.jooq.DSLContext;
 import org.restlet.data.Status;
+import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
@@ -11,13 +11,13 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 
-import jhi.germinate.resource.*;
+import jhi.germinate.resource.ExperimentRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.routines.*;
-import jhi.germinate.server.resource.*;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.database.routines.ExportDatasetAttributes;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableTrialsData.*;
+import static jhi.germinate.server.database.tables.Datasets.*;
 
 /**
  * @author Sebastian Raubach
@@ -25,14 +25,34 @@ import static jhi.germinate.server.database.tables.ViewTableTrialsData.*;
 public class DatasetAttributeExportResource extends BaseServerResource
 {
 	@Post("json")
-	public FileRepresentation getJson(DatasetRequest request)
+	public FileRepresentation getJson(ExperimentRequest request)
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 
-		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> datasetIds = new ArrayList<>();
+
+		if (request.getExperimentId() != null)
+		{
+			try (Connection conn = Database.getConnection();
+				 DSLContext context = Database.getContext(conn))
+			{
+				datasetIds = context.selectDistinct(DATASETS.ID)
+					   .from(DATASETS)
+					   .where(DATASETS.EXPERIMENT_ID.eq(request.getExperimentId()))
+					   .fetchInto(Integer.class);
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else if (!CollectionUtils.isEmpty(request.getDatasetIds()))
+		{
+			datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		}
 		datasetIds.retainAll(availableDatasets);
 
 		if (datasetIds.size() < 1)
@@ -41,7 +61,7 @@ public class DatasetAttributeExportResource extends BaseServerResource
 		FileRepresentation representation;
 		try
 		{
-			File file = createTempFile("trials-" + CollectionUtils.join(datasetIds, "-"), ".txt");
+			File file = createTempFile("attributes-" + CollectionUtils.join(datasetIds, "-"), ".txt");
 
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);
