@@ -26,7 +26,6 @@ import org.restlet.util.Series;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.*;
 import java.util.stream.Collectors;
 
 import jhi.germinate.resource.enums.ServerProperty;
@@ -66,14 +65,21 @@ public class CustomVerifier implements Verifier
 
 	public static boolean removeToken(String token, Request request, Response response)
 	{
-		UserDetails exists = tokenToTimestamp.remove(token);
-
-		if (exists != null)
+		if (token != null)
 		{
-			tokenToImageToken.remove(exists.imageToken);
-			setCookie(request, response, null);
-			setDatasetCookie(request, response, true);
-			return true;
+			UserDetails exists = tokenToTimestamp.remove(token);
+
+			if (exists != null)
+			{
+				tokenToImageToken.remove(exists.imageToken);
+				setCookie(request, response, null);
+				setDatasetCookie(request, response, true);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{

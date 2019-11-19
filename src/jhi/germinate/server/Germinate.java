@@ -15,6 +15,7 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
 import jhi.germinate.server.resource.climates.*;
 import jhi.germinate.server.resource.experiment.ExperimentTableResource;
+import jhi.germinate.server.resource.gatekeeper.*;
 import jhi.germinate.server.resource.news.NewsTableResource;
 import jhi.germinate.server.resource.stats.ClimateStatsResource;
 import jhi.germinate.server.resource.compounds.*;
@@ -262,6 +263,10 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/usergroup/table", UsergroupTableResource.class);
 		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);
 		attachToRouter(routerAuth, "/usergroup/{usergroupId}", UsergroupResource.class);
+
+		attachToRouter(routerUnauth, "/gatekeeper/institution", GatekeeperInstitutionResource.class);
+		attachToRouter(routerUnauth, "/gatekeeper/user/existing", GatekeeperExistingUserResource.class);
+		attachToRouter(routerUnauth, "/gatekeeper/user/new", GatekeeperNewUserResource.class);
 
 		// UNAUTH
 		attachToRouter(routerUnauth, "/clientlocale", ClientLocaleResource.class);

@@ -9,7 +9,8 @@ import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.Token;
 import jhi.gatekeeper.server.database.tables.pojos.Users;
 import jhi.germinate.server.util.StringUtils;
-import okhttp3.OkHttpClient;
+import okhttp3.*;
+import retrofit2.Response;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -71,6 +72,21 @@ public class GatekeeperClient
 																							 .addHeader("Authorization", "Bearer " + token.getToken())
 																							 .addHeader("Cookie", "token=" + token.getToken())
 																							 .build()))
+												 .addInterceptor(chain -> {
+													 Request request = chain.request();
+													 okhttp3.Response response = chain.proceed(request);
+
+													 // On any 403, reset the client. Gatekeeper may have restarted and the token would then have been removed.
+													 if (response.code() == 403)
+													 {
+														 // Reset the client
+														 GatekeeperClient.reset();
+														 // Then send the request again
+														 return chain.proceed(request);
+													 }
+
+													 return response;
+												 })
 												 .build();
 
 		retrofit = (new Retrofit.Builder()).baseUrl(url)

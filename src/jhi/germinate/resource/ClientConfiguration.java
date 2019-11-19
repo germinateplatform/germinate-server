@@ -13,6 +13,7 @@ public class ClientConfiguration
 	private List<String>       colorsCharts;
 	private List<String>       hiddenPages;
 	private AuthenticationMode authMode;
+	private Boolean            registrationEnabled;
 
 	public ClientConfiguration()
 	{
@@ -59,6 +60,17 @@ public class ClientConfiguration
 	public ClientConfiguration setAuthMode(AuthenticationMode authMode)
 	{
 		this.authMode = authMode;
+		return this;
+	}
+
+	public Boolean getRegistrationEnabled()
+	{
+		return registrationEnabled;
+	}
+
+	public ClientConfiguration setRegistrationEnabled(Boolean registrationEnabled)
+	{
+		this.registrationEnabled = registrationEnabled;
 		return this;
 	}
 }
