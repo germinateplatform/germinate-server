@@ -200,6 +200,7 @@ public class GroupResource extends PaginatedServerResource
 	}
 
 	@Put("json")
+	@MinUserType(UserType.AUTH_USER)
 	public Integer putJson(Groups group)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());

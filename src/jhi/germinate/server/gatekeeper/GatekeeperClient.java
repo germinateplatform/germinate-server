@@ -4,10 +4,13 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
 import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jhi.gatekeeper.client.GatekeeperService;
-import jhi.gatekeeper.resource.Token;
-import jhi.gatekeeper.server.database.tables.pojos.Users;
+import jhi.gatekeeper.resource.*;
+import jhi.gatekeeper.server.database.tables.pojos.*;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.util.StringUtils;
 import okhttp3.*;
 import retrofit2.Response;
@@ -25,6 +28,8 @@ public class GatekeeperClient
 	private static String username;
 	private static String password;
 	private static Token  token;
+
+	private static ConcurrentHashMap<Integer, ViewUserDetails> users = new ConcurrentHashMap<>();
 
 	public static void init(String url, String username, String password)
 	{
@@ -102,5 +107,34 @@ public class GatekeeperClient
 			reset();
 
 		return service;
+	}
+
+	public static void getUsersFromGatekeeper()
+	{
+		try
+		{
+			// Each time the client is reset, get users from Gatekeeper
+			PaginatedResult<List<ViewUserDetails>> allUsers = service.getUsers(Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute().body();
+
+			if (allUsers != null)
+			{
+				GatekeeperClient.users.clear();
+				allUsers.getData().forEach(u -> GatekeeperClient.users.put(u.getId(), u));
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static ViewUserDetails getUser(Integer id)
+	{
+		return users != null ? users.get(id) : null;
+	}
+
+	public static List<ViewUserDetails> getUsers()
+	{
+		return new ArrayList<>(users.values());
 	}
 }

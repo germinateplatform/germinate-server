@@ -6,6 +6,7 @@ import org.restlet.resource.*;
 
 import java.sql.*;
 import java.util.Objects;
+import java.util.logging.*;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
@@ -39,7 +40,7 @@ public class UsergroupResource extends BaseServerResource
 	}
 
 	@Patch("json")
-	@MinUserType(UserType.AUTH_USER)
+	@MinUserType(UserType.ADMIN)
 	public boolean patchJson(Usergroups group)
 	{
 		if (group == null || groupId == null)
@@ -50,9 +51,9 @@ public class UsergroupResource extends BaseServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			GroupsRecord dbGroup = context.selectFrom(USERGROUPS)
+			UsergroupsRecord dbGroup = context.selectFrom(USERGROUPS)
 										  .where(USERGROUPS.ID.eq(groupId))
-										  .fetchOneInto(GroupsRecord.class);
+										  .fetchOneInto(UsergroupsRecord.class);
 
 			if (dbGroup == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -62,7 +63,7 @@ public class UsergroupResource extends BaseServerResource
 				dbGroup.setName(group.getName());
 			// Update the description
 			dbGroup.setDescription(group.getDescription());
-			return dbGroup.store() == 1;
+			return dbGroup.store(USERGROUPS.NAME, USERGROUPS.DESCRIPTION) == 1;
 		}
 		catch (SQLException e)
 		{
@@ -72,6 +73,7 @@ public class UsergroupResource extends BaseServerResource
 	}
 
 	@Put("json")
+	@MinUserType(UserType.ADMIN)
 	public Integer putJson(Usergroups group)
 	{
 		if (StringUtils.isEmpty(group.getName()) || group.getId() != null)
