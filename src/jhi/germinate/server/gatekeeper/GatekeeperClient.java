@@ -4,6 +4,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,6 +13,7 @@ import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
 import okhttp3.*;
 import retrofit2.Response;
 import retrofit2.*;
@@ -30,6 +32,7 @@ public class GatekeeperClient
 	private static Token  token;
 
 	private static ConcurrentHashMap<Integer, ViewUserDetails> users = new ConcurrentHashMap<>();
+	private static Retrofit                                    retrofit;
 
 	public static void init(String url, String username, String password)
 	{
@@ -49,10 +52,10 @@ public class GatekeeperClient
 	private static void reset()
 	{
 		OkHttpClient httpClient = new OkHttpClient.Builder().build();
-		Retrofit retrofit = (new Retrofit.Builder()).baseUrl(url)
-													.addConverterFactory(GsonConverterFactory.create())
-													.client(httpClient)
-													.build();
+		retrofit = (new Retrofit.Builder()).baseUrl(url)
+										   .addConverterFactory(GsonConverterFactory.create())
+										   .client(httpClient)
+										   .build();
 
 		service = retrofit.create(GatekeeperService.class);
 
@@ -126,6 +129,24 @@ public class GatekeeperClient
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public static GatekeeperApiError parseError(Response<?> response)
+	{
+		Converter<ResponseBody, GatekeeperApiError> converter = retrofit.responseBodyConverter(GatekeeperApiError.class, new Annotation[0]);
+
+		GatekeeperApiError error;
+
+		try
+		{
+			error = converter.convert(response.errorBody());
+		}
+		catch (Exception e)
+		{
+			return new GatekeeperApiError();
+		}
+
+		return error;
 	}
 
 	public static ViewUserDetails getUser(Integer id)

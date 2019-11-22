@@ -4,7 +4,9 @@ import com.google.gson.JsonArray;
 
 import org.jooq.Result;
 import org.jooq.*;
+import org.restlet.Request;
 import org.restlet.data.Status;
+import org.restlet.ext.servlet.ServletUtils;
 import org.restlet.resource.*;
 
 import java.io.*;
@@ -124,7 +126,7 @@ public class GenotypeExportResource extends BaseServerResource
 					Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
 				}
 				File headerFile = new File(asyncFolder, dsName + ".header");
-				Files.write(headerFile.toPath(), getFlapjackHeaders(), StandardCharsets.UTF_8);
+				Files.write(headerFile.toPath(), getFlapjackHeaders(getRequest()), StandardCharsets.UTF_8);
 
 				File libFolder = getLibFolder();
 				List<String> args = new ArrayList<>();
@@ -171,20 +173,27 @@ public class GenotypeExportResource extends BaseServerResource
 		}
 	}
 
-	static List<String> getFlapjackHeaders()
+	static List<String> getFlapjackHeaders(Request request)
 	{
-		String serverBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
+		String clientBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
+		String serverBase = Germinate.getServerBase(ServletUtils.getRequest(request));
 
 		List<String> result = new ArrayList<>();
 
+		if (!StringUtils.isEmpty(clientBase))
+		{
+			if (clientBase.endsWith("/"))
+				clientBase = clientBase.substring(0, clientBase.length() - 1);
+			result.add("# fjDatabaseLineSearch = " + clientBase + "/#/data/germplasm/$LINE");
+			result.add("# fjDatabaseGroupPreview = " + clientBase + "/#/groups/upload/$GROUP");
+			result.add("# fjDatabaseMarkerSearch = " + clientBase + "/#/genotypes/marker/$MARKER"); // TODO
+		}
 		if (!StringUtils.isEmpty(serverBase))
 		{
 			if (serverBase.endsWith("/"))
 				serverBase = serverBase.substring(0, serverBase.length() - 1);
-			result.add("# fjDatabaseLineSearch = " + serverBase + "/data/germplasm/$LINE");
-			result.add("# fjDatabaseGroupPreview = " + serverBase + "/$GROUP"); // TODO
-			result.add("# fjDatabaseGroupUpload = " + serverBase + "/"); // TODO
-			result.add("# fjDatabaseMarkerSearch = " + serverBase + "/genotypes/marker/$MARKER"); // TODO
+
+			result.add("# fjDatabaseGroupUpload = " + serverBase + "/api/group/upload"); // TODO
 		}
 
 		return result;

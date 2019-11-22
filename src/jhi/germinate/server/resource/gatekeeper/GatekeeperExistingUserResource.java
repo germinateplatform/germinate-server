@@ -5,6 +5,7 @@ import org.restlet.resource.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.*;
 
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
@@ -14,6 +15,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import retrofit2.Response;
 
@@ -33,24 +35,44 @@ public class GatekeeperExistingUserResource extends BaseServerResource
 			u.setPassword(request.getPassword());
 			Response<Token> user = GatekeeperClient.get().postToken(u).execute();
 
-			if (systems.isSuccessful() && user.isSuccessful())
+			if (systems.isSuccessful())
 			{
-				PaginatedResult<List<DatabaseSystems>> list = systems.body();
-				Token token = user.body();
-
-				if (token != null && list != null && !CollectionUtils.isEmpty(list.getData()))
+				if (user.isSuccessful())
 				{
-					NewAccessRequest newRequest = new NewAccessRequest();
-					newRequest.setUserId(token.getId());
-					newRequest.setDatabaseSystemId(list.getData().get(0).getId());
-					newRequest.setLocale(request.getLocale());
-					newRequest.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
-					return GatekeeperClient.get().addExistingRequest(newRequest).execute().body();
+					PaginatedResult<List<DatabaseSystems>> list = systems.body();
+					Token token = user.body();
+
+					if (token != null && list != null && !CollectionUtils.isEmpty(list.getData()))
+					{
+						NewAccessRequest newRequest = new NewAccessRequest();
+						newRequest.setUserId(token.getId());
+						newRequest.setDatabaseSystemId(list.getData().get(0).getId());
+						newRequest.setLocale(request.getLocale());
+						newRequest.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
+
+						Response<Boolean> response = GatekeeperClient.get().addExistingRequest(newRequest).execute();
+
+						if (response.isSuccessful())
+						{
+							return response.body();
+						}
+						else
+						{
+							GatekeeperApiError error = GatekeeperClient.parseError(response);
+							throw new ResourceException(response.code(), error.getDescription());
+						}
+					}
+				}
+				else
+				{
+					GatekeeperApiError error = GatekeeperClient.parseError(user);
+					throw new ResourceException(user.code(), error.getDescription());
 				}
 			}
 			else
 			{
-				throw new ResourceException(Status.CLIENT_ERROR_EXPECTATION_FAILED, systems.errorBody().string() + " " + user.errorBody().string());
+				GatekeeperApiError error = GatekeeperClient.parseError(systems);
+				throw new ResourceException(systems.code(), error.getDescription());
 			}
 		}
 		catch (IOException e)

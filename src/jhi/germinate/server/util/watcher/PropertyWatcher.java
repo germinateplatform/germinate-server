@@ -509,20 +509,4 @@ public class PropertyWatcher
 
 		return result;
 	}
-
-	/**
-	 * Stores changes to the properties persistantly in the config.properties file
-	 *
-	 * @throws IOException          Thrown if the file interaction fails
-	 * @throws NullPointerException Thrown if the config.properties file URL cannot be converted to a URI
-	 */
-	public static synchronized void store()
-		throws IOException, NullPointerException
-	{
-		//		URL url = PropertyWatcher.class.getClassLoader().getResource(PROPERTIES_FILE);
-		try (FileOutputStream stream = new FileOutputStream(config))
-		{
-			properties.store(stream, null);
-		}
-	}
 }

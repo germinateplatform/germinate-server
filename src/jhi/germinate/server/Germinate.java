@@ -10,18 +10,18 @@ import org.restlet.util.Series;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
 import jhi.germinate.server.resource.climates.*;
-import jhi.germinate.server.resource.experiment.ExperimentTableResource;
-import jhi.germinate.server.resource.gatekeeper.*;
-import jhi.germinate.server.resource.news.NewsTableResource;
-import jhi.germinate.server.resource.stats.ClimateStatsResource;
 import jhi.germinate.server.resource.compounds.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
 import jhi.germinate.server.resource.entities.EntityTableResource;
+import jhi.germinate.server.resource.experiment.ExperimentTableResource;
+import jhi.germinate.server.resource.gatekeeper.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.groups.*;
 import jhi.germinate.server.resource.images.*;
@@ -31,6 +31,7 @@ import jhi.germinate.server.resource.license.*;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
+import jhi.germinate.server.resource.news.NewsTableResource;
 import jhi.germinate.server.resource.pedigrees.*;
 import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.*;
@@ -147,7 +148,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/export/genotype/summary", GenotypeExportSummaryResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async", AsyncDatasetExportResource.class);
 		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}", AsyncDatasetExportResource.class);
-		attachToRouter(routerAuth, "/dataset/export/async/{jobUuid}/download", AsyncDatasetExportDownloadResource.class);
+		attachToRouter(routerUnauth, "/dataset/export/async/{jobUuid}/download", AsyncDatasetExportDownloadResource.class);
 		attachToRouter(routerAuth, "/dataset/data/climate/table", ClimateDataTableResource.class);
 		attachToRouter(routerAuth, "/dataset/data/climate/table/ids", ClimateDataTableIdResource.class);
 		attachToRouter(routerAuth, "/dataset/data/climate/table/export", ClimateDataTableExportResource.class);
@@ -200,6 +201,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/group/{groupId}/location/ids", GroupLocationTableIdResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/marker", GroupMarkerTableResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/marker/ids", GroupMarkerTableIdResource.class);
+		attachToRouter(routerUnauth, "/group/upload", CurlyWhirlyGroupCreationResource.class);
 		attachToRouter(routerAuth, "/grouptype", GroupTypeResource.class);
 
 		// IMAGES
@@ -297,5 +299,18 @@ public class Germinate extends Application
 	{
 		router.attach(url, clazz);
 		router.attach(url + "/", clazz);
+	}
+
+	public static String getServerBase(HttpServletRequest req)
+	{
+		String scheme = req.getScheme(); // http or https
+		String serverName = req.getServerName(); // ics.hutton.ac.uk
+		int serverPort = req.getServerPort(); // 80 or 8080 or 443
+		String contextPath = req.getContextPath(); // /germinate-baz
+
+		if (serverPort == 80 || serverPort == 443)
+			return scheme + "://" + serverName + contextPath; // http://ics.hutton.ac.uk/germinate-baz
+		else
+			return scheme + "://" + serverName + ":" + serverPort + contextPath; // http://ics.hutton.ac.uk:8080/germinate-baz
 	}
 }

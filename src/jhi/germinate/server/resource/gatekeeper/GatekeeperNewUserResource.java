@@ -14,6 +14,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import retrofit2.Response;
 
@@ -39,12 +40,24 @@ public class GatekeeperNewUserResource extends BaseServerResource
 					user.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
 					user.setDatabaseSystemId(list.getData().get(0).getId());
 					user.setLocale(request.getLocale());
-					return GatekeeperClient.get().addNewRequest(user).execute().body();
+
+					Response<Boolean> response = GatekeeperClient.get().addNewRequest(user).execute();
+
+					if (response.isSuccessful())
+					{
+						return response.body();
+					}
+					else
+					{
+						GatekeeperApiError error = GatekeeperClient.parseError(response);
+						throw new ResourceException(response.code(), error.getDescription());
+					}
 				}
 			}
 			else
 			{
-				throw new ResourceException(Status.CLIENT_ERROR_EXPECTATION_FAILED, systems.errorBody().string());
+				GatekeeperApiError error = GatekeeperClient.parseError(systems);
+				throw new ResourceException(systems.code(), error.getDescription());
 			}
 		}
 		catch (IOException e)
