@@ -83,8 +83,8 @@ SELECT taxonomies.genus,
        taxonomies.ploidy,
        taxonomies.created_on,
        taxonomies.updated_on
-FROM subtaxa
-         LEFT JOIN taxonomies ON taxonomies.id = subtaxa.taxonomy_id;
+FROM taxonomies
+         LEFT JOIN subtaxa ON taxonomies.id = subtaxa.taxonomy_id;
 
 /* Update some foreign keys. This forces the columns to be set to NULL when referenced items are deleted. */
 call drop_all_indexes();
