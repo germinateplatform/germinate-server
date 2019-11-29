@@ -30,7 +30,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasmRecord> {
 
-    private static final long serialVersionUID = -741253761;
+    private static final long serialVersionUID = 179596508;
 
     /**
      * Setter for <code>germinate_template_3_7_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -418,6 +418,62 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
         return (String) get(26);
     }
 
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.has_trials_data</code>.
+     */
+    public void setHasTrialsData(Integer value) {
+        set(27, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.has_trials_data</code>.
+     */
+    public Integer getHasTrialsData() {
+        return (Integer) get(27);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.has_genotypic_data</code>.
+     */
+    public void setHasGenotypicData(Integer value) {
+        set(28, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.has_genotypic_data</code>.
+     */
+    public Integer getHasGenotypicData() {
+        return (Integer) get(28);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.has_allelefreq_data</code>.
+     */
+    public void setHasAllelefreqData(Integer value) {
+        set(29, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.has_allelefreq_data</code>.
+     */
+    public Integer getHasAllelefreqData() {
+        return (Integer) get(29);
+    }
+
+    /**
+     * Setter for <code>germinate_template_3_7_0.view_table_germplasm.has_compound_data</code>.
+     */
+    public void setHasCompoundData(Integer value) {
+        set(30, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_3_7_0.view_table_germplasm.has_compound_data</code>.
+     */
+    public Integer getHasCompoundData() {
+        return (Integer) get(30);
+    }
+
     // -------------------------------------------------------------------------
     // Constructors
     // -------------------------------------------------------------------------
@@ -432,7 +488,7 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     /**
      * Create a detached, initialised ViewTableGermplasmRecord
      */
-    public ViewTableGermplasmRecord(Integer germplasmId, String germplasmGid, String germplasmName, String germplasmNumber, String germplasmPuid, Integer entityTypeId, String entityTypeName, Integer entityParentId, Integer biologicalStatusId, String biologicalStatusName, JsonArray synonyms, String collectorNumber, String genus, String species, String subtaxa, Integer institutionId, String institutionName, String location, BigDecimal latitude, BigDecimal longitude, BigDecimal elevation, String countryName, String countryCode, Date collDate, Double pdci, Long imageCount, String firstImagePath) {
+    public ViewTableGermplasmRecord(Integer germplasmId, String germplasmGid, String germplasmName, String germplasmNumber, String germplasmPuid, Integer entityTypeId, String entityTypeName, Integer entityParentId, Integer biologicalStatusId, String biologicalStatusName, JsonArray synonyms, String collectorNumber, String genus, String species, String subtaxa, Integer institutionId, String institutionName, String location, BigDecimal latitude, BigDecimal longitude, BigDecimal elevation, String countryName, String countryCode, Date collDate, Double pdci, Long imageCount, String firstImagePath, Integer hasTrialsData, Integer hasGenotypicData, Integer hasAllelefreqData, Integer hasCompoundData) {
         super(ViewTableGermplasm.VIEW_TABLE_GERMPLASM);
 
         set(0, germplasmId);
@@ -462,6 +518,10 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
         set(24, pdci);
         set(25, imageCount);
         set(26, firstImagePath);
+        set(27, hasTrialsData);
+        set(28, hasGenotypicData);
+        set(29, hasAllelefreqData);
+        set(30, hasCompoundData);
     }
 // @formatter:on
 }

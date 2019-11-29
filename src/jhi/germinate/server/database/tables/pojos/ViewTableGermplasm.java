@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm implements Serializable {
 
-    private static final long serialVersionUID = 1992630111;
+    private static final long serialVersionUID = -1781575170;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -56,6 +56,10 @@ public class ViewTableGermplasm implements Serializable {
     private Double     pdci;
     private Long       imageCount;
     private String     firstImagePath;
+    private Integer    hasTrialsData;
+    private Integer    hasGenotypicData;
+    private Integer    hasAllelefreqData;
+    private Integer    hasCompoundData;
 
     public ViewTableGermplasm() {}
 
@@ -87,6 +91,10 @@ public class ViewTableGermplasm implements Serializable {
         this.pdci = value.pdci;
         this.imageCount = value.imageCount;
         this.firstImagePath = value.firstImagePath;
+        this.hasTrialsData = value.hasTrialsData;
+        this.hasGenotypicData = value.hasGenotypicData;
+        this.hasAllelefreqData = value.hasAllelefreqData;
+        this.hasCompoundData = value.hasCompoundData;
     }
 
     public ViewTableGermplasm(
@@ -116,7 +124,11 @@ public class ViewTableGermplasm implements Serializable {
         Date       collDate,
         Double     pdci,
         Long       imageCount,
-        String     firstImagePath
+        String     firstImagePath,
+        Integer    hasTrialsData,
+        Integer    hasGenotypicData,
+        Integer    hasAllelefreqData,
+        Integer    hasCompoundData
     ) {
         this.germplasmId = germplasmId;
         this.germplasmGid = germplasmGid;
@@ -145,6 +157,10 @@ public class ViewTableGermplasm implements Serializable {
         this.pdci = pdci;
         this.imageCount = imageCount;
         this.firstImagePath = firstImagePath;
+        this.hasTrialsData = hasTrialsData;
+        this.hasGenotypicData = hasGenotypicData;
+        this.hasAllelefreqData = hasAllelefreqData;
+        this.hasCompoundData = hasCompoundData;
     }
 
     public Integer getGermplasmId() {
@@ -363,6 +379,38 @@ public class ViewTableGermplasm implements Serializable {
         this.firstImagePath = firstImagePath;
     }
 
+    public Integer getHasTrialsData() {
+        return this.hasTrialsData;
+    }
+
+    public void setHasTrialsData(Integer hasTrialsData) {
+        this.hasTrialsData = hasTrialsData;
+    }
+
+    public Integer getHasGenotypicData() {
+        return this.hasGenotypicData;
+    }
+
+    public void setHasGenotypicData(Integer hasGenotypicData) {
+        this.hasGenotypicData = hasGenotypicData;
+    }
+
+    public Integer getHasAllelefreqData() {
+        return this.hasAllelefreqData;
+    }
+
+    public void setHasAllelefreqData(Integer hasAllelefreqData) {
+        this.hasAllelefreqData = hasAllelefreqData;
+    }
+
+    public Integer getHasCompoundData() {
+        return this.hasCompoundData;
+    }
+
+    public void setHasCompoundData(Integer hasCompoundData) {
+        this.hasCompoundData = hasCompoundData;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableGermplasm (");
@@ -394,6 +442,10 @@ public class ViewTableGermplasm implements Serializable {
         sb.append(", ").append(pdci);
         sb.append(", ").append(imageCount);
         sb.append(", ").append(firstImagePath);
+        sb.append(", ").append(hasTrialsData);
+        sb.append(", ").append(hasGenotypicData);
+        sb.append(", ").append(hasAllelefreqData);
+        sb.append(", ").append(hasCompoundData);
 
         sb.append(")");
         return sb.toString();

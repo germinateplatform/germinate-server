@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupGermplasm extends TableImpl<ViewTableGroupGermplasmRecord> {
 
-    private static final long serialVersionUID = -684728546;
+    private static final long serialVersionUID = -155160035;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_group_germplasm</code>
@@ -191,6 +191,26 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.first_image_path</code>.
      */
     public final TableField<ViewTableGroupGermplasmRecord, String> FIRST_IMAGE_PATH = createField("first_image_path", org.jooq.impl.SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.has_trials_data</code>.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, Integer> HAS_TRIALS_DATA = createField("has_trials_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.has_genotypic_data</code>.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, Integer> HAS_GENOTYPIC_DATA = createField("has_genotypic_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.has_allelefreq_data</code>.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, Integer> HAS_ALLELEFREQ_DATA = createField("has_allelefreq_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.has_compound_data</code>.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, Integer> HAS_COMPOUND_DATA = createField("has_compound_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.group_id</code>. Foreign key to groups (groups.id).
