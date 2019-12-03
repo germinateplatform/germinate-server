@@ -151,7 +151,10 @@ public class GatekeeperClient
 
 	public static ViewUserDetails getUser(Integer id)
 	{
-		return users != null ? users.get(id) : null;
+		if (id == null || users == null)
+			return null;
+		else
+			return users.get(id);
 	}
 
 	public static List<ViewUserDetails> getUsers()

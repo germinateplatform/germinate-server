@@ -37,7 +37,7 @@ import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.*;
 import jhi.germinate.server.resource.traits.*;
 import jhi.germinate.server.resource.usergroups.*;
-import jhi.germinate.server.resource.users.UserResource;
+import jhi.germinate.server.resource.users.*;
 
 /**
  * @author Sebastian Raubach
@@ -166,6 +166,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/compound", DatasetCompoundResource.class);
 		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
 		attachToRouter(routerAuth, "/dataset/group", DatasetGroupResource.class);
+		attachToRouter(routerAuth, "/dataset/{datasetId}/user", DatasetUserResource.class);
+		attachToRouter(routerAuth, "/dataset/{datasetId}/usergroup", DatasetUsergroupTableResource.class);
+		attachToRouter(routerAuth, "/dataset/{datasetId}/usergroup/ids", DatasetUsergroupTableIdResource.class);
 
 		// ENTITIES
 		attachToRouter(routerAuth, "/entity/table", EntityTableResource.class);
@@ -266,8 +269,9 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
 
 		// USER PERMISSIONS
-		attachToRouter(routerAuth, "/usergroup/table", UsergroupTableResource.class);
 		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);
+		attachToRouter(routerAuth, "/usergroup/table", UsergroupTableResource.class);
+		attachToRouter(routerAuth, "/usergroup/table/ids", UsergroupTableIdResource.class);
 		attachToRouter(routerAuth, "/usergroup/{usergroupId}", UsergroupResource.class);
 		attachToRouter(routerAuth, "/usergroup/{usergroupId}/user", UserResource.class);
 		attachToRouter(routerAuth, "/user", UserResource.class);
