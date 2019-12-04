@@ -112,7 +112,7 @@ public class GatekeeperClient
 		return service;
 	}
 
-	public static void getUsersFromGatekeeper()
+	public static synchronized void getUsersFromGatekeeper()
 	{
 		try
 		{
@@ -151,8 +151,20 @@ public class GatekeeperClient
 
 	public static ViewUserDetails getUser(Integer id)
 	{
-		if (id == null || users == null)
+		if (id == null)
+		{
 			return null;
+		}
+		else if (users == null)
+		{
+			// Try to get them again, Gatekeeper may have been unavailable
+			getUsersFromGatekeeper();
+
+			if (users == null)
+				return null;
+			else return
+				users.get(id);
+		}
 		else
 			return users.get(id);
 	}
