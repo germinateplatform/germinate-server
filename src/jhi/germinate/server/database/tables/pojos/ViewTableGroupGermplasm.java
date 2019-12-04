@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupGermplasm implements Serializable {
 
-    private static final long serialVersionUID = -931703494;
+    private static final long serialVersionUID = 538234222;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -37,6 +37,8 @@ public class ViewTableGroupGermplasm implements Serializable {
     private Integer    entityTypeId;
     private String     entityTypeName;
     private Integer    entityParentId;
+    private String     entityParentName;
+    private String     entityParentGeneralIdentifier;
     private Integer    biologicalStatusId;
     private String     biologicalStatusName;
     private JsonArray  synonyms;
@@ -73,6 +75,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.entityTypeId = value.entityTypeId;
         this.entityTypeName = value.entityTypeName;
         this.entityParentId = value.entityParentId;
+        this.entityParentName = value.entityParentName;
+        this.entityParentGeneralIdentifier = value.entityParentGeneralIdentifier;
         this.biologicalStatusId = value.biologicalStatusId;
         this.biologicalStatusName = value.biologicalStatusName;
         this.synonyms = value.synonyms;
@@ -108,6 +112,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         Integer    entityTypeId,
         String     entityTypeName,
         Integer    entityParentId,
+        String     entityParentName,
+        String     entityParentGeneralIdentifier,
         Integer    biologicalStatusId,
         String     biologicalStatusName,
         JsonArray  synonyms,
@@ -141,6 +147,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         this.entityTypeId = entityTypeId;
         this.entityTypeName = entityTypeName;
         this.entityParentId = entityParentId;
+        this.entityParentName = entityParentName;
+        this.entityParentGeneralIdentifier = entityParentGeneralIdentifier;
         this.biologicalStatusId = biologicalStatusId;
         this.biologicalStatusName = biologicalStatusName;
         this.synonyms = synonyms;
@@ -229,6 +237,22 @@ public class ViewTableGroupGermplasm implements Serializable {
 
     public void setEntityParentId(Integer entityParentId) {
         this.entityParentId = entityParentId;
+    }
+
+    public String getEntityParentName() {
+        return this.entityParentName;
+    }
+
+    public void setEntityParentName(String entityParentName) {
+        this.entityParentName = entityParentName;
+    }
+
+    public String getEntityParentGeneralIdentifier() {
+        return this.entityParentGeneralIdentifier;
+    }
+
+    public void setEntityParentGeneralIdentifier(String entityParentGeneralIdentifier) {
+        this.entityParentGeneralIdentifier = entityParentGeneralIdentifier;
     }
 
     public Integer getBiologicalStatusId() {
@@ -435,6 +459,8 @@ public class ViewTableGroupGermplasm implements Serializable {
         sb.append(", ").append(entityTypeId);
         sb.append(", ").append(entityTypeName);
         sb.append(", ").append(entityParentId);
+        sb.append(", ").append(entityParentName);
+        sb.append(", ").append(entityParentGeneralIdentifier);
         sb.append(", ").append(biologicalStatusId);
         sb.append(", ").append(biologicalStatusName);
         sb.append(", ").append(synonyms);

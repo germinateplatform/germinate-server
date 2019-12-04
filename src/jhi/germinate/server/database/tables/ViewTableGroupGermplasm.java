@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupGermplasm extends TableImpl<ViewTableGroupGermplasmRecord> {
 
-    private static final long serialVersionUID = -155160035;
+    private static final long serialVersionUID = 1822715636;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_group_germplasm</code>
@@ -93,6 +93,16 @@ entered into the genebank collection (e.g. ‘PI 113869’).
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public final TableField<ViewTableGroupGermplasmRecord, Integer> ENTITY_PARENT_ID = createField("entity_parent_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to germinatebase (germinatebase.id).");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, String> ENTITY_PARENT_NAME = createField("entity_parent_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_group_germplasm.entity_parent_general_identifier</code>. A unique identifier.
+     */
+    public final TableField<ViewTableGroupGermplasmRecord, String> ENTITY_PARENT_GENERAL_IDENTIFIER = createField("entity_parent_general_identifier", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_group_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.

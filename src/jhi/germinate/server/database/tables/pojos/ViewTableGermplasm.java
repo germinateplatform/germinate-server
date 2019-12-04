@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm implements Serializable {
 
-    private static final long serialVersionUID = -1781575170;
+    private static final long serialVersionUID = -1238909605;
 
     private Integer    germplasmId;
     private String     germplasmGid;
@@ -37,6 +37,8 @@ public class ViewTableGermplasm implements Serializable {
     private Integer    entityTypeId;
     private String     entityTypeName;
     private Integer    entityParentId;
+    private String     entityParentName;
+    private String     entityParentGeneralIdentifier;
     private Integer    biologicalStatusId;
     private String     biologicalStatusName;
     private JsonArray  synonyms;
@@ -56,10 +58,6 @@ public class ViewTableGermplasm implements Serializable {
     private Double     pdci;
     private Long       imageCount;
     private String     firstImagePath;
-    private Integer    hasTrialsData;
-    private Integer    hasGenotypicData;
-    private Integer    hasAllelefreqData;
-    private Integer    hasCompoundData;
 
     public ViewTableGermplasm() {}
 
@@ -72,6 +70,8 @@ public class ViewTableGermplasm implements Serializable {
         this.entityTypeId = value.entityTypeId;
         this.entityTypeName = value.entityTypeName;
         this.entityParentId = value.entityParentId;
+        this.entityParentName = value.entityParentName;
+        this.entityParentGeneralIdentifier = value.entityParentGeneralIdentifier;
         this.biologicalStatusId = value.biologicalStatusId;
         this.biologicalStatusName = value.biologicalStatusName;
         this.synonyms = value.synonyms;
@@ -91,10 +91,6 @@ public class ViewTableGermplasm implements Serializable {
         this.pdci = value.pdci;
         this.imageCount = value.imageCount;
         this.firstImagePath = value.firstImagePath;
-        this.hasTrialsData = value.hasTrialsData;
-        this.hasGenotypicData = value.hasGenotypicData;
-        this.hasAllelefreqData = value.hasAllelefreqData;
-        this.hasCompoundData = value.hasCompoundData;
     }
 
     public ViewTableGermplasm(
@@ -106,6 +102,8 @@ public class ViewTableGermplasm implements Serializable {
         Integer    entityTypeId,
         String     entityTypeName,
         Integer    entityParentId,
+        String     entityParentName,
+        String     entityParentGeneralIdentifier,
         Integer    biologicalStatusId,
         String     biologicalStatusName,
         JsonArray  synonyms,
@@ -124,11 +122,7 @@ public class ViewTableGermplasm implements Serializable {
         Date       collDate,
         Double     pdci,
         Long       imageCount,
-        String     firstImagePath,
-        Integer    hasTrialsData,
-        Integer    hasGenotypicData,
-        Integer    hasAllelefreqData,
-        Integer    hasCompoundData
+        String     firstImagePath
     ) {
         this.germplasmId = germplasmId;
         this.germplasmGid = germplasmGid;
@@ -138,6 +132,8 @@ public class ViewTableGermplasm implements Serializable {
         this.entityTypeId = entityTypeId;
         this.entityTypeName = entityTypeName;
         this.entityParentId = entityParentId;
+        this.entityParentName = entityParentName;
+        this.entityParentGeneralIdentifier = entityParentGeneralIdentifier;
         this.biologicalStatusId = biologicalStatusId;
         this.biologicalStatusName = biologicalStatusName;
         this.synonyms = synonyms;
@@ -157,10 +153,6 @@ public class ViewTableGermplasm implements Serializable {
         this.pdci = pdci;
         this.imageCount = imageCount;
         this.firstImagePath = firstImagePath;
-        this.hasTrialsData = hasTrialsData;
-        this.hasGenotypicData = hasGenotypicData;
-        this.hasAllelefreqData = hasAllelefreqData;
-        this.hasCompoundData = hasCompoundData;
     }
 
     public Integer getGermplasmId() {
@@ -225,6 +217,22 @@ public class ViewTableGermplasm implements Serializable {
 
     public void setEntityParentId(Integer entityParentId) {
         this.entityParentId = entityParentId;
+    }
+
+    public String getEntityParentName() {
+        return this.entityParentName;
+    }
+
+    public void setEntityParentName(String entityParentName) {
+        this.entityParentName = entityParentName;
+    }
+
+    public String getEntityParentGeneralIdentifier() {
+        return this.entityParentGeneralIdentifier;
+    }
+
+    public void setEntityParentGeneralIdentifier(String entityParentGeneralIdentifier) {
+        this.entityParentGeneralIdentifier = entityParentGeneralIdentifier;
     }
 
     public Integer getBiologicalStatusId() {
@@ -379,38 +387,6 @@ public class ViewTableGermplasm implements Serializable {
         this.firstImagePath = firstImagePath;
     }
 
-    public Integer getHasTrialsData() {
-        return this.hasTrialsData;
-    }
-
-    public void setHasTrialsData(Integer hasTrialsData) {
-        this.hasTrialsData = hasTrialsData;
-    }
-
-    public Integer getHasGenotypicData() {
-        return this.hasGenotypicData;
-    }
-
-    public void setHasGenotypicData(Integer hasGenotypicData) {
-        this.hasGenotypicData = hasGenotypicData;
-    }
-
-    public Integer getHasAllelefreqData() {
-        return this.hasAllelefreqData;
-    }
-
-    public void setHasAllelefreqData(Integer hasAllelefreqData) {
-        this.hasAllelefreqData = hasAllelefreqData;
-    }
-
-    public Integer getHasCompoundData() {
-        return this.hasCompoundData;
-    }
-
-    public void setHasCompoundData(Integer hasCompoundData) {
-        this.hasCompoundData = hasCompoundData;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableGermplasm (");
@@ -423,6 +399,8 @@ public class ViewTableGermplasm implements Serializable {
         sb.append(", ").append(entityTypeId);
         sb.append(", ").append(entityTypeName);
         sb.append(", ").append(entityParentId);
+        sb.append(", ").append(entityParentName);
+        sb.append(", ").append(entityParentGeneralIdentifier);
         sb.append(", ").append(biologicalStatusId);
         sb.append(", ").append(biologicalStatusName);
         sb.append(", ").append(synonyms);
@@ -442,10 +420,6 @@ public class ViewTableGermplasm implements Serializable {
         sb.append(", ").append(pdci);
         sb.append(", ").append(imageCount);
         sb.append(", ").append(firstImagePath);
-        sb.append(", ").append(hasTrialsData);
-        sb.append(", ").append(hasGenotypicData);
-        sb.append(", ").append(hasAllelefreqData);
-        sb.append(", ").append(hasCompoundData);
 
         sb.append(")");
         return sb.toString();
