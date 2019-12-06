@@ -153,6 +153,42 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		return orderBy;
 	}
 
+	protected FileRepresentation export(Result<? extends Record> results, String name) {
+		FileRepresentation representation;
+		try
+		{
+			File zipFile = createTempFile(null, name, ".zip", false);
+
+			URI uri = URI.create("jar:file:/" + zipFile.getAbsolutePath().replace("\\", "/"));
+
+			Map<String, String> env = new HashMap<>();
+			env.put("create", "true");
+			env.put("encoding", "UTF-8");
+
+			if (name.endsWith("-"))
+				name = name.substring(0, name.length() - 1);
+
+			try (FileSystem fs = FileSystems.newFileSystem(uri, env, null);
+				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + ".txt"), StandardCharsets.UTF_8)))
+			{
+				exportToFile(bw, results, true, null);
+			}
+
+			representation = new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
+			representation.setSize(zipFile.length());
+			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+			// Remember to delete this after the call, we don't need it anymore
+			representation.setAutoDeleting(true);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+
+		return representation;
+	}
+
 	protected FileRepresentation export(TableImpl<? extends Record> table, String name, ExportSettings settings)
 	{
 		currentPage = 0;
@@ -170,7 +206,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 			env.put("encoding", "UTF-8");
 
 			if (name.endsWith("-"))
-				name = name.substring(0, name.length() - 2);
+				name = name.substring(0, name.length() - 1);
 
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);

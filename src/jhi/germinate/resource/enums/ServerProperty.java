@@ -22,6 +22,7 @@ public enum ServerProperty
 	GATEKEEPER_PASSWORD("gatekeeper.password", null, false),
 	GATEKEEPER_REGISTRATION_ENABLED("gatekeeper.registration.enabled", "false", false),
 	GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL("gatekeeper.registration.requires.approval", "true", false),
+	GRPD_NOTIFICATION_ENABLED("gdpr.notification.enabled", "false", false),
 	HIDDEN_PAGES("hidden.pages", null, false),
 	PDCI_ENABLED("pdci.enabled", "true", false),
 	FILES_DELETE_AFTER_HOURS_ASYNC("files.delete.after.hours.async", "12", false),

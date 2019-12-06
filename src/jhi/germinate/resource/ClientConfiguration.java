@@ -14,6 +14,7 @@ public class ClientConfiguration
 	private List<String>       hiddenPages;
 	private AuthenticationMode authMode;
 	private Boolean            registrationEnabled;
+	private Boolean            showGdprNotification;
 
 	public ClientConfiguration()
 	{
@@ -71,6 +72,17 @@ public class ClientConfiguration
 	public ClientConfiguration setRegistrationEnabled(Boolean registrationEnabled)
 	{
 		this.registrationEnabled = registrationEnabled;
+		return this;
+	}
+
+	public Boolean getShowGdprNotification()
+	{
+		return showGdprNotification;
+	}
+
+	public ClientConfiguration setShowGdprNotification(Boolean showGdprNotification)
+	{
+		this.showGdprNotification = showGdprNotification;
 		return this;
 	}
 }
