@@ -12,6 +12,7 @@ public class ClientConfiguration
 	private List<String>       colorsTemplate;
 	private List<String>       colorsCharts;
 	private List<String>       hiddenPages;
+	private String             googleAnalyticsKey;
 	private AuthenticationMode authMode;
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
@@ -83,6 +84,17 @@ public class ClientConfiguration
 	public ClientConfiguration setShowGdprNotification(Boolean showGdprNotification)
 	{
 		this.showGdprNotification = showGdprNotification;
+		return this;
+	}
+
+	public String getGoogleAnalyticsKey()
+	{
+		return googleAnalyticsKey;
+	}
+
+	public ClientConfiguration setGoogleAnalyticsKey(String googleAnalyticsKey)
+	{
+		this.googleAnalyticsKey = googleAnalyticsKey;
 		return this;
 	}
 }
