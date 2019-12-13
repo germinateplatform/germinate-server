@@ -24,13 +24,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroups implements Serializable {
 
-    private static final long serialVersionUID = 189755899;
+    private static final long serialVersionUID = 362133737;
 
     private Integer   groupId;
     private String    groupName;
     private String    groupDescription;
     private Integer   groupTypeId;
     private String    groupType;
+    private String    userName;
     private Integer   userId;
     private Boolean   groupVisibility;
     private Timestamp createdOn;
@@ -45,6 +46,7 @@ public class ViewTableGroups implements Serializable {
         this.groupDescription = value.groupDescription;
         this.groupTypeId = value.groupTypeId;
         this.groupType = value.groupType;
+        this.userName = value.userName;
         this.userId = value.userId;
         this.groupVisibility = value.groupVisibility;
         this.createdOn = value.createdOn;
@@ -58,6 +60,7 @@ public class ViewTableGroups implements Serializable {
         String    groupDescription,
         Integer   groupTypeId,
         String    groupType,
+        String    userName,
         Integer   userId,
         Boolean   groupVisibility,
         Timestamp createdOn,
@@ -69,6 +72,7 @@ public class ViewTableGroups implements Serializable {
         this.groupDescription = groupDescription;
         this.groupTypeId = groupTypeId;
         this.groupType = groupType;
+        this.userName = userName;
         this.userId = userId;
         this.groupVisibility = groupVisibility;
         this.createdOn = createdOn;
@@ -114,6 +118,14 @@ public class ViewTableGroups implements Serializable {
 
     public void setGroupType(String groupType) {
         this.groupType = groupType;
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getUserId() {
@@ -165,6 +177,7 @@ public class ViewTableGroups implements Serializable {
         sb.append(", ").append(groupDescription);
         sb.append(", ").append(groupTypeId);
         sb.append(", ").append(groupType);
+        sb.append(", ").append(userName);
         sb.append(", ").append(userId);
         sb.append(", ").append(groupVisibility);
         sb.append(", ").append(createdOn);

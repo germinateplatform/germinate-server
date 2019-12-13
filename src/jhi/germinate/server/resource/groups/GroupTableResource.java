@@ -8,11 +8,13 @@ import java.sql.*;
 import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.tables.pojos.ViewTableGroups;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.gatekeeper.GatekeeperClient;
+import jhi.germinate.server.resource.PaginatedServerResource;
 
 import static jhi.germinate.server.database.tables.ViewTableGroups.*;
 
@@ -38,7 +40,7 @@ public class GroupTableResource extends PaginatedServerResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GROUPS);
 
 			from.where(VIEW_TABLE_GROUPS.GROUP_VISIBILITY.eq(true)
-														.or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
+														 .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
 			filter(from, filters);
@@ -46,6 +48,14 @@ public class GroupTableResource extends PaginatedServerResource
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
 				.fetch()
 				.into(ViewTableGroups.class);
+
+
+			result.forEach(g -> {
+				ViewUserDetails user = GatekeeperClient.getUser(g.getUserId());
+
+				if (user != null)
+					g.setUserName(user.getFullName());
+			});
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

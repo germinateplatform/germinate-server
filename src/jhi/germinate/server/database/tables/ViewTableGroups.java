@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroups extends TableImpl<ViewTableGroupsRecord> {
 
-    private static final long serialVersionUID = 1777847886;
+    private static final long serialVersionUID = 122816937;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_groups</code>
@@ -73,6 +73,11 @@ public class ViewTableGroups extends TableImpl<ViewTableGroupsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_groups.group_type</code>.
      */
     public final TableField<ViewTableGroupsRecord, String> GROUP_TYPE = createField("group_type", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_groups.user_name</code>.
+     */
+    public final TableField<ViewTableGroupsRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.CHAR.nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_groups.user_id</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).

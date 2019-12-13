@@ -16,6 +16,7 @@ public class ClientConfiguration
 	private AuthenticationMode authMode;
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
+	private Boolean            commentsEnabled;
 
 	public ClientConfiguration()
 	{
@@ -95,6 +96,17 @@ public class ClientConfiguration
 	public ClientConfiguration setGoogleAnalyticsKey(String googleAnalyticsKey)
 	{
 		this.googleAnalyticsKey = googleAnalyticsKey;
+		return this;
+	}
+
+	public Boolean getCommentsEnabled()
+	{
+		return commentsEnabled;
+	}
+
+	public ClientConfiguration setCommentsEnabled(Boolean commentsEnabled)
+	{
+		this.commentsEnabled = commentsEnabled;
 		return this;
 	}
 }

@@ -16,6 +16,7 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
 import jhi.germinate.server.resource.climates.*;
+import jhi.germinate.server.resource.comment.CommentTableResource;
 import jhi.germinate.server.resource.compounds.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
@@ -121,12 +122,11 @@ public class Germinate extends Application
 		// CLIMATE
 		attachToRouter(routerAuth, "/climate/table", ClimateTableResource.class);
 
+		// COMMENTS
+		attachToRouter(routerAuth, "/comment/table", CommentTableResource.class);
+
 		// COMPOUNDS
 		attachToRouter(routerAuth, "/compound/table", CompoundTableResource.class);
-
-		// DATA IMPORT
-		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
-		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
 
 		// DATASETS
 		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeExportResource.class);
@@ -214,6 +214,10 @@ public class Germinate extends Application
 		// IMAGES
 		attachToRouter(routerAuth, "/image/table", ImageTableResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
+
+		// DATA IMPORT
+		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
+		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
 
 		// INSTITUTIONS
 		attachToRouter(routerAuth, "/institution/table", InstitutionTableResource.class);

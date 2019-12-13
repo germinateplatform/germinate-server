@@ -10,6 +10,7 @@ public enum ServerProperty
 	COLORS_CHART("colors.charts", "#1f77b4,#ff7f0e,#2ca02c,#d62728,#9467bd,#8c564b,#e377c2,#7f7f7f,#bcbd22,#17becf", true),
 	COLORS_TEMPLATE("colors.template", "#FF9E15,#799900,#00748C,#853175,#555559,#FFD100,#C2002F,#CF009E,#6AA2B8,#D6C200", true),
 	COLOR_PRIMARY("color.primary", null, false),
+	COMMENTS_ENABLED("comments.enabled", "true", false),
 	DATA_DIRECTORY_EXTERNAL("data.directory.external", null, true),
 	DATABASE_SERVER("database.server", null, true),
 	DATABASE_NAME("database.name", null, true),
