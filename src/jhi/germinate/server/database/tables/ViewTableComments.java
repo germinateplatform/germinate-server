@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables;
 
 
+import java.sql.Timestamp;
+
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_3_7_0;
@@ -32,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableComments extends TableImpl<ViewTableCommentsRecord> {
 
-    private static final long serialVersionUID = -1263630692;
+    private static final long serialVersionUID = 1246220307;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_comments</code>
@@ -51,6 +53,11 @@ public class ViewTableComments extends TableImpl<ViewTableCommentsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_comments.comment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableCommentsRecord, Integer> COMMENT_ID = createField("comment_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_comments.comment_type_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableCommentsRecord, Integer> COMMENT_TYPE_ID = createField("comment_type_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_comments.comment_type</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
@@ -76,6 +83,11 @@ public class ViewTableComments extends TableImpl<ViewTableCommentsRecord> {
      * The column <code>germinate_template_3_7_0.view_table_comments.comment_content</code>. The comment content.
      */
     public final TableField<ViewTableCommentsRecord, String> COMMENT_CONTENT = createField("comment_content", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "The comment content.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public final TableField<ViewTableCommentsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
      * Create a <code>germinate_template_3_7_0.view_table_comments</code> table reference

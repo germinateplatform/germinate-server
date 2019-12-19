@@ -16,7 +16,7 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
 import jhi.germinate.server.resource.climates.*;
-import jhi.germinate.server.resource.comment.CommentTableResource;
+import jhi.germinate.server.resource.comment.*;
 import jhi.germinate.server.resource.compounds.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
@@ -121,9 +121,12 @@ public class Germinate extends Application
 		// Attach the url handlers
 		// CLIMATE
 		attachToRouter(routerAuth, "/climate/table", ClimateTableResource.class);
+		attachToRouter(routerAuth, "/climate/overlay", ClimateOverlayResource.class);
 
 		// COMMENTS
 		attachToRouter(routerAuth, "/comment/table", CommentTableResource.class);
+		attachToRouter(routerAuth, "/comment/{commentId}", CommentResource.class);
+		attachToRouter(routerAuth, "/comment", CommentResource.class);
 
 		// COMPOUNDS
 		attachToRouter(routerAuth, "/compound/table", CompoundTableResource.class);
@@ -200,6 +203,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/group", GroupResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}", GroupResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/germplasm", GroupGermplasmTableResource.class);
+		attachToRouter(routerAuth, "/group/{groupId}/germplasm/export", GroupGermplasmTableExportResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/germplasm/ids", GroupGermplasmTableIdResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/germplasm/add", GroupGermplasmFileAddResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/location", GroupLocationTableResource.class);
@@ -288,6 +292,8 @@ public class Germinate extends Application
 		// UNAUTH
 		attachToRouter(routerUnauth, "/clientlocale", ClientLocaleResource.class);
 		attachToRouter(routerUnauth, "/clientlocale/{locale}", ClientLocaleResource.class);
+		// TODO: Make this work with AUTH
+		attachToRouter(routerUnauth, "/climate/overlay/{overlayId}/src", ClimateOverlaySourceResource.class);
 		attachToRouter(routerUnauth, "/image/src", ImageSourceResource.class);
 		attachToRouter(routerUnauth, "/image/src-svg/{name}", ImageSvgSourceResource.class); // This is a fix, because <img /> tags don't like SVGs without an extension in their "src" attribute
 		attachToRouter(routerUnauth, "/settings", SettingsResource.class);

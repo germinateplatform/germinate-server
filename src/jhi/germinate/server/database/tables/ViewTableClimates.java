@@ -33,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableClimates extends TableImpl<ViewTableClimatesRecord> {
 
-    private static final long serialVersionUID = -1974829023;
+    private static final long serialVersionUID = -1833489675;
 
     /**
      * The reference instance of <code>germinate_template_3_7_0.view_table_climates</code>
@@ -87,6 +87,11 @@ public class ViewTableClimates extends TableImpl<ViewTableClimatesRecord> {
      * The column <code>germinate_template_3_7_0.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
     public final TableField<ViewTableClimatesRecord, String> UNIT_DESCRIPTION = createField("unit_description", org.jooq.impl.SQLDataType.CLOB, this, "A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.");
+
+    /**
+     * The column <code>germinate_template_3_7_0.view_table_climates.overlays</code>.
+     */
+    public final TableField<ViewTableClimatesRecord, Long> OVERLAYS = createField("overlays", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * The column <code>germinate_template_3_7_0.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.

@@ -16,6 +16,7 @@ import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.tables.Climatedata.*;
+import static jhi.germinate.server.database.tables.Climateoverlays.*;
 import static jhi.germinate.server.database.tables.Climates.*;
 import static jhi.germinate.server.database.tables.Units.*;
 import static jhi.germinate.server.database.tables.ViewTableClimates.*;
@@ -28,13 +29,20 @@ public class DatasetClimateResource extends BaseServerResource implements Filter
 	@Post("json")
 	public List<ViewTableClimates> getJson(DatasetRequest request)
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
-		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> requestedIds;
 
-		requestedIds.retainAll(datasets);
+		if (CollectionUtils.isEmpty(request.getDatasetIds()))
+		{
+			requestedIds = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+		}
+		else
+		{
+			requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+			requestedIds.retainAll(DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse()));
+		}
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -52,6 +60,7 @@ public class DatasetClimateResource extends BaseServerResource implements Filter
 				UNITS.UNIT_NAME.as(VIEW_TABLE_CLIMATES.UNIT_NAME.getName()),
 				UNITS.UNIT_DESCRIPTION.as(VIEW_TABLE_CLIMATES.UNIT_DESCRIPTION.getName()),
 				UNITS.UNIT_ABBREVIATION.as(VIEW_TABLE_CLIMATES.UNIT_ABBREVIATION.getName()),
+				DSL.selectCount().from(CLIMATEOVERLAYS).where(CLIMATEOVERLAYS.CLIMATE_ID.eq(CLIMATES.ID)).asField(VIEW_TABLE_CLIMATES.OVERLAYS.getName()),
 				DSL.zero().as(VIEW_TABLE_CLIMATES.COUNT.getName())
 			)
 						  .from(CLIMATES.leftJoin(UNITS).on(CLIMATES.UNIT_ID.eq(UNITS.ID)))

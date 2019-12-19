@@ -1,3 +1,8 @@
+:root {
+--primary: {{PRIMARY}};
+}
+
+
 a {
 color: {{PRIMARY}};
 }
@@ -28,7 +33,7 @@ border-color: {{PRIMARY}};
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
 background-color: {{PRIMARY_DARKER}};
-border-color: #005cbf;
+border-color: {{PRIMARY_DARKER_SHADOW}};
 }
 
 .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
@@ -82,11 +87,21 @@ border-color: {{PRIMARY}};
 background-color: {{PRIMARY}};
 }
 
+.custom-control-input:focus ~ .custom-control-label::before {
+	-webkit-box-shadow: 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+	box-shadow: 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
+
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
 border-color: {{PRIMARY}};
 background-color: {{PRIMARY}};
 }
 
+.form-control:focus {
+border-color: {{PRIMARY_LIGHTER_SHADOW}};
+-webkit-box-shadow: 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+box-shadow: 0 0 0 0.2rem {{PRIMARY_LIGHTER_SHADOW}};
+}
 
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
 background-color: {{PRIMARY_SHADOW}};
@@ -199,4 +214,18 @@ border-color: {{PRIMARY}} !important;
 
 .text-primary {
 color: {{PRIMARY}} !important;
+}
+
+.card.bg-primary {
+border-color: {{PRIMARY}};
+}
+
+
+
+
+
+/* Non-bootstrap stuff */
+
+.app.public {
+background-image: linear-gradient(-65deg, {{PRIMARY}}, #f0f3f5, #f0f3f5) !important;
 }

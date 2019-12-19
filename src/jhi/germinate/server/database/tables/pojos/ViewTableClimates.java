@@ -25,7 +25,7 @@ import jhi.germinate.server.database.enums.ViewTableClimatesDataType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableClimates implements Serializable {
 
-    private static final long serialVersionUID = 1032420262;
+    private static final long serialVersionUID = 1804560101;
 
     private Integer                   climateId;
     private String                    climateName;
@@ -35,6 +35,7 @@ public class ViewTableClimates implements Serializable {
     private Integer                   unitId;
     private String                    unitName;
     private String                    unitDescription;
+    private Long                      overlays;
     private String                    unitAbbreviation;
     private Long                      count;
 
@@ -49,6 +50,7 @@ public class ViewTableClimates implements Serializable {
         this.unitId = value.unitId;
         this.unitName = value.unitName;
         this.unitDescription = value.unitDescription;
+        this.overlays = value.overlays;
         this.unitAbbreviation = value.unitAbbreviation;
         this.count = value.count;
     }
@@ -62,6 +64,7 @@ public class ViewTableClimates implements Serializable {
         Integer                   unitId,
         String                    unitName,
         String                    unitDescription,
+        Long                      overlays,
         String                    unitAbbreviation,
         Long                      count
     ) {
@@ -73,6 +76,7 @@ public class ViewTableClimates implements Serializable {
         this.unitId = unitId;
         this.unitName = unitName;
         this.unitDescription = unitDescription;
+        this.overlays = overlays;
         this.unitAbbreviation = unitAbbreviation;
         this.count = count;
     }
@@ -141,6 +145,14 @@ public class ViewTableClimates implements Serializable {
         this.unitDescription = unitDescription;
     }
 
+    public Long getOverlays() {
+        return this.overlays;
+    }
+
+    public void setOverlays(Long overlays) {
+        this.overlays = overlays;
+    }
+
     public String getUnitAbbreviation() {
         return this.unitAbbreviation;
     }
@@ -169,6 +181,7 @@ public class ViewTableClimates implements Serializable {
         sb.append(", ").append(unitId);
         sb.append(", ").append(unitName);
         sb.append(", ").append(unitDescription);
+        sb.append(", ").append(overlays);
         sb.append(", ").append(unitAbbreviation);
         sb.append(", ").append(count);
 
