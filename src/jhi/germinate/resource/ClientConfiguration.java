@@ -12,6 +12,7 @@ public class ClientConfiguration
 	private List<String>       colorsTemplate;
 	private List<String>       colorsCharts;
 	private List<String>       hiddenPages;
+	private List<String>       dashboardCategories;
 	private String             googleAnalyticsKey;
 	private AuthenticationMode authMode;
 	private Boolean            registrationEnabled;
@@ -107,6 +108,17 @@ public class ClientConfiguration
 	public ClientConfiguration setCommentsEnabled(Boolean commentsEnabled)
 	{
 		this.commentsEnabled = commentsEnabled;
+		return this;
+	}
+
+	public List<String> getDashboardCategories()
+	{
+		return dashboardCategories;
+	}
+
+	public ClientConfiguration setDashboardCategories(List<String> dashboardCategories)
+	{
+		this.dashboardCategories = dashboardCategories;
 		return this;
 	}
 }

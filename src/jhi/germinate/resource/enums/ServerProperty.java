@@ -11,6 +11,7 @@ public enum ServerProperty
 	COLORS_TEMPLATE("colors.template", "#FF9E15,#799900,#00748C,#853175,#555559,#FFD100,#C2002F,#CF009E,#6AA2B8,#D6C200", true),
 	COLOR_PRIMARY("color.primary", null, false),
 	COMMENTS_ENABLED("comments.enabled", "true", false),
+	DASHBOARD_CATEGORIES("dashboard.categories", "germplasm,markers,traits,locations", false),
 	DATA_DIRECTORY_EXTERNAL("data.directory.external", null, true),
 	DATABASE_SERVER("database.server", null, true),
 	DATABASE_NAME("database.name", null, true),

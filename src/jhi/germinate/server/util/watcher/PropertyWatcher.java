@@ -423,6 +423,7 @@ public class PropertyWatcher
 		{
 			for (String part : line.split(","))
 			{
+				part = part.trim();
 				if (type.equals(Integer.class))
 					result.add(type.cast(Integer.parseInt(part)));
 				else if (type.equals(String.class))
@@ -496,6 +497,7 @@ public class PropertyWatcher
 		{
 			for (String part : line.split(","))
 			{
+				part = part.trim();
 				if (type.equals(Integer.class))
 					result.add(type.cast(Integer.parseInt(part)));
 				else if (type.equals(String.class))
