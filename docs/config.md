@@ -43,6 +43,7 @@ This directory holds configuration files for the Germinate user interface.
   - `locales.json`  
   This file defines the user locales or languages that should be available for this copy of Germinate. Here is an example that defines *British English* and *German* as the two available languages. Nore that the `flag` property should be the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code for the that best represents that locale. The `locale` properties is always of the form `{ISO 639-1}_{ISO 3166-1 alpha-2}` ([ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1), [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2))
   
+      <!-- language: lang-json -->
         [{
           "locale": "en_GB",
           "flag": "gb",
@@ -53,30 +54,31 @@ This directory holds configuration files for the Germinate user interface.
           "name": "Deutsch - Deutschland"
         }]
   - `carousel.json`  
-  This file contains the configuration for the image carousel on the Germinate carousel. Here is an example of such a file. Note that the images referenced here would have to be stored in the `images/template` directory. The key of each set of images (e.g. `de_DE`) should always be one of the locales defined in the `locales.json` file.
-  
-        {
-          "de_DE": [
-            {
-              "name": "fullimage1.jpg",
-              "text": "Germinate ist eine generische Datenbank für pflanzengenetische Ressourcen die Hilfsmittel für die Aufbewahrung von Standardsammlungsinformationen und Pflanzenausweisdaten sowie kompliziertere Datentypen wie phänotypische, genotypische und Feldexperimentdaten bereitstellt."
-            },
-            {
-              "name": "fullimage2.jpg",
-              "text": "Wir fokussieren uns auf die Bereitstellung von Lösungen für aktuelle biologische Herausforderungen und entwickeln neuartige Visualisierungen und Benutzeroberflächen die es Benutzern erlauben mehr aus ihren Daten zu machen."
-            }
-          ],
-          "en_GB": [
-            {
-              "name": "fullimage1.jpg",
-              "text": "Germinate is a generic plant genetic resources database and offers facilities to store both standard collection information and passport data along with more advanced data types such as phenotypic, genotypic and field trial data."
-            },
-            {
-              "name": "fullimage2.jpg",
-              "text": "We focus on delivering solutions to current biological problems and develop novel visualizations and interfaces to allow users to get more from their data."
-            }
-          ]
-        }
+  This file contains the configuration for the image carousel on the Germinate carousel. Here is an example of such a file. Note that the images referenced here would have to be stored in the `images/template` directory. The key of each set of images (e.g. `de_DE`) should always be one of the locales defined in the `locales.json` file.  
+    <pre lang="javascript"><code>
+      {
+        "de_DE": [
+          {
+            "name": "fullimage1.jpg",
+            "text": "Germinate ist eine generische Datenbank für pflanzengenetische Ressourcen die Hilfsmittel für die Aufbewahrung von Standardsammlungsinformationen und Pflanzenausweisdaten sowie kompliziertere Datentypen wie phänotypische, genotypische und Feldexperimentdaten bereitstellt."
+          },
+          {
+            "name": "fullimage2.jpg",
+            "text": "Wir fokussieren uns auf die Bereitstellung von Lösungen für aktuelle biologische Herausforderungen und entwickeln neuartige Visualisierungen und Benutzeroberflächen die es Benutzern erlauben mehr aus ihren Daten zu machen."
+          }
+        ],
+        "en_GB": [
+          {
+            "name": "fullimage1.jpg",
+            "text": "Germinate is a generic plant genetic resources database and offers facilities to store both standard collection information and passport data along with more advanced data types such as phenotypic, genotypic and field trial data."
+          },
+          {
+            "name": "fullimage2.jpg",
+            "text": "We focus on delivering solutions to current biological problems and develop novel visualizations and interfaces to allow users to get more from their data."
+          }
+        ]
+      }
+      </code></pre>
   - `en_GB.json`  
   This is an example file of one of the possible locale files. Germinate always supports the locale `en_GB` (British English), but also any other locale defined in the `locales.json` file. Files like `en_GB.json` allow you to define custom text within this language. For British English, it would suffice to only specify the text you want to change. For any other language, you'll have to provide your own file (e.g. `de_DE.json`) containing all the text on the interface. A list of all entries can be found in the fallback `en_GB.json` file that's part of the client code (**INSERT LINK**).
 - `config.properties`  
