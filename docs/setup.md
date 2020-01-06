@@ -17,6 +17,8 @@ Let's start with the simpler case: Docker. We have a working Docker image of Ger
 
 Additionally you will need a MySQL database. This can either be another Docker container or an existing database server that you already have.
 
+If you have docker-compose available, things are as simple as defining this `docker-compose.yml` file:
+
 ```yaml
 version: '3.3'
 services:
@@ -46,12 +48,46 @@ services:
         target: /var/lib/mysql/
     environment:
       MYSQL_ROOT_PASSWORD: PASSWORD_HERE
+      MYSQL_DATABASE: GERMINATE_DATABASE_NAME
+      MYSQL_USER: DATABASE_USER
+      MYSQL_PASSWORD: DATABASE_PASSWORD
     restart: unless-stopped
     container_name: mysql
 
 volumes:
   germinate:
   mysql:
+```
+
+If you don't use docker-compose, here is an example of those same instructions as basic Docker commands:
+
+```shell script
+docker volume create germinate
+docker volume create mysql
+
+docker network create germinate
+
+docker run -d \
+    --name mysql \
+    --network germinate \
+    -e MYSQL_ROOT_PASSWORD=ROOT_PASSWORD_HERE \
+    -e MYSQL_DATABASE=GERMINATE_DATABASE_NAME \
+    -e MYSQL_USER=DATABASE_USER \
+    -e MYSQL_PASSWORD=DATABASE_PASSWORD \
+    -v mysql:/var/lib/mysql \
+    -p 9306:3306 \
+    --restart unless-stopped \
+    mysql:5.7
+
+docker run -d \
+    --name germinate \
+    --network germinate \
+    -e JAVA_OPTS=-Xmx512m \
+    -v germinate:/usr/local/tomcat/temp \
+    -v /path/to/your/germinate/config:/data/germinate \
+    -p 9080:8080 \
+    --restart unless-stopped \
+    sraubach/germinate
 ```
 
 ## Manual setup
