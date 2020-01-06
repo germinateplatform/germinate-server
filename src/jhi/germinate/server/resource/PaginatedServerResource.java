@@ -159,7 +159,11 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		{
 			File zipFile = createTempFile(null, name, ".zip", false);
 
-			URI uri = URI.create("jar:file:/" + zipFile.getAbsolutePath().replace("\\", "/"));
+			String prefix = zipFile.getAbsolutePath().replace("\\", "/");
+			if (prefix.startsWith("/"))
+				prefix = prefix.substring(1);
+
+			URI uri = URI.create("jar:file:/" + prefix);
 
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "true");
@@ -199,7 +203,11 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		{
 			File zipFile = createTempFile(null, name, ".zip", false);
 
-			URI uri = URI.create("jar:file:/" + zipFile.getAbsolutePath().replace("\\", "/"));
+			String prefix = zipFile.getAbsolutePath().replace("\\", "/");
+			if (prefix.startsWith("/"))
+				prefix = prefix.substring(1);
+
+			URI uri = URI.create("jar:file:/" + prefix);
 
 			Map<String, String> env = new HashMap<>();
 			env.put("create", "true");

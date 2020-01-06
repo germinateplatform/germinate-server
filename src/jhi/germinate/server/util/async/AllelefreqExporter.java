@@ -166,7 +166,11 @@ public class AllelefreqExporter
 			resultFiles.add(flapjackProjectFile);
 		}
 
-		URI uri = URI.create("jar:file:/" + zipFile.getAbsolutePath().replace("\\", "/"));
+		String prefix = zipFile.getAbsolutePath().replace("\\", "/");
+		if (prefix.startsWith("/"))
+			prefix = prefix.substring(1);
+
+		URI uri = URI.create("jar:file:/" + prefix);
 
 		Map<String, String> env = new HashMap<>();
 		env.put("create", "true");
