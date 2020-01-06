@@ -61,7 +61,7 @@ volumes:
 
 If you don't use docker-compose, here is an example of those same instructions as basic Docker commands:
 
-```shell script
+```shell
 docker volume create germinate
 docker volume create mysql
 
