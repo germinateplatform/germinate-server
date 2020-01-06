@@ -4,5 +4,5 @@ title: Germinate
 
 # Germinate
 
-<a href="setup.html" class="btn">View setup instructions</a>
-<a href="config.html" class="btn">View configuration options</a>
+<h3><a href="setup.html">View setup instructions</a></h3>
+<h3><a href="config.html">View configuration options</a></h3>
