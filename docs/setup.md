@@ -11,6 +11,19 @@ It requires the least amount of configuration, assuming you already have a worki
 
 The following page will take you through both scenarios and explain all the necessary steps to get Germinate up and running.
 
+- [Docker](#docker)
+- [Manual setup](#manual-setup)
+  - [Requirements](#requirements)
+  - [Germinate Client](#client)
+    - [Download](#download-germinate-client)
+    - [Configure](#configure-germinate-client)
+    - [Build](#build-germinate)
+  - [Germinate Server](#server)
+    - [Download](#download-germinate-server)
+    - [Configure](#configure-germinate-server)
+    - [Include client](#include-germinate-client)
+    - [Build](#build-germinate-server)
+
 ## Docker
 
 Let's start with the simpler case: Docker. We have a working Docker image of Germinate available on DockerHub (**INSERT LINK**) that you can simply pull and run on your machine/server.
