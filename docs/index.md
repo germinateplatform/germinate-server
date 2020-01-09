@@ -24,8 +24,13 @@ Germinate implements, provides a valuable digital curation resource as well as o
 essential continuity on how new data is recorded and presented to researchers and breeders
 which brings focus and facilitates community building into research communities.
 
-<h3><a href="setup.html">View setup instructions</a></h3>
-<h3><a href="config.html">View configuration options</a></h3>
+## Documentation
 
-<img src="img/hutton-black.svg" height="150" alt="Logo">
-<img src="img/ics-sdg-black.svg" height="150" alt="Logo">
+There are a few sub-pages that contain specific information about Germinate's setup, configuration, etc. Use the links below to get to these pages.
+
+- <a href="setup.html">View setup instructions</a>
+- <a href="config.html">View configuration options</a>
+
+<img src="img/hutton-black.svg" height="100" alt="Logo">
+<br />
+<img src="img/ics-sdg-black.svg" height="100" alt="Logo">

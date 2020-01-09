@@ -1,0 +1,146 @@
+import com.bmuschko.gradle.cargo.convention.Deployable
+import com.bmuschko.gradle.cargo.tasks.remote.CargoRedeployRemote
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.7.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'war'
+}
+
+apply plugin: 'com.bmuschko.cargo-base'
+
+compileJava.options.encoding = 'UTF-8'
+
+group 'uk.ac.hutton.germinate'
+version '3.7.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url 'https://repo.spring.io/plugins-release/'
+    }
+    maven {
+        url 'http://maven.imagej.net/content/repositories/public/'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+
+    implementation 'org.restlet.jee:org.restlet:2.4.0'
+    implementation 'org.restlet.jee:org.restlet.ext.servlet:2.4.0'
+    implementation 'org.restlet.jee:org.restlet.ext.fileupload:2.4.0'
+    implementation 'org.restlet.jee:org.restlet.ext.json:2.4.0'
+    implementation 'org.restlet.jee:org.restlet.ext.gson:2.3.6'
+    implementation 'org.json:json:20160212'
+
+    implementation 'mysql:mysql-connector-java:8.0.16'
+    implementation 'org.xerial:sqlite-jdbc:3.30.1'
+    implementation 'javax.activation:javax.activation-api:1.2.0'
+    implementation 'ch.systems.cisd:jhdf5:14.12.0'
+    implementation 'net.coobird:thumbnailator:0.4.8'
+    implementation 'org.jooq:jooq:3.11.10'
+    implementation 'org.jooq:jooq-codegen:3.11.10'
+    implementation 'org.dhatim:fastexcel-reader:0.10.9'
+    implementation 'xerces:xercesImpl:2.12.0'
+    implementation 'org.codehaus.castor:castor-core:1.4.1'
+    implementation ('org.codehaus.castor:castor-xml:1.4.1') {
+        exclude group: 'org.springframework'
+    }
+
+    implementation 'org.flywaydb:flyway-core:4.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+}
+
+// Generate a .jar file for the Germinate importer project
+task jarForImporter (type: Jar, dependsOn: classes) {
+    from sourceSets.main.output
+    archiveFileName = 'germinate-core.jar'
+    includeEmptyDirs = false
+    include '**/germinate/resource/**'
+    include '**/server/database/**'
+    include '**/Database.class'
+    include '**/util/**Utils**'
+}
+
+// Generate a .jar file that other applications can use to communicate with the API
+task jarClient (type: Jar, dependsOn: classes) {
+    from sourceSets.main.output
+    archiveFileName = 'germinate-client.jar'
+    includeEmptyDirs = false
+    include '**/germinate/resource/**'
+    include '**/pojos/**'
+    include '**/StatusMessage**'
+    include '**/client/**'
+}
+
+// Runs the JOOQ code generation
+task codegen (type: JavaExec) {
+    group = 'Execution'
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'org.jooq.codegen.GenerationTool'
+    args 'jooq.xml'
+}
+
+// Generate a .war file
+war {
+    dependsOn jar, jarClient
+
+    rootSpec.exclude('**/jhi/**/*.class')
+    rootSpec.includeEmptyDirs = false
+
+    // Include external .jar files, but exclude the Germinate client and core.
+    classpath fileTree(dir:'build/libs/', include:'*.jar', excludes: ['germinate-client.jar', 'germinate-core.jar'])
+
+    // Set the classpath
+    manifest {
+        attributes('Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '))
+    }
+
+    webInf {
+        // Include the .properties file into the classes folder
+        from(project.projectDir.toString()) {
+            include 'config.properties'
+            include 'logging.properties'
+            into('classes')
+        }
+    }
+
+    // Include the client code if it's available
+    from("${project.projectDir.toString()}/client") {
+        include '**/**.*'
+        into('/')
+    }
+}
+
+// Deploy the created .war file to Tomcat
+task deployTomcat (type: CargoRedeployRemote) {
+    dependsOn = [war]
+    containerId = project.'tomcat.manager.version'
+    protocol = project.'tomcat.manager.protocol'
+    hostname = project.'tomcat.manager.hostname'
+    port = project.'tomcat.manager.port' as Integer
+    username = project.'tomcat.manager.username'
+    password = project.'tomcat.manager.password'
+    deployables = [new Deployable(files: project.files([war.archiveFile]), context: "${project.'project.name'}/v${project.version}")]
+}
