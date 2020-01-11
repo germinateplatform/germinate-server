@@ -136,11 +136,11 @@ war {
 // Deploy the created .war file to Tomcat
 task deployTomcat (type: CargoRedeployRemote) {
     dependsOn = [war]
-    containerId = project.'tomcat.manager.version'
-    protocol = project.'tomcat.manager.protocol'
-    hostname = project.'tomcat.manager.hostname'
-    port = project.'tomcat.manager.port' as Integer
-    username = project.'tomcat.manager.username'
-    password = project.'tomcat.manager.password'
+    containerId = project.findProperty('tomcat.manager.version') ?: "tomcat8x"
+    protocol = project.findProperty('tomcat.manager.protocol') ?: "http"
+    hostname = project.findProperty('tomcat.manager.hostname') ?: "localhost"
+    port = project.findProperty('tomcat.manager.port') ?: "8080" as Integer
+    username = project.findProperty('tomcat.manager.username') ?: ""
+    password = project.findProperty('tomcat.manager.password') ?: ""
     deployables = [new Deployable(files: project.files([war.archiveFile]), context: "${project.'project.name'}/v${project.version}")]
 }
