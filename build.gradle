@@ -139,7 +139,7 @@ task deployTomcat (type: CargoRedeployRemote) {
     containerId = project.findProperty('tomcat.manager.version') ?: "tomcat8x"
     protocol = project.findProperty('tomcat.manager.protocol') ?: "http"
     hostname = project.findProperty('tomcat.manager.hostname') ?: "localhost"
-    port = project.findProperty('tomcat.manager.port') ?: "8080" as Integer
+    port = (project.findProperty('tomcat.manager.port') ?: "8080") as Integer
     username = project.findProperty('tomcat.manager.username') ?: ""
     password = project.findProperty('tomcat.manager.password') ?: ""
     deployables = [new Deployable(files: project.files([war.archiveFile]), context: "${project.'project.name'}/v${project.version}")]

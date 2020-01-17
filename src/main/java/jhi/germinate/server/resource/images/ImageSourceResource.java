@@ -96,7 +96,7 @@ public class ImageSourceResource extends ServerResource
 
 			if (large.exists() && large.isFile())
 			{
-				if (!small.exists() && !Objects.equals(size, "template"))
+				if (!small.exists() && !Objects.equals(type, "template"))
 				{
 					try
 					{
