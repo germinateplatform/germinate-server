@@ -255,6 +255,8 @@ public class Germinate extends Application
 		// MARKERS
 		attachToRouter(routerAuth, "/marker/table", MarkerTableResource.class);
 		attachToRouter(routerAuth, "/marker/table/ids", MarkerTableIdResource.class);
+		attachToRouter(routerAuth, "/marker/{markerId}/group", MarkerGroupTableResource.class);
+		attachToRouter(routerAuth, "/marker/{markerId}/dataset", MarkerDatasetTableResource.class);
 
 		// NEWS
 		attachToRouter(routerAuth, "/news/table", NewsTableResource.class);
