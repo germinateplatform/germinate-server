@@ -20,8 +20,11 @@ public class CurlyWhirlyGroupCreationResource extends BaseServerResource
 	{
 		try
 		{
+			// Create a temp file
 			File file = createTempFile("group-upload", "txt");
+			// Write the representation to it
 			FileUploadHandler.handle(entity, "textfile", file);
+			// Then return the name of the file
 			return file.getName();
 		}
 		catch (IOException e)
