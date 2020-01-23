@@ -28,45 +28,45 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsCountryRecord extends TableRecordImpl<ViewStatsCountryRecord> implements Record3<String, String, Long> {
 
-    private static final long serialVersionUID = -1609127759;
+    private static final long serialVersionUID = -1119164687;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_country.country</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_country.country</code>.
      */
     public void setCountry(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_country.country</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_country.country</code>.
      */
     public String getCountry() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_country.code</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_country.code</code>.
      */
     public void setCode(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_country.code</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_country.code</code>.
      */
     public String getCode() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_country.count</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_country.count</code>.
      */
     public void setCount(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_country.count</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_country.count</code>.
      */
     public Long getCount() {
         return (Long) get(2);

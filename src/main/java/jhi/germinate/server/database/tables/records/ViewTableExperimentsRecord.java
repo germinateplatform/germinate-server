@@ -31,87 +31,87 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableExperimentsRecord extends TableRecordImpl<ViewTableExperimentsRecord> implements Record6<Integer, String, String, Date, String, Timestamp> {
 
-    private static final long serialVersionUID = 217472694;
+    private static final long serialVersionUID = 19267866;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setExperimentId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getExperimentId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_experiments.experiment_name</code>. The name of the experiment.
+     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_name</code>. The name of the experiment.
      */
     public void setExperimentName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_experiments.experiment_name</code>. The name of the experiment.
+     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_name</code>. The name of the experiment.
      */
     public String getExperimentName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_experiments.experiment_description</code>. Describes the experiment.
+     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_description</code>. Describes the experiment.
      */
     public void setExperimentDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_experiments.experiment_description</code>. Describes the experiment.
+     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_description</code>. Describes the experiment.
      */
     public String getExperimentDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public void setExperimentDate(Date value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public Date getExperimentDate() {
         return (Date) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_experiments.experimenttype_description</code>. Describes the experiment type.
+     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experimenttype_description</code>. Describes the experiment type.
      */
     public void setExperimenttypeDescription(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_experiments.experimenttype_description</code>. Describes the experiment type.
+     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experimenttype_description</code>. Describes the experiment type.
      */
     public String getExperimenttypeDescription() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_experiments.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.view_table_experiments.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_experiments.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.view_table_experiments.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(5);

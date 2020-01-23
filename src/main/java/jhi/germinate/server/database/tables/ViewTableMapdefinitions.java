@@ -8,7 +8,7 @@ import com.google.gson.JsonArray;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableMapdefinitionsRecord;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRecord> {
 
-    private static final long serialVersionUID = -2001213336;
+    private static final long serialVersionUID = 360577040;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_mapdefinitions</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_mapdefinitions</code>
      */
     public static final ViewTableMapdefinitions VIEW_TABLE_MAPDEFINITIONS = new ViewTableMapdefinitions();
 
@@ -51,71 +51,71 @@ public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRe
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableMapdefinitionsRecord, Integer> MARKER_ID = createField("marker_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public final TableField<ViewTableMapdefinitionsRecord, String> MARKER_NAME = createField("marker_name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "The name of the marker. This should be a unique name which identifies the marker.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
      */
-    public final TableField<ViewTableMapdefinitionsRecord, JsonArray> SYNONYMS = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_mapdefinitions_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
+    public final TableField<ViewTableMapdefinitionsRecord, JsonArray> SYNONYMS = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_mapdefinitions_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public final TableField<ViewTableMapdefinitionsRecord, String> MAP_FEATURE_TYPE = createField("map_feature_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableMapdefinitionsRecord, Integer> MAP_ID = createField("map_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<ViewTableMapdefinitionsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public final TableField<ViewTableMapdefinitionsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Determines if the map is visible to the Germinate interface or hidden.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.map_name</code>. Describes the map.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.map_name</code>. Describes the map.
      */
     public final TableField<ViewTableMapdefinitionsRecord, String> MAP_NAME = createField("map_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the map.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public final TableField<ViewTableMapdefinitionsRecord, String> CHROMOSOME = createField("chromosome", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The chromosome/linkage group that this marker is found on.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * The column <code>germinate_template_4_0_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public final TableField<ViewTableMapdefinitionsRecord, Double> POSITION = createField("position", org.jooq.impl.SQLDataType.DOUBLE, this, "Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_mapdefinitions</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_mapdefinitions</code> table reference
      */
     public ViewTableMapdefinitions() {
         this(DSL.name("view_table_mapdefinitions"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_mapdefinitions</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_mapdefinitions</code> table reference
      */
     public ViewTableMapdefinitions(String alias) {
         this(DSL.name(alias), VIEW_TABLE_MAPDEFINITIONS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_mapdefinitions</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_mapdefinitions</code> table reference
      */
     public ViewTableMapdefinitions(Name alias) {
         this(alias, VIEW_TABLE_MAPDEFINITIONS);
@@ -134,7 +134,7 @@ public class ViewTableMapdefinitions extends TableImpl<ViewTableMapdefinitionsRe
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

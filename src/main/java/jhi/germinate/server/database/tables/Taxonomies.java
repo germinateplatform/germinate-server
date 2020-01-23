@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.TaxonomiesRecord;
 
 import org.jooq.Field;
@@ -41,10 +41,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Taxonomies extends TableImpl<TaxonomiesRecord> {
 
-    private static final long serialVersionUID = 1186356750;
+    private static final long serialVersionUID = -636367264;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.taxonomies</code>
+     * The reference instance of <code>germinate_template_4_0_0.taxonomies</code>
      */
     public static final Taxonomies TAXONOMIES = new Taxonomies();
 
@@ -57,71 +57,71 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.taxonomies.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<TaxonomiesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.genus</code>. Genus name for the species.
+     * The column <code>germinate_template_4_0_0.taxonomies.genus</code>. Genus name for the species.
      */
     public final TableField<TaxonomiesRecord, String> GENUS = createField("genus", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Genus name for the species.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.species</code>. Species name in lowercase.
+     * The column <code>germinate_template_4_0_0.taxonomies.species</code>. Species name in lowercase.
      */
     public final TableField<TaxonomiesRecord, String> SPECIES = createField("species", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Species name in lowercase.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.subtaxa</code>. Subtaxa name.
+     * The column <code>germinate_template_4_0_0.taxonomies.subtaxa</code>. Subtaxa name.
      */
     public final TableField<TaxonomiesRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Subtaxa name.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
+     * The column <code>germinate_template_4_0_0.taxonomies.species_author</code>. also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.
      */
     public final TableField<TaxonomiesRecord, String> SPECIES_AUTHOR = createField("species_author", org.jooq.impl.SQLDataType.VARCHAR(255), this, "also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
+     * The column <code>germinate_template_4_0_0.taxonomies.subtaxa_author</code>. also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).
      */
     public final TableField<TaxonomiesRecord, String> SUBTAXA_AUTHOR = createField("subtaxa_author", org.jooq.impl.SQLDataType.VARCHAR(255), this, "also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
+     * The column <code>germinate_template_4_0_0.taxonomies.cropname</code>. The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.
      */
     public final TableField<TaxonomiesRecord, String> CROPNAME = createField("cropname", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
+     * The column <code>germinate_template_4_0_0.taxonomies.ploidy</code>. Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.
      */
     public final TableField<TaxonomiesRecord, Integer> PLOIDY = createField("ploidy", org.jooq.impl.SQLDataType.INTEGER, this, "Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.taxonomies.created_on</code>. When the record was created.
      */
     public final TableField<TaxonomiesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.taxonomies.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<TaxonomiesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.taxonomies</code> table reference
+     * Create a <code>germinate_template_4_0_0.taxonomies</code> table reference
      */
     public Taxonomies() {
         this(DSL.name("taxonomies"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.taxonomies</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.taxonomies</code> table reference
      */
     public Taxonomies(String alias) {
         this(DSL.name(alias), TAXONOMIES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.taxonomies</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.taxonomies</code> table reference
      */
     public Taxonomies(Name alias) {
         this(alias, TAXONOMIES);
@@ -140,7 +140,7 @@ public class Taxonomies extends TableImpl<TaxonomiesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

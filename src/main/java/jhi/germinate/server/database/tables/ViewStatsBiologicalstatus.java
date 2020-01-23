@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewStatsBiologicalstatusRecord;
 
 import org.jooq.Field;
@@ -32,10 +32,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsBiologicalstatus extends TableImpl<ViewStatsBiologicalstatusRecord> {
 
-    private static final long serialVersionUID = -1099626763;
+    private static final long serialVersionUID = 159679023;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_stats_biologicalstatus</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_stats_biologicalstatus</code>
      */
     public static final ViewStatsBiologicalstatus VIEW_STATS_BIOLOGICALSTATUS = new ViewStatsBiologicalstatus();
 
@@ -48,31 +48,31 @@ public class ViewStatsBiologicalstatus extends TableImpl<ViewStatsBiologicalstat
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_biologicalstatus.biologicalstatus</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_biologicalstatus.biologicalstatus</code>.
      */
     public final TableField<ViewStatsBiologicalstatusRecord, String> BIOLOGICALSTATUS = createField("biologicalstatus", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_biologicalstatus.count</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_biologicalstatus.count</code>.
      */
     public final TableField<ViewStatsBiologicalstatusRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_stats_biologicalstatus</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_stats_biologicalstatus</code> table reference
      */
     public ViewStatsBiologicalstatus() {
         this(DSL.name("view_stats_biologicalstatus"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_stats_biologicalstatus</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_stats_biologicalstatus</code> table reference
      */
     public ViewStatsBiologicalstatus(String alias) {
         this(DSL.name(alias), VIEW_STATS_BIOLOGICALSTATUS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_stats_biologicalstatus</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_stats_biologicalstatus</code> table reference
      */
     public ViewStatsBiologicalstatus(Name alias) {
         this(alias, VIEW_STATS_BIOLOGICALSTATUS);
@@ -91,7 +91,7 @@ public class ViewStatsBiologicalstatus extends TableImpl<ViewStatsBiologicalstat
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

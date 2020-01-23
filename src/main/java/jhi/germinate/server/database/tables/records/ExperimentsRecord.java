@@ -32,38 +32,38 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> implements Record8<Integer, String, Integer, String, Date, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -741683637;
+    private static final long serialVersionUID = -10039401;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_name</code>. The name of the experiment.
+     * Setter for <code>germinate_template_4_0_0.experiments.experiment_name</code>. The name of the experiment.
      */
     public void setExperimentName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.experiment_name</code>. The name of the experiment.
+     * Getter for <code>germinate_template_4_0_0.experiments.experiment_name</code>. The name of the experiment.
      */
     public String getExperimentName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_4_0_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
 
      */
     public void setUserId(Integer value) {
@@ -71,7 +71,7 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_4_0_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
 
      */
     public Integer getUserId() {
@@ -79,35 +79,35 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.description</code>. Describes the experiment.
+     * Setter for <code>germinate_template_4_0_0.experiments.description</code>. Describes the experiment.
      */
     public void setDescription(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.description</code>. Describes the experiment.
+     * Getter for <code>germinate_template_4_0_0.experiments.description</code>. Describes the experiment.
      */
     public String getDescription() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Setter for <code>germinate_template_4_0_0.experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public void setExperimentDate(Date value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Getter for <code>germinate_template_4_0_0.experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public Date getExperimentDate() {
         return (Date) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
+     * Setter for <code>germinate_template_4_0_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
 
      */
     public void setExperimentTypeId(Integer value) {
@@ -115,7 +115,7 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
+     * Getter for <code>germinate_template_4_0_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
 
      */
     public Integer getExperimentTypeId() {
@@ -123,28 +123,28 @@ public class ExperimentsRecord extends UpdatableRecordImpl<ExperimentsRecord> im
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.experiments.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.experiments.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(7);

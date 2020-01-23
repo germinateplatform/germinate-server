@@ -31,283 +31,283 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableClimateDataRecord extends TableRecordImpl<ViewTableClimateDataRecord> implements Record20<Integer, String, String, String, String, BigDecimal, BigDecimal, BigDecimal, String, String, String, Integer, String, String, Integer, String, String, String, Timestamp, Double> {
 
-    private static final long serialVersionUID = 225505568;
+    private static final long serialVersionUID = 1416197816;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setLocationId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getLocationId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_name</code>. The site name where the location is.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_name</code>. The site name where the location is.
      */
     public void setLocationName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_name</code>. The site name where the location is.
      */
     public String getLocationName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_region</code>. The region where the location is if this exists.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_region</code>. The region where the location is if this exists.
      */
     public void setLocationRegion(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_region</code>. The region where the location is if this exists.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_region</code>. The region where the location is if this exists.
      */
     public String getLocationRegion() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_state</code>. The state where the location is if this exists.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_state</code>. The state where the location is if this exists.
      */
     public void setLocationState(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_state</code>. The state where the location is if this exists.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_state</code>. The state where the location is if this exists.
      */
     public String getLocationState() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_type</code>. The name of the location type. 
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_type</code>. The name of the location type. 
      */
     public void setLocationType(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_type</code>. The name of the location type. 
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_type</code>. The name of the location type. 
      */
     public String getLocationType() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_latitude</code>. Latitude of the location.
      */
     public void setLocationLatitude(BigDecimal value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_latitude</code>. Latitude of the location.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_latitude</code>. Latitude of the location.
      */
     public BigDecimal getLocationLatitude() {
         return (BigDecimal) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_longitude</code>. Longitude of the location.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_longitude</code>. Longitude of the location.
      */
     public void setLocationLongitude(BigDecimal value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_longitude</code>. Longitude of the location.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_longitude</code>. Longitude of the location.
      */
     public BigDecimal getLocationLongitude() {
         return (BigDecimal) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.location_elevation</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.location_elevation</code>. The elevation of the site in metres.
      */
     public void setLocationElevation(BigDecimal value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.location_elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.location_elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getLocationElevation() {
         return (BigDecimal) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.country_name</code>. Country name.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.country_name</code>. Country name.
      */
     public void setCountryName(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.country_name</code>. Country name.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.country_name</code>. Country name.
      */
     public String getCountryName() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.country_code2</code>. ISO 2 Code for country.
      */
     public void setCountryCode2(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.country_code2</code>. ISO 2 Code for country.
      */
     public String getCountryCode2() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.country_code3</code>. ISO 3 Code for country.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.country_code3</code>. ISO 3 Code for country.
      */
     public void setCountryCode3(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.country_code3</code>. ISO 3 Code for country.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.country_code3</code>. ISO 3 Code for country.
      */
     public String getCountryCode3() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getDatasetId() {
         return (Integer) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.dataset_name</code>. Describes the dataset.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.dataset_name</code>. Describes the dataset.
      */
     public void setDatasetName(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.dataset_name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.dataset_name</code>. Describes the dataset.
      */
     public String getDatasetName() {
         return (String) get(12);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.dataset_description</code>. The name of this dataset.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.dataset_description</code>. The name of this dataset.
      */
     public void setDatasetDescription(String value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.dataset_description</code>. The name of this dataset.
      */
     public String getDatasetDescription() {
         return (String) get(13);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.climate_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.climate_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setClimateId(Integer value) {
         set(14, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.climate_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.climate_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getClimateId() {
         return (Integer) get(14);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.climate_name</code>. Describes the climate.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.climate_name</code>. Describes the climate.
      */
     public void setClimateName(String value) {
         set(15, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.climate_name</code>. Describes the climate.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.climate_name</code>. Describes the climate.
      */
     public String getClimateName() {
         return (String) get(15);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
      */
     public void setClimateNameShort(String value) {
         set(16, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
      */
     public String getClimateNameShort() {
         return (String) get(16);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
         set(17, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public String getUnitName() {
         return (String) get(17);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.recording_date</code>. The date at which this data point was recorded.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.recording_date</code>. The date at which this data point was recorded.
      */
     public void setRecordingDate(Timestamp value) {
         set(18, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.recording_date</code>. The date at which this data point was recorded.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.recording_date</code>. The date at which this data point was recorded.
      */
     public Timestamp getRecordingDate() {
         return (Timestamp) get(18);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climate_data.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
+     * Setter for <code>germinate_template_4_0_0.view_table_climate_data.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
      */
     public void setClimateValue(Double value) {
         set(19, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climate_data.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
+     * Getter for <code>germinate_template_4_0_0.view_table_climate_data.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
      */
     public Double getClimateValue() {
         return (Double) get(19);

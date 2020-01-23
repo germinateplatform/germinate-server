@@ -29,157 +29,157 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableClimatesRecord extends TableRecordImpl<ViewTableClimatesRecord> implements Record11<Integer, String, String, String, ViewTableClimatesDataType, Integer, String, String, Long, String, Long> {
 
-    private static final long serialVersionUID = 149641825;
+    private static final long serialVersionUID = 1321221461;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.climate_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.climate_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setClimateId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.climate_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.climate_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getClimateId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.climate_name</code>. Describes the climate.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.climate_name</code>. Describes the climate.
      */
     public void setClimateName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.climate_name</code>. Describes the climate.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.climate_name</code>. Describes the climate.
      */
     public String getClimateName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
      */
     public void setClimateNameShort(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
      */
     public String getClimateNameShort() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.climate_description</code>. A longer description of the climate.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.climate_description</code>. A longer description of the climate.
      */
     public void setClimateDescription(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.climate_description</code>. A longer description of the climate.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.climate_description</code>. A longer description of the climate.
      */
     public String getClimateDescription() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.data_type</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.data_type</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
     public void setDataType(ViewTableClimatesDataType value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.data_type</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.data_type</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
     public ViewTableClimatesDataType getDataType() {
         return (ViewTableClimatesDataType) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.unit_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.unit_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setUnitId(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.unit_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.unit_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getUnitId() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public String getUnitName() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
     public void setUnitDescription(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
     public String getUnitDescription() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.overlays</code>.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.overlays</code>.
      */
     public void setOverlays(Long value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.overlays</code>.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.overlays</code>.
      */
     public Long getOverlays() {
         return (Long) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.
      */
     public void setUnitAbbreviation(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.
      */
     public String getUnitAbbreviation() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_climates.count</code>.
+     * Setter for <code>germinate_template_4_0_0.view_table_climates.count</code>.
      */
     public void setCount(Long value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_climates.count</code>.
+     * Getter for <code>germinate_template_4_0_0.view_table_climates.count</code>.
      */
     public Long getCount() {
         return (Long) get(10);

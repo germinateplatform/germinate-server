@@ -35,101 +35,101 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AttributesRecord extends UpdatableRecordImpl<AttributesRecord> implements Record7<Integer, String, String, AttributesDatatype, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 264368925;
+    private static final long serialVersionUID = -2019168267;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.attributes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
+     * Setter for <code>germinate_template_4_0_0.attributes.name</code>. Defines the name of the attribute.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.name</code>. Defines the name of the attribute.
+     * Getter for <code>germinate_template_4_0_0.attributes.name</code>. Defines the name of the attribute.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Setter for <code>germinate_template_4_0_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public void setDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Getter for <code>germinate_template_4_0_0.attributes.description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.datatype</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Setter for <code>germinate_template_4_0_0.attributes.datatype</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public void setDatatype(AttributesDatatype value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.datatype</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Getter for <code>germinate_template_4_0_0.attributes.datatype</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public AttributesDatatype getDatatype() {
         return (AttributesDatatype) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.target_table</code>.
+     * Setter for <code>germinate_template_4_0_0.attributes.target_table</code>.
      */
     public void setTargetTable(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.target_table</code>.
+     * Getter for <code>germinate_template_4_0_0.attributes.target_table</code>.
      */
     public String getTargetTable() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.attributes.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.attributes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.attributes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(6);

@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.util.SynonymBinding;
@@ -43,10 +43,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
 
-    private static final long serialVersionUID = 551664251;
+    private static final long serialVersionUID = -1838707733;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.dataset_export_jobs</code>
+     * The reference instance of <code>germinate_template_4_0_0.dataset_export_jobs</code>
      */
     public static final DatasetExportJobs DATASET_EXPORT_JOBS = new DatasetExportJobs();
 
@@ -59,71 +59,71 @@ public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.id</code>.
      */
     public final TableField<DatasetExportJobsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.uuid</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.uuid</code>.
      */
     public final TableField<DatasetExportJobsRecord, String> UUID = createField("uuid", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.job_id</code>.
      */
     public final TableField<DatasetExportJobsRecord, String> JOB_ID = createField("job_id", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.user_id</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.user_id</code>.
      */
     public final TableField<DatasetExportJobsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.status</code>.
      */
     public final TableField<DatasetExportJobsRecord, DatasetExportJobsStatus> STATUS = createField("status", org.jooq.impl.SQLDataType.VARCHAR(9).nullable(false).defaultValue(org.jooq.impl.DSL.inline("waiting", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.DatasetExportJobsStatus.class), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.visibility</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.visibility</code>.
      */
     public final TableField<DatasetExportJobsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.experiment_type_id</code>.
      */
     public final TableField<DatasetExportJobsRecord, Integer> EXPERIMENT_TYPE_ID = createField("experiment_type_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.dataset_ids</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.dataset_ids</code>.
      */
-    public final TableField<DatasetExportJobsRecord, JsonArray> DATASET_IDS = createField("dataset_ids", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"dataset_export_jobs_dataset_ids\""), this, "", new SynonymBinding());
+    public final TableField<DatasetExportJobsRecord, JsonArray> DATASET_IDS = createField("dataset_ids", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"dataset_export_jobs_dataset_ids\""), this, "", new SynonymBinding());
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.created_on</code>.
      */
     public final TableField<DatasetExportJobsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.updated_on</code>.
      */
     public final TableField<DatasetExportJobsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>germinate_template_3_7_0.dataset_export_jobs</code> table reference
+     * Create a <code>germinate_template_4_0_0.dataset_export_jobs</code> table reference
      */
     public DatasetExportJobs() {
         this(DSL.name("dataset_export_jobs"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.dataset_export_jobs</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.dataset_export_jobs</code> table reference
      */
     public DatasetExportJobs(String alias) {
         this(DSL.name(alias), DATASET_EXPORT_JOBS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.dataset_export_jobs</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.dataset_export_jobs</code> table reference
      */
     public DatasetExportJobs(Name alias) {
         this(alias, DATASET_EXPORT_JOBS);
@@ -142,7 +142,7 @@ public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

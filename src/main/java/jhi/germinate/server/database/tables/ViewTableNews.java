@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableNewsRecord;
 
 import org.jooq.Field;
@@ -34,10 +34,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableNews extends TableImpl<ViewTableNewsRecord> {
 
-    private static final long serialVersionUID = -2054692774;
+    private static final long serialVersionUID = 943814804;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_news</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_news</code>
      */
     public static final ViewTableNews VIEW_TABLE_NEWS = new ViewTableNews();
 
@@ -50,71 +50,71 @@ public class ViewTableNews extends TableImpl<ViewTableNewsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.news_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_news.news_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableNewsRecord, Integer> NEWS_ID = createField("news_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.news_title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
+     * The column <code>germinate_template_4_0_0.view_table_news.news_title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
      */
     public final TableField<ViewTableNewsRecord, String> NEWS_TITLE = createField("news_title", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A title which is used to name this news item. This appears in the Germinate user interface if used.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.news_content</code>. The textual content of this news item.
+     * The column <code>germinate_template_4_0_0.view_table_news.news_content</code>. The textual content of this news item.
      */
     public final TableField<ViewTableNewsRecord, String> NEWS_CONTENT = createField("news_content", org.jooq.impl.SQLDataType.CLOB, this, "The textual content of this news item.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.news_hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
+     * The column <code>germinate_template_4_0_0.view_table_news.news_hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
      */
     public final TableField<ViewTableNewsRecord, String> NEWS_HYPERLINK = createField("news_hyperlink", org.jooq.impl.SQLDataType.VARCHAR(255), this, "HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.news_image</code>. Image to use with this news item.
+     * The column <code>germinate_template_4_0_0.view_table_news.news_image</code>. Image to use with this news item.
      */
     public final TableField<ViewTableNewsRecord, String> NEWS_IMAGE = createField("news_image", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Image to use with this news item.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.newstype_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_news.newstype_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableNewsRecord, Integer> NEWSTYPE_ID = createField("newstype_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.newstype_name</code>. Name of the news type.
+     * The column <code>germinate_template_4_0_0.view_table_news.newstype_name</code>. Name of the news type.
      */
     public final TableField<ViewTableNewsRecord, String> NEWSTYPE_NAME = createField("newstype_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Name of the news type.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.newstype_description</code>. A longer description of the news type.
+     * The column <code>germinate_template_4_0_0.view_table_news.newstype_description</code>. A longer description of the news type.
      */
     public final TableField<ViewTableNewsRecord, String> NEWSTYPE_DESCRIPTION = createField("newstype_description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A longer description of the news type.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.view_table_news.created_on</code>. When the record was created.
      */
     public final TableField<ViewTableNewsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.view_table_news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<ViewTableNewsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_news</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_news</code> table reference
      */
     public ViewTableNews() {
         this(DSL.name("view_table_news"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_news</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_news</code> table reference
      */
     public ViewTableNews(String alias) {
         this(DSL.name(alias), VIEW_TABLE_NEWS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_news</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_news</code> table reference
      */
     public ViewTableNews(Name alias) {
         this(alias, VIEW_TABLE_NEWS);
@@ -133,7 +133,7 @@ public class ViewTableNews extends TableImpl<ViewTableNewsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

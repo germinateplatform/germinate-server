@@ -31,59 +31,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LicenselogsRecord extends UpdatableRecordImpl<LicenselogsRecord> implements Record4<Integer, Integer, Integer, Timestamp> {
 
-    private static final long serialVersionUID = -957333576;
+    private static final long serialVersionUID = 1871367580;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.id</code>.
+     * Setter for <code>germinate_template_4_0_0.licenselogs.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.id</code>.
+     * Getter for <code>germinate_template_4_0_0.licenselogs.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.license_id</code>.
+     * Setter for <code>germinate_template_4_0_0.licenselogs.license_id</code>.
      */
     public void setLicenseId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.license_id</code>.
+     * Getter for <code>germinate_template_4_0_0.licenselogs.license_id</code>.
      */
     public Integer getLicenseId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
+     * Setter for <code>germinate_template_4_0_0.licenselogs.user_id</code>.
      */
     public void setUserId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.user_id</code>.
+     * Getter for <code>germinate_template_4_0_0.licenselogs.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.licenselogs.accepted_on</code>.
+     * Setter for <code>germinate_template_4_0_0.licenselogs.accepted_on</code>.
      */
     public void setAcceptedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.licenselogs.accepted_on</code>.
+     * Getter for <code>germinate_template_4_0_0.licenselogs.accepted_on</code>.
      */
     public Timestamp getAcceptedOn() {
         return (Timestamp) get(3);

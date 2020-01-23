@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.LocalesRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locales extends TableImpl<LocalesRecord> {
 
-    private static final long serialVersionUID = -1615707449;
+    private static final long serialVersionUID = 693302983;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.locales</code>
+     * The reference instance of <code>germinate_template_4_0_0.locales</code>
      */
     public static final Locales LOCALES = new Locales();
 
@@ -55,46 +55,46 @@ public class Locales extends TableImpl<LocalesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.locales.id</code>.
+     * The column <code>germinate_template_4_0_0.locales.id</code>.
      */
     public final TableField<LocalesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.locales.name</code>.
+     * The column <code>germinate_template_4_0_0.locales.name</code>.
      */
     public final TableField<LocalesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.locales.description</code>.
+     * The column <code>germinate_template_4_0_0.locales.description</code>.
      */
     public final TableField<LocalesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.locales.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.locales.created_on</code>. When the record was created.
      */
     public final TableField<LocalesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.locales.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.locales.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<LocalesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.locales</code> table reference
+     * Create a <code>germinate_template_4_0_0.locales</code> table reference
      */
     public Locales() {
         this(DSL.name("locales"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.locales</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.locales</code> table reference
      */
     public Locales(String alias) {
         this(DSL.name(alias), LOCALES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.locales</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.locales</code> table reference
      */
     public Locales(Name alias) {
         this(alias, LOCALES);
@@ -113,7 +113,7 @@ public class Locales extends TableImpl<LocalesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

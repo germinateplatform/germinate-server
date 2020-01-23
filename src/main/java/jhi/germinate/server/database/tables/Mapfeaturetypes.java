@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.MapfeaturetypesRecord;
 
 import org.jooq.Field;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
 
-    private static final long serialVersionUID = -1061623375;
+    private static final long serialVersionUID = -929148861;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.mapfeaturetypes</code>
+     * The reference instance of <code>germinate_template_4_0_0.mapfeaturetypes</code>
      */
     public static final Mapfeaturetypes MAPFEATURETYPES = new Mapfeaturetypes();
 
@@ -56,41 +56,41 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.mapfeaturetypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MapfeaturetypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     * The column <code>germinate_template_4_0_0.mapfeaturetypes.description</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public final TableField<MapfeaturetypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.");
 
     /**
-     * The column <code>germinate_template_3_7_0.mapfeaturetypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.mapfeaturetypes.created_on</code>. When the record was created.
      */
     public final TableField<MapfeaturetypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.mapfeaturetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MapfeaturetypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.mapfeaturetypes</code> table reference
+     * Create a <code>germinate_template_4_0_0.mapfeaturetypes</code> table reference
      */
     public Mapfeaturetypes() {
         this(DSL.name("mapfeaturetypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.mapfeaturetypes</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.mapfeaturetypes</code> table reference
      */
     public Mapfeaturetypes(String alias) {
         this(DSL.name(alias), MAPFEATURETYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.mapfeaturetypes</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.mapfeaturetypes</code> table reference
      */
     public Mapfeaturetypes(Name alias) {
         this(alias, MAPFEATURETYPES);
@@ -109,7 +109,7 @@ public class Mapfeaturetypes extends TableImpl<MapfeaturetypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

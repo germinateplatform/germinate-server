@@ -39,7 +39,7 @@ public class DatasetTraitResource extends BaseServerResource implements Filtered
 		requestedIds.retainAll(datasets);
 
 		if (CollectionUtils.isEmpty(requestedIds))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			return new ArrayList<>();
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))

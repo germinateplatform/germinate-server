@@ -28,59 +28,59 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsTaxonomyRecord extends TableRecordImpl<ViewStatsTaxonomyRecord> implements Record4<String, String, String, Long> {
 
-    private static final long serialVersionUID = 297535580;
+    private static final long serialVersionUID = -1071966704;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_taxonomy.genus</code>. Genus name for the species.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>. Genus name for the species.
      */
     public void setGenus(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_taxonomy.genus</code>. Genus name for the species.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>. Genus name for the species.
      */
     public String getGenus() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_taxonomy.species</code>. Species name in lowercase.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>. Species name in lowercase.
      */
     public void setSpecies(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_taxonomy.species</code>. Species name in lowercase.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>. Species name in lowercase.
      */
     public String getSpecies() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
      */
     public void setSubtaxa(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
      */
     public String getSubtaxa() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_taxonomy.count</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.count</code>.
      */
     public void setCount(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_taxonomy.count</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.count</code>.
      */
     public Long getCount() {
         return (Long) get(3);

@@ -6,7 +6,7 @@ package jhi.germinate.server.database.routines;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 
 import org.jooq.Parameter;
 import org.jooq.impl.AbstractRoutine;
@@ -26,25 +26,25 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportTrialsData extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = -127386469;
+    private static final long serialVersionUID = -394975211;
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_trials_data.groupIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_trials_data.groupIds</code>.
      */
     public static final Parameter<String> GROUPIDS = Internal.createParameter("groupIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_trials_data.markedIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_trials_data.markedIds</code>.
      */
     public static final Parameter<String> MARKEDIDS = Internal.createParameter("markedIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_trials_data.datasetIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_trials_data.datasetIds</code>.
      */
     public static final Parameter<String> DATASETIDS = Internal.createParameter("datasetIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_trials_data.phenotypeIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_trials_data.phenotypeIds</code>.
      */
     public static final Parameter<String> PHENOTYPEIDS = Internal.createParameter("phenotypeIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
@@ -52,7 +52,7 @@ public class ExportTrialsData extends AbstractRoutine<java.lang.Void> {
      * Create a new routine call instance
      */
     public ExportTrialsData() {
-        super("export_trials_data", GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0);
+        super("export_trials_data", GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0);
 
         addInParameter(GROUPIDS);
         addInParameter(MARKEDIDS);

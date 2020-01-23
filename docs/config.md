@@ -113,7 +113,7 @@ This is the most important file in your customization. It defines the required p
     colors.template = <comma separated list of colors (hex-code) used for the user interface>
     
     # This is the most important property. It points Germinate to the location of all configuration files.
-    data.directory.external = <location of the directory containing the configuration files (the ones explained in this section)>
+    data.directory.external = <location of the directory containing the configuration files (the ones explained in this section). Should be '/data/germinate' if using the Docker image.>
     
     # The authentication mode determines whether users have to log in or not.
     # NONE disables authentication (and the use of Gatekeeper).

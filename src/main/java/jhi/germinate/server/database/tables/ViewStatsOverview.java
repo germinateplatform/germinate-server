@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewStatsOverviewRecord;
 
 import org.jooq.Field;
@@ -32,10 +32,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
 
-    private static final long serialVersionUID = -897296133;
+    private static final long serialVersionUID = -244931123;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_stats_overview</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_stats_overview</code>
      */
     public static final ViewStatsOverview VIEW_STATS_OVERVIEW = new ViewStatsOverview();
 
@@ -48,51 +48,51 @@ public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_overview.germplasm</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_overview.germplasm</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> GERMPLASM = createField("germplasm", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_overview.markers</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_overview.markers</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> MARKERS = createField("markers", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_overview.traits</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_overview.traits</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> TRAITS = createField("traits", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_overview.compounds</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_overview.compounds</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> COMPOUNDS = createField("compounds", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_overview.locations</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_overview.locations</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> LOCATIONS = createField("locations", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_stats_overview.groups</code>.
+     * The column <code>germinate_template_4_0_0.view_stats_overview.groups</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> GROUPS = createField("groups", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_stats_overview</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_stats_overview</code> table reference
      */
     public ViewStatsOverview() {
         this(DSL.name("view_stats_overview"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_stats_overview</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_stats_overview</code> table reference
      */
     public ViewStatsOverview(String alias) {
         this(DSL.name(alias), VIEW_STATS_OVERVIEW);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_stats_overview</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_stats_overview</code> table reference
      */
     public ViewStatsOverview(Name alias) {
         this(alias, VIEW_STATS_OVERVIEW);
@@ -111,7 +111,7 @@ public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

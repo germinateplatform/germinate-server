@@ -32,115 +32,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PhenotypesRecord extends UpdatableRecordImpl<PhenotypesRecord> implements Record8<Integer, String, String, String, PhenotypesDatatype, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -865443472;
+    private static final long serialVersionUID = -1194003168;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.name</code>. Phenotype full name.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.name</code>. Phenotype full name.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.name</code>. Phenotype full name.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.name</code>. Phenotype full name.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public void setShortName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public String getShortName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public void setDescription(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public String getDescription() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
     public void setDatatype(PhenotypesDatatype value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
     public PhenotypesDatatype getDatatype() {
         return (PhenotypesDatatype) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
+     * Setter for <code>germinate_template_4_0_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
      */
     public void setUnitId(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
+     * Getter for <code>germinate_template_4_0_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
      */
     public Integer getUnitId() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(7);

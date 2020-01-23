@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.DatasetmetaRecord;
 
 import org.jooq.Field;
@@ -41,10 +41,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
 
-    private static final long serialVersionUID = 1427450907;
+    private static final long serialVersionUID = -1426297491;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.datasetmeta</code>
+     * The reference instance of <code>germinate_template_4_0_0.datasetmeta</code>
      */
     public static final Datasetmeta DATASETMETA = new Datasetmeta();
 
@@ -57,51 +57,51 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<DatasetmetaRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
+     * The column <code>germinate_template_4_0_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
     public final TableField<DatasetmetaRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to [datasets] ([datasets].id).");
 
     /**
-     * The column <code>germinate_template_3_7_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
+     * The column <code>germinate_template_4_0_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
      */
     public final TableField<DatasetmetaRecord, ULong> NR_OF_DATA_OBJECTS = createField("nr_of_data_objects", org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "The number of data objects contained in this dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
+     * The column <code>germinate_template_4_0_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
      */
     public final TableField<DatasetmetaRecord, ULong> NR_OF_DATA_POINTS = createField("nr_of_data_points", org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "The number of individual data points contained in this dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.datasetmeta.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.datasetmeta.created_on</code>. When the record was created.
      */
     public final TableField<DatasetmetaRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<DatasetmetaRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.datasetmeta</code> table reference
+     * Create a <code>germinate_template_4_0_0.datasetmeta</code> table reference
      */
     public Datasetmeta() {
         this(DSL.name("datasetmeta"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.datasetmeta</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.datasetmeta</code> table reference
      */
     public Datasetmeta(String alias) {
         this(DSL.name(alias), DATASETMETA);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.datasetmeta</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.datasetmeta</code> table reference
      */
     public Datasetmeta(Name alias) {
         this(alias, DATASETMETA);
@@ -120,7 +120,7 @@ public class Datasetmeta extends TableImpl<DatasetmetaRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

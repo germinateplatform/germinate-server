@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.importers;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.util.List;
+import java.util.*;
 
 import jhi.germinate.resource.ImportResult;
 import jhi.germinate.server.auth.*;
@@ -35,7 +35,7 @@ public class ImportStatusResource extends ServerResource
 		}
 		else
 		{
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			return new ArrayList<>();
 		}
 	}
 }

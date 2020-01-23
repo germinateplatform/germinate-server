@@ -8,7 +8,7 @@ import com.google.gson.JsonArray;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableGroupMarkersRecord;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGroupMarkers extends TableImpl<ViewTableGroupMarkersRecord> {
 
-    private static final long serialVersionUID = 1742792758;
+    private static final long serialVersionUID = -825189728;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_group_markers</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_group_markers</code>
      */
     public static final ViewTableGroupMarkers VIEW_TABLE_GROUP_MARKERS = new ViewTableGroupMarkers();
 
@@ -51,46 +51,46 @@ public class ViewTableGroupMarkers extends TableImpl<ViewTableGroupMarkersRecord
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_group_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGroupMarkersRecord, Integer> MARKER_ID = createField("marker_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * The column <code>germinate_template_4_0_0.view_table_group_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public final TableField<ViewTableGroupMarkersRecord, String> MARKER_NAME = createField("marker_name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "The name of the marker. This should be a unique name which identifies the marker.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * The column <code>germinate_template_4_0_0.view_table_group_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
     public final TableField<ViewTableGroupMarkersRecord, String> MARKER_TYPE = createField("marker_type", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_markers.marker_synonyms</code>. The synonyms as a json array.
+     * The column <code>germinate_template_4_0_0.view_table_group_markers.marker_synonyms</code>. The synonyms as a json array.
      */
-    public final TableField<ViewTableGroupMarkersRecord, JsonArray> MARKER_SYNONYMS = createField("marker_synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_group_markers_marker_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
+    public final TableField<ViewTableGroupMarkersRecord, JsonArray> MARKER_SYNONYMS = createField("marker_synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_group_markers_marker_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_group_markers.group_id</code>. Foreign key to groups (groups.id).
+     * The column <code>germinate_template_4_0_0.view_table_group_markers.group_id</code>. Foreign key to groups (groups.id).
      */
     public final TableField<ViewTableGroupMarkersRecord, Integer> GROUP_ID = createField("group_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to groups (groups.id).");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_group_markers</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_group_markers</code> table reference
      */
     public ViewTableGroupMarkers() {
         this(DSL.name("view_table_group_markers"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_group_markers</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_group_markers</code> table reference
      */
     public ViewTableGroupMarkers(String alias) {
         this(DSL.name(alias), VIEW_TABLE_GROUP_MARKERS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_group_markers</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_group_markers</code> table reference
      */
     public ViewTableGroupMarkers(Name alias) {
         this(alias, VIEW_TABLE_GROUP_MARKERS);
@@ -109,7 +109,7 @@ public class ViewTableGroupMarkers extends TableImpl<ViewTableGroupMarkersRecord
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

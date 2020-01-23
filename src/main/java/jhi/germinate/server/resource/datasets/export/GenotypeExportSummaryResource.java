@@ -36,7 +36,7 @@ public class GenotypeExportSummaryResource extends PaginatedServerResource
 		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse(), true);
 
 		if (CollectionUtils.isEmpty(datasetIds))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		requestedIds.retainAll(datasetIds);

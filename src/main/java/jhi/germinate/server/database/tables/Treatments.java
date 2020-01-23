@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.TreatmentsRecord;
 
 import org.jooq.Field;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Treatments extends TableImpl<TreatmentsRecord> {
 
-    private static final long serialVersionUID = 225288630;
+    private static final long serialVersionUID = 717787470;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.treatments</code>
+     * The reference instance of <code>germinate_template_4_0_0.treatments</code>
      */
     public static final Treatments TREATMENTS = new Treatments();
 
@@ -56,46 +56,46 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.treatments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.treatments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<TreatmentsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.treatments.name</code>. The name which defines the treatment.
+     * The column <code>germinate_template_4_0_0.treatments.name</code>. The name which defines the treatment.
      */
     public final TableField<TreatmentsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name which defines the treatment.");
 
     /**
-     * The column <code>germinate_template_3_7_0.treatments.description</code>. A longer descripiton of the treatment. This should include enough information to be able to identify what the treatment was and why it was applied.
+     * The column <code>germinate_template_4_0_0.treatments.description</code>. A longer descripiton of the treatment. This should include enough information to be able to identify what the treatment was and why it was applied.
      */
     public final TableField<TreatmentsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A longer descripiton of the treatment. This should include enough information to be able to identify what the treatment was and why it was applied.");
 
     /**
-     * The column <code>germinate_template_3_7_0.treatments.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.treatments.created_on</code>. When the record was created.
      */
     public final TableField<TreatmentsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.treatments.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * The column <code>germinate_template_4_0_0.treatments.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public final TableField<TreatmentsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.treatments</code> table reference
+     * Create a <code>germinate_template_4_0_0.treatments</code> table reference
      */
     public Treatments() {
         this(DSL.name("treatments"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.treatments</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.treatments</code> table reference
      */
     public Treatments(String alias) {
         this(DSL.name(alias), TREATMENTS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.treatments</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.treatments</code> table reference
      */
     public Treatments(Name alias) {
         this(alias, TREATMENTS);
@@ -114,7 +114,7 @@ public class Treatments extends TableImpl<TreatmentsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

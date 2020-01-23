@@ -30,227 +30,227 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTrialsDataRecord extends TableRecordImpl<ViewTableTrialsDataRecord> implements Record16<Integer, String, String, String, Integer, String, String, String, String, String, Integer, String, String, String, Timestamp, String> {
 
-    private static final long serialVersionUID = -1733413390;
+    private static final long serialVersionUID = -741204470;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setGermplasmId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getGermplasmId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
      */
     public void setGermplasmGid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.germplasm_gid</code>. A unique identifier.
      */
     public String getGermplasmGid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setGermplasmName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getGermplasmName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.entity_type</code>. The name of the entity type.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.entity_type</code>. The name of the entity type.
      */
     public void setEntityType(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.entity_type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.entity_type</code>. The name of the entity type.
      */
     public String getEntityType() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getDatasetId() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
      */
     public void setDatasetName(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.dataset_name</code>. Describes the dataset.
      */
     public String getDatasetName() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
      */
     public void setDatasetDescription(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.dataset_description</code>. The name of this dataset.
      */
     public String getDatasetDescription() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.location_name</code>. The site name where the location is.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.location_name</code>. The site name where the location is.
      */
     public void setLocationName(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.location_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.location_name</code>. The site name where the location is.
      */
     public String getLocationName() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.country_name</code>. Country name.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.country_name</code>. Country name.
      */
     public void setCountryName(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.country_name</code>. Country name.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.country_name</code>. Country name.
      */
     public String getCountryName() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
      */
     public void setCountryCode2(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.country_code2</code>. ISO 2 Code for country.
      */
     public String getCountryCode2() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.trait_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.trait_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setTraitId(Integer value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.trait_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getTraitId() {
         return (Integer) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name</code>. Phenotype full name.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.trait_name</code>. Phenotype full name.
      */
     public void setTraitName(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name</code>. Phenotype full name.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.trait_name</code>. Phenotype full name.
      */
     public String getTraitName() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public void setTraitNameShort(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.trait_name_short</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public String getTraitNameShort() {
         return (String) get(12);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public String getUnitName() {
         return (String) get(13);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public void setRecordingDate(Timestamp value) {
         set(14, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public Timestamp getRecordingDate() {
         return (Timestamp) get(14);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
+     * Setter for <code>germinate_template_4_0_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
      */
     public void setTraitValue(String value) {
         set(15, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
+     * Getter for <code>germinate_template_4_0_0.view_table_trials_data.trait_value</code>. The phenotype value for this phenotype_id and germinatebase_id combination.
      */
     public String getTraitValue() {
         return (String) get(15);

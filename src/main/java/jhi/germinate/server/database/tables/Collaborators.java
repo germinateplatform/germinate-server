@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.CollaboratorsRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collaborators extends TableImpl<CollaboratorsRecord> {
 
-    private static final long serialVersionUID = -729660969;
+    private static final long serialVersionUID = -77144315;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.collaborators</code>
+     * The reference instance of <code>germinate_template_4_0_0.collaborators</code>
      */
     public static final Collaborators COLLABORATORS = new Collaborators();
 
@@ -55,61 +55,61 @@ public class Collaborators extends TableImpl<CollaboratorsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.id</code>.
+     * The column <code>germinate_template_4_0_0.collaborators.id</code>.
      */
     public final TableField<CollaboratorsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * The column <code>germinate_template_4_0_0.collaborators.first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> FIRST_NAME = createField("first_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * The column <code>germinate_template_4_0_0.collaborators.last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> LAST_NAME = createField("last_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * The column <code>germinate_template_4_0_0.collaborators.email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(255), this, "E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * The column <code>germinate_template_4_0_0.collaborators.phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public final TableField<CollaboratorsRecord, String> PHONE = createField("phone", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
+     * The column <code>germinate_template_4_0_0.collaborators.institution_id</code>. Author's affiliation when the resource was created. Foreign key to 'institutions'
      */
     public final TableField<CollaboratorsRecord, Integer> INSTITUTION_ID = createField("institution_id", org.jooq.impl.SQLDataType.INTEGER, this, "Author's affiliation when the resource was created. Foreign key to 'institutions'");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.collaborators.created_on</code>. When the record was created.
      */
     public final TableField<CollaboratorsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.collaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<CollaboratorsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.collaborators</code> table reference
+     * Create a <code>germinate_template_4_0_0.collaborators</code> table reference
      */
     public Collaborators() {
         this(DSL.name("collaborators"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.collaborators</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.collaborators</code> table reference
      */
     public Collaborators(String alias) {
         this(DSL.name(alias), COLLABORATORS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.collaborators</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.collaborators</code> table reference
      */
     public Collaborators(Name alias) {
         this(alias, COLLABORATORS);
@@ -128,7 +128,7 @@ public class Collaborators extends TableImpl<CollaboratorsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

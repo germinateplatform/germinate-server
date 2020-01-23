@@ -5,7 +5,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
@@ -71,7 +71,7 @@ public class CollaboratorTableResource extends PaginatedServerResource
 			}
 			else
 			{
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+				return new PaginatedResult<>(new ArrayList<>(), 0);
 			}
 		}
 		catch (SQLException e)

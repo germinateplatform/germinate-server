@@ -31,59 +31,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MlsstatusRecord extends UpdatableRecordImpl<MlsstatusRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 557988787;
+    private static final long serialVersionUID = 1127172479;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
+     * Setter for <code>germinate_template_4_0_0.mlsstatus.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.id</code>.
+     * Getter for <code>germinate_template_4_0_0.mlsstatus.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.description</code>.
+     * Setter for <code>germinate_template_4_0_0.mlsstatus.description</code>.
      */
     public void setDescription(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.description</code>.
+     * Getter for <code>germinate_template_4_0_0.mlsstatus.description</code>.
      */
     public String getDescription() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.mlsstatus.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.mlsstatus.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.mlsstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(3);

@@ -31,73 +31,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LocationtypesRecord extends UpdatableRecordImpl<LocationtypesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 609459217;
+    private static final long serialVersionUID = 1921437317;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type. 
+     * Setter for <code>germinate_template_4_0_0.locationtypes.name</code>. The name of the location type. 
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.name</code>. The name of the location type. 
+     * Getter for <code>germinate_template_4_0_0.locationtypes.name</code>. The name of the location type. 
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     * Setter for <code>germinate_template_4_0_0.locationtypes.description</code>. A description of the location type.
      */
     public void setDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.description</code>. A description of the location type.
+     * Getter for <code>germinate_template_4_0_0.locationtypes.description</code>. A description of the location type.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.locationtypes.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.locationtypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

@@ -6,7 +6,7 @@ package jhi.germinate.server.database.routines;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 
 import org.jooq.Parameter;
 import org.jooq.impl.AbstractRoutine;
@@ -26,10 +26,10 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportDatasetAttributes extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = 137717355;
+    private static final long serialVersionUID = 1665110379;
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_dataset_attributes.datasetIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_dataset_attributes.datasetIds</code>.
      */
     public static final Parameter<String> DATASETIDS = Internal.createParameter("datasetIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
@@ -37,7 +37,7 @@ public class ExportDatasetAttributes extends AbstractRoutine<java.lang.Void> {
      * Create a new routine call instance
      */
     public ExportDatasetAttributes() {
-        super("export_dataset_attributes", GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0);
+        super("export_dataset_attributes", GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0);
 
         addInParameter(DATASETIDS);
     }

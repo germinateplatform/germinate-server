@@ -34,143 +34,143 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJobsRecord> implements Record10<Integer, String, String, Integer, DatasetExportJobsStatus, Boolean, Integer, JsonArray, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 70112028;
+    private static final long serialVersionUID = -1819608168;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.id</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.uuid</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.uuid</code>.
      */
     public void setUuid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.uuid</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.uuid</code>.
      */
     public String getUuid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.job_id</code>.
      */
     public void setJobId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.job_id</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.job_id</code>.
      */
     public String getJobId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.user_id</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.user_id</code>.
      */
     public void setUserId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.user_id</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.status</code>.
      */
     public void setStatus(DatasetExportJobsStatus value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.status</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.status</code>.
      */
     public DatasetExportJobsStatus getStatus() {
         return (DatasetExportJobsStatus) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.visibility</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.visibility</code>.
      */
     public void setVisibility(Boolean value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.visibility</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.visibility</code>.
      */
     public Boolean getVisibility() {
         return (Boolean) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.experiment_type_id</code>.
      */
     public void setExperimentTypeId(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.experiment_type_id</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.experiment_type_id</code>.
      */
     public Integer getExperimentTypeId() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.dataset_ids</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.dataset_ids</code>.
      */
     public void setDatasetIds(JsonArray value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.dataset_ids</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.dataset_ids</code>.
      */
     public JsonArray getDatasetIds() {
         return (JsonArray) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.created_on</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.dataset_export_jobs.updated_on</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(9);

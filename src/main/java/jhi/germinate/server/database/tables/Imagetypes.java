@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ImagetypesRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Imagetypes extends TableImpl<ImagetypesRecord> {
 
-    private static final long serialVersionUID = -792915467;
+    private static final long serialVersionUID = -267614375;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.imagetypes</code>
+     * The reference instance of <code>germinate_template_4_0_0.imagetypes</code>
      */
     public static final Imagetypes IMAGETYPES = new Imagetypes();
 
@@ -55,46 +55,46 @@ public class Imagetypes extends TableImpl<ImagetypesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.imagetypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.imagetypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ImagetypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.imagetypes.description</code>. A description of the image type. This would usually be a description of what the image was showing in general terms such as 'field image' or 'insitu hybridisation images'.
+     * The column <code>germinate_template_4_0_0.imagetypes.description</code>. A description of the image type. This would usually be a description of what the image was showing in general terms such as 'field image' or 'insitu hybridisation images'.
      */
     public final TableField<ImagetypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "A description of the image type. This would usually be a description of what the image was showing in general terms such as 'field image' or 'insitu hybridisation images'.");
 
     /**
-     * The column <code>germinate_template_3_7_0.imagetypes.reference_table</code>. The table which the image type relates to.
+     * The column <code>germinate_template_4_0_0.imagetypes.reference_table</code>. The table which the image type relates to.
      */
     public final TableField<ImagetypesRecord, String> REFERENCE_TABLE = createField("reference_table", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The table which the image type relates to.");
 
     /**
-     * The column <code>germinate_template_3_7_0.imagetypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.imagetypes.created_on</code>. When the record was created.
      */
     public final TableField<ImagetypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.imagetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.imagetypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<ImagetypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.imagetypes</code> table reference
+     * Create a <code>germinate_template_4_0_0.imagetypes</code> table reference
      */
     public Imagetypes() {
         this(DSL.name("imagetypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.imagetypes</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.imagetypes</code> table reference
      */
     public Imagetypes(String alias) {
         this(DSL.name(alias), IMAGETYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.imagetypes</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.imagetypes</code> table reference
      */
     public Imagetypes(Name alias) {
         this(alias, IMAGETYPES);
@@ -113,7 +113,7 @@ public class Imagetypes extends TableImpl<ImagetypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

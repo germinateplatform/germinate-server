@@ -6,7 +6,7 @@ package jhi.germinate.server.database.routines;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 
 import org.jooq.Parameter;
 import org.jooq.impl.AbstractRoutine;
@@ -26,15 +26,15 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportPassportData extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = -1200672370;
+    private static final long serialVersionUID = -798408864;
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_passport_data.germplasmIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_passport_data.germplasmIds</code>.
      */
     public static final Parameter<String> GERMPLASMIDS = Internal.createParameter("germplasmIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_passport_data.groupIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_passport_data.groupIds</code>.
      */
     public static final Parameter<String> GROUPIDS = Internal.createParameter("groupIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
@@ -42,7 +42,7 @@ public class ExportPassportData extends AbstractRoutine<java.lang.Void> {
      * Create a new routine call instance
      */
     public ExportPassportData() {
-        super("export_passport_data", GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0);
+        super("export_passport_data", GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0);
 
         addInParameter(GERMPLASMIDS);
         addInParameter(GROUPIDS);

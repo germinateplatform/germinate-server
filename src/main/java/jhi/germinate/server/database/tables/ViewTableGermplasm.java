@@ -11,7 +11,7 @@ import java.sql.Date;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableGermplasmRecord;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
 
-    private static final long serialVersionUID = 505681273;
+    private static final long serialVersionUID = -668441937;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_germplasm</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_germplasm</code>
      */
     public static final ViewTableGermplasm VIEW_TABLE_GERMPLASM = new ViewTableGermplasm();
 
@@ -54,190 +54,190 @@ public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> GERMPLASM_ID = createField("germplasm_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
      */
     public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_GID = createField("germplasm_gid", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "A unique identifier.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_NAME = createField("germplasm_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "A unique name which defines an entry in the germinatbase table.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
 entered into the genebank collection (e.g. ‘PI 113869’).
      */
     public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_NUMBER = createField("germplasm_number", org.jooq.impl.SQLDataType.VARCHAR(255), this, "This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.germplasm_puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_puid</code>. Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.
      */
     public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_PUID = createField("germplasm_puid", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.entity_type_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> ENTITY_TYPE_ID = createField("entity_type_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.entity_type_name</code>. The name of the entity type.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.entity_type_name</code>. The name of the entity type.
      */
     public final TableField<ViewTableGermplasmRecord, String> ENTITY_TYPE_NAME = createField("entity_type_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the entity type.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.entity_parent_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public final TableField<ViewTableGermplasmRecord, Integer> ENTITY_PARENT_ID = createField("entity_parent_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to germinatebase (germinatebase.id).");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTableGermplasmRecord, String> ENTITY_PARENT_NAME = createField("entity_parent_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.entity_parent_general_identifier</code>. A unique identifier.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.entity_parent_general_identifier</code>. A unique identifier.
      */
     public final TableField<ViewTableGermplasmRecord, String> ENTITY_PARENT_GENERAL_IDENTIFIER = createField("entity_parent_general_identifier", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.biological_status_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> BIOLOGICAL_STATUS_ID = createField("biological_status_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.biological_status_name</code>. Previoulsy known as sampstat.
      */
     public final TableField<ViewTableGermplasmRecord, String> BIOLOGICAL_STATUS_NAME = createField("biological_status_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Previoulsy known as sampstat.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.synonyms</code>. The synonyms as a json array.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.synonyms</code>. The synonyms as a json array.
      */
-    public final TableField<ViewTableGermplasmRecord, JsonArray> SYNONYMS = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_germplasm_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
+    public final TableField<ViewTableGermplasmRecord, JsonArray> SYNONYMS = createField("synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_germplasm_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.collector_number</code>. Original identifier assigned by the collector(s) of the sample, normally composed of the name or
 initials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for
 identifying duplicates held in different collections.
      */
     public final TableField<ViewTableGermplasmRecord, String> COLLECTOR_NUMBER = createField("collector_number", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Original identifier assigned by the collector(s) of the sample, normally composed of the name or\ninitials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for\nidentifying duplicates held in different collections.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.genus</code>. Genus name for the species.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.genus</code>. Genus name for the species.
      */
     public final TableField<ViewTableGermplasmRecord, String> GENUS = createField("genus", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Genus name for the species.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.species</code>. Species name in lowercase.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.species</code>. Species name in lowercase.
      */
     public final TableField<ViewTableGermplasmRecord, String> SPECIES = createField("species", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Species name in lowercase.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.subtaxa</code>. Subtaxa name.
      */
     public final TableField<ViewTableGermplasmRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Subtaxa name.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.institution_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> INSTITUTION_ID = createField("institution_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.institution_name</code>. The institute name.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.institution_name</code>. The institute name.
      */
     public final TableField<ViewTableGermplasmRecord, String> INSTITUTION_NAME = createField("institution_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The institute name.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.location</code>. The site name where the location is.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.location</code>. The site name where the location is.
      */
     public final TableField<ViewTableGermplasmRecord, String> LOCATION = createField("location", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.latitude</code>. Latitude of the location.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.latitude</code>. Latitude of the location.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> LATITUDE = createField("latitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Latitude of the location.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.longitude</code>. Longitude of the location.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.longitude</code>. Longitude of the location.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> LONGITUDE = createField("longitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Longitude of the location.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.elevation</code>. The elevation of the site in metres.
      */
     public final TableField<ViewTableGermplasmRecord, BigDecimal> ELEVATION = createField("elevation", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The elevation of the site in metres.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_name</code>. Country name.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.country_name</code>. Country name.
      */
     public final TableField<ViewTableGermplasmRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.country_code</code>. ISO 2 Code for country.
      */
     public final TableField<ViewTableGermplasmRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.coll_date</code>. Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.
 Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. 
      */
     public final TableField<ViewTableGermplasmRecord, Date> COLL_DATE = createField("coll_date", org.jooq.impl.SQLDataType.DATE, this, "Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.pdci</code>. Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.
      */
     public final TableField<ViewTableGermplasmRecord, Double> PDCI = createField("pdci", org.jooq.impl.SQLDataType.FLOAT, this, "Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.image_count</code>.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.image_count</code>.
      */
     public final TableField<ViewTableGermplasmRecord, Long> IMAGE_COUNT = createField("image_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.first_image_path</code>.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.first_image_path</code>.
      */
     public final TableField<ViewTableGermplasmRecord, String> FIRST_IMAGE_PATH = createField("first_image_path", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.has_trials_data</code>.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.has_trials_data</code>.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> HAS_TRIALS_DATA = createField("has_trials_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.has_genotypic_data</code>.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.has_genotypic_data</code>.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> HAS_GENOTYPIC_DATA = createField("has_genotypic_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.has_allelefreq_data</code>.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.has_allelefreq_data</code>.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> HAS_ALLELEFREQ_DATA = createField("has_allelefreq_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_germplasm.has_compound_data</code>.
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.has_compound_data</code>.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> HAS_COMPOUND_DATA = createField("has_compound_data", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_germplasm</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_germplasm</code> table reference
      */
     public ViewTableGermplasm() {
         this(DSL.name("view_table_germplasm"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_germplasm</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_germplasm</code> table reference
      */
     public ViewTableGermplasm(String alias) {
         this(DSL.name(alias), VIEW_TABLE_GERMPLASM);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_germplasm</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_germplasm</code> table reference
      */
     public ViewTableGermplasm(Name alias) {
         this(alias, VIEW_TABLE_GERMPLASM);
@@ -256,7 +256,7 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

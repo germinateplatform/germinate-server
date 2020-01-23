@@ -45,7 +45,7 @@ public class DatasetClimateResource extends BaseServerResource implements Filter
 		}
 
 		if (CollectionUtils.isEmpty(requestedIds))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			return new ArrayList<>();
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))

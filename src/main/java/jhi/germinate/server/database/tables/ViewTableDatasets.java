@@ -11,7 +11,7 @@ import java.sql.Date;
 import javax.annotation.Generated;
 
 import jhi.germinate.resource.DublinCore;
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
 import jhi.germinate.server.util.DublinCoreBinding;
 import jhi.germinate.server.util.SynonymBinding;
@@ -40,10 +40,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -1314635656;
+    private static final long serialVersionUID = -2091668220;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_datasets</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_datasets</code>
      */
     public static final ViewTableDatasets VIEW_TABLE_DATASETS = new ViewTableDatasets();
 
@@ -56,146 +56,146 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableDatasetsRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.dataset_name</code>. Describes the dataset.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.dataset_name</code>. Describes the dataset.
      */
     public final TableField<ViewTableDatasetsRecord, String> DATASET_NAME = createField("dataset_name", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "Describes the dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.dataset_description</code>. The name of this dataset.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.dataset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableDatasetsRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.hyperlink</code>. Link to access the external dasets.
      */
     public final TableField<ViewTableDatasetsRecord, String> HYPERLINK = createField("hyperlink", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Link to access the external dasets.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.source_file</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.source_file</code>.
      */
     public final TableField<ViewTableDatasetsRecord, String> SOURCE_FILE = createField("source_file", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
      */
     public final TableField<ViewTableDatasetsRecord, String> EXPERIMENT_TYPE = createField("experiment_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the experiment type.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableDatasetsRecord, Integer> EXPERIMENT_ID = createField("experiment_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.experiment_name</code>. Describes the experiment.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. Describes the experiment.
      */
     public final TableField<ViewTableDatasetsRecord, String> EXPERIMENT_NAME = createField("experiment_name", org.jooq.impl.SQLDataType.CLOB, this, "Describes the experiment.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
      */
     public final TableField<ViewTableDatasetsRecord, String> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A description of the data type of the contained data. Examples might be: \"raw data\", \"BLUPs\", etc.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.dataset_state</code>. Defines the datasetstate.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.dataset_state</code>. Defines the datasetstate.
      */
     public final TableField<ViewTableDatasetsRecord, String> DATASET_STATE = createField("dataset_state", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Defines the datasetstate.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.location</code>. The site name where the location is.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.location</code>. The site name where the location is.
      */
     public final TableField<ViewTableDatasetsRecord, String> LOCATION = createField("location", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.country_code</code>. ISO 2 Code for country.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.country_code</code>. ISO 2 Code for country.
      */
     public final TableField<ViewTableDatasetsRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.country_name</code>. Country name.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.country_name</code>. Country name.
      */
     public final TableField<ViewTableDatasetsRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.license_id</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.license_id</code>.
      */
     public final TableField<ViewTableDatasetsRecord, Integer> LICENSE_ID = createField("license_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.license_name</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.license_name</code>.
      */
     public final TableField<ViewTableDatasetsRecord, String> LICENSE_NAME = createField("license_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
     public final TableField<ViewTableDatasetsRecord, String> CONTACT = createField("contact", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The contact to get more information about this dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.start_date</code>. Date that the dataset was generated.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.start_date</code>. Date that the dataset was generated.
      */
     public final TableField<ViewTableDatasetsRecord, Date> START_DATE = createField("start_date", org.jooq.impl.SQLDataType.DATE, this, "Date that the dataset was generated.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.end_date</code>. Date at which the dataset recording ended.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.end_date</code>. Date at which the dataset recording ended.
      */
     public final TableField<ViewTableDatasetsRecord, Date> END_DATE = createField("end_date", org.jooq.impl.SQLDataType.DATE, this, "Date at which the dataset recording ended.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.dublin_core</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.dublin_core</code>.
      */
-    public final TableField<ViewTableDatasetsRecord, DublinCore> DUBLIN_CORE = createField("dublin_core", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_datasets_dublin_core\""), this, "", new DublinCoreBinding());
+    public final TableField<ViewTableDatasetsRecord, DublinCore> DUBLIN_CORE = createField("dublin_core", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_dublin_core\""), this, "", new DublinCoreBinding());
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
     public final TableField<ViewTableDatasetsRecord, ULong> DATA_OBJECT_COUNT = createField("data_object_count", org.jooq.impl.SQLDataType.BIGINTUNSIGNED, this, "The number of data objects contained in this dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
      */
     public final TableField<ViewTableDatasetsRecord, ULong> DATA_POINT_COUNT = createField("data_point_count", org.jooq.impl.SQLDataType.BIGINTUNSIGNED, this, "The number of individual data points contained in this dataset.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
     public final TableField<ViewTableDatasetsRecord, Boolean> IS_EXTERNAL = createField("is_external", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Defines if the dataset is contained within Germinate or from an external source and not stored in the database.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.collaborators</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.collaborators</code>.
      */
     public final TableField<ViewTableDatasetsRecord, Long> COLLABORATORS = createField("collaborators", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.attributes</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.attributes</code>.
      */
     public final TableField<ViewTableDatasetsRecord, Long> ATTRIBUTES = createField("attributes", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_datasets.accepted_by</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.accepted_by</code>.
      */
-    public final TableField<ViewTableDatasetsRecord, JsonArray> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_datasets_accepted_by\""), this, "", new SynonymBinding());
+    public final TableField<ViewTableDatasetsRecord, JsonArray> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_accepted_by\""), this, "", new SynonymBinding());
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_datasets</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_datasets</code> table reference
      */
     public ViewTableDatasets() {
         this(DSL.name("view_table_datasets"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_datasets</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_datasets</code> table reference
      */
     public ViewTableDatasets(String alias) {
         this(DSL.name(alias), VIEW_TABLE_DATASETS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_datasets</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_datasets</code> table reference
      */
     public ViewTableDatasets(Name alias) {
         this(alias, VIEW_TABLE_DATASETS);
@@ -214,7 +214,7 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

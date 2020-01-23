@@ -28,7 +28,7 @@ The following page will take you through both scenarios and explain all the nece
 
 Let's start with the simpler case: Docker. We have a working Docker image of Germinate available on DockerHub (**INSERT LINK**) that you can simply pull and run on your machine/server.
 
-Additionally you will need a MySQL database. This can either be another Docker container or an existing database server that you already have.
+Additionally you will need a MySQL database. This can either be another Docker container or an existing database server that you already have. The examples below contain a Docker MySQL container. If you wish to use your own database, simply remove the relevant parts from the docker file or docker commands.
 
 If you have docker-compose available, things are as simple as defining this `docker-compose.yml` file:
 
@@ -101,6 +101,13 @@ docker run -d \
     -p 9080:8080 \
     --restart unless-stopped \
     sraubach/germinate
+```
+
+Make sure you have at least a `config.properties` file in the location at `/path/to/your/germinate/config`. See [[Configuration]] for additional config options. This file will contain the database configuration and also this property:
+
+```ini
+# This is the folder inside Docker, don't set this to your config folder location as this is taken care of by a Docker bind.
+data.directory.external=/data/germinate
 ```
 
 ## Manual setup

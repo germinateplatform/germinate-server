@@ -33,115 +33,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GroupsRecord extends UpdatableRecordImpl<GroupsRecord> implements Record8<Integer, Integer, String, String, Boolean, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -902814846;
+    private static final long serialVersionUID = 1693427046;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.groups.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
+     * Setter for <code>germinate_template_4_0_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
      */
     public void setGrouptypeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
+     * Getter for <code>germinate_template_4_0_0.groups.grouptype_id</code>. Foreign key to grouptypes (grouptypes.id).
      */
     public Integer getGrouptypeId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.name</code>. The name of the group which can be used to identify it.
+     * Setter for <code>germinate_template_4_0_0.groups.name</code>. The name of the group which can be used to identify it.
      */
     public void setName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.name</code>. The name of the group which can be used to identify it.
+     * Getter for <code>germinate_template_4_0_0.groups.name</code>. The name of the group which can be used to identify it.
      */
     public String getName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.description</code>. A free text description of the group. This has no length limitations.
+     * Setter for <code>germinate_template_4_0_0.groups.description</code>. A free text description of the group. This has no length limitations.
      */
     public void setDescription(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.description</code>. A free text description of the group. This has no length limitations.
+     * Getter for <code>germinate_template_4_0_0.groups.description</code>. A free text description of the group. This has no length limitations.
      */
     public String getDescription() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * Setter for <code>germinate_template_4_0_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
     public void setVisibility(Boolean value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
+     * Getter for <code>germinate_template_4_0_0.groups.visibility</code>. Defines if the group is visuble or hidden from the Germinate user interface.
      */
     public Boolean getVisibility() {
         return (Boolean) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_4_0_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setCreatedBy(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_4_0_0.groups.created_by</code>. Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getCreatedBy() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_4_0_0.groups.created_on</code>. Foreign key to locations (locations.id).
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.created_on</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_4_0_0.groups.created_on</code>. Foreign key to locations (locations.id).
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.groups.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(7);

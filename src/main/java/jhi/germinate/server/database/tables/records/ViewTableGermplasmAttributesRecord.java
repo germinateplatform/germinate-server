@@ -29,143 +29,143 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmAttributesRecord extends TableRecordImpl<ViewTableGermplasmAttributesRecord> implements Record10<Integer, String, String, Integer, String, String, ViewTableGermplasmAttributesAttributeType, String, Integer, String> {
 
-    private static final long serialVersionUID = 2078734004;
+    private static final long serialVersionUID = -637385984;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setGermplasmId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getGermplasmId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_gid</code>. A unique identifier.
      */
     public void setGermplasmGid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_gid</code>. A unique identifier.
      */
     public String getGermplasmGid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setGermplasmName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getGermplasmName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setAttributeId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getAttributeId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_name</code>. Defines the name of the attribute.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_name</code>. Defines the name of the attribute.
      */
     public void setAttributeName(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_name</code>. Defines the name of the attribute.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_name</code>. Defines the name of the attribute.
      */
     public String getAttributeName() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public void setAttributeDescription(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public String getAttributeDescription() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public void setAttributeType(ViewTableGermplasmAttributesAttributeType value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public ViewTableGermplasmAttributesAttributeType getAttributeType() {
         return (ViewTableGermplasmAttributesAttributeType) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.target_table</code>.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.target_table</code>.
      */
     public void setTargetTable(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.target_table</code>.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.target_table</code>.
      */
     public String getTargetTable() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public void setForeignId(Integer value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public Integer getForeignId() {
         return (Integer) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.
      */
     public void setAttributeValue(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.
      */
     public String getAttributeValue() {
         return (String) get(9);

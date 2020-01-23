@@ -37,7 +37,7 @@ public class ClimateDataTableIdResource extends PaginatedServerResource
 			requestedIds.retainAll(datasets);
 
 		if (CollectionUtils.isEmpty(requestedIds))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		processRequest(request);
 		currentPage = 0;

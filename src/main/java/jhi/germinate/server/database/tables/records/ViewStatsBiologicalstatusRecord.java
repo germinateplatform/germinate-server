@@ -28,31 +28,31 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsBiologicalstatusRecord extends TableRecordImpl<ViewStatsBiologicalstatusRecord> implements Record2<String, Long> {
 
-    private static final long serialVersionUID = 1419712970;
+    private static final long serialVersionUID = 399330890;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_biologicalstatus.biologicalstatus</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_biologicalstatus.biologicalstatus</code>.
      */
     public void setBiologicalstatus(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_biologicalstatus.biologicalstatus</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_biologicalstatus.biologicalstatus</code>.
      */
     public String getBiologicalstatus() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_biologicalstatus.count</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_biologicalstatus.count</code>.
      */
     public void setCount(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_biologicalstatus.count</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_biologicalstatus.count</code>.
      */
     public Long getCount() {
         return (Long) get(1);

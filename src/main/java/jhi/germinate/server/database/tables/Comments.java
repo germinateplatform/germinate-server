@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.CommentsRecord;
 
 import org.jooq.Field;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Comments extends TableImpl<CommentsRecord> {
 
-    private static final long serialVersionUID = -1049005575;
+    private static final long serialVersionUID = -1987434457;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.comments</code>
+     * The reference instance of <code>germinate_template_4_0_0.comments</code>
      */
     public static final Comments COMMENTS = new Comments();
 
@@ -56,61 +56,61 @@ public class Comments extends TableImpl<CommentsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<CommentsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
+     * The column <code>germinate_template_4_0_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
     public final TableField<CommentsRecord, Integer> COMMENTTYPE_ID = createField("commenttype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Foreign key to commentypes (commenttypes.id).");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_4_0_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<CommentsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
+     * The column <code>germinate_template_4_0_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
     public final TableField<CommentsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN, this, "Defines if the comment is available or masked (hidden) from the interface.");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.description</code>. The comment content.
+     * The column <code>germinate_template_4_0_0.comments.description</code>. The comment content.
      */
     public final TableField<CommentsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "The comment content.");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     * The column <code>germinate_template_4_0_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
      */
     public final TableField<CommentsRecord, Integer> REFERENCE_ID = createField("reference_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Relates to the UID of the table to which the comment relates");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.comments.created_on</code>. When the record was created.
      */
     public final TableField<CommentsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<CommentsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.comments</code> table reference
+     * Create a <code>germinate_template_4_0_0.comments</code> table reference
      */
     public Comments() {
         this(DSL.name("comments"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.comments</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.comments</code> table reference
      */
     public Comments(String alias) {
         this(DSL.name(alias), COMMENTS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.comments</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.comments</code> table reference
      */
     public Comments(Name alias) {
         this(alias, COMMENTS);
@@ -129,7 +129,7 @@ public class Comments extends TableImpl<CommentsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.enums.ViewTablePedigreesRelationshipType;
 import jhi.germinate.server.database.tables.records.ViewTablePedigreesRecord;
 
@@ -33,10 +33,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTablePedigrees extends TableImpl<ViewTablePedigreesRecord> {
 
-    private static final long serialVersionUID = 2089556213;
+    private static final long serialVersionUID = 1701095751;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_pedigrees</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_pedigrees</code>
      */
     public static final ViewTablePedigrees VIEW_TABLE_PEDIGREES = new ViewTablePedigrees();
 
@@ -49,71 +49,71 @@ public class ViewTablePedigrees extends TableImpl<ViewTablePedigreesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTablePedigreesRecord, Integer> PARENT_ID = createField("parent_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
      */
     public final TableField<ViewTablePedigreesRecord, String> PARENT_GID = createField("parent_gid", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTablePedigreesRecord, String> PARENT_NAME = createField("parent_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTablePedigreesRecord, Integer> CHILD_ID = createField("child_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.child_gid</code>. A unique identifier.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.child_gid</code>. A unique identifier.
      */
     public final TableField<ViewTablePedigreesRecord, String> CHILD_GID = createField("child_gid", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTablePedigreesRecord, String> CHILD_NAME = createField("child_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
     public final TableField<ViewTablePedigreesRecord, ViewTablePedigreesRelationshipType> RELATIONSHIP_TYPE = createField("relationship_type", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("OTHER", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.ViewTablePedigreesRelationshipType.class), this, "Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
     public final TableField<ViewTablePedigreesRecord, String> RELATIONSHIP_DESCRIPTION = createField("relationship_description", org.jooq.impl.SQLDataType.CLOB, this, "Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
      */
     public final TableField<ViewTablePedigreesRecord, String> PEDIGREE_DESCRIPTION = createField("pedigree_description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the pedigree.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * The column <code>germinate_template_4_0_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
     public final TableField<ViewTablePedigreesRecord, String> PEDIGREE_AUTHOR = createField("pedigree_author", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_pedigrees</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_pedigrees</code> table reference
      */
     public ViewTablePedigrees() {
         this(DSL.name("view_table_pedigrees"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_pedigrees</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_pedigrees</code> table reference
      */
     public ViewTablePedigrees(String alias) {
         this(DSL.name(alias), VIEW_TABLE_PEDIGREES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_pedigrees</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_pedigrees</code> table reference
      */
     public ViewTablePedigrees(Name alias) {
         this(alias, VIEW_TABLE_PEDIGREES);
@@ -132,7 +132,7 @@ public class ViewTablePedigrees extends TableImpl<ViewTablePedigreesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

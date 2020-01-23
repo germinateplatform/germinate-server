@@ -32,157 +32,157 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class InstitutionsRecord extends UpdatableRecordImpl<InstitutionsRecord> implements Record11<Integer, String, String, String, Integer, String, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1351732082;
+    private static final long serialVersionUID = -7588302;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.institutions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
+     * Setter for <code>germinate_template_4_0_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
      */
     public void setCode(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
+     * Getter for <code>germinate_template_4_0_0.institutions.code</code>. If there is a defined ISO code for the institute this should be used here.
      */
     public String getCode() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.name</code>. The institute name.
+     * Setter for <code>germinate_template_4_0_0.institutions.name</code>. The institute name.
      */
     public void setName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.name</code>. The institute name.
+     * Getter for <code>germinate_template_4_0_0.institutions.name</code>. The institute name.
      */
     public String getName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.acronym</code>. If there is an acronym for the institute.
+     * Setter for <code>germinate_template_4_0_0.institutions.acronym</code>. If there is an acronym for the institute.
      */
     public void setAcronym(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.acronym</code>. If there is an acronym for the institute.
+     * Getter for <code>germinate_template_4_0_0.institutions.acronym</code>. If there is an acronym for the institute.
      */
     public String getAcronym() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
+     * Setter for <code>germinate_template_4_0_0.institutions.country_id</code>. Foreign key to countries.id.
      */
     public void setCountryId(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.country_id</code>. Foreign key to countries.id.
+     * Getter for <code>germinate_template_4_0_0.institutions.country_id</code>. Foreign key to countries.id.
      */
     public Integer getCountryId() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
+     * Setter for <code>germinate_template_4_0_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
      */
     public void setContact(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
+     * Getter for <code>germinate_template_4_0_0.institutions.contact</code>. The contact at the institute which should be used for correspondence.
      */
     public String getContact() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
+     * Setter for <code>germinate_template_4_0_0.institutions.phone</code>. The telephone number for the institute.
      */
     public void setPhone(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.phone</code>. The telephone number for the institute.
+     * Getter for <code>germinate_template_4_0_0.institutions.phone</code>. The telephone number for the institute.
      */
     public String getPhone() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.email</code>. The email address to contact the institute.
+     * Setter for <code>germinate_template_4_0_0.institutions.email</code>. The email address to contact the institute.
      */
     public void setEmail(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.email</code>. The email address to contact the institute.
+     * Getter for <code>germinate_template_4_0_0.institutions.email</code>. The email address to contact the institute.
      */
     public String getEmail() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     * Setter for <code>germinate_template_4_0_0.institutions.address</code>. The postal address of the institute.
      */
     public void setAddress(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.address</code>. The postal address of the institute.
+     * Getter for <code>germinate_template_4_0_0.institutions.address</code>. The postal address of the institute.
      */
     public String getAddress() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.institutions.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.institutions.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.institutions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(10);

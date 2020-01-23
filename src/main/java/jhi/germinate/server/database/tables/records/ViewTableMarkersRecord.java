@@ -30,59 +30,59 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMarkersRecord extends TableRecordImpl<ViewTableMarkersRecord> implements Record4<Integer, String, String, JsonArray> {
 
-    private static final long serialVersionUID = 1064977190;
+    private static final long serialVersionUID = 1000096958;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setMarkerId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getMarkerId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Setter for <code>germinate_template_4_0_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public void setMarkerName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Getter for <code>germinate_template_4_0_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public String getMarkerName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * Setter for <code>germinate_template_4_0_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
     public void setMarkerType(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * Getter for <code>germinate_template_4_0_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
     public String getMarkerType() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
+     * Setter for <code>germinate_template_4_0_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
      */
     public void setMarkerSynonyms(JsonArray value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
+     * Getter for <code>germinate_template_4_0_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
      */
     public JsonArray getMarkerSynonyms() {
         return (JsonArray) get(3);

@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.PedigreedescriptionsRecord;
 
 import org.jooq.Field;
@@ -41,10 +41,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> {
 
-    private static final long serialVersionUID = 884636796;
+    private static final long serialVersionUID = 1175472566;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.pedigreedescriptions</code>
+     * The reference instance of <code>germinate_template_4_0_0.pedigreedescriptions</code>
      */
     public static final Pedigreedescriptions PEDIGREEDESCRIPTIONS = new Pedigreedescriptions();
 
@@ -57,51 +57,51 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.pedigreedescriptions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<PedigreedescriptionsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.pedigreedescriptions.name</code>. The name of the pedigree.
+     * The column <code>germinate_template_4_0_0.pedigreedescriptions.name</code>. The name of the pedigree.
      */
     public final TableField<PedigreedescriptionsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the pedigree.");
 
     /**
-     * The column <code>germinate_template_3_7_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
+     * The column <code>germinate_template_4_0_0.pedigreedescriptions.description</code>. Describes the pedigree in more detail.
      */
     public final TableField<PedigreedescriptionsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "Describes the pedigree in more detail.");
 
     /**
-     * The column <code>germinate_template_3_7_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * The column <code>germinate_template_4_0_0.pedigreedescriptions.author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
     public final TableField<PedigreedescriptionsRecord, String> AUTHOR = createField("author", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.");
 
     /**
-     * The column <code>germinate_template_3_7_0.pedigreedescriptions.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_0_0.pedigreedescriptions.created_on</code>. When the record was created.
      */
     public final TableField<PedigreedescriptionsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_3_7_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_0_0.pedigreedescriptions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<PedigreedescriptionsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_3_7_0.pedigreedescriptions</code> table reference
+     * Create a <code>germinate_template_4_0_0.pedigreedescriptions</code> table reference
      */
     public Pedigreedescriptions() {
         this(DSL.name("pedigreedescriptions"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.pedigreedescriptions</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.pedigreedescriptions</code> table reference
      */
     public Pedigreedescriptions(String alias) {
         this(DSL.name(alias), PEDIGREEDESCRIPTIONS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.pedigreedescriptions</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.pedigreedescriptions</code> table reference
      */
     public Pedigreedescriptions(Name alias) {
         this(alias, PEDIGREEDESCRIPTIONS);
@@ -120,7 +120,7 @@ public class Pedigreedescriptions extends TableImpl<PedigreedescriptionsRecord> 
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

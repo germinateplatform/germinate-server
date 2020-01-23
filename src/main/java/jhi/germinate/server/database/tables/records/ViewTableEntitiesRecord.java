@@ -28,115 +28,115 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableEntitiesRecord extends TableRecordImpl<ViewTableEntitiesRecord> implements Record8<Integer, String, String, String, Integer, String, String, String> {
 
-    private static final long serialVersionUID = -1933263080;
+    private static final long serialVersionUID = 863440408;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setEntityParentId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getEntityParentId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
      */
     public void setEntityParentGid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_gid</code>. A unique identifier.
      */
     public String getEntityParentGid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setEntityParentName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getEntityParentName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
      */
     public void setEntityParentType(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_parent_type</code>. The name of the entity type.
      */
     public String getEntityParentType() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setEntityChildId(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getEntityChildId() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_child_gid</code>. A unique identifier.
      */
     public void setEntityChildGid(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_child_gid</code>. A unique identifier.
      */
     public String getEntityChildGid() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setEntityChildName(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getEntityChildName() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_entities.entity_child_type</code>. The name of the entity type.
+     * Setter for <code>germinate_template_4_0_0.view_table_entities.entity_child_type</code>. The name of the entity type.
      */
     public void setEntityChildType(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_entities.entity_child_type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_4_0_0.view_table_entities.entity_child_type</code>. The name of the entity type.
      */
     public String getEntityChildType() {
         return (String) get(7);

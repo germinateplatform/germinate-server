@@ -6,7 +6,7 @@ package jhi.germinate.server.database.routines;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 
 import org.jooq.Parameter;
 import org.jooq.impl.AbstractRoutine;
@@ -26,25 +26,25 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportCompoundData extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = -1374835788;
+    private static final long serialVersionUID = -700817542;
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_compound_data.groupIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_compound_data.groupIds</code>.
      */
     public static final Parameter<String> GROUPIDS = Internal.createParameter("groupIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_compound_data.markedIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_compound_data.markedIds</code>.
      */
     public static final Parameter<String> MARKEDIDS = Internal.createParameter("markedIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_compound_data.datasetIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_compound_data.datasetIds</code>.
      */
     public static final Parameter<String> DATASETIDS = Internal.createParameter("datasetIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_3_7_0.export_compound_data.compoundIds</code>.
+     * The parameter <code>germinate_template_4_0_0.export_compound_data.compoundIds</code>.
      */
     public static final Parameter<String> COMPOUNDIDS = Internal.createParameter("compoundIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
@@ -52,7 +52,7 @@ public class ExportCompoundData extends AbstractRoutine<java.lang.Void> {
      * Create a new routine call instance
      */
     public ExportCompoundData() {
-        super("export_compound_data", GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0);
+        super("export_compound_data", GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0);
 
         addInParameter(GROUPIDS);
         addInParameter(MARKEDIDS);

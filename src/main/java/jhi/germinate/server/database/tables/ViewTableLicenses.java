@@ -8,7 +8,7 @@ import com.google.gson.JsonArray;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableLicensesRecord;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
 
-    private static final long serialVersionUID = 337824191;
+    private static final long serialVersionUID = -1923479389;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_licenses</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_licenses</code>
      */
     public static final ViewTableLicenses VIEW_TABLE_LICENSES = new ViewTableLicenses();
 
@@ -51,61 +51,61 @@ public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.license_id</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.license_id</code>.
      */
     public final TableField<ViewTableLicensesRecord, Integer> LICENSE_ID = createField("license_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.license_name</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.license_name</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LICENSE_NAME = createField("license_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.license_description</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.license_description</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LICENSE_DESCRIPTION = createField("license_description", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.license_content</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.license_content</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LICENSE_CONTENT = createField("license_content", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.locale_name</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.locale_name</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LOCALE_NAME = createField("locale_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.locale_description</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.locale_description</code>.
      */
     public final TableField<ViewTableLicensesRecord, String> LOCALE_DESCRIPTION = createField("locale_description", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableLicensesRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_licenses.accepted_by</code>.
+     * The column <code>germinate_template_4_0_0.view_table_licenses.accepted_by</code>.
      */
-    public final TableField<ViewTableLicensesRecord, JsonArray> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_licenses_accepted_by\""), this, "", new SynonymBinding());
+    public final TableField<ViewTableLicensesRecord, JsonArray> ACCEPTED_BY = createField("accepted_by", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_licenses_accepted_by\""), this, "", new SynonymBinding());
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_licenses</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_licenses</code> table reference
      */
     public ViewTableLicenses() {
         this(DSL.name("view_table_licenses"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_licenses</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_licenses</code> table reference
      */
     public ViewTableLicenses(String alias) {
         this(DSL.name(alias), VIEW_TABLE_LICENSES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_licenses</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_licenses</code> table reference
      */
     public ViewTableLicenses(Name alias) {
         this(alias, VIEW_TABLE_LICENSES);
@@ -124,7 +124,7 @@ public class ViewTableLicenses extends TableImpl<ViewTableLicensesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

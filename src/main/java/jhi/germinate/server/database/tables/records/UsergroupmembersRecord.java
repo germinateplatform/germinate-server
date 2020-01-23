@@ -31,73 +31,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsergroupmembersRecord extends UpdatableRecordImpl<UsergroupmembersRecord> implements Record5<Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -2098987257;
+    private static final long serialVersionUID = 185261283;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroupmembers.id</code>.
+     * Setter for <code>germinate_template_4_0_0.usergroupmembers.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroupmembers.id</code>.
+     * Getter for <code>germinate_template_4_0_0.usergroupmembers.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroupmembers.user_id</code>.
+     * Setter for <code>germinate_template_4_0_0.usergroupmembers.user_id</code>.
      */
     public void setUserId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroupmembers.user_id</code>.
+     * Getter for <code>germinate_template_4_0_0.usergroupmembers.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroupmembers.usergroup_id</code>.
+     * Setter for <code>germinate_template_4_0_0.usergroupmembers.usergroup_id</code>.
      */
     public void setUsergroupId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroupmembers.usergroup_id</code>.
+     * Getter for <code>germinate_template_4_0_0.usergroupmembers.usergroup_id</code>.
      */
     public Integer getUsergroupId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroupmembers.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.usergroupmembers.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroupmembers.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.usergroupmembers.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.usergroupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.usergroupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.usergroupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.usergroupmembers.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

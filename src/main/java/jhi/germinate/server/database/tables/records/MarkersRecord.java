@@ -31,52 +31,52 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements Record5<Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1572001183;
+    private static final long serialVersionUID = 1788444833;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.markers.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_4_0_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
      */
     public void setMarkertypeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_4_0_0.markers.markertype_id</code>. Foreign key to locations (locations.id).
      */
     public Integer getMarkertypeId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Setter for <code>germinate_template_4_0_0.markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public void setMarkerName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Getter for <code>germinate_template_4_0_0.markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public String getMarkerName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_0_0.markers.created_on</code>. When the record was created.
 
      */
     public void setCreatedOn(Timestamp value) {
@@ -84,7 +84,7 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_0_0.markers.created_on</code>. When the record was created.
 
      */
     public Timestamp getCreatedOn() {
@@ -92,14 +92,14 @@ public class MarkersRecord extends UpdatableRecordImpl<MarkersRecord> implements
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_0_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_0_0.markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

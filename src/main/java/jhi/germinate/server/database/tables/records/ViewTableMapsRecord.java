@@ -28,87 +28,87 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapsRecord extends TableRecordImpl<ViewTableMapsRecord> implements Record6<Integer, String, String, Integer, Boolean, Long> {
 
-    private static final long serialVersionUID = -1397422863;
+    private static final long serialVersionUID = -236271015;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setMapId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getMapId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.map_name</code>. Describes the map.
+     * Setter for <code>germinate_template_4_0_0.view_table_maps.map_name</code>. Describes the map.
      */
     public void setMapName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_name</code>. Describes the map.
+     * Getter for <code>germinate_template_4_0_0.view_table_maps.map_name</code>. Describes the map.
      */
     public String getMapName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.map_description</code>. The name of this map.
+     * Setter for <code>germinate_template_4_0_0.view_table_maps.map_description</code>. The name of this map.
      */
     public void setMapDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.map_description</code>. The name of this map.
+     * Getter for <code>germinate_template_4_0_0.view_table_maps.map_description</code>. The name of this map.
      */
     public String getMapDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_4_0_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_4_0_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getUserId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Setter for <code>germinate_template_4_0_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public void setVisibility(Boolean value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_4_0_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public Boolean getVisibility() {
         return (Boolean) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_maps.marker_count</code>.
+     * Setter for <code>germinate_template_4_0_0.view_table_maps.marker_count</code>.
      */
     public void setMarkerCount(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_maps.marker_count</code>.
+     * Getter for <code>germinate_template_4_0_0.view_table_maps.marker_count</code>.
      */
     public Long getMarkerCount() {
         return (Long) get(5);

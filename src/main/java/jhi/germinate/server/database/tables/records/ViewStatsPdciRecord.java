@@ -28,31 +28,31 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsPdciRecord extends TableRecordImpl<ViewStatsPdciRecord> implements Record2<String, Long> {
 
-    private static final long serialVersionUID = -1714395066;
+    private static final long serialVersionUID = -1812564410;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_pdci.bin</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_pdci.bin</code>.
      */
     public void setBin(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_pdci.bin</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_pdci.bin</code>.
      */
     public String getBin() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_stats_pdci.count</code>.
+     * Setter for <code>germinate_template_4_0_0.view_stats_pdci.count</code>.
      */
     public void setCount(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_stats_pdci.count</code>.
+     * Getter for <code>germinate_template_4_0_0.view_stats_pdci.count</code>.
      */
     public Long getCount() {
         return (Long) get(1);

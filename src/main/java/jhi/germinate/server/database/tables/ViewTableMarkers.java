@@ -8,7 +8,7 @@ import com.google.gson.JsonArray;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableMarkersRecord;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMarkers extends TableImpl<ViewTableMarkersRecord> {
 
-    private static final long serialVersionUID = 1554490928;
+    private static final long serialVersionUID = 505291876;
 
     /**
-     * The reference instance of <code>germinate_template_3_7_0.view_table_markers</code>
+     * The reference instance of <code>germinate_template_4_0_0.view_table_markers</code>
      */
     public static final ViewTableMarkers VIEW_TABLE_MARKERS = new ViewTableMarkers();
 
@@ -51,41 +51,41 @@ public class ViewTableMarkers extends TableImpl<ViewTableMarkersRecord> {
     }
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_0_0.view_table_markers.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableMarkersRecord, Integer> MARKER_ID = createField("marker_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * The column <code>germinate_template_4_0_0.view_table_markers.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public final TableField<ViewTableMarkersRecord, String> MARKER_NAME = createField("marker_name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "The name of the marker. This should be a unique name which identifies the marker.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * The column <code>germinate_template_4_0_0.view_table_markers.marker_type</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
     public final TableField<ViewTableMarkersRecord, String> MARKER_TYPE = createField("marker_type", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.");
 
     /**
-     * The column <code>germinate_template_3_7_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
+     * The column <code>germinate_template_4_0_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
      */
-    public final TableField<ViewTableMarkersRecord, JsonArray> MARKER_SYNONYMS = createField("marker_synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_3_7_0\".\"view_table_markers_marker_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
+    public final TableField<ViewTableMarkersRecord, JsonArray> MARKER_SYNONYMS = createField("marker_synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_markers_marker_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
 
     /**
-     * Create a <code>germinate_template_3_7_0.view_table_markers</code> table reference
+     * Create a <code>germinate_template_4_0_0.view_table_markers</code> table reference
      */
     public ViewTableMarkers() {
         this(DSL.name("view_table_markers"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_markers</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_markers</code> table reference
      */
     public ViewTableMarkers(String alias) {
         this(DSL.name(alias), VIEW_TABLE_MARKERS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_3_7_0.view_table_markers</code> table reference
+     * Create an aliased <code>germinate_template_4_0_0.view_table_markers</code> table reference
      */
     public ViewTableMarkers(Name alias) {
         this(alias, VIEW_TABLE_MARKERS);
@@ -104,7 +104,7 @@ public class ViewTableMarkers extends TableImpl<ViewTableMarkersRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0;
+        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
     }
 
     /**

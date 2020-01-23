@@ -55,7 +55,7 @@ public class GenotypeExportResource extends BaseServerResource
 		datasetIds.retainAll(availableDatasets);
 
 		if (datasetIds.size() < 1)
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+			return new ArrayList<>();
 
 		List<AsyncExportResult> result = new ArrayList<>();
 		try (Connection conn = Database.getConnection();

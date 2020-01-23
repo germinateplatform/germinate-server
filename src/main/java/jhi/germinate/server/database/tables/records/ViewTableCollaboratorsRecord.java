@@ -28,185 +28,185 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCollaboratorsRecord extends TableRecordImpl<ViewTableCollaboratorsRecord> implements Record13<Integer, String, String, String, String, Integer, String, String, Integer, Integer, String, String, String> {
 
-    private static final long serialVersionUID = -1716339333;
+    private static final long serialVersionUID = 455381387;
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_id</code>.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_id</code>.
      */
     public void setCollaboratorId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_id</code>.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_id</code>.
      */
     public Integer getCollaboratorId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public void setCollaboratorFirstName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_first_name</code>. Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public String getCollaboratorFirstName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public void setCollaboratorLastName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_last_name</code>. First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public String getCollaboratorLastName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public void setCollaboratorEmail(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_email</code>. E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public String getCollaboratorEmail() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public void setCollaboratorPhone(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.collaborator_phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.collaborator_phone</code>. Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.
      */
     public String getCollaboratorPhone() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.institution_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setInstitutionId(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.institution_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getInstitutionId() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.institution_name</code>. The institute name.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.institution_name</code>. The institute name.
      */
     public void setInstitutionName(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_name</code>. The institute name.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.institution_name</code>. The institute name.
      */
     public String getInstitutionName() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.institution_address</code>. The postal address of the institute.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.institution_address</code>. The postal address of the institute.
      */
     public void setInstitutionAddress(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.institution_address</code>. The postal address of the institute.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.institution_address</code>. The postal address of the institute.
      */
     public String getInstitutionAddress() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getDatasetId() {
         return (Integer) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.country_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.country_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setCountryId(Integer value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.country_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getCountryId() {
         return (Integer) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.country_name</code>. Country name.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.country_name</code>. Country name.
      */
     public void setCountryName(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_name</code>. Country name.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.country_name</code>. Country name.
      */
     public String getCountryName() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.country_code2</code>. ISO 2 Code for country.
      */
     public void setCountryCode2(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.country_code2</code>. ISO 2 Code for country.
      */
     public String getCountryCode2() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_3_7_0.view_table_collaborators.country_code3</code>. ISO 3 Code for country.
+     * Setter for <code>germinate_template_4_0_0.view_table_collaborators.country_code3</code>. ISO 3 Code for country.
      */
     public void setCountryCode3(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_3_7_0.view_table_collaborators.country_code3</code>. ISO 3 Code for country.
+     * Getter for <code>germinate_template_4_0_0.view_table_collaborators.country_code3</code>. ISO 3 Code for country.
      */
     public String getCountryCode3() {
         return (String) get(12);

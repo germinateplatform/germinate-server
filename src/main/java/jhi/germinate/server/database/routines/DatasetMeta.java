@@ -6,7 +6,7 @@ package jhi.germinate.server.database.routines;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_3_7_0;
+import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 
 import org.jooq.impl.AbstractRoutine;
 
@@ -24,12 +24,12 @@ import org.jooq.impl.AbstractRoutine;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetMeta extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = 1026945273;
+    private static final long serialVersionUID = -686042381;
 
     /**
      * Create a new routine call instance
      */
     public DatasetMeta() {
-        super("dataset_meta", GerminateTemplate_3_7_0.GERMINATE_TEMPLATE_3_7_0);
+        super("dataset_meta", GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0);
     }
 }
