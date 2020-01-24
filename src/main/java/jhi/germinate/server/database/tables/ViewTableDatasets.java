@@ -40,7 +40,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -2091668220;
+    private static final long serialVersionUID = 452660961;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_datasets</code>
@@ -106,19 +106,14 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public final TableField<ViewTableDatasetsRecord, String> DATASET_STATE = createField("dataset_state", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Defines the datasetstate.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_datasets.location</code>. The site name where the location is.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.location_ids</code>.
      */
-    public final TableField<ViewTableDatasetsRecord, String> LOCATION = createField("location", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
+    public final TableField<ViewTableDatasetsRecord, JsonArray> LOCATION_IDS = createField("location_ids", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_location_ids\""), this, "", new SynonymBinding());
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_datasets.country_code</code>. ISO 2 Code for country.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.country_codes</code>.
      */
-    public final TableField<ViewTableDatasetsRecord, String> COUNTRY_CODE = createField("country_code", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
-
-    /**
-     * The column <code>germinate_template_4_0_0.view_table_datasets.country_name</code>. Country name.
-     */
-    public final TableField<ViewTableDatasetsRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
+    public final TableField<ViewTableDatasetsRecord, JsonArray> COUNTRY_CODES = createField("country_codes", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_country_codes\""), this, "", new SynonymBinding());
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_datasets.license_id</code>.

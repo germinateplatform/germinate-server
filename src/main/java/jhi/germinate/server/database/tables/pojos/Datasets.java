@@ -29,11 +29,10 @@ import jhi.germinate.resource.DublinCore;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets implements Serializable {
 
-    private static final long serialVersionUID = 1115491922;
+    private static final long serialVersionUID = -1470315996;
 
     private Integer    id;
     private Integer    experimentId;
-    private Integer    locationId;
     private String     name;
     private String     description;
     private Date       dateStart;
@@ -56,7 +55,6 @@ public class Datasets implements Serializable {
     public Datasets(Datasets value) {
         this.id = value.id;
         this.experimentId = value.experimentId;
-        this.locationId = value.locationId;
         this.name = value.name;
         this.description = value.description;
         this.dateStart = value.dateStart;
@@ -78,7 +76,6 @@ public class Datasets implements Serializable {
     public Datasets(
         Integer    id,
         Integer    experimentId,
-        Integer    locationId,
         String     name,
         String     description,
         Date       dateStart,
@@ -98,7 +95,6 @@ public class Datasets implements Serializable {
     ) {
         this.id = id;
         this.experimentId = experimentId;
-        this.locationId = locationId;
         this.name = name;
         this.description = description;
         this.dateStart = dateStart;
@@ -131,14 +127,6 @@ public class Datasets implements Serializable {
 
     public void setExperimentId(Integer experimentId) {
         this.experimentId = experimentId;
-    }
-
-    public Integer getLocationId() {
-        return this.locationId;
-    }
-
-    public void setLocationId(Integer locationId) {
-        this.locationId = locationId;
     }
 
     public String getName() {
@@ -275,7 +263,6 @@ public class Datasets implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(experimentId);
-        sb.append(", ").append(locationId);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
         sb.append(", ").append(dateStart);

@@ -38,7 +38,7 @@ public class GermplasmDatasetTableResource extends DatasetTableResource
 
 	@Post("json")
 	@Override
-	public PaginatedResult<List<ViewTableDatasets>> getJson(UnacceptedLicenseRequest request)
+	public PaginatedResult<List<ViewTableDatasets>> postJson(UnacceptedLicenseRequest request)
 	{
 		return runQuery(request, query -> query.where(DSL.exists(DSL.selectOne().from(COMPOUNDDATA).where(COMPOUNDDATA.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
 																																 .and(COMPOUNDDATA.GERMINATEBASE_ID.eq(germplasmId))))

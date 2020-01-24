@@ -119,7 +119,7 @@ Setting up Germinate manually involves a few steps that have to be done for ever
 Server:
 - Java 8 or above
 - Tomcat 8.5.12 or above
-- MySQL 5.7.17 or above
+- MySQL 5.7.22 or above
 - Ant 1.10.1 or above
 
 Client:

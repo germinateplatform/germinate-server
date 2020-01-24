@@ -46,4 +46,69 @@ UPDATE `climatedata` SET `recording_date` = STR_TO_DATE(CONCAT(YEAR(CURDATE()), 
 
 ALTER TABLE `climatedata` ADD INDEX `climate_query_index`(`climate_id`, `location_id`, `recording_date`, `dataset_id`, `climate_value`);
 
+CREATE TABLE `datasetlocations`  (
+  `dataset_id` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`dataset_id`, `location_id`),
+  FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO `datasetlocations` (`dataset_id`, `location_id`) SELECT `id`, `location_id` FROM `datasets` WHERE NOT ISNULL(`location_id`);
+
+DROP PROCEDURE IF EXISTS drop_all_indexes;
+
+DELIMITER //
+
+CREATE PROCEDURE drop_all_indexes()
+
+BEGIN
+
+    DECLARE index_name TEXT DEFAULT NULL;
+    DECLARE done TINYINT DEFAULT FALSE;
+
+    DECLARE cursor1 CURSOR FOR SELECT constraint_name
+                               FROM information_schema.TABLE_CONSTRAINTS
+                               WHERE TABLE_SCHEMA = database()
+                                 AND TABLE_NAME = "datasets"
+                                 AND CONSTRAINT_TYPE = "FOREIGN KEY";
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cursor1;
+
+    my_loop:
+        LOOP
+
+            FETCH NEXT FROM cursor1 INTO index_name;
+
+            IF done THEN
+                LEAVE my_loop;
+            ELSE
+                SET @query = CONCAT('ALTER TABLE `datasets` DROP FOREIGN KEY ', index_name);
+                PREPARE stmt FROM @query;
+                EXECUTE stmt;
+                DEALLOCATE PREPARE stmt;
+
+            END IF;
+        END LOOP;
+
+END;
+//
+
+DELIMITER ;
+
+CALL drop_all_indexes();
+
+DROP PROCEDURE IF EXISTS drop_all_indexes;
+
+ALTER TABLE `datasets` DROP `location_id`;
+
+ALTER TABLE `datasets`
+ADD CONSTRAINT `datasets_ibfk_experiment` FOREIGN KEY (`experiment_id`) REFERENCES `experiments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `datasets_ibfk_dataset_state` FOREIGN KEY (`dataset_state_id`) REFERENCES `datasetstates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `datasets_ibfk_license` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
 SET FOREIGN_KEY_CHECKS=1;

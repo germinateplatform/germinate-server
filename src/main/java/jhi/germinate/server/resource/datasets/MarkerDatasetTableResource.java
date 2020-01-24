@@ -38,7 +38,7 @@ public class MarkerDatasetTableResource extends DatasetTableResource
 
 	@Post("json")
 	@Override
-	public PaginatedResult<List<ViewTableDatasets>> getJson(UnacceptedLicenseRequest request)
+	public PaginatedResult<List<ViewTableDatasets>> postJson(UnacceptedLicenseRequest request)
 	{
 		return runQuery(request, query -> query.where(DSL.exists(DSL.selectOne().from(DATASETMEMBERS).where(DATASETMEMBERS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
 																																	   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1))

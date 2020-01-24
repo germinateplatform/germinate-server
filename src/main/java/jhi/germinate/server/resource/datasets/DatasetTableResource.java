@@ -217,11 +217,11 @@ public class DatasetTableResource extends PaginatedServerResource
 	}
 
 	@Post("json")
-	public PaginatedResult<List<ViewTableDatasets>> getJson(UnacceptedLicenseRequest request)
+	public PaginatedResult<List<ViewTableDatasets>> postJson(UnacceptedLicenseRequest request)
 	{
 		AdjustQuery adjuster = null;
 
-		if (request.getJustUnacceptedLicenses() != null && request.getJustUnacceptedLicenses())
+		if (request != null && request.getJustUnacceptedLicenses() != null && request.getJustUnacceptedLicenses())
 		{
 			CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 			Set<Integer> ids = CustomVerifier.getAcceptedLicenses(getRequest());

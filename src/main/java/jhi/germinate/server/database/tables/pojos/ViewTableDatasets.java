@@ -30,7 +30,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1317990159;
+    private static final long serialVersionUID = -2063351927;
 
     private Integer    datasetId;
     private String     datasetName;
@@ -42,9 +42,8 @@ public class ViewTableDatasets implements Serializable {
     private String     experimentName;
     private String     datatype;
     private String     datasetState;
-    private String     location;
-    private String     countryCode;
-    private String     countryName;
+    private JsonArray  locationIds;
+    private JsonArray  countryCodes;
     private Integer    licenseId;
     private String     licenseName;
     private String     contact;
@@ -71,9 +70,8 @@ public class ViewTableDatasets implements Serializable {
         this.experimentName = value.experimentName;
         this.datatype = value.datatype;
         this.datasetState = value.datasetState;
-        this.location = value.location;
-        this.countryCode = value.countryCode;
-        this.countryName = value.countryName;
+        this.locationIds = value.locationIds;
+        this.countryCodes = value.countryCodes;
         this.licenseId = value.licenseId;
         this.licenseName = value.licenseName;
         this.contact = value.contact;
@@ -99,9 +97,8 @@ public class ViewTableDatasets implements Serializable {
         String     experimentName,
         String     datatype,
         String     datasetState,
-        String     location,
-        String     countryCode,
-        String     countryName,
+        JsonArray  locationIds,
+        JsonArray  countryCodes,
         Integer    licenseId,
         String     licenseName,
         String     contact,
@@ -125,9 +122,8 @@ public class ViewTableDatasets implements Serializable {
         this.experimentName = experimentName;
         this.datatype = datatype;
         this.datasetState = datasetState;
-        this.location = location;
-        this.countryCode = countryCode;
-        this.countryName = countryName;
+        this.locationIds = locationIds;
+        this.countryCodes = countryCodes;
         this.licenseId = licenseId;
         this.licenseName = licenseName;
         this.contact = contact;
@@ -222,28 +218,20 @@ public class ViewTableDatasets implements Serializable {
         this.datasetState = datasetState;
     }
 
-    public String getLocation() {
-        return this.location;
+    public JsonArray getLocationIds() {
+        return this.locationIds;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationIds(JsonArray locationIds) {
+        this.locationIds = locationIds;
     }
 
-    public String getCountryCode() {
-        return this.countryCode;
+    public JsonArray getCountryCodes() {
+        return this.countryCodes;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public String getCountryName() {
-        return this.countryName;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setCountryCodes(JsonArray countryCodes) {
+        this.countryCodes = countryCodes;
     }
 
     public Integer getLicenseId() {
@@ -356,9 +344,8 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(experimentName);
         sb.append(", ").append(datatype);
         sb.append(", ").append(datasetState);
-        sb.append(", ").append(location);
-        sb.append(", ").append(countryCode);
-        sb.append(", ").append(countryName);
+        sb.append(", ").append(locationIds);
+        sb.append(", ").append(countryCodes);
         sb.append(", ").append(licenseId);
         sb.append(", ").append(licenseName);
         sb.append(", ").append(contact);

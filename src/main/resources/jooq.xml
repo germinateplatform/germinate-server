@@ -31,6 +31,12 @@
 				</forcedType>
 				<forcedType>
 					<binding>jhi.germinate.server.util.SynonymBinding</binding>
+					<expression>.*(view_table_datasets)\.(country_codes)</expression>
+					<types>.*json.*</types>
+					<userType>com.google.gson.JsonArray</userType>
+				</forcedType>
+				<forcedType>
+					<binding>jhi.germinate.server.util.SynonymBinding</binding>
 					<expression>.*\..*(dataset_ids).*</expression>
 					<types>.*json.*</types>
 					<userType>com.google.gson.JsonArray</userType>
