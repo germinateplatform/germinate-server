@@ -126,7 +126,7 @@ public class CustomVerifier implements Verifier
 			// If we do, validate it against the cookie
 			List<Cookie> cookies = request.getCookies()
 										  .stream()
-										  .filter(c -> Objects.equals(c.getName(), "token") && Objects.equals(c.getPath(), ServletUtils.getRequest(request).getContextPath()))
+										  .filter(c -> Objects.equals(c.getName(), "token"))
 										  .collect(Collectors.toList());
 
 			if (cookies.size() > 0)
