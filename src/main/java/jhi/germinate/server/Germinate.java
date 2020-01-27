@@ -270,9 +270,6 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/pedigree/table/export", PedigreeTableExportResource.class);
 		attachToRouter(routerAuth, "/pedigree/export", PedigreeExportResource.class);
 
-		// TRAITS
-		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
-
 		// STATS
 		attachToRouter(routerAuth, "/stats/biologicalstatus", BiologicalstatusStatsResource.class);
 		attachToRouter(routerAuth, "/stats/country", CountryStatsResource.class);
@@ -285,6 +282,9 @@ public class Germinate extends Application
 		// SETTINGS
 		attachToRouter(routerAuth, "/settings/write", SettingsWriterResource.class);
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
+
+		// TRAITS
+		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
 
 		// USER PERMISSIONS
 		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);

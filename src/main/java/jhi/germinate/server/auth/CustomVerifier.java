@@ -19,6 +19,7 @@ package jhi.germinate.server.auth;
 import org.restlet.*;
 import org.restlet.data.Status;
 import org.restlet.data.*;
+import org.restlet.ext.servlet.ServletUtils;
 import org.restlet.resource.*;
 import org.restlet.routing.Route;
 import org.restlet.security.Verifier;
@@ -125,7 +126,7 @@ public class CustomVerifier implements Verifier
 			// If we do, validate it against the cookie
 			List<Cookie> cookies = request.getCookies()
 										  .stream()
-										  .filter(c -> c.getName().equals("token"))
+										  .filter(c -> Objects.equals(c.getName(), "token") && Objects.equals(c.getPath(), ServletUtils.getRequest(request).getContextPath()))
 										  .collect(Collectors.toList());
 
 			if (cookies.size() > 0)
@@ -213,7 +214,7 @@ public class CustomVerifier implements Verifier
 		CookieSetting cookie = new CookieSetting(0, "token", token);
 		cookie.setAccessRestricted(true);
 		cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
-		cookie.setPath("/");
+		cookie.setPath(ServletUtils.getRequest(request).getContextPath());
 		response.getCookieSettings().add(cookie);
 
 		setDatasetCookie(request, response, false);
@@ -227,7 +228,7 @@ public class CustomVerifier implements Verifier
 			CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
 			cookie.setAccessRestricted(true);
 			cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
-			cookie.setPath("/");
+			cookie.setPath(ServletUtils.getRequest(request).getContextPath());
 			response.getCookieSettings().add(cookie);
 		}
 	}
@@ -245,7 +246,7 @@ public class CustomVerifier implements Verifier
 		CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
 		cookie.setAccessRestricted(true);
 		cookie.setMaxAge((int) (AGE / 1000));
-		cookie.setPath("/");
+		cookie.setPath(ServletUtils.getRequest(request).getContextPath());
 		response.getCookieSettings().add(cookie);
 	}
 
