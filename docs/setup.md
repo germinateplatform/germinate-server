@@ -224,3 +224,24 @@ ant deploy
 ```
 
 After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v<api.version>`).
+
+
+# Proxy
+
+If Germinate is sitting behind a proxy, further setup may be required. We'll give an example that shows you how to set up Apache to properly work with Germinate.
+
+
+```
+# Make sure trailing slashes are added
+RewriteEngine on 
+RewriteRule ^/germinate$ /germinate/ [R]
+
+# Preserve request URL
+ProxyPreserveHost On
+
+# Define the mapping
+ProxyPass        /germinate/  http://internalserver:1234/
+ProxyPassReverse /germinate/  http://internalserver:1234/
+```
+
+The example above maps `/germinate/` on your public server to an internal server `http://internalserver:1234/`. The other settings make sure that trailing slashes are automatically added and that the original request URL are passed through. The latter is important for links placed in exported data files. As an example, Germinate includes links back to Germinate into Flapjack files so that users of Flapjack can easily see the passport page of a specific germplasm.

@@ -29,6 +29,7 @@ import jhi.germinate.server.resource.images.*;
 import jhi.germinate.server.resource.importers.*;
 import jhi.germinate.server.resource.institution.InstitutionTableResource;
 import jhi.germinate.server.resource.license.*;
+import jhi.germinate.server.resource.links.LinksTableResource;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
@@ -232,6 +233,9 @@ public class Germinate extends Application
 		// LICENSES
 		attachToRouter(routerAuth, "/license/table", LicenseTableResource.class);
 		attachToRouter(routerAuth, "/license/{licenseId}/accept", LicenseDecisionResource.class);
+
+		// LINKS
+		attachToRouter(routerAuth, "/link/table", LinksTableResource.class);
 
 		// LOCATIONS
 		attachToRouter(routerAuth, "/location/table", LocationTableResource.class);

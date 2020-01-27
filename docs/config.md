@@ -138,3 +138,4 @@ This is the most important file in your customization. It defines the required p
     # GDPR compliance is important and this has to be enabled if you're expecting users from the EU. It gives them the option to enable non-essential cookies for convenience. 
     gdpr.notification.enabled = <should the GDPR compliance banner be shown. if so, users can deny the usage of cookies which will disable some features>
     ```
+  

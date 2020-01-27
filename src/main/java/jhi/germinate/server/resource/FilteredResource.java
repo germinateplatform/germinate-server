@@ -48,7 +48,10 @@ public interface FilteredResource
 	default Condition filterIndividual(Filter filter, boolean arrayOperationsAllowed)
 	{
 		Field<Object> field = DSL.field(filter.getSafeColumn());
-		List<String> values = Arrays.stream(filter.getValues())
+		List<String> values = new ArrayList<>();
+
+		if (!CollectionUtils.isEmpty(filter.getValues()))
+			values = Arrays.stream(filter.getValues())
 									.filter(v -> !StringUtils.isEmpty(v))
 									.map(String::trim)
 									.collect(Collectors.toList());
@@ -61,6 +64,10 @@ public interface FilteredResource
 
 		switch (filter.getComparator())
 		{
+			case "isNull":
+				return field.isNull();
+			case "isNotNull":
+				return field.isNotNull();
 			case "equals":
 				return field.eq(first);
 			case "contains":
