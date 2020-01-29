@@ -25,6 +25,8 @@ import org.restlet.routing.Route;
 import org.restlet.security.Verifier;
 import org.restlet.util.Series;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -213,11 +215,49 @@ public class CustomVerifier implements Verifier
 
 		CookieSetting cookie = new CookieSetting(0, "token", token);
 		cookie.setAccessRestricted(true);
-		cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
-		cookie.setPath(ServletUtils.getRequest(request).getContextPath());
+
+		if (delete)
+		{
+			cookie.setMaxAge(0);
+			cookie.setPath("/");
+			cookie.setValue("");
+		}
+		else
+		{
+			cookie.setMaxAge((int) (AGE / 1000));
+			cookie.setPath(getContextPath(request));
+		}
 		response.getCookieSettings().add(cookie);
 
 		setDatasetCookie(request, response, false);
+	}
+
+	private static String getContextPath(Request request)
+	{
+		String result = ServletUtils.getRequest(request).getContextPath();
+
+		if (!StringUtils.isEmpty(result))
+		{
+			try
+			{
+				result = URLDecoder.decode(result, "UTF-8");
+			}
+			catch (UnsupportedEncodingException e)
+			{
+			}
+
+			int index = result.lastIndexOf("/api");
+
+			if (index != -1)
+			{
+				result = result.substring(0, index + 4);
+			}
+		}
+
+		if (StringUtils.isEmpty(result))
+			result = "/";
+
+		return result;
 	}
 
 	private static void setDatasetCookie(Request request, Response response, boolean delete)
@@ -228,7 +268,7 @@ public class CustomVerifier implements Verifier
 			CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
 			cookie.setAccessRestricted(true);
 			cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
-			cookie.setPath(ServletUtils.getRequest(request).getContextPath());
+			cookie.setPath(getContextPath(request));
 			response.getCookieSettings().add(cookie);
 		}
 	}
@@ -246,7 +286,7 @@ public class CustomVerifier implements Verifier
 		CookieSetting cookie = new CookieSetting(0, "accepted-licenses", CollectionUtils.join(ids, ","));
 		cookie.setAccessRestricted(true);
 		cookie.setMaxAge((int) (AGE / 1000));
-		cookie.setPath(ServletUtils.getRequest(request).getContextPath());
+		cookie.setPath(getContextPath(request));
 		response.getCookieSettings().add(cookie);
 	}
 
@@ -360,7 +400,6 @@ public class CustomVerifier implements Verifier
 							// Extend the cookie
 							details.timestamp = System.currentTimeMillis();
 							tokenToTimestamp.put(token.token, details);
-							setCookie(request, response, token.token);
 						}
 						else
 						{

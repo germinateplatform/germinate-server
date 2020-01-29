@@ -242,6 +242,11 @@ ProxyPreserveHost On
 # Define the mapping
 ProxyPass        /germinate/  http://internalserver:1234/
 ProxyPassReverse /germinate/  http://internalserver:1234/
+
+# Make sure cookies get the correct path
+ProxyPassReverseCookiePath / /germinate
 ```
 
 The example above maps `/germinate/` on your public server to an internal server `http://internalserver:1234/`. The other settings make sure that trailing slashes are automatically added and that the original request URL are passed through. The latter is important for links placed in exported data files. As an example, Germinate includes links back to Germinate into Flapjack files so that users of Flapjack can easily see the passport page of a specific germplasm.
+
+When you copy the example above, make sure to replace "germinate" with the mapping you want to use publicly.

@@ -126,7 +126,7 @@ public class GenotypeExportResource extends BaseServerResource
 					Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
 				}
 				File headerFile = new File(asyncFolder, dsName + ".header");
-				Files.write(headerFile.toPath(), getFlapjackHeaders(getRequest()), StandardCharsets.UTF_8);
+				Files.write(headerFile.toPath(), getFlapjackHeaders(), StandardCharsets.UTF_8);
 
 				File libFolder = getLibFolder();
 				List<String> args = new ArrayList<>();
@@ -173,10 +173,9 @@ public class GenotypeExportResource extends BaseServerResource
 		}
 	}
 
-	static List<String> getFlapjackHeaders(Request request)
+	static List<String> getFlapjackHeaders()
 	{
 		String clientBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
-		String serverBase = Germinate.getServerBase(ServletUtils.getRequest(request));
 
 		List<String> result = new ArrayList<>();
 
@@ -187,13 +186,7 @@ public class GenotypeExportResource extends BaseServerResource
 			result.add("# fjDatabaseLineSearch = " + clientBase + "/#/data/germplasm/$LINE");
 			result.add("# fjDatabaseGroupPreview = " + clientBase + "/#/groups/upload/$GROUP");
 			result.add("# fjDatabaseMarkerSearch = " + clientBase + "/#/genotypes/marker/$MARKER"); // TODO
-		}
-		if (!StringUtils.isEmpty(serverBase))
-		{
-			if (serverBase.endsWith("/"))
-				serverBase = serverBase.substring(0, serverBase.length() - 1);
-
-			result.add("# fjDatabaseGroupUpload = " + serverBase + "/api/group/upload"); // TODO
+			result.add("# fjDatabaseGroupUpload = " + clientBase + "/api/group/upload"); // TODO
 		}
 
 		return result;

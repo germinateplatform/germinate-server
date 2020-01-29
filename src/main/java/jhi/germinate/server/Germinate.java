@@ -74,7 +74,7 @@ public class Germinate extends Application
 		authorizer.getAuthenticatedMethods().add(Method.PUT);
 		authorizer.getAuthenticatedMethods().add(Method.DELETE);
 
-		authenticator = new ChallengeAuthenticator(context, true, ChallengeScheme.HTTP_OAUTH_BEARER, "Gatekeeper", verifier);
+		authenticator = new ChallengeAuthenticator(context, true, ChallengeScheme.HTTP_OAUTH_BEARER, "Germinate", verifier);
 	}
 
 	@Override
