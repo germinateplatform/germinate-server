@@ -9,6 +9,7 @@ import org.jooq.impl.DSL;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.*;
 import java.sql.*;
 import java.util.TimeZone;
 import java.util.logging.*;
@@ -145,7 +146,7 @@ public class Database
 	private static void executeFile(File sqlFile)
 	{
 		try (Connection conn = Database.getConnection();
-			 BufferedReader br = new BufferedReader(new FileReader(sqlFile)))
+			 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sqlFile), StandardCharsets.UTF_8)))
 		{
 			ScriptRunner runner = new ScriptRunner(conn, true, true);
 			runner.runScript(br);

@@ -23,6 +23,7 @@ The following page will take you through both scenarios and explain all the nece
     - [Configure](#configure-germinate-server)
     - [Include client](#include-germinate-client)
     - [Build](#build-germinate-server)
+ - [Proxy](#proxy)
 
 ## Docker
 
@@ -35,22 +36,6 @@ If you have docker-compose available, things are as simple as defining this `doc
 ```yaml
 version: '3.3'
 services:
-  tomcat:
-    image: sraubach/germinate
-    environment:
-      - JAVA_OPTS:-Xmx512m
-    ports:
-      - 9080:8080
-    volumes:
-      - type: bind
-        source: /path/to/your/germinate/config
-        target: /data/germinate
-      - type: volume
-        source: germinate
-        target: /usr/local/tomcat/temp
-    restart: unless-stopped
-    container_name: germinate
-
   mysql:
     image: mysql:5.7
     ports:
@@ -66,6 +51,24 @@ services:
       MYSQL_PASSWORD: DATABASE_PASSWORD
     restart: unless-stopped
     container_name: mysql
+
+  tomcat:
+      image: sraubach/germinate
+      environment:
+        - JAVA_OPTS:-Xmx512m
+      ports:
+        - 9080:8080
+      volumes:
+        - type: bind
+          source: /path/to/your/germinate/config
+          target: /data/germinate
+        - type: volume
+          source: germinate
+          target: /usr/local/tomcat/temp
+      restart: unless-stopped
+      container_name: germinate
+      depends_on:
+        - "mysql"
 
 volumes:
   germinate:
@@ -226,27 +229,30 @@ ant deploy
 After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v<api.version>`).
 
 
-# Proxy
+## Proxy
 
 If Germinate is sitting behind a proxy, further setup may be required. We'll give an example that shows you how to set up Apache to properly work with Germinate.
 
 
 ```
-# Make sure trailing slashes are added
-RewriteEngine on 
-RewriteRule ^/germinate$ /germinate/ [R]
-
+# Allow rewrite rules
+RewriteEngine on
 # Preserve request URL
 ProxyPreserveHost On
 
-# Define the mapping
-ProxyPass        /germinate/  http://internalserver:1234/
-ProxyPassReverse /germinate/  http://internalserver:1234/
+# Make sure trailing slashes are added
+RewriteRule     ^/germinate$ /germinate/ [R]
 
-# Make sure cookies get the correct path
-ProxyPassReverseCookiePath / /germinate
+# Define the mapping
+<Location /germinate/>
+    ProxyPass        http://internalserver:1234/
+    ProxyPassReverse http://internalserver:1234/
+
+    # Make sure cookies get the correct path
+    ProxyPassReverseCookiePath / /germinate  
+</Location>
 ```
 
 The example above maps `/germinate/` on your public server to an internal server `http://internalserver:1234/`. The other settings make sure that trailing slashes are automatically added and that the original request URL are passed through. The latter is important for links placed in exported data files. As an example, Germinate includes links back to Germinate into Flapjack files so that users of Flapjack can easily see the passport page of a specific germplasm.
 
-When you copy the example above, make sure to replace "germinate" with the mapping you want to use publicly.
+When you copy the example above, make sure to replace "germinate" with the mapping you want to use publicly and "http://internalserver:1234/" with your internal server.
