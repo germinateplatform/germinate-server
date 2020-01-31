@@ -19,15 +19,15 @@ public interface FilteredResource
 		filter(step, filters, false);
 	}
 
-	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters, boolean arrayOperationsAllowed)
+	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
 	{
 		if (filters != null && filters.length > 0)
 		{
-			SelectConditionStep<T> where = step.where(filterIndividual(filters[0], arrayOperationsAllowed));
+			SelectConditionStep<T> where = step.where(filterIndividual(filters[0], jsonOperationAllowed));
 
 			for (int i = 1; i < filters.length; i++)
 			{
-				Condition condition = filterIndividual(filters[i], arrayOperationsAllowed);
+				Condition condition = filterIndividual(filters[i], jsonOperationAllowed);
 
 				if (condition != null)
 				{
@@ -45,7 +45,7 @@ public interface FilteredResource
 		}
 	}
 
-	default Condition filterIndividual(Filter filter, boolean arrayOperationsAllowed)
+	default Condition filterIndividual(Filter filter, boolean jsonOperationAllowed)
 	{
 		Field<Object> field = DSL.field(filter.getSafeColumn());
 		List<String> values = new ArrayList<>();
@@ -71,7 +71,7 @@ public interface FilteredResource
 			case "equals":
 				return field.eq(first);
 			case "contains":
-				return field.like("%" + first + "%");
+				return field.lower().like("%" + (first == null ? "" : first.toLowerCase()) + "%");
 			case "between":
 				return field.between(first, second);
 			case "greaterThan":
@@ -83,7 +83,7 @@ public interface FilteredResource
 			case "lessOrEquals":
 				return field.lessOrEqual(first);
 			case "arrayContains":
-				if (arrayOperationsAllowed)
+				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
 													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers

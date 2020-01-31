@@ -10,9 +10,11 @@ import java.sql.Date;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.resource.DatasetLocation;
 import jhi.germinate.resource.DublinCore;
 import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableDatasetsRecord;
+import jhi.germinate.server.util.DatasetLocationBinding;
 import jhi.germinate.server.util.DublinCoreBinding;
 import jhi.germinate.server.util.SynonymBinding;
 
@@ -40,7 +42,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 452660961;
+    private static final long serialVersionUID = 2062732313;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_datasets</code>
@@ -106,14 +108,9 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public final TableField<ViewTableDatasetsRecord, String> DATASET_STATE = createField("dataset_state", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Defines the datasetstate.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_datasets.location_ids</code>.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.locations</code>.
      */
-    public final TableField<ViewTableDatasetsRecord, JsonArray> LOCATION_IDS = createField("location_ids", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_location_ids\""), this, "", new SynonymBinding());
-
-    /**
-     * The column <code>germinate_template_4_0_0.view_table_datasets.country_codes</code>.
-     */
-    public final TableField<ViewTableDatasetsRecord, JsonArray> COUNTRY_CODES = createField("country_codes", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_country_codes\""), this, "", new SynonymBinding());
+    public final TableField<ViewTableDatasetsRecord, DatasetLocation[]> LOCATIONS = createField("locations", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_locations\""), this, "", new DatasetLocationBinding());
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_datasets.license_id</code>.

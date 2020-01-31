@@ -8,9 +8,11 @@ import com.google.gson.JsonArray;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.resource.DatasetLocation;
 import jhi.germinate.resource.DublinCore;
 
 import org.jooq.types.ULong;
@@ -30,32 +32,31 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = -2063351927;
+    private static final long serialVersionUID = 1034540809;
 
-    private Integer    datasetId;
-    private String     datasetName;
-    private String     datasetDescription;
-    private String     hyperlink;
-    private String     sourceFile;
-    private String     experimentType;
-    private Integer    experimentId;
-    private String     experimentName;
-    private String     datatype;
-    private String     datasetState;
-    private JsonArray  locationIds;
-    private JsonArray  countryCodes;
-    private Integer    licenseId;
-    private String     licenseName;
-    private String     contact;
-    private Date       startDate;
-    private Date       endDate;
-    private DublinCore dublinCore;
-    private ULong      dataObjectCount;
-    private ULong      dataPointCount;
-    private Boolean    isExternal;
-    private Long       collaborators;
-    private Long       attributes;
-    private JsonArray  acceptedBy;
+    private Integer           datasetId;
+    private String            datasetName;
+    private String            datasetDescription;
+    private String            hyperlink;
+    private String            sourceFile;
+    private String            experimentType;
+    private Integer           experimentId;
+    private String            experimentName;
+    private String            datatype;
+    private String            datasetState;
+    private DatasetLocation[] locations;
+    private Integer           licenseId;
+    private String            licenseName;
+    private String            contact;
+    private Date              startDate;
+    private Date              endDate;
+    private DublinCore        dublinCore;
+    private ULong             dataObjectCount;
+    private ULong             dataPointCount;
+    private Boolean           isExternal;
+    private Long              collaborators;
+    private Long              attributes;
+    private JsonArray         acceptedBy;
 
     public ViewTableDatasets() {}
 
@@ -70,8 +71,7 @@ public class ViewTableDatasets implements Serializable {
         this.experimentName = value.experimentName;
         this.datatype = value.datatype;
         this.datasetState = value.datasetState;
-        this.locationIds = value.locationIds;
-        this.countryCodes = value.countryCodes;
+        this.locations = value.locations;
         this.licenseId = value.licenseId;
         this.licenseName = value.licenseName;
         this.contact = value.contact;
@@ -87,30 +87,29 @@ public class ViewTableDatasets implements Serializable {
     }
 
     public ViewTableDatasets(
-        Integer    datasetId,
-        String     datasetName,
-        String     datasetDescription,
-        String     hyperlink,
-        String     sourceFile,
-        String     experimentType,
-        Integer    experimentId,
-        String     experimentName,
-        String     datatype,
-        String     datasetState,
-        JsonArray  locationIds,
-        JsonArray  countryCodes,
-        Integer    licenseId,
-        String     licenseName,
-        String     contact,
-        Date       startDate,
-        Date       endDate,
-        DublinCore dublinCore,
-        ULong      dataObjectCount,
-        ULong      dataPointCount,
-        Boolean    isExternal,
-        Long       collaborators,
-        Long       attributes,
-        JsonArray  acceptedBy
+        Integer           datasetId,
+        String            datasetName,
+        String            datasetDescription,
+        String            hyperlink,
+        String            sourceFile,
+        String            experimentType,
+        Integer           experimentId,
+        String            experimentName,
+        String            datatype,
+        String            datasetState,
+        DatasetLocation[] locations,
+        Integer           licenseId,
+        String            licenseName,
+        String            contact,
+        Date              startDate,
+        Date              endDate,
+        DublinCore        dublinCore,
+        ULong             dataObjectCount,
+        ULong             dataPointCount,
+        Boolean           isExternal,
+        Long              collaborators,
+        Long              attributes,
+        JsonArray         acceptedBy
     ) {
         this.datasetId = datasetId;
         this.datasetName = datasetName;
@@ -122,8 +121,7 @@ public class ViewTableDatasets implements Serializable {
         this.experimentName = experimentName;
         this.datatype = datatype;
         this.datasetState = datasetState;
-        this.locationIds = locationIds;
-        this.countryCodes = countryCodes;
+        this.locations = locations;
         this.licenseId = licenseId;
         this.licenseName = licenseName;
         this.contact = contact;
@@ -218,20 +216,12 @@ public class ViewTableDatasets implements Serializable {
         this.datasetState = datasetState;
     }
 
-    public JsonArray getLocationIds() {
-        return this.locationIds;
+    public DatasetLocation[] getLocations() {
+        return this.locations;
     }
 
-    public void setLocationIds(JsonArray locationIds) {
-        this.locationIds = locationIds;
-    }
-
-    public JsonArray getCountryCodes() {
-        return this.countryCodes;
-    }
-
-    public void setCountryCodes(JsonArray countryCodes) {
-        this.countryCodes = countryCodes;
+    public void setLocations(DatasetLocation... locations) {
+        this.locations = locations;
     }
 
     public Integer getLicenseId() {
@@ -344,8 +334,7 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(experimentName);
         sb.append(", ").append(datatype);
         sb.append(", ").append(datasetState);
-        sb.append(", ").append(locationIds);
-        sb.append(", ").append(countryCodes);
+        sb.append(", ").append(Arrays.toString(locations));
         sb.append(", ").append(licenseId);
         sb.append(", ").append(licenseName);
         sb.append(", ").append(contact);

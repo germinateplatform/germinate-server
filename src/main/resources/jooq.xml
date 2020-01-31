@@ -24,6 +24,18 @@
 
 			<forcedTypes>
 				<forcedType>
+					<binding>jhi.germinate.server.util.DatasetLocationBinding</binding>
+					<expression>.*(view_table_datasets)\.(locations)</expression>
+					<types>.*</types>
+					<userType>jhi.germinate.resource.DatasetLocation[]</userType>
+				</forcedType>
+				<forcedType>
+					<binding>jhi.germinate.server.util.ImageTagBinding</binding>
+					<expression>.*(view_table_images)\.(tags)</expression>
+					<types>.*</types>
+					<userType>jhi.germinate.resource.ImageTag[]</userType>
+				</forcedType>
+				<forcedType>
 					<binding>jhi.germinate.server.util.SynonymBinding</binding>
 					<expression>.*(view_table_).*\..*(accepted_by).*</expression>
 					<types>.*json.*</types>

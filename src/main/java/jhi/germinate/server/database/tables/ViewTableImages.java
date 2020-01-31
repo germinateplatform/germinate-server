@@ -8,8 +8,10 @@ import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
+import jhi.germinate.resource.ImageTag;
 import jhi.germinate.server.database.GerminateTemplate_4_0_0;
 import jhi.germinate.server.database.tables.records.ViewTableImagesRecord;
+import jhi.germinate.server.util.ImageTagBinding;
 
 import org.jooq.Field;
 import org.jooq.Name;
@@ -34,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
 
-    private static final long serialVersionUID = 2044320416;
+    private static final long serialVersionUID = 1912780447;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_images</code>
@@ -88,6 +90,11 @@ public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
      * The column <code>germinate_template_4_0_0.view_table_images.created_on</code>.
      */
     public final TableField<ViewTableImagesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_images.tags</code>.
+     */
+    public final TableField<ViewTableImagesRecord, ImageTag[]> TAGS = createField("tags", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_images_tags\""), this, "", new ImageTagBinding());
 
     /**
      * Create a <code>germinate_template_4_0_0.view_table_images</code> table reference

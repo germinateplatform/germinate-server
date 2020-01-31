@@ -1,6 +1,6 @@
 package jhi.germinate.server.util;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
 
 import org.jooq.*;
 import org.jooq.conf.ParamType;
@@ -9,25 +9,27 @@ import org.jooq.impl.DSL;
 import java.sql.*;
 import java.util.Objects;
 
+import jhi.germinate.resource.ImageTag;
+
 /**
  * @author Sebastian Raubach
  */
-public class SynonymBinding implements Binding<Object, JsonArray>
+public class ImageTagBinding implements Binding<Object, ImageTag[]>
 {
 	@Override
-	public Converter<Object, JsonArray> converter()
+	public Converter<Object, ImageTag[]> converter()
 	{
 		Gson gson = new Gson();
-		return new Converter<Object, JsonArray>()
+		return new Converter<Object, ImageTag[]>()
 		{
 			@Override
-			public JsonArray from(Object o)
+			public ImageTag[] from(Object o)
 			{
-				return o == null ? null : gson.fromJson(Objects.toString(o), JsonArray.class);
+				return o == null ? null : gson.fromJson(Objects.toString(o), ImageTag[].class);
 			}
 
 			@Override
-			public Object to(JsonArray o)
+			public Object to(ImageTag[] o)
 			{
 				return o == null ? null : gson.toJson(o);
 			}
@@ -39,15 +41,15 @@ public class SynonymBinding implements Binding<Object, JsonArray>
 			}
 
 			@Override
-			public Class<JsonArray> toType()
+			public Class<ImageTag[]> toType()
 			{
-				return JsonArray.class;
+				return ImageTag[].class;
 			}
 		};
 	}
 
 	@Override
-	public void sql(BindingSQLContext<JsonArray> ctx)
+	public void sql(BindingSQLContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		// Depending on how you generate your SQL, you may need to explicitly distinguish
@@ -59,42 +61,42 @@ public class SynonymBinding implements Binding<Object, JsonArray>
 	}
 
 	@Override
-	public void register(BindingRegisterContext<JsonArray> ctx)
+	public void register(BindingRegisterContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		ctx.statement().registerOutParameter(ctx.index(), Types.VARCHAR);
 	}
 
 	@Override
-	public void set(BindingSetStatementContext<JsonArray> ctx)
+	public void set(BindingSetStatementContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		ctx.statement().setString(ctx.index(), Objects.toString(ctx.convert(converter()).value(), null));
 	}
 
 	@Override
-	public void set(BindingSetSQLOutputContext<JsonArray> ctx)
+	public void set(BindingSetSQLOutputContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		throw new SQLFeatureNotSupportedException();
 	}
 
 	@Override
-	public void get(BindingGetResultSetContext<JsonArray> ctx)
+	public void get(BindingGetResultSetContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		ctx.convert(converter()).value(ctx.resultSet().getString(ctx.index()));
 	}
 
 	@Override
-	public void get(BindingGetStatementContext<JsonArray> ctx)
+	public void get(BindingGetStatementContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		ctx.convert(converter()).value(ctx.statement().getString(ctx.index()));
 	}
 
 	@Override
-	public void get(BindingGetSQLInputContext<JsonArray> ctx)
+	public void get(BindingGetSQLInputContext<ImageTag[]> ctx)
 		throws SQLException
 	{
 		throw new SQLFeatureNotSupportedException();

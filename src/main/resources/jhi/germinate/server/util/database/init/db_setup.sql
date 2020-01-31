@@ -1,4 +1,5 @@
 SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -554,26 +555,6 @@ INSERT INTO `countries` VALUES (246, 'EH', 'ESH', 'Western Sahara', NULL, NULL);
 INSERT INTO `countries` VALUES (247, 'YE', 'YEM', 'Yemen', NULL, NULL);
 INSERT INTO `countries` VALUES (248, 'ZM', 'ZMB', 'Zambia', NULL, NULL);
 INSERT INTO `countries` VALUES (249, 'ZW', 'ZWE', 'Zimbabwe', NULL, NULL);
-
--- ----------------------------
--- Table structure for dataset_export_jobs
--- ----------------------------
-DROP TABLE IF EXISTS `dataset_export_jobs`;
-CREATE TABLE `dataset_export_jobs`  (
-                                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                                        `uuid` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-                                        `job_id` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-                                        `user_id` int(11) NULL DEFAULT NULL,
-                                        `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'waiting',
-                                        `visibility` tinyint(1) NOT NULL DEFAULT 1,
-                                        `experiment_type_id` int(11) NULL DEFAULT NULL,
-                                        `dataset_ids` json NULL,
-                                        `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-                                        `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-                                        PRIMARY KEY (`id`) USING BTREE,
-                                        INDEX `experiment_type_id`(`experiment_type_id`) USING BTREE,
-                                        CONSTRAINT `dataset_export_jobs_ibfk_1` FOREIGN KEY (`experiment_type_id`) REFERENCES `experimenttypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for datasetaccesslogs
@@ -1452,6 +1433,7 @@ INSERT INTO `schema_version` VALUES (4, '3.3.2.2', 'update', 'SQL', 'V3.3.2.2__u
 INSERT INTO `schema_version` VALUES (5, '3.4.0', 'update', 'SQL', 'V3.4.0__update.sql', 1635546146, 'germinate3', '2017-01-10 14:23:11', 198, 1);
 INSERT INTO `schema_version` VALUES (6, '3.4.0.1', 'update', 'SQL', 'V3.4.0.1__update.sql', -1497522993, 'germinate3', '2017-09-28 15:58:00', 161, 1);
 INSERT INTO `schema_version` VALUES (7, '3.5.0', 'update', 'SQL', 'V3.5.0__update.sql', -1130493621, 'germinate3', '2018-03-27 14:29:38', 132, 1);
+INSERT INTO `schema_version` VALUES (8, '3.6.0', 'update', 'SQL', 'V3.6.0__update.sql', -848461383, 'germinate3', '2018-03-27 14:29:38', 123, 1);
 
 -- ----------------------------
 -- Table structure for storage

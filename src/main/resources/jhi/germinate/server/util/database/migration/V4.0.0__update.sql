@@ -111,4 +111,22 @@ ADD CONSTRAINT `datasets_ibfk_experiment` FOREIGN KEY (`experiment_id`) REFERENC
 ADD CONSTRAINT `datasets_ibfk_dataset_state` FOREIGN KEY (`dataset_state_id`) REFERENCES `datasetstates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `datasets_ibfk_license` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
+CREATE TABLE `imagetags`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag_name` varchar(255) NOT NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`, `tag_name`)
+);
+
+CREATE TABLE `image_to_tags`  (
+  `image_id` int(11) NOT NULL,
+  `imagetag_id` int(11) NOT NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`image_id`, `imagetag_id`),
+  CONSTRAINT `image_to_tag_ibfk_image` FOREIGN KEY (`image_id`) REFERENCES `germinate_demo_api`.`images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `image_to_tag_ibfk_imagetag` FOREIGN KEY (`imagetag_id`) REFERENCES `germinate_demo_api`.`imagetags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 SET FOREIGN_KEY_CHECKS=1;

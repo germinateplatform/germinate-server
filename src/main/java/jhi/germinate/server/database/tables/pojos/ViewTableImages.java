@@ -6,8 +6,11 @@ package jhi.germinate.server.database.tables.pojos;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 import javax.annotation.Generated;
+
+import jhi.germinate.resource.ImageTag;
 
 
 // @formatter:off
@@ -24,16 +27,17 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableImages implements Serializable {
 
-    private static final long serialVersionUID = -1697642659;
+    private static final long serialVersionUID = -1096618683;
 
-    private Integer   imageId;
-    private String    imageDescription;
-    private Integer   imageForeignId;
-    private String    imagePath;
-    private String    imageType;
-    private String    imageRefTable;
-    private String    referenceName;
-    private Timestamp createdOn;
+    private Integer    imageId;
+    private String     imageDescription;
+    private Integer    imageForeignId;
+    private String     imagePath;
+    private String     imageType;
+    private String     imageRefTable;
+    private String     referenceName;
+    private Timestamp  createdOn;
+    private ImageTag[] tags;
 
     public ViewTableImages() {}
 
@@ -46,17 +50,19 @@ public class ViewTableImages implements Serializable {
         this.imageRefTable = value.imageRefTable;
         this.referenceName = value.referenceName;
         this.createdOn = value.createdOn;
+        this.tags = value.tags;
     }
 
     public ViewTableImages(
-        Integer   imageId,
-        String    imageDescription,
-        Integer   imageForeignId,
-        String    imagePath,
-        String    imageType,
-        String    imageRefTable,
-        String    referenceName,
-        Timestamp createdOn
+        Integer    imageId,
+        String     imageDescription,
+        Integer    imageForeignId,
+        String     imagePath,
+        String     imageType,
+        String     imageRefTable,
+        String     referenceName,
+        Timestamp  createdOn,
+        ImageTag[] tags
     ) {
         this.imageId = imageId;
         this.imageDescription = imageDescription;
@@ -66,6 +72,7 @@ public class ViewTableImages implements Serializable {
         this.imageRefTable = imageRefTable;
         this.referenceName = referenceName;
         this.createdOn = createdOn;
+        this.tags = tags;
     }
 
     public Integer getImageId() {
@@ -132,6 +139,14 @@ public class ViewTableImages implements Serializable {
         this.createdOn = createdOn;
     }
 
+    public ImageTag[] getTags() {
+        return this.tags;
+    }
+
+    public void setTags(ImageTag... tags) {
+        this.tags = tags;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableImages (");
@@ -144,6 +159,7 @@ public class ViewTableImages implements Serializable {
         sb.append(", ").append(imageRefTable);
         sb.append(", ").append(referenceName);
         sb.append(", ").append(createdOn);
+        sb.append(", ").append(Arrays.toString(tags));
 
         sb.append(")");
         return sb.toString();
