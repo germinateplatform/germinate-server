@@ -330,17 +330,4 @@ public class Germinate extends Application
 		router.attach(url, clazz);
 		router.attach(url + "/", clazz);
 	}
-
-	public static String getServerBase(HttpServletRequest req)
-	{
-		String scheme = req.getScheme(); // http or https
-		String serverName = req.getServerName(); // ics.hutton.ac.uk
-		int serverPort = req.getServerPort(); // 80 or 8080 or 443
-		String contextPath = req.getContextPath(); // /germinate-baz
-
-		if (serverPort == 80 || serverPort == 443)
-			return scheme + "://" + serverName + contextPath; // http://ics.hutton.ac.uk/germinate-baz
-		else
-			return scheme + "://" + serverName + ":" + serverPort + contextPath; // http://ics.hutton.ac.uk:8080/germinate-baz
-	}
 }

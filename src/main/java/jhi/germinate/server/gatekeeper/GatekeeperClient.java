@@ -11,9 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.AuthenticationMode;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import okhttp3.*;
 import retrofit2.Response;
 import retrofit2.*;
@@ -157,16 +160,25 @@ public class GatekeeperClient
 		}
 		else if (users == null)
 		{
-			// Try to get them again, Gatekeeper may have been unavailable
-			getUsersFromGatekeeper();
+			if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) != AuthenticationMode.NONE)
+			{
+				// Try to get them again, Gatekeeper may have been unavailable
+				getUsersFromGatekeeper();
 
-			if (users == null)
+				if (users == null)
+					return null;
+				else return
+					users.get(id);
+			}
+			else
+			{
 				return null;
-			else return
-				users.get(id);
+			}
 		}
 		else
+		{
 			return users.get(id);
+		}
 	}
 
 	public static List<ViewUserDetails> getUsers()

@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview implements Serializable {
 
-    private static final long serialVersionUID = 1374182266;
+    private static final long serialVersionUID = 944058436;
 
     private Long germplasm;
     private Long markers;
@@ -31,6 +31,7 @@ public class ViewStatsOverview implements Serializable {
     private Long compounds;
     private Long locations;
     private Long groups;
+    private Long images;
 
     public ViewStatsOverview() {}
 
@@ -41,6 +42,7 @@ public class ViewStatsOverview implements Serializable {
         this.compounds = value.compounds;
         this.locations = value.locations;
         this.groups = value.groups;
+        this.images = value.images;
     }
 
     public ViewStatsOverview(
@@ -49,7 +51,8 @@ public class ViewStatsOverview implements Serializable {
         Long traits,
         Long compounds,
         Long locations,
-        Long groups
+        Long groups,
+        Long images
     ) {
         this.germplasm = germplasm;
         this.markers = markers;
@@ -57,6 +60,7 @@ public class ViewStatsOverview implements Serializable {
         this.compounds = compounds;
         this.locations = locations;
         this.groups = groups;
+        this.images = images;
     }
 
     public Long getGermplasm() {
@@ -107,6 +111,14 @@ public class ViewStatsOverview implements Serializable {
         this.groups = groups;
     }
 
+    public Long getImages() {
+        return this.images;
+    }
+
+    public void setImages(Long images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewStatsOverview (");
@@ -117,6 +129,7 @@ public class ViewStatsOverview implements Serializable {
         sb.append(", ").append(compounds);
         sb.append(", ").append(locations);
         sb.append(", ").append(groups);
+        sb.append(", ").append(images);
 
         sb.append(")");
         return sb.toString();

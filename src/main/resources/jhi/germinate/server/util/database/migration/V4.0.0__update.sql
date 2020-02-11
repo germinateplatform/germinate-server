@@ -129,4 +129,8 @@ CREATE TABLE `image_to_tags`  (
   CONSTRAINT `image_to_tag_ibfk_imagetag` FOREIGN KEY (`imagetag_id`) REFERENCES `germinate_demo_api`.`imagetags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+UPDATE `news` SET `image` = REPLACE(`image`, 'css/images/css-images/', '');
+
+ALTER TABLE `images` ADD INDEX `imagetype_foreign_id`(`foreign_id`) USING BTREE;
+
 SET FOREIGN_KEY_CHECKS=1;

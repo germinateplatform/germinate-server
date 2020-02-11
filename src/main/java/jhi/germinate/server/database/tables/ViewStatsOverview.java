@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
 
-    private static final long serialVersionUID = -244931123;
+    private static final long serialVersionUID = 1160988672;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_stats_overview</code>
@@ -76,6 +76,11 @@ public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
      * The column <code>germinate_template_4_0_0.view_stats_overview.groups</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> GROUPS = createField("groups", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_stats_overview.images</code>.
+     */
+    public final TableField<ViewStatsOverviewRecord, Long> IMAGES = createField("images", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * Create a <code>germinate_template_4_0_0.view_stats_overview</code> table reference
