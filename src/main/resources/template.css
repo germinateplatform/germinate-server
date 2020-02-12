@@ -219,13 +219,3 @@ color: {{PRIMARY}} !important;
 .card.bg-primary {
 border-color: {{PRIMARY}};
 }
-
-
-
-
-
-/* Non-bootstrap stuff */
-
-.app.public {
-background-image: linear-gradient(-65deg, {{PRIMARY}}, #f0f3f5, #f0f3f5) !important;
-}

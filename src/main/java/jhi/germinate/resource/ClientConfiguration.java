@@ -11,6 +11,7 @@ public class ClientConfiguration
 {
 	private List<String>       colorsTemplate;
 	private List<String>       colorsCharts;
+	private String             colorPrimary;
 	private List<String>       hiddenPages;
 	private List<String>       dashboardCategories;
 	private String             googleAnalyticsKey;
@@ -42,6 +43,17 @@ public class ClientConfiguration
 	public ClientConfiguration setColorsCharts(List<String> colorsCharts)
 	{
 		this.colorsCharts = colorsCharts;
+		return this;
+	}
+
+	public String getColorPrimary()
+	{
+		return colorPrimary;
+	}
+
+	public ClientConfiguration setColorPrimary(String colorPrimary)
+	{
+		this.colorPrimary = colorPrimary;
 		return this;
 	}
 
