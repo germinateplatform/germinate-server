@@ -4,9 +4,8 @@ import com.google.gson.JsonArray;
 
 import org.jooq.Result;
 import org.jooq.*;
-import org.restlet.Request;
+import org.jooq.impl.DSL;
 import org.restlet.data.Status;
-import org.restlet.ext.servlet.ServletUtils;
 import org.restlet.resource.*;
 
 import java.io.*;
@@ -20,6 +19,7 @@ import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.tables.Germinatebase;
 import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
@@ -119,12 +119,13 @@ public class GenotypeExportResource extends BaseServerResource
 					File germplasmFile = new File(asyncFolder, dsName + ".germplasm");
 					Files.write(germplasmFile.toPath(), new ArrayList<>(germplasmNames), StandardCharsets.UTF_8);
 				}
-
 				if (!CollectionUtils.isEmpty(markerNames))
 				{
 					File markerFile = new File(asyncFolder, dsName + ".markers");
 					Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
 				}
+				File identifierFile = new File(asyncFolder, dsName + ".identifiers");
+				writeIdentifiersFile(context, identifierFile, germplasmNames, id);
 				File headerFile = new File(asyncFolder, dsName + ".header");
 				Files.write(headerFile.toPath(), getFlapjackHeaders(), StandardCharsets.UTF_8);
 
@@ -259,6 +260,62 @@ public class GenotypeExportResource extends BaseServerResource
 			}
 
 			return result;
+		}
+	}
+
+	static void writeIdentifiersFile(DSLContext context, File targetFile, Set<String> germplasmNames, Integer datasetId)
+	{
+		try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile), StandardCharsets.UTF_8)))
+		{
+			bw.write("# fjFile = PHENOTYPE");
+			bw.newLine();
+			bw.write("\tPUID\tSource Material Name\tSource Material PUID");
+
+			Germinatebase g = GERMINATEBASE.as("g");
+			Field<String> childName = GERMINATEBASE.NAME.as("childName");
+			Field<String> childPuid = GERMINATEBASE.PUID.as("childPuid");
+			Field<String> parentName = g.NAME.as("parentName");
+			Field<String> parentPuid = g.PUID.as("parentPuid");
+
+			SelectJoinStep<Record4<String, String, String, String>> step = context.select(
+				childName,
+				childPuid,
+				parentName,
+				parentPuid
+			).from(GERMINATEBASE.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID)));
+
+			// Restrict to the requested germplasm (if any)
+			if (!CollectionUtils.isEmpty(germplasmNames))
+				step.where(GERMINATEBASE.NAME.in(germplasmNames));
+				// Otherwise, restrict it to everything in this dataset
+			else
+				step.where(DSL.exists(DSL.selectOne()
+										 .from(DATASETMEMBERS)
+										 .where(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID)
+																		 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+																		 .and(DATASETMEMBERS.DATASET_ID.eq(datasetId)))));
+
+			// Get only the ones where there's either an entity parent or the PUID isn't null, otherwise we're wasting space in the file
+			step.where(GERMINATEBASE.ENTITYPARENT_ID.isNotNull().or(GERMINATEBASE.PUID.isNotNull()));
+
+			step.forEach(r -> {
+				try
+				{
+					bw.newLine();
+					bw.write(r.get(childName) + "\t");
+					bw.write((r.get(childPuid) == null ? "" : r.get(childPuid)) + "\t");
+					bw.write((r.get(parentName) == null ? "" : r.get(parentName)) + "\t");
+					bw.write((r.get(parentPuid) == null ? "" : r.get(parentPuid)));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			});
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

@@ -23,6 +23,7 @@ public class GenotypeExporter
 	private File        markersFile;
 	private File        headerFile;
 	private File        flapjackProjectFile;
+	private File        identifierFile;
 	private File        zipFile;
 	private Set<String> germplasm;
 	private Set<String> markers;
@@ -51,6 +52,7 @@ public class GenotypeExporter
 		File markersFile = new File(exporter.folder, exporter.projectName + ".markers");
 		File headersFile = new File(exporter.folder, exporter.projectName + ".header");
 		File mapFile = new File(exporter.folder, exporter.projectName + ".map");
+		File identifierFile = new File(exporter.folder, exporter.projectName + ".identifiers");
 
 		if (germplasmFile.exists() && germplasmFile.isFile())
 			exporter.germplasmFile = germplasmFile;
@@ -58,6 +60,8 @@ public class GenotypeExporter
 			exporter.markersFile = markersFile;
 		if (headersFile.exists() && headersFile.isFile())
 			exporter.headerFile = headersFile;
+		if (identifierFile.exists() && identifierFile.isFile())
+			exporter.identifierFile = identifierFile;
 		if (mapFile.exists() && mapFile.isFile())
 			exporter.mapFile = mapFile;
 		else
@@ -101,6 +105,8 @@ public class GenotypeExporter
 
 		if (mapFile != null)
 			resultFiles.add(mapFile);
+		if (identifierFile != null)
+			resultFiles.add(identifierFile);
 
 		Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File, germplasm, markers, tabbedFile.getAbsolutePath(), false);
 		converter.readInput();

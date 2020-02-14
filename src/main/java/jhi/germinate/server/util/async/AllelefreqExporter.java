@@ -27,6 +27,7 @@ public class AllelefreqExporter
 	private File markersFile;
 	private File headerFile;
 	private File flapjackProjectFile;
+	private File identifierFile;
 	private File zipFile;
 
 	private Set<String>   germplasm;
@@ -59,6 +60,7 @@ public class AllelefreqExporter
 		File headersFile = new File(exporter.folder, exporter.projectName + ".header");
 		File mapFile = new File(exporter.folder, exporter.projectName + ".map");
 		File binningConfigFile = new File(exporter.folder, exporter.projectName + ".json");
+		File identifierFile = new File(exporter.folder, exporter.projectName + ".identifiers");
 
 		if (germplasmFile.exists() && germplasmFile.isFile())
 			exporter.germplasmFile = germplasmFile;
@@ -66,6 +68,8 @@ public class AllelefreqExporter
 			exporter.markersFile = markersFile;
 		if (headersFile.exists() && headersFile.isFile())
 			exporter.headerFile = headersFile;
+		if (identifierFile.exists() && identifierFile.isFile())
+			exporter.identifierFile = identifierFile;
 		if (mapFile.exists() && mapFile.isFile())
 			exporter.mapFile = mapFile;
 		else
@@ -118,6 +122,8 @@ public class AllelefreqExporter
 
 		if (mapFile != null)
 			resultFiles.add(mapFile);
+		if (identifierFile != null)
+			resultFiles.add(identifierFile);
 
 		// TODO
 		int[] counts = new TabFileSubsetter().run(sourceFile, tabbedUnbinnedFile, germplasm, markers, headers);
