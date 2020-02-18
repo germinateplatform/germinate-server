@@ -205,3 +205,26 @@ ALTER TABLE `usergroupmembers` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_
 ALTER TABLE `usergroups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS=1;
+
+/* Add indices on `name` and `number` if they don't already exist */
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS drop_index_if_exists //
+CREATE PROCEDURE drop_index_if_exists(in theTable varchar(128), in theIndexName varchar(128) )
+BEGIN
+ IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name =
+theTable AND index_name = theIndexName) > 0) THEN
+   SET @s = CONCAT('DROP INDEX ' , theIndexName , ' ON ' , theTable);
+   PREPARE stmt FROM @s;
+   EXECUTE stmt;
+ END IF;
+END //
+
+DELIMITER ;
+
+CALL drop_index_if_exists('germinatebase', 'germinatebase_name');
+CALL drop_index_if_exists('germinatebase', 'germinatebase_number');
+
+ALTER TABLE `germinatebase`
+ADD INDEX `germinatebase_name`(`name`) USING BTREE,
+ADD INDEX `germinatebase_number`(`number`) USING BTREE;
