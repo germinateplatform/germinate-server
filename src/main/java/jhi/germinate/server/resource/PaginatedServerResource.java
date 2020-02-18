@@ -30,7 +30,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 	public static final String PARAM_ASCENDING      = "ascending";
 	public static final String PARAM_ORDER_BY       = "orderBy";
 
-	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
 	protected long     previousCount;
 	protected int      currentPage;

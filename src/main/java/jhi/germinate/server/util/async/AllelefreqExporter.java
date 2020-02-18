@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import jhi.flapjack.io.FlapjackFile;
@@ -18,6 +19,8 @@ import jhi.germinate.server.util.TabFileSubsetter;
  */
 public class AllelefreqExporter
 {
+	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
 	private File folder;
 	private File sourceFile;
 	private File mapFile;
@@ -53,7 +56,7 @@ public class AllelefreqExporter
 
 		exporter.tabbedBinnedFile = new File(exporter.folder, exporter.projectName + ".txt");
 		exporter.tabbedUnbinnedFile = new File(exporter.folder, exporter.projectName + "-unbinned.txt");
-		exporter.zipFile = new File(exporter.folder, exporter.projectName + ".zip");
+		exporter.zipFile = new File(exporter.folder, exporter.projectName + SDF.format(new Date()) + ".zip");
 
 		File germplasmFile = new File(exporter.folder, exporter.projectName + ".germplasm");
 		File markersFile = new File(exporter.folder, exporter.projectName + ".markers");
