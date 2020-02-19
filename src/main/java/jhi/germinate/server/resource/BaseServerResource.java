@@ -5,6 +5,7 @@ import org.restlet.resource.ServerResource;
 
 import java.io.*;
 import java.net.*;
+import java.text.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -17,6 +18,8 @@ import jhi.germinate.server.util.watcher.PropertyWatcher;
  */
 public class BaseServerResource extends ServerResource
 {
+	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
 	protected static final String CRLF = "\r\n";
 
 	protected static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, PaginatedServerResource.ExportSettings settings)
@@ -135,5 +138,16 @@ public class BaseServerResource extends ServerResource
 		throws IOException
 	{
 		return createTempFile(null, filename, extension, true);
+	}
+
+	protected synchronized String getFormatted(Date date)
+	{
+		return SDF.format(date);
+	}
+
+	protected synchronized Date parse(String date)
+		throws ParseException
+	{
+		return SDF.parse(date);
 	}
 }

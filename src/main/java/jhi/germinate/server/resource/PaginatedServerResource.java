@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 import java.util.Date;
 
@@ -29,8 +29,6 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 	public static final String PARAM_LIMIT          = "limit";
 	public static final String PARAM_ASCENDING      = "ascending";
 	public static final String PARAM_ORDER_BY       = "orderBy";
-
-	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
 	protected long     previousCount;
 	protected int      currentPage;
@@ -162,7 +160,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		FileRepresentation representation;
 		try
 		{
-			File zipFile = createTempFile(null, name + "-" + SDF.format(new Date()), ".zip", false);
+			File zipFile = createTempFile(null, name + "-" + getFormatted(new Date()), ".zip", false);
 
 			String prefix = zipFile.getAbsolutePath().replace("\\", "/");
 			if (prefix.startsWith("/"))
@@ -178,7 +176,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 				name = name.substring(0, name.length() - 1);
 
 			try (FileSystem fs = FileSystems.newFileSystem(uri, env, null);
-				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + SDF.format(new Date()) + ".txt"), StandardCharsets.UTF_8)))
+				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + getFormatted(new Date()) + ".txt"), StandardCharsets.UTF_8)))
 			{
 				exportToFile(bw, results, true, null);
 			}
@@ -206,7 +204,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		FileRepresentation representation;
 		try
 		{
-			File zipFile = createTempFile(null, name, ".zip", false);
+			File zipFile = createTempFile(null, name + "-" + getFormatted(new Date()), ".zip", false);
 
 			String prefix = zipFile.getAbsolutePath().replace("\\", "/");
 			if (prefix.startsWith("/"))
@@ -224,7 +222,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);
 				 FileSystem fs = FileSystems.newFileSystem(uri, env, null);
-				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + ".txt"), StandardCharsets.UTF_8)))
+				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + getFormatted(new Date()) +  ".txt"), StandardCharsets.UTF_8)))
 			{
 				SelectJoinStep<Record> from = context.select()
 													 .from(table);

@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
@@ -40,7 +41,7 @@ public class CompoundExportResource extends BaseServerResource
 		FileRepresentation representation;
 		try
 		{
-			File file = createTempFile("compound-" + CollectionUtils.join(datasetIds, "-"), ".tsv");
+			File file = createTempFile("compound-" + CollectionUtils.join(datasetIds, "-") + "-" + getFormatted(new Date()), ".tsv");
 
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);
@@ -70,9 +71,11 @@ public class CompoundExportResource extends BaseServerResource
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 
+			Disposition disposition = new Disposition(Disposition.TYPE_ATTACHMENT);
+			disposition.setFilename(file.getName());
 			representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
 			representation.setSize(file.length());
-			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+			representation.setDisposition(disposition);
 		}
 		catch (IOException e)
 		{

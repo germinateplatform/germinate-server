@@ -297,6 +297,8 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/usergroup/{usergroupId}/user", UserResource.class);
 		attachToRouter(routerAuth, "/user", UserResource.class);
 
+		attachToRouter(routerAuth, "/log", LogResource.class);
+
 		attachToRouter(routerUnauth, "/gatekeeper/institution", GatekeeperInstitutionResource.class);
 		attachToRouter(routerUnauth, "/gatekeeper/user/existing", GatekeeperExistingUserResource.class);
 		attachToRouter(routerUnauth, "/gatekeeper/user/new", GatekeeperNewUserResource.class);
