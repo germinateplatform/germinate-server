@@ -29,10 +29,11 @@ import jhi.germinate.resource.DublinCore;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets implements Serializable {
 
-    private static final long serialVersionUID = -1470315996;
+    private static final long serialVersionUID = -1411266199;
 
     private Integer    id;
     private Integer    experimentId;
+    private Integer    datasettypeId;
     private String     name;
     private String     description;
     private Date       dateStart;
@@ -55,6 +56,7 @@ public class Datasets implements Serializable {
     public Datasets(Datasets value) {
         this.id = value.id;
         this.experimentId = value.experimentId;
+        this.datasettypeId = value.datasettypeId;
         this.name = value.name;
         this.description = value.description;
         this.dateStart = value.dateStart;
@@ -76,6 +78,7 @@ public class Datasets implements Serializable {
     public Datasets(
         Integer    id,
         Integer    experimentId,
+        Integer    datasettypeId,
         String     name,
         String     description,
         Date       dateStart,
@@ -95,6 +98,7 @@ public class Datasets implements Serializable {
     ) {
         this.id = id;
         this.experimentId = experimentId;
+        this.datasettypeId = datasettypeId;
         this.name = name;
         this.description = description;
         this.dateStart = dateStart;
@@ -127,6 +131,14 @@ public class Datasets implements Serializable {
 
     public void setExperimentId(Integer experimentId) {
         this.experimentId = experimentId;
+    }
+
+    public Integer getDatasettypeId() {
+        return this.datasettypeId;
+    }
+
+    public void setDatasettypeId(Integer datasettypeId) {
+        this.datasettypeId = datasettypeId;
     }
 
     public String getName() {
@@ -263,6 +275,7 @@ public class Datasets implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(experimentId);
+        sb.append(", ").append(datasettypeId);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
         sb.append(", ").append(dateStart);

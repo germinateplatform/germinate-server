@@ -28,7 +28,7 @@ import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs implements Serializable {
 
-    private static final long serialVersionUID = -1992491636;
+    private static final long serialVersionUID = 1701621171;
 
     private Integer                 id;
     private String                  uuid;
@@ -36,7 +36,7 @@ public class DatasetExportJobs implements Serializable {
     private Integer                 userId;
     private DatasetExportJobsStatus status;
     private Boolean                 visibility;
-    private Integer                 experimentTypeId;
+    private Integer                 datasettypeId;
     private JsonArray               datasetIds;
     private Timestamp               createdOn;
     private Timestamp               updatedOn;
@@ -50,7 +50,7 @@ public class DatasetExportJobs implements Serializable {
         this.userId = value.userId;
         this.status = value.status;
         this.visibility = value.visibility;
-        this.experimentTypeId = value.experimentTypeId;
+        this.datasettypeId = value.datasettypeId;
         this.datasetIds = value.datasetIds;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
@@ -63,7 +63,7 @@ public class DatasetExportJobs implements Serializable {
         Integer                 userId,
         DatasetExportJobsStatus status,
         Boolean                 visibility,
-        Integer                 experimentTypeId,
+        Integer                 datasettypeId,
         JsonArray               datasetIds,
         Timestamp               createdOn,
         Timestamp               updatedOn
@@ -74,7 +74,7 @@ public class DatasetExportJobs implements Serializable {
         this.userId = userId;
         this.status = status;
         this.visibility = visibility;
-        this.experimentTypeId = experimentTypeId;
+        this.datasettypeId = datasettypeId;
         this.datasetIds = datasetIds;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
@@ -128,12 +128,12 @@ public class DatasetExportJobs implements Serializable {
         this.visibility = visibility;
     }
 
-    public Integer getExperimentTypeId() {
-        return this.experimentTypeId;
+    public Integer getDatasettypeId() {
+        return this.datasettypeId;
     }
 
-    public void setExperimentTypeId(Integer experimentTypeId) {
-        this.experimentTypeId = experimentTypeId;
+    public void setDatasettypeId(Integer datasettypeId) {
+        this.datasettypeId = datasettypeId;
     }
 
     public JsonArray getDatasetIds() {
@@ -170,7 +170,7 @@ public class DatasetExportJobs implements Serializable {
         sb.append(", ").append(userId);
         sb.append(", ").append(status);
         sb.append(", ").append(visibility);
-        sb.append(", ").append(experimentTypeId);
+        sb.append(", ").append(datasettypeId);
         sb.append(", ").append(datasetIds);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);

@@ -34,7 +34,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJobsRecord> implements Record10<Integer, String, String, Integer, DatasetExportJobsStatus, Boolean, Integer, JsonArray, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1819608168;
+    private static final long serialVersionUID = -1195627695;
 
     /**
      * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.id</code>.
@@ -121,16 +121,16 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.experiment_type_id</code>.
+     * Setter for <code>germinate_template_4_0_0.dataset_export_jobs.datasettype_id</code>.
      */
-    public void setExperimentTypeId(Integer value) {
+    public void setDatasettypeId(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.experiment_type_id</code>.
+     * Getter for <code>germinate_template_4_0_0.dataset_export_jobs.datasettype_id</code>.
      */
-    public Integer getExperimentTypeId() {
+    public Integer getDatasettypeId() {
         return (Integer) get(6);
     }
 
@@ -261,7 +261,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      */
     @Override
     public Field<Integer> field7() {
-        return DatasetExportJobs.DATASET_EXPORT_JOBS.EXPERIMENT_TYPE_ID;
+        return DatasetExportJobs.DATASET_EXPORT_JOBS.DATASETTYPE_ID;
     }
 
     /**
@@ -341,7 +341,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      */
     @Override
     public Integer component7() {
-        return getExperimentTypeId();
+        return getDatasettypeId();
     }
 
     /**
@@ -421,7 +421,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      */
     @Override
     public Integer value7() {
-        return getExperimentTypeId();
+        return getDatasettypeId();
     }
 
     /**
@@ -507,7 +507,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
      */
     @Override
     public DatasetExportJobsRecord value7(Integer value) {
-        setExperimentTypeId(value);
+        setDatasettypeId(value);
         return this;
     }
 
@@ -570,7 +570,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
     /**
      * Create a detached, initialised DatasetExportJobsRecord
      */
-    public DatasetExportJobsRecord(Integer id, String uuid, String jobId, Integer userId, DatasetExportJobsStatus status, Boolean visibility, Integer experimentTypeId, JsonArray datasetIds, Timestamp createdOn, Timestamp updatedOn) {
+    public DatasetExportJobsRecord(Integer id, String uuid, String jobId, Integer userId, DatasetExportJobsStatus status, Boolean visibility, Integer datasettypeId, JsonArray datasetIds, Timestamp createdOn, Timestamp updatedOn) {
         super(DatasetExportJobs.DATASET_EXPORT_JOBS);
 
         set(0, id);
@@ -579,7 +579,7 @@ public class DatasetExportJobsRecord extends UpdatableRecordImpl<DatasetExportJo
         set(3, userId);
         set(4, status);
         set(5, visibility);
-        set(6, experimentTypeId);
+        set(6, datasettypeId);
         set(7, datasetIds);
         set(8, createdOn);
         set(9, updatedOn);

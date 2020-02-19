@@ -17,20 +17,49 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
-CREATE TABLE `dataset_export_jobs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) NOT NULL,
-  `job_id` text NOT NULL,
-  `user_id` int(11) NULL,
-  `status` enum('waiting','running','failed','completed','cancelled') NOT NULL DEFAULT 'waiting',
-  `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `experiment_type_id` int(11) NULL,
-  `dataset_ids` json NULL,
-  `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`experiment_type_id`) REFERENCES `experimenttypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-);
+/* SETUP */
+DROP PROCEDURE IF EXISTS drop_all_indexes;
+
+DELIMITER //
+
+CREATE PROCEDURE drop_all_indexes(IN tableName TEXT)
+
+BEGIN
+
+    DECLARE index_name TEXT DEFAULT NULL;
+    DECLARE done TINYINT DEFAULT FALSE;
+
+    DECLARE cursor1 CURSOR FOR SELECT constraint_name
+                               FROM information_schema.TABLE_CONSTRAINTS
+                               WHERE TABLE_SCHEMA = database()
+                                 AND TABLE_NAME = tableName
+                                 AND CONSTRAINT_TYPE = "FOREIGN KEY";
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cursor1;
+
+    my_loop:
+        LOOP
+
+            FETCH NEXT FROM cursor1 INTO index_name;
+
+            IF done THEN
+                LEAVE my_loop;
+            ELSE
+                SET @query = CONCAT('ALTER TABLE `', tableName, '` DROP FOREIGN KEY ', index_name);
+                PREPARE stmt FROM @query;
+                EXECUTE stmt;
+                DEALLOCATE PREPARE stmt;
+
+            END IF;
+        END LOOP;
+
+END;
+//
+
+DELIMITER ;
+
 
 INSERT INTO `groups` (`name`, `description`, `visibility`, `grouptype_id`) SELECT `name`, `name`, 1, 1 FROM `megaenvironments`;
 
@@ -58,51 +87,7 @@ CREATE TABLE `datasetlocations`  (
 
 INSERT INTO `datasetlocations` (`dataset_id`, `location_id`) SELECT `id`, `location_id` FROM `datasets` WHERE NOT ISNULL(`location_id`);
 
-DROP PROCEDURE IF EXISTS drop_all_indexes;
-
-DELIMITER //
-
-CREATE PROCEDURE drop_all_indexes()
-
-BEGIN
-
-    DECLARE index_name TEXT DEFAULT NULL;
-    DECLARE done TINYINT DEFAULT FALSE;
-
-    DECLARE cursor1 CURSOR FOR SELECT constraint_name
-                               FROM information_schema.TABLE_CONSTRAINTS
-                               WHERE TABLE_SCHEMA = database()
-                                 AND TABLE_NAME = "datasets"
-                                 AND CONSTRAINT_TYPE = "FOREIGN KEY";
-
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-    OPEN cursor1;
-
-    my_loop:
-        LOOP
-
-            FETCH NEXT FROM cursor1 INTO index_name;
-
-            IF done THEN
-                LEAVE my_loop;
-            ELSE
-                SET @query = CONCAT('ALTER TABLE `datasets` DROP FOREIGN KEY ', index_name);
-                PREPARE stmt FROM @query;
-                EXECUTE stmt;
-                DEALLOCATE PREPARE stmt;
-
-            END IF;
-        END LOOP;
-
-END;
-//
-
-DELIMITER ;
-
-CALL drop_all_indexes();
-
-DROP PROCEDURE IF EXISTS drop_all_indexes;
+CALL drop_all_indexes('datasets');
 
 ALTER TABLE `datasets` DROP `location_id`;
 
@@ -133,6 +118,53 @@ UPDATE `news` SET `image` = REPLACE(`image`, 'css/images/css-images/', '');
 
 ALTER TABLE `images` ADD INDEX `imagetype_foreign_id`(`foreign_id`) USING BTREE;
 
+/* Add indices on `name` and `number` if they don't already exist */
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS drop_index_if_exists //
+CREATE PROCEDURE drop_index_if_exists(in theTable varchar(128), in theIndexName varchar(128) )
+BEGIN
+ IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name =
+theTable AND index_name = theIndexName) > 0) THEN
+   SET @s = CONCAT('DROP INDEX ' , theIndexName , ' ON ' , theTable);
+   PREPARE stmt FROM @s;
+   EXECUTE stmt;
+ END IF;
+END //
+
+DELIMITER ;
+
+CALL drop_index_if_exists('germinatebase', 'germinatebase_name');
+CALL drop_index_if_exists('germinatebase', 'germinatebase_number');
+
+ALTER TABLE `germinatebase`
+ADD INDEX `germinatebase_name`(`name`) USING BTREE,
+ADD INDEX `germinatebase_number`(`number`) USING BTREE;
+
+/* Move experiment type to dataset type */
+ALTER TABLE `datasets` ADD COLUMN `datasettype_id` int(11) NOT NULL DEFAULT -1 COMMENT 'Foreign key to datasettypes (datasettypes.id).' AFTER `experiment_id`;
+UPDATE `datasets` SET `datasettype_id` = ( SELECT `experiment_type_id` FROM `experiments` WHERE `experiments`.`id` = `datasets`.`experiment_id` );
+CALL drop_all_indexes('experiments');
+ALTER TABLE `experiments` DROP COLUMN `experiment_type_id`;
+RENAME TABLE `experimenttypes` TO `datasettypes`;
+ALTER TABLE `datasettypes`ADD INDEX(`id`);
+ALTER TABLE `datasets` ADD CONSTRAINT `datasets_ibfk_datasettypes` FOREIGN KEY (`datasettype_id`) REFERENCES `datasettypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `dataset_export_jobs`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(36) NOT NULL,
+  `job_id` text NOT NULL,
+  `user_id` int(11) NULL,
+  `status` enum('waiting','running','failed','completed','cancelled') NOT NULL DEFAULT 'waiting',
+  `visibility` tinyint(1) NOT NULL DEFAULT 1,
+  `datasettype_id` int(11) NULL,
+  `dataset_ids` json NULL,
+  `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`datasettype_id`) REFERENCES `datasettypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
 /* Convert the whole database to UTF-8 */
 ALTER TABLE `analysismethods` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `attributedata` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -158,9 +190,9 @@ ALTER TABLE `datasetmeta` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unico
 ALTER TABLE `datasetpermissions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `datasets` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `datasetstates` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `datasettypes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `entitytypes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `experiments` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `experimenttypes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `germinatebase` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `groupmembers` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -204,27 +236,8 @@ ALTER TABLE `units` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `usergroupmembers` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `usergroups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+/* Cleanup */
+DROP PROCEDURE IF EXISTS drop_all_indexes;
+DROP PROCEDURE IF EXISTS drop_index_if_exists;
+
 SET FOREIGN_KEY_CHECKS=1;
-
-/* Add indices on `name` and `number` if they don't already exist */
-DELIMITER //
-
-DROP PROCEDURE IF EXISTS drop_index_if_exists //
-CREATE PROCEDURE drop_index_if_exists(in theTable varchar(128), in theIndexName varchar(128) )
-BEGIN
- IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name =
-theTable AND index_name = theIndexName) > 0) THEN
-   SET @s = CONCAT('DROP INDEX ' , theIndexName , ' ON ' , theTable);
-   PREPARE stmt FROM @s;
-   EXECUTE stmt;
- END IF;
-END //
-
-DELIMITER ;
-
-CALL drop_index_if_exists('germinatebase', 'germinatebase_name');
-CALL drop_index_if_exists('germinatebase', 'germinatebase_number');
-
-ALTER TABLE `germinatebase`
-ADD INDEX `germinatebase_name`(`name`) USING BTREE,
-ADD INDEX `germinatebase_number`(`number`) USING BTREE;

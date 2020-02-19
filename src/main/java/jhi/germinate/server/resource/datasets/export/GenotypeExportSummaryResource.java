@@ -18,8 +18,8 @@ import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.tables.Datasets.*;
+import static jhi.germinate.server.database.tables.Datasettypes.*;
 import static jhi.germinate.server.database.tables.Experiments.*;
-import static jhi.germinate.server.database.tables.Experimenttypes.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
 
 /**
@@ -94,8 +94,8 @@ public class GenotypeExportSummaryResource extends PaginatedServerResource
 			)
 															  .from(DATASETS)
 															  .leftJoin(EXPERIMENTS).on(EXPERIMENTS.ID.eq(DATASETS.EXPERIMENT_ID))
-															  .leftJoin(EXPERIMENTTYPES).on(EXPERIMENTTYPES.ID.eq(EXPERIMENTS.EXPERIMENT_TYPE_ID))
-															  .where(EXPERIMENTTYPES.DESCRIPTION.eq("genotype"))
+															  .leftJoin(DATASETTYPES).on(DATASETTYPES.ID.eq(DATASETS.DATASETTYPE_ID))
+															  .where(DATASETTYPES.DESCRIPTION.eq("genotype"))
 															  .and(DATASETS.IS_EXTERNAL.eq(false))
 															  .and(DATASETS.ID.in(requestedIds))
 															  .groupBy(DATASETS.ID);

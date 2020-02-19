@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableExperiments extends TableImpl<ViewTableExperimentsRecord> {
 
-    private static final long serialVersionUID = -2138618778;
+    private static final long serialVersionUID = 425637012;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_experiments</code>
@@ -71,14 +71,34 @@ public class ViewTableExperiments extends TableImpl<ViewTableExperimentsRecord> 
     public final TableField<ViewTableExperimentsRecord, Date> EXPERIMENT_DATE = createField("experiment_date", org.jooq.impl.SQLDataType.DATE, this, "The date that the experiment was carried out.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.experimenttype_description</code>. Describes the experiment type.
-     */
-    public final TableField<ViewTableExperimentsRecord, String> EXPERIMENTTYPE_DESCRIPTION = createField("experimenttype_description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the experiment type.");
-
-    /**
      * The column <code>germinate_template_4_0_0.view_table_experiments.created_on</code>. When the record was created.
      */
     public final TableField<ViewTableExperimentsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was created.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_experiments.genotype_count</code>.
+     */
+    public final TableField<ViewTableExperimentsRecord, Long> GENOTYPE_COUNT = createField("genotype_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_experiments.trials_count</code>.
+     */
+    public final TableField<ViewTableExperimentsRecord, Long> TRIALS_COUNT = createField("trials_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_experiments.allele_freq_count</code>.
+     */
+    public final TableField<ViewTableExperimentsRecord, Long> ALLELE_FREQ_COUNT = createField("allele_freq_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_experiments.climate_count</code>.
+     */
+    public final TableField<ViewTableExperimentsRecord, Long> CLIMATE_COUNT = createField("climate_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_experiments.compound_count</code>.
+     */
+    public final TableField<ViewTableExperimentsRecord, Long> COMPOUND_COUNT = createField("compound_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * Create a <code>germinate_template_4_0_0.view_table_experiments</code> table reference

@@ -49,7 +49,7 @@ public class DatasetSourceDownloadResource extends BaseServerResource
 		MediaType type;
 
 		ViewTableDatasets dataset = datasets.get(0);
-		switch (dataset.getExperimentType()) {
+		switch (dataset.getDatasetType()) {
 			case "allelefreq":
 				 file = getFromExternal(dataset.getSourceFile(), "data", "allelefreq");
 				 type = MediaType.TEXT_PLAIN;

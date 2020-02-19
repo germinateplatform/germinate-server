@@ -25,14 +25,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiments implements Serializable {
 
-    private static final long serialVersionUID = 1803462100;
+    private static final long serialVersionUID = 192786350;
 
     private Integer   id;
     private String    experimentName;
     private Integer   userId;
     private String    description;
     private Date      experimentDate;
-    private Integer   experimentTypeId;
     private Timestamp createdOn;
     private Timestamp updatedOn;
 
@@ -44,7 +43,6 @@ public class Experiments implements Serializable {
         this.userId = value.userId;
         this.description = value.description;
         this.experimentDate = value.experimentDate;
-        this.experimentTypeId = value.experimentTypeId;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -55,7 +53,6 @@ public class Experiments implements Serializable {
         Integer   userId,
         String    description,
         Date      experimentDate,
-        Integer   experimentTypeId,
         Timestamp createdOn,
         Timestamp updatedOn
     ) {
@@ -64,7 +61,6 @@ public class Experiments implements Serializable {
         this.userId = userId;
         this.description = description;
         this.experimentDate = experimentDate;
-        this.experimentTypeId = experimentTypeId;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -109,14 +105,6 @@ public class Experiments implements Serializable {
         this.experimentDate = experimentDate;
     }
 
-    public Integer getExperimentTypeId() {
-        return this.experimentTypeId;
-    }
-
-    public void setExperimentTypeId(Integer experimentTypeId) {
-        this.experimentTypeId = experimentTypeId;
-    }
-
     public Timestamp getCreatedOn() {
         return this.createdOn;
     }
@@ -142,7 +130,6 @@ public class Experiments implements Serializable {
         sb.append(", ").append(userId);
         sb.append(", ").append(description);
         sb.append(", ").append(experimentDate);
-        sb.append(", ").append(experimentTypeId);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

@@ -32,7 +32,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -881322900;
+    private static final long serialVersionUID = -1281942938;
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -105,16 +105,16 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
+     * Setter for <code>germinate_template_4_0_0.view_table_datasets.dataset_type</code>. Describes the experiment type.
      */
-    public void setExperimentType(String value) {
+    public void setDatasetType(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_datasets.experiment_type</code>. Describes the experiment type.
+     * Getter for <code>germinate_template_4_0_0.view_table_datasets.dataset_type</code>. Describes the experiment type.
      */
-    public String getExperimentType() {
+    public String getDatasetType() {
         return (String) get(5);
     }
 
@@ -370,7 +370,7 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     /**
      * Create a detached, initialised ViewTableDatasetsRecord
      */
-    public ViewTableDatasetsRecord(Integer datasetId, String datasetName, String datasetDescription, String hyperlink, String sourceFile, String experimentType, Integer experimentId, String experimentName, String datatype, String datasetState, DatasetLocation[] locations, Integer licenseId, String licenseName, String contact, Date startDate, Date endDate, DublinCore dublinCore, ULong dataObjectCount, ULong dataPointCount, Boolean isExternal, Long collaborators, Long attributes, JsonArray acceptedBy) {
+    public ViewTableDatasetsRecord(Integer datasetId, String datasetName, String datasetDescription, String hyperlink, String sourceFile, String datasetType, Integer experimentId, String experimentName, String datatype, String datasetState, DatasetLocation[] locations, Integer licenseId, String licenseName, String contact, Date startDate, Date endDate, DublinCore dublinCore, ULong dataObjectCount, ULong dataPointCount, Boolean isExternal, Long collaborators, Long attributes, JsonArray acceptedBy) {
         super(ViewTableDatasets.VIEW_TABLE_DATASETS);
 
         set(0, datasetId);
@@ -378,7 +378,7 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
         set(2, datasetDescription);
         set(3, hyperlink);
         set(4, sourceFile);
-        set(5, experimentType);
+        set(5, datasetType);
         set(6, experimentId);
         set(7, experimentName);
         set(8, datatype);

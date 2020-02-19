@@ -44,7 +44,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasets extends TableImpl<DatasetsRecord> {
 
-    private static final long serialVersionUID = 1202876040;
+    private static final long serialVersionUID = 1180833687;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.datasets</code>
@@ -68,6 +68,11 @@ public class Datasets extends TableImpl<DatasetsRecord> {
      * The column <code>germinate_template_4_0_0.datasets.experiment_id</code>. Foreign key to experiments (experiments.id).
      */
     public final TableField<DatasetsRecord, Integer> EXPERIMENT_ID = createField("experiment_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Foreign key to experiments (experiments.id).");
+
+    /**
+     * The column <code>germinate_template_4_0_0.datasets.datasettype_id</code>. Foreign key to datasettypes (datasettypes.id).
+     */
+    public final TableField<DatasetsRecord, Integer> DATASETTYPE_ID = createField("datasettype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("-1", org.jooq.impl.SQLDataType.INTEGER)), this, "Foreign key to datasettypes (datasettypes.id).");
 
     /**
      * The column <code>germinate_template_4_0_0.datasets.name</code>. Describes the dataset.

@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiments extends TableImpl<ExperimentsRecord> {
 
-    private static final long serialVersionUID = 1110948178;
+    private static final long serialVersionUID = -1603606133;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.experiments</code>
@@ -80,12 +80,6 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
      * The column <code>germinate_template_4_0_0.experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public final TableField<ExperimentsRecord, Date> EXPERIMENT_DATE = createField("experiment_date", org.jooq.impl.SQLDataType.DATE, this, "The date that the experiment was carried out.");
-
-    /**
-     * The column <code>germinate_template_4_0_0.experiments.experiment_type_id</code>. Foreign key to experimenttypes (experimenttypes.id).
-
-     */
-    public final TableField<ExperimentsRecord, Integer> EXPERIMENT_TYPE_ID = createField("experiment_type_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to experimenttypes (experimenttypes.id).\n");
 
     /**
      * The column <code>germinate_template_4_0_0.experiments.created_on</code>. When the record was created.

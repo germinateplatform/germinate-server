@@ -43,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
 
-    private static final long serialVersionUID = -1838707733;
+    private static final long serialVersionUID = -1213567103;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.dataset_export_jobs</code>
@@ -89,9 +89,9 @@ public class DatasetExportJobs extends TableImpl<DatasetExportJobsRecord> {
     public final TableField<DatasetExportJobsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.dataset_export_jobs.experiment_type_id</code>.
+     * The column <code>germinate_template_4_0_0.dataset_export_jobs.datasettype_id</code>.
      */
-    public final TableField<DatasetExportJobsRecord, Integer> EXPERIMENT_TYPE_ID = createField("experiment_type_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<DatasetExportJobsRecord, Integer> DATASETTYPE_ID = createField("datasettype_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>germinate_template_4_0_0.dataset_export_jobs.dataset_ids</code>.

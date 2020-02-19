@@ -25,14 +25,18 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableExperiments implements Serializable {
 
-    private static final long serialVersionUID = -252128690;
+    private static final long serialVersionUID = -1149468531;
 
     private Integer   experimentId;
     private String    experimentName;
     private String    experimentDescription;
     private Date      experimentDate;
-    private String    experimenttypeDescription;
     private Timestamp createdOn;
+    private Long      genotypeCount;
+    private Long      trialsCount;
+    private Long      alleleFreqCount;
+    private Long      climateCount;
+    private Long      compoundCount;
 
     public ViewTableExperiments() {}
 
@@ -41,8 +45,12 @@ public class ViewTableExperiments implements Serializable {
         this.experimentName = value.experimentName;
         this.experimentDescription = value.experimentDescription;
         this.experimentDate = value.experimentDate;
-        this.experimenttypeDescription = value.experimenttypeDescription;
         this.createdOn = value.createdOn;
+        this.genotypeCount = value.genotypeCount;
+        this.trialsCount = value.trialsCount;
+        this.alleleFreqCount = value.alleleFreqCount;
+        this.climateCount = value.climateCount;
+        this.compoundCount = value.compoundCount;
     }
 
     public ViewTableExperiments(
@@ -50,15 +58,23 @@ public class ViewTableExperiments implements Serializable {
         String    experimentName,
         String    experimentDescription,
         Date      experimentDate,
-        String    experimenttypeDescription,
-        Timestamp createdOn
+        Timestamp createdOn,
+        Long      genotypeCount,
+        Long      trialsCount,
+        Long      alleleFreqCount,
+        Long      climateCount,
+        Long      compoundCount
     ) {
         this.experimentId = experimentId;
         this.experimentName = experimentName;
         this.experimentDescription = experimentDescription;
         this.experimentDate = experimentDate;
-        this.experimenttypeDescription = experimenttypeDescription;
         this.createdOn = createdOn;
+        this.genotypeCount = genotypeCount;
+        this.trialsCount = trialsCount;
+        this.alleleFreqCount = alleleFreqCount;
+        this.climateCount = climateCount;
+        this.compoundCount = compoundCount;
     }
 
     public Integer getExperimentId() {
@@ -93,20 +109,52 @@ public class ViewTableExperiments implements Serializable {
         this.experimentDate = experimentDate;
     }
 
-    public String getExperimenttypeDescription() {
-        return this.experimenttypeDescription;
-    }
-
-    public void setExperimenttypeDescription(String experimenttypeDescription) {
-        this.experimenttypeDescription = experimenttypeDescription;
-    }
-
     public Timestamp getCreatedOn() {
         return this.createdOn;
     }
 
     public void setCreatedOn(Timestamp createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public Long getGenotypeCount() {
+        return this.genotypeCount;
+    }
+
+    public void setGenotypeCount(Long genotypeCount) {
+        this.genotypeCount = genotypeCount;
+    }
+
+    public Long getTrialsCount() {
+        return this.trialsCount;
+    }
+
+    public void setTrialsCount(Long trialsCount) {
+        this.trialsCount = trialsCount;
+    }
+
+    public Long getAlleleFreqCount() {
+        return this.alleleFreqCount;
+    }
+
+    public void setAlleleFreqCount(Long alleleFreqCount) {
+        this.alleleFreqCount = alleleFreqCount;
+    }
+
+    public Long getClimateCount() {
+        return this.climateCount;
+    }
+
+    public void setClimateCount(Long climateCount) {
+        this.climateCount = climateCount;
+    }
+
+    public Long getCompoundCount() {
+        return this.compoundCount;
+    }
+
+    public void setCompoundCount(Long compoundCount) {
+        this.compoundCount = compoundCount;
     }
 
     @Override
@@ -117,8 +165,12 @@ public class ViewTableExperiments implements Serializable {
         sb.append(", ").append(experimentName);
         sb.append(", ").append(experimentDescription);
         sb.append(", ").append(experimentDate);
-        sb.append(", ").append(experimenttypeDescription);
         sb.append(", ").append(createdOn);
+        sb.append(", ").append(genotypeCount);
+        sb.append(", ").append(trialsCount);
+        sb.append(", ").append(alleleFreqCount);
+        sb.append(", ").append(climateCount);
+        sb.append(", ").append(compoundCount);
 
         sb.append(")");
         return sb.toString();

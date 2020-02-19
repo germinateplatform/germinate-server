@@ -97,6 +97,20 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
+	public static void checkGroupVisibility(DSLContext context, CustomVerifier.UserDetails userDetails, Integer groupId) {
+		if (groupId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
+
+		Groups group = context.selectFrom(GROUPS)
+							  .where(GROUPS.ID.eq(groupId))
+							  .and(GROUPS.VISIBILITY.eq(true)
+													.or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+							  .fetchOneInto(Groups.class);
+
+		if (group == null)
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+	}
+
 	public static SelectJoinStep<Record> prepareQuery(Request request, Response response, DSLContext context, Integer groupId, TableImpl table, Field<Integer> field, PaginatedServerResource callee, boolean isIdQuery)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(request, response);

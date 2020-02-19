@@ -6,7 +6,8 @@ import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.Arrays;
+import java.util.*;
+import java.util.Date;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
@@ -15,7 +16,6 @@ import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
-import static jhi.germinate.server.database.tables.ViewTableGroupGermplasm.*;
 
 /**
  * @author Sebastian Raubach
@@ -42,7 +42,7 @@ public class GermplasmExportResource extends PaginatedServerResource
 
 				procedure.execute(context.configuration());
 
-				return export(procedure.getResults().get(0), "germplasm-table-");
+				return export(procedure.getResults().get(0), "germplasm-table-" + getFormatted(new Date()) + "-");
 			}
 			else
 			{
@@ -68,17 +68,17 @@ public class GermplasmExportResource extends PaginatedServerResource
 											 .toArray(String[]::new);
 
 						Filter[] filters = new Filter[1];
-						filters[0] = new Filter(VIEW_TABLE_GROUP_GERMPLASM.GROUP_ID.getName(), "inSet", "and", ids);
+						filters[0] = new Filter("groupId", "inSet", "and", ids);
 						request.setFilter(filters);
 
 						processRequest(request);
-						return export(VIEW_TABLE_GROUP_GERMPLASM, "germplasm-table-", null);
+						return export(VIEW_TABLE_GERMPLASM, "germplasm-table-" + getFormatted(new Date()) + "-", null);
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return export(VIEW_TABLE_GERMPLASM, "germplasm-table-", null);
+				return export(VIEW_TABLE_GERMPLASM, "germplasm-table-" + getFormatted(new Date()) + "-", null);
 			}
 		}
 		catch (SQLException e)

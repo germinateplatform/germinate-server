@@ -10,10 +10,13 @@ import java.sql.*;
 
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 
-import static jhi.germinate.server.database.tables.ViewTableGroupLocations.*;
+import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.tables.Groups.*;
+import static jhi.germinate.server.database.tables.ViewTableLocations.*;
 
 /**
  * @author Sebastian Raubach
@@ -48,7 +51,21 @@ public class GroupLocationTableExportResource extends PaginatedServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record> from = GroupResource.prepareQuery(getRequest(), getResponse(), context, groupId, VIEW_TABLE_GROUP_LOCATIONS, VIEW_TABLE_GROUP_LOCATIONS.GROUP_ID, this, false);
+			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
+
+			SelectSelectStep<Record> select = context.select(VIEW_TABLE_LOCATIONS.fields())
+													 .select(GROUPS.ID.as("group_id"));
+
+			if (previousCount == -1)
+				select.hint("SQL_CALC_FOUND_ROWS");
+
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_LOCATIONS)
+												.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_LOCATIONS.LOCATION_ID))
+												.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
+
+			from.where(GROUPS.GROUPTYPE_ID.eq(1));
+			if (groupId != null)
+				from.where(GROUPS.ID.eq(groupId));
 
 			// Filter here!
 			filter(from, filters);

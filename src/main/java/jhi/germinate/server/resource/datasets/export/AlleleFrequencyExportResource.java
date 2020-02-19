@@ -147,7 +147,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			dbJob.setJobId(jobId);
 			dbJob.setDatasetIds(array);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-			dbJob.setExperimentTypeId(4);
+			dbJob.setDatasettypeId(4);
 			dbJob.setStatus(DatasetExportJobsStatus.running);
 			if (userDetails != null && userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());

@@ -32,14 +32,14 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 1034540809;
+    private static final long serialVersionUID = -1236676908;
 
     private Integer           datasetId;
     private String            datasetName;
     private String            datasetDescription;
     private String            hyperlink;
     private String            sourceFile;
-    private String            experimentType;
+    private String            datasetType;
     private Integer           experimentId;
     private String            experimentName;
     private String            datatype;
@@ -66,7 +66,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetDescription = value.datasetDescription;
         this.hyperlink = value.hyperlink;
         this.sourceFile = value.sourceFile;
-        this.experimentType = value.experimentType;
+        this.datasetType = value.datasetType;
         this.experimentId = value.experimentId;
         this.experimentName = value.experimentName;
         this.datatype = value.datatype;
@@ -92,7 +92,7 @@ public class ViewTableDatasets implements Serializable {
         String            datasetDescription,
         String            hyperlink,
         String            sourceFile,
-        String            experimentType,
+        String            datasetType,
         Integer           experimentId,
         String            experimentName,
         String            datatype,
@@ -116,7 +116,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetDescription = datasetDescription;
         this.hyperlink = hyperlink;
         this.sourceFile = sourceFile;
-        this.experimentType = experimentType;
+        this.datasetType = datasetType;
         this.experimentId = experimentId;
         this.experimentName = experimentName;
         this.datatype = datatype;
@@ -176,12 +176,12 @@ public class ViewTableDatasets implements Serializable {
         this.sourceFile = sourceFile;
     }
 
-    public String getExperimentType() {
-        return this.experimentType;
+    public String getDatasetType() {
+        return this.datasetType;
     }
 
-    public void setExperimentType(String experimentType) {
-        this.experimentType = experimentType;
+    public void setDatasetType(String datasetType) {
+        this.datasetType = datasetType;
     }
 
     public Integer getExperimentId() {
@@ -329,7 +329,7 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(datasetDescription);
         sb.append(", ").append(hyperlink);
         sb.append(", ").append(sourceFile);
-        sb.append(", ").append(experimentType);
+        sb.append(", ").append(datasetType);
         sb.append(", ").append(experimentId);
         sb.append(", ").append(experimentName);
         sb.append(", ").append(datatype);

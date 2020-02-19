@@ -151,7 +151,7 @@ public class GenotypeExportResource extends BaseServerResource
 				dbJob.setJobId(jobId);
 				dbJob.setDatasetIds(array);
 				dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-				dbJob.setExperimentTypeId(1);
+				dbJob.setDatasettypeId(1);
 				dbJob.setStatus(DatasetExportJobsStatus.running);
 				if (userDetails.getId() != -1000)
 					dbJob.setUserId(userDetails.getId());

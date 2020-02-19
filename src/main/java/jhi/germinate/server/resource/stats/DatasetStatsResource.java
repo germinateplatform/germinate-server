@@ -20,8 +20,8 @@ import jhi.germinate.server.util.StringUtils;
 
 import static jhi.germinate.server.database.tables.Datasetmeta.*;
 import static jhi.germinate.server.database.tables.Datasets.*;
+import static jhi.germinate.server.database.tables.Datasettypes.*;
 import static jhi.germinate.server.database.tables.Experiments.*;
-import static jhi.germinate.server.database.tables.Experimenttypes.*;
 
 /**
  * @author Sebastian Raubach
@@ -45,24 +45,24 @@ public class DatasetStatsResource extends BaseServerResource
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				Set<String> years = new TreeSet<>();
-				Map<String, DatasetStats> experimentTypeToStats = new TreeMap<>();
+				Map<String, DatasetStats> datasetTypeToStats = new TreeMap<>();
 
 				Field<String> theYear = DSL.field("DATE_FORMAT({0}, {1})", SQLDataType.VARCHAR, DATASETS.DATE_START, DSL.inline("%Y"));
 
 				context.select(
-					EXPERIMENTTYPES.DESCRIPTION.as("experiment_type"),
+					DATASETTYPES.DESCRIPTION.as("dataset_type"),
 					theYear.as("the_year"),
 					DSL.sum(DATASETMETA.NR_OF_DATA_POINTS).as("nr_of_data_points")
 				)
 					   .from(DATASETS)
 					   .leftJoin(DATASETMETA).on(DATASETMETA.DATASET_ID.eq(DATASETS.ID))
 					   .leftJoin(EXPERIMENTS).on(EXPERIMENTS.ID.eq(DATASETS.EXPERIMENT_ID))
-					   .leftJoin(EXPERIMENTTYPES).on(EXPERIMENTTYPES.ID.eq(EXPERIMENTS.EXPERIMENT_TYPE_ID))
+					   .leftJoin(DATASETTYPES).on(DATASETTYPES.ID.eq(DATASETS.DATASETTYPE_ID))
 					   .where(DATASETS.ID.in(availableDatasets))
 					   .and(DATASETS.IS_EXTERNAL.eq(false))
 					   .and(theYear.isNotNull())
-					   .groupBy(EXPERIMENTTYPES.DESCRIPTION, theYear)
-					   .orderBy(EXPERIMENTTYPES.DESCRIPTION, theYear)
+					   .groupBy(DATASETTYPES.DESCRIPTION, theYear)
+					   .orderBy(DATASETTYPES.DESCRIPTION, theYear)
 					   .forEach(r -> {
 						   String year = r.get("the_year", String.class);
 
@@ -70,28 +70,28 @@ public class DatasetStatsResource extends BaseServerResource
 						   {
 							   years.add(year);
 
-							   String experimentType = r.get("experiment_type", String.class);
+							   String datasetType = r.get("dataset_type", String.class);
 							   BigDecimal value = r.get("nr_of_data_points", BigDecimal.class);
 
-							   DatasetStats stats = experimentTypeToStats.get(experimentType);
+							   DatasetStats stats = datasetTypeToStats.get(datasetType);
 
 							   if (stats == null)
-								   stats = new DatasetStats(experimentType);
+								   stats = new DatasetStats(datasetType);
 
 							   stats.yearToCount.put(year, value == null ? null : value.intValue());
-							   experimentTypeToStats.put(experimentType, stats);
+							   datasetTypeToStats.put(datasetType, stats);
 						   }
 					   });
 
-				bw.write("ExperimentType\t");
+				bw.write("DatasetType\t");
 				bw.write(String.join("\t", years));
 				bw.write(CRLF);
 
-				for (DatasetStats stat : experimentTypeToStats.values())
+				for (DatasetStats stat : datasetTypeToStats.values())
 				{
 					hasResult = true;
 
-					bw.write(stat.experimentType);
+					bw.write(stat.datasetType);
 					for (String year : years)
 					{
 						Integer value = stat.yearToCount.get(year);
@@ -132,19 +132,19 @@ public class DatasetStatsResource extends BaseServerResource
 
 	private static class DatasetStats
 	{
-		private String               experimentType;
+		private String               datasetType;
 		private Map<String, Integer> yearToCount = new HashMap<>();
 
-		private DatasetStats(String experimentType)
+		private DatasetStats(String datasetType)
 		{
-			this.experimentType = experimentType;
+			this.datasetType = datasetType;
 		}
 
 		@Override
 		public String toString()
 		{
 			return "DatasetStats{" +
-				"experimentType='" + experimentType + '\'' +
+				"datasetType='" + datasetType + '\'' +
 				", yearToCount=" + yearToCount +
 				'}';
 		}
