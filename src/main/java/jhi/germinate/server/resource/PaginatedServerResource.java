@@ -244,9 +244,11 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 
+			Disposition disposition = new Disposition(Disposition.TYPE_ATTACHMENT);
+			disposition.setFilename(zipFile.getName());
 			representation = new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);
 			representation.setSize(zipFile.length());
-			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+			representation.setDisposition(disposition);
 			// Remember to delete this after the call, we don't need it anymore
 			representation.setAutoDeleting(true);
 		}

@@ -30,47 +30,47 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmRecord extends TableRecordImpl<ViewTableGermplasmRecord> {
 
-    private static final long serialVersionUID = -2097523839;
-
-    /**
-     * Setter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public void setGermplasmId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
-     */
-    public Integer getGermplasmId() {
-        return (Integer) get(0);
-    }
-
-    /**
-     * Setter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
-     */
-    public void setGermplasmGid(String value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
-     */
-    public String getGermplasmGid() {
-        return (String) get(1);
-    }
+    private static final long serialVersionUID = 2090113007;
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setGermplasmName(String value) {
-        set(2, value);
+        set(0, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getGermplasmName() {
+        return (String) get(0);
+    }
+
+    /**
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public void setGermplasmId(Integer value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public Integer getGermplasmId() {
+        return (Integer) get(1);
+    }
+
+    /**
+     * Setter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
+     */
+    public void setGermplasmGid(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_4_0_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
+     */
+    public String getGermplasmGid() {
         return (String) get(2);
     }
 
@@ -516,12 +516,12 @@ Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zer
     /**
      * Create a detached, initialised ViewTableGermplasmRecord
      */
-    public ViewTableGermplasmRecord(Integer germplasmId, String germplasmGid, String germplasmName, String germplasmNumber, String germplasmPuid, Integer entityTypeId, String entityTypeName, Integer entityParentId, String entityParentName, String entityParentGeneralIdentifier, Integer biologicalStatusId, String biologicalStatusName, JsonArray synonyms, String collectorNumber, String genus, String species, String subtaxa, Integer institutionId, String institutionName, String location, BigDecimal latitude, BigDecimal longitude, BigDecimal elevation, String countryName, String countryCode, Date collDate, Double pdci, Long imageCount, String firstImagePath, Integer hasTrialsData, Integer hasGenotypicData, Integer hasAllelefreqData, Integer hasCompoundData) {
+    public ViewTableGermplasmRecord(String germplasmName, Integer germplasmId, String germplasmGid, String germplasmNumber, String germplasmPuid, Integer entityTypeId, String entityTypeName, Integer entityParentId, String entityParentName, String entityParentGeneralIdentifier, Integer biologicalStatusId, String biologicalStatusName, JsonArray synonyms, String collectorNumber, String genus, String species, String subtaxa, Integer institutionId, String institutionName, String location, BigDecimal latitude, BigDecimal longitude, BigDecimal elevation, String countryName, String countryCode, Date collDate, Double pdci, Long imageCount, String firstImagePath, Integer hasTrialsData, Integer hasGenotypicData, Integer hasAllelefreqData, Integer hasCompoundData) {
         super(ViewTableGermplasm.VIEW_TABLE_GERMPLASM);
 
-        set(0, germplasmId);
-        set(1, germplasmGid);
-        set(2, germplasmName);
+        set(0, germplasmName);
+        set(1, germplasmId);
+        set(2, germplasmGid);
         set(3, germplasmNumber);
         set(4, germplasmPuid);
         set(5, entityTypeId);

@@ -27,11 +27,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm implements Serializable {
 
-    private static final long serialVersionUID = -1275669720;
+    private static final long serialVersionUID = 1294718376;
 
+    private String     germplasmName;
     private Integer    germplasmId;
     private String     germplasmGid;
-    private String     germplasmName;
     private String     germplasmNumber;
     private String     germplasmPuid;
     private Integer    entityTypeId;
@@ -66,9 +66,9 @@ public class ViewTableGermplasm implements Serializable {
     public ViewTableGermplasm() {}
 
     public ViewTableGermplasm(ViewTableGermplasm value) {
+        this.germplasmName = value.germplasmName;
         this.germplasmId = value.germplasmId;
         this.germplasmGid = value.germplasmGid;
-        this.germplasmName = value.germplasmName;
         this.germplasmNumber = value.germplasmNumber;
         this.germplasmPuid = value.germplasmPuid;
         this.entityTypeId = value.entityTypeId;
@@ -102,9 +102,9 @@ public class ViewTableGermplasm implements Serializable {
     }
 
     public ViewTableGermplasm(
+        String     germplasmName,
         Integer    germplasmId,
         String     germplasmGid,
-        String     germplasmName,
         String     germplasmNumber,
         String     germplasmPuid,
         Integer    entityTypeId,
@@ -136,9 +136,9 @@ public class ViewTableGermplasm implements Serializable {
         Integer    hasAllelefreqData,
         Integer    hasCompoundData
     ) {
+        this.germplasmName = germplasmName;
         this.germplasmId = germplasmId;
         this.germplasmGid = germplasmGid;
-        this.germplasmName = germplasmName;
         this.germplasmNumber = germplasmNumber;
         this.germplasmPuid = germplasmPuid;
         this.entityTypeId = entityTypeId;
@@ -171,6 +171,14 @@ public class ViewTableGermplasm implements Serializable {
         this.hasCompoundData = hasCompoundData;
     }
 
+    public String getGermplasmName() {
+        return this.germplasmName;
+    }
+
+    public void setGermplasmName(String germplasmName) {
+        this.germplasmName = germplasmName;
+    }
+
     public Integer getGermplasmId() {
         return this.germplasmId;
     }
@@ -185,14 +193,6 @@ public class ViewTableGermplasm implements Serializable {
 
     public void setGermplasmGid(String germplasmGid) {
         this.germplasmGid = germplasmGid;
-    }
-
-    public String getGermplasmName() {
-        return this.germplasmName;
-    }
-
-    public void setGermplasmName(String germplasmName) {
-        this.germplasmName = germplasmName;
     }
 
     public String getGermplasmNumber() {
@@ -439,9 +439,9 @@ public class ViewTableGermplasm implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableGermplasm (");
 
-        sb.append(germplasmId);
+        sb.append(germplasmName);
+        sb.append(", ").append(germplasmId);
         sb.append(", ").append(germplasmGid);
-        sb.append(", ").append(germplasmName);
         sb.append(", ").append(germplasmNumber);
         sb.append(", ").append(germplasmPuid);
         sb.append(", ").append(entityTypeId);

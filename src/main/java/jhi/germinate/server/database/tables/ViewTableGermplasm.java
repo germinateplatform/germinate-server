@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
 
-    private static final long serialVersionUID = -668441937;
+    private static final long serialVersionUID = 1847273727;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_germplasm</code>
@@ -54,6 +54,11 @@ public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
     }
 
     /**
+     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     */
+    public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_NAME = createField("germplasm_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "A unique name which defines an entry in the germinatbase table.");
+
+    /**
      * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableGermplasmRecord, Integer> GERMPLASM_ID = createField("germplasm_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
@@ -62,11 +67,6 @@ public class ViewTableGermplasm extends TableImpl<ViewTableGermplasmRecord> {
      * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_gid</code>. A unique identifier.
      */
     public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_GID = createField("germplasm_gid", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "A unique identifier.");
-
-    /**
-     * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
-     */
-    public final TableField<ViewTableGermplasmRecord, String> GERMPLASM_NAME = createField("germplasm_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "A unique name which defines an entry in the germinatbase table.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_germplasm.germplasm_number</code>. This is the unique identifier for accessions within a genebank, and is assigned when a sample is
