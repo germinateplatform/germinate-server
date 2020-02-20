@@ -51,12 +51,12 @@ public class TokenResource extends ServerResource
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 
 		if (user == null)
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, StatusMessage.NOT_FOUND_TOKEN);
+			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND, StatusMessage.NOT_FOUND_TOKEN.name());
 
 		CustomVerifier.UserDetails sessionUser = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		if (sessionUser == null || !Objects.equals(sessionUser.getToken(), user.getPassword()))
-			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_ACCESS_TO_OTHER_USER);
+			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_ACCESS_TO_OTHER_USER.name());
 
 		try
 		{
@@ -103,7 +103,9 @@ public class TokenResource extends ServerResource
 										  .findFirst()
 										  .orElse(null);
 
-					if (!StringUtils.isEmpty(userType))
+					if (StringUtils.isEmpty(userType))
+						throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INSUFFICIENT_PERMISSIONS.name());
+					else
 						canAccess = true;
 				}
 				else
@@ -113,13 +115,13 @@ public class TokenResource extends ServerResource
 			}
 			else
 			{
-				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS);
+				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS);
+			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 		}
 
 		String token;
@@ -133,7 +135,7 @@ public class TokenResource extends ServerResource
 		}
 		else
 		{
-			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS);
+			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN, StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 		}
 
 		return new Token(token, imageToken, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), userType, CustomVerifier.AGE, System.currentTimeMillis());
