@@ -26,46 +26,53 @@ public class GatekeeperNewUserResource extends BaseServerResource
 	@Post("json")
 	public Boolean postJson(NewUnapprovedUserRequest request)
 	{
-		try
+		if (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
 		{
-			Response<PaginatedResult<List<DatabaseSystems>>> systems = GatekeeperClient.get().getDatabaseSystems(Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
-
-			if (systems.isSuccessful())
+			try
 			{
-				PaginatedResult<List<DatabaseSystems>> list = systems.body();
+				Response<PaginatedResult<List<DatabaseSystems>>> systems = GatekeeperClient.get().getDatabaseSystems(Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
 
-				if (list != null && !CollectionUtils.isEmpty(list.getData()))
+				if (systems.isSuccessful())
 				{
-					NewUnapprovedUser user = request.getUser();
-					user.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
-					user.setDatabaseSystemId(list.getData().get(0).getId());
-					user.setLocale(request.getLocale());
+					PaginatedResult<List<DatabaseSystems>> list = systems.body();
 
-					Response<Boolean> response = GatekeeperClient.get().addNewRequest(user).execute();
+					if (list != null && !CollectionUtils.isEmpty(list.getData()))
+					{
+						NewUnapprovedUser user = request.getUser();
+						user.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
+						user.setDatabaseSystemId(list.getData().get(0).getId());
+						user.setLocale(request.getLocale());
 
-					if (response.isSuccessful())
-					{
-						return response.body();
-					}
-					else
-					{
-						GatekeeperApiError error = GatekeeperClient.parseError(response);
-						throw new ResourceException(response.code(), error.getDescription());
+						Response<Boolean> response = GatekeeperClient.get().addNewRequest(user).execute();
+
+						if (response.isSuccessful())
+						{
+							return response.body();
+						}
+						else
+						{
+							GatekeeperApiError error = GatekeeperClient.parseError(response);
+							throw new ResourceException(response.code(), error.getDescription());
+						}
 					}
 				}
+				else
+				{
+					GatekeeperApiError error = GatekeeperClient.parseError(systems);
+					throw new ResourceException(systems.code(), error.getDescription());
+				}
 			}
-			else
+			catch (IOException e)
 			{
-				GatekeeperApiError error = GatekeeperClient.parseError(systems);
-				throw new ResourceException(systems.code(), error.getDescription());
+				e.printStackTrace();
+				throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 			}
+
+			return false;
 		}
-		catch (IOException e)
+		else
 		{
-			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 		}
-
-		return false;
 	}
 }

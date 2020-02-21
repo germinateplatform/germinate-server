@@ -206,15 +206,12 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/group/{groupId}/germplasm", GroupGermplasmTableResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/germplasm/export", GroupGermplasmTableExportResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/germplasm/ids", GroupGermplasmTableIdResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/germplasm/add", GroupGermplasmFileAddResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/location", GroupLocationTableResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/location/export", GroupLocationTableExportResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/location/ids", GroupLocationTableIdResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/location/add", GroupLocationFileAddResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/marker", GroupMarkerTableResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/marker/export", GroupMarkerTableExportResource.class);
 		attachToRouter(routerAuth, "/group/{groupId}/marker/ids", GroupMarkerTableIdResource.class);
-		attachToRouter(routerAuth, "/group/{groupId}/marker/add", GroupMarkerFileAddResource.class);
 		attachToRouter(routerUnauth, "/group/upload", CurlyWhirlyGroupCreationResource.class);
 		attachToRouter(routerAuth, "/grouptype", GroupTypeResource.class);
 

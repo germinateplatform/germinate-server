@@ -6,7 +6,7 @@ import org.restlet.resource.ResourceException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
@@ -54,7 +54,13 @@ public class GatekeeperClient
 
 	private static void reset()
 	{
-		OkHttpClient httpClient = new OkHttpClient.Builder().build();
+		OkHttpClient httpClient = new OkHttpClient.Builder()
+			.readTimeout(1, TimeUnit.MINUTES)
+			.callTimeout(1, TimeUnit.MINUTES)
+			.connectTimeout(1, TimeUnit.MINUTES)
+			.writeTimeout(1, TimeUnit.MINUTES)
+			.retryOnConnectionFailure(true)
+			.build();
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
 										   .addConverterFactory(GsonConverterFactory.create())
 										   .client(httpClient)
@@ -79,26 +85,33 @@ public class GatekeeperClient
 			e.printStackTrace();
 		}
 
-		httpClient = (new OkHttpClient.Builder()).addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
-																							 .addHeader("Authorization", "Bearer " + token.getToken())
-																							 .addHeader("Cookie", "token=" + token.getToken())
-																							 .build()))
-												 .addInterceptor(chain -> {
-													 Request request = chain.request();
-													 okhttp3.Response response = chain.proceed(request);
+		httpClient = (new OkHttpClient.Builder())
+			.readTimeout(1, TimeUnit.MINUTES)
+			.callTimeout(1, TimeUnit.MINUTES)
+			.connectTimeout(1, TimeUnit.MINUTES)
+			.writeTimeout(1, TimeUnit.MINUTES)
+			.retryOnConnectionFailure(true)
+			.addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
+														.addHeader("Authorization", "Bearer " + token.getToken())
+														.addHeader("Cookie", "token=" + token.getToken())
+														.build()))
+			.addInterceptor(chain -> {
+				Request request = chain.request();
+				okhttp3.Response response = chain.proceed(request);
 
-													 // On any 403, reset the client. Gatekeeper may have restarted and the token would then have been removed.
-													 if (response.code() == 403)
-													 {
-														 // Reset the client
-														 GatekeeperClient.reset();
-														 // Then send the request again
-														 return chain.proceed(request);
-													 }
+				// On any 403, reset the client. Gatekeeper may have restarted and the token would then have been removed.
+				if (response.code() == 403)
+				{
+					response.close();
+					// Reset the client
+					GatekeeperClient.reset();
+					// Then send the request again
+					return chain.proceed(request);
+				}
 
-													 return response;
-												 })
-												 .build();
+				return response;
+			})
+			.build();
 
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
 										   .addConverterFactory(GsonConverterFactory.create())

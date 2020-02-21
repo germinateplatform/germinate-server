@@ -8,9 +8,11 @@ import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.Institutions;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import retrofit2.Response;
 
 /**
@@ -21,23 +23,30 @@ public class GatekeeperInstitutionResource extends PaginatedServerResource
 	@Get("json")
 	public PaginatedResult<List<Institutions>> getJson()
 	{
-		try
+		if (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
 		{
-			Response<PaginatedResult<List<Institutions>>> response = GatekeeperClient.get().getInstitutions(currentPage, pageSize).execute();
+			try
+			{
+				Response<PaginatedResult<List<Institutions>>> response = GatekeeperClient.get().getInstitutions(currentPage, pageSize).execute();
 
-			if (response.isSuccessful())
-			{
-				return response.body();
+				if (response.isSuccessful())
+				{
+					return response.body();
+				}
+				else
+				{
+					GatekeeperApiError error = GatekeeperClient.parseError(response);
+					throw new ResourceException(response.code(), error.getDescription());
+				}
 			}
-			else
+			catch (IOException e)
 			{
-				GatekeeperApiError error = GatekeeperClient.parseError(response);
-				throw new ResourceException(response.code(), error.getDescription());
+				e.printStackTrace();
+				throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 			}
 		}
-		catch (IOException e)
+		else
 		{
-			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 		}
 	}
