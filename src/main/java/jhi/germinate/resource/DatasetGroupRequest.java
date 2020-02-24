@@ -5,17 +5,17 @@ package jhi.germinate.resource;
  */
 public class DatasetGroupRequest extends DatasetRequest
 {
-	private String experimentType;
+	private String datasetType;
 	private String groupType;
 
-	public String getExperimentType()
+	public String getDatasetType()
 	{
-		return experimentType;
+		return datasetType;
 	}
 
-	public DatasetGroupRequest setExperimentType(String experimentType)
+	public DatasetGroupRequest setDatasetType(String datasetType)
 	{
-		this.experimentType = experimentType;
+		this.datasetType = datasetType;
 		return this;
 	}
 

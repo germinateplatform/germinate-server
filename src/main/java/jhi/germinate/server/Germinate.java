@@ -131,6 +131,7 @@ public class Germinate extends Application
 
 		// COMPOUNDS
 		attachToRouter(routerAuth, "/compound/table", CompoundTableResource.class);
+		attachToRouter(routerAuth, "/compound/{compoundId}/dataset", CompoundDatasetTableResource.class);
 
 		// DATASETS
 		attachToRouter(routerAuth, "/dataset/attribute/export", DatasetAttributeExportResource.class);
@@ -285,6 +286,7 @@ public class Germinate extends Application
 
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
+		attachToRouter(routerAuth, "/trait/{traitId}/dataset", TraitDatasetTableResource.class);
 
 		// USER PERMISSIONS
 		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);

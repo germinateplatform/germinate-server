@@ -13,7 +13,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.Climatedata.*;
 import static jhi.germinate.server.database.tables.Compounddata.*;
@@ -31,7 +31,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 	@Post("json")
 	public List<ViewTableGroups> getJson(DatasetGroupRequest request)
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+		if (request == null || StringUtils.isEmpty(request.getDatasetType()) || CollectionUtils.isEmpty(request.getDatasetIds()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
@@ -59,7 +59,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 			);
 
 			SelectConditionStep<? extends Record> resultStep = null;
-			switch (request.getExperimentType())
+			switch (request.getDatasetType())
 			{
 				case "climate":
 					resultStep = getClimateGroups(step, requestedIds);
