@@ -117,12 +117,13 @@ public class Database
 			try
 			{
 				Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
-				Flyway flyway = new Flyway();
-				flyway.setTable("schema_version");
-				flyway.setValidateOnMigrate(false);
-				flyway.setDataSource(getDatabaseUrl(), username, password);
-				flyway.setLocations("classpath:jhi.germinate.server.util.database.migration");
-				flyway.setBaselineOnMigrate(true);
+				Flyway flyway = Flyway.configure()
+					.table("schema_version")
+					.validateOnMigrate(false)
+					.dataSource(getDatabaseUrl(), username, password)
+					.locations("classpath:jhi/germinate/server/util/database/migration")
+					.baselineOnMigrate(true)
+					.load();
 				flyway.migrate();
 				flyway.repair();
 			}

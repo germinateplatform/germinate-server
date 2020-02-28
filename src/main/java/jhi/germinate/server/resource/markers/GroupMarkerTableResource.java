@@ -11,7 +11,6 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.groups.GroupResource;
 
@@ -42,7 +41,7 @@ public class GroupMarkerTableResource extends PaginatedServerResource
 	}
 
 	@Patch("json")
-	public int patchJson(GroupModification modification)
+	public int patchJson(GroupModificationRequest modification)
 	{
 		return GroupResource.patchGroupMembers(groupId, getRequest(), getResponse(), modification);
 	}

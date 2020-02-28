@@ -3,12 +3,12 @@ package jhi.germinate.resource;
 /**
  * @author Sebastian Raubach
  */
-public class GroupModification
+public class GroupModificationRequest
 {
 	private Integer[] ids;
 	private boolean   isAddition;
 
-	public GroupModification()
+	public GroupModificationRequest()
 	{
 	}
 
@@ -17,7 +17,7 @@ public class GroupModification
 		return ids;
 	}
 
-	public GroupModification setIds(Integer[] ids)
+	public GroupModificationRequest setIds(Integer[] ids)
 	{
 		this.ids = ids;
 		return this;
@@ -28,7 +28,7 @@ public class GroupModification
 		return isAddition;
 	}
 
-	public GroupModification setAddition(boolean addition)
+	public GroupModificationRequest setAddition(boolean addition)
 	{
 		isAddition = addition;
 		return this;

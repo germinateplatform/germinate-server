@@ -18,11 +18,11 @@
 SET FOREIGN_KEY_CHECKS=0;
 
 /* SETUP */
-DROP PROCEDURE IF EXISTS drop_all_indexes;
+DROP PROCEDURE IF EXISTS drop_all_foreign_keys;
 
 DELIMITER //
 
-CREATE PROCEDURE drop_all_indexes(IN tableName TEXT)
+CREATE PROCEDURE drop_all_foreign_keys(IN tableName TEXT)
 
 BEGIN
 
@@ -87,7 +87,7 @@ CREATE TABLE `datasetlocations`  (
 
 INSERT INTO `datasetlocations` (`dataset_id`, `location_id`) SELECT `id`, `location_id` FROM `datasets` WHERE NOT ISNULL(`location_id`);
 
-CALL drop_all_indexes('datasets');
+CALL drop_all_foreign_keys('datasets');
 
 ALTER TABLE `datasets` DROP `location_id`;
 
@@ -103,6 +103,8 @@ CREATE TABLE `imagetags`  (
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`, `tag_name`)
 );
+
+ALTER TABLE `imagetags` ADD INDEX `imagetags_tag_name`(`tag_name`) USING BTREE;
 
 CREATE TABLE `image_to_tags`  (
   `image_id` int(11) NOT NULL,
@@ -120,22 +122,37 @@ ALTER TABLE `images` ADD INDEX `imagetype_foreign_id`(`foreign_id`) USING BTREE;
 
 /* Add indices on `name` and `number` if they don't already exist */
 DELIMITER //
-
 DROP PROCEDURE IF EXISTS drop_index_if_exists //
-CREATE PROCEDURE drop_index_if_exists(in theTable varchar(128), in theIndexName varchar(128) )
+CREATE PROCEDURE drop_index_if_exists(IN theTable varchar(128), IN theColumn varchar(128))
 BEGIN
- IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name =
-theTable AND index_name = theIndexName) > 0) THEN
-   SET @s = CONCAT('DROP INDEX ' , theIndexName , ' ON ' , theTable);
-   PREPARE stmt FROM @s;
-   EXECUTE stmt;
- END IF;
+
+DECLARE done INT DEFAULT FALSE;
+DECLARE indexName TEXT;
+DECLARE cur1 CURSOR FOR SELECT index_name AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND column_name = theColumn;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+OPEN cur1;
+
+read_loop: LOOP
+	FETCH cur1 INTO indexName;
+	IF done THEN
+		LEAVE read_loop;
+	END IF;
+
+	SET @SQL = CONCAT('DROP INDEX ', indexName, ' ON ', theTable);
+	PREPARE stmt FROM @SQL;
+	EXECUTE stmt;
+	DEALLOCATE PREPARE stmt;
+END LOOP;
+
+CLOSE cur1;
+
 END //
 
 DELIMITER ;
 
-CALL drop_index_if_exists('germinatebase', 'germinatebase_name');
-CALL drop_index_if_exists('germinatebase', 'germinatebase_number');
+CALL drop_index_if_exists('germinatebase', 'name');
+CALL drop_index_if_exists('germinatebase', 'number');
 
 ALTER TABLE `germinatebase`
 ADD INDEX `germinatebase_name`(`name`) USING BTREE,
@@ -144,7 +161,7 @@ ADD INDEX `germinatebase_number`(`number`) USING BTREE;
 /* Move experiment type to dataset type */
 ALTER TABLE `datasets` ADD COLUMN `datasettype_id` int(11) NOT NULL DEFAULT -1 COMMENT 'Foreign key to datasettypes (datasettypes.id).' AFTER `experiment_id`;
 UPDATE `datasets` SET `datasettype_id` = ( SELECT `experiment_type_id` FROM `experiments` WHERE `experiments`.`id` = `datasets`.`experiment_id` );
-CALL drop_all_indexes('experiments');
+CALL drop_all_foreign_keys('experiments');
 ALTER TABLE `experiments` DROP COLUMN `experiment_type_id`;
 RENAME TABLE `experimenttypes` TO `datasettypes`;
 ALTER TABLE `datasettypes`ADD INDEX(`id`);
@@ -237,7 +254,7 @@ ALTER TABLE `usergroupmembers` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_
 ALTER TABLE `usergroups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 /* Cleanup */
-DROP PROCEDURE IF EXISTS drop_all_indexes;
+DROP PROCEDURE IF EXISTS drop_all_foreign_keys;
 DROP PROCEDURE IF EXISTS drop_index_if_exists;
 
 SET FOREIGN_KEY_CHECKS=1;

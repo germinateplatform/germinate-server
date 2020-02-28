@@ -41,7 +41,7 @@ public class GroupGermplasmTableResource extends PaginatedServerResource
 	}
 
 	@Patch("json")
-	public int patchJson(GroupModification modification)
+	public int patchJson(GroupModificationRequest modification)
 	{
 		return GroupResource.patchGroupMembers(groupId, getRequest(), getResponse(), modification);
 	}

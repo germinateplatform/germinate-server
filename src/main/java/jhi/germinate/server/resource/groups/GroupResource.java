@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.*;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.GroupModification;
+import jhi.germinate.resource.GroupModificationRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.pojos.Groups;
@@ -44,7 +44,7 @@ public class GroupResource extends PaginatedServerResource
 		}
 	}
 
-	public static int patchGroupMembers(Integer groupId, Request req, Response resp, GroupModification modification)
+	public static int patchGroupMembers(Integer groupId, Request req, Response resp, GroupModificationRequest modification)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req, resp);
 
