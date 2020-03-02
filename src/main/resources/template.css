@@ -170,6 +170,10 @@ color: {{PRIMARY}};
 background: {{PRIMARY}};
 }
 
+.sidebar .nav-link.active {
+background: {{PRIMARY}};
+}
+
 .sidebar .nav-link.active .nav-icon {
 color: #fff;
 }

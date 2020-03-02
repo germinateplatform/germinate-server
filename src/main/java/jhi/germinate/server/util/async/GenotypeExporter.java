@@ -49,7 +49,7 @@ public class GenotypeExporter
 		boolean createFlapjackProject = Boolean.parseBoolean(args[i++]);
 
 		exporter.tabbedFile = new File(exporter.folder, exporter.projectName + ".txt");
-		exporter.zipFile = new File(exporter.folder, exporter.projectName + SDF.format(new Date()) + ".zip");
+		exporter.zipFile = new File(exporter.folder, exporter.projectName + "-" + SDF.format(new Date()) + ".zip");
 
 		File germplasmFile = new File(exporter.folder, exporter.projectName + ".germplasm");
 		File markersFile = new File(exporter.folder, exporter.projectName + ".markers");
@@ -71,7 +71,6 @@ public class GenotypeExporter
 			exporter.mapFile = null;
 		if (createFlapjackProject)
 			exporter.flapjackProjectFile = new File(exporter.folder, exporter.projectName + ".flapjack");
-
 
 		exporter.run();
 	}

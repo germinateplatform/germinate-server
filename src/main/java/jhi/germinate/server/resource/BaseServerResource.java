@@ -97,6 +97,7 @@ public class BaseServerResource extends ServerResource
 		else
 			path = segments.get(0);
 		File folder = new File(System.getProperty("java.io.tmpdir"), path);
+		folder.mkdir();
 
 		return new File(folder, fileOrSubFolder);
 	}

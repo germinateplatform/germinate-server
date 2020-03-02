@@ -64,7 +64,7 @@ dependencies {
         exclude group: 'org.springframework'
     }
 
-    implementation 'org.flywaydb:flyway-core:4.0.2'
+    implementation 'org.flywaydb:flyway-core:6.2.4'
     implementation 'com.squareup.okhttp3:okhttp:3.14.6'
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
@@ -104,7 +104,7 @@ task codegen (type: JavaExec) {
 
 // Generate a .war file
 war {
-    dependsOn jar, jarClient
+    dependsOn jar, jarForImporter, jarClient
 
     rootSpec.exclude('**/jhi/**/*.class')
     rootSpec.includeEmptyDirs = false
