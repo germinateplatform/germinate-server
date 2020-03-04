@@ -5,20 +5,18 @@ import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.PaginatedServerResource;
-
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmDistanceTableResource extends PaginatedServerResource
+public class GermplasmDistanceTableResource extends GermplasmBaseResource
 {
 	@Post("json")
 	public PaginatedResult<List<GermplasmDistance>> getJson(PaginatedLocationRequest request)
@@ -30,39 +28,22 @@ public class GermplasmDistanceTableResource extends PaginatedServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectSelectStep<? extends Record> select = context.select(
-				DSL.asterisk(),
-				DSL.cast(
-					DSL.acos(
-						DSL.sin(
-							DSL.rad(VIEW_TABLE_GERMPLASM.LATITUDE))
-						   .times(
-							   DSL.sin(
-								   DSL.rad(request.getLatitude())))
-						   .plus(
-							   DSL.cos(
-								   DSL.rad(VIEW_TABLE_GERMPLASM.LATITUDE))
-								  .times(
-									  DSL.cos(
-										  DSL.rad(request.getLatitude())))
-								  .times(
-									  DSL.cos(
-										  DSL.rad(request.getLongitude())
-											 .minus(
-												 DSL.rad(VIEW_TABLE_GERMPLASM.LONGITUDE))))))
-					   .times(6378.7), Double.class).as("distance")
-			);
+			Field<BigDecimal> dLat = DSL.rad(DSL.field(LATITUDE, BigDecimal.class).minus(request.getLatitude()));
+			Field<BigDecimal> dLon = DSL.rad(DSL.field(LONGITUDE, BigDecimal.class).minus(request.getLongitude()));
 
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
+			Field<BigDecimal> a = DSL.power(DSL.sin(dLon.div(2)), 2)
+									 .times(DSL.cos(DSL.rad(request.getLatitude())))
+									 .times(DSL.cos(DSL.rad(DSL.field(LATITUDE, BigDecimal.class))))
+									 .plus(DSL.power(DSL.sin(dLat.div(2)), 2));
 
-			SelectJoinStep<? extends Record> from = select.from(VIEW_TABLE_GERMPLASM);
+			Field<BigDecimal> c = DSL.asin(DSL.sqrt(a)).times(2);
 
-			from.where(VIEW_TABLE_GERMPLASM.LONGITUDE.isNotNull()
-													 .and(VIEW_TABLE_GERMPLASM.LATITUDE.isNotNull()));
+			SelectConditionStep<?> from = getGermplasmQuery(context, DSL.cast(c.times(6372.8), Double.class).as("distance"))
+				.where(DSL.field(LONGITUDE).isNotNull())
+				.and(DSL.field(LATITUDE).isNotNull());
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, adjustFilter(filters));
 
 			List<GermplasmDistance> result = setPaginationAndOrderBy(from)
 				.fetch()

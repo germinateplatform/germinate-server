@@ -1,7 +1,5 @@
 package jhi.germinate.resource;
 
-import jhi.germinate.server.database.tables.pojos.ViewTableGermplasm;
-
 /**
  * @author Sebastian Raubach
  */

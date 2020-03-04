@@ -1,26 +1,26 @@
 package jhi.germinate.server.resource.germplasm;
 
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
+import java.util.*;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.routines.ExportPassportData;
-import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
+import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.tables.Groupmembers.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmExportResource extends PaginatedServerResource
+public class GermplasmExportResource extends GermplasmBaseResource
 {
 	@Post("json")
 	public FileRepresentation postJson(GermplasmExportRequest request)
@@ -55,30 +55,33 @@ public class GermplasmExportResource extends PaginatedServerResource
 											 .toArray(String[]::new);
 
 						Filter[] filters = new Filter[1];
-						filters[0] = new Filter(VIEW_TABLE_GERMPLASM.GERMPLASM_ID.getName(), "inSet", "and", ids);
+						filters[0] = new Filter(GERMPLASM_ID, "inSet", "and", ids);
 						request.setFilter(filters);
 
 						processRequest(request);
-						return export(VIEW_TABLE_GERMPLASM, "germplasm-table-", null);
+
+						SelectJoinStep<?> from = getGermplasmQuery(context);
+
+						// Filter here!
+						filter(from, adjustFilter(filters));
+
+						return export(from.fetch(), "germplasm-table-" + getFormatted(new Date()) + "-");
 					}
 					else if (request.getGroupIds() != null)
 					{
-						String[] ids = Arrays.stream(request.getGroupIds())
-											 .map(i -> Integer.toString(i))
-											 .toArray(String[]::new);
-
-						Filter[] filters = new Filter[1];
-						filters[0] = new Filter("groupId", "inSet", "and", ids);
-						request.setFilter(filters);
-
 						processRequest(request);
-						return export(VIEW_TABLE_GERMPLASM, "germplasm-table-" + getFormatted(new Date()) + "-", null);
+
+						SelectConditionStep<?> from = getGermplasmQuery(context)
+							.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+							.where(GROUPMEMBERS.GROUP_ID.in(request.getGroupIds()));
+
+						return export(from.fetch(), "germplasm-table-" + getFormatted(new Date()) + "-");
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return export(VIEW_TABLE_GERMPLASM, "germplasm-table-" + getFormatted(new Date()) + "-", null);
+				return export(getGermplasmQuery(context).fetch(), "germplasm-table-" + getFormatted(new Date()) + "-");
 			}
 		}
 		catch (SQLException e)

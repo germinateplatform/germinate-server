@@ -11,17 +11,16 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.groups.GroupResource;
 
+import static jhi.germinate.server.database.tables.Germinatebase.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Groups.*;
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GroupGermplasmTableIdResource extends PaginatedServerResource
+public class GroupGermplasmTableIdResource extends GermplasmBaseResource
 {
 	private Integer groupId;
 
@@ -51,20 +50,20 @@ public class GroupGermplasmTableIdResource extends PaginatedServerResource
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_GERMPLASM.GERMPLASM_ID)
-												 .from(VIEW_TABLE_GERMPLASM)
-												 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_GERMPLASM.GERMPLASM_ID))
-												 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQuery(context)
+				.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+				.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
 
 			from.where(GROUPS.GROUPTYPE_ID.eq(3));
 			if (groupId != null)
 				from.where(GROUPS.ID.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, adjustFilter(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch(VIEW_TABLE_GERMPLASM.GERMPLASM_ID);
+				.fetch()
+				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}

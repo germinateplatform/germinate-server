@@ -9,17 +9,13 @@ import java.sql.*;
 import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.*;
+import jhi.germinate.resource.PaginatedLocationRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.ViewTableGermplasm;
-import jhi.germinate.server.resource.*;
-
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmDistanceTableIdResource extends PaginatedServerResource
+public class GermplasmDistanceTableIdResource extends GermplasmBaseResource
 {
 	@Post("json")
 	public PaginatedResult<List<Integer>> getJson(PaginatedLocationRequest request)
@@ -33,14 +29,12 @@ public class GermplasmDistanceTableIdResource extends PaginatedServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<? extends Record> from = context.selectDistinct(VIEW_TABLE_GERMPLASM.GERMPLASM_ID)
-														   .from(VIEW_TABLE_GERMPLASM);
-
-			from.where(VIEW_TABLE_GERMPLASM.LONGITUDE.isNotNull()
-															  .and(VIEW_TABLE_GERMPLASM.LATITUDE.isNotNull()));
+			SelectConditionStep<?> from = getGermplasmIdQuery(context)
+				.where(DSL.field(LONGITUDE).isNotNull())
+				.and(DSL.field(LATITUDE).isNotNull());
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, adjustFilter(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

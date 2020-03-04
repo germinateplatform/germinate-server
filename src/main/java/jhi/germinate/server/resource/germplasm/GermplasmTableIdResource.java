@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.germplasm;
 
 import org.jooq.*;
+import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -12,15 +13,12 @@ import java.util.List;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.*;
-
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmTableIdResource extends PaginatedServerResource
+public class GermplasmTableIdResource extends GermplasmBaseResource
 {
 	public static final String PARAM_NAMES_FROM_FILE = "namesFromFile";
 
@@ -44,8 +42,7 @@ public class GermplasmTableIdResource extends PaginatedServerResource
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_GERMPLASM.GERMPLASM_ID)
-														   .from(VIEW_TABLE_GERMPLASM);
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQuery(context);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
@@ -55,7 +52,7 @@ public class GermplasmTableIdResource extends PaginatedServerResource
 					List<String> names = Files.readAllLines(getTempDir(namesFromFile).toPath());
 
 					if (!CollectionUtils.isEmpty(names))
-						from.where(VIEW_TABLE_GERMPLASM.GERMPLASM_NAME.in(names));
+						from.where(DSL.field(GERMPLASM_NAME).in(names));
 				}
 				catch (IOException e)
 				{
@@ -64,7 +61,7 @@ public class GermplasmTableIdResource extends PaginatedServerResource
 			}
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, adjustFilter(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

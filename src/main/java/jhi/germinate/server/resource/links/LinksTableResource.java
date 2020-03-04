@@ -29,7 +29,7 @@ public class LinksTableResource extends BaseServerResource
 	@Post("json")
 	public List<ViewTableLinks> getJson(LinkRequest request)
 	{
-		if (StringUtils.isEmpty(request.getTargetTable()) || request.getForeignId() == null)
+		if (request == null || StringUtils.isEmpty(request.getTargetTable()) || request.getForeignId() == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "'targetTable' and 'foreignId' must be specified.");
 
 		try (Connection conn = Database.getConnection();
@@ -38,7 +38,8 @@ public class LinksTableResource extends BaseServerResource
 			List<ViewTableLinks> result = context.selectFrom(VIEW_TABLE_LINKS)
 												 .where(VIEW_TABLE_LINKS.LINKTYPE_TARGET_TABLE.eq(request.getTargetTable()))
 												 .and(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.eq(request.getForeignId())
-																					  .or(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.isNull()))
+																					  .or(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.isNull()
+																														  .and(VIEW_TABLE_LINKS.PLACEHOLDER.isNotNull())))
 												 .fetchInto(ViewTableLinks.class);
 
 			result.stream()

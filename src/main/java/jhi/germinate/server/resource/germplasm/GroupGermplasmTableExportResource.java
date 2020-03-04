@@ -1,7 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
 import org.jooq.*;
-import org.jooq.Result;
 import org.restlet.data.Status;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
@@ -11,18 +10,16 @@ import java.sql.*;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 
+import static jhi.germinate.server.database.tables.Germinatebase.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Groups.*;
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
-import static jhi.germinate.server.database.tables.ViewTableMarkers.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class GroupGermplasmTableExportResource extends PaginatedServerResource
+public class GroupGermplasmTableExportResource extends GermplasmBaseResource
 {
 	private Integer groupId;
 
@@ -54,27 +51,18 @@ public class GroupGermplasmTableExportResource extends PaginatedServerResource
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
-			SelectSelectStep<Record> select = context.select(VIEW_TABLE_GERMPLASM.fields())
-													 .select(GROUPS.ID.as("group_id"));
-
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
-
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GERMPLASM)
-												.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_GERMPLASM.GERMPLASM_ID))
-												.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
+			SelectOnConditionStep<?> from = getGermplasmQuery(context, GROUPS.ID.as("group_id"))
+				.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+				.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
 
 			from.where(GROUPS.GROUPTYPE_ID.eq(3));
 			if (groupId != null)
 				from.where(GROUPS.ID.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, adjustFilter(filters));
 
-			Result<Record> result = setPaginationAndOrderBy(from)
-				.fetch();
-
-			return export(result, "germplasm-group-table-");
+			return export(from.fetch(), "germplasm-group-table-");
 		}
 		catch (SQLException e)
 		{

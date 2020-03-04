@@ -36,7 +36,7 @@ public class LicenseDecisionResource extends ServerResource
 	}
 
 	@Get("json")
-	public void putDecision()
+	public void getJson()
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());

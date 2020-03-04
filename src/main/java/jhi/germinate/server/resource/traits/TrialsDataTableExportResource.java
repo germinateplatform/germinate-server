@@ -12,8 +12,6 @@ import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableDatasetAttributes.*;
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 import static jhi.germinate.server.database.tables.ViewTableTrialsData.*;
 
 /**
@@ -39,7 +37,7 @@ public class TrialsDataTableExportResource extends PaginatedServerResource
 		processRequest(request);
 
 		ExportSettings settings = new ExportSettings();
-		settings.conditions = new Condition[] {VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds)};
+		settings.conditions = new Condition[]{VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds)};
 		return export(VIEW_TABLE_TRIALS_DATA, "trials-data-table-", settings);
 	}
 }

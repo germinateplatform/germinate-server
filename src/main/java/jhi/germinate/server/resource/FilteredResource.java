@@ -14,9 +14,40 @@ import jhi.germinate.server.util.*;
  */
 public interface FilteredResource
 {
+	default <T extends Record> void filter(SelectConditionStep<T> step, Filter[] filters)
+	{
+		filter(step, filters, false);
+	}
+
 	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters)
 	{
 		filter(step, filters, false);
+	}
+
+	default <T extends Record> void filter(SelectConditionStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	{
+		if (filters != null && filters.length > 0)
+		{
+			SelectConditionStep<T> where = step.and(filterIndividual(filters[0], jsonOperationAllowed));
+
+			for (int i = 1; i < filters.length; i++)
+			{
+				Condition condition = filterIndividual(filters[i], jsonOperationAllowed);
+
+				if (condition != null)
+				{
+					switch (filters[i - 1].getOperator())
+					{
+						case "and":
+							where.and(condition);
+							break;
+						case "or":
+							where.or(condition);
+							break;
+					}
+				}
+			}
+		}
 	}
 
 	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters, boolean jsonOperationAllowed)

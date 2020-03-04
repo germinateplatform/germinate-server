@@ -5,22 +5,16 @@ import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.*;
+import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.ViewTableUsergroups;
-import jhi.germinate.server.database.tables.records.DatasetpermissionsRecord;
 import jhi.germinate.server.resource.PaginatedServerResource;
-import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.Datasetpermissions.*;
-import static jhi.germinate.server.database.tables.ViewTableGermplasm.*;
 import static jhi.germinate.server.database.tables.ViewTableUsergroups.*;
 
 /**
