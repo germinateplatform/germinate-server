@@ -23,6 +23,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
+import jhi.germinate.resource.DataImportMode;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.AuthenticationMode;
@@ -406,10 +407,19 @@ public class PropertyWatcher
 		}
 		else
 		{
-			if (type.equals(AuthenticationMode.class))
-				return type.cast(AuthenticationMode.valueOf(value));
-			else
+			try
+			{
+				if (type.equals(AuthenticationMode.class))
+					return type.cast(AuthenticationMode.valueOf(value));
+				else if (type.equals(DataImportMode.class))
+					return type.cast(DataImportMode.valueOf(value));
+				else
+					return null;
+			}
+			catch (IllegalArgumentException e)
+			{
 				return null;
+			}
 		}
 	}
 

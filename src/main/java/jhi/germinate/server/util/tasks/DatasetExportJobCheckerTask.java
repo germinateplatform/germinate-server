@@ -22,8 +22,9 @@ import org.jooq.DSLContext;
 import java.sql.*;
 
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.enums.*;
 
+import static jhi.germinate.server.database.tables.DataImportJobs.*;
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
 
 public class DatasetExportJobCheckerTask implements Runnable
@@ -35,6 +36,7 @@ public class DatasetExportJobCheckerTask implements Runnable
 			 DSLContext context = Database.getContext(conn))
 		{
 			context.selectFrom(DATASET_EXPORT_JOBS)
+				   .where(DATASET_EXPORT_JOBS.STATUS.notEqual(DatasetExportJobsStatus.completed))
 				   .forEach(j -> {
 					   try
 					   {

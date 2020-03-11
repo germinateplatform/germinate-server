@@ -19,6 +19,7 @@ public class ClientConfiguration
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
 	private Boolean            commentsEnabled;
+	private DataImportMode     dataImportMode;
 
 	public ClientConfiguration()
 	{
@@ -131,6 +132,17 @@ public class ClientConfiguration
 	public ClientConfiguration setDashboardCategories(List<String> dashboardCategories)
 	{
 		this.dashboardCategories = dashboardCategories;
+		return this;
+	}
+
+	public DataImportMode getDataImportMode()
+	{
+		return dataImportMode;
+	}
+
+	public ClientConfiguration setDataImportMode(DataImportMode dataImportMode)
+	{
+		this.dataImportMode = dataImportMode;
 		return this;
 	}
 }

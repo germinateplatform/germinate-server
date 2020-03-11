@@ -230,6 +230,7 @@ public class Germinate extends Application
 
 		attachToRouter(routerAuth, "/import/template", ImportJobResource.class);
 		attachToRouter(routerAuth, "/import/template/{jobUuid}", ImportJobResource.class);
+		attachToRouter(routerAuth, "/import/template/{jobUuid}/import", ImportJobImportResource.class);
 
 		// INSTITUTIONS
 		attachToRouter(routerAuth, "/institution/table", InstitutionTableResource.class);

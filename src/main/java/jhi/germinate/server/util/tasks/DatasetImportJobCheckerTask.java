@@ -31,7 +31,6 @@ import jhi.germinate.resource.ImportResult;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.enums.DataImportJobsStatus;
 import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.tables.DataImportJobs.*;
 
@@ -44,6 +43,7 @@ public class DatasetImportJobCheckerTask implements Runnable
 			 DSLContext context = Database.getContext(conn))
 		{
 			context.selectFrom(DATA_IMPORT_JOBS)
+				   .where(DATA_IMPORT_JOBS.STATUS.notEqual(DataImportJobsStatus.completed))
 				   .forEach(j -> {
 					   try
 					   {
@@ -68,16 +68,18 @@ public class DatasetImportJobCheckerTask implements Runnable
 									   {
 									   }.getType());
 
-									   if (!CollectionUtils.isEmpty(feedback))
-									   {
-										   // Save it
-										   j.setFeedback(feedback.toArray(new ImportResult[0]));
-									   }
+									   // Save it
+									   j.setFeedback(feedback.toArray(new ImportResult[0]));
 								   }
 								   catch (IOException e)
 								   {
 									   e.printStackTrace();
 								   }
+							   }
+							   else
+							   {
+								   // Set it to an empty array if no file exists
+								   j.setFeedback(new ImportResult[0]);
 							   }
 
 							   j.store(DATA_IMPORT_JOBS.STATUS, DATA_IMPORT_JOBS.FEEDBACK);

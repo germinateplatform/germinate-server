@@ -18,7 +18,7 @@ package jhi.germinate.server.resource.settings;
 
 import org.restlet.resource.*;
 
-import jhi.germinate.resource.ClientConfiguration;
+import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.AuthenticationMode;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
@@ -44,6 +44,7 @@ public class SettingsResource extends ServerResource
 		result.setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED));
 		result.setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY));
 		result.setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED));
+		result.setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class));
 
 		return result;
 	}

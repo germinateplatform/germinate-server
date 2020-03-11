@@ -29,15 +29,17 @@ import jhi.germinate.server.database.enums.DataImportJobsStatus;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DataImportJobs implements Serializable {
 
-    private static final long serialVersionUID = -324205554;
+    private static final long serialVersionUID = 1607182583;
 
     private Integer                id;
     private String                 uuid;
     private String                 jobId;
     private Integer                userId;
     private String                 originalFilename;
+    private Boolean                isUpdate;
     private DataImportJobsDatatype datatype;
     private DataImportJobsStatus   status;
+    private Boolean                imported;
     private Boolean                visibility;
     private ImportResult[]         feedback;
     private Timestamp              createdOn;
@@ -51,8 +53,10 @@ public class DataImportJobs implements Serializable {
         this.jobId = value.jobId;
         this.userId = value.userId;
         this.originalFilename = value.originalFilename;
+        this.isUpdate = value.isUpdate;
         this.datatype = value.datatype;
         this.status = value.status;
+        this.imported = value.imported;
         this.visibility = value.visibility;
         this.feedback = value.feedback;
         this.createdOn = value.createdOn;
@@ -65,8 +69,10 @@ public class DataImportJobs implements Serializable {
         String                 jobId,
         Integer                userId,
         String                 originalFilename,
+        Boolean                isUpdate,
         DataImportJobsDatatype datatype,
         DataImportJobsStatus   status,
+        Boolean                imported,
         Boolean                visibility,
         ImportResult[]         feedback,
         Timestamp              createdOn,
@@ -77,8 +83,10 @@ public class DataImportJobs implements Serializable {
         this.jobId = jobId;
         this.userId = userId;
         this.originalFilename = originalFilename;
+        this.isUpdate = isUpdate;
         this.datatype = datatype;
         this.status = status;
+        this.imported = imported;
         this.visibility = visibility;
         this.feedback = feedback;
         this.createdOn = createdOn;
@@ -125,6 +133,14 @@ public class DataImportJobs implements Serializable {
         this.originalFilename = originalFilename;
     }
 
+    public Boolean getIsUpdate() {
+        return this.isUpdate;
+    }
+
+    public void setIsUpdate(Boolean isUpdate) {
+        this.isUpdate = isUpdate;
+    }
+
     public DataImportJobsDatatype getDatatype() {
         return this.datatype;
     }
@@ -139,6 +155,14 @@ public class DataImportJobs implements Serializable {
 
     public void setStatus(DataImportJobsStatus status) {
         this.status = status;
+    }
+
+    public Boolean getImported() {
+        return this.imported;
+    }
+
+    public void setImported(Boolean imported) {
+        this.imported = imported;
     }
 
     public Boolean getVisibility() {
@@ -182,8 +206,10 @@ public class DataImportJobs implements Serializable {
         sb.append(", ").append(jobId);
         sb.append(", ").append(userId);
         sb.append(", ").append(originalFilename);
+        sb.append(", ").append(isUpdate);
         sb.append(", ").append(datatype);
         sb.append(", ").append(status);
+        sb.append(", ").append(imported);
         sb.append(", ").append(visibility);
         sb.append(", ").append(Arrays.toString(feedback));
         sb.append(", ").append(createdOn);

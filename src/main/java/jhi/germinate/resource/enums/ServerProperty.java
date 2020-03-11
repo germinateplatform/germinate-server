@@ -13,6 +13,7 @@ public enum ServerProperty
 	COMMENTS_ENABLED("comments.enabled", "true", false),
 	DASHBOARD_CATEGORIES("dashboard.categories", "germplasm,markers,traits,locations", false),
 	DATA_DIRECTORY_EXTERNAL("data.directory.external", null, true),
+	DATA_IMPORT_MODE("data.import.mode", "NONE", false),
 	DATABASE_SERVER("database.server", null, true),
 	DATABASE_NAME("database.name", null, true),
 	DATABASE_USERNAME("database.username", null, true),
