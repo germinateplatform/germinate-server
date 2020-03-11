@@ -15,6 +15,8 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.*;
 
+import static jhi.germinate.server.database.tables.Germinatebase.*;
+
 /**
  * @author Sebastian Raubach
  */
@@ -52,7 +54,7 @@ public class GermplasmTableIdResource extends GermplasmBaseResource
 					List<String> names = Files.readAllLines(getTempDir(namesFromFile).toPath());
 
 					if (!CollectionUtils.isEmpty(names))
-						from.where(DSL.field(GERMPLASM_NAME).in(names));
+						from.where(DSL.field(GERMINATEBASE.getName() + "." + GERMINATEBASE.ID.getName()).in(names));
 				}
 				catch (IOException e)
 				{

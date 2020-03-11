@@ -60,7 +60,7 @@ public class BaseServerResource extends ServerResource
 		});
 	}
 
-	protected File getLibFolder()
+	public static File getLibFolder()
 		throws URISyntaxException
 	{
 		URL resource = PropertyWatcher.class.getClassLoader().getResource("logging.properties");
@@ -73,7 +73,7 @@ public class BaseServerResource extends ServerResource
 		return null;
 	}
 
-	protected File getFromExternal(String filename, String... subdirs)
+	public static File getFromExternal(String filename, String... subdirs)
 	{
 		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
 

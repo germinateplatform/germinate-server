@@ -257,4 +257,25 @@ ALTER TABLE `usergroups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicod
 DROP PROCEDURE IF EXISTS drop_all_foreign_keys;
 DROP PROCEDURE IF EXISTS drop_index_if_exists;
 
+DROP TABLE IF EXISTS `data_import_jobs`;
+CREATE TABLE `data_import_jobs`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(36) NOT NULL,
+  `job_id` mediumtext NOT NULL,
+  `user_id` int(11) NULL,
+  `original_filename` varchar(266) NOT NULL,
+  `datatype` enum('mcpd','trial','compound','genotype','pedigree') NOT NULL DEFAULT 'mcpd',
+  `status` enum('waiting','running','failed','completed','cancelled') NOT NULL DEFAULT 'waiting',
+  `visibility` tinyint(1) NOT NULL DEFAULT 1,
+  `feedback` json NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
+  PRIMARY KEY (`id`)
+);
+
+ALTER TABLE `data_import_jobs`
+ADD INDEX `data_import_jobs_uuid`(`uuid`) USING BTREE,
+ADD INDEX `data_import_jobs_status`(`status`) USING BTREE,
+ADD INDEX `data_import_jobs_visibility`(`visibility`) USING BTREE;
+
 SET FOREIGN_KEY_CHECKS=1;

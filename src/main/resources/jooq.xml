@@ -36,6 +36,12 @@
 					<userType>jhi.germinate.resource.ImageTag[]</userType>
 				</forcedType>
 				<forcedType>
+					<binding>jhi.germinate.server.util.ImportResultBinding</binding>
+					<expression>.*(data_import_jobs)\.(feedback)</expression>
+					<types>.*json.*</types>
+					<userType>jhi.germinate.resource.ImportResult[]</userType>
+				</forcedType>
+				<forcedType>
 					<binding>jhi.germinate.server.util.SynonymBinding</binding>
 					<expression>.*(view_table_).*\..*(accepted_by).*</expression>
 					<types>.*json.*</types>

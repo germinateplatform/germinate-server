@@ -34,4 +34,20 @@ public class StringUtils
 	{
 		return input == null || input.trim().isEmpty();
 	}
+
+	public static String orEmpty(String input)
+	{
+		if (isEmpty(input))
+			return "";
+		else
+			return input;
+	}
+
+	public static String orEmptyQuotes(String input)
+	{
+		if (isEmpty(input))
+			return "\"\"";
+		else
+			return input;
+	}
 }

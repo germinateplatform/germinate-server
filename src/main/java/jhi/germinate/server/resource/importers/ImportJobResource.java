@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.datasets.export;
+package jhi.germinate.server.resource.importers;
 
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
@@ -10,18 +10,18 @@ import java.util.*;
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
-import jhi.germinate.server.database.tables.pojos.DatasetExportJobs;
-import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.enums.DataImportJobsStatus;
+import jhi.germinate.server.database.tables.pojos.DataImportJobs;
+import jhi.germinate.server.database.tables.records.DataImportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.tables.DataImportJobs.*;
 
 /**
  * @author Sebastian Raubach
  */
-public class AsyncDatasetExportResource extends BaseServerResource implements AsyncResource
+public class ImportJobResource extends BaseServerResource implements AsyncResource
 {
 	private String jobUuid;
 
@@ -51,7 +51,7 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 	}
 
 	@Delete("json")
-	@FreeForAll
+	@MinUserType(UserType.DATA_CURATOR)
 	public boolean deleteJson()
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
@@ -62,11 +62,11 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS)
-													.where(DATASET_EXPORT_JOBS.UUID.in(jobUuid))
-													.fetchOneInto(DatasetExportJobsRecord.class);
+			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
+												 .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
+												 .fetchOneInto(DataImportJobsRecord.class);
 
-			boolean isCancelRequest = record.getStatus() == DatasetExportJobsStatus.running;
+			boolean isCancelRequest = record.getStatus() == DataImportJobsStatus.running;
 
 			// If the user is logged in
 			if (userDetails.getId() != -1000)
@@ -75,7 +75,7 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 				{
 					if (isCancelRequest)
 					{
-						record.setStatus(DatasetExportJobsStatus.cancelled);
+						record.setStatus(DataImportJobsStatus.cancelled);
 						cancelJob(record.getUuid(), record.getJobId());
 					}
 					record.setVisibility(false);
@@ -89,7 +89,7 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 			{
 				if (isCancelRequest)
 				{
-					record.setStatus(DatasetExportJobsStatus.cancelled);
+					record.setStatus(DataImportJobsStatus.cancelled);
 					cancelJob(record.getUuid(), record.getJobId());
 				}
 				record.setVisibility(false);
@@ -105,8 +105,8 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 	}
 
 	@Post("json")
-	@FreeForAll
-	public List<DatasetExportJobs> postJson(UuidRequest request)
+	@MinUserType(UserType.DATA_CURATOR)
+	public List<DataImportJobs> postJson(UuidRequest request)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
@@ -116,14 +116,12 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			return context.selectFrom(DATASET_EXPORT_JOBS)
-						  .where(DATASET_EXPORT_JOBS.UUID.in(request.getUuids())
-														 .or(DATASET_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
-						  .and(DATASET_EXPORT_JOBS.VISIBILITY.eq(true))
-						  .orderBy(DATASET_EXPORT_JOBS.UPDATED_ON.desc())
-						  .fetchInto(DatasetExportJobs.class);
-
-			// TODO: Add file size of final files into the metadata
+			return context.selectFrom(DATA_IMPORT_JOBS)
+						  .where(DATA_IMPORT_JOBS.UUID.in(request.getUuids())
+													  .or(DATA_IMPORT_JOBS.USER_ID.eq(userDetails.getId())))
+						  .and(DATA_IMPORT_JOBS.VISIBILITY.eq(true))
+						  .orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
+						  .fetchInto(DataImportJobs.class);
 		}
 		catch (SQLException e)
 		{

@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class FileUploadHandler
 {
-	public static void handle(Representation entity, String formIdentifier, File target)
+	public static String handle(Representation entity, String formIdentifier, File target)
 	{
 		if (entity != null)
 		{
@@ -43,7 +43,7 @@ public class FileUploadHandler
 							// consume the stream immediately, otherwise the stream
 							// will be closed.
 							FileUtils.copyInputStreamToFile(fi.openStream(), target);
-							return;
+							return fi.getName();
 						}
 					}
 

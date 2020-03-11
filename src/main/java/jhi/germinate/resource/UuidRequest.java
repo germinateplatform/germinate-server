@@ -3,7 +3,7 @@ package jhi.germinate.resource;
 /**
  * @author Sebastian Raubach
  */
-public class DatasetAsyncJobRequest
+public class UuidRequest
 {
 	private String[] uuids;
 
@@ -12,7 +12,7 @@ public class DatasetAsyncJobRequest
 		return uuids;
 	}
 
-	public DatasetAsyncJobRequest setUuids(String[] uuids)
+	public UuidRequest setUuids(String[] uuids)
 	{
 		this.uuids = uuids;
 		return this;

@@ -116,7 +116,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 				Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
 			}
 			File headerFile = new File(asyncFolder, dsName + ".header");
-			Files.write(headerFile.toPath(), GenotypeExportResource.getFlapjackHeaders(), StandardCharsets.UTF_8);
+			Files.write(headerFile.toPath(), GenotypeExportResource.getFlapjackHeaders(getRequest()), StandardCharsets.UTF_8);
 			File identifierFile = new File(asyncFolder, dsName + ".identifiers");
 			GenotypeExportResource.writeIdentifiersFile(context, identifierFile, germplasmNames, ds.get(0).getDatasetId());
 

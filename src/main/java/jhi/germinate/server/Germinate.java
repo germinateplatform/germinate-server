@@ -226,8 +226,10 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/imagetag", ImageTagResource.class);
 
 		// DATA IMPORT
-		attachToRouter(routerAuth, "/import/template/mcpd", McpdImporterResource.class);
-		attachToRouter(routerAuth, "/import/template/{uuid}/status", ImportStatusResource.class);
+		attachToRouter(routerAuth, "/import/template/file", DataImporterResource.class);
+
+		attachToRouter(routerAuth, "/import/template", ImportJobResource.class);
+		attachToRouter(routerAuth, "/import/template/{jobUuid}", ImportJobResource.class);
 
 		// INSTITUTIONS
 		attachToRouter(routerAuth, "/institution/table", InstitutionTableResource.class);
@@ -331,5 +333,18 @@ public class Germinate extends Application
 	{
 		router.attach(url, clazz);
 		router.attach(url + "/", clazz);
+	}
+
+	public static String getServerBase(HttpServletRequest req)
+	{
+		String scheme = req.getScheme(); // http or https
+		String serverName = req.getServerName(); // ics.hutton.ac.uk
+		int serverPort = req.getServerPort(); // 80 or 8080 or 443
+		String contextPath = req.getContextPath(); // /germinate-baz
+
+		if (serverPort == 80 || serverPort == 443)
+			return scheme + "://" + serverName + contextPath; // http://ics.hutton.ac.uk/germinate-baz
+		else
+			return scheme + "://" + serverName + ":" + serverPort + contextPath; // http://ics.hutton.ac.uk:8080/germinate-baz
 	}
 }

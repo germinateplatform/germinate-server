@@ -5,7 +5,9 @@ import com.google.gson.JsonArray;
 import org.jooq.Result;
 import org.jooq.*;
 import org.jooq.impl.DSL;
+import org.restlet.Request;
 import org.restlet.data.Status;
+import org.restlet.ext.servlet.ServletUtils;
 import org.restlet.resource.*;
 
 import java.io.*;
@@ -127,7 +129,7 @@ public class GenotypeExportResource extends BaseServerResource
 				File identifierFile = new File(asyncFolder, dsName + ".identifiers");
 				writeIdentifiersFile(context, identifierFile, germplasmNames, id);
 				File headerFile = new File(asyncFolder, dsName + ".header");
-				Files.write(headerFile.toPath(), getFlapjackHeaders(), StandardCharsets.UTF_8);
+				Files.write(headerFile.toPath(), getFlapjackHeaders(getRequest()), StandardCharsets.UTF_8);
 
 				File libFolder = getLibFolder();
 				List<String> args = new ArrayList<>();
@@ -174,9 +176,10 @@ public class GenotypeExportResource extends BaseServerResource
 		}
 	}
 
-	static List<String> getFlapjackHeaders()
+	static List<String> getFlapjackHeaders(Request request)
 	{
 		String clientBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
+		String serverBase = Germinate.getServerBase(ServletUtils.getRequest(request));
 
 		List<String> result = new ArrayList<>();
 
@@ -187,7 +190,7 @@ public class GenotypeExportResource extends BaseServerResource
 			result.add("# fjDatabaseLineSearch = " + clientBase + "/#/data/germplasm/$LINE");
 			result.add("# fjDatabaseGroupPreview = " + clientBase + "/#/groups/upload/$GROUP");
 			result.add("# fjDatabaseMarkerSearch = " + clientBase + "/#/genotypes/marker/$MARKER");
-			result.add("# fjDatabaseGroupUpload = " + clientBase + "/api/group/upload"); // TODO
+			result.add("# fjDatabaseGroupUpload = " + serverBase + "/api/group/upload");
 		}
 
 		return result;

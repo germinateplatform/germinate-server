@@ -7,9 +7,9 @@ import org.restlet.resource.*;
 
 import java.sql.*;
 
+import jhi.germinate.resource.ViewMcpd;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.tables.Germinatebase;
-import jhi.germinate.server.database.tables.pojos.ViewMcpd;
 
 import static jhi.germinate.server.database.tables.Attributedata.*;
 import static jhi.germinate.server.database.tables.Attributes.*;
