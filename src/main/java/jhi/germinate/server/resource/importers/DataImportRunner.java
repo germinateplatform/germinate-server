@@ -49,16 +49,7 @@ public class DataImportRunner
 			if (record == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-			String importerClass;
-			switch (record.getDatatype())
-			{
-				case mcpd:
-					importerClass = McpdImporter.class.getCanonicalName();
-					break;
-				default:
-					throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
-					// TODO: Others
-			}
+			String importerClass = getImporterClass(record.getDatatype());
 
 			File asyncFolder = BaseServerResource.getFromExternal(uuid, "async");
 			File file = new File(asyncFolder, uuid + ".xlsx");
@@ -100,16 +91,7 @@ public class DataImportRunner
 		if (mode == DataImportMode.NONE)
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 
-		String importerClass;
-		switch (dataType)
-		{
-			case mcpd:
-				importerClass = McpdImporter.class.getCanonicalName();
-				break;
-			default:
-				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
-				// TODO: Others
-		}
+		String importerClass = getImporterClass(dataType);
 
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
@@ -155,6 +137,20 @@ public class DataImportRunner
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
+	private static String getImporterClass(DataImportJobsDatatype dataType)
+	{
+		switch (dataType)
+		{
+			case mcpd:
+				return McpdImporter.class.getCanonicalName();
+			case trial:
+				return TraitDataImporter.class.getCanonicalName();
+			default:
+				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
+				// TODO: Others
 		}
 	}
 
