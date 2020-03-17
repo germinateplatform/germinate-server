@@ -49,7 +49,9 @@ public class DataImportRunner
 			if (record == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-			String importerClass = getImporterClass(record.getDatatype());
+			String originalFileName = record.getOriginalFilename();
+			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+			String importerClass = getImporterClass(record.getDatatype(), extension);
 
 			File asyncFolder = BaseServerResource.getFromExternal(uuid, "async");
 			File file = new File(asyncFolder, uuid + ".xlsx");
@@ -91,8 +93,6 @@ public class DataImportRunner
 		if (mode == DataImportMode.NONE)
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 
-		String importerClass = getImporterClass(dataType);
-
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
@@ -102,8 +102,11 @@ public class DataImportRunner
 			File asyncFolder = BaseServerResource.getFromExternal(uuid, "async");
 			asyncFolder.mkdirs();
 
-			File file = new File(asyncFolder, uuid + ".xlsx");
-			String originalFileName = FileUploadHandler.handle(entity, "fileToUpload", file);
+			String originalFileName = FileUploadHandler.handle(entity, "fileToUpload", asyncFolder, uuid);
+			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+			File file = new File(asyncFolder, uuid + "." + extension);
+
+			String importerClass = getImporterClass(dataType, extension);
 
 			List<String> args = getArgs(importerClass, file);
 			args.add(Boolean.toString(isUpdate)); // Update?
@@ -140,7 +143,7 @@ public class DataImportRunner
 		}
 	}
 
-	private static String getImporterClass(DataImportJobsDatatype dataType)
+	private static String getImporterClass(DataImportJobsDatatype dataType, String extension)
 	{
 		switch (dataType)
 		{
@@ -148,6 +151,11 @@ public class DataImportRunner
 				return McpdImporter.class.getCanonicalName();
 			case trial:
 				return TraitDataImporter.class.getCanonicalName();
+			case genotype:
+				if (Objects.equals(extension, "xlsx"))
+					return GenotypeImporter.class.getCanonicalName();
+				else if (Objects.equals(extension, "txt"))
+					return GenotypeFlatFileImporter.class.getCanonicalName();
 			default:
 				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 				// TODO: Others

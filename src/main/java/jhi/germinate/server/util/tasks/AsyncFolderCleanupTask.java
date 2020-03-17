@@ -10,9 +10,10 @@ import java.util.logging.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.enums.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
+import static jhi.germinate.server.database.tables.DataImportJobs.*;
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
 
 /**
@@ -20,11 +21,14 @@ import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
  */
 public class AsyncFolderCleanupTask implements Runnable
 {
+	private File asyncFolder;
+	private Long keepFilesFor;
+
 	@Override
 	public void run()
 	{
-		File asyncFolder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "async");
-		Long keepFilesFor = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
+		this.asyncFolder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "async");
+		this.keepFilesFor = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 
 		if (keepFilesFor == null)
 		{
@@ -43,32 +47,38 @@ public class AsyncFolderCleanupTask implements Runnable
 			context.selectFrom(DATASET_EXPORT_JOBS)
 				   .where(DATASET_EXPORT_JOBS.VISIBILITY.eq(false)
 														.or(DATASET_EXPORT_JOBS.STATUS.eq(DatasetExportJobsStatus.failed)))
-				   .forEach(j -> {
-					   String uuid = j.getUuid();
-					   File jobFolder = new File(asyncFolder, uuid);
-
-					   if (jobFolder.exists() && jobFolder.isDirectory())
-					   {
-						   Long timestamp = getLastModifiedForFolder(jobFolder);
-
-						   if (timestamp != null && (System.currentTimeMillis() - timestamp) > (keepFilesFor * 60 * 60 * 1000))
-						   {
-							   Logger.getLogger("").log(Level.INFO, "Deleting async folder: " + uuid);
-							   try
-							   {
-								   FileUtils.forceDelete(jobFolder);
-							   }
-							   catch (IOException e)
-							   {
-								   e.printStackTrace();
-							   }
-						   }
-					   }
-				   });
+				   .forEach(j -> checkJob(j.getUuid()));
+			context.selectFrom(DATA_IMPORT_JOBS)
+				   .where(DATA_IMPORT_JOBS.VISIBILITY.eq(false)
+													 .or(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.failed)))
+				   .forEach(j -> checkJob(j.getUuid()));
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	private void checkJob(String uuid)
+	{
+		File jobFolder = new File(asyncFolder, uuid);
+
+		if (jobFolder.exists() && jobFolder.isDirectory())
+		{
+			Long timestamp = getLastModifiedForFolder(jobFolder);
+
+			if (timestamp != null && (System.currentTimeMillis() - timestamp) > (keepFilesFor * 60 * 60 * 1000))
+			{
+				Logger.getLogger("").log(Level.INFO, "Deleting async folder: " + uuid);
+				try
+				{
+					FileUtils.forceDelete(jobFolder);
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

@@ -82,6 +82,7 @@ task jarForImporter (type: Jar, dependsOn: classes) {
     include '**/Database.class'
     include '**/util/**Utils**'
     include '**/util/**Binding**'
+    include '**/util/**Hdf**'
 }
 
 // Generate a .jar file that other applications can use to communicate with the API
