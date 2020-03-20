@@ -213,21 +213,31 @@ public class CustomVerifier implements Verifier
 	{
 		boolean delete = StringUtils.isEmpty(token);
 
-		CookieSetting cookie = new CookieSetting(0, "token", token);
-		cookie.setAccessRestricted(true);
-
 		if (delete)
 		{
+			CookieSetting cookie = new CookieSetting(0, "token", token);
+			cookie.setAccessRestricted(true);
+			cookie.setMaxAge(0);
+			cookie.setPath(getContextPath(request));
+			cookie.setValue("");
+			response.getCookieSettings().add(cookie);
+
+			// This is for the docker image that uses a proxy-reverse
+			cookie = new CookieSetting(0, "token", token);
+			cookie.setAccessRestricted(true);
 			cookie.setMaxAge(0);
 			cookie.setPath("/");
 			cookie.setValue("");
+			response.getCookieSettings().add(cookie);
 		}
 		else
 		{
+			CookieSetting cookie = new CookieSetting(0, "token", token);
+			cookie.setAccessRestricted(true);
 			cookie.setMaxAge((int) (AGE / 1000));
 			cookie.setPath(getContextPath(request));
+			response.getCookieSettings().add(cookie);
 		}
-		response.getCookieSettings().add(cookie);
 
 		setDatasetCookie(request, response, false);
 	}

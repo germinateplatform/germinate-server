@@ -28,7 +28,7 @@ import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetExportJobs implements Serializable {
 
-    private static final long serialVersionUID = 1701621171;
+    private static final long serialVersionUID = 1352692871;
 
     private Integer                 id;
     private String                  uuid;
@@ -38,6 +38,7 @@ public class DatasetExportJobs implements Serializable {
     private Boolean                 visibility;
     private Integer                 datasettypeId;
     private JsonArray               datasetIds;
+    private Long                    resultSize;
     private Timestamp               createdOn;
     private Timestamp               updatedOn;
 
@@ -52,6 +53,7 @@ public class DatasetExportJobs implements Serializable {
         this.visibility = value.visibility;
         this.datasettypeId = value.datasettypeId;
         this.datasetIds = value.datasetIds;
+        this.resultSize = value.resultSize;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
@@ -65,6 +67,7 @@ public class DatasetExportJobs implements Serializable {
         Boolean                 visibility,
         Integer                 datasettypeId,
         JsonArray               datasetIds,
+        Long                    resultSize,
         Timestamp               createdOn,
         Timestamp               updatedOn
     ) {
@@ -76,6 +79,7 @@ public class DatasetExportJobs implements Serializable {
         this.visibility = visibility;
         this.datasettypeId = datasettypeId;
         this.datasetIds = datasetIds;
+        this.resultSize = resultSize;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -144,6 +148,14 @@ public class DatasetExportJobs implements Serializable {
         this.datasetIds = datasetIds;
     }
 
+    public Long getResultSize() {
+        return this.resultSize;
+    }
+
+    public void setResultSize(Long resultSize) {
+        this.resultSize = resultSize;
+    }
+
     public Timestamp getCreatedOn() {
         return this.createdOn;
     }
@@ -172,6 +184,7 @@ public class DatasetExportJobs implements Serializable {
         sb.append(", ").append(visibility);
         sb.append(", ").append(datasettypeId);
         sb.append(", ").append(datasetIds);
+        sb.append(", ").append(resultSize);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

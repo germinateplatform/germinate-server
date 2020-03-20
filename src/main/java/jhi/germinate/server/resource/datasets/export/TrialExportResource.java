@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import org.jooq.*;
+import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
@@ -9,15 +9,19 @@ import org.restlet.resource.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.util.*;
 import java.util.Date;
+import java.util.*;
 
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.routines.ExportTrialsData;
+import jhi.germinate.server.database.tables.records.DatasetaccesslogsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+
+import static jhi.germinate.server.database.tables.Datasetaccesslogs.*;
 
 /**
  * @author Sebastian Raubach
@@ -29,6 +33,8 @@ public class TrialExportResource extends BaseServerResource
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 
@@ -65,6 +71,15 @@ public class TrialExportResource extends BaseServerResource
 
 				bw.write("#input=PHENOTYPE" + CRLF);
 				exportToFile(bw, procedure.getResults().get(0), true, null);
+
+				for (Integer dsId : datasetIds)
+				{
+					DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
+					access.setDatasetId(dsId);
+					access.setUserId(userDetails.getId());
+					access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+					access.store();
+				}
 			}
 			catch (SQLException | IOException e)
 			{

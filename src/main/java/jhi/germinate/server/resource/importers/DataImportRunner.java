@@ -54,7 +54,7 @@ public class DataImportRunner
 			String importerClass = getImporterClass(record.getDatatype(), extension);
 
 			File asyncFolder = BaseServerResource.getFromExternal(uuid, "async");
-			File file = new File(asyncFolder, uuid + ".xlsx");
+			File file = new File(asyncFolder, uuid + "." + extension);
 
 			List<String> args = getArgs(importerClass, file);
 			args.add(Boolean.toString(record.getIsUpdate())); // Update?
@@ -156,6 +156,8 @@ public class DataImportRunner
 					return GenotypeImporter.class.getCanonicalName();
 				else if (Objects.equals(extension, "txt"))
 					return GenotypeFlatFileImporter.class.getCanonicalName();
+			case compound:
+				return CompoundDataImporter.class.getCanonicalName();
 			default:
 				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 				// TODO: Others

@@ -167,6 +167,7 @@ RENAME TABLE `experimenttypes` TO `datasettypes`;
 ALTER TABLE `datasettypes`ADD INDEX(`id`);
 ALTER TABLE `datasets` ADD CONSTRAINT `datasets_ibfk_datasettypes` FOREIGN KEY (`datasettype_id`) REFERENCES `datasettypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+DROP TABLE IF EXISTS `dataset_export_jobs`;
 CREATE TABLE `dataset_export_jobs`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) NOT NULL,
@@ -176,6 +177,7 @@ CREATE TABLE `dataset_export_jobs`  (
   `visibility` tinyint(1) NOT NULL DEFAULT 1,
   `datasettype_id` int(11) NULL,
   `dataset_ids` json NULL,
+  `result_size` bigint NULL,
   `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`),

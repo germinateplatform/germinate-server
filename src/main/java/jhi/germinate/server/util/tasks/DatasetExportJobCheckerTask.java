@@ -19,12 +19,14 @@ package jhi.germinate.server.util.tasks;
 
 import org.jooq.DSLContext;
 
+import java.io.File;
 import java.sql.*;
 
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.enums.*;
+import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.DataImportJobs.*;
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
 
 public class DatasetExportJobCheckerTask implements Runnable
@@ -44,6 +46,15 @@ public class DatasetExportJobCheckerTask implements Runnable
 
 						   if (finished)
 						   {
+							   String uuid = j.getUuid();
+							   File jobFolder = BaseServerResource.getFromExternal(uuid, "async");
+
+							   // Get zip result files (there'll only be one per folder)
+							   File[] zipFiles = jobFolder.listFiles((dir, name) -> name.endsWith(".zip"));
+
+							   if (!CollectionUtils.isEmpty(zipFiles))
+								   j.setResultSize(zipFiles[0].length());
+
 							   j.setStatus(DatasetExportJobsStatus.completed);
 							   j.store();
 						   }

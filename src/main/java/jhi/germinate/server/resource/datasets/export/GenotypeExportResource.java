@@ -23,7 +23,7 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.tables.Germinatebase;
 import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
@@ -31,6 +31,7 @@ import jhi.germinate.server.util.async.GenotypeExporter;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.tables.Datasetaccesslogs.*;
 import static jhi.germinate.server.database.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.tables.Germinatebase.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
@@ -158,6 +159,12 @@ public class GenotypeExportResource extends BaseServerResource
 				if (userDetails.getId() != -1000)
 					dbJob.setUserId(userDetails.getId());
 				dbJob.store();
+
+				DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
+				access.setDatasetId(ds.get(0).getDatasetId());
+				access.setUserId(userDetails.getId());
+				access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+				access.store();
 
 				// Return the result
 				AsyncExportResult individualResult = new AsyncExportResult();

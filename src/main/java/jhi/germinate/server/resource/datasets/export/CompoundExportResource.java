@@ -14,10 +14,14 @@ import java.util.Date;
 
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.routines.*;
+import jhi.germinate.server.database.tables.records.DatasetaccesslogsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+
+import static jhi.germinate.server.database.tables.Datasetaccesslogs.*;
 
 /**
  * @author Sebastian Raubach
@@ -29,6 +33,8 @@ public class CompoundExportResource extends BaseServerResource
 	{
 		if (request == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 
@@ -64,6 +70,15 @@ public class CompoundExportResource extends BaseServerResource
 				procedure.execute(context.configuration());
 
 				exportToFile(bw, procedure.getResults().get(0), true, null);
+
+				for (Integer dsId : datasetIds)
+				{
+					DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
+					access.setDatasetId(dsId);
+					access.setUserId(userDetails.getId());
+					access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+					access.store();
+				}
 			}
 			catch (SQLException | IOException e)
 			{

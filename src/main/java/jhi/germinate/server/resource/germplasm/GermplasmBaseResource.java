@@ -75,8 +75,8 @@ public class GermplasmBaseResource extends PaginatedServerResource
 		columnMappingForFilter.put(ENTITY_TYPE_ID, ENTITYTYPES.getName() + "." + ENTITYTYPES.ID.getName());
 		columnMappingForFilter.put(ENTITY_TYPE_NAME, ENTITYTYPES.getName() + "." + ENTITYTYPES.NAME.getName());
 		columnMappingForFilter.put(ENTITY_PARENT_ID, GERMINATEBASE.getName() + "." + GERMINATEBASE.ENTITYPARENT_ID.getName());
-		columnMappingForFilter.put(ENTITY_PARENT_NAME, "g" + GERMINATEBASE.NAME.getName());
-		columnMappingForFilter.put(ENTITY_PARENT_GENERAL_IDENTIFIER, "g" + GERMINATEBASE.GENERAL_IDENTIFIER.getName());
+		columnMappingForFilter.put(ENTITY_PARENT_NAME, "g." + GERMINATEBASE.NAME.getName());
+		columnMappingForFilter.put(ENTITY_PARENT_GENERAL_IDENTIFIER, "g." + GERMINATEBASE.GENERAL_IDENTIFIER.getName());
 		columnMappingForFilter.put(BIOLOGICAL_STATUS_ID, BIOLOGICALSTATUS.getName() + "." + BIOLOGICALSTATUS.ID.getName());
 		columnMappingForFilter.put(BIOLOGICAL_STATUS_NAME, BIOLOGICALSTATUS.getName() + "." + BIOLOGICALSTATUS.SAMPSTAT.getName());
 		columnMappingForFilter.put(SSYNONYMS, SYNONYMS.getName() + "." + SYNONYMS.SYNONYMS_.getName());
