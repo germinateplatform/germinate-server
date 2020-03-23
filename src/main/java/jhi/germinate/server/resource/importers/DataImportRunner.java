@@ -158,6 +158,8 @@ public class DataImportRunner
 					return GenotypeFlatFileImporter.class.getCanonicalName();
 			case compound:
 				return CompoundDataImporter.class.getCanonicalName();
+			case pedigree:
+				return PedigreeImporter.class.getCanonicalName();
 			default:
 				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 				// TODO: Others
