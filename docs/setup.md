@@ -106,7 +106,7 @@ docker run -d \
     sraubach/germinate
 ```
 
-Make sure you have at least a `config.properties` file in the location at `/path/to/your/germinate/config`. See [[Configuration]] for additional config options. This file will contain the database configuration and also this property:
+Make sure you have at least a `config.properties` file in the location at `/path/to/your/germinate/config`. See <a href="config.html">Configuration</a> for additional config options. This file will contain the database configuration and also this property:
 
 ```ini
 # This is the folder inside Docker, don't set this to your config folder location as this is taken care of by a Docker bind.
@@ -123,7 +123,6 @@ Server:
 - Java 8 or above
 - Tomcat 8.5.12 or above
 - MySQL 5.7.22 or above
-- Ant 1.10.1 or above
 
 Client:
 - Node.js 10.15.1 or above
@@ -143,7 +142,7 @@ The steps involved to build the client of Germinate are as follows:
 You can either download the code from GitHub directly via the [releases](https://github.com/sebastian-raubach/germinate-vue/releases) or you can check out the latest release via the command line: 
 
 ```shell
-git clone -b '3.7.0' --depth 1 https://github.com/sebastian-raubach/germinate-vue.git
+git clone -b '4.0.0' --depth 1 https://github.com/sebastian-raubach/germinate-vue.git
 ```
 
 #### Configure Germinate Client
@@ -187,23 +186,24 @@ Let's go through these steps one at a time.
 You can either download the code from GitHub directly via the [releases](https://github.com/sebastian-raubach/germinate-server/releases) or you can check out the latest release via the command line: 
 
 ```shell
-git clone -b '3.7.0' --depth 1 https://github.com/sebastian-raubach/germinate-server.git
+git clone -b '4.0.0' --depth 1 https://github.com/sebastian-raubach/germinate-server.git
 ```
 
 #### Configure Germinate Server
 
-Rename `config.template.properties` to `config.properties` and `build.template.properties` to `build.properties`.
+Rename `config.template.properties` to `config.properties` and `gradle.template.properties` to `gradle.properties`.
 
-Change `build.properties` like this:
+Change `gradle.properties` like this:
 
 ```ini
-tomcat.manager.url      = <your tomcat host>/manager/text
-tomcat.manager.username = <username defined in tomcat's config/tomcat-users.xml>
-tomcat.manager.password = <password defined in tomcat's config/tomcat-users.xml>
+tomcat.manager.version=<your tomcat version, e.g. 'tomcat8x'>
+tomcat.manager.protocol=<protocol of tomcat, e.g. 'http'>
+tomcat.manager.hostname=<host of tomcat, e.g. 'localhost'>
+tomcat.manager.port=<port of tomcat, e.g. '8080'>
+tomcat.manager.username=<tomcat username>
+tomcat.manager.password=<tomcat password>
 
-project.name = <the relative path inside tomcat, e.g. 'germinate' -> http://localhost:8080/germinate/v<api.version>>
-
-api.version = 3.7.0
+project.name=<the relative path inside tomcat, e.g. 'germinate' -> http://localhost:8080/germinate/v4.0.0>
 ```
 
 Change `config.properties` like this:
@@ -216,14 +216,14 @@ The configuration directory and its content are described in the <a href="config
 
 #### Include Germinate Client
 
-Copy the whole `dist` directory within the Germinate Client source into the `web` directory within the Germinate Server source. 
+Copy the whole content of the `dist` directory within the Germinate Client source into the `web` directory within the Germinate Server source. 
 
 #### Build Germinate Server
 
 Once all previous steps are complete, building Germinate Server is as simple as calling:
 
 ```shell
-ant deploy
+gradle deplotTomcat
 ```
 
 After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v<api.version>`).

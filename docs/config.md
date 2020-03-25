@@ -3,9 +3,13 @@ title: Germinate Configuration
 ---
 
 # Germinate Configuration
+This page describes the content of Germinate's configuration folder. This folder does not exist and has to be created somewhere on the system where Germinate can access it.
+The structure of this folder is shown below. At a minimum, the `config.properties` file needs to exist. The logos under `images/template` are used on the interface and should be adjusted to meet your requirements.
+
+
 ```
 +-- data
-|   +-- alellefreq
+|   +-- allelefreq
 |   +-- genotypes
 +-- images
 |   +-- climate
