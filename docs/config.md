@@ -124,10 +124,16 @@ This is the most important file in your customization. It defines the required p
     # FULL requires all users to log in before they can even see any data.
     # SELECTIVE only requires users to log in if they want to use any features that alter the database, e.g. creating groups, adding comments, etc.
     authentication.mode = <either 'SELECTIVE', 'FULL' or 'NONE'>
+  
+    # The data import mode determines whether Data Curators (in Gatekeeper) can verify or upload data in the Excel templates.
+    # NONE disables data verification and upload
+    # VERIFY allows the upload and checking/verification of templates
+    # IMPORT allows everything VERIFY does, but also allows the actual import of data after the verification step
+    data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'>
     
     # We can't keep files forever. These properties decide when files should be deleted.
-    files.delete.after.hours.async = <after how many hours should files created from async export tasks be deleted>
-    files.delete.after.hours.temp  = <after how many hours should temporary files be deleted>
+    files.delete.after.hours.async = <after how many hours should files created from async import/export tasks be deleted>
+    files.delete.after.hours.temp  = <after how many hours should temporary files be deleted (e.g. chart files, synchronous download files, etc)>
     
     # Google Analytics will be enabled if this property is set.
     google.analytics.key      = <google analytics key if using>

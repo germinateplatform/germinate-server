@@ -31,7 +31,7 @@ Let's start with the simpler case: Docker. We have a working Docker image of Ger
 
 Additionally you will need a MySQL database. This can either be another Docker container or an existing database server that you already have. The examples below contain a Docker MySQL container. If you wish to use your own database, simply remove the relevant parts from the docker file or docker commands.
 
-If you have docker-compose available, things are as simple as defining this `docker-compose.yml` file:
+If you have docker-compose available, things are as simple as defining this `docker-compose.yml` file. Only change the parts that have comments above them.
 
 ```yaml
 version: '3.3'
@@ -45,9 +45,13 @@ services:
         source: mysql
         target: /var/lib/mysql/
     environment:
+      # The root password. This is not used by Germinate, but can be used to access the database externally
       MYSQL_ROOT_PASSWORD: PASSWORD_HERE
+      # The name of the Germinate database, e.g. "germinate"
       MYSQL_DATABASE: GERMINATE_DATABASE_NAME
+      # The username Germinate will use to connect to this database
       MYSQL_USER: DATABASE_USER
+      # The password Germinate will use to connect to this database
       MYSQL_PASSWORD: DATABASE_PASSWORD
     restart: unless-stopped
     container_name: mysql
@@ -60,6 +64,7 @@ services:
         - 9080:8080
       volumes:
         - type: bind
+          # This points to where your Germinate configuration folder is outside the container
           source: /path/to/your/germinate/config
           target: /data/germinate
         - type: volume
@@ -75,7 +80,7 @@ volumes:
   mysql:
 ```
 
-If you don't use docker-compose, here is an example of those same instructions as basic Docker commands:
+If you don't use docker-compose, here is an example of those same instructions as basic Docker commands. See the comments in the `docker-compose.yml` file above to see which parts need changing:
 
 ```shell
 docker volume create germinate
