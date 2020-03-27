@@ -27,7 +27,7 @@ The following page will take you through both scenarios and explain all the nece
 
 ## Docker
 
-Let's start with the simpler case: Docker. We have a working Docker image of Germinate available on DockerHub (**INSERT LINK**) that you can simply pull and run on your machine/server.
+Let's start with the simpler case: Docker. We have a working Docker image of Germinate available on [DockerHub](https://hub.docker.com/repository/docker/cropgeeks/germinate) that you can simply pull and run on your machine/server.
 
 Additionally you will need a MySQL database. This can either be another Docker container or an existing database server that you already have. The examples below contain a Docker MySQL container. If you wish to use your own database, simply remove the relevant parts from the docker file or docker commands.
 
