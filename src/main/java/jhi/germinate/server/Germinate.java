@@ -123,6 +123,7 @@ public class Germinate extends Application
 		// CLIMATE
 		attachToRouter(routerAuth, "/climate/table", ClimateTableResource.class);
 		attachToRouter(routerAuth, "/climate/overlay", ClimateOverlayResource.class);
+		attachToRouter(routerAuth, "/climate/{climateId}/dataset", ClimateDatasetTableResource.class);
 
 		// COMMENTS
 		attachToRouter(routerAuth, "/comment/table", CommentTableResource.class);
