@@ -121,8 +121,10 @@ UPDATE `news` SET `image` = REPLACE(`image`, 'css/images/css-images/', '');
 ALTER TABLE `images` ADD INDEX `imagetype_foreign_id`(`foreign_id`) USING BTREE;
 
 /* Add indices on `name` and `number` if they don't already exist */
+DROP PROCEDURE IF EXISTS drop_index_if_exists;
+
 DELIMITER //
-DROP PROCEDURE IF EXISTS drop_index_if_exists //
+
 CREATE PROCEDURE drop_index_if_exists(IN theTable varchar(128), IN theColumn varchar(128))
 BEGIN
 
@@ -147,9 +149,11 @@ END LOOP;
 
 CLOSE cur1;
 
-END //
+END;
+//
 
 DELIMITER ;
+
 
 CALL drop_index_if_exists('germinatebase', 'name');
 CALL drop_index_if_exists('germinatebase', 'number');

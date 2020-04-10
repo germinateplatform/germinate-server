@@ -64,7 +64,7 @@ dependencies {
         exclude group: 'org.springframework'
     }
 
-    implementation 'org.flywaydb:flyway-core:6.2.4'
+    implementation 'org.flywaydb:flyway-core:6.3.3'
     implementation 'com.squareup.okhttp3:okhttp:3.14.6'
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
