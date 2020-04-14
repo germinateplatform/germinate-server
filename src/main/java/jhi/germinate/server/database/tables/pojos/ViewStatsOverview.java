@@ -23,13 +23,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview implements Serializable {
 
-    private static final long serialVersionUID = 944058436;
+    private static final long serialVersionUID = 1597869027;
 
     private Long germplasm;
     private Long markers;
     private Long traits;
     private Long compounds;
     private Long locations;
+    private Long datasets;
     private Long groups;
     private Long images;
 
@@ -41,6 +42,7 @@ public class ViewStatsOverview implements Serializable {
         this.traits = value.traits;
         this.compounds = value.compounds;
         this.locations = value.locations;
+        this.datasets = value.datasets;
         this.groups = value.groups;
         this.images = value.images;
     }
@@ -51,6 +53,7 @@ public class ViewStatsOverview implements Serializable {
         Long traits,
         Long compounds,
         Long locations,
+        Long datasets,
         Long groups,
         Long images
     ) {
@@ -59,6 +62,7 @@ public class ViewStatsOverview implements Serializable {
         this.traits = traits;
         this.compounds = compounds;
         this.locations = locations;
+        this.datasets = datasets;
         this.groups = groups;
         this.images = images;
     }
@@ -103,6 +107,14 @@ public class ViewStatsOverview implements Serializable {
         this.locations = locations;
     }
 
+    public Long getDatasets() {
+        return this.datasets;
+    }
+
+    public void setDatasets(Long datasets) {
+        this.datasets = datasets;
+    }
+
     public Long getGroups() {
         return this.groups;
     }
@@ -128,6 +140,7 @@ public class ViewStatsOverview implements Serializable {
         sb.append(", ").append(traits);
         sb.append(", ").append(compounds);
         sb.append(", ").append(locations);
+        sb.append(", ").append(datasets);
         sb.append(", ").append(groups);
         sb.append(", ").append(images);
 

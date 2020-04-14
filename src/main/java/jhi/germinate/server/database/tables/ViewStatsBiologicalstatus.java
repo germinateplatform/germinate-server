@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsBiologicalstatus extends TableImpl<ViewStatsBiologicalstatusRecord> {
 
-    private static final long serialVersionUID = 159679023;
+    private static final long serialVersionUID = -1357238513;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_stats_biologicalstatus</code>
@@ -55,7 +55,7 @@ public class ViewStatsBiologicalstatus extends TableImpl<ViewStatsBiologicalstat
     /**
      * The column <code>germinate_template_4_0_0.view_stats_biologicalstatus.count</code>.
      */
-    public final TableField<ViewStatsBiologicalstatusRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<ViewStatsBiologicalstatusRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * Create a <code>germinate_template_4_0_0.view_stats_biologicalstatus</code> table reference

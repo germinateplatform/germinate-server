@@ -138,7 +138,7 @@ This is the most important file in your customization. It defines the required p
     # Google Analytics will be enabled if this property is set.
     google.analytics.key      = <google analytics key if using>
     # The colored boxes at the top of the dashboard/home page can be changed here.
-    dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'compounds', 'groups'>
+    dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'compounds', 'groups', 'compounds', 'datasets'>
     # Pages can be hidden for example if you don't have that kind of data.
     hidden.pages              = <names of those pages that should be hidden from the user interface (**LINK TO FILE HERE**)>
     # The comments feature can be disabled if you don't want users to add comments.
