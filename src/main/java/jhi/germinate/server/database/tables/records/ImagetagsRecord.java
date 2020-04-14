@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 import jhi.germinate.server.database.tables.Imagetags;
 
 import org.jooq.Field;
-import org.jooq.Record2;
+import org.jooq.Record1;
 import org.jooq.Record4;
 import org.jooq.Row4;
 import org.jooq.impl.UpdatableRecordImpl;
@@ -31,7 +31,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ImagetagsRecord extends UpdatableRecordImpl<ImagetagsRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -925074530;
+    private static final long serialVersionUID = -280679238;
 
     /**
      * Setter for <code>germinate_template_4_0_0.imagetags.id</code>.
@@ -97,8 +97,8 @@ public class ImagetagsRecord extends UpdatableRecordImpl<ImagetagsRecord> implem
      * {@inheritDoc}
      */
     @Override
-    public Record2<Integer, String> key() {
-        return (Record2) super.key();
+    public Record1<Integer> key() {
+        return (Record1) super.key();
     }
 
     // -------------------------------------------------------------------------

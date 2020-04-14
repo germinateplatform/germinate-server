@@ -101,7 +101,7 @@ CREATE TABLE `imagetags`  (
   `tag_name` varchar(255) NOT NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP(0),
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`id`, `tag_name`)
+  PRIMARY KEY (`id`)
 );
 
 ALTER TABLE `imagetags` ADD INDEX `imagetags_tag_name`(`tag_name`) USING BTREE;

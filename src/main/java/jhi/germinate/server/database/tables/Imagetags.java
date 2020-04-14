@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Imagetags extends TableImpl<ImagetagsRecord> {
 
-    private static final long serialVersionUID = 637962489;
+    private static final long serialVersionUID = -824748827;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.imagetags</code>
@@ -124,7 +124,7 @@ public class Imagetags extends TableImpl<ImagetagsRecord> {
      */
     @Override
     public UniqueKey<ImagetagsRecord> getPrimaryKey() {
-        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Imagetags.IMAGETAGS, "KEY_imagetags_PRIMARY", jhi.germinate.server.database.tables.Imagetags.IMAGETAGS.ID, jhi.germinate.server.database.tables.Imagetags.IMAGETAGS.TAG_NAME);
+        return Internal.createUniqueKey(jhi.germinate.server.database.tables.Imagetags.IMAGETAGS, "KEY_imagetags_PRIMARY", jhi.germinate.server.database.tables.Imagetags.IMAGETAGS.ID);
     }
 
     /**
@@ -133,7 +133,7 @@ public class Imagetags extends TableImpl<ImagetagsRecord> {
     @Override
     public List<UniqueKey<ImagetagsRecord>> getKeys() {
         return Arrays.<UniqueKey<ImagetagsRecord>>asList(
-              Internal.createUniqueKey(jhi.germinate.server.database.tables.Imagetags.IMAGETAGS, "KEY_imagetags_PRIMARY", jhi.germinate.server.database.tables.Imagetags.IMAGETAGS.ID, jhi.germinate.server.database.tables.Imagetags.IMAGETAGS.TAG_NAME)
+              Internal.createUniqueKey(jhi.germinate.server.database.tables.Imagetags.IMAGETAGS, "KEY_imagetags_PRIMARY", jhi.germinate.server.database.tables.Imagetags.IMAGETAGS.ID)
         );
     }
 
