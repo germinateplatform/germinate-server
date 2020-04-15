@@ -54,6 +54,7 @@ public class GroupLocationTableExportResource extends PaginatedServerResource
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
 			SelectSelectStep<Record> select = context.select(VIEW_TABLE_LOCATIONS.fields())
+													 .select(GROUPS.NAME.as("group_name"))
 													 .select(GROUPS.ID.as("group_id"));
 
 			if (previousCount == -1)

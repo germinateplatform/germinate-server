@@ -51,7 +51,7 @@ public class GroupGermplasmTableExportResource extends GermplasmBaseResource
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
-			SelectOnConditionStep<?> from = getGermplasmQuery(context, GROUPS.ID.as("group_id"))
+			SelectOnConditionStep<?> from = getGermplasmQuery(context, GROUPS.ID.as("group_id"), GROUPS.NAME.as("group_name"))
 				.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 				.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
 

@@ -44,6 +44,8 @@ public class GroupMarkerTableIdResource extends PaginatedServerResource
 	public PaginatedResult<List<Integer>> getJson(PaginatedRequest request)
 	{
 		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
