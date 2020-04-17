@@ -12,6 +12,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import jhi.germinate.brapi.server.Brapi;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.attributes.*;
@@ -40,6 +42,7 @@ import jhi.germinate.server.resource.stats.*;
 import jhi.germinate.server.resource.traits.*;
 import jhi.germinate.server.resource.usergroups.*;
 import jhi.germinate.server.resource.users.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach
@@ -319,10 +322,12 @@ public class Germinate extends Application
 		attachToRouter(routerUnauth, "/settings/css", SettingsCssResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
-		// CORS first, then encoder
+		// Add BrAPI endpoints
+		if (PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
+			new Brapi("/brapi", routerUnauth);
+
+		// CORS first, then unahtorized paths
 		corsFilter.setNext(routerUnauth);
-		// After that the unauthorized paths
-//		encoder.setNext(routerUnauth);
 		// Set everything that isn't covered to go through the authenticator
 		routerUnauth.attachDefault(authenticator);
 		authenticator.setNext(authorizer);

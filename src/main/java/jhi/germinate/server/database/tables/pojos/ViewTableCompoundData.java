@@ -25,11 +25,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCompoundData implements Serializable {
 
-    private static final long serialVersionUID = -115927088;
+    private static final long serialVersionUID = -1614462134;
 
     private Integer    germplasmId;
     private String     germplasmGid;
     private String     germplasmName;
+    private String     entityParentName;
+    private String     entityParentGeneralIdentifier;
     private String     entityType;
     private Integer    datasetId;
     private String     datasetName;
@@ -46,6 +48,8 @@ public class ViewTableCompoundData implements Serializable {
         this.germplasmId = value.germplasmId;
         this.germplasmGid = value.germplasmGid;
         this.germplasmName = value.germplasmName;
+        this.entityParentName = value.entityParentName;
+        this.entityParentGeneralIdentifier = value.entityParentGeneralIdentifier;
         this.entityType = value.entityType;
         this.datasetId = value.datasetId;
         this.datasetName = value.datasetName;
@@ -61,6 +65,8 @@ public class ViewTableCompoundData implements Serializable {
         Integer    germplasmId,
         String     germplasmGid,
         String     germplasmName,
+        String     entityParentName,
+        String     entityParentGeneralIdentifier,
         String     entityType,
         Integer    datasetId,
         String     datasetName,
@@ -74,6 +80,8 @@ public class ViewTableCompoundData implements Serializable {
         this.germplasmId = germplasmId;
         this.germplasmGid = germplasmGid;
         this.germplasmName = germplasmName;
+        this.entityParentName = entityParentName;
+        this.entityParentGeneralIdentifier = entityParentGeneralIdentifier;
         this.entityType = entityType;
         this.datasetId = datasetId;
         this.datasetName = datasetName;
@@ -107,6 +115,22 @@ public class ViewTableCompoundData implements Serializable {
 
     public void setGermplasmName(String germplasmName) {
         this.germplasmName = germplasmName;
+    }
+
+    public String getEntityParentName() {
+        return this.entityParentName;
+    }
+
+    public void setEntityParentName(String entityParentName) {
+        this.entityParentName = entityParentName;
+    }
+
+    public String getEntityParentGeneralIdentifier() {
+        return this.entityParentGeneralIdentifier;
+    }
+
+    public void setEntityParentGeneralIdentifier(String entityParentGeneralIdentifier) {
+        this.entityParentGeneralIdentifier = entityParentGeneralIdentifier;
     }
 
     public String getEntityType() {
@@ -188,6 +212,8 @@ public class ViewTableCompoundData implements Serializable {
         sb.append(germplasmId);
         sb.append(", ").append(germplasmGid);
         sb.append(", ").append(germplasmName);
+        sb.append(", ").append(entityParentName);
+        sb.append(", ").append(entityParentGeneralIdentifier);
         sb.append(", ").append(entityType);
         sb.append(", ").append(datasetId);
         sb.append(", ").append(datasetName);

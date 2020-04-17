@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCompoundData extends TableImpl<ViewTableCompoundDataRecord> {
 
-    private static final long serialVersionUID = -1280555374;
+    private static final long serialVersionUID = 827888293;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_compound_data</code>
@@ -64,6 +64,16 @@ public class ViewTableCompoundData extends TableImpl<ViewTableCompoundDataRecord
      * The column <code>germinate_template_4_0_0.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public final TableField<ViewTableCompoundDataRecord, String> GERMPLASM_NAME = createField("germplasm_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_compound_data.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     */
+    public final TableField<ViewTableCompoundDataRecord, String> ENTITY_PARENT_NAME = createField("entity_parent_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique name which defines an entry in the germinatbase table.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_compound_data.entity_parent_general_identifier</code>. A unique identifier.
+     */
+    public final TableField<ViewTableCompoundDataRecord, String> ENTITY_PARENT_GENERAL_IDENTIFIER = createField("entity_parent_general_identifier", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A unique identifier.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_compound_data.entity_type</code>. The name of the entity type.

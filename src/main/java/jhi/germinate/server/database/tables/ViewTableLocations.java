@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLocations extends TableImpl<ViewTableLocationsRecord> {
 
-    private static final long serialVersionUID = -256599880;
+    private static final long serialVersionUID = -1011481786;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_locations</code>
@@ -58,6 +58,11 @@ public class ViewTableLocations extends TableImpl<ViewTableLocationsRecord> {
      * The column <code>germinate_template_4_0_0.view_table_locations.location_name</code>. The site name where the location is.
      */
     public final TableField<ViewTableLocationsRecord, String> LOCATION_NAME = createField("location_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_locations.location_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     */
+    public final TableField<ViewTableLocationsRecord, String> LOCATION_NAME_SHORT = createField("location_name_short", org.jooq.impl.SQLDataType.VARCHAR(22), this, "Shortened site name which can be used in tables within Germinate.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_locations.location_region</code>. The region where the location is if this exists.
@@ -88,6 +93,11 @@ public class ViewTableLocations extends TableImpl<ViewTableLocationsRecord> {
      * The column <code>germinate_template_4_0_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
      */
     public final TableField<ViewTableLocationsRecord, BigDecimal> LOCATION_ELEVATION = createField("location_elevation", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The elevation of the site in metres.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_locations.location_coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
+     */
+    public final TableField<ViewTableLocationsRecord, Integer> LOCATION_COORDINATE_UNCERTAINTY = createField("location_coordinate_uncertainty", org.jooq.impl.SQLDataType.INTEGER, this, "Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_locations.country_name</code>. Country name.

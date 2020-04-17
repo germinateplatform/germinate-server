@@ -24,16 +24,18 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLocations implements Serializable {
 
-    private static final long serialVersionUID = -860160062;
+    private static final long serialVersionUID = 1669617311;
 
     private Integer    locationId;
     private String     locationName;
+    private String     locationNameShort;
     private String     locationRegion;
     private String     locationState;
     private String     locationType;
     private BigDecimal locationLatitude;
     private BigDecimal locationLongitude;
     private BigDecimal locationElevation;
+    private Integer    locationCoordinateUncertainty;
     private String     countryName;
     private String     countryCode2;
     private String     countryCode3;
@@ -43,12 +45,14 @@ public class ViewTableLocations implements Serializable {
     public ViewTableLocations(ViewTableLocations value) {
         this.locationId = value.locationId;
         this.locationName = value.locationName;
+        this.locationNameShort = value.locationNameShort;
         this.locationRegion = value.locationRegion;
         this.locationState = value.locationState;
         this.locationType = value.locationType;
         this.locationLatitude = value.locationLatitude;
         this.locationLongitude = value.locationLongitude;
         this.locationElevation = value.locationElevation;
+        this.locationCoordinateUncertainty = value.locationCoordinateUncertainty;
         this.countryName = value.countryName;
         this.countryCode2 = value.countryCode2;
         this.countryCode3 = value.countryCode3;
@@ -57,24 +61,28 @@ public class ViewTableLocations implements Serializable {
     public ViewTableLocations(
         Integer    locationId,
         String     locationName,
+        String     locationNameShort,
         String     locationRegion,
         String     locationState,
         String     locationType,
         BigDecimal locationLatitude,
         BigDecimal locationLongitude,
         BigDecimal locationElevation,
+        Integer    locationCoordinateUncertainty,
         String     countryName,
         String     countryCode2,
         String     countryCode3
     ) {
         this.locationId = locationId;
         this.locationName = locationName;
+        this.locationNameShort = locationNameShort;
         this.locationRegion = locationRegion;
         this.locationState = locationState;
         this.locationType = locationType;
         this.locationLatitude = locationLatitude;
         this.locationLongitude = locationLongitude;
         this.locationElevation = locationElevation;
+        this.locationCoordinateUncertainty = locationCoordinateUncertainty;
         this.countryName = countryName;
         this.countryCode2 = countryCode2;
         this.countryCode3 = countryCode3;
@@ -94,6 +102,14 @@ public class ViewTableLocations implements Serializable {
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
+    }
+
+    public String getLocationNameShort() {
+        return this.locationNameShort;
+    }
+
+    public void setLocationNameShort(String locationNameShort) {
+        this.locationNameShort = locationNameShort;
     }
 
     public String getLocationRegion() {
@@ -144,6 +160,14 @@ public class ViewTableLocations implements Serializable {
         this.locationElevation = locationElevation;
     }
 
+    public Integer getLocationCoordinateUncertainty() {
+        return this.locationCoordinateUncertainty;
+    }
+
+    public void setLocationCoordinateUncertainty(Integer locationCoordinateUncertainty) {
+        this.locationCoordinateUncertainty = locationCoordinateUncertainty;
+    }
+
     public String getCountryName() {
         return this.countryName;
     }
@@ -174,12 +198,14 @@ public class ViewTableLocations implements Serializable {
 
         sb.append(locationId);
         sb.append(", ").append(locationName);
+        sb.append(", ").append(locationNameShort);
         sb.append(", ").append(locationRegion);
         sb.append(", ").append(locationState);
         sb.append(", ").append(locationType);
         sb.append(", ").append(locationLatitude);
         sb.append(", ").append(locationLongitude);
         sb.append(", ").append(locationElevation);
+        sb.append(", ").append(locationCoordinateUncertainty);
         sb.append(", ").append(countryName);
         sb.append(", ").append(countryCode2);
         sb.append(", ").append(countryCode3);
