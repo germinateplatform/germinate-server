@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTrialsData extends TableImpl<ViewTableTrialsDataRecord> {
 
-    private static final long serialVersionUID = 1101464717;
+    private static final long serialVersionUID = -838169485;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_trials_data</code>
@@ -128,6 +128,11 @@ public class ViewTableTrialsData extends TableImpl<ViewTableTrialsDataRecord> {
      * The column <code>germinate_template_4_0_0.view_table_trials_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public final TableField<ViewTableTrialsDataRecord, String> UNIT_NAME = createField("unit_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The name of the unit. This should be the name of the unit in full.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_trials_data.treatment</code>. The name which defines the treatment.
+     */
+    public final TableField<ViewTableTrialsDataRecord, String> TREATMENT = createField("treatment", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name which defines the treatment.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_trials_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.

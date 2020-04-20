@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableTrialsData implements Serializable {
 
-    private static final long serialVersionUID = -1282030367;
+    private static final long serialVersionUID = 1117526431;
 
     private Integer   germplasmId;
     private String    germplasmGid;
@@ -42,6 +42,7 @@ public class ViewTableTrialsData implements Serializable {
     private String    traitName;
     private String    traitNameShort;
     private String    unitName;
+    private String    treatment;
     private Timestamp recordingDate;
     private String    traitValue;
 
@@ -64,6 +65,7 @@ public class ViewTableTrialsData implements Serializable {
         this.traitName = value.traitName;
         this.traitNameShort = value.traitNameShort;
         this.unitName = value.unitName;
+        this.treatment = value.treatment;
         this.recordingDate = value.recordingDate;
         this.traitValue = value.traitValue;
     }
@@ -85,6 +87,7 @@ public class ViewTableTrialsData implements Serializable {
         String    traitName,
         String    traitNameShort,
         String    unitName,
+        String    treatment,
         Timestamp recordingDate,
         String    traitValue
     ) {
@@ -104,6 +107,7 @@ public class ViewTableTrialsData implements Serializable {
         this.traitName = traitName;
         this.traitNameShort = traitNameShort;
         this.unitName = unitName;
+        this.treatment = treatment;
         this.recordingDate = recordingDate;
         this.traitValue = traitValue;
     }
@@ -236,6 +240,14 @@ public class ViewTableTrialsData implements Serializable {
         this.unitName = unitName;
     }
 
+    public String getTreatment() {
+        return this.treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
+
     public Timestamp getRecordingDate() {
         return this.recordingDate;
     }
@@ -272,6 +284,7 @@ public class ViewTableTrialsData implements Serializable {
         sb.append(", ").append(traitName);
         sb.append(", ").append(traitNameShort);
         sb.append(", ").append(unitName);
+        sb.append(", ").append(treatment);
         sb.append(", ").append(recordingDate);
         sb.append(", ").append(traitValue);
 
