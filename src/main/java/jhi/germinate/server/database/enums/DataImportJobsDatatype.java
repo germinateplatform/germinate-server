@@ -33,7 +33,9 @@ public enum DataImportJobsDatatype implements EnumType {
 
     genotype("genotype"),
 
-    pedigree("pedigree");
+    pedigree("pedigree"),
+
+    groups("groups");
 
     private final String literal;
 

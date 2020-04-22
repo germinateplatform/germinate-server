@@ -60,6 +60,7 @@ public class DataImportRunner
 			args.add(Boolean.toString(record.getIsUpdate())); // Update?
 			args.add("true"); // Delete file if failed
 			args.add(AbstractImporter.RunType.IMPORT.name()); // Import straight away, no need to check it again
+			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
 
 			ApplicationListener.SCHEDULER.initialize();
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
@@ -112,6 +113,7 @@ public class DataImportRunner
 			args.add(Boolean.toString(isUpdate)); // Update?
 			args.add("true"); // Delete file if failed
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
+			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
 
 			ApplicationListener.SCHEDULER.initialize();
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
@@ -160,6 +162,8 @@ public class DataImportRunner
 				return CompoundDataImporter.class.getCanonicalName();
 			case pedigree:
 				return PedigreeImporter.class.getCanonicalName();
+			case groups:
+				return GroupImporter.class.getCanonicalName();
 			default:
 				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 				// TODO: Others

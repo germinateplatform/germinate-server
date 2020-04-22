@@ -271,7 +271,7 @@ CREATE TABLE `data_import_jobs`  (
   `user_id` int(11) NULL,
   `original_filename` varchar(266) NOT NULL,
   `is_update` tinyint(1) NOT NULL DEFAULT 0,
-  `datatype` enum('mcpd','trial','compound','genotype','pedigree') NOT NULL DEFAULT 'mcpd',
+  `datatype` enum('mcpd','trial','compound','genotype','pedigree','groups') NOT NULL DEFAULT 'mcpd',
   `status` enum('waiting','running','failed','completed','cancelled') NOT NULL DEFAULT 'waiting',
   `imported` tinyint(1) NOT NULL DEFAULT 0,
   `visibility` tinyint(1) NOT NULL DEFAULT 1,
