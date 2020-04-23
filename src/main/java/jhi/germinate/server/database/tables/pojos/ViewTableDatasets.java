@@ -8,6 +8,7 @@ import com.google.gson.JsonArray;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 import javax.annotation.Generated;
@@ -32,13 +33,14 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = -1236676908;
+    private static final long serialVersionUID = 866739532;
 
     private Integer           datasetId;
     private String            datasetName;
     private String            datasetDescription;
     private String            hyperlink;
     private String            sourceFile;
+    private String            version;
     private String            datasetType;
     private Integer           experimentId;
     private String            experimentName;
@@ -51,6 +53,7 @@ public class ViewTableDatasets implements Serializable {
     private Date              startDate;
     private Date              endDate;
     private DublinCore        dublinCore;
+    private Timestamp         updatedOn;
     private ULong             dataObjectCount;
     private ULong             dataPointCount;
     private Boolean           isExternal;
@@ -66,6 +69,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetDescription = value.datasetDescription;
         this.hyperlink = value.hyperlink;
         this.sourceFile = value.sourceFile;
+        this.version = value.version;
         this.datasetType = value.datasetType;
         this.experimentId = value.experimentId;
         this.experimentName = value.experimentName;
@@ -78,6 +82,7 @@ public class ViewTableDatasets implements Serializable {
         this.startDate = value.startDate;
         this.endDate = value.endDate;
         this.dublinCore = value.dublinCore;
+        this.updatedOn = value.updatedOn;
         this.dataObjectCount = value.dataObjectCount;
         this.dataPointCount = value.dataPointCount;
         this.isExternal = value.isExternal;
@@ -92,6 +97,7 @@ public class ViewTableDatasets implements Serializable {
         String            datasetDescription,
         String            hyperlink,
         String            sourceFile,
+        String            version,
         String            datasetType,
         Integer           experimentId,
         String            experimentName,
@@ -104,6 +110,7 @@ public class ViewTableDatasets implements Serializable {
         Date              startDate,
         Date              endDate,
         DublinCore        dublinCore,
+        Timestamp         updatedOn,
         ULong             dataObjectCount,
         ULong             dataPointCount,
         Boolean           isExternal,
@@ -116,6 +123,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetDescription = datasetDescription;
         this.hyperlink = hyperlink;
         this.sourceFile = sourceFile;
+        this.version = version;
         this.datasetType = datasetType;
         this.experimentId = experimentId;
         this.experimentName = experimentName;
@@ -128,6 +136,7 @@ public class ViewTableDatasets implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.dublinCore = dublinCore;
+        this.updatedOn = updatedOn;
         this.dataObjectCount = dataObjectCount;
         this.dataPointCount = dataPointCount;
         this.isExternal = isExternal;
@@ -174,6 +183,14 @@ public class ViewTableDatasets implements Serializable {
 
     public void setSourceFile(String sourceFile) {
         this.sourceFile = sourceFile;
+    }
+
+    public String getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getDatasetType() {
@@ -272,6 +289,14 @@ public class ViewTableDatasets implements Serializable {
         this.dublinCore = dublinCore;
     }
 
+    public Timestamp getUpdatedOn() {
+        return this.updatedOn;
+    }
+
+    public void setUpdatedOn(Timestamp updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
     public ULong getDataObjectCount() {
         return this.dataObjectCount;
     }
@@ -329,6 +354,7 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(datasetDescription);
         sb.append(", ").append(hyperlink);
         sb.append(", ").append(sourceFile);
+        sb.append(", ").append(version);
         sb.append(", ").append(datasetType);
         sb.append(", ").append(experimentId);
         sb.append(", ").append(experimentName);
@@ -341,6 +367,7 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(startDate);
         sb.append(", ").append(endDate);
         sb.append(", ").append(dublinCore);
+        sb.append(", ").append(updatedOn);
         sb.append(", ").append(dataObjectCount);
         sb.append(", ").append(dataPointCount);
         sb.append(", ").append(isExternal);

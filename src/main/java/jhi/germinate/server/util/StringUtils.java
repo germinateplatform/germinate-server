@@ -17,6 +17,8 @@
 
 package jhi.germinate.server.util;
 
+import java.util.*;
+
 /**
  * {@link StringUtils} contains methods to manipulate/check {@link String}s.
  *
@@ -49,5 +51,23 @@ public class StringUtils
 			return "\"\"";
 		else
 			return input;
+	}
+
+	public static String join(String separator, String... parts)
+	{
+		List<String> nonNull = new ArrayList<>();
+
+		if (parts != null)
+		{
+			for (String part : parts)
+			{
+				if (!StringUtils.isEmpty(part))
+					nonNull.add(part);
+			}
+
+			return String.join(separator, nonNull);
+		}
+
+		return null;
 	}
 }

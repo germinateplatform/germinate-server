@@ -7,6 +7,7 @@ package jhi.germinate.server.database.tables;
 import com.google.gson.JsonArray;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -42,7 +43,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = -1470956682;
+    private static final long serialVersionUID = 86962150;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_datasets</code>
@@ -81,6 +82,11 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
      * The column <code>germinate_template_4_0_0.view_table_datasets.source_file</code>.
      */
     public final TableField<ViewTableDatasetsRecord, String> SOURCE_FILE = createField("source_file", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_datasets.version</code>. Dataset version if this exists.
+     */
+    public final TableField<ViewTableDatasetsRecord, String> VERSION = createField("version", org.jooq.impl.SQLDataType.CHAR(10), this, "Dataset version if this exists.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_datasets.dataset_type</code>. Describes the experiment type.
@@ -141,6 +147,11 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
      * The column <code>germinate_template_4_0_0.view_table_datasets.dublin_core</code>.
      */
     public final TableField<ViewTableDatasetsRecord, DublinCore> DUBLIN_CORE = createField("dublin_core", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_datasets_dublin_core\""), this, "", new DublinCoreBinding());
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public final TableField<ViewTableDatasetsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
