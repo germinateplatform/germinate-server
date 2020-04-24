@@ -118,7 +118,7 @@ public interface FilteredResource
 				{
 					List<Condition> conditions = values.stream()
 													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
-													   .map(v -> DSL.condition("JSON_CONTAINS(" + field.getName() + ", '" + v + "')"))
+													   .map(v -> DSL.condition("JSON_CONTAINS(" + field.getName() + ", '\"" + v + "\"')"))
 													   .collect(Collectors.toList());
 
 					Condition result = conditions.get(0);
