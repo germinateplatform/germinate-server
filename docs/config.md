@@ -130,6 +130,10 @@ This is the most important file in your customization. It defines the required p
     # VERIFY allows the upload and checking/verification of templates
     # IMPORT allows everything VERIFY does, but also allows the actual import of data after the verification step
     data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'>
+  
+    # These are used to allow linking to an external resource from the marked germplasm page
+    external.link.identifier=<the column from the germinatebase to use>
+    external.link.template=<the template to put the joined identifiers into. Has to include '{identifiers}' e.g. 'https://www.google.co.uk/search?q={identifiers}'>
     
     # We can't keep files forever. These properties decide when files should be deleted.
     files.delete.after.hours.async = <after how many hours should files created from async import/export tasks be deleted>

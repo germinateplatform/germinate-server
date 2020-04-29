@@ -286,4 +286,8 @@ ADD INDEX `data_import_jobs_uuid`(`uuid`) USING BTREE,
 ADD INDEX `data_import_jobs_status`(`status`) USING BTREE,
 ADD INDEX `data_import_jobs_visibility`(`visibility`) USING BTREE;
 
+ALTER TABLE`datasetaccesslogs` DROP FOREIGN KEY `datasetaccesslogs_ibfk_1`;
+ALTER TABLE `datasetaccesslogs`
+ADD FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 SET FOREIGN_KEY_CHECKS=1;

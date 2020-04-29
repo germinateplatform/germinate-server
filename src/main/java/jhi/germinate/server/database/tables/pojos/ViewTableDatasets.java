@@ -33,7 +33,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets implements Serializable {
 
-    private static final long serialVersionUID = 866739532;
+    private static final long serialVersionUID = 984287295;
 
     private Integer           datasetId;
     private String            datasetName;
@@ -44,6 +44,7 @@ public class ViewTableDatasets implements Serializable {
     private String            datasetType;
     private Integer           experimentId;
     private String            experimentName;
+    private String            experimentDescription;
     private String            datatype;
     private String            datasetState;
     private DatasetLocation[] locations;
@@ -73,6 +74,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetType = value.datasetType;
         this.experimentId = value.experimentId;
         this.experimentName = value.experimentName;
+        this.experimentDescription = value.experimentDescription;
         this.datatype = value.datatype;
         this.datasetState = value.datasetState;
         this.locations = value.locations;
@@ -101,6 +103,7 @@ public class ViewTableDatasets implements Serializable {
         String            datasetType,
         Integer           experimentId,
         String            experimentName,
+        String            experimentDescription,
         String            datatype,
         String            datasetState,
         DatasetLocation[] locations,
@@ -127,6 +130,7 @@ public class ViewTableDatasets implements Serializable {
         this.datasetType = datasetType;
         this.experimentId = experimentId;
         this.experimentName = experimentName;
+        this.experimentDescription = experimentDescription;
         this.datatype = datatype;
         this.datasetState = datasetState;
         this.locations = locations;
@@ -215,6 +219,14 @@ public class ViewTableDatasets implements Serializable {
 
     public void setExperimentName(String experimentName) {
         this.experimentName = experimentName;
+    }
+
+    public String getExperimentDescription() {
+        return this.experimentDescription;
+    }
+
+    public void setExperimentDescription(String experimentDescription) {
+        this.experimentDescription = experimentDescription;
     }
 
     public String getDatatype() {
@@ -358,6 +370,7 @@ public class ViewTableDatasets implements Serializable {
         sb.append(", ").append(datasetType);
         sb.append(", ").append(experimentId);
         sb.append(", ").append(experimentName);
+        sb.append(", ").append(experimentDescription);
         sb.append(", ").append(datatype);
         sb.append(", ").append(datasetState);
         sb.append(", ").append(Arrays.toString(locations));

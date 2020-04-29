@@ -43,7 +43,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 86962150;
+    private static final long serialVersionUID = -1070758419;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_datasets</code>
@@ -99,9 +99,14 @@ public class ViewTableDatasets extends TableImpl<ViewTableDatasetsRecord> {
     public final TableField<ViewTableDatasetsRecord, Integer> EXPERIMENT_ID = createField("experiment_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. Describes the experiment.
+     * The column <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. The name of the experiment.
      */
-    public final TableField<ViewTableDatasetsRecord, String> EXPERIMENT_NAME = createField("experiment_name", org.jooq.impl.SQLDataType.CLOB, this, "Describes the experiment.");
+    public final TableField<ViewTableDatasetsRecord, String> EXPERIMENT_NAME = createField("experiment_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the experiment.");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_datasets.experiment_description</code>. Describes the experiment.
+     */
+    public final TableField<ViewTableDatasetsRecord, String> EXPERIMENT_DESCRIPTION = createField("experiment_description", org.jooq.impl.SQLDataType.CLOB, this, "Describes the experiment.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.

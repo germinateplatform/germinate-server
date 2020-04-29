@@ -20,6 +20,8 @@ public enum ServerProperty
 	DATABASE_USERNAME("database.username", null, true),
 	DATABASE_PASSWORD("database.password", null, false),
 	DATABASE_PORT("database.port", null, false),
+	EXTERNAL_LINK_IDENTIFIER("external.link.identifier", null, false),
+	EXTERNAL_LINK_TEMPLATE("external.link.template", null, false),
 	GERMINATE_CLIENT_URL("germinate.client.url", null, true),
 	GATEKEEPER_URL("gatekeeper.url", null, false),
 	GATEKEEPER_USERNAME("gatekeeper.username", null, false),

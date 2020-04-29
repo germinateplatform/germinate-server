@@ -33,7 +33,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRecord> {
 
-    private static final long serialVersionUID = 974559621;
+    private static final long serialVersionUID = 1742154887;
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -148,241 +148,255 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. Describes the experiment.
+     * Setter for <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. The name of the experiment.
      */
     public void setExperimentName(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. Describes the experiment.
+     * Getter for <code>germinate_template_4_0_0.view_table_datasets.experiment_name</code>. The name of the experiment.
      */
     public String getExperimentName() {
         return (String) get(8);
     }
 
     /**
+     * Setter for <code>germinate_template_4_0_0.view_table_datasets.experiment_description</code>. Describes the experiment.
+     */
+    public void setExperimentDescription(String value) {
+        set(9, value);
+    }
+
+    /**
+     * Getter for <code>germinate_template_4_0_0.view_table_datasets.experiment_description</code>. Describes the experiment.
+     */
+    public String getExperimentDescription() {
+        return (String) get(9);
+    }
+
+    /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
      */
     public void setDatatype(String value) {
-        set(9, value);
+        set(10, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.datatype</code>. A description of the data type of the contained data. Examples might be: "raw data", "BLUPs", etc.
      */
     public String getDatatype() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.dataset_state</code>. Defines the datasetstate.
      */
     public void setDatasetState(String value) {
-        set(10, value);
+        set(11, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.dataset_state</code>. Defines the datasetstate.
      */
     public String getDatasetState() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.locations</code>.
      */
     public void setLocations(DatasetLocation... value) {
-        set(11, value);
+        set(12, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.locations</code>.
      */
     public DatasetLocation[] getLocations() {
-        return (DatasetLocation[]) get(11);
+        return (DatasetLocation[]) get(12);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.license_id</code>.
      */
     public void setLicenseId(Integer value) {
-        set(12, value);
+        set(13, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.license_id</code>.
      */
     public Integer getLicenseId() {
-        return (Integer) get(12);
+        return (Integer) get(13);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.license_name</code>.
      */
     public void setLicenseName(String value) {
-        set(13, value);
+        set(14, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.license_name</code>.
      */
     public String getLicenseName() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
     public void setContact(String value) {
-        set(14, value);
+        set(15, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.contact</code>. The contact to get more information about this dataset.
      */
     public String getContact() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.start_date</code>. Date that the dataset was generated.
      */
     public void setStartDate(Date value) {
-        set(15, value);
+        set(16, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.start_date</code>. Date that the dataset was generated.
      */
     public Date getStartDate() {
-        return (Date) get(15);
+        return (Date) get(16);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.end_date</code>. Date at which the dataset recording ended.
      */
     public void setEndDate(Date value) {
-        set(16, value);
+        set(17, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.end_date</code>. Date at which the dataset recording ended.
      */
     public Date getEndDate() {
-        return (Date) get(16);
+        return (Date) get(17);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.dublin_core</code>.
      */
     public void setDublinCore(DublinCore value) {
-        set(17, value);
+        set(18, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.dublin_core</code>.
      */
     public DublinCore getDublinCore() {
-        return (DublinCore) get(17);
+        return (DublinCore) get(18);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
-        set(18, value);
+        set(19, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
-        return (Timestamp) get(18);
+        return (Timestamp) get(19);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
     public void setDataObjectCount(ULong value) {
-        set(19, value);
+        set(20, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.data_object_count</code>. The number of data objects contained in this dataset.
      */
     public ULong getDataObjectCount() {
-        return (ULong) get(19);
+        return (ULong) get(20);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
      */
     public void setDataPointCount(ULong value) {
-        set(20, value);
+        set(21, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.data_point_count</code>. The number of individual data points contained in this dataset.
      */
     public ULong getDataPointCount() {
-        return (ULong) get(20);
+        return (ULong) get(21);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
     public void setIsExternal(Boolean value) {
-        set(21, value);
+        set(22, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.is_external</code>. Defines if the dataset is contained within Germinate or from an external source and not stored in the database.
      */
     public Boolean getIsExternal() {
-        return (Boolean) get(21);
+        return (Boolean) get(22);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.collaborators</code>.
      */
     public void setCollaborators(Long value) {
-        set(22, value);
+        set(23, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.collaborators</code>.
      */
     public Long getCollaborators() {
-        return (Long) get(22);
+        return (Long) get(23);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.attributes</code>.
      */
     public void setAttributes(Long value) {
-        set(23, value);
+        set(24, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.attributes</code>.
      */
     public Long getAttributes() {
-        return (Long) get(23);
+        return (Long) get(24);
     }
 
     /**
      * Setter for <code>germinate_template_4_0_0.view_table_datasets.accepted_by</code>.
      */
     public void setAcceptedBy(JsonArray value) {
-        set(24, value);
+        set(25, value);
     }
 
     /**
      * Getter for <code>germinate_template_4_0_0.view_table_datasets.accepted_by</code>.
      */
     public JsonArray getAcceptedBy() {
-        return (JsonArray) get(24);
+        return (JsonArray) get(25);
     }
 
     // -------------------------------------------------------------------------
@@ -399,7 +413,7 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
     /**
      * Create a detached, initialised ViewTableDatasetsRecord
      */
-    public ViewTableDatasetsRecord(Integer datasetId, String datasetName, String datasetDescription, String hyperlink, String sourceFile, String version, String datasetType, Integer experimentId, String experimentName, String datatype, String datasetState, DatasetLocation[] locations, Integer licenseId, String licenseName, String contact, Date startDate, Date endDate, DublinCore dublinCore, Timestamp updatedOn, ULong dataObjectCount, ULong dataPointCount, Boolean isExternal, Long collaborators, Long attributes, JsonArray acceptedBy) {
+    public ViewTableDatasetsRecord(Integer datasetId, String datasetName, String datasetDescription, String hyperlink, String sourceFile, String version, String datasetType, Integer experimentId, String experimentName, String experimentDescription, String datatype, String datasetState, DatasetLocation[] locations, Integer licenseId, String licenseName, String contact, Date startDate, Date endDate, DublinCore dublinCore, Timestamp updatedOn, ULong dataObjectCount, ULong dataPointCount, Boolean isExternal, Long collaborators, Long attributes, JsonArray acceptedBy) {
         super(ViewTableDatasets.VIEW_TABLE_DATASETS);
 
         set(0, datasetId);
@@ -411,22 +425,23 @@ public class ViewTableDatasetsRecord extends TableRecordImpl<ViewTableDatasetsRe
         set(6, datasetType);
         set(7, experimentId);
         set(8, experimentName);
-        set(9, datatype);
-        set(10, datasetState);
-        set(11, locations);
-        set(12, licenseId);
-        set(13, licenseName);
-        set(14, contact);
-        set(15, startDate);
-        set(16, endDate);
-        set(17, dublinCore);
-        set(18, updatedOn);
-        set(19, dataObjectCount);
-        set(20, dataPointCount);
-        set(21, isExternal);
-        set(22, collaborators);
-        set(23, attributes);
-        set(24, acceptedBy);
+        set(9, experimentDescription);
+        set(10, datatype);
+        set(11, datasetState);
+        set(12, locations);
+        set(13, licenseId);
+        set(14, licenseName);
+        set(15, contact);
+        set(16, startDate);
+        set(17, endDate);
+        set(18, dublinCore);
+        set(19, updatedOn);
+        set(20, dataObjectCount);
+        set(21, dataPointCount);
+        set(22, isExternal);
+        set(23, collaborators);
+        set(24, attributes);
+        set(25, acceptedBy);
     }
 // @formatter:on
 }

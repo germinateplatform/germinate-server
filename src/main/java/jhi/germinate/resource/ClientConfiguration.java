@@ -9,17 +9,19 @@ import jhi.germinate.server.auth.AuthenticationMode;
  */
 public class ClientConfiguration
 {
+	private AuthenticationMode authMode;
 	private List<String>       colorsTemplate;
 	private List<String>       colorsCharts;
 	private String             colorPrimary;
-	private List<String>       hiddenPages;
+	private Boolean            commentsEnabled;
 	private List<String>       dashboardCategories;
+	private DataImportMode     dataImportMode;
+	private String             externalLinkIdentifier;
+	private String             externalLinkTemplate;
 	private String             googleAnalyticsKey;
-	private AuthenticationMode authMode;
+	private List<String>       hiddenPages;
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
-	private Boolean            commentsEnabled;
-	private DataImportMode     dataImportMode;
 
 	public ClientConfiguration()
 	{
@@ -77,6 +79,28 @@ public class ClientConfiguration
 	public ClientConfiguration setAuthMode(AuthenticationMode authMode)
 	{
 		this.authMode = authMode;
+		return this;
+	}
+
+	public String getExternalLinkIdentifier()
+	{
+		return externalLinkIdentifier;
+	}
+
+	public ClientConfiguration setExternalLinkIdentifier(String externalLinkIdentifier)
+	{
+		this.externalLinkIdentifier = externalLinkIdentifier;
+		return this;
+	}
+
+	public String getExternalLinkTemplate()
+	{
+		return externalLinkTemplate;
+	}
+
+	public ClientConfiguration setExternalLinkTemplate(String externalLinkTemplate)
+	{
+		this.externalLinkTemplate = externalLinkTemplate;
 		return this;
 	}
 
