@@ -1,7 +1,8 @@
 package jhi.germinate.server.resource.importers;
 
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.restlet.data.Status;
+import org.restlet.resource.Delete;
 import org.restlet.resource.*;
 
 import java.sql.*;
@@ -105,7 +106,7 @@ public class ImportJobResource extends BaseServerResource implements AsyncResour
 	}
 
 	@Post("json")
-	@MinUserType(UserType.DATA_CURATOR)
+//	@MinUserType(UserType.DATA_CURATOR)
 	public List<DataImportJobs> postJson(UuidRequest request)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
@@ -116,12 +117,16 @@ public class ImportJobResource extends BaseServerResource implements AsyncResour
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
-			return context.selectFrom(DATA_IMPORT_JOBS)
-						  .where(DATA_IMPORT_JOBS.UUID.in(request.getUuids())
-													  .or(DATA_IMPORT_JOBS.USER_ID.eq(userDetails.getId())))
-						  .and(DATA_IMPORT_JOBS.VISIBILITY.eq(true))
-						  .orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
-						  .fetchInto(DataImportJobs.class);
+			SelectConditionStep<?> step = context.selectFrom(DATA_IMPORT_JOBS)
+												 .where(DATA_IMPORT_JOBS.VISIBILITY.eq(true));
+
+			if (userDetails.getId() != -1000)
+				step.and(DATA_IMPORT_JOBS.USER_ID.eq(userDetails.getId()));
+			else
+				step.and(DATA_IMPORT_JOBS.UUID.in(request.getUuids()));
+
+			return step.orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
+					   .fetchInto(DataImportJobs.class);
 		}
 		catch (SQLException e)
 		{
