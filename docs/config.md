@@ -85,7 +85,7 @@ This directory holds configuration files for the Germinate user interface.
       }
       ```
   - `en_GB.json`  
-  This is an example file of one of the possible locale files. Germinate always supports the locale `en_GB` (British English), but also any other locale defined in the `locales.json` file. Files like `en_GB.json` allow you to define custom text within this language. For British English, it would suffice to only specify the text you want to change. For any other language, you'll have to provide your own file (e.g. `de_DE.json`) containing all the text on the interface. A list of all entries can be found in the fallback `en_GB.json` file that's part of the client code (**INSERT LINK**).
+  This is an example file of one of the possible locale files. Germinate always supports the locale `en_GB` (British English), but also any other locale defined in the `locales.json` file. Files like `en_GB.json` allow you to define custom text within this language. For British English, it would suffice to only specify the text you want to change. For any other language, you'll have to provide your own file (e.g. `de_DE.json`) containing all the text on the interface. A list of all entries can be found in [a dedicated repository](https://github.com/germinateplatform/germinate-i18n).
 - `config.properties`  
 This is the most important file in your customization. It defines the required properties for Germinate without which it couldn't work. This includes properties like the database details and user credentials as well as various customization options.
 
