@@ -8,7 +8,7 @@
 *.ear
 
 /.gradle/
-/gradle/
+# /gradle/
 
 /out/
 /test/

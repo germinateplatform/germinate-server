@@ -144,10 +144,10 @@ The steps involved to build the client of Germinate are as follows:
 3. Build Germinate
 
 #### Download Germinate Client
-You can either download the code from GitHub directly via the [releases](https://github.com/sebastian-raubach/germinate-vue/releases) or you can check out the latest release via the command line: 
+You can either download the code from GitHub directly via the [releases](https://github.com/germinateplatform/germinate-vue/releases) or you can check out the latest release via the command line: 
 
 ```shell
-git clone -b '4.0.0' --depth 1 https://github.com/sebastian-raubach/germinate-vue.git
+git clone -b '4.0.0' --depth 1 https://github.com/germinateplatform/germinate-vue.git
 ```
 
 #### Configure Germinate Client
@@ -161,10 +161,10 @@ npm i
 Create a file called `.env` and add this to it:
 
 ```ini
-VUE_APP_BASE_URL=/<project.name>/v<api.version>/api/
+VUE_APP_BASE_URL=/<project.name>/v4.0.0/api/
 ```
 
-Where `project.name` and `api.version` come from the Germinate Server configuration below.
+Where `project.name` comes from the Germinate Server configuration below.
 
 #### Build Germinate
 
@@ -188,10 +188,10 @@ Setting up the server involves the following steps:
 Let's go through these steps one at a time.
 
 #### Download Germinate Server
-You can either download the code from GitHub directly via the [releases](https://github.com/sebastian-raubach/germinate-server/releases) or you can check out the latest release via the command line: 
+You can either download the code from GitHub directly via the [releases](https://github.com/germinateplatform/germinate-server/releases) or you can check out the latest release via the command line: 
 
 ```shell
-git clone -b '4.0.0' --depth 1 https://github.com/sebastian-raubach/germinate-server.git
+git clone -b '4.0.0' --depth 1 https://github.com/germinateplatform/germinate-server.git
 ```
 
 #### Configure Germinate Server
@@ -221,17 +221,17 @@ The configuration directory and its content are described in the <a href="config
 
 #### Include Germinate Client
 
-Copy the whole content of the `dist` directory within the Germinate Client source into the `web` directory within the Germinate Server source. 
+Copy the whole content of the `dist` directory within the Germinate Client source into the `src/main/webapp` directory within the Germinate Server source. 
 
 #### Build Germinate Server
 
 Once all previous steps are complete, building Germinate Server is as simple as calling:
 
 ```shell
-gradle deplotTomcat
+gradle deployTomcat
 ```
 
-After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v<api.version>`).
+After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v4.0.0`).
 
 
 ## Proxy
