@@ -4,6 +4,8 @@
 package jhi.germinate.server.database.tables;
 
 
+import java.sql.Timestamp;
+
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_4_0_0;
@@ -33,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmAttributes extends TableImpl<ViewTableGermplasmAttributesRecord> {
 
-    private static final long serialVersionUID = -1364099545;
+    private static final long serialVersionUID = -2030580358;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_germplasm_attributes</code>
@@ -47,6 +49,11 @@ public class ViewTableGermplasmAttributes extends TableImpl<ViewTableGermplasmAt
     public Class<ViewTableGermplasmAttributesRecord> getRecordType() {
         return ViewTableGermplasmAttributesRecord.class;
     }
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_value_id</code>. Primary id for this table. This uniquely identifies the row.
+     */
+    public final TableField<ViewTableGermplasmAttributesRecord, Integer> ATTRIBUTE_VALUE_ID = createField("attribute_value_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_germplasm_attributes.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
@@ -92,6 +99,11 @@ public class ViewTableGermplasmAttributes extends TableImpl<ViewTableGermplasmAt
      * The column <code>germinate_template_4_0_0.view_table_germplasm_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public final TableField<ViewTableGermplasmAttributesRecord, Integer> FOREIGN_ID = createField("foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to germinatebase (germinatebase.id).");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_germplasm_attributes.created_on</code>. When the record was created.
+     */
+    public final TableField<ViewTableGermplasmAttributesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was created.");
 
     /**
      * The column <code>germinate_template_4_0_0.view_table_germplasm_attributes.attribute_value</code>. The value of the attribute.

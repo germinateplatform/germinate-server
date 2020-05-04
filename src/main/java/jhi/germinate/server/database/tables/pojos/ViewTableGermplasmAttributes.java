@@ -5,6 +5,7 @@ package jhi.germinate.server.database.tables.pojos;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -25,8 +26,9 @@ import jhi.germinate.server.database.enums.ViewTableGermplasmAttributesAttribute
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableGermplasmAttributes implements Serializable {
 
-    private static final long serialVersionUID = -325944854;
+    private static final long serialVersionUID = -469259939;
 
+    private Integer                                   attributeValueId;
     private Integer                                   germplasmId;
     private String                                    germplasmGid;
     private String                                    germplasmName;
@@ -36,11 +38,13 @@ public class ViewTableGermplasmAttributes implements Serializable {
     private ViewTableGermplasmAttributesAttributeType attributeType;
     private String                                    targetTable;
     private Integer                                   foreignId;
+    private Timestamp                                 createdOn;
     private String                                    attributeValue;
 
     public ViewTableGermplasmAttributes() {}
 
     public ViewTableGermplasmAttributes(ViewTableGermplasmAttributes value) {
+        this.attributeValueId = value.attributeValueId;
         this.germplasmId = value.germplasmId;
         this.germplasmGid = value.germplasmGid;
         this.germplasmName = value.germplasmName;
@@ -50,10 +54,12 @@ public class ViewTableGermplasmAttributes implements Serializable {
         this.attributeType = value.attributeType;
         this.targetTable = value.targetTable;
         this.foreignId = value.foreignId;
+        this.createdOn = value.createdOn;
         this.attributeValue = value.attributeValue;
     }
 
     public ViewTableGermplasmAttributes(
+        Integer                                   attributeValueId,
         Integer                                   germplasmId,
         String                                    germplasmGid,
         String                                    germplasmName,
@@ -63,8 +69,10 @@ public class ViewTableGermplasmAttributes implements Serializable {
         ViewTableGermplasmAttributesAttributeType attributeType,
         String                                    targetTable,
         Integer                                   foreignId,
+        Timestamp                                 createdOn,
         String                                    attributeValue
     ) {
+        this.attributeValueId = attributeValueId;
         this.germplasmId = germplasmId;
         this.germplasmGid = germplasmGid;
         this.germplasmName = germplasmName;
@@ -74,7 +82,16 @@ public class ViewTableGermplasmAttributes implements Serializable {
         this.attributeType = attributeType;
         this.targetTable = targetTable;
         this.foreignId = foreignId;
+        this.createdOn = createdOn;
         this.attributeValue = attributeValue;
+    }
+
+    public Integer getAttributeValueId() {
+        return this.attributeValueId;
+    }
+
+    public void setAttributeValueId(Integer attributeValueId) {
+        this.attributeValueId = attributeValueId;
     }
 
     public Integer getGermplasmId() {
@@ -149,6 +166,14 @@ public class ViewTableGermplasmAttributes implements Serializable {
         this.foreignId = foreignId;
     }
 
+    public Timestamp getCreatedOn() {
+        return this.createdOn;
+    }
+
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
+    }
+
     public String getAttributeValue() {
         return this.attributeValue;
     }
@@ -161,7 +186,8 @@ public class ViewTableGermplasmAttributes implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewTableGermplasmAttributes (");
 
-        sb.append(germplasmId);
+        sb.append(attributeValueId);
+        sb.append(", ").append(germplasmId);
         sb.append(", ").append(germplasmGid);
         sb.append(", ").append(germplasmName);
         sb.append(", ").append(attributeId);
@@ -170,6 +196,7 @@ public class ViewTableGermplasmAttributes implements Serializable {
         sb.append(", ").append(attributeType);
         sb.append(", ").append(targetTable);
         sb.append(", ").append(foreignId);
+        sb.append(", ").append(createdOn);
         sb.append(", ").append(attributeValue);
 
         sb.append(")");
