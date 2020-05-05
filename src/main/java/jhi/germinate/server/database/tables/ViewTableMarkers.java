@@ -6,6 +6,8 @@ package jhi.germinate.server.database.tables;
 
 import com.google.gson.JsonArray;
 
+import java.sql.Timestamp;
+
 import javax.annotation.Generated;
 
 import jhi.germinate.server.database.GerminateTemplate_4_0_0;
@@ -35,7 +37,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMarkers extends TableImpl<ViewTableMarkersRecord> {
 
-    private static final long serialVersionUID = 505291876;
+    private static final long serialVersionUID = 1827762785;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_table_markers</code>
@@ -69,6 +71,17 @@ public class ViewTableMarkers extends TableImpl<ViewTableMarkersRecord> {
      * The column <code>germinate_template_4_0_0.view_table_markers.marker_synonyms</code>. The synonyms as a json array.
      */
     public final TableField<ViewTableMarkersRecord, JsonArray> MARKER_SYNONYMS = createField("marker_synonyms", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_markers_marker_synonyms\""), this, "The synonyms as a json array.", new SynonymBinding());
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_markers.created_on</code>. When the record was created.
+
+     */
+    public final TableField<ViewTableMarkersRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was created.\n");
+
+    /**
+     * The column <code>germinate_template_4_0_0.view_table_markers.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     */
+    public final TableField<ViewTableMarkersRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
      * Create a <code>germinate_template_4_0_0.view_table_markers</code> table reference
