@@ -325,7 +325,7 @@ public class Germinate extends Application
 
 		// Add BrAPI endpoints
 		if (PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
-			new Brapi("/brapi/v2", routerAuth, routerUnauth);
+			new Brapi("/brapi/v2", routerAuth, routerUnauth, PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL) + "/data/genotypes/");
 
 		// CORS first, then unahtorized paths
 		corsFilter.setNext(routerUnauth);
