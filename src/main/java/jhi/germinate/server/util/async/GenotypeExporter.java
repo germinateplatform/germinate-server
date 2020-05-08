@@ -111,7 +111,6 @@ public class GenotypeExporter
 			resultFiles.add(identifierFile);
 
 		Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File, germplasm, markers, tabbedFile.getAbsolutePath(), false);
-		converter.readInput();
 		converter.extractData(headers);
 
 		List<String> logs = new ArrayList<>();

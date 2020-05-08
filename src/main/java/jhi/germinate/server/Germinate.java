@@ -323,7 +323,6 @@ public class Germinate extends Application
 		attachToRouter(routerUnauth, "/settings/css", SettingsCssResource.class);
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
-		// Add BrAPI endpoints
 		if (PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
 			new Brapi("/brapi/v2", routerAuth, routerUnauth, PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL) + "/data/genotypes/");
 

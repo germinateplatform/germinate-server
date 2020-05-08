@@ -52,7 +52,7 @@ public class AsyncDatasetExportDownloadResource extends BaseServerResource
 	}
 
 	@Get
-	public FileRepresentation postJson()
+	public FileRepresentation getJson()
 	{
 		if (StringUtils.isEmpty(jobUuid))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);

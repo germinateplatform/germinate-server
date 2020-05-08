@@ -36,7 +36,7 @@ public class Hdf5ToFJTabbedConverter
 
 	private static final String STATE_TABLE = "StateTable";
 
-	private File                  hdf5File;
+	private File        hdf5File;
 	private Set<String> lines;
 	private Set<String> markers;
 
@@ -44,8 +44,8 @@ public class Hdf5ToFJTabbedConverter
 
 	private Map<String, Integer> lineInds;
 	private Map<String, Integer> markerInds;
-	private Set<String> hdf5Lines;
-	private Set<String> hdf5Markers;
+	private Set<String>          hdf5Lines;
+	private Set<String>          hdf5Markers;
 
 	private IHDF5Reader reader;
 
@@ -59,9 +59,11 @@ public class Hdf5ToFJTabbedConverter
 		this.markers = markers;
 		this.outputFilePath = outputFilePath;
 		this.transposed = transposed;
+
+		readInput();
 	}
 
-	public void readInput()
+	private void readInput()
 	{
 		reader = HDF5Factory.openForReading(hdf5File);
 
@@ -128,7 +130,7 @@ public class Hdf5ToFJTabbedConverter
 			writer.println("# fjFile = GENOTYPE");
 
 			// Output any extra header lines that have been provided such as db link urls
-			if (!headerLines.isEmpty())
+			if (headerLines != null && !headerLines.isEmpty())
 				writer.print(headerLines);
 
 			if (transposed)
