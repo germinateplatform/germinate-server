@@ -28,7 +28,7 @@ public interface FilteredResource
 	{
 		if (filters != null && filters.length > 0)
 		{
-			SelectConditionStep<T> where = step.and(filterIndividual(filters[0], jsonOperationAllowed));
+			Condition overall = filterIndividual(filters[0], jsonOperationAllowed);
 
 			for (int i = 1; i < filters.length; i++)
 			{
@@ -39,14 +39,16 @@ public interface FilteredResource
 					switch (filters[i - 1].getOperator())
 					{
 						case "and":
-							where.and(condition);
+							overall = overall.and(condition);
 							break;
 						case "or":
-							where.or(condition);
+							overall = overall.or(condition);
 							break;
 					}
 				}
 			}
+
+			step.and(overall);
 		}
 	}
 
@@ -54,7 +56,7 @@ public interface FilteredResource
 	{
 		if (filters != null && filters.length > 0)
 		{
-			SelectConditionStep<T> where = step.where(filterIndividual(filters[0], jsonOperationAllowed));
+			Condition overall = filterIndividual(filters[0], jsonOperationAllowed);
 
 			for (int i = 1; i < filters.length; i++)
 			{
@@ -65,14 +67,16 @@ public interface FilteredResource
 					switch (filters[i - 1].getOperator())
 					{
 						case "and":
-							where.and(condition);
+							overall = overall.and(condition);
 							break;
 						case "or":
-							where.or(condition);
+							overall = overall.or(condition);
 							break;
 					}
 				}
 			}
+
+			step.where(overall);
 		}
 	}
 

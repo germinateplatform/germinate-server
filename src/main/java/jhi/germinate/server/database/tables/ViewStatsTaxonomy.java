@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsTaxonomy extends TableImpl<ViewStatsTaxonomyRecord> {
 
-    private static final long serialVersionUID = -1310606918;
+    private static final long serialVersionUID = -458433944;
 
     /**
      * The reference instance of <code>germinate_template_4_0_0.view_stats_taxonomy</code>
@@ -48,19 +48,19 @@ public class ViewStatsTaxonomy extends TableImpl<ViewStatsTaxonomyRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>. Genus name for the species.
+     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>.
      */
-    public final TableField<ViewStatsTaxonomyRecord, String> GENUS = createField("genus", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Genus name for the species.");
+    public final TableField<ViewStatsTaxonomyRecord, String> GENUS = createField("genus", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>. Species name in lowercase.
+     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>.
      */
-    public final TableField<ViewStatsTaxonomyRecord, String> SPECIES = createField("species", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Species name in lowercase.");
+    public final TableField<ViewStatsTaxonomyRecord, String> SPECIES = createField("species", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
+     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>.
      */
-    public final TableField<ViewStatsTaxonomyRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Subtaxa name.");
+    public final TableField<ViewStatsTaxonomyRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>germinate_template_4_0_0.view_stats_taxonomy.count</code>.

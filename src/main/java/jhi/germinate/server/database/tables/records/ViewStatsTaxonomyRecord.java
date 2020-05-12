@@ -28,45 +28,45 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsTaxonomyRecord extends TableRecordImpl<ViewStatsTaxonomyRecord> implements Record4<String, String, String, Long> {
 
-    private static final long serialVersionUID = -1071966704;
+    private static final long serialVersionUID = 1498621500;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>. Genus name for the species.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>.
      */
     public void setGenus(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>. Genus name for the species.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>.
      */
     public String getGenus() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>. Species name in lowercase.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>.
      */
     public void setSpecies(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>. Species name in lowercase.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>.
      */
     public String getSpecies() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
+     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>.
      */
     public void setSubtaxa(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>. Subtaxa name.
+     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>.
      */
     public String getSubtaxa() {
         return (String) get(2);

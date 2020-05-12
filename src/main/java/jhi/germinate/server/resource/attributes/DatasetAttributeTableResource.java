@@ -91,9 +91,8 @@ public class DatasetAttributeTableResource extends PaginatedServerResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_DATASET_ATTRIBUTES);
-
-			from.where(VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds));
+			SelectConditionStep<Record> from = select.from(VIEW_TABLE_DATASET_ATTRIBUTES)
+													 .where(VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);
