@@ -11,7 +11,9 @@ import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.logging.*;
 
 import jhi.germinate.resource.PaginatedRequest;
@@ -61,6 +63,8 @@ public class ImageTableExportResource extends PaginatedServerResource
 				// Filter here!
 				filter(from, filters);
 
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
 				setPaginationAndOrderBy(from)
 					.fetchInto(ViewTableImages.class)
 					.forEach(i -> {
@@ -69,7 +73,11 @@ public class ImageTableExportResource extends PaginatedServerResource
 						if (source.exists())
 						{
 							String targetPrefix = i.getImageRefTable();
-							String targetName = i.getReferenceName();
+							String targetName;
+							if (i.getCreatedOn() != null)
+								targetName = sdf.format(new Date(i.getCreatedOn().getTime())) + "-" + i.getReferenceName();
+							else
+								targetName = i.getReferenceName();
 							String fileExtension = i.getImagePath().substring(i.getImagePath().lastIndexOf("."));
 							Path target = fs.getPath("/", targetPrefix, targetName + fileExtension);
 							try
