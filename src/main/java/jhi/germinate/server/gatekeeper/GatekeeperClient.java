@@ -45,6 +45,9 @@ public class GatekeeperClient
 		if (!url.endsWith("/"))
 			url += "/";
 
+		if (!url.endsWith("api/"))
+			url += "api/";
+
 		GatekeeperClient.url = url;
 		GatekeeperClient.username = username;
 		GatekeeperClient.password = password;

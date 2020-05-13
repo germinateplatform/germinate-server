@@ -19,6 +19,7 @@ public class ClientConfiguration
 	private String             externalLinkIdentifier;
 	private String             externalLinkTemplate;
 	private String             googleAnalyticsKey;
+	private String             gatekeeperUrl;
 	private List<String>       hiddenPages;
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
@@ -68,6 +69,17 @@ public class ClientConfiguration
 	public ClientConfiguration setHiddenPages(List<String> hiddenPages)
 	{
 		this.hiddenPages = hiddenPages;
+		return this;
+	}
+
+	public String getGatekeeperUrl()
+	{
+		return gatekeeperUrl;
+	}
+
+	public ClientConfiguration setGatekeeperUrl(String gatekeeperUrl)
+	{
+		this.gatekeeperUrl = gatekeeperUrl;
 		return this;
 	}
 
