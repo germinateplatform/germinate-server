@@ -178,13 +178,16 @@ public class GatekeeperClient
 		{
 			if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) != AuthenticationMode.NONE)
 			{
-				// Try to get them again, Gatekeeper may have been unavailable
-				getUsersFromGatekeeper();
+				ViewUserDetails result = users.get(id);
 
-				if (users == null)
-					return null;
-				else return
-					users.get(id);
+				if (result == null)
+				{
+					// Try to get them again, Gatekeeper may have been unavailable
+					getUsersFromGatekeeper();
+					result = users.get(id);
+				}
+
+				return result;
 			}
 			else
 			{

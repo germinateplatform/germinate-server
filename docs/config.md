@@ -89,67 +89,67 @@ This directory holds configuration files for the Germinate user interface.
 - `config.properties`  
 This is the most important file in your customization. It defines the required properties for Germinate without which it couldn't work. This includes properties like the database details and user credentials as well as various customization options.
 
-    ```ini
-    # Database properties. Server name, database name and user name are required.
-    # A password may be optional depending on your configuration and the port only needs to be provided if it's not 3306. 
-    database.server   = <database server>
-    database.name     = <database name>
-    database.username = <database username>
-    database.password = <database password if required
-    database.port     = <database port if not 3306>
-    
-    # This is required so that the server can generate files that link back to the user interface
-    germinate.client.url = <base url of the client, e.g. https://ics.hutton.ac.uk/germinate-demo/>
-    
-    # If Gatekeeper is used, these properties are required. Username and password have to be the credentials of an actual Gatekeeper user with admin permissions for this Germinate database. 
-    gatekeeper.url                            = <base url of gatekeeper if using>
-    gatekeeper.username                       = <username of gatekeeper if using>
-    gatekeeper.password                       = <password of gatekeeper if using and required>
-    # User registration can be enabled
-    gatekeeper.registration.enabled           = <should new users be able to register for an account>
-    gatekeeper.registration.requires.approval = <if registration is enabled, does it require approval from an administrator>
-    # Passwords are stored hashed and salted, not in plain text. Increasing the salt will make it more robust against brute force attackes, but will also slow down authentication of genuine logins.
-    bcrypt.salt                               = <the salt value used for password hashing. higher means more secure, but also slower. 10 default>
+```ini
+# Database properties. Server name, database name and user name are required.
+# A password may be optional depending on your configuration and the port only needs to be provided if it's not 3306. 
+database.server   = <database server>
+database.name     = <database name>
+database.username = <database username>
+database.password = <database password if required
+database.port     = <database port if not 3306>
 
-    # Colors for the user interface. These are used in charts and the template. All have to be privided as Hex colors (e.g. #ffffff for white or #000000 for black)      
-    color.primary   = <the primary color (hex-code) of the user interface>
-    colors.charts   = <comma separated list of colors (hex-code) used for charts>
-    colors.template = <comma separated list of colors (hex-code) used for the user interface>
-    
-    # This is the most important property. It points Germinate to the location of all configuration files.
-    data.directory.external = <location of the directory containing the configuration files (the ones explained in this section). Should be '/data/germinate' if using the Docker image.>
-    
-    # The authentication mode determines whether users have to log in or not.
-    # NONE disables authentication (and the use of Gatekeeper).
-    # FULL requires all users to log in before they can even see any data.
-    # SELECTIVE only requires users to log in if they want to use any features that alter the database, e.g. creating groups, adding comments, etc.
-    authentication.mode = <either 'SELECTIVE', 'FULL' or 'NONE'>
-  
-    # The data import mode determines whether Data Curators (in Gatekeeper) can verify or upload data in the Excel templates.
-    # NONE disables data verification and upload
-    # VERIFY allows the upload and checking/verification of templates
-    # IMPORT allows everything VERIFY does, but also allows the actual import of data after the verification step
-    data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'>
-  
-    # These are used to allow linking to an external resource from the marked germplasm page
-    external.link.identifier=<the column from the germinatebase to use>
-    external.link.template=<the template to put the joined identifiers into. Has to include '{identifiers}' e.g. 'https://www.google.co.uk/search?q={identifiers}'>
-    
-    # We can't keep files forever. These properties decide when files should be deleted.
-    files.delete.after.hours.async = <after how many hours should files created from async import/export tasks be deleted>
-    files.delete.after.hours.temp  = <after how many hours should temporary files be deleted (e.g. chart files, synchronous download files, etc)>
-    
-    # Google Analytics will be enabled if this property is set.
-    google.analytics.key      = <google analytics key if using>
-    # The colored boxes at the top of the dashboard/home page can be changed here.
-    dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'compounds', 'groups', 'compounds', 'datasets'>
-    # Pages can be hidden for example if you don't have that kind of data.
-    hidden.pages              = <names of those pages that should be hidden from the user interface (**LINK TO FILE HERE**)>
-    # The comments feature can be disabled if you don't want users to add comments.
-    comments.enabled          = <should the comments feature be enabled>
-    # The PDCI calculation can be disabled if you don't wish to show this information.
-    pdci.enabled              = <should the PDCI be calculated and shown on the user interface>
-    # GDPR compliance is important and this has to be enabled if you're expecting users from the EU. It gives them the option to enable non-essential cookies for convenience. 
-    gdpr.notification.enabled = <should the GDPR compliance banner be shown. if so, users can deny the usage of cookies which will disable some features>
-    ```
+# This is required so that the server can generate files that link back to the user interface
+germinate.client.url = <base url of the client, e.g. https://ics.hutton.ac.uk/germinate-demo/>
+
+# If Gatekeeper is used, these properties are required. Username and password have to be the credentials of an actual Gatekeeper user with admin permissions for Gatekeeper (not Germinate). 
+gatekeeper.url                            = <base url of gatekeeper if using>
+gatekeeper.username                       = <username of gatekeeper if using>
+gatekeeper.password                       = <password of gatekeeper if using and required>
+# User registration can be enabled
+gatekeeper.registration.enabled           = <should new users be able to register for an account>
+gatekeeper.registration.requires.approval = <if registration is enabled, does it require approval from an administrator>
+# Passwords are stored hashed and salted, not in plain text. Increasing the salt will make it more robust against brute force attackes, but will also slow down authentication of genuine logins.
+bcrypt.salt                               = <the salt value used for password hashing. higher means more secure, but also slower. 10 default>
+
+# Colors for the user interface. These are used in charts and the template. All have to be privided as Hex colors (e.g. #ffffff for white or #000000 for black)      
+color.primary   = <the primary color (hex-code) of the user interface>
+colors.charts   = <comma separated list of colors (hex-code) used for charts>
+colors.template = <comma separated list of colors (hex-code) used for the user interface>
+
+# This is the most important property. It points Germinate to the location of all configuration files.
+data.directory.external = <location of the directory containing the configuration files (the ones explained in this section). Should be '/data/germinate' if using the Docker image.>
+
+# The authentication mode determines whether users have to log in or not.
+# NONE disables authentication (and the use of Gatekeeper).
+# FULL requires all users to log in before they can even see any data.
+# SELECTIVE only requires users to log in if they want to use any features that alter the database, e.g. creating groups, adding comments, etc.
+authentication.mode = <either 'SELECTIVE', 'FULL' or 'NONE'>
+
+# The data import mode determines whether Data Curators (in Gatekeeper) can verify or upload data in the Excel templates.
+# NONE disables data verification and upload
+# VERIFY allows the upload and checking/verification of templates
+# IMPORT allows everything VERIFY does, but also allows the actual import of data after the verification step
+data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'>
+
+# These are used to allow linking to an external resource from the marked germplasm page
+external.link.identifier=<the column from the germinatebase to use>
+external.link.template=<the template to put the joined identifiers into. Has to include '{identifiers}' e.g. 'https://www.google.co.uk/search?q={identifiers}'>
+
+# We can't keep files forever. These properties decide when files should be deleted.
+files.delete.after.hours.async = <after how many hours should files created from async import/export tasks be deleted>
+files.delete.after.hours.temp  = <after how many hours should temporary files be deleted (e.g. chart files, synchronous download files, etc)>
+
+# Google Analytics will be enabled if this property is set.
+google.analytics.key      = <google analytics key if using>
+# The colored boxes at the top of the dashboard/home page can be changed here.
+dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'compounds', 'groups', 'compounds', 'datasets'>
+# Pages can be hidden for example if you don't have that kind of data.
+hidden.pages              = <names of those pages that should be hidden from the user interface (**LINK TO FILE HERE**)>
+# The comments feature can be disabled if you don't want users to add comments.
+comments.enabled          = <should the comments feature be enabled>
+# The PDCI calculation can be disabled if you don't wish to show this information.
+pdci.enabled              = <should the PDCI be calculated and shown on the user interface>
+# GDPR compliance is important and this has to be enabled if you're expecting users from the EU. It gives them the option to enable non-essential cookies for convenience. 
+gdpr.notification.enabled = <should the GDPR compliance banner be shown. if so, users can deny the usage of cookies which will disable some features>
+```
   

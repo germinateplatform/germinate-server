@@ -57,7 +57,7 @@ services:
     container_name: mysql
 
   tomcat:
-      image: sraubach/germinate
+      image: cropgeeks/germinate:release-x86-4.0.0
       environment:
         - JAVA_OPTS:-Xmx512m
       ports:
@@ -108,7 +108,7 @@ docker run -d \
     -v /path/to/your/germinate/config:/data/germinate \
     -p 9080:8080 \
     --restart unless-stopped \
-    sraubach/germinate
+    cropgeeks/germinate:release-x86-4.0.0
 ```
 
 Make sure you have at least a `config.properties` file in the location at `/path/to/your/germinate/config`. See <a href="config.html">Configuration</a> for additional config options. This file will contain the database configuration and also this property:

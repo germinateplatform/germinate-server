@@ -8,6 +8,7 @@ import org.restlet.resource.*;
 import java.util.*;
 
 import jhi.germinate.resource.*;
+import jhi.germinate.resource.Filter;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
