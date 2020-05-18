@@ -83,7 +83,10 @@ public class LinksTableResource extends BaseServerResource
 							  break;
 					  }
 
-					  l.setHyperlink(hyperlink.replace(placeholder, value));
+					  if (StringUtils.isEmpty(value))
+					  	l.setHyperlink(null);
+					  else
+					  	l.setHyperlink(hyperlink.replace(placeholder, value));
 				  });
 
 			return result;

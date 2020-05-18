@@ -72,8 +72,9 @@ public class ImageSourceResource extends ServerResource
 		else if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(type))
 		{
 			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type), name);
-			File small = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type), "thumbnail-" + name);
+			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 
+			name = large.getName();
 			String extension = name.substring(name.lastIndexOf(".") + 1, name.length() - 1).toLowerCase();
 
 			MediaType mediaType;
