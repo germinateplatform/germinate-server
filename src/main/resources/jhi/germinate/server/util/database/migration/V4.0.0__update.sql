@@ -112,8 +112,8 @@ CREATE TABLE `image_to_tags`  (
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP(0),
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`image_id`, `imagetag_id`),
-  CONSTRAINT `image_to_tag_ibfk_image` FOREIGN KEY (`image_id`) REFERENCES `germinate_demo_api`.`images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `image_to_tag_ibfk_imagetag` FOREIGN KEY (`imagetag_id`) REFERENCES `germinate_demo_api`.`imagetags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `image_to_tag_ibfk_image` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `image_to_tag_ibfk_imagetag` FOREIGN KEY (`imagetag_id`) REFERENCES `imagetags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 UPDATE `news` SET `image` = REPLACE(`image`, 'css/images/css-images/', '');
