@@ -52,7 +52,14 @@ public class GatekeeperClient
 		GatekeeperClient.username = username;
 		GatekeeperClient.password = password;
 
-		reset();
+		try
+		{
+			reset();
+		}
+		catch (ResourceException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private static void reset()
