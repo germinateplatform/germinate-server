@@ -108,7 +108,8 @@ public class PedigreeExportResource extends BaseServerResource
 															   .from(GERMINATEBASE)
 															   .where(DSL.exists(DSL.selectOne()
 																					.from(PEDIGREES)
-																					.where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))));
+																					.where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)
+																													 .or(PEDIGREES.PARENT_ID.eq(GERMINATEBASE.ID)))));
 
 			if (!CollectionUtils.isEmpty(request.getIndividualIds()))
 				step.and(GERMINATEBASE.ID.in(request.getIndividualIds()));

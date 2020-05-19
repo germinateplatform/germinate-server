@@ -20,7 +20,7 @@ package jhi.germinate.server.util;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 import ch.systemsx.cisd.hdf5.*;
 
