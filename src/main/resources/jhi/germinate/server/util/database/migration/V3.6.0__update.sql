@@ -216,12 +216,12 @@ ALTER TABLE `datasetmeta`
 
 
 
-DROP PROCEDURE IF EXISTS drop_all_foreign_keys;
 /* Create a stored procedure that we use to drop foreign keys */
+DROP PROCEDURE IF EXISTS drop_all_foreign_keys;
+
 DELIMITER //
 
 CREATE PROCEDURE drop_all_foreign_keys()
-
 BEGIN
 
     DECLARE index_name TEXT DEFAULT NULL;

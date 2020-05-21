@@ -186,7 +186,6 @@ public class GenotypeExportResource extends BaseServerResource
 	static List<String> getFlapjackHeaders(Request request)
 	{
 		String clientBase = PropertyWatcher.get(ServerProperty.GERMINATE_CLIENT_URL);
-		String serverBase = Germinate.getServerBase(ServletUtils.getRequest(request));
 
 		List<String> result = new ArrayList<>();
 
@@ -197,7 +196,7 @@ public class GenotypeExportResource extends BaseServerResource
 			result.add("# fjDatabaseLineSearch = " + clientBase + "/#/data/germplasm/$LINE");
 			result.add("# fjDatabaseGroupPreview = " + clientBase + "/#/groups/upload/$GROUP");
 			result.add("# fjDatabaseMarkerSearch = " + clientBase + "/#/data/genotypes/marker/$MARKER");
-			result.add("# fjDatabaseGroupUpload = " + serverBase + "/api/group/upload");
+			result.add("# fjDatabaseGroupUpload = " + clientBase + "/api/group/upload");
 		}
 
 		return result;
