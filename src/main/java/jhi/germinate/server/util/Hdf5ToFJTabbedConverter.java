@@ -47,8 +47,6 @@ public class Hdf5ToFJTabbedConverter
 	private Set<String>          hdf5Lines;
 	private Set<String>          hdf5Markers;
 
-	private IHDF5Reader reader;
-
 	private String outputFilePath;
 
 	public Hdf5ToFJTabbedConverter(File hdf5File, Set<String> lines, Set<String> markers, String outputFilePath, boolean transposed)
@@ -65,48 +63,52 @@ public class Hdf5ToFJTabbedConverter
 
 	private void readInput()
 	{
-		reader = HDF5Factory.openForReading(hdf5File);
+		try (IHDF5Reader reader = HDF5Factory.openForReading(hdf5File))
+		{
+			long s = System.currentTimeMillis();
 
-		long s = System.currentTimeMillis();
+			System.out.println();
+			System.out.println("Hdf5 file opened for reading: " + (System.currentTimeMillis() - s) + " (ms)");
 
-		System.out.println();
-		System.out.println("Hdf5 file opened for reading: " + (System.currentTimeMillis() - s) + " (ms)");
+			s = System.currentTimeMillis();
+			// Load lines from HDF5 and find the indices of our loaded lines
+			String[] hdf5LinesArray = reader.readStringArray(LINES);
+			hdf5Lines = new LinkedHashSet<>(Arrays.asList(hdf5LinesArray));
 
-		s = System.currentTimeMillis();
-		// Load lines from HDF5 and find the indices of our loaded lines
-		String[] hdf5LinesArray = reader.readStringArray(LINES);
-		hdf5Lines = new LinkedHashSet<>(Arrays.asList(hdf5LinesArray));
+			if (lines == null)
+				lines = hdf5Lines;
+			else
+				lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(LinkedHashSet::new));
 
-		if (lines == null)
-			lines = hdf5Lines;
-		else
-			lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(LinkedHashSet::new));
+			lineInds = new HashMap<>();
+			for (int i = 0; i < hdf5LinesArray.length; i++)
+				lineInds.put(hdf5LinesArray[i], i);
 
-		lineInds = new HashMap<>();
-		for (int i = 0; i < hdf5LinesArray.length; i++)
-			lineInds.put(hdf5LinesArray[i], i);
+			System.out.println();
+			System.out.println("Read and filtered lines: " + (System.currentTimeMillis() - s) + " (ms)");
 
-		System.out.println();
-		System.out.println("Read and filtered lines: " + (System.currentTimeMillis() - s) + " (ms)");
+			s = System.currentTimeMillis();
+			// Load markers from HDF5 and find the indices of our loaded markers
+			String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
+			hdf5Markers = new LinkedHashSet<>(Arrays.asList(hdf5MarkersArray));
 
-		s = System.currentTimeMillis();
-		// Load markers from HDF5 and find the indices of our loaded markers
-		String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
-		hdf5Markers = new LinkedHashSet<>(Arrays.asList(hdf5MarkersArray));
+			if (markers == null)
+				markers = hdf5Markers;
+			else
+				markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toCollection(LinkedHashSet::new));
 
-		if (markers == null)
-			markers = hdf5Markers;
-		else
-			markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toCollection(LinkedHashSet::new));
+			markerInds = new HashMap<>();
+			for (int i = 0; i < hdf5MarkersArray.length; i++)
+				markerInds.put(hdf5MarkersArray[i], i);
 
-		markerInds = new HashMap<>();
-		for (int i = 0; i < hdf5MarkersArray.length; i++)
-			markerInds.put(hdf5MarkersArray[i], i);
-
-		System.out.println();
-		System.out.println("Read and filtered markers: " + (System.currentTimeMillis() - s) + " (ms)");
-
-		reader.close();
+			System.out.println();
+			System.out.println("Read and filtered markers: " + (System.currentTimeMillis() - s) + " (ms)");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	public void extractData(String headerLines)
@@ -117,15 +119,15 @@ public class Hdf5ToFJTabbedConverter
 		List<Integer> lineIndices = lines.parallelStream().map(line -> lineInds.get(line)).collect(Collectors.toList());
 		System.out.println("Read and mapped markers: " + (System.currentTimeMillis() - s) + " (ms)");
 
-		reader = HDF5Factory.openForReading(hdf5File);
-
 		s = System.currentTimeMillis();
-		String[] stateTable = reader.readStringArray(STATE_TABLE);
-		System.out.println("Read statetable: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		// Write our output file line by line
-		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath), StandardCharsets.UTF_8))))
+		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath), StandardCharsets.UTF_8)));
+			 IHDF5Reader reader = HDF5Factory.openForReading(hdf5File))
 		{
+			String[] stateTable = reader.readStringArray(STATE_TABLE);
+			System.out.println("Read statetable: " + (System.currentTimeMillis() - s) + " (ms)");
+
 			// Write header for drag and drop
 			writer.println("# fjFile = GENOTYPE");
 
@@ -172,13 +174,11 @@ public class Hdf5ToFJTabbedConverter
 			}
 			System.out.println("Output lines to genotype file: " + (System.currentTimeMillis() - s) + " (ms)");
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		reader.close();
 
 		System.out.println();
 		System.out.println("HDF5 file converted to Flapjack genotype format");

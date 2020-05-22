@@ -117,12 +117,14 @@ public class GenotypeExporter
 
 		if (flapjackProjectFile != null)
 		{
-			FlapjackFile project = new FlapjackFile(flapjackProjectFile.getAbsolutePath());
+			File tempTarget = Files.createTempFile(folder.getName(), ".flapjack").toFile();
+			FlapjackFile project = new FlapjackFile(tempTarget.getAbsolutePath());
 			CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
 
 			CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
 			logs.addAll(createProject.doProjectCreation());
 
+			Files.move(tempTarget.toPath(), flapjackProjectFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			resultFiles.add(flapjackProjectFile);
 		}
 
