@@ -118,6 +118,12 @@ Make sure you have at least a `config.properties` file in the location at `/path
 data.directory.external=/data/germinate
 ```
 
+### Possible setup options
+
+<img src="img/docker-config.svg" alt="Docker setup">
+
+The figure above shows exemplar configuration options for Docker. Option (A) shows Germinate (and Gatekeeper) both using their own dockerized MySQL database, whereas option (B) shows Germinate (and Gatekeeper) using an externally provided MySQL server.
+
 ## Manual setup
 
 Setting up Germinate manually involves a few steps that have to be done for every new release.
