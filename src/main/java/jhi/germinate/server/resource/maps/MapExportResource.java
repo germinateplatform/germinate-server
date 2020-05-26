@@ -101,8 +101,8 @@ public class MapExportResource extends BaseServerResource
 					if (!StringUtils.isEmpty(request.getMethod()))
 						filter(context, step, request);
 
-					step.orderBy(MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START, MARKERS.MARKER_NAME)
-						.stream()
+//					step.orderBy(MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START, MARKERS.MARKER_NAME)
+					step.stream()
 						.forEachOrdered(m -> {
 							try
 							{

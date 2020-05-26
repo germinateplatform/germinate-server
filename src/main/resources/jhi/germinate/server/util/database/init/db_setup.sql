@@ -728,6 +728,7 @@ CREATE TABLE `datasetmembers`  (
   INDEX `dataset_id`(`dataset_id`) USING BTREE,
   INDEX `datasetmembertype_id`(`datasetmembertype_id`) USING BTREE,
   INDEX `dataset_id_2`(`dataset_id`, `datasetmembertype_id`) USING BTREE,
+  INDEX `foreign_id`(`foreign_id`) USING BTREE,
   CONSTRAINT `datasetmembers_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `datasetmembers_ibfk_2` FOREIGN KEY (`datasetmembertype_id`) REFERENCES `datasetmembertypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
@@ -1657,7 +1658,7 @@ INSERT INTO `schema_version` VALUES (4, '3.3.2.2', 'update', 'SQL', 'V3.3.2.2__u
 INSERT INTO `schema_version` VALUES (5, '3.4.0', 'update', 'SQL', 'V3.4.0__update.sql', 1635546146, 'germinate3', '2017-01-10 14:23:11', 198, 1);
 INSERT INTO `schema_version` VALUES (6, '3.4.0.1', 'update', 'SQL', 'V3.4.0.1__update.sql', -1497522993, 'germinate3', '2017-09-28 15:58:00', 161, 1);
 INSERT INTO `schema_version` VALUES (7, '3.5.0', 'update', 'SQL', 'V3.5.0__update.sql', -1130493621, 'germinate3', '2018-03-27 14:29:38', 132, 1);
-INSERT INTO `schema_version` VALUES (8, '3.6.0', 'update', 'SQL', 'V3.6.0__update.sql', -848461383, 'germinate3', '2020-01-23 09:46:58', 125, 1);
+INSERT INTO `schema_version` VALUES (8, '3.6.0', 'update', 'SQL', 'V3.6.0__update.sql', -739307975, 'germinate3', '2020-01-23 09:46:58', 125, 1);
 INSERT INTO `schema_version` VALUES (9, '4.0.0', 'update', 'SQL', 'V4.0.0__update.sql', -383131356, 'germinate', '2020-04-10 14:14:55', 193, 1);
 
 -- ----------------------------

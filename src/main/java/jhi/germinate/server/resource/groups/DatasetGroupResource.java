@@ -10,6 +10,7 @@ import java.util.*;
 
 import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
@@ -22,6 +23,7 @@ import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Groups.*;
 import static jhi.germinate.server.database.tables.Grouptypes.*;
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.tables.ViewTableGroups.*;
 
 /**
  * @author Sebastian Raubach
@@ -33,6 +35,8 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 	{
 		if (request == null || StringUtils.isEmpty(request.getDatasetType()) || CollectionUtils.isEmpty(request.getDatasetIds()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+
+		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
 		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
@@ -62,20 +66,20 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 			switch (request.getDatasetType())
 			{
 				case "climate":
-					resultStep = getClimateGroups(step, requestedIds);
+					resultStep = getClimateGroups(step, requestedIds, userDetails.getId());
 					break;
 				case "trials":
-					resultStep = getTrialsGroups(step, requestedIds);
+					resultStep = getTrialsGroups(step, requestedIds, userDetails.getId());
 					break;
 				case "compound":
-					resultStep = getCompoundGroups(step, requestedIds);
+					resultStep = getCompoundGroups(step, requestedIds, userDetails.getId());
 					break;
 				case "genotype":
 				case "allelefreq":
 					if (Objects.equals(request.getGroupType(), "germinatebase"))
-						resultStep = getGenotypeAllelefreqGermplasmGroups(step, requestedIds);
+						resultStep = getGenotypeAllelefreqGermplasmGroups(step, requestedIds, userDetails.getId());
 					else if (Objects.equals(request.getGroupType(), "markers"))
-						resultStep = getGenotypeAllelefreqMarkerGroups(step, requestedIds);
+						resultStep = getGenotypeAllelefreqMarkerGroups(step, requestedIds, userDetails.getId());
 					break;
 			}
 
@@ -97,48 +101,52 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 		}
 	}
 
-	private SelectConditionStep<? extends Record> getClimateGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
+	private SelectConditionStep<? extends Record> getClimateGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)
 	{
 		return step.from(GROUPS)
 				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
 				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(1))
+				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
 				   .andExists(DSL.selectOne().from(CLIMATEDATA)
 								 .where(CLIMATEDATA.LOCATION_ID.eq(GROUPMEMBERS.FOREIGN_ID))
 								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 								 .and(CLIMATEDATA.DATASET_ID.in(requestedIds)));
 	}
 
-	private SelectConditionStep<? extends Record> getTrialsGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
+	private SelectConditionStep<? extends Record> getTrialsGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)
 	{
 		return step.from(GROUPS)
 				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
 				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(3))
+				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
 				   .andExists(DSL.selectOne().from(PHENOTYPEDATA)
 								 .where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
 								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 								 .and(PHENOTYPEDATA.DATASET_ID.in(requestedIds)));
 	}
 
-	private SelectConditionStep<? extends Record> getCompoundGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
+	private SelectConditionStep<? extends Record> getCompoundGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)
 	{
 		return step.from(GROUPS)
 				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
 				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(3))
+				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
 				   .andExists(DSL.selectOne().from(COMPOUNDDATA)
 								 .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
 								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 								 .and(COMPOUNDDATA.DATASET_ID.in(requestedIds)));
 	}
 
-	private SelectConditionStep<? extends Record> getGenotypeAllelefreqMarkerGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
+	private SelectConditionStep<? extends Record> getGenotypeAllelefreqMarkerGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)
 	{
 		return step.from(GROUPS)
 				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
 				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(2))
+				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
 				   .andExists(DSL.selectOne().from(DATASETMEMBERS)
 								 .where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1))
 								 .and(DATASETMEMBERS.FOREIGN_ID.eq(GROUPMEMBERS.FOREIGN_ID))
@@ -146,12 +154,13 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 								 .and(DATASETMEMBERS.DATASET_ID.in(requestedIds)));
 	}
 
-	private SelectConditionStep<? extends Record> getGenotypeAllelefreqGermplasmGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds)
+	private SelectConditionStep<? extends Record> getGenotypeAllelefreqGermplasmGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)
 	{
 		return step.from(GROUPS)
 				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
 				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(3))
+				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
 				   .andExists(DSL.selectOne().from(DATASETMEMBERS)
 								 .where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
 								 .and(DATASETMEMBERS.FOREIGN_ID.eq(GROUPMEMBERS.FOREIGN_ID))
