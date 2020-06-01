@@ -51,15 +51,34 @@ public class Database
 			// handle the error
 		}
 
-		// Get an initial connection to try if it works
-		try (Connection conn = getConnection())
+		// Get an initial connection to try if it works. Attempt a connection 10 times before failing
+		boolean connectionSuccessful = false;
+		for (int attempt = 0; attempt < 10; attempt++)
 		{
-			DSL.using(conn, SQLDialect.MYSQL).close();
+			try (Connection conn = getConnection())
+			{
+				DSL.using(conn, SQLDialect.MYSQL).close();
+				connectionSuccessful = true;
+				break;
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+
+				// If the attempt fails, wait 5 seconds before the next one
+				try
+				{
+					Thread.sleep(5000);
+				}
+				catch (InterruptedException ex)
+				{
+					ex.printStackTrace();
+				}
+			}
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
+
+		if (!connectionSuccessful)
+			throw new RuntimeException("Unable to connect to database after 10 attempts. Exiting.");
 
 		if (initAndUpdate)
 		{
