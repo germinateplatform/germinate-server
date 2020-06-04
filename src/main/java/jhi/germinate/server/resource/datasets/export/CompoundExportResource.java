@@ -47,7 +47,7 @@ public class CompoundExportResource extends BaseServerResource
 		FileRepresentation representation;
 		try
 		{
-			File file = createTempFile("compound-" + CollectionUtils.join(datasetIds, "-") + "-" + getFormatted(new Date()), ".tsv");
+			File file = createTempFile("compound-" + CollectionUtils.join(datasetIds, "-") + "-" + getFormattedDateTime(new Date()), ".tsv");
 
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);

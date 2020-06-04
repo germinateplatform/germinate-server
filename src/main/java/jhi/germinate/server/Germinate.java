@@ -35,7 +35,7 @@ import jhi.germinate.server.resource.links.LinksTableResource;
 import jhi.germinate.server.resource.locations.*;
 import jhi.germinate.server.resource.maps.*;
 import jhi.germinate.server.resource.markers.*;
-import jhi.germinate.server.resource.news.NewsTableResource;
+import jhi.germinate.server.resource.news.*;
 import jhi.germinate.server.resource.pedigrees.*;
 import jhi.germinate.server.resource.settings.*;
 import jhi.germinate.server.resource.stats.*;
@@ -274,6 +274,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/marker/{markerId}/dataset", MarkerDatasetTableResource.class);
 
 		// NEWS
+		attachToRouter(routerAuth, "/news", NewsResource.class);
 		attachToRouter(routerAuth, "/news/table", NewsTableResource.class);
 
 		// PEDIGREES

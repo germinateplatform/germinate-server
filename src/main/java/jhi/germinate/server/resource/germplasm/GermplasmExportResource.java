@@ -42,7 +42,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				procedure.execute(context.configuration());
 
-				return export(procedure.getResults().get(0), "germplasm-table-" + getFormatted(new Date()) + "-");
+				return export(procedure.getResults().get(0), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
 			}
 			else
 			{
@@ -65,7 +65,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						// Filter here!
 						filter(from, adjustFilter(filters));
 
-						return export(from.fetch(), "germplasm-table-" + getFormatted(new Date()) + "-");
+						return export(from.fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
 					}
 					else if (request.getGroupIds() != null)
 					{
@@ -75,13 +75,13 @@ public class GermplasmExportResource extends GermplasmBaseResource
 							.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 							.where(GROUPMEMBERS.GROUP_ID.in(request.getGroupIds()));
 
-						return export(from.fetch(), "germplasm-table-" + getFormatted(new Date()) + "-");
+						return export(from.fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return export(getGermplasmQuery(context).fetch(), "germplasm-table-" + getFormatted(new Date()) + "-");
+				return export(getGermplasmQuery(context).fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
 			}
 		}
 		catch (SQLException e)

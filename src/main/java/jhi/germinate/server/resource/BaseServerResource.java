@@ -19,6 +19,7 @@ import jhi.germinate.server.util.watcher.PropertyWatcher;
 public class BaseServerResource extends ServerResource
 {
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+	private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
 	protected static final String CRLF = "\r\n";
 
@@ -141,14 +142,25 @@ public class BaseServerResource extends ServerResource
 		return createTempFile(null, filename, extension, true);
 	}
 
-	protected synchronized String getFormatted(Date date)
+	protected synchronized String getFormattedDateTime(Date date)
 	{
 		return SDF.format(date);
 	}
 
-	protected synchronized Date parse(String date)
+	protected synchronized Date parseDateTime(String date)
 		throws ParseException
 	{
 		return SDF.parse(date);
+	}
+
+	protected synchronized String getFormattedDate(Date date)
+	{
+		return SDF_DATE.format(date);
+	}
+
+	protected synchronized Date parseDate(String date)
+		throws ParseException
+	{
+		return SDF_DATE.parse(date);
 	}
 }

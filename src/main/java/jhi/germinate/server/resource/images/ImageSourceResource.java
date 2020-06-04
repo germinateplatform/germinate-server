@@ -28,10 +28,10 @@ public class ImageSourceResource extends ServerResource
 
 	private Integer imageId;
 
-	private String type;
-	private String name;
-	private String size = "small";
-	private String token;
+	private ImageType type;
+	private String    name;
+	private String    size = "small";
+	private String    token;
 
 	@Override
 	protected void doInit()
@@ -47,7 +47,14 @@ public class ImageSourceResource extends ServerResource
 		{
 		}
 
-		type = getQueryValue(PARAM_IMAGE_TYPE);
+		try
+		{
+			type = ImageType.valueOf(getQueryValue(PARAM_IMAGE_TYPE));
+		}
+		catch (Exception e)
+		{
+			type = null;
+		}
 		name = getQueryValue(PARAM_NAME);
 		size = getQueryValue(PARAM_SIZE);
 		token = getQueryValue(PARAM_TOKEN);
@@ -57,6 +64,9 @@ public class ImageSourceResource extends ServerResource
 	public void getImage()
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
+
+		if (type == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		if (mode == AuthenticationMode.FULL)
 		{
@@ -69,9 +79,9 @@ public class ImageSourceResource extends ServerResource
 			// TODO
 			throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 		}
-		else if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(type))
+		else if (!StringUtils.isEmpty(name))
 		{
-			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type), name);
+			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type.name()), name);
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 
 			name = large.getName();
@@ -97,7 +107,7 @@ public class ImageSourceResource extends ServerResource
 
 			if (large.exists() && large.isFile())
 			{
-				if (!small.exists() && !Objects.equals(type, "template"))
+				if (!small.exists() && type != ImageType.template)
 				{
 					try
 					{
@@ -140,5 +150,13 @@ public class ImageSourceResource extends ServerResource
 		{
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 		}
+	}
+
+	public enum ImageType
+	{
+		climate,
+		database,
+		news,
+		template
 	}
 }

@@ -47,7 +47,7 @@ public class ClimateExportResource extends BaseServerResource
 		FileRepresentation representation;
 		try
 		{
-			File file = createTempFile("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + getFormatted(new Date()), ".tsv");
+			File file = createTempFile("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + getFormattedDateTime(new Date()), ".tsv");
 
 			try (Connection conn = Database.getConnection();
 				 DSLContext context = Database.getContext(conn);

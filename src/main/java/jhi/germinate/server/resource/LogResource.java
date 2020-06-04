@@ -11,6 +11,7 @@ import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.util.*;
+import java.util.logging.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.*;
@@ -33,7 +34,7 @@ public class LogResource extends BaseServerResource
 
 		try
 		{
-			date = parse(getQueryValue(PARAM_DATE));
+			date = parseDate(getQueryValue(PARAM_DATE));
 		}
 		catch (Exception e)
 		{
@@ -59,7 +60,7 @@ public class LogResource extends BaseServerResource
 			String base = ServletUtils.getRequest(getRequest()).getContextPath();
 
 			// And the date
-			String formattedDate = getFormatted(date);
+			String formattedDate = getFormattedDate(date);
 
 			// Put it together
 			String logFile = base + "." + formattedDate + ".log";
@@ -73,6 +74,9 @@ public class LogResource extends BaseServerResource
 
 			// Then get the file from the logs folder
 			File file = new File(new File(System.getProperty("catalina.home"), "logs"), logFile);
+
+			Logger.getLogger("").log(Level.INFO, "Getting log file: " + logFile);
+			Logger.getLogger("").log(Level.INFO, "File resolves to: " + file.getAbsolutePath());
 
 			// And check if it exists
 			if (file.exists() && file.isFile())
