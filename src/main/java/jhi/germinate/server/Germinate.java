@@ -276,6 +276,7 @@ public class Germinate extends Application
 		// NEWS
 		attachToRouter(routerAuth, "/news", NewsResource.class);
 		attachToRouter(routerAuth, "/news/table", NewsTableResource.class);
+		attachToRouter(routerAuth, "/news/{newsId}", NewsResource.class);
 
 		// PEDIGREES
 		attachToRouter(routerAuth, "/pedigree/table", PedigreeTableResource.class);

@@ -26,6 +26,62 @@ import static jhi.germinate.server.database.tables.News.*;
  */
 public class NewsResource extends ServerResource
 {
+	private Integer newsId;
+
+	@Override
+	protected void doInit()
+		throws ResourceException
+	{
+		super.doInit();
+
+		try
+		{
+			this.newsId = Integer.parseInt(getRequestAttributes().get("newsId").toString());
+		}
+		catch (NullPointerException | NumberFormatException e)
+		{
+		}
+	}
+
+	@Delete
+	@MinUserType(UserType.DATA_CURATOR)
+	public boolean deleteJson()
+	{
+		if (newsId == null)
+			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+
+		try (Connection conn = Database.getConnection();
+			 DSLContext context = Database.getContext(conn))
+		{
+			NewsRecord news = context.selectFrom(NEWS)
+				   .where(NEWS.ID.eq(newsId))
+				   .fetchAny();
+
+			if (news != null) {
+				String image = news.getImage();
+
+				if (!StringUtils.isEmpty(image)) {
+					File file = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.news.name()), image);
+					File thumb = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.news.name()), "thumbnail-" + image);
+
+					if (file.exists() && file.isFile())
+						file.delete();
+					if (thumb.exists() && thumb.isFile())
+						thumb.delete();
+				}
+
+				return news.delete() > 0;
+			}
+
+			return false;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		}
+	}
+
 	@Post
 	@MinUserType(UserType.DATA_CURATOR)
 	public boolean postJson(News newsItem)
