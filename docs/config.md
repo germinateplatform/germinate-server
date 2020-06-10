@@ -142,9 +142,9 @@ files.delete.after.hours.temp  = <after how many hours should temporary files be
 # Google Analytics will be enabled if this property is set.
 google.analytics.key      = <google analytics key if using>
 # The colored boxes at the top of the dashboard/home page can be changed here.
-dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'compounds', 'groups', 'compounds', 'datasets'>
+dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'datasets', 'groups', 'compounds', 'images'>
 # Pages can be hidden for example if you don't have that kind of data.
-hidden.pages              = <names of those pages that should be hidden from the user interface (**LINK TO FILE HERE**)>
+hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/router/index.js)>
 # The comments feature can be disabled if you don't want users to add comments.
 comments.enabled          = <should the comments feature be enabled>
 # The PDCI calculation can be disabled if you don't wish to show this information.

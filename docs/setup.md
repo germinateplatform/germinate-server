@@ -57,7 +57,7 @@ services:
     container_name: mysql
 
   tomcat:
-      image: cropgeeks/germinate:release-x86-4.0.0
+      image: cropgeeks/germinate:release-x86-4.0.3
       environment:
         - JAVA_OPTS:-Xmx512m
       ports:
