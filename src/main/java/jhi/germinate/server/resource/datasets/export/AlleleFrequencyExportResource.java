@@ -134,7 +134,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			args.add(hdf5.getAbsolutePath());
 			args.add(asyncFolder.getAbsolutePath());
 			args.add(dsName);
-			args.add(Boolean.toString(request.isGenerateFlapjackProject()));
+			args.add(request.isGenerateFlapjackProject() ? AdditionalExportFormat.flapjack.name() : "\"\"");
 
 			ApplicationListener.SCHEDULER.initialize();
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());

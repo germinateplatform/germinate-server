@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.*;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
@@ -27,7 +28,7 @@ import jhi.germinate.server.database.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.async.GenotypeExporter;
+import jhi.germinate.server.util.async.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
@@ -140,7 +141,17 @@ public class GenotypeExportResource extends BaseServerResource
 				args.add(hdf5.getAbsolutePath());
 				args.add(asyncFolder.getAbsolutePath());
 				args.add(dsName);
-				args.add(Boolean.toString(request.isGenerateFlapjackProject()));
+				List<String> formats = new ArrayList<>();
+				if (request.isGenerateFlapjackProject())
+					formats.add(AdditionalExportFormat.flapjack.name());
+				if (request.isGenerateHapMap())
+					formats.add(AdditionalExportFormat.hapmap.name());
+				if (formats.size() > 0)
+					args.add(String.join(",", formats));
+				else
+					args.add("\"\"");
+
+				Logger.getLogger("").log(Level.INFO, "Running genotype export: " + args);
 
 				ApplicationListener.SCHEDULER.initialize();
 				String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());

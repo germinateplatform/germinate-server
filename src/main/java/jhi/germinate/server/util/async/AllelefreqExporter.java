@@ -8,6 +8,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import jhi.flapjack.io.FlapjackFile;
 import jhi.flapjack.io.binning.*;
@@ -52,7 +53,22 @@ public class AllelefreqExporter
 
 		exporter.folder = new File(args[i++]);
 		exporter.projectName = args[i++];
-		boolean createFlapjackProject = Boolean.parseBoolean(args[i++]);
+		String additionalFormats = args[i++];
+		String[] parts = additionalFormats.split(",");
+		List<AdditionalExportFormat> formats = Arrays.stream(parts)
+													 .map(p -> {
+														 try
+														 {
+															 return AdditionalExportFormat.valueOf(p);
+														 }
+														 catch (Exception e)
+														 {
+															 e.printStackTrace();
+															 return null;
+														 }
+													 })
+													 .filter(Objects::nonNull)
+													 .collect(Collectors.toList());
 
 		exporter.tabbedBinnedFile = new File(exporter.folder, exporter.projectName + ".txt");
 		exporter.tabbedUnbinnedFile = new File(exporter.folder, exporter.projectName + "-unbinned.txt");
@@ -86,7 +102,7 @@ public class AllelefreqExporter
 		{
 			exporter.binningConfig = BinningConfig.DEFAULT;
 		}
-		if (createFlapjackProject)
+		if (formats.contains(AdditionalExportFormat.flapjack))
 			exporter.flapjackProjectFile = new File(exporter.folder, exporter.projectName + ".flapjack");
 
 		exporter.run();

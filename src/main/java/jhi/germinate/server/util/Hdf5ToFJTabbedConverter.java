@@ -27,96 +27,21 @@ import ch.systemsx.cisd.hdf5.*;
 /**
  * @author The Flapjack authors (https://ics.hutton.ac.uk/flapjack)
  */
-public class Hdf5ToFJTabbedConverter
+public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 {
-	private static final String LINES   = "Lines";
-	private static final String MARKERS = "Markers";
-
-	private static final String DATA = "DataMatrix";
-
-	private static final String STATE_TABLE = "StateTable";
-
-	private File        hdf5File;
-	private Set<String> lines;
-	private Set<String> markers;
-
 	private boolean transposed;
-
-	private Map<String, Integer> lineInds;
-	private Map<String, Integer> markerInds;
-	private Set<String>          hdf5Lines;
-	private Set<String>          hdf5Markers;
-
-	private String outputFilePath;
 
 	public Hdf5ToFJTabbedConverter(File hdf5File, Set<String> lines, Set<String> markers, String outputFilePath, boolean transposed)
 	{
-		// Setup input and output files
-		this.hdf5File = hdf5File;
-		this.lines = lines;
-		this.markers = markers;
-		this.outputFilePath = outputFilePath;
+		super(hdf5File, lines, markers, outputFilePath);
+
 		this.transposed = transposed;
-
-		readInput();
-	}
-
-	private void readInput()
-	{
-		try (IHDF5Reader reader = HDF5Factory.openForReading(hdf5File))
-		{
-			long s = System.currentTimeMillis();
-
-			System.out.println();
-			System.out.println("Hdf5 file opened for reading: " + (System.currentTimeMillis() - s) + " (ms)");
-
-			s = System.currentTimeMillis();
-			// Load lines from HDF5 and find the indices of our loaded lines
-			String[] hdf5LinesArray = reader.readStringArray(LINES);
-			hdf5Lines = new LinkedHashSet<>(Arrays.asList(hdf5LinesArray));
-
-			if (lines == null)
-				lines = hdf5Lines;
-			else
-				lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(LinkedHashSet::new));
-
-			lineInds = new HashMap<>();
-			for (int i = 0; i < hdf5LinesArray.length; i++)
-				lineInds.put(hdf5LinesArray[i], i);
-
-			System.out.println();
-			System.out.println("Read and filtered lines: " + (System.currentTimeMillis() - s) + " (ms)");
-
-			s = System.currentTimeMillis();
-			// Load markers from HDF5 and find the indices of our loaded markers
-			String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
-			hdf5Markers = new LinkedHashSet<>(Arrays.asList(hdf5MarkersArray));
-
-			if (markers == null)
-				markers = hdf5Markers;
-			else
-				markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toCollection(LinkedHashSet::new));
-
-			markerInds = new HashMap<>();
-			for (int i = 0; i < hdf5MarkersArray.length; i++)
-				markerInds.put(hdf5MarkersArray[i], i);
-
-			System.out.println();
-			System.out.println("Read and filtered markers: " + (System.currentTimeMillis() - s) + " (ms)");
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.exit(1);
-		}
 	}
 
 	public void extractData(String headerLines)
 	{
 		System.out.println();
 		long s = System.currentTimeMillis();
-		List<Integer> markerIndices = markers.parallelStream().map(marker -> markerInds.get(marker)).collect(Collectors.toList());
-		List<Integer> lineIndices = lines.parallelStream().map(line -> lineInds.get(line)).collect(Collectors.toList());
 		System.out.println("Read and mapped markers: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		s = System.currentTimeMillis();
@@ -137,6 +62,7 @@ public class Hdf5ToFJTabbedConverter
 
 			if (transposed)
 			{
+				List<Integer> lineIndices = lines.parallelStream().map(line -> lineInds.get(line)).collect(Collectors.toList());
 				// Write the header line of a Flapjack file
 				writer.println(lines.parallelStream().collect(Collectors.joining("\t", "Marker/Accession\t", "")));
 
@@ -157,6 +83,7 @@ public class Hdf5ToFJTabbedConverter
 			}
 			else
 			{
+				List<Integer> markerIndices = markers.parallelStream().map(marker -> markerInds.get(marker)).collect(Collectors.toList());
 				// Write the header line of a Flapjack file
 				writer.println(markers.parallelStream().collect(Collectors.joining("\t", "Accession/Marker\t", "")));
 
@@ -177,7 +104,6 @@ public class Hdf5ToFJTabbedConverter
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 
 		System.out.println();
@@ -191,15 +117,5 @@ public class Hdf5ToFJTabbedConverter
 							.map(index -> genotypes[index])
 							.map(allele -> stateTable[allele])
 							.collect(Collectors.joining("\t", lineName + "\t", ""));
-	}
-
-	public Set<String> getKeptMarkers()
-	{
-		// Filter the markers from the hdf5 file so that we have a list of only those markers that were in both the hdf5
-		// file and the list of desired markers / input list
-		Set<String> keptMarkers = hdf5Markers;
-		keptMarkers.retainAll(markers);
-
-		return keptMarkers;
 	}
 }
