@@ -122,8 +122,6 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 						  .and(DATASET_EXPORT_JOBS.VISIBILITY.eq(true))
 						  .orderBy(DATASET_EXPORT_JOBS.UPDATED_ON.desc())
 						  .fetchInto(DatasetExportJobs.class);
-
-			// TODO: Add file size of final files into the metadata
 		}
 		catch (SQLException e)
 		{

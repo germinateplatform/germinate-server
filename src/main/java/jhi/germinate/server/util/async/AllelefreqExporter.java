@@ -63,7 +63,6 @@ public class AllelefreqExporter
 														 }
 														 catch (Exception e)
 														 {
-															 e.printStackTrace();
 															 return null;
 														 }
 													 })

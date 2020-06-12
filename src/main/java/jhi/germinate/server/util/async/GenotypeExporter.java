@@ -59,7 +59,6 @@ public class GenotypeExporter
 														 }
 														 catch (Exception e)
 														 {
-															 e.printStackTrace();
 															 return null;
 														 }
 													 })

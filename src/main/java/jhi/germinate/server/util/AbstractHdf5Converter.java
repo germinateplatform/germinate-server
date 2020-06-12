@@ -82,7 +82,6 @@ public abstract class AbstractHdf5Converter
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

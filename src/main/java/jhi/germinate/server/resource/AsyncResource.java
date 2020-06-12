@@ -14,7 +14,6 @@ public interface AsyncResource
 	{
 		try
 		{
-			ApplicationListener.SCHEDULER.initialize();
 			ApplicationListener.SCHEDULER.cancelJob(jobId);
 
 			File asyncFolder = new File(BaseServerResource.getFromExternal(uuid, "async"), uuid);

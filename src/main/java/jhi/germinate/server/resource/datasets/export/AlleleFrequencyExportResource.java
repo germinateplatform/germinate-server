@@ -136,7 +136,6 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			args.add(dsName);
 			args.add(request.isGenerateFlapjackProject() ? AdditionalExportFormat.flapjack.name() : "\"\"");
 
-			ApplicationListener.SCHEDULER.initialize();
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
 
 			JsonArray array = new JsonArray(1);

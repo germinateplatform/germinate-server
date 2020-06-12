@@ -153,7 +153,6 @@ public class GenotypeExportResource extends BaseServerResource
 
 				Logger.getLogger("").log(Level.INFO, "Running genotype export: " + args);
 
-				ApplicationListener.SCHEDULER.initialize();
 				String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
 
 				JsonArray array = new JsonArray(1);

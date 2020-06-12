@@ -23,6 +23,7 @@ import jhi.oddjob.*;
 @WebListener
 public class ApplicationListener implements ServletContextListener
 {
+	// TODO: Init async scheduler based on config
 	public static final IScheduler SCHEDULER = new ProcessScheduler();
 
 	private static ScheduledExecutorService backgroundScheduler;
@@ -32,8 +33,16 @@ public class ApplicationListener implements ServletContextListener
 	{
 		logMessage();
 
+		try
+		{
+			SCHEDULER.initialize();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
 		PropertyWatcher.initialize();
-		// TODO: Init async scheduler based on config
 
 		Long asyncDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 		Long tempDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);

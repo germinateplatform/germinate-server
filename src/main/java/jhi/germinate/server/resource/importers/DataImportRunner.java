@@ -62,7 +62,6 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.IMPORT.name()); // Import straight away, no need to check it again
 			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
 
-			ApplicationListener.SCHEDULER.initialize();
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
 
 			record.setJobId(jobId);
@@ -115,7 +114,6 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
 			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
 
-			ApplicationListener.SCHEDULER.initialize();
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
 
 			// Store the job information in the database
