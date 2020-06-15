@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewTableCommentsRecord;
 
 import org.jooq.Field;
@@ -34,10 +34,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableComments extends TableImpl<ViewTableCommentsRecord> {
 
-    private static final long serialVersionUID = -1514531519;
+    private static final long serialVersionUID = 679105374;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_table_comments</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_table_comments</code>
      */
     public static final ViewTableComments VIEW_TABLE_COMMENTS = new ViewTableComments();
 
@@ -50,61 +50,61 @@ public class ViewTableComments extends TableImpl<ViewTableCommentsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.comment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.comment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableCommentsRecord, Integer> COMMENT_ID = createField("comment_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.comment_type_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.comment_type_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableCommentsRecord, Integer> COMMENT_TYPE_ID = createField("comment_type_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.comment_type</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.comment_type</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
      */
     public final TableField<ViewTableCommentsRecord, String> COMMENT_TYPE = createField("comment_type", org.jooq.impl.SQLDataType.VARCHAR(50).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "This could include 'germinatebase' or 'markers' to define the table that the comment relates to.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.comment_foreign_id</code>. Relates to the UID of the table to which the comment relates
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.comment_foreign_id</code>. Relates to the UID of the table to which the comment relates
      */
     public final TableField<ViewTableCommentsRecord, Integer> COMMENT_FOREIGN_ID = createField("comment_foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Relates to the UID of the table to which the comment relates");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<ViewTableCommentsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.user_name</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.user_name</code>.
      */
     public final TableField<ViewTableCommentsRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.CHAR.nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.comment_content</code>. The comment content.
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.comment_content</code>. The comment content.
      */
     public final TableField<ViewTableCommentsRecord, String> COMMENT_CONTENT = createField("comment_content", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "The comment content.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.view_table_comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<ViewTableCommentsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_table_comments</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_table_comments</code> table reference
      */
     public ViewTableComments() {
         this(DSL.name("view_table_comments"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_comments</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_comments</code> table reference
      */
     public ViewTableComments(String alias) {
         this(DSL.name(alias), VIEW_TABLE_COMMENTS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_comments</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_comments</code> table reference
      */
     public ViewTableComments(Name alias) {
         this(alias, VIEW_TABLE_COMMENTS);
@@ -123,7 +123,7 @@ public class ViewTableComments extends TableImpl<ViewTableCommentsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

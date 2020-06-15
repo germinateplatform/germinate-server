@@ -30,143 +30,143 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMapdefinitionsRecord extends TableRecordImpl<ViewTableMapdefinitionsRecord> implements Record10<Integer, String, JsonArray, String, Integer, Integer, Boolean, String, String, Double> {
 
-    private static final long serialVersionUID = -138269830;
+    private static final long serialVersionUID = 423705382;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setMarkerId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.marker_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getMarkerId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public void setMarkerName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.marker_name</code>. The name of the marker. This should be a unique name which identifies the marker.
      */
     public String getMarkerName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
      */
     public void setSynonyms(JsonArray value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.synonyms</code>. The synonyms as a json array.
      */
     public JsonArray getSynonyms() {
         return (JsonArray) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public void setMapFeatureType(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.map_feature_type</code>. Description of the feature type. This could include a definition of the marker type such as 'SNP', 'KASP' or 'AFLP'.
      */
     public String getMapFeatureType() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setMapId(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getMapId() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserId(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getUserId() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public void setVisibility(Boolean value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public Boolean getVisibility() {
         return (Boolean) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.map_name</code>. Describes the map.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.map_name</code>. Describes the map.
      */
     public void setMapName(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.map_name</code>. Describes the map.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.map_name</code>. Describes the map.
      */
     public String getMapName() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public void setChromosome(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public String getChromosome() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public void setPosition(Double value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_mapdefinitions.position</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public Double getPosition() {
         return (Double) get(9);

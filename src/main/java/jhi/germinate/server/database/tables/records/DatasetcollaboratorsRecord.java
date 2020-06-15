@@ -31,73 +31,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetcollaboratorsRecord extends UpdatableRecordImpl<DatasetcollaboratorsRecord> implements Record5<Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1203247441;
+    private static final long serialVersionUID = -1895116581;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetcollaborators.id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetcollaborators.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetcollaborators.id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetcollaborators.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetcollaborators.dataset_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetcollaborators.dataset_id</code>.
      */
     public void setDatasetId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetcollaborators.dataset_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetcollaborators.dataset_id</code>.
      */
     public Integer getDatasetId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetcollaborators.collaborator_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetcollaborators.collaborator_id</code>.
      */
     public void setCollaboratorId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetcollaborators.collaborator_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetcollaborators.collaborator_id</code>.
      */
     public Integer getCollaboratorId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetcollaborators.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.datasetcollaborators.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetcollaborators.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.datasetcollaborators.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

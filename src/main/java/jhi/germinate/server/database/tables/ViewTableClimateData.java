@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewTableClimateDataRecord;
 
 import org.jooq.Field;
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableClimateData extends TableImpl<ViewTableClimateDataRecord> {
 
-    private static final long serialVersionUID = 1136405059;
+    private static final long serialVersionUID = 1805341294;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_table_climate_data</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_table_climate_data</code>
      */
     public static final ViewTableClimateData VIEW_TABLE_CLIMATE_DATA = new ViewTableClimateData();
 
@@ -51,121 +51,121 @@ public class ViewTableClimateData extends TableImpl<ViewTableClimateDataRecord> 
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableClimateDataRecord, Integer> LOCATION_ID = createField("location_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_name</code>. The site name where the location is.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_name</code>. The site name where the location is.
      */
     public final TableField<ViewTableClimateDataRecord, String> LOCATION_NAME = createField("location_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The site name where the location is.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_region</code>. The region where the location is if this exists.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_region</code>. The region where the location is if this exists.
      */
     public final TableField<ViewTableClimateDataRecord, String> LOCATION_REGION = createField("location_region", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The region where the location is if this exists.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_state</code>. The state where the location is if this exists.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_state</code>. The state where the location is if this exists.
      */
     public final TableField<ViewTableClimateDataRecord, String> LOCATION_STATE = createField("location_state", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The state where the location is if this exists.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_type</code>. The name of the location type. 
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_type</code>. The name of the location type. 
      */
     public final TableField<ViewTableClimateDataRecord, String> LOCATION_TYPE = createField("location_type", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the location type. ");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_latitude</code>. Latitude of the location.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_latitude</code>. Latitude of the location.
      */
     public final TableField<ViewTableClimateDataRecord, BigDecimal> LOCATION_LATITUDE = createField("location_latitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Latitude of the location.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_longitude</code>. Longitude of the location.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_longitude</code>. Longitude of the location.
      */
     public final TableField<ViewTableClimateDataRecord, BigDecimal> LOCATION_LONGITUDE = createField("location_longitude", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "Longitude of the location.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.location_elevation</code>. The elevation of the site in metres.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.location_elevation</code>. The elevation of the site in metres.
      */
     public final TableField<ViewTableClimateDataRecord, BigDecimal> LOCATION_ELEVATION = createField("location_elevation", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The elevation of the site in metres.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.country_name</code>. Country name.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.country_name</code>. Country name.
      */
     public final TableField<ViewTableClimateDataRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.country_code2</code>. ISO 2 Code for country.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.country_code2</code>. ISO 2 Code for country.
      */
     public final TableField<ViewTableClimateDataRecord, String> COUNTRY_CODE2 = createField("country_code2", org.jooq.impl.SQLDataType.CHAR(2).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.country_code3</code>. ISO 3 Code for country.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.country_code3</code>. ISO 3 Code for country.
      */
     public final TableField<ViewTableClimateDataRecord, String> COUNTRY_CODE3 = createField("country_code3", org.jooq.impl.SQLDataType.CHAR(3).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 3 Code for country.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableClimateDataRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.dataset_name</code>. Describes the dataset.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.dataset_name</code>. Describes the dataset.
      */
     public final TableField<ViewTableClimateDataRecord, String> DATASET_NAME = createField("dataset_name", org.jooq.impl.SQLDataType.CLOB, this, "Describes the dataset.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.dataset_description</code>. The name of this dataset.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.dataset_description</code>. The name of this dataset.
      */
     public final TableField<ViewTableClimateDataRecord, String> DATASET_DESCRIPTION = createField("dataset_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this dataset.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.climate_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.climate_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableClimateDataRecord, Integer> CLIMATE_ID = createField("climate_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.climate_name</code>. Describes the climate.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.climate_name</code>. Describes the climate.
      */
     public final TableField<ViewTableClimateDataRecord, String> CLIMATE_NAME = createField("climate_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the climate.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
      */
     public final TableField<ViewTableClimateDataRecord, String> CLIMATE_NAME_SHORT = createField("climate_name_short", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened version of the climate name which is used in some table headers.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public final TableField<ViewTableClimateDataRecord, String> UNIT_NAME = createField("unit_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The name of the unit. This should be the name of the unit in full.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.recording_date</code>. The date at which this data point was recorded.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.recording_date</code>. The date at which this data point was recorded.
      */
     public final TableField<ViewTableClimateDataRecord, Timestamp> RECORDING_DATE = createField("recording_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "The date at which this data point was recorded.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climate_data.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
+     * The column <code>germinate_template_4_20_06_15.view_table_climate_data.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
      */
     public final TableField<ViewTableClimateDataRecord, Double> CLIMATE_VALUE = createField("climate_value", org.jooq.impl.SQLDataType.DOUBLE, this, "Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_table_climate_data</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_table_climate_data</code> table reference
      */
     public ViewTableClimateData() {
         this(DSL.name("view_table_climate_data"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_climate_data</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_climate_data</code> table reference
      */
     public ViewTableClimateData(String alias) {
         this(DSL.name(alias), VIEW_TABLE_CLIMATE_DATA);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_climate_data</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_climate_data</code> table reference
      */
     public ViewTableClimateData(Name alias) {
         this(alias, VIEW_TABLE_CLIMATE_DATA);
@@ -184,7 +184,7 @@ public class ViewTableClimateData extends TableImpl<ViewTableClimateDataRecord> 
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.DatasetcollaboratorsRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetcollaborators extends TableImpl<DatasetcollaboratorsRecord> {
 
-    private static final long serialVersionUID = 1680449851;
+    private static final long serialVersionUID = 798974829;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.datasetcollaborators</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.datasetcollaborators</code>
      */
     public static final Datasetcollaborators DATASETCOLLABORATORS = new Datasetcollaborators();
 
@@ -55,46 +55,46 @@ public class Datasetcollaborators extends TableImpl<DatasetcollaboratorsRecord> 
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetcollaborators.id</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetcollaborators.id</code>.
      */
     public final TableField<DatasetcollaboratorsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetcollaborators.dataset_id</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetcollaborators.dataset_id</code>.
      */
     public final TableField<DatasetcollaboratorsRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetcollaborators.collaborator_id</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetcollaborators.collaborator_id</code>.
      */
     public final TableField<DatasetcollaboratorsRecord, Integer> COLLABORATOR_ID = createField("collaborator_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetcollaborators.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.datasetcollaborators.created_on</code>. When the record was created.
      */
     public final TableField<DatasetcollaboratorsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.datasetcollaborators.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<DatasetcollaboratorsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.datasetcollaborators</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.datasetcollaborators</code> table reference
      */
     public Datasetcollaborators() {
         this(DSL.name("datasetcollaborators"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.datasetcollaborators</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.datasetcollaborators</code> table reference
      */
     public Datasetcollaborators(String alias) {
         this(DSL.name(alias), DATASETCOLLABORATORS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.datasetcollaborators</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.datasetcollaborators</code> table reference
      */
     public Datasetcollaborators(Name alias) {
         this(alias, DATASETCOLLABORATORS);
@@ -113,7 +113,7 @@ public class Datasetcollaborators extends TableImpl<DatasetcollaboratorsRecord> 
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

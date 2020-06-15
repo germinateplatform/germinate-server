@@ -6,7 +6,7 @@ package jhi.germinate.server.database.routines;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 
 import org.jooq.Parameter;
 import org.jooq.impl.AbstractRoutine;
@@ -26,25 +26,25 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportClimateData extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = -219540222;
+    private static final long serialVersionUID = -633003497;
 
     /**
-     * The parameter <code>germinate_template_4_0_0.export_climate_data.groupIds</code>.
+     * The parameter <code>germinate_template_4_20_06_15.export_climate_data.groupIds</code>.
      */
     public static final Parameter<String> GROUPIDS = Internal.createParameter("groupIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_4_0_0.export_climate_data.markedIds</code>.
+     * The parameter <code>germinate_template_4_20_06_15.export_climate_data.markedIds</code>.
      */
     public static final Parameter<String> MARKEDIDS = Internal.createParameter("markedIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_4_0_0.export_climate_data.datasetIds</code>.
+     * The parameter <code>germinate_template_4_20_06_15.export_climate_data.datasetIds</code>.
      */
     public static final Parameter<String> DATASETIDS = Internal.createParameter("datasetIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_4_0_0.export_climate_data.climateIds</code>.
+     * The parameter <code>germinate_template_4_20_06_15.export_climate_data.climateIds</code>.
      */
     public static final Parameter<String> CLIMATEIDS = Internal.createParameter("climateIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
@@ -52,7 +52,7 @@ public class ExportClimateData extends AbstractRoutine<java.lang.Void> {
      * Create a new routine call instance
      */
     public ExportClimateData() {
-        super("export_climate_data", GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0);
+        super("export_climate_data", GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15);
 
         addInParameter(GROUPIDS);
         addInParameter(MARKEDIDS);

@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.DatasetlocationsRecord;
 
 import org.jooq.Field;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasetlocations extends TableImpl<DatasetlocationsRecord> {
 
-    private static final long serialVersionUID = -1220217492;
+    private static final long serialVersionUID = -726978069;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.datasetlocations</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.datasetlocations</code>
      */
     public static final Datasetlocations DATASETLOCATIONS = new Datasetlocations();
 
@@ -54,41 +54,41 @@ public class Datasetlocations extends TableImpl<DatasetlocationsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetlocations.dataset_id</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetlocations.dataset_id</code>.
      */
     public final TableField<DatasetlocationsRecord, Integer> DATASET_ID = createField("dataset_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetlocations.location_id</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetlocations.location_id</code>.
      */
     public final TableField<DatasetlocationsRecord, Integer> LOCATION_ID = createField("location_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetlocations.created_on</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetlocations.created_on</code>.
      */
     public final TableField<DatasetlocationsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasetlocations.updated_on</code>.
+     * The column <code>germinate_template_4_20_06_15.datasetlocations.updated_on</code>.
      */
     public final TableField<DatasetlocationsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.datasetlocations</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.datasetlocations</code> table reference
      */
     public Datasetlocations() {
         this(DSL.name("datasetlocations"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.datasetlocations</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.datasetlocations</code> table reference
      */
     public Datasetlocations(String alias) {
         this(DSL.name(alias), DATASETLOCATIONS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.datasetlocations</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.datasetlocations</code> table reference
      */
     public Datasetlocations(Name alias) {
         this(alias, DATASETLOCATIONS);
@@ -107,7 +107,7 @@ public class Datasetlocations extends TableImpl<DatasetlocationsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

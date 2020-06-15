@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.MarkertypesRecord;
 
 import org.jooq.Field;
@@ -42,10 +42,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Markertypes extends TableImpl<MarkertypesRecord> {
 
-    private static final long serialVersionUID = -270282779;
+    private static final long serialVersionUID = -412947052;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.markertypes</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.markertypes</code>
      */
     public static final Markertypes MARKERTYPES = new Markertypes();
 
@@ -58,41 +58,41 @@ public class Markertypes extends TableImpl<MarkertypesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.markertypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MarkertypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.markertypes.description</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
+     * The column <code>germinate_template_4_20_06_15.markertypes.description</code>. Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.
      */
     public final TableField<MarkertypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.");
 
     /**
-     * The column <code>germinate_template_4_0_0.markertypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.markertypes.created_on</code>. When the record was created.
      */
     public final TableField<MarkertypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.markertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.markertypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MarkertypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.markertypes</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.markertypes</code> table reference
      */
     public Markertypes() {
         this(DSL.name("markertypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.markertypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.markertypes</code> table reference
      */
     public Markertypes(String alias) {
         this(DSL.name(alias), MARKERTYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.markertypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.markertypes</code> table reference
      */
     public Markertypes(Name alias) {
         this(alias, MARKERTYPES);
@@ -111,7 +111,7 @@ public class Markertypes extends TableImpl<MarkertypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

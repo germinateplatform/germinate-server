@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewStatsCountryRecord;
 
 import org.jooq.Field;
@@ -32,10 +32,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsCountry extends TableImpl<ViewStatsCountryRecord> {
 
-    private static final long serialVersionUID = -135248353;
+    private static final long serialVersionUID = 2030384161;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_stats_country</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_stats_country</code>
      */
     public static final ViewStatsCountry VIEW_STATS_COUNTRY = new ViewStatsCountry();
 
@@ -48,36 +48,36 @@ public class ViewStatsCountry extends TableImpl<ViewStatsCountryRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_country.country</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_country.country</code>.
      */
     public final TableField<ViewStatsCountryRecord, String> COUNTRY = createField("country", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_country.code</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_country.code</code>.
      */
     public final TableField<ViewStatsCountryRecord, String> CODE = createField("code", org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_country.count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_country.count</code>.
      */
     public final TableField<ViewStatsCountryRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_stats_country</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_stats_country</code> table reference
      */
     public ViewStatsCountry() {
         this(DSL.name("view_stats_country"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_stats_country</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_stats_country</code> table reference
      */
     public ViewStatsCountry(String alias) {
         this(DSL.name(alias), VIEW_STATS_COUNTRY);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_stats_country</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_stats_country</code> table reference
      */
     public ViewStatsCountry(Name alias) {
         this(alias, VIEW_STATS_COUNTRY);
@@ -96,7 +96,7 @@ public class ViewStatsCountry extends TableImpl<ViewStatsCountryRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

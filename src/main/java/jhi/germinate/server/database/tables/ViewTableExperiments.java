@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewTableExperimentsRecord;
 
 import org.jooq.Field;
@@ -35,10 +35,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableExperiments extends TableImpl<ViewTableExperimentsRecord> {
 
-    private static final long serialVersionUID = 425637012;
+    private static final long serialVersionUID = 340779465;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_table_experiments</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_table_experiments</code>
      */
     public static final ViewTableExperiments VIEW_TABLE_EXPERIMENTS = new ViewTableExperiments();
 
@@ -51,71 +51,71 @@ public class ViewTableExperiments extends TableImpl<ViewTableExperimentsRecord> 
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableExperimentsRecord, Integer> EXPERIMENT_ID = createField("experiment_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.experiment_name</code>. The name of the experiment.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.experiment_name</code>. The name of the experiment.
      */
     public final TableField<ViewTableExperimentsRecord, String> EXPERIMENT_NAME = createField("experiment_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the experiment.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.experiment_description</code>. Describes the experiment.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.experiment_description</code>. Describes the experiment.
      */
     public final TableField<ViewTableExperimentsRecord, String> EXPERIMENT_DESCRIPTION = createField("experiment_description", org.jooq.impl.SQLDataType.CLOB, this, "Describes the experiment.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public final TableField<ViewTableExperimentsRecord, Date> EXPERIMENT_DATE = createField("experiment_date", org.jooq.impl.SQLDataType.DATE, this, "The date that the experiment was carried out.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.created_on</code>. When the record was created.
      */
     public final TableField<ViewTableExperimentsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.genotype_count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.genotype_count</code>.
      */
     public final TableField<ViewTableExperimentsRecord, Long> GENOTYPE_COUNT = createField("genotype_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.trials_count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.trials_count</code>.
      */
     public final TableField<ViewTableExperimentsRecord, Long> TRIALS_COUNT = createField("trials_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.allele_freq_count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.allele_freq_count</code>.
      */
     public final TableField<ViewTableExperimentsRecord, Long> ALLELE_FREQ_COUNT = createField("allele_freq_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.climate_count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.climate_count</code>.
      */
     public final TableField<ViewTableExperimentsRecord, Long> CLIMATE_COUNT = createField("climate_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_experiments.compound_count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_experiments.compound_count</code>.
      */
     public final TableField<ViewTableExperimentsRecord, Long> COMPOUND_COUNT = createField("compound_count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_table_experiments</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_table_experiments</code> table reference
      */
     public ViewTableExperiments() {
         this(DSL.name("view_table_experiments"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_experiments</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_experiments</code> table reference
      */
     public ViewTableExperiments(String alias) {
         this(DSL.name(alias), VIEW_TABLE_EXPERIMENTS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_experiments</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_experiments</code> table reference
      */
     public ViewTableExperiments(Name alias) {
         this(alias, VIEW_TABLE_EXPERIMENTS);
@@ -134,7 +134,7 @@ public class ViewTableExperiments extends TableImpl<ViewTableExperimentsRecord> 
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

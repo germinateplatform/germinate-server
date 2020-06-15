@@ -31,129 +31,129 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NewsRecord extends UpdatableRecordImpl<NewsRecord> implements Record9<Integer, Integer, String, String, String, String, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 486174718;
+    private static final long serialVersionUID = 1168917042;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.news.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.news.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.newstype_id</code>. Foreign key newstypes (newstypes.id).
+     * Setter for <code>germinate_template_4_20_06_15.news.newstype_id</code>. Foreign key newstypes (newstypes.id).
      */
     public void setNewstypeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.newstype_id</code>. Foreign key newstypes (newstypes.id).
+     * Getter for <code>germinate_template_4_20_06_15.news.newstype_id</code>. Foreign key newstypes (newstypes.id).
      */
     public Integer getNewstypeId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
+     * Setter for <code>germinate_template_4_20_06_15.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
      */
     public void setTitle(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
+     * Getter for <code>germinate_template_4_20_06_15.news.title</code>. A title which is used to name this news item. This appears in the Germinate user interface if used.
      */
     public String getTitle() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.content</code>. The textual content of this news item.
+     * Setter for <code>germinate_template_4_20_06_15.news.content</code>. The textual content of this news item.
      */
     public void setContent(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.content</code>. The textual content of this news item.
+     * Getter for <code>germinate_template_4_20_06_15.news.content</code>. The textual content of this news item.
      */
     public String getContent() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.image</code>. Image to use with this news item.
+     * Setter for <code>germinate_template_4_20_06_15.news.image</code>. Image to use with this news item.
      */
     public void setImage(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.image</code>. Image to use with this news item.
+     * Getter for <code>germinate_template_4_20_06_15.news.image</code>. Image to use with this news item.
      */
     public String getImage() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
+     * Setter for <code>germinate_template_4_20_06_15.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
      */
     public void setHyperlink(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
+     * Getter for <code>germinate_template_4_20_06_15.news.hyperlink</code>. HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.
      */
     public String getHyperlink() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.user_id</code>. Foreign key users (users.id).
+     * Setter for <code>germinate_template_4_20_06_15.news.user_id</code>. Foreign key users (users.id).
      */
     public void setUserId(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.user_id</code>. Foreign key users (users.id).
+     * Getter for <code>germinate_template_4_20_06_15.news.user_id</code>. Foreign key users (users.id).
      */
     public Integer getUserId() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.news.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.news.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.news.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);

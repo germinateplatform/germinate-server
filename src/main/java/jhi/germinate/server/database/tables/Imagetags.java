@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ImagetagsRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Imagetags extends TableImpl<ImagetagsRecord> {
 
-    private static final long serialVersionUID = -824748827;
+    private static final long serialVersionUID = 226703000;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.imagetags</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.imagetags</code>
      */
     public static final Imagetags IMAGETAGS = new Imagetags();
 
@@ -55,41 +55,41 @@ public class Imagetags extends TableImpl<ImagetagsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.imagetags.id</code>.
+     * The column <code>germinate_template_4_20_06_15.imagetags.id</code>.
      */
     public final TableField<ImagetagsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.imagetags.tag_name</code>.
+     * The column <code>germinate_template_4_20_06_15.imagetags.tag_name</code>.
      */
     public final TableField<ImagetagsRecord, String> TAG_NAME = createField("tag_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.imagetags.created_on</code>.
+     * The column <code>germinate_template_4_20_06_15.imagetags.created_on</code>.
      */
     public final TableField<ImagetagsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.imagetags.updated_on</code>.
+     * The column <code>germinate_template_4_20_06_15.imagetags.updated_on</code>.
      */
     public final TableField<ImagetagsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.imagetags</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.imagetags</code> table reference
      */
     public Imagetags() {
         this(DSL.name("imagetags"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.imagetags</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.imagetags</code> table reference
      */
     public Imagetags(String alias) {
         this(DSL.name(alias), IMAGETAGS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.imagetags</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.imagetags</code> table reference
      */
     public Imagetags(Name alias) {
         this(alias, IMAGETAGS);
@@ -108,7 +108,7 @@ public class Imagetags extends TableImpl<ImagetagsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

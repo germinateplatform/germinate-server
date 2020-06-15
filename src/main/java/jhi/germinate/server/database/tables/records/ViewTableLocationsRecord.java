@@ -30,185 +30,185 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLocationsRecord extends TableRecordImpl<ViewTableLocationsRecord> implements Record13<Integer, String, String, String, String, String, BigDecimal, BigDecimal, BigDecimal, Integer, String, String, String> {
 
-    private static final long serialVersionUID = 508411215;
+    private static final long serialVersionUID = -1993038979;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setLocationId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getLocationId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_name</code>. The site name where the location is.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_name</code>. The site name where the location is.
      */
     public void setLocationName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_name</code>. The site name where the location is.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_name</code>. The site name where the location is.
      */
     public String getLocationName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_name_short</code>. Shortened site name which can be used in tables within Germinate.
      */
     public void setLocationNameShort(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_name_short</code>. Shortened site name which can be used in tables within Germinate.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_name_short</code>. Shortened site name which can be used in tables within Germinate.
      */
     public String getLocationNameShort() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_region</code>. The region where the location is if this exists.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_region</code>. The region where the location is if this exists.
      */
     public void setLocationRegion(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_region</code>. The region where the location is if this exists.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_region</code>. The region where the location is if this exists.
      */
     public String getLocationRegion() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_state</code>. The state where the location is if this exists.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_state</code>. The state where the location is if this exists.
      */
     public void setLocationState(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_state</code>. The state where the location is if this exists.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_state</code>. The state where the location is if this exists.
      */
     public String getLocationState() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_type</code>. The name of the location type. 
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_type</code>. The name of the location type. 
      */
     public void setLocationType(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_type</code>. The name of the location type. 
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_type</code>. The name of the location type. 
      */
     public String getLocationType() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_latitude</code>. Latitude of the location.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_latitude</code>. Latitude of the location.
      */
     public void setLocationLatitude(BigDecimal value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_latitude</code>. Latitude of the location.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_latitude</code>. Latitude of the location.
      */
     public BigDecimal getLocationLatitude() {
         return (BigDecimal) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_longitude</code>. Longitude of the location.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_longitude</code>. Longitude of the location.
      */
     public void setLocationLongitude(BigDecimal value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_longitude</code>. Longitude of the location.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_longitude</code>. Longitude of the location.
      */
     public BigDecimal getLocationLongitude() {
         return (BigDecimal) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_elevation</code>. The elevation of the site in metres.
      */
     public void setLocationElevation(BigDecimal value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_elevation</code>. The elevation of the site in metres.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_elevation</code>. The elevation of the site in metres.
      */
     public BigDecimal getLocationElevation() {
         return (BigDecimal) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.location_coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.location_coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
      */
     public void setLocationCoordinateUncertainty(Integer value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.location_coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.location_coordinate_uncertainty</code>. Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. 
      */
     public Integer getLocationCoordinateUncertainty() {
         return (Integer) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.country_name</code>. Country name.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.country_name</code>. Country name.
      */
     public void setCountryName(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.country_name</code>. Country name.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.country_name</code>. Country name.
      */
     public String getCountryName() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.country_code2</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.country_code2</code>. ISO 2 Code for country.
      */
     public void setCountryCode2(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.country_code2</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.country_code2</code>. ISO 2 Code for country.
      */
     public String getCountryCode2() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_locations.country_code3</code>. ISO 3 Code for country.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_locations.country_code3</code>. ISO 3 Code for country.
      */
     public void setCountryCode3(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_locations.country_code3</code>. ISO 3 Code for country.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_locations.country_code3</code>. ISO 3 Code for country.
      */
     public String getCountryCode3() {
         return (String) get(12);

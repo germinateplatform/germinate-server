@@ -31,73 +31,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoragedataRecord extends UpdatableRecordImpl<StoragedataRecord> implements Record5<Integer, Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -2066282997;
+    private static final long serialVersionUID = -1830546219;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.storagedata.id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.storagedata.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.storagedata.id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.storagedata.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.storagedata.germinatebase_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.storagedata.germinatebase_id</code>.
      */
     public void setGerminatebaseId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.storagedata.germinatebase_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.storagedata.germinatebase_id</code>.
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.storagedata.storage_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.storagedata.storage_id</code>.
      */
     public void setStorageId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.storagedata.storage_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.storagedata.storage_id</code>.
      */
     public Integer getStorageId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.storagedata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.storagedata.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.storagedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.storagedata.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.storagedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

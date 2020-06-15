@@ -31,59 +31,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ImageToTagsRecord extends UpdatableRecordImpl<ImageToTagsRecord> implements Record4<Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 426858718;
+    private static final long serialVersionUID = 2050843970;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.image_to_tags.image_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.image_to_tags.image_id</code>.
      */
     public void setImageId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.image_to_tags.image_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.image_to_tags.image_id</code>.
      */
     public Integer getImageId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.image_to_tags.imagetag_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.image_to_tags.imagetag_id</code>.
      */
     public void setImagetagId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.image_to_tags.imagetag_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.image_to_tags.imagetag_id</code>.
      */
     public Integer getImagetagId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.image_to_tags.created_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.image_to_tags.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.image_to_tags.created_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.image_to_tags.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.image_to_tags.updated_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.image_to_tags.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.image_to_tags.updated_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.image_to_tags.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(3);

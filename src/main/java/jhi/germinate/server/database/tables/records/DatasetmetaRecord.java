@@ -33,87 +33,87 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetmetaRecord extends UpdatableRecordImpl<DatasetmetaRecord> implements Record6<Integer, Integer, ULong, ULong, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1962390792;
+    private static final long serialVersionUID = -1988731308;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.datasetmeta.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
+     * Setter for <code>germinate_template_4_20_06_15.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
     public void setDatasetId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
+     * Getter for <code>germinate_template_4_20_06_15.datasetmeta.dataset_id</code>. Foreign key to [datasets] ([datasets].id).
      */
     public Integer getDatasetId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
+     * Setter for <code>germinate_template_4_20_06_15.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
      */
     public void setNrOfDataObjects(ULong value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
+     * Getter for <code>germinate_template_4_20_06_15.datasetmeta.nr_of_data_objects</code>. The number of data objects contained in this dataset.
      */
     public ULong getNrOfDataObjects() {
         return (ULong) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
+     * Setter for <code>germinate_template_4_20_06_15.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
      */
     public void setNrOfDataPoints(ULong value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
+     * Getter for <code>germinate_template_4_20_06_15.datasetmeta.nr_of_data_points</code>. The number of individual data points contained in this dataset.
      */
     public ULong getNrOfDataPoints() {
         return (ULong) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetmeta.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.datasetmeta.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetmeta.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.datasetmeta.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.datasetmeta.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(5);

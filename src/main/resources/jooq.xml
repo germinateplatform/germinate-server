@@ -19,7 +19,7 @@
 			<excludes>
 			</excludes>
 			<includes>.*</includes>
-			<inputSchema>germinate_template_4_0_0</inputSchema>
+			<inputSchema>germinate_template_4_20_06_15</inputSchema>
 			<name>org.jooq.meta.mysql.MySQLDatabase</name>
 
 			<forcedTypes>
@@ -106,7 +106,7 @@
 				<value></value>
 			</property>
 		</properties>
-		<url>jdbc:mysql://localhost/germinate_template_4_0_0?serverTimezone=UTC</url>
+		<url>jdbc:mysql://localhost/germinate_template_4_20_06_15?serverTimezone=UTC</url>
 
 		<!-- You can also pass user/password and other JDBC properties in the optional properties tag: -->
 		<user>root</user>

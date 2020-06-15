@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.LocationtypesRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Locationtypes extends TableImpl<LocationtypesRecord> {
 
-    private static final long serialVersionUID = 328460996;
+    private static final long serialVersionUID = -1704119410;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.locationtypes</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.locationtypes</code>
      */
     public static final Locationtypes LOCATIONTYPES = new Locationtypes();
 
@@ -55,46 +55,46 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.locationtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<LocationtypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.locationtypes.name</code>. The name of the location type. 
+     * The column <code>germinate_template_4_20_06_15.locationtypes.name</code>. The name of the location type. 
      */
     public final TableField<LocationtypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the location type. ");
 
     /**
-     * The column <code>germinate_template_4_0_0.locationtypes.description</code>. A description of the location type.
+     * The column <code>germinate_template_4_20_06_15.locationtypes.description</code>. A description of the location type.
      */
     public final TableField<LocationtypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A description of the location type.");
 
     /**
-     * The column <code>germinate_template_4_0_0.locationtypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.locationtypes.created_on</code>. When the record was created.
      */
     public final TableField<LocationtypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.locationtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<LocationtypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.locationtypes</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.locationtypes</code> table reference
      */
     public Locationtypes() {
         this(DSL.name("locationtypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.locationtypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.locationtypes</code> table reference
      */
     public Locationtypes(String alias) {
         this(DSL.name(alias), LOCATIONTYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.locationtypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.locationtypes</code> table reference
      */
     public Locationtypes(Name alias) {
         this(alias, LOCATIONTYPES);
@@ -113,7 +113,7 @@ public class Locationtypes extends TableImpl<LocationtypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

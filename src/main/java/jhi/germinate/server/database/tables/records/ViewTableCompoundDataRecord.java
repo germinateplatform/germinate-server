@@ -31,199 +31,199 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableCompoundDataRecord extends TableRecordImpl<ViewTableCompoundDataRecord> implements Record14<Integer, String, String, String, String, String, Integer, String, String, Integer, String, String, Timestamp, BigDecimal> {
 
-    private static final long serialVersionUID = -448311369;
+    private static final long serialVersionUID = 66036311;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setGermplasmId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.germplasm_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getGermplasmId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.germplasm_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.germplasm_gid</code>. A unique identifier.
      */
     public void setGermplasmGid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.germplasm_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.germplasm_gid</code>. A unique identifier.
      */
     public String getGermplasmGid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setGermplasmName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.germplasm_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getGermplasmName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setEntityParentName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.entity_parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getEntityParentName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.entity_parent_general_identifier</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.entity_parent_general_identifier</code>. A unique identifier.
      */
     public void setEntityParentGeneralIdentifier(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.entity_parent_general_identifier</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.entity_parent_general_identifier</code>. A unique identifier.
      */
     public String getEntityParentGeneralIdentifier() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.entity_type</code>. The name of the entity type.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.entity_type</code>. The name of the entity type.
      */
     public void setEntityType(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.entity_type</code>. The name of the entity type.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.entity_type</code>. The name of the entity type.
      */
     public String getEntityType() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getDatasetId() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.dataset_name</code>. Describes the dataset.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.dataset_name</code>. Describes the dataset.
      */
     public void setDatasetName(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.dataset_name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.dataset_name</code>. Describes the dataset.
      */
     public String getDatasetName() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.dataset_description</code>. The name of this dataset.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.dataset_description</code>. The name of this dataset.
      */
     public void setDatasetDescription(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.dataset_description</code>. The name of this dataset.
      */
     public String getDatasetDescription() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.compound_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.compound_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setCompoundId(Integer value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.compound_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.compound_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getCompoundId() {
         return (Integer) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.compound_name</code>. Compound full name.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.compound_name</code>. Compound full name.
      */
     public void setCompoundName(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.compound_name</code>. Compound full name.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.compound_name</code>. Compound full name.
      */
     public String getCompoundName() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public void setUnitName(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public String getUnitName() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public void setRecordingDate(Timestamp value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public Timestamp getRecordingDate() {
         return (Timestamp) get(12);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
     public void setCompoundValue(BigDecimal value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_compound_data.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
     public BigDecimal getCompoundValue() {
         return (BigDecimal) get(13);

@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.tables.records.PhenotypesRecord;
 
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phenotypes extends TableImpl<PhenotypesRecord> {
 
-    private static final long serialVersionUID = 913494019;
+    private static final long serialVersionUID = -1635886958;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.phenotypes</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.phenotypes</code>
      */
     public static final Phenotypes PHENOTYPES = new Phenotypes();
 
@@ -56,61 +56,61 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<PhenotypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.name</code>. Phenotype full name.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.name</code>. Phenotype full name.
      */
     public final TableField<PhenotypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Phenotype full name.");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.short_name</code>. Shortened name for the phenotype. This is used in table columns where space is an issue.
      */
     public final TableField<PhenotypesRecord, String> SHORT_NAME = createField("short_name", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened name for the phenotype. This is used in table columns where space is an issue.");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.description</code>. Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.
      */
     public final TableField<PhenotypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.datatype</code>. Defines the data type of the phenotype. This can be of float, int or char types.
      */
     public final TableField<PhenotypesRecord, PhenotypesDatatype> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.PhenotypesDatatype.class), this, "Defines the data type of the phenotype. This can be of float, int or char types.");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.unit_id</code>. Foreign Key to units (units.id).
+     * The column <code>germinate_template_4_20_06_15.phenotypes.unit_id</code>. Foreign Key to units (units.id).
      */
     public final TableField<PhenotypesRecord, Integer> UNIT_ID = createField("unit_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign Key to units (units.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.created_on</code>. When the record was created.
      */
     public final TableField<PhenotypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.phenotypes.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public final TableField<PhenotypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.phenotypes</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.phenotypes</code> table reference
      */
     public Phenotypes() {
         this(DSL.name("phenotypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.phenotypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.phenotypes</code> table reference
      */
     public Phenotypes(String alias) {
         this(DSL.name(alias), PHENOTYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.phenotypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.phenotypes</code> table reference
      */
     public Phenotypes(Name alias) {
         this(alias, PHENOTYPES);
@@ -129,7 +129,7 @@ public class Phenotypes extends TableImpl<PhenotypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

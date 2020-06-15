@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewStatsTaxonomyRecord;
 
 import org.jooq.Field;
@@ -32,10 +32,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsTaxonomy extends TableImpl<ViewStatsTaxonomyRecord> {
 
-    private static final long serialVersionUID = -458433944;
+    private static final long serialVersionUID = 1824861213;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_stats_taxonomy</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_stats_taxonomy</code>
      */
     public static final ViewStatsTaxonomy VIEW_STATS_TAXONOMY = new ViewStatsTaxonomy();
 
@@ -48,41 +48,41 @@ public class ViewStatsTaxonomy extends TableImpl<ViewStatsTaxonomyRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_taxonomy.genus</code>.
      */
     public final TableField<ViewStatsTaxonomyRecord, String> GENUS = createField("genus", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_taxonomy.species</code>.
      */
     public final TableField<ViewStatsTaxonomyRecord, String> SPECIES = createField("species", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_taxonomy.subtaxa</code>.
      */
     public final TableField<ViewStatsTaxonomyRecord, String> SUBTAXA = createField("subtaxa", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_taxonomy.count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_taxonomy.count</code>.
      */
     public final TableField<ViewStatsTaxonomyRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_stats_taxonomy</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_stats_taxonomy</code> table reference
      */
     public ViewStatsTaxonomy() {
         this(DSL.name("view_stats_taxonomy"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_stats_taxonomy</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_stats_taxonomy</code> table reference
      */
     public ViewStatsTaxonomy(String alias) {
         this(DSL.name(alias), VIEW_STATS_TAXONOMY);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_stats_taxonomy</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_stats_taxonomy</code> table reference
      */
     public ViewStatsTaxonomy(Name alias) {
         this(alias, VIEW_STATS_TAXONOMY);
@@ -101,7 +101,7 @@ public class ViewStatsTaxonomy extends TableImpl<ViewStatsTaxonomyRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

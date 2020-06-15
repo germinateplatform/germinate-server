@@ -28,115 +28,115 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverviewRecord extends TableRecordImpl<ViewStatsOverviewRecord> implements Record8<Long, Long, Long, Long, Long, Long, Long, Long> {
 
-    private static final long serialVersionUID = -972283680;
+    private static final long serialVersionUID = -1163243728;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.germplasm</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.germplasm</code>.
      */
     public void setGermplasm(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.germplasm</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.germplasm</code>.
      */
     public Long getGermplasm() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.markers</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.markers</code>.
      */
     public void setMarkers(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.markers</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.markers</code>.
      */
     public Long getMarkers() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.traits</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.traits</code>.
      */
     public void setTraits(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.traits</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.traits</code>.
      */
     public Long getTraits() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.compounds</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.compounds</code>.
      */
     public void setCompounds(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.compounds</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.compounds</code>.
      */
     public Long getCompounds() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.locations</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.locations</code>.
      */
     public void setLocations(Long value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.locations</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.locations</code>.
      */
     public Long getLocations() {
         return (Long) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.datasets</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.datasets</code>.
      */
     public void setDatasets(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.datasets</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.datasets</code>.
      */
     public Long getDatasets() {
         return (Long) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.groups</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.groups</code>.
      */
     public void setGroups(Long value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.groups</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.groups</code>.
      */
     public Long getGroups() {
         return (Long) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_overview.images</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_overview.images</code>.
      */
     public void setImages(Long value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_overview.images</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_overview.images</code>.
      */
     public Long getImages() {
         return (Long) get(7);

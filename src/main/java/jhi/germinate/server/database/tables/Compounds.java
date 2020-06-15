@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.CompoundsRecord;
 
 import org.jooq.Field;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Compounds extends TableImpl<CompoundsRecord> {
 
-    private static final long serialVersionUID = 1707596645;
+    private static final long serialVersionUID = -1897819064;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.compounds</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.compounds</code>
      */
     public static final Compounds COMPOUNDS = new Compounds();
 
@@ -56,71 +56,71 @@ public class Compounds extends TableImpl<CompoundsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.compounds.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<CompoundsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.name</code>. Compound full name.
+     * The column <code>germinate_template_4_20_06_15.compounds.name</code>. Compound full name.
      */
     public final TableField<CompoundsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Compound full name.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
+     * The column <code>germinate_template_4_20_06_15.compounds.description</code>. Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.
      */
     public final TableField<CompoundsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Full description of the compound. This should contain enough infomation to accurately identify the compound and how it was recorded.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.molecular_formula</code>. The molecular formula of the compound.
+     * The column <code>germinate_template_4_20_06_15.compounds.molecular_formula</code>. The molecular formula of the compound.
      */
     public final TableField<CompoundsRecord, String> MOLECULAR_FORMULA = createField("molecular_formula", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The molecular formula of the compound.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.monoisotopic_mass</code>. The monoisotopic mass of the compound.
+     * The column <code>germinate_template_4_20_06_15.compounds.monoisotopic_mass</code>. The monoisotopic mass of the compound.
      */
     public final TableField<CompoundsRecord, BigDecimal> MONOISOTOPIC_MASS = createField("monoisotopic_mass", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The monoisotopic mass of the compound.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.average_mass</code>. The average mass of the compound.
+     * The column <code>germinate_template_4_20_06_15.compounds.average_mass</code>. The average mass of the compound.
      */
     public final TableField<CompoundsRecord, BigDecimal> AVERAGE_MASS = createField("average_mass", org.jooq.impl.SQLDataType.DECIMAL(64, 10), this, "The average mass of the compound.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.compound_class</code>. A classification of the compound.
+     * The column <code>germinate_template_4_20_06_15.compounds.compound_class</code>. A classification of the compound.
      */
     public final TableField<CompoundsRecord, String> COMPOUND_CLASS = createField("compound_class", org.jooq.impl.SQLDataType.VARCHAR(255), this, "A classification of the compound.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.unit_id</code>. Foreign Key to units (units.id).
+     * The column <code>germinate_template_4_20_06_15.compounds.unit_id</code>. Foreign Key to units (units.id).
      */
     public final TableField<CompoundsRecord, Integer> UNIT_ID = createField("unit_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign Key to units (units.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.compounds.created_on</code>. When the record was created.
      */
     public final TableField<CompoundsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.compounds.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<CompoundsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.compounds</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.compounds</code> table reference
      */
     public Compounds() {
         this(DSL.name("compounds"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.compounds</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.compounds</code> table reference
      */
     public Compounds(String alias) {
         this(DSL.name(alias), COMPOUNDS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.compounds</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.compounds</code> table reference
      */
     public Compounds(Name alias) {
         this(alias, COMPOUNDS);
@@ -139,7 +139,7 @@ public class Compounds extends TableImpl<CompoundsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

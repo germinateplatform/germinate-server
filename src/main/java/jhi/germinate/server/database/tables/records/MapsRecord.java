@@ -31,101 +31,101 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MapsRecord extends UpdatableRecordImpl<MapsRecord> implements Record7<Integer, String, String, Boolean, Timestamp, Timestamp, Integer> {
 
-    private static final long serialVersionUID = 865379614;
+    private static final long serialVersionUID = -1034155658;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.maps.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.maps.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.name</code>. Describes the map.
+     * Setter for <code>germinate_template_4_20_06_15.maps.name</code>. Describes the map.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.name</code>. Describes the map.
+     * Getter for <code>germinate_template_4_20_06_15.maps.name</code>. Describes the map.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.description</code>. The name of this map.
+     * Setter for <code>germinate_template_4_20_06_15.maps.description</code>. The name of this map.
      */
     public void setDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.description</code>. The name of this map.
+     * Getter for <code>germinate_template_4_20_06_15.maps.description</code>. The name of this map.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Setter for <code>germinate_template_4_20_06_15.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public void setVisibility(Boolean value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * Getter for <code>germinate_template_4_20_06_15.maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public Boolean getVisibility() {
         return (Boolean) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.maps.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.maps.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.maps.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_4_20_06_15.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserId(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_4_20_06_15.maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getUserId() {
         return (Integer) get(6);

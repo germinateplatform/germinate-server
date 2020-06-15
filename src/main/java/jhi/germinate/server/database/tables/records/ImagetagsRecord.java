@@ -31,59 +31,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ImagetagsRecord extends UpdatableRecordImpl<ImagetagsRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -280679238;
+    private static final long serialVersionUID = -1874941270;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.imagetags.id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.imagetags.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.imagetags.id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.imagetags.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.imagetags.tag_name</code>.
+     * Setter for <code>germinate_template_4_20_06_15.imagetags.tag_name</code>.
      */
     public void setTagName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.imagetags.tag_name</code>.
+     * Getter for <code>germinate_template_4_20_06_15.imagetags.tag_name</code>.
      */
     public String getTagName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.imagetags.created_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.imagetags.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.imagetags.created_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.imagetags.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.imagetags.updated_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.imagetags.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.imagetags.updated_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.imagetags.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(3);

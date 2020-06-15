@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import javax.annotation.Generated;
 
 import jhi.germinate.resource.ImageTag;
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewTableImagesRecord;
 import jhi.germinate.server.util.ImageTagBinding;
 
@@ -36,10 +36,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
 
-    private static final long serialVersionUID = 1912780447;
+    private static final long serialVersionUID = -1648640648;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_table_images</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_table_images</code>
      */
     public static final ViewTableImages VIEW_TABLE_IMAGES = new ViewTableImages();
 
@@ -52,66 +52,66 @@ public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.image_id</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.image_id</code>.
      */
     public final TableField<ViewTableImagesRecord, Integer> IMAGE_ID = createField("image_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.image_description</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.image_description</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_DESCRIPTION = createField("image_description", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.image_foreign_id</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.image_foreign_id</code>.
      */
     public final TableField<ViewTableImagesRecord, Integer> IMAGE_FOREIGN_ID = createField("image_foreign_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.image_path</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.image_path</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_PATH = createField("image_path", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.image_type</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.image_type</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_TYPE = createField("image_type", org.jooq.impl.SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.image_ref_table</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.image_ref_table</code>.
      */
     public final TableField<ViewTableImagesRecord, String> IMAGE_REF_TABLE = createField("image_ref_table", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.reference_name</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.reference_name</code>.
      */
     public final TableField<ViewTableImagesRecord, String> REFERENCE_NAME = createField("reference_name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.created_on</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.created_on</code>.
      */
     public final TableField<ViewTableImagesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_images.tags</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_images.tags</code>.
      */
-    public final TableField<ViewTableImagesRecord, ImageTag[]> TAGS = createField("tags", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"view_table_images_tags\""), this, "", new ImageTagBinding());
+    public final TableField<ViewTableImagesRecord, ImageTag[]> TAGS = createField("tags", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_20_06_15\".\"view_table_images_tags\""), this, "", new ImageTagBinding());
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_table_images</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_table_images</code> table reference
      */
     public ViewTableImages() {
         this(DSL.name("view_table_images"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_images</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_images</code> table reference
      */
     public ViewTableImages(String alias) {
         this(DSL.name(alias), VIEW_TABLE_IMAGES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_images</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_images</code> table reference
      */
     public ViewTableImages(Name alias) {
         this(alias, VIEW_TABLE_IMAGES);
@@ -130,7 +130,7 @@ public class ViewTableImages extends TableImpl<ViewTableImagesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

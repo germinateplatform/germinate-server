@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ExperimentsRecord;
 
 import org.jooq.Field;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Experiments extends TableImpl<ExperimentsRecord> {
 
-    private static final long serialVersionUID = -1603606133;
+    private static final long serialVersionUID = 415735147;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.experiments</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.experiments</code>
      */
     public static final Experiments EXPERIMENTS = new Experiments();
 
@@ -56,57 +56,57 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.experiments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ExperimentsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.experiment_name</code>. The name of the experiment.
+     * The column <code>germinate_template_4_20_06_15.experiments.experiment_name</code>. The name of the experiment.
      */
     public final TableField<ExperimentsRecord, String> EXPERIMENT_NAME = createField("experiment_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the experiment.");
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_4_20_06_15.experiments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
 
      */
     public final TableField<ExperimentsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).\n");
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.description</code>. Describes the experiment.
+     * The column <code>germinate_template_4_20_06_15.experiments.description</code>. Describes the experiment.
      */
     public final TableField<ExperimentsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "Describes the experiment.");
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.experiment_date</code>. The date that the experiment was carried out.
+     * The column <code>germinate_template_4_20_06_15.experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public final TableField<ExperimentsRecord, Date> EXPERIMENT_DATE = createField("experiment_date", org.jooq.impl.SQLDataType.DATE, this, "The date that the experiment was carried out.");
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.experiments.created_on</code>. When the record was created.
      */
     public final TableField<ExperimentsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.experiments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<ExperimentsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.experiments</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.experiments</code> table reference
      */
     public Experiments() {
         this(DSL.name("experiments"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.experiments</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.experiments</code> table reference
      */
     public Experiments(String alias) {
         this(DSL.name(alias), EXPERIMENTS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.experiments</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.experiments</code> table reference
      */
     public Experiments(Name alias) {
         this(alias, EXPERIMENTS);
@@ -125,7 +125,7 @@ public class Experiments extends TableImpl<ExperimentsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

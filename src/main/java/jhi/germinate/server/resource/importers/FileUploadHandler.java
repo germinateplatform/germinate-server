@@ -42,8 +42,11 @@ public class FileUploadHandler
 						{
 							// consume the stream immediately, otherwise the stream
 							// will be closed.
+							String filename = fi.getName();
+							String extension = filename.substring(filename.lastIndexOf(".") + 1);
+							targetFile = new File(targetFile.getParentFile(), targetFile.getName() + "." + extension);
 							FileUtils.copyInputStreamToFile(fi.openStream(), targetFile);
-							return fi.getName();
+							return targetFile.getName();
 						}
 					}
 

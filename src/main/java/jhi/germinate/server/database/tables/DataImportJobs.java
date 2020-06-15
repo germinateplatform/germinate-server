@@ -11,7 +11,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import jhi.germinate.resource.ImportResult;
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.enums.DataImportJobsDatatype;
 import jhi.germinate.server.database.enums.DataImportJobsStatus;
 import jhi.germinate.server.database.tables.records.DataImportJobsRecord;
@@ -43,10 +43,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DataImportJobs extends TableImpl<DataImportJobsRecord> {
 
-    private static final long serialVersionUID = 64940633;
+    private static final long serialVersionUID = -1716360176;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.data_import_jobs</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.data_import_jobs</code>
      */
     public static final DataImportJobs DATA_IMPORT_JOBS = new DataImportJobs();
 
@@ -59,86 +59,86 @@ public class DataImportJobs extends TableImpl<DataImportJobsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.id</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.id</code>.
      */
     public final TableField<DataImportJobsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.uuid</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.uuid</code>.
      */
     public final TableField<DataImportJobsRecord, String> UUID = createField("uuid", org.jooq.impl.SQLDataType.VARCHAR(36).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.job_id</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.job_id</code>.
      */
     public final TableField<DataImportJobsRecord, String> JOB_ID = createField("job_id", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.user_id</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.user_id</code>.
      */
     public final TableField<DataImportJobsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.original_filename</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.original_filename</code>.
      */
     public final TableField<DataImportJobsRecord, String> ORIGINAL_FILENAME = createField("original_filename", org.jooq.impl.SQLDataType.VARCHAR(266).nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.is_update</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.is_update</code>.
      */
     public final TableField<DataImportJobsRecord, Boolean> IS_UPDATE = createField("is_update", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.datatype</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.datatype</code>.
      */
     public final TableField<DataImportJobsRecord, DataImportJobsDatatype> DATATYPE = createField("datatype", org.jooq.impl.SQLDataType.VARCHAR(8).nullable(false).defaultValue(org.jooq.impl.DSL.inline("mcpd", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.DataImportJobsDatatype.class), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.status</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.status</code>.
      */
     public final TableField<DataImportJobsRecord, DataImportJobsStatus> STATUS = createField("status", org.jooq.impl.SQLDataType.VARCHAR(9).nullable(false).defaultValue(org.jooq.impl.DSL.inline("waiting", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.DataImportJobsStatus.class), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.imported</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.imported</code>.
      */
     public final TableField<DataImportJobsRecord, Boolean> IMPORTED = createField("imported", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.visibility</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.visibility</code>.
      */
     public final TableField<DataImportJobsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.feedback</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.feedback</code>.
      */
-    public final TableField<DataImportJobsRecord, ImportResult[]> FEEDBACK = createField("feedback", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_0_0\".\"data_import_jobs_feedback\""), this, "", new ImportResultBinding());
+    public final TableField<DataImportJobsRecord, ImportResult[]> FEEDBACK = createField("feedback", org.jooq.impl.DefaultDataType.getDefaultDataType("\"germinate_template_4_20_06_15\".\"data_import_jobs_feedback\""), this, "", new ImportResultBinding());
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.created_on</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.created_on</code>.
      */
     public final TableField<DataImportJobsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.data_import_jobs.updated_on</code>.
+     * The column <code>germinate_template_4_20_06_15.data_import_jobs.updated_on</code>.
      */
     public final TableField<DataImportJobsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.data_import_jobs</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.data_import_jobs</code> table reference
      */
     public DataImportJobs() {
         this(DSL.name("data_import_jobs"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.data_import_jobs</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.data_import_jobs</code> table reference
      */
     public DataImportJobs(String alias) {
         this(DSL.name(alias), DATA_IMPORT_JOBS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.data_import_jobs</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.data_import_jobs</code> table reference
      */
     public DataImportJobs(Name alias) {
         this(alias, DATA_IMPORT_JOBS);
@@ -157,7 +157,7 @@ public class DataImportJobs extends TableImpl<DataImportJobsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

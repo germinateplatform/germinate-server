@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.UsergroupsRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Usergroups extends TableImpl<UsergroupsRecord> {
 
-    private static final long serialVersionUID = 1597091899;
+    private static final long serialVersionUID = -297076297;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.usergroups</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.usergroups</code>
      */
     public static final Usergroups USERGROUPS = new Usergroups();
 
@@ -55,46 +55,46 @@ public class Usergroups extends TableImpl<UsergroupsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.usergroups.id</code>.
+     * The column <code>germinate_template_4_20_06_15.usergroups.id</code>.
      */
     public final TableField<UsergroupsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.usergroups.name</code>. The name of the user group.
+     * The column <code>germinate_template_4_20_06_15.usergroups.name</code>. The name of the user group.
      */
     public final TableField<UsergroupsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the user group.");
 
     /**
-     * The column <code>germinate_template_4_0_0.usergroups.description</code>. A description of the user group.
+     * The column <code>germinate_template_4_20_06_15.usergroups.description</code>. A description of the user group.
      */
     public final TableField<UsergroupsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "A description of the user group.");
 
     /**
-     * The column <code>germinate_template_4_0_0.usergroups.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.usergroups.created_on</code>. When the record was created.
      */
     public final TableField<UsergroupsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.usergroups.updated_on</code>. When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.
      */
     public final TableField<UsergroupsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.usergroups</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.usergroups</code> table reference
      */
     public Usergroups() {
         this(DSL.name("usergroups"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.usergroups</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.usergroups</code> table reference
      */
     public Usergroups(String alias) {
         this(DSL.name(alias), USERGROUPS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.usergroups</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.usergroups</code> table reference
      */
     public Usergroups(Name alias) {
         this(alias, USERGROUPS);
@@ -113,7 +113,7 @@ public class Usergroups extends TableImpl<UsergroupsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

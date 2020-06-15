@@ -34,185 +34,185 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DataImportJobsRecord extends UpdatableRecordImpl<DataImportJobsRecord> implements Record13<Integer, String, String, Integer, String, Boolean, DataImportJobsDatatype, DataImportJobsStatus, Boolean, Boolean, ImportResult[], Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 98225491;
+    private static final long serialVersionUID = -351500381;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.uuid</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.uuid</code>.
      */
     public void setUuid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.uuid</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.uuid</code>.
      */
     public String getUuid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.job_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.job_id</code>.
      */
     public void setJobId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.job_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.job_id</code>.
      */
     public String getJobId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.user_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.user_id</code>.
      */
     public void setUserId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.user_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.original_filename</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.original_filename</code>.
      */
     public void setOriginalFilename(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.original_filename</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.original_filename</code>.
      */
     public String getOriginalFilename() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.is_update</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.is_update</code>.
      */
     public void setIsUpdate(Boolean value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.is_update</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.is_update</code>.
      */
     public Boolean getIsUpdate() {
         return (Boolean) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.datatype</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.datatype</code>.
      */
     public void setDatatype(DataImportJobsDatatype value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.datatype</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.datatype</code>.
      */
     public DataImportJobsDatatype getDatatype() {
         return (DataImportJobsDatatype) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.status</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.status</code>.
      */
     public void setStatus(DataImportJobsStatus value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.status</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.status</code>.
      */
     public DataImportJobsStatus getStatus() {
         return (DataImportJobsStatus) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.imported</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.imported</code>.
      */
     public void setImported(Boolean value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.imported</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.imported</code>.
      */
     public Boolean getImported() {
         return (Boolean) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.visibility</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.visibility</code>.
      */
     public void setVisibility(Boolean value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.visibility</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.visibility</code>.
      */
     public Boolean getVisibility() {
         return (Boolean) get(9);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.feedback</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.feedback</code>.
      */
     public void setFeedback(ImportResult... value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.feedback</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.feedback</code>.
      */
     public ImportResult[] getFeedback() {
         return (ImportResult[]) get(10);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.created_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.created_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(11);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.data_import_jobs.updated_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.data_import_jobs.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.data_import_jobs.updated_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.data_import_jobs.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(12);

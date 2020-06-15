@@ -31,73 +31,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CommenttypesRecord extends UpdatableRecordImpl<CommenttypesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1610738196;
+    private static final long serialVersionUID = 1304358758;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.commenttypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.commenttypes.description</code>. Describes the comment type.
+     * Setter for <code>germinate_template_4_20_06_15.commenttypes.description</code>. Describes the comment type.
      */
     public void setDescription(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.commenttypes.description</code>. Describes the comment type.
+     * Getter for <code>germinate_template_4_20_06_15.commenttypes.description</code>. Describes the comment type.
      */
     public String getDescription() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
+     * Setter for <code>germinate_template_4_20_06_15.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
      */
     public void setReferenceTable(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
+     * Getter for <code>germinate_template_4_20_06_15.commenttypes.reference_table</code>. This could include 'germinatebase' or 'markers' to define the table that the comment relates to.
      */
     public String getReferenceTable() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.commenttypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.commenttypes.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.commenttypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.commenttypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.commenttypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

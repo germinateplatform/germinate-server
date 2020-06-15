@@ -57,59 +57,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BiologicalstatusRecord extends UpdatableRecordImpl<BiologicalstatusRecord> implements Record4<Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -627221648;
+    private static final long serialVersionUID = -296901472;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.biologicalstatus.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
+     * Setter for <code>germinate_template_4_20_06_15.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
     public void setSampstat(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
+     * Getter for <code>germinate_template_4_20_06_15.biologicalstatus.sampstat</code>. Previoulsy known as sampstat.
      */
     public String getSampstat() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.biologicalstatus.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.biologicalstatus.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.biologicalstatus.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.biologicalstatus.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.biologicalstatus.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(3);

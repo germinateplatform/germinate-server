@@ -31,73 +31,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LicensesRecord extends UpdatableRecordImpl<LicensesRecord> implements Record5<Integer, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -115032170;
+    private static final long serialVersionUID = 483819756;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.licenses.id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.licenses.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.licenses.id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.licenses.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.licenses.name</code>.
+     * Setter for <code>germinate_template_4_20_06_15.licenses.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.licenses.name</code>.
+     * Getter for <code>germinate_template_4_20_06_15.licenses.name</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.licenses.description</code>.
+     * Setter for <code>germinate_template_4_20_06_15.licenses.description</code>.
      */
     public void setDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.licenses.description</code>.
+     * Getter for <code>germinate_template_4_20_06_15.licenses.description</code>.
      */
     public String getDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.licenses.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.licenses.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.licenses.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.licenses.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.licenses.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(4);

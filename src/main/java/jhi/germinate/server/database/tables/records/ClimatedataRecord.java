@@ -33,129 +33,129 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ClimatedataRecord extends UpdatableRecordImpl<ClimatedataRecord> implements Record9<Integer, Integer, Integer, Double, Integer, Timestamp, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -215712147;
+    private static final long serialVersionUID = 1392966833;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.climate_id</code>. Foreign key to climates (climates.id).
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.climate_id</code>. Foreign key to climates (climates.id).
      */
     public void setClimateId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.climate_id</code>. Foreign key to climates (climates.id).
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.climate_id</code>. Foreign key to climates (climates.id).
      */
     public Integer getClimateId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.location_id</code>. Foreign key to locations (locations.id).
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.location_id</code>. Foreign key to locations (locations.id).
      */
     public void setLocationId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.location_id</code>. Foreign key to locations (locations.id).
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.location_id</code>. Foreign key to locations (locations.id).
      */
     public Integer getLocationId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
      */
     public void setClimateValue(Double value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.climate_value</code>. Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.
      */
     public Double getClimateValue() {
         return (Double) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
     public void setDatasetId(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.dataset_id</code>. Foreign key to datasets (datasets.id).
      */
     public Integer getDatasetId() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.recording_date</code>. The date at which this data point was recorded.
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.recording_date</code>. The date at which this data point was recorded.
      */
     public void setRecordingDate(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.recording_date</code>. The date at which this data point was recorded.
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.recording_date</code>. The date at which this data point was recorded.
      */
     public Timestamp getRecordingDate() {
         return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.old_recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.old_recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
      */
     public void setOldRecordingDate(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.old_recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.old_recording_date</code>. The month that the data was recorded. This uses an integer to represent the month (1-12).
      */
     public String getOldRecordingDate() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.climatedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);

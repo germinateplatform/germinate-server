@@ -31,143 +31,143 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableExperimentsRecord extends TableRecordImpl<ViewTableExperimentsRecord> implements Record10<Integer, String, String, Date, Timestamp, Long, Long, Long, Long, Long> {
 
-    private static final long serialVersionUID = -1022388810;
+    private static final long serialVersionUID = 472312416;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setExperimentId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getExperimentId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_name</code>. The name of the experiment.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_name</code>. The name of the experiment.
      */
     public void setExperimentName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_name</code>. The name of the experiment.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_name</code>. The name of the experiment.
      */
     public String getExperimentName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_description</code>. Describes the experiment.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_description</code>. Describes the experiment.
      */
     public void setExperimentDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_description</code>. Describes the experiment.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_description</code>. Describes the experiment.
      */
     public String getExperimentDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public void setExperimentDate(Date value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.experiment_date</code>. The date that the experiment was carried out.
      */
     public Date getExperimentDate() {
         return (Date) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.genotype_count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.genotype_count</code>.
      */
     public void setGenotypeCount(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.genotype_count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.genotype_count</code>.
      */
     public Long getGenotypeCount() {
         return (Long) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.trials_count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.trials_count</code>.
      */
     public void setTrialsCount(Long value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.trials_count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.trials_count</code>.
      */
     public Long getTrialsCount() {
         return (Long) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.allele_freq_count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.allele_freq_count</code>.
      */
     public void setAlleleFreqCount(Long value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.allele_freq_count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.allele_freq_count</code>.
      */
     public Long getAlleleFreqCount() {
         return (Long) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.climate_count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.climate_count</code>.
      */
     public void setClimateCount(Long value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.climate_count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.climate_count</code>.
      */
     public Long getClimateCount() {
         return (Long) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_experiments.compound_count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_experiments.compound_count</code>.
      */
     public void setCompoundCount(Long value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_experiments.compound_count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_experiments.compound_count</code>.
      */
     public Long getCompoundCount() {
         return (Long) get(9);

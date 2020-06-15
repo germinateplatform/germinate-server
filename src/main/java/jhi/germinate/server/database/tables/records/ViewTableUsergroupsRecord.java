@@ -30,73 +30,73 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableUsergroupsRecord extends TableRecordImpl<ViewTableUsergroupsRecord> implements Record5<Integer, String, String, Timestamp, Long> {
 
-    private static final long serialVersionUID = 1834092718;
+    private static final long serialVersionUID = -1606800620;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_usergroups.user_group_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_usergroups.user_group_id</code>.
      */
     public void setUserGroupId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_usergroups.user_group_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_usergroups.user_group_id</code>.
      */
     public Integer getUserGroupId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_usergroups.user_group_name</code>. The name of the user group.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_usergroups.user_group_name</code>. The name of the user group.
      */
     public void setUserGroupName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_usergroups.user_group_name</code>. The name of the user group.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_usergroups.user_group_name</code>. The name of the user group.
      */
     public String getUserGroupName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_usergroups.user_group_description</code>. A description of the user group.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_usergroups.user_group_description</code>. A description of the user group.
      */
     public void setUserGroupDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_usergroups.user_group_description</code>. A description of the user group.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_usergroups.user_group_description</code>. A description of the user group.
      */
     public String getUserGroupDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_usergroups.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_usergroups.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_usergroups.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_usergroups.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_usergroups.count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_usergroups.count</code>.
      */
     public void setCount(Long value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_usergroups.count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_usergroups.count</code>.
      */
     public Long getCount() {
         return (Long) get(4);

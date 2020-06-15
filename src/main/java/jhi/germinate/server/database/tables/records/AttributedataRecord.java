@@ -35,87 +35,87 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AttributedataRecord extends UpdatableRecordImpl<AttributedataRecord> implements Record6<Integer, Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -324775497;
+    private static final long serialVersionUID = 1878004745;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.attributedata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
+     * Setter for <code>germinate_template_4_20_06_15.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
      */
     public void setAttributeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
+     * Getter for <code>germinate_template_4_20_06_15.attributedata.attribute_id</code>. Foreign key to attributes (attributes.id).
      */
     public Integer getAttributeId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_4_20_06_15.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public void setForeignId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_4_20_06_15.attributedata.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public Integer getForeignId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.attributedata.value</code>. The value of the attribute.
+     * Setter for <code>germinate_template_4_20_06_15.attributedata.value</code>. The value of the attribute.
      */
     public void setValue(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.attributedata.value</code>. The value of the attribute.
+     * Getter for <code>germinate_template_4_20_06_15.attributedata.value</code>. The value of the attribute.
      */
     public String getValue() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.attributedata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.attributedata.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.attributedata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.attributedata.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.attributedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.attributedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.attributedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.attributedata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(5);

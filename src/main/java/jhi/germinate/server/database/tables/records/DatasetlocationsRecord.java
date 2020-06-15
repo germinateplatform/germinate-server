@@ -31,59 +31,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DatasetlocationsRecord extends UpdatableRecordImpl<DatasetlocationsRecord> implements Record4<Integer, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -2079761424;
+    private static final long serialVersionUID = 863014376;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetlocations.dataset_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetlocations.dataset_id</code>.
      */
     public void setDatasetId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetlocations.dataset_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetlocations.dataset_id</code>.
      */
     public Integer getDatasetId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetlocations.location_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetlocations.location_id</code>.
      */
     public void setLocationId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetlocations.location_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetlocations.location_id</code>.
      */
     public Integer getLocationId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetlocations.created_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetlocations.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetlocations.created_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetlocations.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.datasetlocations.updated_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.datasetlocations.updated_on</code>.
      */
     public void setUpdatedOn(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.datasetlocations.updated_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.datasetlocations.updated_on</code>.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(3);

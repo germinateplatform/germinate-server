@@ -28,143 +28,143 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableInstitutionsRecord extends TableRecordImpl<ViewTableInstitutionsRecord> implements Record10<Integer, String, String, String, String, String, String, Integer, String, String> {
 
-    private static final long serialVersionUID = 1014235139;
+    private static final long serialVersionUID = -1274119409;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setInstitutionId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getInstitutionId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_name</code>. The institute name.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_name</code>. The institute name.
      */
     public void setInstitutionName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_name</code>. The institute name.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_name</code>. The institute name.
      */
     public String getInstitutionName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_acronym</code>. If there is an acronym for the institute.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_acronym</code>. If there is an acronym for the institute.
      */
     public void setInstitutionAcronym(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_acronym</code>. If there is an acronym for the institute.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_acronym</code>. If there is an acronym for the institute.
      */
     public String getInstitutionAcronym() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_address</code>. The postal address of the institute.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_address</code>. The postal address of the institute.
      */
     public void setInstitutionAddress(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_address</code>. The postal address of the institute.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_address</code>. The postal address of the institute.
      */
     public String getInstitutionAddress() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_email</code>. The email address to contact the institute.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_email</code>. The email address to contact the institute.
      */
     public void setInstitutionEmail(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_email</code>. The email address to contact the institute.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_email</code>. The email address to contact the institute.
      */
     public String getInstitutionEmail() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_contact</code>. The contact at the institute which should be used for correspondence.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_contact</code>. The contact at the institute which should be used for correspondence.
      */
     public void setInstitutionContact(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_contact</code>. The contact at the institute which should be used for correspondence.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_contact</code>. The contact at the institute which should be used for correspondence.
      */
     public String getInstitutionContact() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.institution_phone</code>. The telephone number for the institute.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_phone</code>. The telephone number for the institute.
      */
     public void setInstitutionPhone(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.institution_phone</code>. The telephone number for the institute.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.institution_phone</code>. The telephone number for the institute.
      */
     public String getInstitutionPhone() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.country_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.country_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setCountryId(Integer value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.country_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.country_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getCountryId() {
         return (Integer) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.country_name</code>. Country name.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.country_name</code>. Country name.
      */
     public void setCountryName(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.country_name</code>. Country name.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.country_name</code>. Country name.
      */
     public String getCountryName() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_institutions.country_code</code>. ISO 2 Code for country.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_institutions.country_code</code>. ISO 2 Code for country.
      */
     public void setCountryCode(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_institutions.country_code</code>. ISO 2 Code for country.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_institutions.country_code</code>. ISO 2 Code for country.
      */
     public String getCountryCode() {
         return (String) get(9);

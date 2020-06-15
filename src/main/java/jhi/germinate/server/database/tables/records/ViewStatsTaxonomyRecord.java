@@ -28,59 +28,59 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsTaxonomyRecord extends TableRecordImpl<ViewStatsTaxonomyRecord> implements Record4<String, String, String, Long> {
 
-    private static final long serialVersionUID = 1498621500;
+    private static final long serialVersionUID = 708568494;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.genus</code>.
      */
     public void setGenus(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.genus</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.genus</code>.
      */
     public String getGenus() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.species</code>.
      */
     public void setSpecies(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.species</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.species</code>.
      */
     public String getSpecies() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.subtaxa</code>.
      */
     public void setSubtaxa(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.subtaxa</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.subtaxa</code>.
      */
     public String getSubtaxa() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_stats_taxonomy.count</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.count</code>.
      */
     public void setCount(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_stats_taxonomy.count</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_stats_taxonomy.count</code>.
      */
     public Long getCount() {
         return (Long) get(3);

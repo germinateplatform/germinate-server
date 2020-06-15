@@ -29,143 +29,143 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableDatasetAttributesRecord extends TableRecordImpl<ViewTableDatasetAttributesRecord> implements Record10<Integer, String, String, Integer, String, String, ViewTableDatasetAttributesAttributeType, String, Integer, String> {
 
-    private static final long serialVersionUID = -151003032;
+    private static final long serialVersionUID = -261893332;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getDatasetId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
      */
     public void setDatasetName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.dataset_name</code>. Describes the dataset.
      */
     public String getDatasetName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
      */
     public void setDatasetDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.dataset_description</code>. The name of this dataset.
      */
     public String getDatasetDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setAttributeId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getAttributeId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
      */
     public void setAttributeName(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_name</code>. Defines the name of the attribute.
      */
     public String getAttributeName() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public void setAttributeDescription(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_description</code>. Describes the attribute. This should expand on the name to make it clear what the attribute actually is.
      */
     public String getAttributeDescription() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public void setAttributeType(ViewTableDatasetAttributesAttributeType value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_type</code>. Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.
      */
     public ViewTableDatasetAttributesAttributeType getAttributeType() {
         return (ViewTableDatasetAttributesAttributeType) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.target_table</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.target_table</code>.
      */
     public void setTargetTable(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.target_table</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.target_table</code>.
      */
     public String getTargetTable() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public void setForeignId(Integer value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.foreign_id</code>. Foreign key to germinatebase (germinatebase.id).
      */
     public Integer getForeignId() {
         return (Integer) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
      */
     public void setAttributeValue(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_dataset_attributes.attribute_value</code>. The value of the attribute.
      */
     public String getAttributeValue() {
         return (String) get(9);

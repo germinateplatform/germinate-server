@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewStatsPdciRecord;
 
 import org.jooq.Field;
@@ -32,10 +32,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsPdci extends TableImpl<ViewStatsPdciRecord> {
 
-    private static final long serialVersionUID = 1012185567;
+    private static final long serialVersionUID = -870062830;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_stats_pdci</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_stats_pdci</code>
      */
     public static final ViewStatsPdci VIEW_STATS_PDCI = new ViewStatsPdci();
 
@@ -48,31 +48,31 @@ public class ViewStatsPdci extends TableImpl<ViewStatsPdciRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_pdci.bin</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_pdci.bin</code>.
      */
     public final TableField<ViewStatsPdciRecord, String> BIN = createField("bin", org.jooq.impl.SQLDataType.VARCHAR(4).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_stats_pdci.count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_stats_pdci.count</code>.
      */
     public final TableField<ViewStatsPdciRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_stats_pdci</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_stats_pdci</code> table reference
      */
     public ViewStatsPdci() {
         this(DSL.name("view_stats_pdci"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_stats_pdci</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_stats_pdci</code> table reference
      */
     public ViewStatsPdci(String alias) {
         this(DSL.name(alias), VIEW_STATS_PDCI);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_stats_pdci</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_stats_pdci</code> table reference
      */
     public ViewStatsPdci(Name alias) {
         this(alias, VIEW_STATS_PDCI);
@@ -91,7 +91,7 @@ public class ViewStatsPdci extends TableImpl<ViewStatsPdciRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

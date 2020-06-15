@@ -24,6 +24,7 @@ import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.datasets.export.*;
 import jhi.germinate.server.resource.entities.EntityTableResource;
 import jhi.germinate.server.resource.experiment.ExperimentTableResource;
+import jhi.germinate.server.resource.fileresource.*;
 import jhi.germinate.server.resource.gatekeeper.*;
 import jhi.germinate.server.resource.germplasm.*;
 import jhi.germinate.server.resource.groups.*;
@@ -184,6 +185,13 @@ public class Germinate extends Application
 
 		// EXPERIMENTS
 		attachToRouter(routerAuth, "/experiment/table", ExperimentTableResource.class);
+
+		// FILE RESOURCES
+		attachToRouter(routerAuth, "/fileresource/table", FileResourceTableResource.class);
+		attachToRouter(routerAuth, "/fileresource", FileResourceResource.class);
+		attachToRouter(routerAuth, "/fileresource/{fileResourceId}", FileResourceResource.class);
+		attachToRouter(routerAuth, "/fileresourcetype", FileResourceTypeResource.class);
+		attachToRouter(routerAuth, "/fileresourcetype/{fileResourceTypeId}", FileResourceTypeResource.class);
 
 		// GERMPLASM
 		attachToRouter(routerAuth, "/germplasm", GermplasmResource.class);

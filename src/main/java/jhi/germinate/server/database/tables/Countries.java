@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.CountriesRecord;
 
 import org.jooq.Field;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Countries extends TableImpl<CountriesRecord> {
 
-    private static final long serialVersionUID = -448068557;
+    private static final long serialVersionUID = 1852137938;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.countries</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.countries</code>
      */
     public static final Countries COUNTRIES = new Countries();
 
@@ -56,51 +56,51 @@ public class Countries extends TableImpl<CountriesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.countries.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.countries.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<CountriesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.countries.country_code2</code>. ISO 2 Code for country.
+     * The column <code>germinate_template_4_20_06_15.countries.country_code2</code>. ISO 2 Code for country.
      */
     public final TableField<CountriesRecord, String> COUNTRY_CODE2 = createField("country_code2", org.jooq.impl.SQLDataType.CHAR(2).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 2 Code for country.");
 
     /**
-     * The column <code>germinate_template_4_0_0.countries.country_code3</code>. ISO 3 Code for country.
+     * The column <code>germinate_template_4_20_06_15.countries.country_code3</code>. ISO 3 Code for country.
      */
     public final TableField<CountriesRecord, String> COUNTRY_CODE3 = createField("country_code3", org.jooq.impl.SQLDataType.CHAR(3).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.CHAR)), this, "ISO 3 Code for country.");
 
     /**
-     * The column <code>germinate_template_4_0_0.countries.country_name</code>. Country name.
+     * The column <code>germinate_template_4_20_06_15.countries.country_name</code>. Country name.
      */
     public final TableField<CountriesRecord, String> COUNTRY_NAME = createField("country_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Country name.");
 
     /**
-     * The column <code>germinate_template_4_0_0.countries.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.countries.created_on</code>. When the record was created.
      */
     public final TableField<CountriesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.countries.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<CountriesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.countries</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.countries</code> table reference
      */
     public Countries() {
         this(DSL.name("countries"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.countries</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.countries</code> table reference
      */
     public Countries(String alias) {
         this(DSL.name(alias), COUNTRIES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.countries</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.countries</code> table reference
      */
     public Countries(Name alias) {
         this(alias, COUNTRIES);
@@ -119,7 +119,7 @@ public class Countries extends TableImpl<CountriesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

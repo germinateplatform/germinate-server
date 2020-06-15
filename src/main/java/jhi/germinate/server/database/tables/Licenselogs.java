@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.LicenselogsRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Licenselogs extends TableImpl<LicenselogsRecord> {
 
-    private static final long serialVersionUID = 691743945;
+    private static final long serialVersionUID = -1611529816;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.licenselogs</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.licenselogs</code>
      */
     public static final Licenselogs LICENSELOGS = new Licenselogs();
 
@@ -55,41 +55,41 @@ public class Licenselogs extends TableImpl<LicenselogsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.licenselogs.id</code>.
+     * The column <code>germinate_template_4_20_06_15.licenselogs.id</code>.
      */
     public final TableField<LicenselogsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.licenselogs.license_id</code>.
+     * The column <code>germinate_template_4_20_06_15.licenselogs.license_id</code>.
      */
     public final TableField<LicenselogsRecord, Integer> LICENSE_ID = createField("license_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.licenselogs.user_id</code>.
+     * The column <code>germinate_template_4_20_06_15.licenselogs.user_id</code>.
      */
     public final TableField<LicenselogsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.licenselogs.accepted_on</code>.
+     * The column <code>germinate_template_4_20_06_15.licenselogs.accepted_on</code>.
      */
     public final TableField<LicenselogsRecord, Timestamp> ACCEPTED_ON = createField("accepted_on", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.licenselogs</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.licenselogs</code> table reference
      */
     public Licenselogs() {
         this(DSL.name("licenselogs"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.licenselogs</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.licenselogs</code> table reference
      */
     public Licenselogs(String alias) {
         this(DSL.name(alias), LICENSELOGS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.licenselogs</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.licenselogs</code> table reference
      */
     public Licenselogs(Name alias) {
         this(alias, LICENSELOGS);
@@ -108,7 +108,7 @@ public class Licenselogs extends TableImpl<LicenselogsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

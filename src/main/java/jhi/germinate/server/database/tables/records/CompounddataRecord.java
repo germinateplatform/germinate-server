@@ -32,129 +32,129 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CompounddataRecord extends UpdatableRecordImpl<CompounddataRecord> implements Record9<Integer, Integer, Integer, Integer, Integer, BigDecimal, Timestamp, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 404263040;
+    private static final long serialVersionUID = -1435925884;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
     public void setCompoundId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.compound_id</code>. Foreign key compounds (compounds.id).
      */
     public Integer getCompoundId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public void setGerminatebaseId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.germinatebase_id</code>. Foreign key germinatebase (germinatebase.id).
      */
     public Integer getGerminatebaseId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
     public void setDatasetId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.dataset_id</code>. Foreign key datasets (datasets.id).
      */
     public Integer getDatasetId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
      */
     public void setAnalysismethodId(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.analysismethod_id</code>. Foreign key analysismethods (analysismethods.id).
      */
     public Integer getAnalysismethodId() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
     public void setCompoundValue(BigDecimal value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.compound_value</code>. The compound value for this compound_id and germinatebase_id combination.
      */
     public BigDecimal getCompoundValue() {
         return (BigDecimal) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public void setRecordingDate(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.recording_date</code>. Date when the phenotypic result was recorded. Should be formatted 'YYYY-MM-DD HH:MM:SS' or just 'YYYY-MM-DD' where a timestamp is not available.
      */
     public Timestamp getRecordingDate() {
         return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.compounddata.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(8);

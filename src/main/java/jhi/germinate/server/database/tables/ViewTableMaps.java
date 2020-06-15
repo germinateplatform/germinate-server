@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.ViewTableMapsRecord;
 
 import org.jooq.Field;
@@ -32,10 +32,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableMaps extends TableImpl<ViewTableMapsRecord> {
 
-    private static final long serialVersionUID = -284401818;
+    private static final long serialVersionUID = 870688395;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_table_maps</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_table_maps</code>
      */
     public static final ViewTableMaps VIEW_TABLE_MAPS = new ViewTableMaps();
 
@@ -48,51 +48,51 @@ public class ViewTableMaps extends TableImpl<ViewTableMapsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_maps.map_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableMapsRecord, Integer> MAP_ID = createField("map_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_maps.map_name</code>. Describes the map.
+     * The column <code>germinate_template_4_20_06_15.view_table_maps.map_name</code>. Describes the map.
      */
     public final TableField<ViewTableMapsRecord, String> MAP_NAME = createField("map_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "Describes the map.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_maps.map_description</code>. The name of this map.
+     * The column <code>germinate_template_4_20_06_15.view_table_maps.map_description</code>. The name of this map.
      */
     public final TableField<ViewTableMapsRecord, String> MAP_DESCRIPTION = createField("map_description", org.jooq.impl.SQLDataType.CLOB, this, "The name of this map.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * The column <code>germinate_template_4_20_06_15.view_table_maps.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public final TableField<ViewTableMapsRecord, Integer> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.INTEGER, this, "Foreign key to Gatekeeper users (Gatekeeper users.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
+     * The column <code>germinate_template_4_20_06_15.view_table_maps.visibility</code>. Determines if the map is visible to the Germinate interface or hidden.
      */
     public final TableField<ViewTableMapsRecord, Boolean> VISIBILITY = createField("visibility", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "Determines if the map is visible to the Germinate interface or hidden.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_maps.marker_count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_maps.marker_count</code>.
      */
     public final TableField<ViewTableMapsRecord, Long> MARKER_COUNT = createField("marker_count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_table_maps</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_table_maps</code> table reference
      */
     public ViewTableMaps() {
         this(DSL.name("view_table_maps"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_maps</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_maps</code> table reference
      */
     public ViewTableMaps(String alias) {
         this(DSL.name(alias), VIEW_TABLE_MAPS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_maps</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_maps</code> table reference
      */
     public ViewTableMaps(Name alias) {
         this(alias, VIEW_TABLE_MAPS);
@@ -111,7 +111,7 @@ public class ViewTableMaps extends TableImpl<ViewTableMapsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

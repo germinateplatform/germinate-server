@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.DatasettypesRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Datasettypes extends TableImpl<DatasettypesRecord> {
 
-    private static final long serialVersionUID = -1169960936;
+    private static final long serialVersionUID = -299207291;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.datasettypes</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.datasettypes</code>
      */
     public static final Datasettypes DATASETTYPES = new Datasettypes();
 
@@ -55,41 +55,41 @@ public class Datasettypes extends TableImpl<DatasettypesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.datasettypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.datasettypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<DatasettypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasettypes.description</code>. Describes the experiment type.
+     * The column <code>germinate_template_4_20_06_15.datasettypes.description</code>. Describes the experiment type.
      */
     public final TableField<DatasettypesRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the experiment type.");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasettypes.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.datasettypes.created_on</code>. When the record was created.
      */
     public final TableField<DatasettypesRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.datasettypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.datasettypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<DatasettypesRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.datasettypes</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.datasettypes</code> table reference
      */
     public Datasettypes() {
         this(DSL.name("datasettypes"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.datasettypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.datasettypes</code> table reference
      */
     public Datasettypes(String alias) {
         this(DSL.name(alias), DATASETTYPES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.datasettypes</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.datasettypes</code> table reference
      */
     public Datasettypes(Name alias) {
         this(alias, DATASETTYPES);
@@ -108,7 +108,7 @@ public class Datasettypes extends TableImpl<DatasettypesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

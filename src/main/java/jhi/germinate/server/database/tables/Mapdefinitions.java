@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.MapdefinitionsRecord;
 
 import org.jooq.Field;
@@ -43,10 +43,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
 
-    private static final long serialVersionUID = -1051328097;
+    private static final long serialVersionUID = -224963402;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.mapdefinitions</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.mapdefinitions</code>
      */
     public static final Mapdefinitions MAPDEFINITIONS = new Mapdefinitions();
 
@@ -59,71 +59,71 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<MapdefinitionsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.mapfeaturetype_id</code>. Foreign key to mapfeaturetypes (mapfeaturetypes.id).
      */
     public final TableField<MapdefinitionsRecord, Integer> MAPFEATURETYPE_ID = createField("mapfeaturetype_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to mapfeaturetypes (mapfeaturetypes.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.marker_id</code>. Foreign key to markers (markers.id).
      */
     public final TableField<MapdefinitionsRecord, Integer> MARKER_ID = createField("marker_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to markers (markers.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.map_id</code>. Foreign key to maps (maps.id).
      */
     public final TableField<MapdefinitionsRecord, Integer> MAP_ID = createField("map_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Foreign key to maps (maps.id).");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.definition_start</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.
      */
     public final TableField<MapdefinitionsRecord, Double> DEFINITION_START = createField("definition_start", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.definition_end</code>. Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.
      */
     public final TableField<MapdefinitionsRecord, Double> DEFINITION_END = createField("definition_end", org.jooq.impl.SQLDataType.DOUBLE, this, "Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.chromosome</code>. The chromosome/linkage group that this marker is found on.
      */
     public final TableField<MapdefinitionsRecord, String> CHROMOSOME = createField("chromosome", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The chromosome/linkage group that this marker is found on.");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.arm_impute</code>. If a chromosome arm is available then this can be entered here.
      */
     public final TableField<MapdefinitionsRecord, String> ARM_IMPUTE = createField("arm_impute", org.jooq.impl.SQLDataType.VARCHAR(255), this, "If a chromosome arm is available then this can be entered here.");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.created_on</code>. When the record was created.
      */
     public final TableField<MapdefinitionsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.mapdefinitions.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<MapdefinitionsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.mapdefinitions</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.mapdefinitions</code> table reference
      */
     public Mapdefinitions() {
         this(DSL.name("mapdefinitions"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.mapdefinitions</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.mapdefinitions</code> table reference
      */
     public Mapdefinitions(String alias) {
         this(DSL.name(alias), MAPDEFINITIONS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.mapdefinitions</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.mapdefinitions</code> table reference
      */
     public Mapdefinitions(Name alias) {
         this(alias, MAPDEFINITIONS);
@@ -142,7 +142,7 @@ public class Mapdefinitions extends TableImpl<MapdefinitionsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

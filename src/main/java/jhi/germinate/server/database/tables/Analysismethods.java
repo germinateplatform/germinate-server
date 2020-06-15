@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.tables.records.AnalysismethodsRecord;
 
 import org.jooq.Field;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Analysismethods extends TableImpl<AnalysismethodsRecord> {
 
-    private static final long serialVersionUID = 1442702785;
+    private static final long serialVersionUID = -984920621;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.analysismethods</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.analysismethods</code>
      */
     public static final Analysismethods ANALYSISMETHODS = new Analysismethods();
 
@@ -55,46 +55,46 @@ public class Analysismethods extends TableImpl<AnalysismethodsRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.analysismethods.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<AnalysismethodsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.analysismethods.name</code>. The name of the analysis method.
+     * The column <code>germinate_template_4_20_06_15.analysismethods.name</code>. The name of the analysis method.
      */
     public final TableField<AnalysismethodsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the analysis method.");
 
     /**
-     * The column <code>germinate_template_4_0_0.analysismethods.description</code>. Describes the analysis method.
+     * The column <code>germinate_template_4_20_06_15.analysismethods.description</code>. Describes the analysis method.
      */
     public final TableField<AnalysismethodsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(255), this, "Describes the analysis method.");
 
     /**
-     * The column <code>germinate_template_4_0_0.analysismethods.created_on</code>. When the record was created.
+     * The column <code>germinate_template_4_20_06_15.analysismethods.created_on</code>. When the record was created.
      */
     public final TableField<AnalysismethodsRecord, Timestamp> CREATED_ON = createField("created_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was created.");
 
     /**
-     * The column <code>germinate_template_4_0_0.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * The column <code>germinate_template_4_20_06_15.analysismethods.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public final TableField<AnalysismethodsRecord, Timestamp> UPDATED_ON = createField("updated_on", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.");
 
     /**
-     * Create a <code>germinate_template_4_0_0.analysismethods</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.analysismethods</code> table reference
      */
     public Analysismethods() {
         this(DSL.name("analysismethods"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.analysismethods</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.analysismethods</code> table reference
      */
     public Analysismethods(String alias) {
         this(DSL.name(alias), ANALYSISMETHODS);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.analysismethods</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.analysismethods</code> table reference
      */
     public Analysismethods(Name alias) {
         this(alias, ANALYSISMETHODS);
@@ -113,7 +113,7 @@ public class Analysismethods extends TableImpl<AnalysismethodsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

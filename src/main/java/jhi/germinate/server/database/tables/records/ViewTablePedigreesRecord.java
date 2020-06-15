@@ -29,143 +29,143 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTablePedigreesRecord extends TableRecordImpl<ViewTablePedigreesRecord> implements Record10<Integer, String, String, Integer, String, String, ViewTablePedigreesRelationshipType, String, String, String> {
 
-    private static final long serialVersionUID = -896052081;
+    private static final long serialVersionUID = -1136522325;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setParentId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.parent_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getParentId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.parent_gid</code>. A unique identifier.
      */
     public void setParentGid(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.parent_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.parent_gid</code>. A unique identifier.
      */
     public String getParentGid() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setParentName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.parent_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getParentName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setChildId(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.child_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getChildId() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.child_gid</code>. A unique identifier.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.child_gid</code>. A unique identifier.
      */
     public void setChildGid(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.child_gid</code>. A unique identifier.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.child_gid</code>. A unique identifier.
      */
     public String getChildGid() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public void setChildName(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.child_name</code>. A unique name which defines an entry in the germinatbase table.
      */
     public String getChildName() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
     public void setRelationshipType(ViewTablePedigreesRelationshipType value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.relationship_type</code>. Male or Female parent. Should be recorded as 'M' (male) or 'F' (female).
      */
     public ViewTablePedigreesRelationshipType getRelationshipType() {
         return (ViewTablePedigreesRelationshipType) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
     public void setRelationshipDescription(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.relationship_description</code>. Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, 'is a complex cross containing', 'F4 generation' and so on. This is used by the Helium pedigree visualiztion tool.
      */
     public String getRelationshipDescription() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
      */
     public void setPedigreeDescription(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.pedigree_description</code>. The name of the pedigree.
      */
     public String getPedigreeDescription() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
     public void setPedigreeAuthor(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_pedigrees.pedigree_author</code>. Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.
      */
     public String getPedigreeAuthor() {
         return (String) get(9);

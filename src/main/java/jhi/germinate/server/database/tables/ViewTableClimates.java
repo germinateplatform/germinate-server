@@ -6,7 +6,7 @@ package jhi.germinate.server.database.tables;
 
 import javax.annotation.Generated;
 
-import jhi.germinate.server.database.GerminateTemplate_4_0_0;
+import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.database.enums.ViewTableClimatesDataType;
 import jhi.germinate.server.database.tables.records.ViewTableClimatesRecord;
 
@@ -33,10 +33,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableClimates extends TableImpl<ViewTableClimatesRecord> {
 
-    private static final long serialVersionUID = -1659176035;
+    private static final long serialVersionUID = -576303673;
 
     /**
-     * The reference instance of <code>germinate_template_4_0_0.view_table_climates</code>
+     * The reference instance of <code>germinate_template_4_20_06_15.view_table_climates</code>
      */
     public static final ViewTableClimates VIEW_TABLE_CLIMATES = new ViewTableClimates();
 
@@ -49,76 +49,76 @@ public class ViewTableClimates extends TableImpl<ViewTableClimatesRecord> {
     }
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.climate_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.climate_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableClimatesRecord, Integer> CLIMATE_ID = createField("climate_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.climate_name</code>. Describes the climate.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.climate_name</code>. Describes the climate.
      */
     public final TableField<ViewTableClimatesRecord, String> CLIMATE_NAME = createField("climate_name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "Describes the climate.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.climate_name_short</code>. Shortened version of the climate name which is used in some table headers.
      */
     public final TableField<ViewTableClimatesRecord, String> CLIMATE_NAME_SHORT = createField("climate_name_short", org.jooq.impl.SQLDataType.CHAR(10), this, "Shortened version of the climate name which is used in some table headers.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.climate_description</code>. A longer description of the climate.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.climate_description</code>. A longer description of the climate.
      */
     public final TableField<ViewTableClimatesRecord, String> CLIMATE_DESCRIPTION = createField("climate_description", org.jooq.impl.SQLDataType.CLOB, this, "A longer description of the climate.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.data_type</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.data_type</code>. Defines the datatype which can be FLOAT, INT or CHAR type.
      */
     public final TableField<ViewTableClimatesRecord, ViewTableClimatesDataType> DATA_TYPE = createField("data_type", org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("int", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(jhi.germinate.server.database.enums.ViewTableClimatesDataType.class), this, "Defines the datatype which can be FLOAT, INT or CHAR type.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.unit_id</code>. Primary id for this table. This uniquely identifies the row.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.unit_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public final TableField<ViewTableClimatesRecord, Integer> UNIT_ID = createField("unit_id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "Primary id for this table. This uniquely identifies the row.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.unit_name</code>. The name of the unit. This should be the name of the unit in full.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.unit_name</code>. The name of the unit. This should be the name of the unit in full.
      */
     public final TableField<ViewTableClimatesRecord, String> UNIT_NAME = createField("unit_name", org.jooq.impl.SQLDataType.VARCHAR(255).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "The name of the unit. This should be the name of the unit in full.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.unit_description</code>. A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.
      */
     public final TableField<ViewTableClimatesRecord, String> UNIT_DESCRIPTION = createField("unit_description", org.jooq.impl.SQLDataType.CLOB, this, "A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.overlays</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.overlays</code>.
      */
     public final TableField<ViewTableClimatesRecord, Long> OVERLAYS = createField("overlays", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.unit_abbreviation</code>. This should be the unit abbreviation.
      */
     public final TableField<ViewTableClimatesRecord, String> UNIT_ABBREVIATION = createField("unit_abbreviation", org.jooq.impl.SQLDataType.CHAR(10), this, "This should be the unit abbreviation.");
 
     /**
-     * The column <code>germinate_template_4_0_0.view_table_climates.count</code>.
+     * The column <code>germinate_template_4_20_06_15.view_table_climates.count</code>.
      */
     public final TableField<ViewTableClimatesRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * Create a <code>germinate_template_4_0_0.view_table_climates</code> table reference
+     * Create a <code>germinate_template_4_20_06_15.view_table_climates</code> table reference
      */
     public ViewTableClimates() {
         this(DSL.name("view_table_climates"), null);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_climates</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_climates</code> table reference
      */
     public ViewTableClimates(String alias) {
         this(DSL.name(alias), VIEW_TABLE_CLIMATES);
     }
 
     /**
-     * Create an aliased <code>germinate_template_4_0_0.view_table_climates</code> table reference
+     * Create an aliased <code>germinate_template_4_20_06_15.view_table_climates</code> table reference
      */
     public ViewTableClimates(Name alias) {
         this(alias, VIEW_TABLE_CLIMATES);
@@ -137,7 +137,7 @@ public class ViewTableClimates extends TableImpl<ViewTableClimatesRecord> {
      */
     @Override
     public Schema getSchema() {
-        return GerminateTemplate_4_0_0.GERMINATE_TEMPLATE_4_0_0;
+        return GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15;
     }
 
     /**

@@ -30,115 +30,115 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableLicensesRecord extends TableRecordImpl<ViewTableLicensesRecord> implements Record8<Integer, String, String, String, String, String, Integer, JsonArray> {
 
-    private static final long serialVersionUID = -1206059506;
+    private static final long serialVersionUID = 148895140;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.license_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.license_id</code>.
      */
     public void setLicenseId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.license_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.license_id</code>.
      */
     public Integer getLicenseId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.license_name</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.license_name</code>.
      */
     public void setLicenseName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.license_name</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.license_name</code>.
      */
     public String getLicenseName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.license_description</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.license_description</code>.
      */
     public void setLicenseDescription(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.license_description</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.license_description</code>.
      */
     public String getLicenseDescription() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.license_content</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.license_content</code>.
      */
     public void setLicenseContent(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.license_content</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.license_content</code>.
      */
     public String getLicenseContent() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.locale_name</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.locale_name</code>.
      */
     public void setLocaleName(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.locale_name</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.locale_name</code>.
      */
     public String getLocaleName() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.locale_description</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.locale_description</code>.
      */
     public void setLocaleDescription(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.locale_description</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.locale_description</code>.
      */
     public String getLocaleDescription() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setDatasetId(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.dataset_id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getDatasetId() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_licenses.accepted_by</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_licenses.accepted_by</code>.
      */
     public void setAcceptedBy(JsonArray value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_licenses.accepted_by</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_licenses.accepted_by</code>.
      */
     public JsonArray getAcceptedBy() {
         return (JsonArray) get(7);

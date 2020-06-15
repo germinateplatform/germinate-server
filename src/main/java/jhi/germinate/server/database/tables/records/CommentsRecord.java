@@ -32,115 +32,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CommentsRecord extends UpdatableRecordImpl<CommentsRecord> implements Record8<Integer, Integer, Integer, Boolean, String, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -2082284275;
+    private static final long serialVersionUID = 584069945;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.comments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.comments.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
+     * Setter for <code>germinate_template_4_20_06_15.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
     public void setCommenttypeId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
+     * Getter for <code>germinate_template_4_20_06_15.comments.commenttype_id</code>. Foreign key to commentypes (commenttypes.id).
      */
     public Integer getCommenttypeId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Setter for <code>germinate_template_4_20_06_15.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public void setUserId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
+     * Getter for <code>germinate_template_4_20_06_15.comments.user_id</code>. Foreign key to Gatekeeper users (Gatekeeper users.id).
      */
     public Integer getUserId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
+     * Setter for <code>germinate_template_4_20_06_15.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
     public void setVisibility(Boolean value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
+     * Getter for <code>germinate_template_4_20_06_15.comments.visibility</code>. Defines if the comment is available or masked (hidden) from the interface.
      */
     public Boolean getVisibility() {
         return (Boolean) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.description</code>. The comment content.
+     * Setter for <code>germinate_template_4_20_06_15.comments.description</code>. The comment content.
      */
     public void setDescription(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.description</code>. The comment content.
+     * Getter for <code>germinate_template_4_20_06_15.comments.description</code>. The comment content.
      */
     public String getDescription() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     * Setter for <code>germinate_template_4_20_06_15.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
      */
     public void setReferenceId(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
+     * Getter for <code>germinate_template_4_20_06_15.comments.reference_id</code>. Relates to the UID of the table to which the comment relates
      */
     public Integer getReferenceId() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.comments.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.comments.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.comments.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(7);

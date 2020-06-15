@@ -31,87 +31,87 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SynonymtypesRecord extends UpdatableRecordImpl<SynonymtypesRecord> implements Record6<Integer, String, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 870463078;
+    private static final long serialVersionUID = 1137145542;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Setter for <code>germinate_template_4_20_06_15.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
+     * Getter for <code>germinate_template_4_20_06_15.synonymtypes.id</code>. Primary id for this table. This uniquely identifies the row.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.synonymtypes.target_table</code>. The target table.
+     * Setter for <code>germinate_template_4_20_06_15.synonymtypes.target_table</code>. The target table.
      */
     public void setTargetTable(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.synonymtypes.target_table</code>. The target table.
+     * Getter for <code>germinate_template_4_20_06_15.synonymtypes.target_table</code>. The target table.
      */
     public String getTargetTable() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.synonymtypes.name</code>. Name of the synonym type.
+     * Setter for <code>germinate_template_4_20_06_15.synonymtypes.name</code>. Name of the synonym type.
      */
     public void setName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.synonymtypes.name</code>. Name of the synonym type.
+     * Getter for <code>germinate_template_4_20_06_15.synonymtypes.name</code>. Name of the synonym type.
      */
     public String getName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.synonymtypes.description</code>. Description of the type.
+     * Setter for <code>germinate_template_4_20_06_15.synonymtypes.description</code>. Description of the type.
      */
     public void setDescription(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.synonymtypes.description</code>. Description of the type.
+     * Getter for <code>germinate_template_4_20_06_15.synonymtypes.description</code>. Description of the type.
      */
     public String getDescription() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.synonymtypes.created_on</code>. When the record was created.
+     * Setter for <code>germinate_template_4_20_06_15.synonymtypes.created_on</code>. When the record was created.
      */
     public void setCreatedOn(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.synonymtypes.created_on</code>. When the record was created.
+     * Getter for <code>germinate_template_4_20_06_15.synonymtypes.created_on</code>. When the record was created.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Setter for <code>germinate_template_4_20_06_15.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public void setUpdatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
+     * Getter for <code>germinate_template_4_20_06_15.synonymtypes.updated_on</code>. When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.
      */
     public Timestamp getUpdatedOn() {
         return (Timestamp) get(5);

@@ -31,129 +31,129 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableImagesRecord extends TableRecordImpl<ViewTableImagesRecord> implements Record9<Integer, String, Integer, String, String, String, String, Timestamp, ImageTag[]> {
 
-    private static final long serialVersionUID = 821636538;
+    private static final long serialVersionUID = 862668778;
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.image_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.image_id</code>.
      */
     public void setImageId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.image_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.image_id</code>.
      */
     public Integer getImageId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.image_description</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.image_description</code>.
      */
     public void setImageDescription(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.image_description</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.image_description</code>.
      */
     public String getImageDescription() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.image_foreign_id</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.image_foreign_id</code>.
      */
     public void setImageForeignId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.image_foreign_id</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.image_foreign_id</code>.
      */
     public Integer getImageForeignId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.image_path</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.image_path</code>.
      */
     public void setImagePath(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.image_path</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.image_path</code>.
      */
     public String getImagePath() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.image_type</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.image_type</code>.
      */
     public void setImageType(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.image_type</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.image_type</code>.
      */
     public String getImageType() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.image_ref_table</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.image_ref_table</code>.
      */
     public void setImageRefTable(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.image_ref_table</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.image_ref_table</code>.
      */
     public String getImageRefTable() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.reference_name</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.reference_name</code>.
      */
     public void setReferenceName(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.reference_name</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.reference_name</code>.
      */
     public String getReferenceName() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.created_on</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.created_on</code>.
      */
     public void setCreatedOn(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.created_on</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.created_on</code>.
      */
     public Timestamp getCreatedOn() {
         return (Timestamp) get(7);
     }
 
     /**
-     * Setter for <code>germinate_template_4_0_0.view_table_images.tags</code>.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_images.tags</code>.
      */
     public void setTags(ImageTag... value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_0_0.view_table_images.tags</code>.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_images.tags</code>.
      */
     public ImageTag[] getTags() {
         return (ImageTag[]) get(8);
