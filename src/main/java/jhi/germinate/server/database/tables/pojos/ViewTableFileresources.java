@@ -24,15 +24,15 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableFileresources implements Serializable {
 
-    private static final long serialVersionUID = -1181898577;
+    private static final long serialVersionUID = -573620623;
 
     private Integer   fileresourceId;
     private String    fileresourceName;
     private String    fileresourcePath;
     private String    fileresourceDescription;
     private Long      fileresourceSize;
-    private Timestamp fileresourcesCreatedOn;
-    private Timestamp fileresourcesUpdatedOn;
+    private Timestamp fileresourceCreatedOn;
+    private Timestamp fileresourceUpdatedOn;
     private Integer   fileresourcetypeId;
     private String    fileresourcetypeName;
     private String    fileresourcetypeDescription;
@@ -45,8 +45,8 @@ public class ViewTableFileresources implements Serializable {
         this.fileresourcePath = value.fileresourcePath;
         this.fileresourceDescription = value.fileresourceDescription;
         this.fileresourceSize = value.fileresourceSize;
-        this.fileresourcesCreatedOn = value.fileresourcesCreatedOn;
-        this.fileresourcesUpdatedOn = value.fileresourcesUpdatedOn;
+        this.fileresourceCreatedOn = value.fileresourceCreatedOn;
+        this.fileresourceUpdatedOn = value.fileresourceUpdatedOn;
         this.fileresourcetypeId = value.fileresourcetypeId;
         this.fileresourcetypeName = value.fileresourcetypeName;
         this.fileresourcetypeDescription = value.fileresourcetypeDescription;
@@ -58,8 +58,8 @@ public class ViewTableFileresources implements Serializable {
         String    fileresourcePath,
         String    fileresourceDescription,
         Long      fileresourceSize,
-        Timestamp fileresourcesCreatedOn,
-        Timestamp fileresourcesUpdatedOn,
+        Timestamp fileresourceCreatedOn,
+        Timestamp fileresourceUpdatedOn,
         Integer   fileresourcetypeId,
         String    fileresourcetypeName,
         String    fileresourcetypeDescription
@@ -69,8 +69,8 @@ public class ViewTableFileresources implements Serializable {
         this.fileresourcePath = fileresourcePath;
         this.fileresourceDescription = fileresourceDescription;
         this.fileresourceSize = fileresourceSize;
-        this.fileresourcesCreatedOn = fileresourcesCreatedOn;
-        this.fileresourcesUpdatedOn = fileresourcesUpdatedOn;
+        this.fileresourceCreatedOn = fileresourceCreatedOn;
+        this.fileresourceUpdatedOn = fileresourceUpdatedOn;
         this.fileresourcetypeId = fileresourcetypeId;
         this.fileresourcetypeName = fileresourcetypeName;
         this.fileresourcetypeDescription = fileresourcetypeDescription;
@@ -116,20 +116,20 @@ public class ViewTableFileresources implements Serializable {
         this.fileresourceSize = fileresourceSize;
     }
 
-    public Timestamp getFileresourcesCreatedOn() {
-        return this.fileresourcesCreatedOn;
+    public Timestamp getFileresourceCreatedOn() {
+        return this.fileresourceCreatedOn;
     }
 
-    public void setFileresourcesCreatedOn(Timestamp fileresourcesCreatedOn) {
-        this.fileresourcesCreatedOn = fileresourcesCreatedOn;
+    public void setFileresourceCreatedOn(Timestamp fileresourceCreatedOn) {
+        this.fileresourceCreatedOn = fileresourceCreatedOn;
     }
 
-    public Timestamp getFileresourcesUpdatedOn() {
-        return this.fileresourcesUpdatedOn;
+    public Timestamp getFileresourceUpdatedOn() {
+        return this.fileresourceUpdatedOn;
     }
 
-    public void setFileresourcesUpdatedOn(Timestamp fileresourcesUpdatedOn) {
-        this.fileresourcesUpdatedOn = fileresourcesUpdatedOn;
+    public void setFileresourceUpdatedOn(Timestamp fileresourceUpdatedOn) {
+        this.fileresourceUpdatedOn = fileresourceUpdatedOn;
     }
 
     public Integer getFileresourcetypeId() {
@@ -165,8 +165,8 @@ public class ViewTableFileresources implements Serializable {
         sb.append(", ").append(fileresourcePath);
         sb.append(", ").append(fileresourceDescription);
         sb.append(", ").append(fileresourceSize);
-        sb.append(", ").append(fileresourcesCreatedOn);
-        sb.append(", ").append(fileresourcesUpdatedOn);
+        sb.append(", ").append(fileresourceCreatedOn);
+        sb.append(", ").append(fileresourceUpdatedOn);
         sb.append(", ").append(fileresourcetypeId);
         sb.append(", ").append(fileresourcetypeName);
         sb.append(", ").append(fileresourcetypeDescription);

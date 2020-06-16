@@ -63,11 +63,11 @@ public class FileResourceResource extends BaseServerResource
 
 			if (fileResource != null)
 			{
-				String path = fileResource.getName();
+				String path = fileResource.getPath();
 
 				if (!StringUtils.isEmpty(path))
 				{
-					File file = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "data"), "download"), path);
+					File file = BaseServerResource.getFromExternal(path, "data", "download");
 
 					if (file.exists() && file.isFile())
 						file.delete();
@@ -115,7 +115,7 @@ public class FileResourceResource extends BaseServerResource
 				String mimeType = Files.probeContentType(resultFile.toPath());
 				type = MediaType.valueOf(mimeType);
 
-				filename = record.getName().replaceAll("[^a-zA-Z0-9-_.]", "") + filename.substring(filename.lastIndexOf("."));
+				filename = record.getName().replaceAll("[^a-zA-Z0-9-_.]", "-") + filename.substring(filename.lastIndexOf("."));
 			}
 			catch (IOException | IndexOutOfBoundsException e)
 			{

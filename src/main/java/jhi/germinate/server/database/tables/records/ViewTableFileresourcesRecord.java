@@ -30,7 +30,7 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFileresourcesRecord> implements Record10<Integer, String, String, String, Long, Timestamp, Timestamp, Integer, String, String> {
 
-    private static final long serialVersionUID = -1770791161;
+    private static final long serialVersionUID = 823962289;
 
     /**
      * Setter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_id</code>. The primary id.
@@ -103,30 +103,30 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
     }
 
     /**
-     * Setter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresources_created_on</code>. When this record was created.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_created_on</code>. When this record was created.
      */
-    public void setFileresourcesCreatedOn(Timestamp value) {
+    public void setFileresourceCreatedOn(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresources_created_on</code>. When this record was created.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_created_on</code>. When this record was created.
      */
-    public Timestamp getFileresourcesCreatedOn() {
+    public Timestamp getFileresourceCreatedOn() {
         return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresources_updated_on</code>. When this record was last updated.
+     * Setter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_updated_on</code>. When this record was last updated.
      */
-    public void setFileresourcesUpdatedOn(Timestamp value) {
+    public void setFileresourceUpdatedOn(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresources_updated_on</code>. When this record was last updated.
+     * Getter for <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_updated_on</code>. When this record was last updated.
      */
-    public Timestamp getFileresourcesUpdatedOn() {
+    public Timestamp getFileresourceUpdatedOn() {
         return (Timestamp) get(6);
     }
 
@@ -237,7 +237,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public Field<Timestamp> field6() {
-        return ViewTableFileresources.VIEW_TABLE_FILERESOURCES.FILERESOURCES_CREATED_ON;
+        return ViewTableFileresources.VIEW_TABLE_FILERESOURCES.FILERESOURCE_CREATED_ON;
     }
 
     /**
@@ -245,7 +245,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public Field<Timestamp> field7() {
-        return ViewTableFileresources.VIEW_TABLE_FILERESOURCES.FILERESOURCES_UPDATED_ON;
+        return ViewTableFileresources.VIEW_TABLE_FILERESOURCES.FILERESOURCE_UPDATED_ON;
     }
 
     /**
@@ -317,7 +317,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public Timestamp component6() {
-        return getFileresourcesCreatedOn();
+        return getFileresourceCreatedOn();
     }
 
     /**
@@ -325,7 +325,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public Timestamp component7() {
-        return getFileresourcesUpdatedOn();
+        return getFileresourceUpdatedOn();
     }
 
     /**
@@ -397,7 +397,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public Timestamp value6() {
-        return getFileresourcesCreatedOn();
+        return getFileresourceCreatedOn();
     }
 
     /**
@@ -405,7 +405,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public Timestamp value7() {
-        return getFileresourcesUpdatedOn();
+        return getFileresourceUpdatedOn();
     }
 
     /**
@@ -482,7 +482,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public ViewTableFileresourcesRecord value6(Timestamp value) {
-        setFileresourcesCreatedOn(value);
+        setFileresourceCreatedOn(value);
         return this;
     }
 
@@ -491,7 +491,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
      */
     @Override
     public ViewTableFileresourcesRecord value7(Timestamp value) {
-        setFileresourcesUpdatedOn(value);
+        setFileresourceUpdatedOn(value);
         return this;
     }
 
@@ -554,7 +554,7 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
     /**
      * Create a detached, initialised ViewTableFileresourcesRecord
      */
-    public ViewTableFileresourcesRecord(Integer fileresourceId, String fileresourceName, String fileresourcePath, String fileresourceDescription, Long fileresourceSize, Timestamp fileresourcesCreatedOn, Timestamp fileresourcesUpdatedOn, Integer fileresourcetypeId, String fileresourcetypeName, String fileresourcetypeDescription) {
+    public ViewTableFileresourcesRecord(Integer fileresourceId, String fileresourceName, String fileresourcePath, String fileresourceDescription, Long fileresourceSize, Timestamp fileresourceCreatedOn, Timestamp fileresourceUpdatedOn, Integer fileresourcetypeId, String fileresourcetypeName, String fileresourcetypeDescription) {
         super(ViewTableFileresources.VIEW_TABLE_FILERESOURCES);
 
         set(0, fileresourceId);
@@ -562,8 +562,8 @@ public class ViewTableFileresourcesRecord extends TableRecordImpl<ViewTableFiler
         set(2, fileresourcePath);
         set(3, fileresourceDescription);
         set(4, fileresourceSize);
-        set(5, fileresourcesCreatedOn);
-        set(6, fileresourcesUpdatedOn);
+        set(5, fileresourceCreatedOn);
+        set(6, fileresourceUpdatedOn);
         set(7, fileresourcetypeId);
         set(8, fileresourcetypeName);
         set(9, fileresourcetypeDescription);

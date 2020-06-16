@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableFileresourcetypes extends TableImpl<ViewTableFileresourcetypesRecord> {
 
-    private static final long serialVersionUID = -452551493;
+    private static final long serialVersionUID = 122689305;
 
     /**
      * The reference instance of <code>germinate_template_4_20_06_15.view_table_fileresourcetypes</code>
@@ -52,12 +52,12 @@ public class ViewTableFileresourcetypes extends TableImpl<ViewTableFileresourcet
     /**
      * The column <code>germinate_template_4_20_06_15.view_table_fileresourcetypes.id</code>. The primary id.
      */
-    public final TableField<ViewTableFileresourcetypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "The primary id.");
+    public final TableField<ViewTableFileresourcetypesRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "The primary id.");
 
     /**
      * The column <code>germinate_template_4_20_06_15.view_table_fileresourcetypes.name</code>. The name of the file type.
      */
-    public final TableField<ViewTableFileresourcetypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255), this, "The name of the file type.");
+    public final TableField<ViewTableFileresourcetypesRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(255).nullable(false), this, "The name of the file type.");
 
     /**
      * The column <code>germinate_template_4_20_06_15.view_table_fileresourcetypes.description</code>. The description of the file type.
@@ -77,7 +77,7 @@ public class ViewTableFileresourcetypes extends TableImpl<ViewTableFileresourcet
     /**
      * The column <code>germinate_template_4_20_06_15.view_table_fileresourcetypes.count</code>.
      */
-    public final TableField<ViewTableFileresourcetypesRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINT)), this, "");
+    public final TableField<ViewTableFileresourcetypesRecord, Long> COUNT = createField("count", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * Create a <code>germinate_template_4_20_06_15.view_table_fileresourcetypes</code> table reference

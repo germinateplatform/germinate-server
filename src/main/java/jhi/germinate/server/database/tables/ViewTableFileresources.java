@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewTableFileresources extends TableImpl<ViewTableFileresourcesRecord> {
 
-    private static final long serialVersionUID = -1600169413;
+    private static final long serialVersionUID = -1189677605;
 
     /**
      * The reference instance of <code>germinate_template_4_20_06_15.view_table_fileresources</code>
@@ -75,14 +75,14 @@ public class ViewTableFileresources extends TableImpl<ViewTableFileresourcesReco
     public final TableField<ViewTableFileresourcesRecord, Long> FILERESOURCE_SIZE = createField("fileresource_size", org.jooq.impl.SQLDataType.BIGINT, this, "The file size in bytes.");
 
     /**
-     * The column <code>germinate_template_4_20_06_15.view_table_fileresources.fileresources_created_on</code>. When this record was created.
+     * The column <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_created_on</code>. When this record was created.
      */
-    public final TableField<ViewTableFileresourcesRecord, Timestamp> FILERESOURCES_CREATED_ON = createField("fileresources_created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When this record was created.");
+    public final TableField<ViewTableFileresourcesRecord, Timestamp> FILERESOURCE_CREATED_ON = createField("fileresource_created_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When this record was created.");
 
     /**
-     * The column <code>germinate_template_4_20_06_15.view_table_fileresources.fileresources_updated_on</code>. When this record was last updated.
+     * The column <code>germinate_template_4_20_06_15.view_table_fileresources.fileresource_updated_on</code>. When this record was last updated.
      */
-    public final TableField<ViewTableFileresourcesRecord, Timestamp> FILERESOURCES_UPDATED_ON = createField("fileresources_updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When this record was last updated.");
+    public final TableField<ViewTableFileresourcesRecord, Timestamp> FILERESOURCE_UPDATED_ON = createField("fileresource_updated_on", org.jooq.impl.SQLDataType.TIMESTAMP, this, "When this record was last updated.");
 
     /**
      * The column <code>germinate_template_4_20_06_15.view_table_fileresources.fileresourcetype_id</code>. The primary id.

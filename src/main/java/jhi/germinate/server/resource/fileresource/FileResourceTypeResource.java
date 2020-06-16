@@ -75,7 +75,7 @@ public class FileResourceTypeResource extends ServerResource
 
 	@Post
 	@MinUserType(UserType.DATA_CURATOR)
-	public boolean postJson(Fileresourcetypes type)
+	public Integer postJson(Fileresourcetypes type)
 	{
 		if (type == null || StringUtils.isEmpty(type.getName()) || type.getId() != null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -86,7 +86,9 @@ public class FileResourceTypeResource extends ServerResource
 			FileresourcetypesRecord record = context.newRecord(FILERESOURCETYPES, type);
 			record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-			return record.store() > 0;
+			record.store();
+
+			return record.getId();
 		}
 		catch (SQLException e)
 		{
@@ -102,7 +104,6 @@ public class FileResourceTypeResource extends ServerResource
 			 DSLContext context = Database.getContext(conn))
 		{
 			return context.selectFrom(VIEW_TABLE_FILERESOURCETYPES)
-						  .where(VIEW_TABLE_FILERESOURCETYPES.COUNT.gt(0L))
 						  .fetchInto(ViewTableFileresourcetypes.class);
 		}
 		catch (SQLException e)
