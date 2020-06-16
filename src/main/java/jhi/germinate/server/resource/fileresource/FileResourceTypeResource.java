@@ -55,7 +55,7 @@ public class FileResourceTypeResource extends ServerResource
 			context.selectFrom(FILERESOURCES)
 				   .where(FILERESOURCES.FILERESOURCETYPE_ID.eq(fileResourceTypeId))
 				   .forEach(f -> {
-					   File target = BaseServerResource.getFromExternal(f.getName(), "data", "download");
+					   File target = BaseServerResource.getFromExternal(f.getPath(), "data", "download");
 
 					   if (target.exists() && target.isFile())
 						   target.delete();
