@@ -1,10 +1,11 @@
 package jhi.germinate.server.resource.fileresource;
 
+import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.io.File;
+import java.io.*;
 import java.sql.*;
 import java.util.List;
 
@@ -15,7 +16,6 @@ import jhi.germinate.server.database.tables.records.FileresourcetypesRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Fileresources.*;
 import static jhi.germinate.server.database.tables.Fileresourcetypes.*;
 import static jhi.germinate.server.database.tables.ViewTableFileresourcetypes.*;
 
@@ -52,21 +52,23 @@ public class FileResourceTypeResource extends ServerResource
 			 DSLContext context = Database.getContext(conn))
 		{
 			// Delete all files associated with fileresource database objects.
-			context.selectFrom(FILERESOURCES)
-				   .where(FILERESOURCES.FILERESOURCETYPE_ID.eq(fileResourceTypeId))
-				   .forEach(f -> {
-					   File target = BaseServerResource.getFromExternal(f.getPath(), "data", "download");
+			File target = BaseServerResource.getFromExternal(Integer.toString(fileResourceTypeId), "data", "download");
 
-					   if (target.exists() && target.isFile())
-						   target.delete();
-				   });
+			try
+			{
+				FileUtils.deleteDirectory(target);
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
 
 			// Delete the fileresource type. This will trigger the deletion of the referencing fileresouces.
 			return context.deleteFrom(FILERESOURCETYPES)
 						  .where(FILERESOURCETYPES.ID.eq(fileResourceTypeId))
 						  .execute() > 0;
 		}
-		catch (SQLException e)
+		catch (SQLException | IOException e)
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

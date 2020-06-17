@@ -67,7 +67,7 @@ public class FileResourceResource extends BaseServerResource
 
 				if (!StringUtils.isEmpty(path))
 				{
-					File file = BaseServerResource.getFromExternal(path, "data", "download");
+					File file = BaseServerResource.getFromExternal(path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
 
 					if (file.exists() && file.isFile())
 						file.delete();
@@ -101,7 +101,7 @@ public class FileResourceResource extends BaseServerResource
 			if (record == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-			File resultFile = BaseServerResource.getFromExternal(record.getPath(), "data", "download");
+			File resultFile = BaseServerResource.getFromExternal(record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
 
 			if (!resultFile.exists() || !resultFile.isFile())
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -161,7 +161,7 @@ public class FileResourceResource extends BaseServerResource
 				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 			// Get the target location for this file
-			File target = BaseServerResource.getFromExternal(fileResource.getFileresourcePath(), "data", "download");
+			File target = BaseServerResource.getFromExternal(fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
 			target.getParentFile().mkdirs();
 
 			try
