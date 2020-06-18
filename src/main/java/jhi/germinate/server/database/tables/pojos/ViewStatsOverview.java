@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview implements Serializable {
 
-    private static final long serialVersionUID = 1597869027;
+    private static final long serialVersionUID = 1295161434;
 
     private Long germplasm;
     private Long markers;
@@ -33,6 +33,7 @@ public class ViewStatsOverview implements Serializable {
     private Long datasets;
     private Long groups;
     private Long images;
+    private Long fileresources;
 
     public ViewStatsOverview() {}
 
@@ -45,6 +46,7 @@ public class ViewStatsOverview implements Serializable {
         this.datasets = value.datasets;
         this.groups = value.groups;
         this.images = value.images;
+        this.fileresources = value.fileresources;
     }
 
     public ViewStatsOverview(
@@ -55,7 +57,8 @@ public class ViewStatsOverview implements Serializable {
         Long locations,
         Long datasets,
         Long groups,
-        Long images
+        Long images,
+        Long fileresources
     ) {
         this.germplasm = germplasm;
         this.markers = markers;
@@ -65,6 +68,7 @@ public class ViewStatsOverview implements Serializable {
         this.datasets = datasets;
         this.groups = groups;
         this.images = images;
+        this.fileresources = fileresources;
     }
 
     public Long getGermplasm() {
@@ -131,6 +135,14 @@ public class ViewStatsOverview implements Serializable {
         this.images = images;
     }
 
+    public Long getFileresources() {
+        return this.fileresources;
+    }
+
+    public void setFileresources(Long fileresources) {
+        this.fileresources = fileresources;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ViewStatsOverview (");
@@ -143,6 +155,7 @@ public class ViewStatsOverview implements Serializable {
         sb.append(", ").append(datasets);
         sb.append(", ").append(groups);
         sb.append(", ").append(images);
+        sb.append(", ").append(fileresources);
 
         sb.append(")");
         return sb.toString();

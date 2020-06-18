@@ -32,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
 
-    private static final long serialVersionUID = -1598934261;
+    private static final long serialVersionUID = 2087860534;
 
     /**
      * The reference instance of <code>germinate_template_4_20_06_15.view_stats_overview</code>
@@ -86,6 +86,11 @@ public class ViewStatsOverview extends TableImpl<ViewStatsOverviewRecord> {
      * The column <code>germinate_template_4_20_06_15.view_stats_overview.images</code>.
      */
     public final TableField<ViewStatsOverviewRecord, Long> IMAGES = createField("images", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>germinate_template_4_20_06_15.view_stats_overview.fileresources</code>.
+     */
+    public final TableField<ViewStatsOverviewRecord, Long> FILERESOURCES = createField("fileresources", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
      * Create a <code>germinate_template_4_20_06_15.view_stats_overview</code> table reference

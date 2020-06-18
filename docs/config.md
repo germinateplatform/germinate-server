@@ -10,6 +10,7 @@ The structure of this folder is shown below. At a minimum, the `config.propertie
 ```
 +-- data
 |   +-- allelefreq
+|   +-- downloads
 |   +-- genotypes
 +-- images
 |   +-- climate
@@ -30,6 +31,8 @@ The structure of this folder is shown below. At a minimum, the `config.propertie
 This directory contains all the raw data files that Germinate uses. At the moment those are genotypic data files and allele frequency files. These files are referenced in the database from the `datasets.source_file` column.
   - `allelefreq`  
   Files in this folder are stored in tab-delimited format with the germplasm along the side and markers along the top. Each cell contains the allele frequency value or should be empty.
+  - `downloads`
+  This folder is auto-generated to store file resources. Do not touch it or the files within it.
   - `genotypes`  
   Genotypic data is stored in a custom `.hdf5` format. If you're using the Germinate Data Templates, then a file in this format will automatically be generated for you.
 - `images`  
@@ -142,7 +145,7 @@ files.delete.after.hours.temp  = <after how many hours should temporary files be
 # Google Analytics will be enabled if this property is set.
 google.analytics.key      = <google analytics key if using>
 # The colored boxes at the top of the dashboard/home page can be changed here.
-dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'datasets', 'groups', 'compounds', 'images'>
+dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'traits', 'locations', 'datasets', 'groups', 'compounds', 'images', 'fileresources'>
 # Pages can be hidden for example if you don't have that kind of data.
 hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/router/index.js)>
 # The comments feature can be disabled if you don't want users to add comments.
