@@ -19,8 +19,9 @@ import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.Climatedata.*;
 import static jhi.germinate.server.database.tables.Climates.*;
+import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.tables.Groups.*;
 import static jhi.germinate.server.database.tables.Locations.*;
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.tables.ViewTableClimates.*;
 
 /**
@@ -72,12 +73,19 @@ public class ClimateStatsResource extends SubsettedServerResource
 			SelectConditionStep<? extends Record> dataStep = context.select(
 				CLIMATEDATA.DATASET_ID,
 				CLIMATEDATA.CLIMATE_ID,
+				// Now, get the concatenated group names for the requested selection.
+				DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+				   .from(GROUPMEMBERS)
+				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+				   .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+				   .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds"),
 				CLIMATEDATA.CLIMATE_VALUE.as("climate_value")
 			)
 																	.from(CLIMATEDATA).leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
 																	.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
 																	.and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()));
 
+			SelectSeekStep3<? extends Record, ?, ?, ?> orderByStep;
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
 				Set<Integer> locationIds = getYIds(context, LOCATIONS, LOCATIONS.ID, request);
@@ -86,42 +94,47 @@ public class ClimateStatsResource extends SubsettedServerResource
 				if (CollectionUtils.isEmpty(locationIds))
 					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-				dataStep = dataStep.and(CLIMATEDATA.LOCATION_ID.in(locationIds));
+				orderByStep = dataStep.and(CLIMATEDATA.LOCATION_ID.in(locationIds))
+									  .orderBy(DSL.field("groupIds"), CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE);
+			}
+			else
+			{
+				orderByStep = dataStep.orderBy(CLIMATEDATA.DATASET_ID, CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE);
 			}
 
-			dataStep.orderBy(CLIMATEDATA.DATASET_ID, CLIMATEDATA.CLIMATE_ID, DSL.cast(CLIMATEDATA.CLIMATE_VALUE, Double.class))
-					.stream()
-					.forEachOrdered(pd -> {
-						Integer datasetId = pd.get(CLIMATEDATA.DATASET_ID);
-						Integer climateId = pd.get(CLIMATEDATA.CLIMATE_ID);
-						String key = datasetId + "," + climateId;
-						String value = pd.get("climate_value", String.class);
+			orderByStep.stream()
+					   .forEachOrdered(pd -> {
+						   Integer datasetId = pd.get(CLIMATEDATA.DATASET_ID);
+						   Integer climateId = pd.get(CLIMATEDATA.CLIMATE_ID);
+						   String groupIds = pd.get("groupIds", String.class);
+						   String key = datasetId + "," + climateId + "," + groupIds;
+						   String value = pd.get("climate_value", String.class);
 
-						if (!Objects.equals(key, tempStats.prev))
-						{
-							if (tempStats.prev != null)
-							{
-								stats.put(tempStats.prev, generateStats(tempStats));
-							}
+						   if (!Objects.equals(key, tempStats.prev))
+						   {
+							   if (tempStats.prev != null)
+							   {
+								   stats.put(tempStats.prev, generateStats(tempStats));
+							   }
 
-							tempStats.avg = 0;
-							tempStats.count = 0;
-							tempStats.prev = key;
-							tempStats.values.clear();
-						}
+							   tempStats.avg = 0;
+							   tempStats.count = 0;
+							   tempStats.prev = key;
+							   tempStats.values.clear();
+						   }
 
-						// Count in any case
-						tempStats.count++;
-						try
-						{
-							float v = Float.parseFloat(value);
-							tempStats.avg += v;
-							tempStats.values.add(v);
-						}
-						catch (NumberFormatException | NullPointerException e)
-						{
-						}
-					});
+						   // Count in any case
+						   tempStats.count++;
+						   try
+						   {
+							   float v = Float.parseFloat(value);
+							   tempStats.avg += v;
+							   tempStats.values.add(v);
+						   }
+						   catch (NumberFormatException | NullPointerException e)
+						   {
+						   }
+					   });
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
@@ -136,6 +149,7 @@ public class ClimateStatsResource extends SubsettedServerResource
 									 String[] split = ids.split(",");
 									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer climateId = Integer.parseInt(split[1]);
+									 String groupIds = split[2];
 
 									 climates.add(climateMap.get(climateId));
 									 datasets.add(datasetMap.get(datasetId));
@@ -143,6 +157,7 @@ public class ClimateStatsResource extends SubsettedServerResource
 									 Quantiles q = stats.get(ids);
 									 q.setDatasetId(datasetId);
 									 q.setxId(climateId);
+									 q.setGroupIds(groupIds);
 
 									 return q;
 								 })

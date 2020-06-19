@@ -20,7 +20,8 @@ import jhi.germinate.server.util.*;
 import static jhi.germinate.server.database.tables.Compounddata.*;
 import static jhi.germinate.server.database.tables.Compounds.*;
 import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.tables.Groups.*;
 import static jhi.germinate.server.database.tables.ViewTableCompounds.*;
 
 /**
@@ -72,12 +73,19 @@ public class CompoundStatsResource extends SubsettedServerResource
 			SelectConditionStep<? extends Record> dataStep = context.select(
 				COMPOUNDDATA.DATASET_ID,
 				COMPOUNDDATA.COMPOUND_ID,
+				// Now, get the concatenated group names for the requested selection.
+				DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+				   .from(GROUPMEMBERS)
+				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+				   .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+				   .and(GROUPMEMBERS.FOREIGN_ID.eq(COMPOUNDDATA.GERMINATEBASE_ID)).asField("groupIds"),
 				COMPOUNDDATA.COMPOUND_VALUE
 			)
 																	.from(COMPOUNDDATA).leftJoin(COMPOUNDS).on(COMPOUNDS.ID.eq(COMPOUNDDATA.COMPOUND_ID))
 																	.where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
 																	.and(COMPOUNDDATA.COMPOUND_ID.in(compoundMap.keySet()));
 
+			SelectSeekStep3<? extends Record, ?, ?, ?> orderByStep;
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
 				Set<Integer> germplasmIds = getYIds(context, GERMINATEBASE, GERMINATEBASE.ID, request);
@@ -86,35 +94,40 @@ public class CompoundStatsResource extends SubsettedServerResource
 				if (CollectionUtils.isEmpty(germplasmIds))
 					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-				dataStep = dataStep.and(COMPOUNDDATA.GERMINATEBASE_ID.in(germplasmIds));
+				orderByStep = dataStep.and(COMPOUNDDATA.GERMINATEBASE_ID.in(germplasmIds))
+									  .orderBy(DSL.field("groupIds"), COMPOUNDDATA.COMPOUND_ID, COMPOUNDDATA.COMPOUND_VALUE);
+			}
+			else
+			{
+				orderByStep = dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, COMPOUNDDATA.COMPOUND_VALUE);
 			}
 
-			dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
-					.stream()
-					.forEachOrdered(pd -> {
-						Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
-						Integer traitId = pd.get(COMPOUNDDATA.COMPOUND_ID);
-						String key = datasetId + "," + traitId;
-						float value = pd.get(COMPOUNDDATA.COMPOUND_VALUE).floatValue();
+			orderByStep.stream()
+					   .forEachOrdered(pd -> {
+						   Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
+						   Integer traitId = pd.get(COMPOUNDDATA.COMPOUND_ID);
+						   String groupIds = pd.get("groupIds", String.class);
+						   String key = datasetId + "," + traitId + "," + groupIds;
+						   float value = pd.get(COMPOUNDDATA.COMPOUND_VALUE).floatValue();
 
-						if (!Objects.equals(key, tempStats.prev))
-						{
-							if (tempStats.prev != null)
-							{
-								stats.put(tempStats.prev, generateStats(tempStats));
-							}
+						   if (!Objects.equals(key, tempStats.prev))
+						   {
+							   if (tempStats.prev != null)
+							   {
+								   stats.put(tempStats.prev, generateStats(tempStats));
+							   }
 
-							tempStats.avg = 0;
-							tempStats.count = 0;
-							tempStats.prev = key;
-							tempStats.values.clear();
-						}
+							   tempStats.avg = 0;
+							   tempStats.count = 0;
+							   tempStats.prev = key;
+							   tempStats.values.clear();
+						   }
 
-						// Count in any case
-						tempStats.count++;
-						tempStats.avg += value;
-						tempStats.values.add(value);
-					});
+						   // Count in any case
+						   tempStats.count++;
+						   tempStats.avg += value;
+						   tempStats.values.add(value);
+					   });
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
@@ -129,6 +142,7 @@ public class CompoundStatsResource extends SubsettedServerResource
 									 String[] split = ids.split(",");
 									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer traitId = Integer.parseInt(split[1]);
+									 String groupIds = split[2];
 
 									 compounds.add(compoundMap.get(traitId));
 									 datasets.add(datasetMap.get(datasetId));
@@ -136,6 +150,7 @@ public class CompoundStatsResource extends SubsettedServerResource
 									 Quantiles q = stats.get(ids);
 									 q.setDatasetId(datasetId);
 									 q.setxId(traitId);
+									 q.setGroupIds(groupIds);
 
 									 return q;
 								 })

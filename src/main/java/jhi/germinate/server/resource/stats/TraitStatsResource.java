@@ -19,6 +19,8 @@ import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
 import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.tables.Groups.*;
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.tables.Phenotypes.*;
 import static jhi.germinate.server.database.tables.ViewTableTraits.*;
@@ -71,12 +73,19 @@ public class TraitStatsResource extends SubsettedServerResource
 			SelectConditionStep<? extends Record> dataStep = context.select(
 				PHENOTYPEDATA.DATASET_ID,
 				PHENOTYPEDATA.PHENOTYPE_ID,
+				// Now, get the concatenated group names for the requested selection.
+				DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+				   .from(GROUPMEMBERS)
+				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+				   .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+				   .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds"),
 				DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
 			)
 																	.from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 																	.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
 																	.and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
 
+			SelectSeekStep3<? extends Record, ?, ?, ?> orderByStep;
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
 				Set<Integer> germplasmIds = getYIds(context, GERMINATEBASE, GERMINATEBASE.ID, request);
@@ -85,42 +94,47 @@ public class TraitStatsResource extends SubsettedServerResource
 				if (CollectionUtils.isEmpty(germplasmIds))
 					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-				dataStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds));
+				orderByStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds))
+									  .orderBy(DSL.field("groupIds"), PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
+			}
+			else
+			{
+				orderByStep = dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
 			}
 
-			dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
-					.stream()
-					.forEachOrdered(pd -> {
-						Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
-						Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
-						String key = datasetId + "," + traitId;
-						String value = pd.get("phenotype_value", String.class);
+			orderByStep.stream()
+					   .forEachOrdered(pd -> {
+						   Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
+						   Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
+						   String groupIds = pd.get("groupIds", String.class);
+						   String key = datasetId + "," + traitId + "," + groupIds;
+						   String value = pd.get("phenotype_value", String.class);
 
-						if (!Objects.equals(key, tempStats.prev))
-						{
-							if (tempStats.prev != null)
-							{
-								stats.put(tempStats.prev, generateStats(tempStats));
-							}
+						   if (!Objects.equals(key, tempStats.prev))
+						   {
+							   if (tempStats.prev != null)
+							   {
+								   stats.put(tempStats.prev, generateStats(tempStats));
+							   }
 
-							tempStats.avg = 0;
-							tempStats.count = 0;
-							tempStats.prev = key;
-							tempStats.values.clear();
-						}
+							   tempStats.avg = 0;
+							   tempStats.count = 0;
+							   tempStats.prev = key;
+							   tempStats.values.clear();
+						   }
 
-						// Count in any case
-						tempStats.count++;
-						try
-						{
-							float v = Float.parseFloat(value);
-							tempStats.avg += v;
-							tempStats.values.add(v);
-						}
-						catch (NumberFormatException | NullPointerException e)
-						{
-						}
-					});
+						   // Count in any case
+						   tempStats.count++;
+						   try
+						   {
+							   float v = Float.parseFloat(value);
+							   tempStats.avg += v;
+							   tempStats.values.add(v);
+						   }
+						   catch (NumberFormatException | NullPointerException e)
+						   {
+						   }
+					   });
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
@@ -135,6 +149,7 @@ public class TraitStatsResource extends SubsettedServerResource
 									 String[] split = ids.split(",");
 									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer traitId = Integer.parseInt(split[1]);
+									 String groupIds = split[2];
 
 									 traits.add(traitMap.get(traitId));
 									 datasets.add(datasetMap.get(datasetId));
@@ -142,6 +157,7 @@ public class TraitStatsResource extends SubsettedServerResource
 									 Quantiles q = stats.get(ids);
 									 q.setDatasetId(datasetId);
 									 q.setxId(traitId);
+									 q.setGroupIds(groupIds);
 
 									 return q;
 								 })

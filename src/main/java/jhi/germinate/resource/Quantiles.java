@@ -7,6 +7,7 @@ public class Quantiles
 {
 	private Integer datasetId;
 	private Integer xId;
+	private String groupIds;
 	private double min;
 	private double q1;
 	private double median;
@@ -34,6 +35,17 @@ public class Quantiles
 	public Quantiles setxId(Integer xId)
 	{
 		this.xId = xId;
+		return this;
+	}
+
+	public String getGroupIds()
+	{
+		return groupIds;
+	}
+
+	public Quantiles setGroupIds(String groupIds)
+	{
+		this.groupIds = groupIds;
 		return this;
 	}
 
