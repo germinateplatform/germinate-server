@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.groups;
 
 import org.jooq.*;
-import org.jooq.impl.*;
+import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -23,7 +23,6 @@ import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Groups.*;
 import static jhi.germinate.server.database.tables.Grouptypes.*;
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.ViewTableGroups.*;
 
 /**
  * @author Sebastian Raubach
@@ -49,6 +48,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 		try (Connection conn = Database.getConnection();
 			 DSLContext context = Database.getContext(conn))
 		{
+			Field<Integer> count = DSL.countDistinct(GROUPMEMBERS.FOREIGN_ID).as("count");
 			SelectSelectStep<? extends Record> step = context.selectDistinct(
 				GROUPS.ID.as("group_id"),
 				GROUPS.NAME.as("group_name"),
@@ -59,7 +59,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 				GROUPS.VISIBILITY.as("group_visibility"),
 				GROUPS.CREATED_ON.as("created_on"),
 				GROUPS.UPDATED_ON.as("updated_on"),
-				DSL.countDistinct(GROUPMEMBERS.FOREIGN_ID).as("count")
+				count
 			);
 
 			SelectConditionStep<? extends Record> resultStep = null;
@@ -85,9 +85,10 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 
 			if (resultStep != null)
 			{
-				return resultStep.groupBy(GROUPS.ID, GROUPTYPES.ID)
-								 .orderBy(GROUPS.NAME)
-								 .fetchInto(ViewTableGroups.class);
+				return step.groupBy(GROUPS.ID)
+						   .having(count.gt(0))
+						   .orderBy(GROUPS.NAME)
+						   .fetchInto(ViewTableGroups.class);
 			}
 			else
 			{
