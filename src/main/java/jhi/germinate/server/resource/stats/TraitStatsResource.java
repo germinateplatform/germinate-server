@@ -1,13 +1,14 @@
 package jhi.germinate.server.resource.stats;
 
 import org.jooq.*;
-import org.jooq.impl.DSL;
+import org.jooq.impl.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
@@ -18,7 +19,6 @@ import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Groups.*;
 import static jhi.germinate.server.database.tables.Phenotypedata.*;
@@ -70,71 +70,113 @@ public class TraitStatsResource extends SubsettedServerResource
 
 			TempStats tempStats = new TempStats();
 
-			SelectConditionStep<? extends Record> dataStep = context.select(
+			// Run the query
+			SelectOnConditionStep<Record4<Integer, Integer, String, String>> dataStep = context.select(
 				PHENOTYPEDATA.DATASET_ID,
 				PHENOTYPEDATA.PHENOTYPE_ID,
 				// Now, get the concatenated group names for the requested selection.
-				DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-				   .from(GROUPMEMBERS)
-				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-				   .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-				   .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds"),
+				CollectionUtils.isEmpty(request.getyGroupIds())
+					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
+					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+						 .from(GROUPMEMBERS)
+						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+						 .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds"),
 				DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
 			)
-																	.from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-																	.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
-																	.and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
+																							   .from(PHENOTYPEDATA)
+																							   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
 
-			SelectSeekStep3<? extends Record, ?, ?, ?> orderByStep;
+			// Restrict to dataset ids and phenotype ids
+			SelectConditionStep<Record4<Integer, Integer, String, String>> condStep = dataStep.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+																							  .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
+
+			SelectLimitStep<Record4<Integer, Integer, String, String>> orderByStep;
+
+			// If a subselection was requested
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
-				Set<Integer> germplasmIds = getYIds(context, GERMINATEBASE, GERMINATEBASE.ID, request);
+				// Restrict based on group ids
+				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))));
+				// Restrict based on germplasm ids
+				Condition marked = PHENOTYPEDATA.GERMINATEBASE_ID.in(request.getyGroupIds());
 
-				// If something was requested, but no germplasm found, throw an exception
-				if (CollectionUtils.isEmpty(germplasmIds))
-					throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+				// Are both requested
+				if (!CollectionUtils.isEmpty(request.getyGroupIds()) && !CollectionUtils.isEmpty(request.getyIds()))
+					condStep.and(marked.or(groups));
+				// Or just groups
+				else if (!CollectionUtils.isEmpty(request.getyGroupIds()))
+					condStep.and(groups);
+				// Or just germplasm
+				else if (!CollectionUtils.isEmpty(request.getyIds()))
+					condStep.and(marked);
 
-				orderByStep = dataStep.and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasmIds))
+				// Group by and order
+				orderByStep = condStep.groupBy(PHENOTYPEDATA.ID)
 									  .orderBy(DSL.field("groupIds"), PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
 			}
 			else
 			{
+				// If nothing specific was requested, order by dataset instead
 				orderByStep = dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
 			}
 
+			// This consumes the database result and generates the stats
+			Consumer<Record4<Integer, Integer, String, String>> consumer = pd -> {
+				Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
+				Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
+				String groupIds = pd.get("groupIds", String.class);
+				String key = datasetId + "|" + traitId + "|" + groupIds;
+				String value = pd.get("phenotype_value", String.class);
+
+				if (!Objects.equals(key, tempStats.prev))
+				{
+					if (tempStats.prev != null)
+					{
+						stats.put(tempStats.prev, generateStats(tempStats));
+					}
+
+					tempStats.avg = 0;
+					tempStats.count = 0;
+					tempStats.prev = key;
+					tempStats.values.clear();
+				}
+
+				// Count in any case
+				tempStats.count++;
+				try
+				{
+					float v = Float.parseFloat(value);
+					tempStats.avg += v;
+					tempStats.values.add(v);
+				}
+				catch (NumberFormatException | NullPointerException e)
+				{
+				}
+			};
+
+			// Now stream the result and consume it
 			orderByStep.stream()
-					   .forEachOrdered(pd -> {
-						   Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
-						   Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
-						   String groupIds = pd.get("groupIds", String.class);
-						   String key = datasetId + "," + traitId + "," + groupIds;
-						   String value = pd.get("phenotype_value", String.class);
+					   .forEachOrdered(consumer);
 
-						   if (!Objects.equals(key, tempStats.prev))
-						   {
-							   if (tempStats.prev != null)
-							   {
-								   stats.put(tempStats.prev, generateStats(tempStats));
-							   }
+			// If marked items were requested, then get these as well separately
+			if (!CollectionUtils.isEmpty(request.getyIds()))
+			{
+				context.select(
+					PHENOTYPEDATA.DATASET_ID,
+					PHENOTYPEDATA.PHENOTYPE_ID,
+					DSL.inline("Marked items").as("groupIds"),
+					DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
+				)
+					   .from(PHENOTYPEDATA)
+					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+					   .where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+					   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
+					   .and(PHENOTYPEDATA.GERMINATEBASE_ID.in(request.getyIds()))
+					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
+					   .forEach(consumer);
+			}
 
-							   tempStats.avg = 0;
-							   tempStats.count = 0;
-							   tempStats.prev = key;
-							   tempStats.values.clear();
-						   }
-
-						   // Count in any case
-						   tempStats.count++;
-						   try
-						   {
-							   float v = Float.parseFloat(value);
-							   tempStats.avg += v;
-							   tempStats.values.add(v);
-						   }
-						   catch (NumberFormatException | NullPointerException e)
-						   {
-						   }
-					   });
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
@@ -146,7 +188,7 @@ public class TraitStatsResource extends SubsettedServerResource
 
 			result.setStats(stats.keySet().stream()
 								 .map(ids -> {
-									 String[] split = ids.split(",");
+									 String[] split = ids.split("\\|");
 									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer traitId = Integer.parseInt(split[1]);
 									 String groupIds = split[2];
