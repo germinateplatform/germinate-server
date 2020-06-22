@@ -96,23 +96,12 @@ public class TraitStatsResource extends SubsettedServerResource
 			// If a subselection was requested
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
-				// Restrict based on group ids
+				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
 				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))));
-				// Restrict based on germplasm ids
-				Condition marked = PHENOTYPEDATA.GERMINATEBASE_ID.in(request.getyGroupIds());
 
-				// Are both requested
-				if (!CollectionUtils.isEmpty(request.getyGroupIds()) && !CollectionUtils.isEmpty(request.getyIds()))
-					condStep.and(marked.or(groups));
-				// Or just groups
-				else if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-					condStep.and(groups);
-				// Or just germplasm
-				else if (!CollectionUtils.isEmpty(request.getyIds()))
-					condStep.and(marked);
-
-				// Group by and order
-				orderByStep = condStep.groupBy(PHENOTYPEDATA.ID)
+				orderByStep = condStep.and(groups)
+									  .groupBy(PHENOTYPEDATA.ID)
+									  .having(DSL.field("groupIds").isNotNull())
 									  .orderBy(DSL.field("groupIds"), PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
 			}
 			else

@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
@@ -95,23 +96,12 @@ public class ClimateStatsResource extends SubsettedServerResource
 			// If a subselection was requested
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
-				// Restrict based on group ids
+				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
 				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID))));
-				// Restrict based on germplasm ids
-				Condition marked = CLIMATEDATA.LOCATION_ID.in(request.getyGroupIds());
 
-				// Are both requested
-				if (!CollectionUtils.isEmpty(request.getyGroupIds()) && !CollectionUtils.isEmpty(request.getyIds()))
-					condStep.and(marked.or(groups));
-					// Or just groups
-				else if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-					condStep.and(groups);
-					// Or just germplasm
-				else if (!CollectionUtils.isEmpty(request.getyIds()))
-					condStep.and(marked);
-
-				// Group by and order
-				orderByStep = condStep.groupBy(CLIMATEDATA.ID)
+				orderByStep = condStep.and(groups)
+									  .groupBy(CLIMATEDATA.ID)
+									  .having(DSL.field("groupIds").isNotNull())
 									  .orderBy(DSL.field("groupIds"), CLIMATEDATA.CLIMATE_ID, DSL.cast(CLIMATEDATA.CLIMATE_VALUE, Double.class));
 			}
 			else
@@ -130,6 +120,7 @@ public class ClimateStatsResource extends SubsettedServerResource
 
 				if (!Objects.equals(key, tempStats.prev))
 				{
+					Logger.getLogger("").info("KEY: " + key + " != " + tempStats.prev + " -> " + stats.keySet());
 					if (tempStats.prev != null)
 					{
 						stats.put(tempStats.prev, generateStats(tempStats));
@@ -176,10 +167,11 @@ public class ClimateStatsResource extends SubsettedServerResource
 					   .forEach(consumer);
 			}
 
-
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
 				stats.put(tempStats.prev, generateStats(tempStats));
+
+			Logger.getLogger("").info("KEYS: " + stats.keySet());
 
 			ClimateDatasetStats result = new ClimateDatasetStats();
 			Set<ViewTableClimates> climates = new LinkedHashSet<>();
