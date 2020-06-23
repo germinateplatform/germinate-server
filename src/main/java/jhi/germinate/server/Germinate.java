@@ -307,6 +307,7 @@ public class Germinate extends Application
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
 		attachToRouter(routerAuth, "/trait/{traitId}/dataset", TraitDatasetTableResource.class);
+		attachToRouter(routerAuth, "/trait/{traitId}/categorical", TraitCategoricalResource.class);
 
 		// USER PERMISSIONS
 		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);
