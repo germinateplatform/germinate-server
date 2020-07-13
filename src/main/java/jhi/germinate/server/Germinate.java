@@ -2,10 +2,11 @@ package jhi.germinate.server;
 
 import org.restlet.*;
 import org.restlet.data.*;
-import org.restlet.engine.application.CorsFilter;
+import org.restlet.engine.application.*;
 import org.restlet.resource.ServerResource;
-import org.restlet.routing.Router;
+import org.restlet.routing.*;
 import org.restlet.security.*;
+import org.restlet.service.EncoderService;
 import org.restlet.util.Series;
 
 import java.util.*;
@@ -88,15 +89,16 @@ public class Germinate extends Application
 
 		setUpAuthentication(context);
 
-		// Set the encoder
-//		Filter encoder = new Encoder(context, false, true, new EncoderService(true));
-
 		// Create new router
 		routerAuth = new Router(context);
 		routerUnauth = new Router(context);
 
+		// Set the encoder
+		Filter encoder = new Encoder(context, false, true, new EncoderService(true));
+		encoder.setNext(routerUnauth);
+
 		// Set the Cors filter
-		CorsFilter corsFilter = new CorsFilter(context, routerUnauth)
+		CorsFilter corsFilter = new CorsFilter(context, encoder)
 		{
 			@Override
 			protected int beforeHandle(Request request, Response response)
@@ -337,8 +339,8 @@ public class Germinate extends Application
 		if (PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
 			new Brapi("/brapi/v2", routerAuth, routerUnauth, PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL) + "/data/genotypes/");
 
-		// CORS first, then unahtorized paths
-		corsFilter.setNext(routerUnauth);
+		// CORS first, then unauthorized paths
+//		corsFilter.setNext(routerUnauth);
 		// Set everything that isn't covered to go through the authenticator
 		routerUnauth.attachDefault(authenticator);
 		authenticator.setNext(authorizer);
