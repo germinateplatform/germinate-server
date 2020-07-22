@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Logger;
 
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
@@ -58,6 +59,7 @@ public class GatekeeperClient
 		}
 		catch (ResourceException e)
 		{
+			Logger.getLogger("").info(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -92,6 +94,7 @@ public class GatekeeperClient
 		}
 		catch (IOException e)
 		{
+			Logger.getLogger("").info(e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -153,6 +156,7 @@ public class GatekeeperClient
 		}
 		catch (IOException e)
 		{
+			Logger.getLogger("").info(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -169,6 +173,7 @@ public class GatekeeperClient
 		}
 		catch (Exception e)
 		{
+			Logger.getLogger("").info(e.getMessage());
 			return new GatekeeperApiError();
 		}
 
