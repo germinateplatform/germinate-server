@@ -236,7 +236,8 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/image/table/export", ImageTableExportResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/src", ImageSourceResource.class);
 		attachToRouter(routerAuth, "/image/{imageId}/tag", ImageSpecificTagResource.class);
-		attachToRouter(routerAuth, "/image/{referenceTable}/{foreignId}", ImageResource.class);
+		attachToRouter(routerAuth, "/image/{imageId}", ImageResource.class);
+		attachToRouter(routerAuth, "/image/{referenceTable}/{foreignId}", ImageUploadResource.class);
 
 		// IMAGE TAGS
 		attachToRouter(routerAuth, "/imagetag", ImageTagResource.class);
