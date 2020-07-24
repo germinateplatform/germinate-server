@@ -123,7 +123,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 	@MinUserType(UserType.DATA_CURATOR)
 	public void putJson(String[] tags)
 	{
-		if (imageId == null || CollectionUtils.isEmpty(tags))
+		if (imageId == null || tags == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		try (Connection conn = Database.getConnection();
