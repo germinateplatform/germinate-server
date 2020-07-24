@@ -7,7 +7,7 @@ import org.restlet.resource.*;
 
 import java.io.File;
 import java.sql.*;
-import java.util.UUID;
+import java.util.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
@@ -91,18 +91,24 @@ public class ImageUploadResource extends BaseServerResource
 			if (record == null)
 				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-			String uuid = UUID.randomUUID().toString();
-			File targetFile = new File(new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.database.name()), "upload"), uuid);
-			targetFile.getParentFile().mkdirs();
+			File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.database.name()), "upload");
+			folder.mkdirs();
 
-			String finalFilename = FileUploadHandler.handle(entity, "imageFile", targetFile);
+			List<String> finalFilenames = FileUploadHandler.handleMultiple(entity, "imageFiles", folder);
 
-			ImagesRecord image = context.newRecord(IMAGES);
-			image.setForeignId(foreignId);
-			image.setImagetypeId(imageType.getId());
-			image.setPath("upload/" + finalFilename);
-			image.setDescription(finalFilename);
-			return image.store() > 0;
+			int counter = 0;
+
+			for (String finalFilename : finalFilenames)
+			{
+				ImagesRecord image = context.newRecord(IMAGES);
+				image.setForeignId(foreignId);
+				image.setImagetypeId(imageType.getId());
+				image.setPath("upload/" + finalFilename);
+				image.setDescription(finalFilename);
+				counter += image.store();
+			}
+
+			return counter > 0;
 		}
 		catch (SQLException e)
 		{

@@ -125,7 +125,7 @@ public class FileUploadHandler
 		}
 	}
 
-	public static ReaderResult readAllLines(Representation entity, String formIdentifier, String column)
+	public static List<String> handleMultiple(Representation entity, String formIdentifier, File folder)
 	{
 		if (entity != null)
 		{
@@ -143,8 +143,7 @@ public class FileUploadHandler
 					// 3. Request is parsed by the handler which generates a list of FileItems
 					FileItemIterator fileIterator = upload.getItemIterator(entity);
 
-					ReaderResult result = new ReaderResult();
-					boolean found = false;
+					List<String> filenames = new ArrayList<>();
 					// Process only the uploaded item with the given name and return back
 					while (fileIterator.hasNext())
 					{
@@ -153,38 +152,22 @@ public class FileUploadHandler
 						{
 							// consume the stream immediately, otherwise the stream
 							// will be closed.
-							try (BufferedReader br = new BufferedReader(new InputStreamReader(fi.openStream())))
-							{
-								String line;
-
-								while ((line = br.readLine()) != null)
-									result.lines.add(line);
-
-								found = true;
-							}
-						}
-						else if (fi.getFieldName().equals(column))
-						{
-							// consume the stream immediately, otherwise the stream
-							// will be closed.
-							try (BufferedReader br = new BufferedReader(new InputStreamReader(fi.openStream())))
-							{
-								String line;
-
-								if ((line = br.readLine()) != null)
-									result.column = line;
-							}
+							String uuid = UUID.randomUUID().toString();
+							String filename = fi.getName();
+							String extension = filename.substring(filename.lastIndexOf(".") + 1);
+							FileUtils.copyInputStreamToFile(fi.openStream(), new File(folder, uuid + "." + extension));
+							filenames.add(uuid + "." + extension);
 						}
 					}
 
-					if (!found)
+					if (filenames.size() < 1)
 					{
 						// If we get here, the file wasn't found
 						throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 					}
 					else
 					{
-						return result;
+						return filenames;
 					}
 				}
 				catch (IOException | FileUploadException e)
