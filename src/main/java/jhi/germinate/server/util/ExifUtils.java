@@ -12,22 +12,23 @@ import java.util.*;
  */
 public class ExifUtils
 {
+	/**
+	 * Reads the provided file and if it supports EXIF data will extract and return the closest match to the original creation date/time.
+	 *
+	 * @param imageFile The image file containing the EXIF information
+	 * @return The closest match to the original creation date/time or null if none is found or the provided file does not support EXIF information.
+	 */
 	public static Date getCreatedOnOrClosest(File imageFile)
 	{
 		try
 		{
 			Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
 
-			Iterable<Directory> directories = metadata.getDirectories();
-			Iterator<Directory> iterator = directories.iterator();
-
 			Date result = null;
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
-			while (iterator.hasNext())
+			for (Directory dir : metadata.getDirectories())
 			{
-				Directory dir = iterator.next();
-
 				if (dir.getName().contains("PrintIM"))
 					continue;
 
