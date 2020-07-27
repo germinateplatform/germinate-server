@@ -7,6 +7,7 @@ import org.restlet.resource.*;
 
 import java.io.File;
 import java.sql.*;
+import java.util.Date;
 import java.util.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
@@ -15,6 +16,7 @@ import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.importers.FileUploadHandler;
+import jhi.germinate.server.util.ExifUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.tables.Compounds.*;
@@ -100,11 +102,17 @@ public class ImageUploadResource extends BaseServerResource
 
 			for (String finalFilename : finalFilenames)
 			{
+				File imageFile = new File(folder, finalFilename);
+
+				Date date = ExifUtils.getCreatedOnOrClosest(imageFile);
+
 				ImagesRecord image = context.newRecord(IMAGES);
 				image.setForeignId(foreignId);
 				image.setImagetypeId(imageType.getId());
 				image.setPath("upload/" + finalFilename);
 				image.setDescription(finalFilename);
+				if (date != null)
+					image.setCreatedOn(new Timestamp(date.getTime()));
 				counter += image.store();
 			}
 
