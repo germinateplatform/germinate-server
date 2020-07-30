@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import java.util.logging.*;
 
 import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
+import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.database.ScriptRunner;
 
 import static jhi.germinate.server.database.tables.Germinatebase.*;
@@ -189,7 +190,7 @@ public class Database
 
 	private static String getDatabaseUrl()
 	{
-		return "jdbc:mysql://" + databaseServer + ":" + (databasePort != null ? databasePort : "3306") + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
+		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmpty(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
 	}
 
 	public static Connection getConnection()
