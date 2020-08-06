@@ -20,23 +20,6 @@ import static jhi.germinate.server.database.tables.ViewTableGermplasmAttributes.
  */
 public class GermplasmAttributeTableResource extends PaginatedServerResource
 {
-	private Integer germplasmId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		try
-		{
-			this.germplasmId = Integer.parseInt(getRequestAttributes().get("germplasmId").toString());
-		}
-		catch (NumberFormatException | NullPointerException e)
-		{
-		}
-	}
-
 	@Post("json")
 	public PaginatedResult<List<ViewTableGermplasmAttributes>> getJson(PaginatedRequest request)
 	{
@@ -50,9 +33,6 @@ public class GermplasmAttributeTableResource extends PaginatedServerResource
 				select.hint("SQL_CALC_FOUND_ROWS");
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GERMPLASM_ATTRIBUTES);
-
-			if (germplasmId != null)
-				from.where(VIEW_TABLE_GERMPLASM_ATTRIBUTES.GERMPLASM_ID.eq(germplasmId));
 
 			// Filter here!
 			filter(from, filters);

@@ -23,7 +23,7 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.tables.Germinatebase;
-import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.database.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
@@ -38,6 +38,7 @@ import static jhi.germinate.server.database.tables.Germinatebase.*;
 import static jhi.germinate.server.database.tables.Groupmembers.*;
 import static jhi.germinate.server.database.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.tables.Markers.*;
+import static jhi.germinate.server.database.tables.Synonyms.*;
 
 /**
  * @author Sebastian Raubach
@@ -288,20 +289,23 @@ public class GenotypeExportResource extends BaseServerResource
 		{
 			bw.write("# fjFile = PHENOTYPE");
 			bw.newLine();
-			bw.write("\tPUID\tSource Material Name\tSource Material PUID");
+			bw.write("\tPUID\tSource Material Name\tSource Material PUID\tSynonyms");
 
 			Germinatebase g = GERMINATEBASE.as("g");
 			Field<String> childName = GERMINATEBASE.NAME.as("childName");
 			Field<String> childPuid = GERMINATEBASE.PUID.as("childPuid");
 			Field<String> parentName = g.NAME.as("parentName");
 			Field<String> parentPuid = g.PUID.as("parentPuid");
+			Field<JsonArray> synonyms = SYNONYMS.SYNONYMS_.as("synonyms");
 
-			SelectJoinStep<Record4<String, String, String, String>> step = context.select(
+			SelectJoinStep<Record5<String, String, String, String, JsonArray>> step = context.select(
 				childName,
 				childPuid,
 				parentName,
-				parentPuid
-			).from(GERMINATEBASE.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID)));
+				parentPuid,
+				synonyms
+			).from(GERMINATEBASE.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
+			.leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID))));
 
 			// Restrict to the requested germplasm (if any)
 			if (!CollectionUtils.isEmpty(germplasmNames))
@@ -324,7 +328,8 @@ public class GenotypeExportResource extends BaseServerResource
 					bw.write(r.get(childName) + "\t");
 					bw.write((r.get(childPuid) == null ? "" : r.get(childPuid)) + "\t");
 					bw.write((r.get(parentName) == null ? "" : r.get(parentName)) + "\t");
-					bw.write((r.get(parentPuid) == null ? "" : r.get(parentPuid)));
+					bw.write((r.get(parentPuid) == null ? "" : r.get(parentPuid)) + "\t");
+					bw.write((r.get(synonyms)) == null ? "" : r.get(synonyms).toString());
 				}
 				catch (IOException e)
 				{
