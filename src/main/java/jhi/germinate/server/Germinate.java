@@ -341,8 +341,6 @@ public class Germinate extends Application
 		if (PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
 			new Brapi("/brapi/v2", routerAuth, routerUnauth, PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL) + "/data/genotypes/");
 
-		// CORS first, then unauthorized paths
-//		corsFilter.setNext(routerUnauth);
 		// Set everything that isn't covered to go through the authenticator
 		routerUnauth.attachDefault(authenticator);
 		authenticator.setNext(authorizer);

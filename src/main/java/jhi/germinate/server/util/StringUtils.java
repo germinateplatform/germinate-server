@@ -53,6 +53,11 @@ public class StringUtils
 			return input;
 	}
 
+	public static String toString(Object value)
+	{
+		return value == null ? null : Objects.toString(value);
+	}
+
 	public static String join(String separator, String... parts)
 	{
 		List<String> nonNull = new ArrayList<>();
