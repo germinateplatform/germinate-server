@@ -26,7 +26,7 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportTraitCategorical extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = 643041761;
+    private static final long serialVersionUID = 980868312;
 
     /**
      * The parameter <code>germinate_template_4_20_06_15.export_trait_categorical.datasetIds</code>.
@@ -34,9 +34,9 @@ public class ExportTraitCategorical extends AbstractRoutine<java.lang.Void> {
     public static final Parameter<String> DATASETIDS = Internal.createParameter("datasetIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
-     * The parameter <code>germinate_template_4_20_06_15.export_trait_categorical.traitId</code>.
+     * The parameter <code>germinate_template_4_20_06_15.export_trait_categorical.traitIds</code>.
      */
-    public static final Parameter<Integer> TRAITID = Internal.createParameter("traitId", org.jooq.impl.SQLDataType.INTEGER, false, false);
+    public static final Parameter<String> TRAITIDS = Internal.createParameter("traitIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
      * Create a new routine call instance
@@ -45,7 +45,7 @@ public class ExportTraitCategorical extends AbstractRoutine<java.lang.Void> {
         super("export_trait_categorical", GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15);
 
         addInParameter(DATASETIDS);
-        addInParameter(TRAITID);
+        addInParameter(TRAITIDS);
     }
 
     /**
@@ -56,9 +56,9 @@ public class ExportTraitCategorical extends AbstractRoutine<java.lang.Void> {
     }
 
     /**
-     * Set the <code>traitId</code> parameter IN value to the routine
+     * Set the <code>traitIds</code> parameter IN value to the routine
      */
-    public void setTraitid(Integer value) {
-        setValue(TRAITID, value);
+    public void setTraitids(String value) {
+        setValue(TRAITIDS, value);
     }
 }

@@ -174,6 +174,7 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/dataset/stats/climate", ClimateStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/compound", CompoundStatsResource.class);
 		attachToRouter(routerAuth, "/dataset/stats/trial", TraitStatsResource.class);
+		attachToRouter(routerAuth, "/dataset/categorical/trial", TraitCategoricalResource.class);
 		attachToRouter(routerAuth, "/dataset/climate", DatasetClimateResource.class);
 		attachToRouter(routerAuth, "/dataset/compound", DatasetCompoundResource.class);
 		attachToRouter(routerAuth, "/dataset/trait", DatasetTraitResource.class);
@@ -311,7 +312,6 @@ public class Germinate extends Application
 		// TRAITS
 		attachToRouter(routerAuth, "/trait/table", TraitTableResource.class);
 		attachToRouter(routerAuth, "/trait/{traitId}/dataset", TraitDatasetTableResource.class);
-		attachToRouter(routerAuth, "/trait/{traitId}/categorical", TraitCategoricalResource.class);
 
 		// USER PERMISSIONS
 		attachToRouter(routerAuth, "/usergroup", UsergroupResource.class);
