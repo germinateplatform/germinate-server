@@ -31,7 +31,7 @@ public class Database
 	private static String username;
 	private static String password;
 
-	private static String utc = TimeZone.getDefault().getID();
+	private static final String utc = TimeZone.getDefault().getID();
 
 	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password, boolean initAndUpdate)
 	{
