@@ -77,7 +77,7 @@ dependencies {
 // Generate a .jar file for the Germinate importer project
 task jarForImporter (type: Jar, dependsOn: classes) {
     from sourceSets.main.output
-    archiveFileName = 'germinate-core.jar'
+    archiveFileName = "germinate-core-${project.version}.jar"
     includeEmptyDirs = false
     include '**/germinate/resource/**'
     include '**/server/database/**'
@@ -91,7 +91,7 @@ task jarForImporter (type: Jar, dependsOn: classes) {
 // Generate a .jar file that other applications can use to communicate with the API
 task jarClient (type: Jar, dependsOn: classes) {
     from sourceSets.main.output
-    archiveFileName = 'germinate-client.jar'
+    archiveFileName = "germinate-client-${project.version}.jar"
     includeEmptyDirs = false
     include '**/germinate/resource/**'
     include '**/pojos/**'
@@ -149,3 +149,7 @@ task deployTomcat (type: CargoRedeployRemote) {
     password = project.findProperty('tomcat.manager.password') ?: ""
     deployables = [new Deployable(files: project.files([war.archiveFile]), context: "${project.'project.name'}/v${project.version}")]
 }
+
+// Automatically build both jars on every build
+rootProject.tasks.getByName('build').dependsOn jarClient
+rootProject.tasks.getByName('build').dependsOn jarForImporter

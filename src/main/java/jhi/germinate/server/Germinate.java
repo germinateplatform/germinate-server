@@ -339,7 +339,7 @@ public class Germinate extends Application
 		attachToRouter(routerUnauth, "/token", TokenResource.class);
 
 		if (PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
-			new Brapi("/brapi/v2", routerAuth, routerUnauth, PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL) + "/data/genotypes/");
+			new Brapi("/brapi/v2", routerAuth, routerUnauth, verifier, PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL) + "/data/genotypes/");
 
 		// Set everything that isn't covered to go through the authenticator
 		routerUnauth.attachDefault(authenticator);
