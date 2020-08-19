@@ -26,7 +26,17 @@ import org.jooq.impl.Internal;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ExportTraitCategorical extends AbstractRoutine<java.lang.Void> {
 
-    private static final long serialVersionUID = 980868312;
+    private static final long serialVersionUID = 1961514733;
+
+    /**
+     * The parameter <code>germinate_template_4_20_06_15.export_trait_categorical.groupIds</code>.
+     */
+    public static final Parameter<String> GROUPIDS = Internal.createParameter("groupIds", org.jooq.impl.SQLDataType.CLOB, false, false);
+
+    /**
+     * The parameter <code>germinate_template_4_20_06_15.export_trait_categorical.markedIds</code>.
+     */
+    public static final Parameter<String> MARKEDIDS = Internal.createParameter("markedIds", org.jooq.impl.SQLDataType.CLOB, false, false);
 
     /**
      * The parameter <code>germinate_template_4_20_06_15.export_trait_categorical.datasetIds</code>.
@@ -44,8 +54,24 @@ public class ExportTraitCategorical extends AbstractRoutine<java.lang.Void> {
     public ExportTraitCategorical() {
         super("export_trait_categorical", GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15);
 
+        addInParameter(GROUPIDS);
+        addInParameter(MARKEDIDS);
         addInParameter(DATASETIDS);
         addInParameter(TRAITIDS);
+    }
+
+    /**
+     * Set the <code>groupIds</code> parameter IN value to the routine
+     */
+    public void setGroupids(String value) {
+        setValue(GROUPIDS, value);
+    }
+
+    /**
+     * Set the <code>markedIds</code> parameter IN value to the routine
+     */
+    public void setMarkedids(String value) {
+        setValue(MARKEDIDS, value);
     }
 
     /**

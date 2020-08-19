@@ -66,6 +66,9 @@ dependencies {
         exclude group: 'org.springframework'
     }
 
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+
     implementation 'org.flywaydb:flyway-core:6.3.3'
     implementation 'com.squareup.okhttp3:okhttp:3.14.6'
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'

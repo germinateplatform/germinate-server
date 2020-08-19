@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.traits;
 
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -16,7 +17,6 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.routines.ExportTraitCategorical;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 /**
  * @author Sebastian Raubach
@@ -52,10 +52,19 @@ public class TraitCategoricalResource extends BaseServerResource
 				 DSLContext context = Database.getContext(conn);
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
+				String traitIdString = CollectionUtils.join(request.getxIds(), ",");
+				String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
+				String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
+
 				ExportTraitCategorical procedure = new ExportTraitCategorical();
 				if (!CollectionUtils.isEmpty(datasetIds))
 					procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
-				procedure.setTraitids(CollectionUtils.join(request.getxIds(), ","));
+				if (!StringUtils.isEmpty(groupIdString))
+					procedure.setGroupids(groupIdString);
+				if (!StringUtils.isEmpty(germplasmIdString))
+					procedure.setMarkedids(germplasmIdString);
+				if (!StringUtils.isEmpty(traitIdString))
+					procedure.setTraitids(traitIdString);
 
 				procedure.execute(context.configuration());
 
