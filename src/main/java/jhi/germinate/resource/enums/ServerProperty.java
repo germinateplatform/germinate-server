@@ -8,7 +8,7 @@ public enum ServerProperty
 	AUTHENTICATION_MODE("authentication.mode", "none", true),
 	BCRYPT_SALT("bcrypt.salt", "10", true),
 	BRAPI_ENABLED("brapi.enabled", "false", false),
-	COLORS_CHART("colors.charts", "#1f77b4,#ff7f0e,#2ca02c,#d62728,#9467bd,#8c564b,#e377c2,#7f7f7f,#bcbd22,#17becf", true),
+	COLORS_CHART("colors.charts", "#00a0f1,#5ec418,#910080,#222183,#ff7c00,#c5e000,#c83831,#ff007a,#fff600", true),
 	COLORS_TEMPLATE("colors.template", "#FF9E15,#799900,#00748C,#853175,#555559,#FFD100,#C2002F,#CF009E,#6AA2B8,#D6C200", true),
 	COLOR_PRIMARY("color.primary", null, false),
 	COMMENTS_ENABLED("comments.enabled", "true", false),
