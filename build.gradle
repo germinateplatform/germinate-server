@@ -89,6 +89,7 @@ task jarForImporter (type: Jar, dependsOn: classes) {
     include '**/util/**Binding**'
     include '**/util/**Hdf**'
     include '**/auth/**UserType**'
+    include '**/auth/**CustomVerifier**'
 }
 
 // Generate a .jar file that other applications can use to communicate with the API

@@ -96,7 +96,7 @@ public class ScriptRunner
 	 */
 	public void runScript(Reader reader) throws IOException, SQLException
 	{
-		String timeStamp = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss").format(new java.util.Date());
+		String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date());
 		println("\n-------\n" + timeStamp + "\n-------\n");
 		printlnError("\n-------\n" + timeStamp + "\n-------\n");
 
