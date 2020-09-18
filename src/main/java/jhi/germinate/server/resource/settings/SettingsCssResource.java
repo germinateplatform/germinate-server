@@ -57,7 +57,7 @@ public class SettingsCssResource extends BaseServerResource
 
 			File template = new File(SettingsCssResource.class.getClassLoader().getResource("template.css").toURI());
 
-			String content = new String(Files.readAllBytes(template.toPath()), StandardCharsets.UTF_8);
+			String content = Files.readString(template.toPath());
 			content = content.replace("{{PRIMARY}}", primary.toHexValue())
 							 .replace("{{PRIMARY_HOVER}}", hover.toHexValue())
 							 .replace("{{PRIMARY_DARKER}}", darker.toHexValue())

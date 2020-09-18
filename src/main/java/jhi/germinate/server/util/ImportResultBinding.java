@@ -20,7 +20,7 @@ public class ImportResultBinding implements Binding<Object, ImportResult[]>
 	public Converter<Object, ImportResult[]> converter()
 	{
 		Gson gson = new Gson();
-		return new Converter<Object, ImportResult[]>()
+		return new Converter<>()
 		{
 			@Override
 			public ImportResult[] from(Object o)

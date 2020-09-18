@@ -20,7 +20,7 @@ public class DublinCoreBinding implements Binding<Object, DublinCore>
 	public Converter<Object, DublinCore> converter()
 	{
 		Gson gson = new Gson();
-		return new Converter<Object, DublinCore>()
+		return new Converter<>()
 		{
 			@Override
 			public DublinCore from(Object o)

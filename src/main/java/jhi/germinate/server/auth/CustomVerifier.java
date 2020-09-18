@@ -27,6 +27,7 @@ import org.restlet.util.Series;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -248,13 +249,7 @@ public class CustomVerifier implements Verifier
 
 		if (!StringUtils.isEmpty(result))
 		{
-			try
-			{
-				result = URLDecoder.decode(result, "UTF-8");
-			}
-			catch (UnsupportedEncodingException e)
-			{
-			}
+			result = URLDecoder.decode(result, StandardCharsets.UTF_8);
 
 			int index = result.lastIndexOf("/api");
 

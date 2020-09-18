@@ -20,7 +20,7 @@ public class DatasetLocationBinding implements Binding<Object, DatasetLocation[]
 	public Converter<Object, DatasetLocation[]> converter()
 	{
 		Gson gson = new Gson();
-		return new Converter<Object, DatasetLocation[]>()
+		return new Converter<>()
 		{
 			@Override
 			public DatasetLocation[] from(Object o)

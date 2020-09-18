@@ -80,9 +80,9 @@ public class BaseServerResource extends ServerResource
 
 		if (subdirs != null)
 		{
-			for (int i = 0; i < subdirs.length; i++)
+			for (String subdir : subdirs)
 			{
-				folder = new File(folder, subdirs[i]);
+				folder = new File(folder, subdir);
 			}
 		}
 

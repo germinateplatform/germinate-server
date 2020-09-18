@@ -20,7 +20,7 @@ public class ImageTagBinding implements Binding<Object, ImageTag[]>
 	public Converter<Object, ImageTag[]> converter()
 	{
 		Gson gson = new Gson();
-		return new Converter<Object, ImageTag[]>()
+		return new Converter<>()
 		{
 			@Override
 			public ImageTag[] from(Object o)

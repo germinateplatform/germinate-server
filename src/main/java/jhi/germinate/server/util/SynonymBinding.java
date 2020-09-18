@@ -18,7 +18,7 @@ public class SynonymBinding implements Binding<Object, JsonArray>
 	public Converter<Object, JsonArray> converter()
 	{
 		Gson gson = new Gson();
-		return new Converter<Object, JsonArray>()
+		return new Converter<>()
 		{
 			@Override
 			public JsonArray from(Object o)
