@@ -20,6 +20,7 @@ package jhi.germinate.server.util.tasks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import jhi.germinate.server.database.pojo.ImportResult;
 import org.jooq.DSLContext;
 
 import java.io.*;
@@ -27,12 +28,11 @@ import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
 
-import jhi.germinate.resource.ImportResult;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.enums.DataImportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
 import jhi.germinate.server.resource.BaseServerResource;
 
-import static jhi.germinate.server.database.tables.DataImportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
 public class DatasetImportJobCheckerTask implements Runnable
 {

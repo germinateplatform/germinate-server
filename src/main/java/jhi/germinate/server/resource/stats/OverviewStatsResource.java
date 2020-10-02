@@ -7,9 +7,9 @@ import org.restlet.resource.*;
 import java.sql.*;
 
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewStatsOverview;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewStatsOverview;
 
-import static jhi.germinate.server.database.tables.ViewStatsOverview.*;
+import static jhi.germinate.server.database.codegen.tables.ViewStatsOverview.*;
 
 /**
  * @author Sebastian Raubach

@@ -13,11 +13,11 @@ import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.UserGroupModificationRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.records.UsergroupmembersRecord;
+import jhi.germinate.server.database.codegen.tables.records.UsergroupmembersRecord;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.BaseServerResource;
 
-import static jhi.germinate.server.database.tables.Usergroupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
 
 /**
  * @author Sebastian Raubach

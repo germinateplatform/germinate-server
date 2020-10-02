@@ -12,11 +12,11 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.ViewTableGroups;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.*;
 
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.ViewTableGroups.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.*;
 
 /**
  * @author Sebastian Raubach

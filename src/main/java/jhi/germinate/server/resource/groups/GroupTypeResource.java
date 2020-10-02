@@ -9,10 +9,10 @@ import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.Grouptypes;
+import jhi.germinate.server.database.codegen.tables.pojos.Grouptypes;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Grouptypes.*;
+import static jhi.germinate.server.database.codegen.tables.Grouptypes.*;
 
 /**
  * @author Sebastian Raubach

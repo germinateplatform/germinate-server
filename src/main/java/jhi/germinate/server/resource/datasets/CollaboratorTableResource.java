@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.datasets;
 
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
@@ -10,11 +11,10 @@ import java.util.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableCollaborators.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableCollaborators.*;
 
 /**
  * @author Sebastian Raubach

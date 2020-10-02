@@ -11,8 +11,8 @@ import java.util.List;
 import jhi.germinate.resource.EntityTypeStats;
 import jhi.germinate.server.Database;
 
-import static jhi.germinate.server.database.tables.Entitytypes.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
 /**
  * @author Sebastian Raubach

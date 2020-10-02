@@ -11,11 +11,11 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableComments;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableComments;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.ViewTableComments.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableComments.*;
 
 /**
  * @author Sebastian Raubach

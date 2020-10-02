@@ -15,7 +15,7 @@ import jhi.flapjack.io.binning.MakeHistogram;
 import jhi.germinate.resource.SubsettedGenotypeDatasetRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;

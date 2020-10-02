@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.images;
 
+import jhi.germinate.server.database.pojo.ImageTag;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
@@ -9,15 +10,14 @@ import java.sql.*;
 import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.ImageTag;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.ImageToTags.*;
-import static jhi.germinate.server.database.tables.Images.*;
-import static jhi.germinate.server.database.tables.Imagetags.*;
-import static jhi.germinate.server.database.tables.Imagetypes.*;
+import static jhi.germinate.server.database.codegen.tables.ImageToTags.*;
+import static jhi.germinate.server.database.codegen.tables.Images.*;
+import static jhi.germinate.server.database.codegen.tables.Imagetags.*;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 
 /**
  * @author Sebastian Raubach

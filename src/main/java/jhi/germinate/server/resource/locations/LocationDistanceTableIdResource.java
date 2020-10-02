@@ -12,7 +12,7 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.resource.*;
 
-import static jhi.germinate.server.database.tables.ViewTableLocations.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
 
 /**
  * @author Sebastian Raubach

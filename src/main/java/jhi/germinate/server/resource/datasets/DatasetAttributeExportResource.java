@@ -13,11 +13,11 @@ import java.util.*;
 
 import jhi.germinate.resource.ExperimentRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.routines.ExportDatasetAttributes;
+import jhi.germinate.server.database.codegen.routines.ExportDatasetAttributes;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 
 /**
  * @author Sebastian Raubach

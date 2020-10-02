@@ -10,15 +10,15 @@ import java.util.List;
 
 import jhi.germinate.resource.LinkRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableLinks;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLinks;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Compounds.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Markers.*;
-import static jhi.germinate.server.database.tables.Phenotypes.*;
-import static jhi.germinate.server.database.tables.ViewTableLinks.*;
+import static jhi.germinate.server.database.codegen.tables.Compounds.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLinks.*;
 
 /**
  * @author Sebastian Raubach

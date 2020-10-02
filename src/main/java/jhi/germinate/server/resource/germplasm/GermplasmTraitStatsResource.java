@@ -4,8 +4,8 @@ import jhi.germinate.resource.GermplasmStats;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.enums.PhenotypesDatatype;
-import jhi.germinate.server.database.tables.Phenotypedata;
+import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
+import jhi.germinate.server.database.codegen.tables.Phenotypedata;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
@@ -17,9 +17,9 @@ import org.restlet.resource.*;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
 public class GermplasmTraitStatsResource extends BaseServerResource
 {

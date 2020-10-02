@@ -11,11 +11,11 @@ import java.util.Objects;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.ViewTableImages;
-import jhi.germinate.server.database.tables.records.ImagesRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
+import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.Images.*;
+import static jhi.germinate.server.database.codegen.tables.Images.*;
 
 /**
  * @author Sebastian Raubach

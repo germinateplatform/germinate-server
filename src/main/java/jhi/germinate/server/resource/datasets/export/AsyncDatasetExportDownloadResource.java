@@ -13,11 +13,11 @@ import java.util.logging.*;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
 /**
  * @author Sebastian Raubach

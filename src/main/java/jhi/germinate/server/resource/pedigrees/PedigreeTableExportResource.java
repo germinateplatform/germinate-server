@@ -6,7 +6,7 @@ import org.restlet.resource.Post;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.ViewTablePedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
 
 /**
  * @author Sebastian Raubach

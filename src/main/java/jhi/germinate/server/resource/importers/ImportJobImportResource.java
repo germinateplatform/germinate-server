@@ -6,7 +6,7 @@ import java.util.*;
 
 import jhi.germinate.resource.AsyncExportResult;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.DataImportJobs;
+import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.StringUtils;
 

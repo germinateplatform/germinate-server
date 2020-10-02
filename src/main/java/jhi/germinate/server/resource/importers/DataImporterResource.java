@@ -7,7 +7,7 @@ import java.util.List;
 
 import jhi.germinate.resource.AsyncExportResult;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.enums.DataImportJobsDatatype;
+import jhi.germinate.server.database.codegen.enums.DataImportJobsDatatype;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 

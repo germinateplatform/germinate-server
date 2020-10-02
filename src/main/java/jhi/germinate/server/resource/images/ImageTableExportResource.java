@@ -19,11 +19,11 @@ import java.util.logging.*;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableImages;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.ViewTableImages.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
 
 /**
  * @author Sebastian Raubach

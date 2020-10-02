@@ -25,18 +25,18 @@ import java.util.*;
 import java.util.logging.*;
 
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.*;
-import jhi.germinate.server.database.tables.records.GerminatebaseRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.records.GerminatebaseRecord;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Links.*;
-import static jhi.germinate.server.database.tables.Linktypes.*;
-import static jhi.germinate.server.database.tables.Locations.*;
-import static jhi.germinate.server.database.tables.Pedigreedefinitions.*;
-import static jhi.germinate.server.database.tables.Pedigrees.*;
-import static jhi.germinate.server.database.tables.Storagedata.*;
-import static jhi.germinate.server.database.tables.Taxonomies.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Links.*;
+import static jhi.germinate.server.database.codegen.tables.Linktypes.*;
+import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.Storagedata.*;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
 /**
  * Calculates Passport Data Completeness Index (PDCI) for all accessions.

@@ -10,12 +10,12 @@ import java.util.logging.*;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.Usergroups;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Usergroups;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Usergroups.*;
+import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
 
 /**
  * @author Sebastian Raubach

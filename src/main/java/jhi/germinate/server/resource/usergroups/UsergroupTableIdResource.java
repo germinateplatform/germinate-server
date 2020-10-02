@@ -13,7 +13,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.ViewTableUsergroups.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableUsergroups.*;
 
 /**
  * @author Sebastian Raubach

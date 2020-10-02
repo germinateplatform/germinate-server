@@ -10,8 +10,8 @@ import java.util.List;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
 
-import static jhi.germinate.server.database.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.tables.Maps.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Maps.*;
 
 /**
  * @author Sebastian Raubach

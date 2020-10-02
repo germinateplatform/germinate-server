@@ -13,17 +13,17 @@ import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.enums.PhenotypesDatatype;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.Groups.*;
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.Phenotypes.*;
-import static jhi.germinate.server.database.tables.ViewTableTraits.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
 
 /**
  * @author Sebastian Raubach

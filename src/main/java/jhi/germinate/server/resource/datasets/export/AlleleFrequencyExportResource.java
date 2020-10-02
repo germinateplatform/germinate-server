@@ -16,19 +16,19 @@ import java.util.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
-import jhi.germinate.server.database.tables.pojos.*;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.*;
 
-import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
-import static jhi.germinate.server.database.tables.Datasetaccesslogs.*;
-import static jhi.germinate.server.database.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.*;
 
 /**
  * @author Sebastian Raubach

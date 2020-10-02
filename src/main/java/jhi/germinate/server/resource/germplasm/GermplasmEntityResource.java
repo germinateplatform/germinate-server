@@ -9,7 +9,7 @@ import java.util.*;
 
 import jhi.germinate.server.Database;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
 /**
  * @author Sebastian Raubach

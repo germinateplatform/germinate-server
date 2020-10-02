@@ -15,15 +15,15 @@ import java.util.logging.Logger;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.ViewTableFileresources;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.importers.FileUploadHandler;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.Fileresources.*;
-import static jhi.germinate.server.database.tables.Fileresourcetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
+import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 
 /**
  * @author Sebastian Raubach

@@ -13,7 +13,7 @@ import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableDatasetAttributes.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasetAttributes.*;
 
 /**
  * @author Sebastian Raubach

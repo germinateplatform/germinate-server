@@ -4,10 +4,10 @@ import org.jooq.Record;
 
 import java.io.*;
 
-import jhi.germinate.server.database.tables.pojos.Maps;
+import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 
-import static jhi.germinate.server.database.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.*;
 
 /**
  * @author Sebastian Raubach

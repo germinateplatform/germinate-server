@@ -16,7 +16,7 @@ import jhi.germinate.server.auth.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
 /**
  * @author Sebastian Raubach

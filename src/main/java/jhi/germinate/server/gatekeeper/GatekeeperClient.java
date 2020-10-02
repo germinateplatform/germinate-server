@@ -1,5 +1,6 @@
 package jhi.germinate.server.gatekeeper;
 
+import jhi.germinate.server.util.*;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
@@ -15,7 +16,6 @@ import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.AuthenticationMode;
-import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import okhttp3.*;
@@ -35,7 +35,7 @@ public class GatekeeperClient
 	private static String password;
 	private static Token  token;
 
-	private static ConcurrentHashMap<Integer, ViewUserDetails> users = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<Integer, ViewUserDetails> users = new ConcurrentHashMap<>();
 	private static Retrofit                                    retrofit;
 
 	public static void init(String url, String username, String password)
@@ -186,7 +186,7 @@ public class GatekeeperClient
 		{
 			return null;
 		}
-		else if (users == null)
+		else if (users == null || users.size() < 1)
 		{
 			if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) != AuthenticationMode.NONE)
 			{

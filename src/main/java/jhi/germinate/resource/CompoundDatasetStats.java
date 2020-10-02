@@ -2,7 +2,7 @@ package jhi.germinate.resource;
 
 import java.util.*;
 
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 
 /**
  * @author Sebastian Raubach

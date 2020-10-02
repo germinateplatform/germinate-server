@@ -14,11 +14,11 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.ViewTableLicenses;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLicenses;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.ViewTableLicenses.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLicenses.*;
 
 /**
  * @author Sebastian Raubach

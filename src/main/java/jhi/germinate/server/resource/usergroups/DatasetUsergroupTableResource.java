@@ -12,12 +12,12 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.ViewTableUsergroups;
-import jhi.germinate.server.database.tables.records.DatasetpermissionsRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableUsergroups;
+import jhi.germinate.server.database.codegen.tables.records.DatasetpermissionsRecord;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Datasetpermissions.*;
-import static jhi.germinate.server.database.tables.ViewTableUsergroups.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableUsergroups.*;
 
 /**
  * @author Sebastian Raubach

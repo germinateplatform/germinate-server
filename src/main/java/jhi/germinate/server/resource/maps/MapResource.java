@@ -10,10 +10,10 @@ import java.util.List;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.Maps;
+import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Maps.*;
+import static jhi.germinate.server.database.codegen.tables.Maps.*;
 
 /**
  * @author Sebastian Raubach

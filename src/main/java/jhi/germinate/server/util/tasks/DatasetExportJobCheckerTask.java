@@ -23,11 +23,11 @@ import java.io.File;
 import java.sql.*;
 
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
 public class DatasetExportJobCheckerTask implements Runnable
 {

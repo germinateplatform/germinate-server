@@ -10,12 +10,12 @@ import java.util.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedDatasetRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableClimateData.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableClimateData.*;
 
 /**
  * @author Sebastian Raubach

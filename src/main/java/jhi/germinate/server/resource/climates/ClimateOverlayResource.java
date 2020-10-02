@@ -10,10 +10,10 @@ import java.util.List;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableClimateoverlays;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimateoverlays;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.ViewTableClimateoverlays.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableClimateoverlays.*;
 
 /**
  * @author Sebastian Raubach

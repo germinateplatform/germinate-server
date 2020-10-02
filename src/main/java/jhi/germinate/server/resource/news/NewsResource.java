@@ -13,13 +13,13 @@ import java.util.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.News;
-import jhi.germinate.server.database.tables.records.NewsRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.News;
+import jhi.germinate.server.database.codegen.tables.records.NewsRecord;
 import jhi.germinate.server.resource.images.ImageSourceResource;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.News.*;
+import static jhi.germinate.server.database.codegen.tables.News.*;
 
 /**
  * @author Sebastian Raubach

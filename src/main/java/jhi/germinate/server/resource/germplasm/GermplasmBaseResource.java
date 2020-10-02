@@ -6,23 +6,23 @@ import org.jooq.impl.DSL;
 import java.util.*;
 
 import jhi.germinate.resource.Filter;
-import jhi.germinate.server.database.tables.Germinatebase;
+import jhi.germinate.server.database.codegen.tables.Germinatebase;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Biologicalstatus.*;
-import static jhi.germinate.server.database.tables.Compounddata.*;
-import static jhi.germinate.server.database.tables.Countries.*;
-import static jhi.germinate.server.database.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.tables.Datasets.*;
-import static jhi.germinate.server.database.tables.Entitytypes.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Images.*;
-import static jhi.germinate.server.database.tables.Imagetypes.*;
-import static jhi.germinate.server.database.tables.Institutions.*;
-import static jhi.germinate.server.database.tables.Locations.*;
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.Synonyms.*;
-import static jhi.germinate.server.database.tables.Taxonomies.*;
+import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
+import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
+import static jhi.germinate.server.database.codegen.tables.Countries.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Images.*;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Institutions.*;
+import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
 /**
  * @author Sebastian Raubach

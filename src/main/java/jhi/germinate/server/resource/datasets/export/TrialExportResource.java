@@ -15,13 +15,13 @@ import java.util.*;
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.routines.ExportTrialsData;
-import jhi.germinate.server.database.tables.records.DatasetaccesslogsRecord;
+import jhi.germinate.server.database.codegen.routines.ExportTrialsData;
+import jhi.germinate.server.database.codegen.tables.records.DatasetaccesslogsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Datasetaccesslogs.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
 
 /**
  * @author Sebastian Raubach

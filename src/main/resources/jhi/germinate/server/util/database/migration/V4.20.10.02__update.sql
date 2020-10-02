@@ -1,0 +1,3 @@
+ALTER TABLE `phenotypes`
+MODIFY COLUMN `datatype` enum('float','int','char','categorical') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'int' COMMENT 'Defines the data type of the phenotype. This can be of float, int or char types.' AFTER `description`,
+ADD COLUMN `restrictions` json NULL COMMENT 'A json object describing the restrictions placed on this trait. It is an object containing a field called \"categories\" which is an array of arrays, each describing a categorical scale. Each scale must have the same length as they describe the same categories just using different terms or numbers. The other fields are \"min\" and \"max\" to specify upper and lower limits for numeric traits.' AFTER `datatype`;

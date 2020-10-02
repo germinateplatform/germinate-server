@@ -8,7 +8,7 @@ import java.util.*;
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 
 /**
  * @author Sebastian Raubach

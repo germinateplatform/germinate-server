@@ -6,13 +6,13 @@ import java.io.*;
 import java.util.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.database.tables.pojos.Maps;
+import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.tables.Mapfeaturetypes.*;
-import static jhi.germinate.server.database.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.*;
 
 /**
  * @author Sebastian Raubach

@@ -13,10 +13,10 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.Datasetpermissions.*;
-import static jhi.germinate.server.database.tables.Usergroupmembers.*;
-import static jhi.germinate.server.database.tables.Usergroups.*;
-import static jhi.germinate.server.database.tables.ViewTableDatasets.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
+import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 
 /**
  * @author Sebastian Raubach

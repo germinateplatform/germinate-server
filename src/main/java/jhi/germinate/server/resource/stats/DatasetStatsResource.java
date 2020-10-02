@@ -18,10 +18,10 @@ import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Datasetmeta.*;
-import static jhi.germinate.server.database.tables.Datasets.*;
-import static jhi.germinate.server.database.tables.Datasettypes.*;
-import static jhi.germinate.server.database.tables.Experiments.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmeta.*;
+import static jhi.germinate.server.database.codegen.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Datasettypes.*;
+import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 
 /**
  * @author Sebastian Raubach

@@ -22,7 +22,7 @@ import org.jooq.DSLContext;
 import java.sql.*;
 
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.routines.DatasetMeta;
+import jhi.germinate.server.database.codegen.routines.DatasetMeta;
 
 public class DatasetMetaTask implements Runnable
 {

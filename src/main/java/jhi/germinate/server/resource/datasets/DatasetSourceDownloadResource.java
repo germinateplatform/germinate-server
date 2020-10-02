@@ -8,7 +8,7 @@ import org.restlet.resource.*;
 import java.io.File;
 import java.util.List;
 
-import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
 

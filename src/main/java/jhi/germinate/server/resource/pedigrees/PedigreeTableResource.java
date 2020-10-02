@@ -10,10 +10,10 @@ import java.util.List;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTablePedigrees;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePedigrees;
 import jhi.germinate.server.resource.*;
 
-import static jhi.germinate.server.database.tables.ViewTablePedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
 
 /**
  * @author Sebastian Raubach

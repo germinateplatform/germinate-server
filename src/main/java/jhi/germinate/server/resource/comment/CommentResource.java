@@ -9,12 +9,12 @@ import java.util.Objects;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.Comments;
-import jhi.germinate.server.database.tables.records.CommentsRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.Comments;
+import jhi.germinate.server.database.codegen.tables.records.CommentsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Comments.*;
+import static jhi.germinate.server.database.codegen.tables.Comments.*;
 
 /**
  * @author Sebastian Raubach

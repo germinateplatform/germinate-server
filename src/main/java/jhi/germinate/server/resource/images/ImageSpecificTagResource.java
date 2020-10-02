@@ -14,14 +14,14 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.ImageTagModificationRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.Imagetags;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Imagetags;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ImageToTags.*;
-import static jhi.germinate.server.database.tables.Images.*;
-import static jhi.germinate.server.database.tables.Imagetags.*;
+import static jhi.germinate.server.database.codegen.tables.ImageToTags.*;
+import static jhi.germinate.server.database.codegen.tables.Images.*;
+import static jhi.germinate.server.database.codegen.tables.Imagetags.*;
 
 /**
  * @author Sebastian Raubach

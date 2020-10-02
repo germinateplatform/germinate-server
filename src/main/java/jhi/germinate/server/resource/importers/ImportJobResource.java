@@ -11,13 +11,13 @@ import java.util.*;
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.enums.DataImportJobsStatus;
-import jhi.germinate.server.database.tables.pojos.DataImportJobs;
-import jhi.germinate.server.database.tables.records.DataImportJobsRecord;
+import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
+import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
+import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.DataImportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
 /**
  * @author Sebastian Raubach

@@ -15,16 +15,16 @@ import java.util.stream.Collectors;
 import jhi.germinate.resource.MapExportRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.Maps;
-import jhi.germinate.server.database.tables.records.MapdefinitionsRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.Maps;
+import jhi.germinate.server.database.codegen.tables.records.MapdefinitionsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.maps.writer.*;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.tables.Mapfeaturetypes.*;
-import static jhi.germinate.server.database.tables.Maps.*;
-import static jhi.germinate.server.database.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Maps.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.*;
 
 /**
  * @author Sebastian Raubach

@@ -4,7 +4,7 @@ import org.jooq.Record;
 
 import java.io.*;
 
-import jhi.germinate.server.database.tables.pojos.Maps;
+import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 
 /**
  * @author Sebastian Raubach

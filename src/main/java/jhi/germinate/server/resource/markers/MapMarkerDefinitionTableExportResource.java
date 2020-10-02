@@ -8,7 +8,7 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.PaginatedServerResource;
 
-import static jhi.germinate.server.database.tables.ViewTableMapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableMapdefinitions.*;
 
 /**
  * @author Sebastian Raubach

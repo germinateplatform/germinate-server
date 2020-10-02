@@ -13,17 +13,17 @@ import java.util.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.importers.FileUploadHandler;
 import jhi.germinate.server.util.ExifUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.Compounds.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Images.*;
-import static jhi.germinate.server.database.tables.Imagetypes.*;
-import static jhi.germinate.server.database.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Compounds.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Images.*;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
 /**
  * @author Sebastian Raubach

@@ -1,6 +1,6 @@
 package jhi.germinate.resource;
 
-import jhi.germinate.server.database.tables.pojos.ViewTableLocations;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations;
 
 /**
  * @author Sebastian Raubach

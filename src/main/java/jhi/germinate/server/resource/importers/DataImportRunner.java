@@ -15,14 +15,14 @@ import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.enums.*;
-import jhi.germinate.server.database.tables.records.DataImportJobsRecord;
+import jhi.germinate.server.database.codegen.enums.*;
+import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.importer.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.DataImportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
 /**
  * @author Sebastian Raubach

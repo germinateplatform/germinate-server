@@ -13,9 +13,9 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.groups.GroupResource;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
 
 /**
  * @author Sebastian Raubach

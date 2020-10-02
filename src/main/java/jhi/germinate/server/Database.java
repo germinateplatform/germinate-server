@@ -1,5 +1,6 @@
 package jhi.germinate.server;
 
+import jhi.germinate.server.database.codegen.GerminateDb;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.jooq.*;
@@ -14,11 +15,10 @@ import java.sql.*;
 import java.util.TimeZone;
 import java.util.logging.*;
 
-import jhi.germinate.server.database.GerminateTemplate_4_20_06_15;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.database.ScriptRunner;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
 /**
  * @author Sebastian Raubach
@@ -138,12 +138,12 @@ public class Database
 			{
 				Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
 				Flyway flyway = Flyway.configure()
-					.table("schema_version")
-					.validateOnMigrate(false)
-					.dataSource(getDatabaseUrl(), username, password)
-					.locations("classpath:jhi/germinate/server/util/database/migration")
-					.baselineOnMigrate(true)
-					.load();
+									  .table("schema_version")
+									  .validateOnMigrate(false)
+									  .dataSource(getDatabaseUrl(), username, password)
+									  .locations("classpath:jhi/germinate/server/util/database/migration")
+									  .baselineOnMigrate(true)
+									  .load();
 				flyway.migrate();
 				flyway.repair();
 			}
@@ -204,7 +204,7 @@ public class Database
 		Settings settings = new Settings()
 			.withRenderMapping(new RenderMapping()
 				.withSchemata(
-					new MappedSchema().withInput(GerminateTemplate_4_20_06_15.GERMINATE_TEMPLATE_4_20_06_15.getQualifiedName().first())
+					new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
 									  .withOutput(databaseName)));
 
 		return DSL.using(connection, SQLDialect.MYSQL, settings);

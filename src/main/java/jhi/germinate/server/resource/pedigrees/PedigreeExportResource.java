@@ -14,14 +14,14 @@ import java.util.*;
 
 import jhi.germinate.resource.PedigreeRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.records.ViewTablePedigreesRecord;
+import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.Pedigrees.*;
-import static jhi.germinate.server.database.tables.ViewTablePedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
 
 /**
  * @author Sebastian Raubach

@@ -14,7 +14,7 @@ import java.util.*;
 
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.routines.ExportTraitCategorical;
+import jhi.germinate.server.database.codegen.routines.ExportTraitCategorical;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 

@@ -10,11 +10,11 @@ import java.util.logging.*;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.enums.*;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.DataImportJobs.*;
-import static jhi.germinate.server.database.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
 /**
  * @author Sebastian Raubach

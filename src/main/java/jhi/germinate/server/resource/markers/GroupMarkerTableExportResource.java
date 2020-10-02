@@ -14,10 +14,10 @@ import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.Groups.*;
-import static jhi.germinate.server.database.tables.ViewTableLocations.*;
-import static jhi.germinate.server.database.tables.ViewTableMarkers.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableMarkers.*;
 
 /**
  * @author Sebastian Raubach

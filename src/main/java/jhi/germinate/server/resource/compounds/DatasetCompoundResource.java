@@ -10,16 +10,16 @@ import java.util.*;
 
 import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableCompounds;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableCompounds;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Compounddata.*;
-import static jhi.germinate.server.database.tables.Compounds.*;
-import static jhi.germinate.server.database.tables.Synonyms.*;
-import static jhi.germinate.server.database.tables.Units.*;
-import static jhi.germinate.server.database.tables.ViewTableCompounds.*;
+import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
+import static jhi.germinate.server.database.codegen.tables.Compounds.*;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Units.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableCompounds.*;
 
 /**
  * @author Sebastian Raubach

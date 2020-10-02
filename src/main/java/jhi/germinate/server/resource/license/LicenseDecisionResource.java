@@ -11,7 +11,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.Licenselogs.*;
+import static jhi.germinate.server.database.codegen.tables.Licenselogs.*;
 
 /**
  * @author Sebastian Raubach

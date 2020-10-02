@@ -9,19 +9,19 @@ import java.sql.*;
 
 import jhi.germinate.resource.ViewMcpd;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.Germinatebase;
+import jhi.germinate.server.database.codegen.tables.Germinatebase;
 
-import static jhi.germinate.server.database.tables.Attributedata.*;
-import static jhi.germinate.server.database.tables.Attributes.*;
-import static jhi.germinate.server.database.tables.Countries.*;
-import static jhi.germinate.server.database.tables.Entitytypes.*;
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Institutions.*;
-import static jhi.germinate.server.database.tables.Locations.*;
-import static jhi.germinate.server.database.tables.Pedigreedefinitions.*;
-import static jhi.germinate.server.database.tables.Storage.*;
-import static jhi.germinate.server.database.tables.Storagedata.*;
-import static jhi.germinate.server.database.tables.Taxonomies.*;
+import static jhi.germinate.server.database.codegen.tables.Attributedata.*;
+import static jhi.germinate.server.database.codegen.tables.Attributes.*;
+import static jhi.germinate.server.database.codegen.tables.Countries.*;
+import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Institutions.*;
+import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Storage.*;
+import static jhi.germinate.server.database.codegen.tables.Storagedata.*;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
 /**
  * @author Sebastian Raubach

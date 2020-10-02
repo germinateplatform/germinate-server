@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Climatedata.*;
-import static jhi.germinate.server.database.tables.Climates.*;
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.Groups.*;
-import static jhi.germinate.server.database.tables.ViewTableClimates.*;
+import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
+import static jhi.germinate.server.database.codegen.tables.Climates.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
 
 /**
  * @author Sebastian Raubach

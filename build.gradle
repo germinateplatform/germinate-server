@@ -21,7 +21,7 @@ apply plugin: 'com.bmuschko.cargo-base'
 compileJava.options.encoding = 'UTF-8'
 
 group 'uk.ac.hutton.germinate'
-version '4.1.1'
+version '4.2.0'
 
 sourceCompatibility = 11
 
@@ -83,10 +83,8 @@ task jarForImporter (type: Jar, dependsOn: classes) {
     archiveFileName = "germinate-core-${project.version}.jar"
     includeEmptyDirs = false
     include '**/germinate/resource/**'
-    include '**/server/database/**'
     include '**/Database.class'
     include '**/util/**Utils**'
-    include '**/util/**Binding**'
     include '**/util/**Hdf**'
     include '**/auth/**UserType**'
     include '**/auth/**CustomVerifier**'
@@ -101,14 +99,6 @@ task jarClient (type: Jar, dependsOn: classes) {
     include '**/pojos/**'
     include '**/StatusMessage**'
     include '**/client/**'
-}
-
-// Runs the JOOQ code generation
-task codegen (type: JavaExec) {
-    group = 'Execution'
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'org.jooq.codegen.GenerationTool'
-    args 'jooq.xml'
 }
 
 // Generate a .war file

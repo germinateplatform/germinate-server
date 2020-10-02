@@ -7,12 +7,12 @@ import java.util.List;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.UnacceptedLicenseRequest;
-import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 
-import static jhi.germinate.server.database.tables.Compounddata.*;
-import static jhi.germinate.server.database.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.tables.ViewTableDatasets.*;
+import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 
 /**
  * @author Sebastian Raubach

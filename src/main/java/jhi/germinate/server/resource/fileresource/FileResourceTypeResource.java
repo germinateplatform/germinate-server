@@ -11,13 +11,13 @@ import java.util.List;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.*;
-import jhi.germinate.server.database.tables.records.FileresourcetypesRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.records.FileresourcetypesRecord;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Fileresourcetypes.*;
-import static jhi.germinate.server.database.tables.ViewTableFileresourcetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableFileresourcetypes.*;
 
 /**
  * @author Sebastian Raubach

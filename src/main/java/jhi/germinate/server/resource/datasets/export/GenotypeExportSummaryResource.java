@@ -11,16 +11,16 @@ import java.util.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.tables.Datasets.*;
-import static jhi.germinate.server.database.tables.Datasettypes.*;
-import static jhi.germinate.server.database.tables.Experiments.*;
-import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Datasettypes.*;
+import static jhi.germinate.server.database.codegen.tables.Experiments.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 
 /**
  * @author Sebastian Raubach

@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 
-import static jhi.germinate.server.database.tables.ViewTableTrialsData.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTrialsData.*;
 
 /**
  * @author Sebastian Raubach

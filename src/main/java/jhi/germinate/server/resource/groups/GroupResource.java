@@ -14,13 +14,13 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.GroupModificationRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.tables.pojos.Groups;
-import jhi.germinate.server.database.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Groups;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.StringUtils;
 
-import static jhi.germinate.server.database.tables.Groupmembers.*;
-import static jhi.germinate.server.database.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
 
 /**
  * @author Sebastian Raubach

@@ -14,7 +14,7 @@ import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
 /**
  * @author Sebastian Raubach

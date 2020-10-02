@@ -11,11 +11,11 @@ import java.util.*;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.routines.ExportPassportData;
+import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.util.*;
 
-import static jhi.germinate.server.database.tables.Germinatebase.*;
-import static jhi.germinate.server.database.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 
 /**
  * @author Sebastian Raubach

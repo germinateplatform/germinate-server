@@ -11,10 +11,10 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.tables.pojos.ViewTableMaps;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMaps;
 import jhi.germinate.server.resource.*;
 
-import static jhi.germinate.server.database.tables.ViewTableMaps.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableMaps.*;
 
 /**
  * @author Sebastian Raubach
