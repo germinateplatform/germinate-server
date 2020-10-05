@@ -74,7 +74,7 @@ public class GermplasmTraitStatsResource extends BaseServerResource
 						  .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
 						  .where(GERMINATEBASE.ID.eq(germplasmId))
 						  .and(PHENOTYPEDATA.DATASET_ID.in(datasetIds))
-						  .and(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.char_))
+						  .and(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.numeric))
 						  .groupBy(PHENOTYPES.ID)
 						  .orderBy(PHENOTYPES.NAME)
 						  .fetchInto(GermplasmStats.class);

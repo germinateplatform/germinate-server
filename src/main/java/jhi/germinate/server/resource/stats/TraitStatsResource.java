@@ -82,7 +82,7 @@ public class TraitStatsResource extends SubsettedServerResource
 						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
 						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
 						 .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds"),
-				DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
+				DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
 			)
 																							   .from(PHENOTYPEDATA)
 																							   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
@@ -155,7 +155,7 @@ public class TraitStatsResource extends SubsettedServerResource
 					PHENOTYPEDATA.DATASET_ID,
 					PHENOTYPEDATA.PHENOTYPE_ID,
 					DSL.inline("Marked items").as("groupIds"),
-					DSL.iif(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.char_), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
+					DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
 				)
 					   .from(PHENOTYPEDATA)
 					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
