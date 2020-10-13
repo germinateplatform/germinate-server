@@ -60,6 +60,11 @@ public class GermplasmTraitStatsResource extends BaseServerResource
 												.where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 												.and(p.DATASET_ID.in(datasetIds));
 
+			SelectConditionStep<?> count = context.select(DSL.count())
+												  .from(p)
+												  .where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												  .and(p.DATASET_ID.in(datasetIds));
+
 			return context.select(
 				GERMINATEBASE.ID.as("germplasm_id"),
 				GERMINATEBASE.NAME.as("germplasm_name"),
@@ -68,7 +73,7 @@ public class GermplasmTraitStatsResource extends BaseServerResource
 				min.asField("min"),
 				DSL.avg(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))).as("avg"),
 				max.asField("max"),
-				DSL.count().as("count")
+				count.asField("count")
 			).from(PHENOTYPEDATA)
 						  .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 						  .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
