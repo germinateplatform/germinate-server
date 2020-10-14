@@ -88,7 +88,7 @@ public class GatekeeperClient
 			Response<Token> response = service.postToken(user).execute();
 
 			if (response.isSuccessful())
-				GatekeeperClient.token = response.body();
+				token = response.body();
 			else
 				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
 		}
@@ -96,6 +96,7 @@ public class GatekeeperClient
 		{
 			Logger.getLogger("").info(e.getMessage());
 			e.printStackTrace();
+			return;
 		}
 
 		httpClient = (new OkHttpClient.Builder())
