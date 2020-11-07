@@ -20,13 +20,13 @@ As a requirement for the data import, [Gatekeeper](https://github.com/germinatep
 
 ## How to import data
 
-<img src="img/menu-data-upload.png" width="300" alt="Data uploader menu item">
+<img src="img/menu-data-upload.png" width="500" alt="Data uploader menu item">
 
 To upload a data template to Germinate, select the "Data Uploader" from the user menu on the Germinate web interface.
 
-<img src="img/data-uploader.png" width="600" alt="Data uploader page">
+<img src="img/data-uploader.png" width="900" alt="Data uploader page">
 
 Then select the type of data you wish to upload, select the Excel data template file and press "Upload and check". The file will be checked asynchronously and the side panel will pop up showing you the progress of the import.
 When the process finishes, you will either have checked the file and not found any issues or it will return a detailed report highlighting all issues within the data so you can fix them before finally uploading the data again. 
 
-<img src="img/uploader-status.png" width="500" alt="Uploader status">
+<img src="img/uploader-status.png" width="600" alt="Uploader status">
