@@ -10,7 +10,7 @@ The structure of this folder is shown below. At a minimum, the `config.propertie
 ```
 +-- data
 |   +-- allelefreq
-|   +-- downloads
+|   +-- download
 |   +-- genotypes
 +-- images
 |   +-- climate
@@ -31,7 +31,7 @@ The structure of this folder is shown below. At a minimum, the `config.propertie
 This directory contains all the raw data files that Germinate uses. At the moment those are genotypic data files and allele frequency files. These files are referenced in the database from the `datasets.source_file` column.
   - `allelefreq`  
   Files in this folder are stored in tab-delimited format with the germplasm along the side and markers along the top. Each cell contains the allele frequency value or should be empty.
-  - `downloads`  
+  - `download`  
   This folder is auto-generated to store file resources. Do not touch it or the files within it.
   - `genotypes`  
   Genotypic data is stored in a custom `.hdf5` format. If you're using the Germinate Data Templates, then a file in this format will automatically be generated for you.
