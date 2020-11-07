@@ -30,6 +30,7 @@ There are a few sub-pages that contain specific information about Germinate's se
 
 - <a href="setup.html">View setup instructions</a>
 - <a href="config.html">View configuration options</a>
+- <a href="dataimport.html">View data upload information</a>
 - <a href="migration.html">View migration information</a>
 - <a href="https://ics.hutton.ac.uk/resources/germinate/database-docs/">View database schema documentation</a>
 
