@@ -40,11 +40,11 @@ This directory contains all images that the Germinate user interface uses. This 
   - `climate`  
   Climate images are images referenced from the `climateoverlays` table. They are image overlays shown on top of maps on the user interface.
   - `database`  
-  This directory contains image files referenced from the `images` table in Germinate.
+  This directory contains image files referenced from the `images` table in Germinate. Germplasm images can be uploaded by data curators and administrators from the passport page of the corresponding germplasm. Images uploaded this way will automatically be placed here.
   - `news`  
-  Images referenced from the `news` table are stored in this directory.
+  Images referenced from the `news` table are stored in this directory. News items can be created by data curators or administrators from the home page of Germinate. Images uploaded this way will automatically be placed here.
   - `template`  
-  This directory contains images referenced from the user interface. This includes the logo and crop image as well as images used in the carousel on the dashboard.
+  This directory contains images referenced from the user interface. This includes the logo (`logo.svg` and `logo-horizontal.svg`) and crop image (`crop.svg`) as well as images used in the carousel on the dashboard.
 - `template`  
 This directory holds configuration files for the Germinate user interface.
   - `locales.json`  
