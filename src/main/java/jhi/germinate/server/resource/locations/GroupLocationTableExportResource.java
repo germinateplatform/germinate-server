@@ -1,18 +1,14 @@
 package jhi.germinate.server.resource.locations;
 
-import org.jooq.Result;
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
-
-import java.sql.*;
-
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.groups.GroupResource;
+import org.jooq.Result;
+import org.jooq.*;
+import org.restlet.representation.FileRepresentation;
+import org.restlet.resource.*;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
@@ -48,8 +44,7 @@ public class GroupLocationTableExportResource extends PaginatedServerResource
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
@@ -75,11 +70,6 @@ public class GroupLocationTableExportResource extends PaginatedServerResource
 				.fetch();
 
 			return export(result, "marker-group-table-");
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

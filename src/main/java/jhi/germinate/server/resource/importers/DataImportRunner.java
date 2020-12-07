@@ -1,16 +1,5 @@
 package jhi.germinate.server.resource.importers;
 
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.representation.Representation;
-import org.restlet.resource.ResourceException;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.sql.*;
-import java.util.*;
-
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
@@ -21,6 +10,16 @@ import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.importer.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.representation.Representation;
+import org.restlet.resource.ResourceException;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
@@ -36,8 +35,7 @@ public class DataImportRunner
 		if (mode != DataImportMode.IMPORT)
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
 												 .where(DATA_IMPORT_JOBS.UUID.eq(uuid))
@@ -93,8 +91,7 @@ public class DataImportRunner
 		if (mode == DataImportMode.NONE)
 			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			String uuid = UUID.randomUUID().toString();
 

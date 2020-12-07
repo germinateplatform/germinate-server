@@ -1,35 +1,31 @@
 package jhi.germinate.server.resource.datasets.export;
 
 import com.google.gson.JsonArray;
-
-import org.jooq.Result;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.Request;
-import org.restlet.data.Status;
-import org.restlet.ext.servlet.ServletUtils;
-import org.restlet.resource.*;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.Result;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.Request;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
@@ -63,8 +59,7 @@ public class GenotypeExportResource extends BaseServerResource
 			return new ArrayList<>();
 
 		List<AsyncExportResult> result = new ArrayList<>();
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			for (Integer id : datasetIds)
 			{

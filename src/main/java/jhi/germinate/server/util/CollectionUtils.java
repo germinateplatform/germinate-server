@@ -130,7 +130,7 @@ public class CollectionUtils
 		String[] parts = input.split(splitter);
 
 		for (int i = 0; i < parts.length; i++)
-			parts[i] = parts[i].trim();
+			parts[i] = parts[i].strip();
 
 		return new ArrayList<>(Arrays.asList(parts));
 	}

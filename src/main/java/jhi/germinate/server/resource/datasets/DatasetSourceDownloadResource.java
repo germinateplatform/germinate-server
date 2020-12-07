@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.datasets;
 
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.restlet.data.Status;
 import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
@@ -7,10 +10,6 @@ import org.restlet.resource.*;
 
 import java.io.File;
 import java.util.List;
-
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 /**
  * @author Sebastian Raubach

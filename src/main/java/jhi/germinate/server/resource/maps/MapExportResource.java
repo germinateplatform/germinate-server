@@ -1,17 +1,5 @@
 package jhi.germinate.server.resource.maps;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.sql.*;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import jhi.germinate.resource.MapExportRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
@@ -20,6 +8,16 @@ import jhi.germinate.server.database.codegen.tables.records.MapdefinitionsRecord
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.maps.writer.*;
 import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.restlet.data.Status;
+import org.restlet.data.*;
+import org.restlet.representation.FileRepresentation;
+import org.restlet.resource.*;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.*;
@@ -63,8 +61,7 @@ public class MapExportResource extends BaseServerResource
 		{
 			File file = createTempFile("map-" + mapId, ".tsv");
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
 			{
 				Maps map = context.selectFrom(MAPS).where(MAPS.ID.eq(mapId)).fetchAnyInto(Maps.class);
@@ -117,7 +114,7 @@ public class MapExportResource extends BaseServerResource
 					writer.writeFooter();
 				}
 			}
-			catch (SQLException | IOException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

@@ -1,12 +1,11 @@
 package jhi.germinate.server.resource.markers;
 
-import org.jooq.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.Post;
-
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.PaginatedServerResource;
+import org.jooq.*;
+import org.restlet.representation.FileRepresentation;
+import org.restlet.resource.Post;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableMapdefinitions.*;
 

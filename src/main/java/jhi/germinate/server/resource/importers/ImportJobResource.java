@@ -1,13 +1,5 @@
 package jhi.germinate.server.resource.importers;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.Delete;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
@@ -16,6 +8,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.restlet.data.Status;
+import org.restlet.resource.Delete;
+import org.restlet.resource.*;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
@@ -60,12 +58,11 @@ public class ImportJobResource extends BaseServerResource implements AsyncResour
 		if (StringUtils.isEmpty(jobUuid))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
 												 .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
-												 .fetchOneInto(DataImportJobsRecord.class);
+												 .fetchAnyInto(DataImportJobsRecord.class);
 
 			boolean isCancelRequest = record.getStatus() == DataImportJobsStatus.running;
 
@@ -98,11 +95,6 @@ public class ImportJobResource extends BaseServerResource implements AsyncResour
 				return true;
 			}
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Post("json")
@@ -114,8 +106,7 @@ public class ImportJobResource extends BaseServerResource implements AsyncResour
 		if (CollectionUtils.isEmpty(request.getUuids()) && (userDetails.getId() == -1000))
 			return new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectConditionStep<?> step = context.selectFrom(DATA_IMPORT_JOBS)
 												 .where(DATA_IMPORT_JOBS.VISIBILITY.eq(true));
@@ -127,11 +118,6 @@ public class ImportJobResource extends BaseServerResource implements AsyncResour
 
 			return step.orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
 					   .fetchInto(DataImportJobs.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

@@ -17,12 +17,12 @@
 
 package jhi.germinate.server.util;
 
+import ch.systemsx.cisd.hdf5.*;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import ch.systemsx.cisd.hdf5.*;
 
 /**
  * @author The Flapjack authors (https://ics.hutton.ac.uk/flapjack)

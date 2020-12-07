@@ -13,7 +13,7 @@ public class FlywayChecksumGenerator
 	public static void main(String[] args)
 		throws IOException
 	{
-		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.20.10.02__update.sql")));
+		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.20.10.30__update.sql")));
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class FlywayChecksumGenerator
 
 			// Add each line trimmed
 			for (String line; ((line = br.readLine()) != null); )
-				crc32.update(line.trim().getBytes(StandardCharsets.UTF_8));
+				crc32.update(line.strip().getBytes(StandardCharsets.UTF_8));
 
 			// Return value
 			return (int) crc32.getValue();

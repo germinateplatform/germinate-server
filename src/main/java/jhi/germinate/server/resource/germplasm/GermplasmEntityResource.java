@@ -1,13 +1,11 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.germinate.server.Database;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.*;
-
-import jhi.germinate.server.Database;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
@@ -32,8 +30,7 @@ public class GermplasmEntityResource extends ServerResource
 	@Post("json")
 	public List<Integer> postIds(Integer[] ids)
 	{
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			if (ids == null)
 				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
@@ -57,11 +54,6 @@ public class GermplasmEntityResource extends ServerResource
 			{
 				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

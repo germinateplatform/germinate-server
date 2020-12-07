@@ -54,8 +54,8 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.30.1'
     implementation 'ch.systems.cisd:jhdf5:14.12.0'
     implementation 'net.coobird:thumbnailator:0.4.8'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
     implementation 'org.jooq:jooq:3.11.10'
-    implementation 'org.jooq:jooq-codegen:3.11.10'
     implementation 'org.dhatim:fastexcel-reader:0.10.9'
     implementation 'com.drewnoakes:metadata-extractor:2.14.0'
     implementation 'xerces:xercesImpl:2.12.0'
@@ -70,9 +70,9 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 
     implementation 'org.flywaydb:flyway-core:6.3.3'
-    implementation 'com.squareup.okhttp3:okhttp:3.14.6'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
 
     providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
 }

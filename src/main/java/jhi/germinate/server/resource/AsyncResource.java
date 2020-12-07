@@ -1,9 +1,9 @@
 package jhi.germinate.server.resource;
 
+import jhi.germinate.server.ApplicationListener;
+
 import java.io.File;
 import java.nio.file.*;
-
-import jhi.germinate.server.ApplicationListener;
 
 /**
  * @author Sebastian Raubach

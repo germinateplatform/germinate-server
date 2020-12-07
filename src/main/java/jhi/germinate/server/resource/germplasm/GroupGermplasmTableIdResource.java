@@ -1,17 +1,14 @@
 package jhi.germinate.server.resource.germplasm;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.groups.GroupResource;
+import org.jooq.*;
+import org.restlet.resource.*;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -45,8 +42,7 @@ public class GroupGermplasmTableIdResource extends GermplasmBaseResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
@@ -66,11 +62,6 @@ public class GroupGermplasmTableIdResource extends GermplasmBaseResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

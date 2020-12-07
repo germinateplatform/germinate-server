@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.datasets.export;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -7,15 +11,7 @@ import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.File;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.*;
+import java.util.UUID;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
@@ -57,8 +53,7 @@ public class AsyncDatasetExportDownloadResource extends BaseServerResource
 		if (StringUtils.isEmpty(jobUuid))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS)
 													.where(DATASET_EXPORT_JOBS.UUID.eq(jobUuid))
@@ -93,11 +88,6 @@ public class AsyncDatasetExportDownloadResource extends BaseServerResource
 			disp.setSize(resultFile.length());
 			representation.setDisposition(disp);
 			return representation;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

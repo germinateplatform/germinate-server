@@ -1,12 +1,5 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
@@ -15,6 +8,11 @@ import jhi.germinate.server.database.codegen.tables.pojos.DatasetExportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import org.jooq.DSLContext;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
@@ -59,12 +57,11 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 		if (StringUtils.isEmpty(jobUuid))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS)
 													.where(DATASET_EXPORT_JOBS.UUID.in(jobUuid))
-													.fetchOneInto(DatasetExportJobsRecord.class);
+													.fetchAnyInto(DatasetExportJobsRecord.class);
 
 			boolean isCancelRequest = record.getStatus() == DatasetExportJobsStatus.running;
 
@@ -97,11 +94,6 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 				return true;
 			}
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Post("json")
@@ -113,8 +105,7 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 		if (CollectionUtils.isEmpty(request.getUuids()) && (userDetails.getId() == -1000))
 			return new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			return context.selectFrom(DATASET_EXPORT_JOBS)
 						  .where(DATASET_EXPORT_JOBS.UUID.in(request.getUuids())
@@ -122,11 +113,6 @@ public class AsyncDatasetExportResource extends BaseServerResource implements As
 						  .and(DATASET_EXPORT_JOBS.VISIBILITY.eq(true))
 						  .orderBy(DATASET_EXPORT_JOBS.UPDATED_ON.desc())
 						  .fetchInto(DatasetExportJobs.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

@@ -1,17 +1,15 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedPolygonRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.resource.locations.LocationPolygonTableResource;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.List;
-
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedPolygonRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.locations.LocationPolygonTableResource;
 
 /**
  * @author Sebastian Raubach
@@ -27,8 +25,7 @@ public class GermplasmPolygonTableIdResource extends GermplasmBaseResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectConditionStep<Record1<Integer>> from = getGermplasmIdQuery(context)
 				.where(DSL.field(LATITUDE).isNotNull()
@@ -43,11 +40,6 @@ public class GermplasmPolygonTableIdResource extends GermplasmBaseResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

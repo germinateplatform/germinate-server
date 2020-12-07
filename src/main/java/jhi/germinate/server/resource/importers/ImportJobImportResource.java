@@ -1,14 +1,12 @@
 package jhi.germinate.server.resource.importers;
 
+import jhi.germinate.resource.AsyncExportResult;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.StringUtils;
 import org.restlet.resource.*;
 
 import java.util.*;
-
-import jhi.germinate.resource.AsyncExportResult;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
-import jhi.germinate.server.resource.*;
-import jhi.germinate.server.util.StringUtils;
 
 /**
  * @author Sebastian Raubach

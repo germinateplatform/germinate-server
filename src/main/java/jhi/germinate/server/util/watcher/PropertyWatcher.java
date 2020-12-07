@@ -17,12 +17,6 @@
 
 package jhi.germinate.server.util.watcher;
 
-import org.apache.commons.io.monitor.*;
-
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-
 import jhi.germinate.resource.DataImportMode;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
@@ -30,6 +24,11 @@ import jhi.germinate.server.auth.AuthenticationMode;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.TokenResource;
 import jhi.germinate.server.util.*;
+import org.apache.commons.io.monitor.*;
+
+import java.io.*;
+import java.net.URL;
+import java.util.*;
 
 /**
  * {@link PropertyWatcher} is a wrapper around {@link Properties} to readAll properties.
@@ -211,7 +210,7 @@ public class PropertyWatcher
 	{
 		String value = properties.getProperty(property.getKey());
 
-		return StringUtils.isEmpty(value) ? property.getDefaultValue() : value;
+		return StringUtils.isEmpty(value) ? property.getDefaultValue() : value.strip();
 	}
 
 	/**
@@ -433,7 +432,7 @@ public class PropertyWatcher
 		{
 			for (String part : line.split(","))
 			{
-				part = part.trim();
+				part = part.strip();
 				if (type.equals(Integer.class))
 					result.add(type.cast(Integer.parseInt(part)));
 				else if (type.equals(String.class))
@@ -507,7 +506,7 @@ public class PropertyWatcher
 		{
 			for (String part : line.split(","))
 			{
-				part = part.trim();
+				part = part.strip();
 				if (type.equals(Integer.class))
 					result.add(type.cast(Integer.parseInt(part)));
 				else if (type.equals(String.class))

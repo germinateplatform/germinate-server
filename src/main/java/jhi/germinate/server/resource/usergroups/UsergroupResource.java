@@ -1,19 +1,17 @@
 package jhi.germinate.server.resource.usergroups;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Usergroups;
+import jhi.germinate.server.database.codegen.tables.records.UsergroupsRecord;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.StringUtils;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
+import java.sql.Timestamp;
 import java.util.Objects;
-import java.util.logging.*;
-
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.codegen.tables.pojos.Usergroups;
-import jhi.germinate.server.database.codegen.tables.records.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.StringUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
 
@@ -48,12 +46,11 @@ public class UsergroupResource extends BaseServerResource
 		if (!Objects.equals(group.getId(), groupId))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Id mismatch");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			UsergroupsRecord dbGroup = context.selectFrom(USERGROUPS)
 										  .where(USERGROUPS.ID.eq(groupId))
-										  .fetchOneInto(UsergroupsRecord.class);
+										  .fetchAnyInto(UsergroupsRecord.class);
 
 			if (dbGroup == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -65,11 +62,6 @@ public class UsergroupResource extends BaseServerResource
 			dbGroup.setDescription(group.getDescription());
 			return dbGroup.store(USERGROUPS.NAME, USERGROUPS.DESCRIPTION) == 1;
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Put("json")
@@ -79,8 +71,7 @@ public class UsergroupResource extends BaseServerResource
 		if (StringUtils.isEmpty(group.getName()) || group.getId() != null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			group.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			group.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
@@ -88,11 +79,6 @@ public class UsergroupResource extends BaseServerResource
 			UsergroupsRecord record = context.newRecord(USERGROUPS, group);
 			record.store();
 			return record.getId();
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 
@@ -103,23 +89,17 @@ public class UsergroupResource extends BaseServerResource
 		if (groupId == null)
 			throw new ResourceException(org.restlet.data.Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			UsergroupsRecord dbGroup = context.selectFrom(USERGROUPS)
 											  .where(USERGROUPS.ID.eq(groupId))
-											  .fetchOneInto(UsergroupsRecord.class);
+											  .fetchAnyInto(UsergroupsRecord.class);
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbGroup == null)
 				throw new ResourceException(org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND);
 			else
 				return dbGroup.delete() == 1;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

@@ -16,14 +16,13 @@
 
 package jhi.germinate.server.resource;
 
+import jhi.germinate.server.util.StringUtils;
 import org.restlet.data.Status;
 import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.File;
-
-import jhi.germinate.server.util.StringUtils;
 
 /**
  * {@link ServerResource} handling {@link ClientLocaleResource} requests.

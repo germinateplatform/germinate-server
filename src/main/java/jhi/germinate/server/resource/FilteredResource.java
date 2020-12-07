@@ -1,13 +1,12 @@
 package jhi.germinate.server.resource;
 
+import jhi.germinate.resource.Filter;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import jhi.germinate.resource.Filter;
-import jhi.germinate.server.util.*;
 
 /**
  * @author Sebastian Raubach
@@ -88,7 +87,7 @@ public interface FilteredResource
 		if (!CollectionUtils.isEmpty(filter.getValues()))
 			values = Arrays.stream(filter.getValues())
 									.filter(v -> !StringUtils.isEmpty(v))
-									.map(String::trim)
+									.map(String::strip)
 									.collect(Collectors.toList());
 
 		if (CollectionUtils.isEmpty(values))
@@ -151,7 +150,7 @@ public interface FilteredResource
 					// Otherwise, try and split the first one on commas and then use the individual entries
 					temp = Arrays.stream(first.split(","))
 								 .filter(v -> !StringUtils.isEmpty(v))
-								 .map(String::trim)
+								 .map(String::strip)
 								 .collect(Collectors.toList());
 				}
 

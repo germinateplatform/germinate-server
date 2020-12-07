@@ -1,17 +1,14 @@
 package jhi.germinate.server.resource.datasets;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.UnacceptedLicenseRequest;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import org.jooq.impl.DSL;
 import org.restlet.resource.*;
 
 import java.util.List;
 
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.UnacceptedLicenseRequest;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
-
-import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 
 /**

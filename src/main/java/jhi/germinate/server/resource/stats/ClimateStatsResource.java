@@ -1,23 +1,21 @@
 package jhi.germinate.server.resource.stats;
 
-import org.jooq.*;
-import org.jooq.impl.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.SubsettedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.jooq.impl.*;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
 import static jhi.germinate.server.database.codegen.tables.Climates.*;
@@ -49,8 +47,7 @@ public class ClimateStatsResource extends SubsettedServerResource
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// All climates within the selected datasets
 			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_CLIMATES)
@@ -200,11 +197,6 @@ public class ClimateStatsResource extends SubsettedServerResource
 			result.setClimates(climates);
 
 			return result;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 

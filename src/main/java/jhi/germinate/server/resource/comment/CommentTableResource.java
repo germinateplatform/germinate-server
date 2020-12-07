@@ -1,12 +1,5 @@
 package jhi.germinate.server.resource.comment;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
@@ -14,6 +7,10 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableComments;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.PaginatedServerResource;
+import org.jooq.*;
+import org.restlet.resource.Post;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableComments.*;
 
@@ -26,8 +23,7 @@ public class CommentTableResource extends PaginatedServerResource
 	public PaginatedResult<List<ViewTableComments>> getJson(PaginatedRequest request)
 	{
 		processRequest(request);
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectSelectStep<Record> select = context.select();
 
@@ -53,11 +49,6 @@ public class CommentTableResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

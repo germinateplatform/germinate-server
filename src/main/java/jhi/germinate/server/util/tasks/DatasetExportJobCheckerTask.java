@@ -17,15 +17,14 @@
 
 package jhi.germinate.server.util.tasks;
 
-import org.jooq.DSLContext;
-
-import java.io.File;
-import java.sql.*;
-
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.CollectionUtils;
+import org.jooq.DSLContext;
+
+import java.io.File;
+import java.sql.SQLException;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
@@ -34,8 +33,7 @@ public class DatasetExportJobCheckerTask implements Runnable
 	@Override
 	public void run()
 	{
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			context.selectFrom(DATASET_EXPORT_JOBS)
 				   .where(DATASET_EXPORT_JOBS.STATUS.notEqual(DatasetExportJobsStatus.completed))
@@ -64,10 +62,6 @@ public class DatasetExportJobCheckerTask implements Runnable
 						   e.printStackTrace();
 					   }
 				   });
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 	}
 }

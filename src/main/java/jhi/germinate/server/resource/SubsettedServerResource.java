@@ -1,12 +1,11 @@
 package jhi.germinate.server.resource;
 
+import jhi.germinate.resource.SubsettedDatasetRequest;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
 import org.jooq.impl.TableImpl;
 
 import java.util.*;
-
-import jhi.germinate.resource.SubsettedDatasetRequest;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 

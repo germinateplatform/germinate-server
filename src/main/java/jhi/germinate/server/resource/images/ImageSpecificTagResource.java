@@ -1,15 +1,5 @@
 package jhi.germinate.server.resource.images;
 
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.io.IOException;
-import java.sql.*;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.ImageTagModificationRequest;
 import jhi.germinate.server.Database;
@@ -18,6 +8,15 @@ import jhi.germinate.server.database.codegen.tables.pojos.Imagetags;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.CollectionUtils;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.ImageToTags.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
@@ -52,8 +51,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 		if (imageId == null || request == null || request.getTags() == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// Make sure the image exists
 			ImagesRecord image = context.selectFrom(IMAGES)
@@ -65,7 +63,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 
 			List<String> tags = Arrays.stream(request.getTags())
 									  .filter(Objects::nonNull)
-									  .map(String::trim)
+									  .map(String::strip)
 									  .collect(Collectors.toList());
 
 			if (request.isAddition())
@@ -111,7 +109,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 					   .execute();
 			}
 		}
-		catch (SQLException | IOException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
@@ -126,8 +124,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 		if (imageId == null || tags == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// Make sure the image exists
 			ImagesRecord image = context.selectFrom(IMAGES)
@@ -140,7 +137,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 			// Get the new tags, exclude null and trim them all
 			List<String> newTags = Arrays.stream(tags)
 										 .filter(Objects::nonNull)
-										 .map(String::trim)
+										 .map(String::strip)
 										 .collect(Collectors.toList());
 
 			// Get the existing tags from the database
@@ -172,11 +169,6 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 			newTags.forEach(t -> step.values(imageId, idMapping.get(t)));
 			step.execute();
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Get("json")
@@ -185,8 +177,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 		if (imageId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing image id");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectSelectStep<Record> select = context.select();
 
@@ -204,11 +195,6 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

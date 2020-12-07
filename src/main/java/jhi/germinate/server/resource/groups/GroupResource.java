@@ -1,15 +1,5 @@
 package jhi.germinate.server.resource.groups;
 
-import org.jooq.*;
-import org.jooq.impl.TableImpl;
-import org.restlet.*;
-import org.restlet.data.Status;
-import org.restlet.resource.Delete;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.GroupModificationRequest;
 import jhi.germinate.server.Database;
@@ -18,6 +8,15 @@ import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.StringUtils;
+import org.jooq.*;
+import org.jooq.impl.TableImpl;
+import org.restlet.*;
+import org.restlet.data.Status;
+import org.restlet.resource.Delete;
+import org.restlet.resource.*;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
@@ -51,13 +50,12 @@ public class GroupResource extends PaginatedServerResource
 		if (groupId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Groups group = context.selectFrom(GROUPS)
 								  .where(GROUPS.ID.eq(groupId))
 								  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-								  .fetchOneInto(Groups.class);
+								  .fetchAnyInto(Groups.class);
 
 			if (group == null)
 				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
@@ -90,11 +88,6 @@ public class GroupResource extends PaginatedServerResource
 							  .execute();
 			}
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	public static void checkGroupVisibility(DSLContext context, CustomVerifier.UserDetails userDetails, Integer groupId) {
@@ -105,7 +98,7 @@ public class GroupResource extends PaginatedServerResource
 							  .where(GROUPS.ID.eq(groupId))
 							  .and(GROUPS.VISIBILITY.eq(true)
 													.or(GROUPS.CREATED_BY.eq(userDetails.getId())))
-							  .fetchOneInto(Groups.class);
+							  .fetchAnyInto(Groups.class);
 
 		if (group == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -122,7 +115,7 @@ public class GroupResource extends PaginatedServerResource
 							  .where(GROUPS.ID.eq(groupId))
 							  .and(GROUPS.VISIBILITY.eq(true)
 													.or(GROUPS.CREATED_BY.eq(userDetails.getId())))
-							  .fetchOneInto(Groups.class);
+							  .fetchAnyInto(Groups.class);
 
 		if (group == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -153,24 +146,18 @@ public class GroupResource extends PaginatedServerResource
 		if (groupId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			GroupsRecord dbGroup = context.selectFrom(GROUPS)
 										  .where(GROUPS.ID.eq(groupId))
 										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-										  .fetchOneInto(GroupsRecord.class);
+										  .fetchAnyInto(GroupsRecord.class);
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbGroup == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 			else
 				return dbGroup.delete() == 1;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 
@@ -185,13 +172,12 @@ public class GroupResource extends PaginatedServerResource
 		if (!Objects.equals(group.getId(), groupId))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "Id mismatch");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			GroupsRecord dbGroup = context.selectFrom(GROUPS)
 										  .where(GROUPS.ID.eq(groupId))
 										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-										  .fetchOneInto(GroupsRecord.class);
+										  .fetchAnyInto(GroupsRecord.class);
 
 			if (dbGroup == null)
 				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -206,11 +192,6 @@ public class GroupResource extends PaginatedServerResource
 			dbGroup.setDescription(group.getDescription());
 			return dbGroup.store() == 1;
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Put("json")
@@ -224,8 +205,7 @@ public class GroupResource extends PaginatedServerResource
 		if (StringUtils.isEmpty(group.getName()) || group.getGrouptypeId() == null || group.getId() != null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			group.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			group.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
@@ -234,11 +214,6 @@ public class GroupResource extends PaginatedServerResource
 			record.store();
 			return record.getId();
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Get("json")
@@ -246,8 +221,7 @@ public class GroupResource extends PaginatedServerResource
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectSelectStep<Record> select = context.select();
 
@@ -269,11 +243,6 @@ public class GroupResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

@@ -1,13 +1,12 @@
 package jhi.germinate.server.resource.settings;
 
+import jhi.germinate.server.resource.BaseServerResource;
 import org.restlet.data.Status;
 import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.File;
-
-import jhi.germinate.server.resource.BaseServerResource;
 
 /**
  * @author Sebastian Raubach

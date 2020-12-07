@@ -1,19 +1,18 @@
 package jhi.germinate.server.resource.images;
 
-import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.io.File;
-import java.sql.*;
-import java.util.Objects;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.DSLContext;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 
@@ -46,8 +45,7 @@ public class ImageResource extends ServerResource
 		if (imageId == null || imageToPatch == null || !Objects.equals(imageId, imageToPatch.getImageId()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			ImagesRecord image = context.selectFrom(IMAGES)
 										.where(IMAGES.ID.eq(imageId))
@@ -60,11 +58,6 @@ public class ImageResource extends ServerResource
 			image.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			return image.store() > 0;
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Delete
@@ -74,8 +67,7 @@ public class ImageResource extends ServerResource
 		if (imageId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			ImagesRecord image = context.selectFrom(IMAGES)
 										.where(IMAGES.ID.eq(imageId))
@@ -93,11 +85,6 @@ public class ImageResource extends ServerResource
 				small.delete();
 
 			return image.delete() > 0;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

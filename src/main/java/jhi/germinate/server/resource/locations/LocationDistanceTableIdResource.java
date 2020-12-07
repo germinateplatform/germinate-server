@@ -1,16 +1,14 @@
 package jhi.germinate.server.resource.locations;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedLocationRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.resource.PaginatedServerResource;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.List;
-
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
 
@@ -28,8 +26,7 @@ public class LocationDistanceTableIdResource extends PaginatedServerResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectJoinStep<? extends Record> from = context.selectDistinct(VIEW_TABLE_LOCATIONS.LOCATION_ID)
 														   .from(VIEW_TABLE_LOCATIONS);
@@ -45,11 +42,6 @@ public class LocationDistanceTableIdResource extends PaginatedServerResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

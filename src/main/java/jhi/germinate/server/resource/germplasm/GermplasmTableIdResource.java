@@ -1,19 +1,16 @@
 package jhi.germinate.server.resource.germplasm;
 
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.sql.*;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.resource.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
@@ -41,8 +38,7 @@ public class GermplasmTableIdResource extends GermplasmBaseResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQuery(context);
 
@@ -70,11 +66,6 @@ public class GermplasmTableIdResource extends GermplasmBaseResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

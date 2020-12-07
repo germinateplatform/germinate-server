@@ -1,5 +1,10 @@
 package jhi.germinate.server.util.async;
 
+import jhi.flapjack.io.FlapjackFile;
+import jhi.flapjack.io.cmd.*;
+import jhi.germinate.server.util.Hdf5ToFJTabbedConverter;
+import jhi.germinate.server.util.*;
+
 import java.io.*;
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -7,11 +12,6 @@ import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import jhi.flapjack.io.FlapjackFile;
-import jhi.flapjack.io.cmd.*;
-import jhi.germinate.server.util.Hdf5ToFJTabbedConverter;
-import jhi.germinate.server.util.*;
 
 /**
  * @author Sebastian Raubach

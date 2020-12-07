@@ -1,17 +1,5 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.sql.*;
-import java.util.Date;
-import java.util.*;
-
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
@@ -20,6 +8,16 @@ import jhi.germinate.server.database.codegen.tables.records.DatasetaccesslogsRec
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+import org.jooq.DSLContext;
+import org.restlet.data.Status;
+import org.restlet.data.*;
+import org.restlet.representation.FileRepresentation;
+import org.restlet.resource.*;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
 
@@ -49,8 +47,7 @@ public class TrialExportResource extends BaseServerResource
 		{
 			File file = createTempFile("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + getFormattedDateTime(new Date()), ".tsv");
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				String traitIdString = CollectionUtils.join(request.getxIds(), ",");
@@ -81,7 +78,7 @@ public class TrialExportResource extends BaseServerResource
 					access.store();
 				}
 			}
-			catch (SQLException | IOException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

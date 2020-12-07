@@ -1,20 +1,15 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.resource.GermplasmStats;
-import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.codegen.tables.Phenotypedata;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.jooq.impl.*;
-import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -45,8 +40,7 @@ public class GermplasmTraitStatsResource extends BaseServerResource
 	{
 		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse(), true);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Phenotypedata p = PHENOTYPEDATA.as("p");
 
@@ -83,11 +77,6 @@ public class GermplasmTraitStatsResource extends BaseServerResource
 						  .groupBy(PHENOTYPES.ID)
 						  .orderBy(PHENOTYPES.NAME)
 						  .fetchInto(GermplasmStats.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

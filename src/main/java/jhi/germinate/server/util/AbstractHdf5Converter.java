@@ -1,10 +1,10 @@
 package jhi.germinate.server.util;
 
+import ch.systemsx.cisd.hdf5.*;
+
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import ch.systemsx.cisd.hdf5.*;
 
 /**
  * @author Sebastian Raubach

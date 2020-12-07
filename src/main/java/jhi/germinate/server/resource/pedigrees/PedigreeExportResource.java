@@ -1,5 +1,10 @@
 package jhi.germinate.server.resource.pedigrees;
 
+import jhi.germinate.resource.PedigreeRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
@@ -9,14 +14,7 @@ import org.restlet.resource.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.*;
 import java.util.*;
-
-import jhi.germinate.resource.PedigreeRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -40,8 +38,7 @@ public class PedigreeExportResource extends BaseServerResource
 		{
 			File file = createTempFile("pedigree", "helium");
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				Map<String, List<ViewTablePedigreesRecord>> parentToChildren = new HashMap<>();
@@ -67,11 +64,6 @@ public class PedigreeExportResource extends BaseServerResource
 					   });
 
 				export(context, bw, parentToChildren, childrenToParents, request);
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 
 			representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);

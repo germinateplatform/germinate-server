@@ -1,18 +1,5 @@
 package jhi.germinate.server;
 
-import org.restlet.*;
-import org.restlet.data.*;
-import org.restlet.engine.application.*;
-import org.restlet.resource.ServerResource;
-import org.restlet.routing.*;
-import org.restlet.security.*;
-import org.restlet.service.EncoderService;
-import org.restlet.util.Series;
-
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-
 import jhi.germinate.brapi.server.Brapi;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.CustomVerifier;
@@ -45,6 +32,17 @@ import jhi.germinate.server.resource.traits.*;
 import jhi.germinate.server.resource.usergroups.*;
 import jhi.germinate.server.resource.users.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.restlet.*;
+import org.restlet.data.*;
+import org.restlet.engine.application.*;
+import org.restlet.resource.ServerResource;
+import org.restlet.routing.*;
+import org.restlet.security.*;
+import org.restlet.service.EncoderService;
+import org.restlet.util.Series;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * @author Sebastian Raubach
@@ -62,7 +60,7 @@ public class Germinate extends Application
 	{
 		// Set information about API
 		setName("Germinate Server");
-		setDescription("This is the server implementation for the Germinate");
+		setDescription("This is the server implementation for Germinate");
 		setOwner("The James Hutton Institute");
 		setAuthor("Sebastian Raubach, Information & Computational Sciences");
 
@@ -307,7 +305,6 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/stats/taxonomy", TaxonomyStatsResource.class);
 
 		// SETTINGS
-		attachToRouter(routerAuth, "/settings/write", SettingsWriterResource.class);
 		attachToRouter(routerAuth, "/settings/file", SettingsFileResource.class);
 
 		// TRAITS

@@ -1,11 +1,5 @@
 package jhi.germinate.server.resource.gatekeeper;
 
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.io.IOException;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.Institutions;
 import jhi.germinate.resource.enums.ServerProperty;
@@ -13,7 +7,12 @@ import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
 import retrofit2.Response;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author Sebastian Raubach

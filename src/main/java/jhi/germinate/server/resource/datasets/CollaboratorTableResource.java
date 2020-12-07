@@ -1,18 +1,15 @@
 package jhi.germinate.server.resource.datasets;
 
-import jhi.germinate.server.database.codegen.tables.pojos.*;
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.CollectionUtils;
+import org.jooq.*;
+import org.restlet.resource.*;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableCollaborators.*;
 
@@ -42,8 +39,7 @@ public class CollaboratorTableResource extends PaginatedServerResource
 	public PaginatedResult<List<ViewTableCollaborators>> getJson(PaginatedRequest request)
 	{
 		processRequest(request);
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetForId(datasetId, getRequest(), getResponse(), false);
 
@@ -73,11 +69,6 @@ public class CollaboratorTableResource extends PaginatedServerResource
 			{
 				return new PaginatedResult<>(new ArrayList<>(), 0);
 			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

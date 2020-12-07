@@ -1,15 +1,12 @@
 package jhi.germinate.server.resource.license;
 
-import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.DSLContext;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
 
 import static jhi.germinate.server.database.codegen.tables.Licenselogs.*;
 
@@ -46,18 +43,12 @@ public class LicenseDecisionResource extends ServerResource
 
 		if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
 		{
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn))
+			try (DSLContext context = Database.getContext())
 			{
 				context.insertInto(LICENSELOGS)
 					   .set(LICENSELOGS.LICENSE_ID, licenseId)
 					   .set(LICENSELOGS.USER_ID, userDetails.getId())
 					   .execute();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 		}
 		else

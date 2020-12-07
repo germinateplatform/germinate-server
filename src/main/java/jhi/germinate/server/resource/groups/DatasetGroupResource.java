@@ -1,13 +1,5 @@
 package jhi.germinate.server.resource.groups;
 
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
@@ -15,6 +7,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
 import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
@@ -45,8 +43,7 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Field<Integer> count = DSL.countDistinct(GROUPMEMBERS.FOREIGN_ID).as("count");
 			SelectSelectStep<? extends Record> step = context.selectDistinct(
@@ -94,11 +91,6 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 			{
 				return new ArrayList<>();
 			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 

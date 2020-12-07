@@ -1,20 +1,16 @@
 package jhi.germinate.server.resource.traits;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedDatasetRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedDatasetRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableTrialsData.*;
 
@@ -44,8 +40,7 @@ public class TrialsDataTableIdResource extends PaginatedServerResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_TRIALS_DATA.GERMPLASM_ID)
 														   .from(VIEW_TABLE_TRIALS_DATA);
@@ -60,11 +55,6 @@ public class TrialsDataTableIdResource extends PaginatedServerResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

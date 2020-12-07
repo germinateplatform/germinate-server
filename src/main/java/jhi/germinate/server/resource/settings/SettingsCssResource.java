@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.settings;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.Get;
@@ -8,11 +12,6 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach

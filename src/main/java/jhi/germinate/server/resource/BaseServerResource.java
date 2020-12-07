@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.restlet.resource.ServerResource;
 
@@ -8,10 +11,6 @@ import java.net.*;
 import java.text.*;
 import java.util.*;
 import java.util.stream.*;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach

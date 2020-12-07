@@ -1,27 +1,26 @@
 package jhi.germinate.server.gatekeeper;
 
-import jhi.germinate.server.util.*;
-import org.restlet.data.Status;
-import org.restlet.resource.ResourceException;
-
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.logging.Logger;
-
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.AuthenticationMode;
+import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import okhttp3.*;
+import org.restlet.data.Status;
+import org.restlet.resource.ResourceException;
 import retrofit2.Response;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.logging.Logger;
 
 /**
  * @author Sebastian Raubach
@@ -36,12 +35,18 @@ public class GatekeeperClient
 	private static Token  token;
 
 	private static final ConcurrentHashMap<Integer, ViewUserDetails> users = new ConcurrentHashMap<>();
-	private static Retrofit                                    retrofit;
+	private static       Retrofit                                    retrofit;
+	private static       OkHttpClient                                httpClient;
+	private static       ConnectionPool                              connectionPool;
 
 	public static void init(String url, String username, String password)
 	{
-		if (StringUtils.isEmpty(url) || StringUtils.isEmpty(username))
+		if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) == AuthenticationMode.NONE
+			|| StringUtils.isEmpty(url)
+			|| StringUtils.isEmpty(username))
+		{
 			return;
+		}
 
 		if (!url.endsWith("/"))
 			url += "/";
@@ -52,6 +57,8 @@ public class GatekeeperClient
 		GatekeeperClient.url = url;
 		GatekeeperClient.username = username;
 		GatekeeperClient.password = password;
+
+		connectionPool = new ConnectionPool(3, 1, TimeUnit.MINUTES);
 
 		try
 		{
@@ -66,11 +73,13 @@ public class GatekeeperClient
 
 	private static void reset()
 	{
-		OkHttpClient httpClient = new OkHttpClient.Builder()
+		close();
+		httpClient = new OkHttpClient.Builder()
 			.readTimeout(1, TimeUnit.MINUTES)
 			.callTimeout(1, TimeUnit.MINUTES)
 			.connectTimeout(1, TimeUnit.MINUTES)
 			.writeTimeout(1, TimeUnit.MINUTES)
+			.connectionPool(connectionPool)
 			.retryOnConnectionFailure(true)
 			.build();
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
@@ -99,11 +108,13 @@ public class GatekeeperClient
 			return;
 		}
 
+		close();
 		httpClient = (new OkHttpClient.Builder())
 			.readTimeout(1, TimeUnit.MINUTES)
 			.callTimeout(1, TimeUnit.MINUTES)
 			.connectTimeout(1, TimeUnit.MINUTES)
 			.writeTimeout(1, TimeUnit.MINUTES)
+			.connectionPool(connectionPool)
 			.retryOnConnectionFailure(true)
 			.addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
 														.addHeader("Authorization", "Bearer " + token.getToken())
@@ -187,7 +198,7 @@ public class GatekeeperClient
 		{
 			return null;
 		}
-		else if (users == null || users.size() < 1)
+		else if (users.size() < 1)
 		{
 			if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) != AuthenticationMode.NONE)
 			{
@@ -216,5 +227,22 @@ public class GatekeeperClient
 	public static List<ViewUserDetails> getUsers()
 	{
 		return new ArrayList<>(users.values());
+	}
+
+	public static void close()
+	{
+		if (httpClient != null && !httpClient.dispatcher().executorService().isTerminated())
+		{
+			try
+			{
+				httpClient.dispatcher().executorService().shutdown();
+				httpClient.connectionPool().evictAll();
+				httpClient.cache().close();
+			}
+			catch (Exception e)
+			{
+				// Ignore exceptions here
+			}
+		}
 	}
 }

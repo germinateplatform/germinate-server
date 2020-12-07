@@ -1,18 +1,14 @@
 package jhi.germinate.server.resource.markers;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMapdefinitions;
 import jhi.germinate.server.resource.PaginatedServerResource;
+import org.jooq.*;
+import org.restlet.resource.Post;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableMapdefinitions.*;
 
@@ -29,8 +25,7 @@ public class MapMarkerDefinitionTableIdResource extends PaginatedServerResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectSelectStep<Record1<Integer>> select = context.selectDistinct(VIEW_TABLE_MAPDEFINITIONS.MARKER_ID);
 
@@ -47,11 +42,6 @@ public class MapMarkerDefinitionTableIdResource extends PaginatedServerResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

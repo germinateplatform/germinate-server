@@ -16,8 +16,8 @@
 
 package jhi.germinate.server.auth;
 
-import java.io.*;
-import java.security.*;
+import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 
 /**
  * BCrypt implements OpenBSD-style Blowfish password hashing using

@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource.stats;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.resource.BaseServerResource;
 import org.jooq.*;
 import org.jooq.impl.TableImpl;
 import org.restlet.data.*;
@@ -8,10 +10,6 @@ import org.restlet.resource.ResourceException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.*;
-
-import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.BaseServerResource;
 
 /**
  * @author Sebastian Raubach
@@ -25,15 +23,14 @@ public class StatsResource extends BaseServerResource
 		{
 			File file = createTempFile(filename, ".tsv");
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				Result<? extends Record> result = context.selectFrom(table)
 														 .fetch();
 				exportToFile(bw, result, true, null);
 			}
-			catch (SQLException | IOException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

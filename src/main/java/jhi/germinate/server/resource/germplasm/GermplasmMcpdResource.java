@@ -1,15 +1,12 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.germinate.resource.ViewMcpd;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.Germinatebase;
 import org.jooq.DSLContext;
 import org.jooq.impl.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
-
-import java.sql.*;
-
-import jhi.germinate.resource.ViewMcpd;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.Germinatebase;
 
 import static jhi.germinate.server.database.codegen.tables.Attributedata.*;
 import static jhi.germinate.server.database.codegen.tables.Attributes.*;
@@ -51,8 +48,7 @@ public class GermplasmMcpdResource extends ServerResource
 		if (germplasmId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Germinatebase g = GERMINATEBASE.as("g");
 			Germinatebase p = GERMINATEBASE.as("p");
@@ -122,12 +118,7 @@ public class GermplasmMcpdResource extends ServerResource
 						  .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(g.ENTITYTYPE_ID))
 						  .where(g.ID.eq(germplasmId))
 						  .groupBy(g.ID, PEDIGREEDEFINITIONS.ID)
-						  .fetchOneInto(ViewMcpd.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+						  .fetchAnyInto(ViewMcpd.class);
 		}
 	}
 }

@@ -1,19 +1,17 @@
 package jhi.germinate.server.resource.climates;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedDatasetRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimateData;
+import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.*;
-
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedDatasetRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.resource.PaginatedServerResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableClimateData.*;
 
@@ -41,8 +39,7 @@ public class ClimateDataTableResource extends PaginatedServerResource
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		processRequest(request);
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectSelectStep<Record> select = context.select();
 
@@ -63,11 +60,6 @@ public class ClimateDataTableResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

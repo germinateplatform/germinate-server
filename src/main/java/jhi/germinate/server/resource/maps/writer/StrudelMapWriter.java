@@ -1,14 +1,12 @@
 package jhi.germinate.server.resource.maps.writer;
 
-import org.jooq.Record;
-
-import java.io.*;
-import java.util.*;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.Record;
+
+import java.io.*;
 
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.*;

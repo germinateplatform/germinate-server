@@ -1,11 +1,11 @@
 package jhi.germinate.server.util.tasks;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.logging.*;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach

@@ -19,18 +19,16 @@ package jhi.germinate.server.util.tasks;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
 import jhi.germinate.server.database.pojo.ImportResult;
+import jhi.germinate.server.resource.BaseServerResource;
 import org.jooq.DSLContext;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
-
-import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
-import jhi.germinate.server.resource.BaseServerResource;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
@@ -39,8 +37,7 @@ public class DatasetImportJobCheckerTask implements Runnable
 	@Override
 	public void run()
 	{
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			context.selectFrom(DATA_IMPORT_JOBS)
 				   .where(DATA_IMPORT_JOBS.STATUS.notEqual(DataImportJobsStatus.completed))
@@ -90,10 +87,6 @@ public class DatasetImportJobCheckerTask implements Runnable
 						   e.printStackTrace();
 					   }
 				   });
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 	}
 }

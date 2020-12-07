@@ -1,15 +1,5 @@
 package jhi.germinate.server.resource.news;
 
-import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.sql.*;
-import java.util.*;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
@@ -18,6 +8,15 @@ import jhi.germinate.server.database.codegen.tables.records.NewsRecord;
 import jhi.germinate.server.resource.images.ImageSourceResource;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.DSLContext;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.News.*;
 
@@ -50,8 +49,7 @@ public class NewsResource extends ServerResource
 		if (newsId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			NewsRecord news = context.selectFrom(NEWS)
 				   .where(NEWS.ID.eq(newsId))
@@ -75,11 +73,6 @@ public class NewsResource extends ServerResource
 
 			return false;
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Post
@@ -91,8 +84,7 @@ public class NewsResource extends ServerResource
 
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// Check if there's a base64 image to save
 			String base64 = newsItem.getImage();
@@ -136,7 +128,7 @@ public class NewsResource extends ServerResource
 			NewsRecord record = context.newRecord(NEWS, newsItem);
 			return record.store() > 0;
 		}
-		catch (SQLException | IOException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

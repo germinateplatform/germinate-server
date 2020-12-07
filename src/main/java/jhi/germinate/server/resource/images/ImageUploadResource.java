@@ -1,15 +1,5 @@
 package jhi.germinate.server.resource.images;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.representation.Representation;
-import org.restlet.resource.*;
-
-import java.io.File;
-import java.sql.*;
-import java.util.Date;
-import java.util.*;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
@@ -18,6 +8,14 @@ import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.importers.FileUploadHandler;
 import jhi.germinate.server.util.ExifUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.*;
+import org.restlet.data.Status;
+import org.restlet.representation.Representation;
+import org.restlet.resource.*;
+
+import java.io.File;
+import java.sql.Timestamp;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -63,8 +61,7 @@ public class ImageUploadResource extends BaseServerResource
 		if (foreignId == null || referenceTable == null || entity == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
 												.where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
@@ -117,11 +114,6 @@ public class ImageUploadResource extends BaseServerResource
 			}
 
 			return counter > 0;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

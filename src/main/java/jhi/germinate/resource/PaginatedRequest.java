@@ -1,6 +1,6 @@
 package jhi.germinate.resource;
 
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * @author Sebastian Raubach

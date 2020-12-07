@@ -1,20 +1,17 @@
 package jhi.germinate.server.resource.traits;
 
+import jhi.germinate.resource.DatasetRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import jhi.germinate.resource.DatasetRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
@@ -41,8 +38,7 @@ public class DatasetTraitResource extends BaseServerResource implements Filtered
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			return context.select(
 				PHENOTYPES.ID.as(VIEW_TABLE_TRAITS.TRAIT_ID.getName()),
@@ -66,11 +62,6 @@ public class DatasetTraitResource extends BaseServerResource implements Filtered
 											   .limit(1)))
 						  .orderBy(PHENOTYPES.NAME)
 						  .fetchInto(ViewTableTraits.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

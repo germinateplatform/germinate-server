@@ -1,5 +1,11 @@
 package jhi.germinate.server.resource.images;
 
+import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
+import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -10,18 +16,9 @@ import java.io.*;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
-import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 import java.util.logging.*;
-
-import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
-import jhi.germinate.server.resource.PaginatedServerResource;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
 
@@ -54,8 +51,7 @@ public class ImageTableExportResource extends PaginatedServerResource
 			env.put("create", "true");
 			env.put("encoding", "UTF-8");
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 FileSystem fs = FileSystems.newFileSystem(uri, env, null))
 			{
 				SelectJoinStep<Record> from = context.select().from(VIEW_TABLE_IMAGES);
@@ -107,11 +103,6 @@ public class ImageTableExportResource extends PaginatedServerResource
 							}
 						}
 					});
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				throw new ResourceException(org.restlet.data.Status.SERVER_ERROR_INTERNAL);
 			}
 
 			representation = new FileRepresentation(zipFile, MediaType.APPLICATION_ZIP);

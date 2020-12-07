@@ -16,12 +16,11 @@
 
 package jhi.germinate.server.resource.settings;
 
-import org.restlet.resource.*;
-
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.AuthenticationMode;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.restlet.resource.*;
 
 /**
  * {@link ServerResource} handling {@link SettingsResource} requests.

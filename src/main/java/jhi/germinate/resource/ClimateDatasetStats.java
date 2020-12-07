@@ -1,8 +1,8 @@
 package jhi.germinate.resource;
 
-import java.util.*;
-
 import jhi.germinate.server.database.codegen.tables.pojos.*;
+
+import java.util.*;
 
 /**
  * @author Sebastian Raubach

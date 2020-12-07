@@ -1,5 +1,12 @@
 package jhi.germinate.server.resource.fileresource;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
+import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.resource.importers.FileUploadHandler;
+import jhi.germinate.server.util.StringUtils;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -8,19 +15,9 @@ import org.restlet.resource.*;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.*;
+import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.logging.Logger;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
-import jhi.germinate.server.database.codegen.tables.records.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.resource.importers.FileUploadHandler;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
 import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
@@ -54,8 +51,7 @@ public class FileResourceResource extends BaseServerResource
 		if (fileResourceId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			FileresourcesRecord fileResource = context.selectFrom(FILERESOURCES)
 													  .where(FILERESOURCES.ID.eq(fileResourceId))
@@ -78,11 +74,6 @@ public class FileResourceResource extends BaseServerResource
 
 			return false;
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Get
@@ -91,8 +82,7 @@ public class FileResourceResource extends BaseServerResource
 		if (fileResourceId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			FileresourcesRecord record = context.selectFrom(FILERESOURCES)
 												.where(FILERESOURCES.ID.eq(fileResourceId))
@@ -132,11 +122,6 @@ public class FileResourceResource extends BaseServerResource
 			representation.setDisposition(disp);
 			return representation;
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@Put
@@ -146,8 +131,7 @@ public class FileResourceResource extends BaseServerResource
 		if (fileResource == null || fileResource.getFileresourceId() != null || fileResource.getFileresourcetypeId() == null || StringUtils.isEmpty(fileResource.getFileresourcePath()) || StringUtils.isEmpty(fileResource.getFileresourceName()))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			FileresourcetypesRecord type = context.selectFrom(FILERESOURCETYPES)
 												  .where(FILERESOURCETYPES.ID.eq(fileResource.getFileresourcetypeId()))
@@ -187,11 +171,6 @@ public class FileResourceResource extends BaseServerResource
 			record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			return record.store() > 0;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 

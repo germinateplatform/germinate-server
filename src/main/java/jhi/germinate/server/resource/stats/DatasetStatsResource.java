@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.stats;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.StringUtils;
 import org.jooq.*;
 import org.jooq.impl.*;
 import org.restlet.data.Status;
@@ -10,13 +14,7 @@ import org.restlet.resource.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.sql.*;
 import java.util.*;
-
-import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.StringUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetmeta.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
@@ -40,8 +38,7 @@ public class DatasetStatsResource extends BaseServerResource
 			File file = createTempFile("datasets", ".tsv");
 			boolean hasResult = false;
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				Set<String> years = new TreeSet<>();
@@ -104,11 +101,6 @@ public class DatasetStatsResource extends BaseServerResource
 
 					bw.write(CRLF);
 				}
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 
 			if (hasResult)

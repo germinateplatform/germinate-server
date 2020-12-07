@@ -1,14 +1,5 @@
 package jhi.germinate.server.resource.users;
 
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.UserGroupModificationRequest;
 import jhi.germinate.server.Database;
@@ -16,6 +7,13 @@ import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.codegen.tables.records.UsergroupmembersRecord;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.resource.BaseServerResource;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
 
@@ -48,8 +46,7 @@ public class UserResource extends BaseServerResource
 		if (request == null || this.groupId == null || this.groupId != request.getUserGroupId() || request.isAddOperation() == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			if (request.isAddOperation())
 			{
@@ -72,11 +69,6 @@ public class UserResource extends BaseServerResource
 							  .execute() > 0;
 			}
 		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-		}
 	}
 
 	@MinUserType(UserType.ADMIN)
@@ -89,8 +81,7 @@ public class UserResource extends BaseServerResource
 		}
 		else
 		{
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn))
+			try (DSLContext context = Database.getContext())
 			{
 				List<ViewUserDetails> result = context.select(
 					USERGROUPMEMBERS.USER_ID.as("id"),
@@ -107,11 +98,6 @@ public class UserResource extends BaseServerResource
 							 .map(r -> GatekeeperClient.getUser(r.getId()))
 							 .filter(Objects::nonNull)
 							 .collect(Collectors.toList());
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 		}
 	}

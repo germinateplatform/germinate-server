@@ -1,17 +1,14 @@
 package jhi.germinate.server.resource.datasets;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
+import org.jooq.*;
+import org.restlet.resource.Post;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
 import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
@@ -36,8 +33,7 @@ public class DatasetTableIdResource extends PaginatedServerResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectSelectStep<Record1<Integer>> select = context.selectDistinct(VIEW_TABLE_DATASETS.DATASET_ID);
 
@@ -63,11 +59,6 @@ public class DatasetTableIdResource extends PaginatedServerResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

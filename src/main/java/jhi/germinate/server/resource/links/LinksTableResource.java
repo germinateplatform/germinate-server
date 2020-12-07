@@ -1,18 +1,16 @@
 package jhi.germinate.server.resource.links;
 
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.germinate.resource.LinkRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLinks;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -32,8 +30,7 @@ public class LinksTableResource extends BaseServerResource
 		if (request == null || StringUtils.isEmpty(request.getTargetTable()) || request.getForeignId() == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "'targetTable' and 'foreignId' must be specified.");
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			List<ViewTableLinks> result = context.selectFrom(VIEW_TABLE_LINKS)
 												 .where(VIEW_TABLE_LINKS.LINKTYPE_TARGET_TABLE.eq(request.getTargetTable()))
@@ -90,11 +87,6 @@ public class LinksTableResource extends BaseServerResource
 				  });
 
 			return result;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

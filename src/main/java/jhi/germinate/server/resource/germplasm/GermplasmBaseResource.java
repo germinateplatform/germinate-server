@@ -1,13 +1,12 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.germinate.resource.Filter;
+import jhi.germinate.server.database.codegen.tables.Germinatebase;
+import jhi.germinate.server.resource.PaginatedServerResource;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.util.*;
-
-import jhi.germinate.resource.Filter;
-import jhi.germinate.server.database.codegen.tables.Germinatebase;
-import jhi.germinate.server.resource.PaginatedServerResource;
 
 import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
 import static jhi.germinate.server.database.codegen.tables.Compounddata.*;

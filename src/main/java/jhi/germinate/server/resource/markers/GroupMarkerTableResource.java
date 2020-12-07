@@ -1,18 +1,15 @@
 package jhi.germinate.server.resource.markers;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.groups.GroupResource;
+import org.jooq.*;
+import org.restlet.resource.*;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
@@ -50,8 +47,7 @@ public class GroupMarkerTableResource extends PaginatedServerResource
 	public PaginatedResult<List<ViewTableGroupMarkers>> getJson(PaginatedRequest request)
 	{
 		processRequest(request);
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
@@ -79,11 +75,6 @@ public class GroupMarkerTableResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

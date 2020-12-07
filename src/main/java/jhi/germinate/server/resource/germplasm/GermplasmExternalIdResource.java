@@ -1,18 +1,16 @@
 package jhi.germinate.server.resource.germplasm;
 
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.List;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
@@ -31,8 +29,7 @@ public class GermplasmExternalIdResource extends PaginatedServerResource
 		if (CollectionUtils.isEmpty(ids))
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Field<?> field = DSL.field(identifier);
 
@@ -40,11 +37,6 @@ public class GermplasmExternalIdResource extends PaginatedServerResource
 						  .from(GERMINATEBASE)
 						  .where(GERMINATEBASE.ID.in(ids))
 						  .fetchInto(String.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

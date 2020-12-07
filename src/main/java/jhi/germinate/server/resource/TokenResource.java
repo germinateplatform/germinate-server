@@ -16,12 +16,6 @@
 
 package jhi.germinate.server.resource;
 
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.io.IOException;
-import java.util.*;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.resource.*;
@@ -31,7 +25,12 @@ import jhi.germinate.server.auth.*;
 import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
 import retrofit2.Response;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * {@link ServerResource} handling {@link TokenResource} requests.

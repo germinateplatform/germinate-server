@@ -1,17 +1,17 @@
 package jhi.germinate.server;
 
-import java.util.Arrays;
-import java.util.concurrent.*;
-import java.util.logging.*;
-
-import javax.servlet.*;
-import javax.servlet.annotation.WebListener;
-
 import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.gatekeeper.GatekeeperClient;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.tasks.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.*;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebListener;
+import java.util.Arrays;
+import java.util.concurrent.*;
+import java.util.logging.*;
 
 /**
  * The {@link ApplicationListener} is the main {@link ServletContextListener} of the application. It's started when the application is loaded by
@@ -49,13 +49,13 @@ public class ApplicationListener implements ServletContextListener
 
 		backgroundScheduler = Executors.newSingleThreadScheduledExecutor();
 		// Every hour, update the dataset sizes
-		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 0, 1, TimeUnit.HOURS);
+		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 1, 1, TimeUnit.HOURS);
 		// Every minute, check the async job status
-		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 0, 1, TimeUnit.MINUTES);
-		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 0, 1, TimeUnit.MINUTES);
+		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 1, TimeUnit.MINUTES);
+		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 1, TimeUnit.MINUTES);
 		// Every 5 minutes, get an update on the user information from Gatekeeper
 		if (!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL)))
-			backgroundScheduler.scheduleAtFixedRate(new GatekeeperUserUpdaterTask(), 0, 5, TimeUnit.MINUTES);
+			backgroundScheduler.scheduleAtFixedRate(new GatekeeperUserUpdaterTask(), 1, 5, TimeUnit.MINUTES);
 		// Every specified amount of hours, delete the async folders that aren't needed anymore
 		if (asyncDeleteDelay != null)
 			backgroundScheduler.scheduleAtFixedRate(new AsyncFolderCleanupTask(), 0, asyncDeleteDelay, TimeUnit.HOURS);
@@ -83,6 +83,8 @@ public class ApplicationListener implements ServletContextListener
 	public void contextDestroyed(ServletContextEvent servletContextEvent)
 	{
 		PropertyWatcher.stopFileWatcher();
+		Database.close();
+		GatekeeperClient.close();
 
 		try
 		{

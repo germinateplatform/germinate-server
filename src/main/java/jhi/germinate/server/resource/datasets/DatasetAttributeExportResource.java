@@ -1,5 +1,10 @@
 package jhi.germinate.server.resource.datasets;
 
+import jhi.germinate.resource.ExperimentRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.routines.ExportDatasetAttributes;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -8,14 +13,7 @@ import org.restlet.resource.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.*;
 import java.util.*;
-
-import jhi.germinate.resource.ExperimentRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.routines.ExportDatasetAttributes;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 
@@ -36,17 +34,12 @@ public class DatasetAttributeExportResource extends BaseServerResource
 
 		if (request.getExperimentId() != null)
 		{
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn))
+			try (DSLContext context = Database.getContext())
 			{
 				datasetIds = context.selectDistinct(DATASETS.ID)
 					   .from(DATASETS)
 					   .where(DATASETS.EXPERIMENT_ID.eq(request.getExperimentId()))
 					   .fetchInto(Integer.class);
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
 			}
 		}
 		else if (!CollectionUtils.isEmpty(request.getDatasetIds()))
@@ -63,8 +56,7 @@ public class DatasetAttributeExportResource extends BaseServerResource
 		{
 			File file = createTempFile("attributes-" + CollectionUtils.join(datasetIds, "-"), ".txt");
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				ExportDatasetAttributes procedure = new ExportDatasetAttributes();
@@ -74,7 +66,7 @@ public class DatasetAttributeExportResource extends BaseServerResource
 
 				exportToFile(bw, procedure.getResults().get(0), true, null);
 			}
-			catch (SQLException | IOException e)
+			catch (IOException e)
 			{
 				e.printStackTrace();
 				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

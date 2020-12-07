@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.importers;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.representation.Representation;
@@ -8,13 +12,7 @@ import org.restlet.resource.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.sql.*;
 import java.util.*;
-
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
@@ -27,8 +25,7 @@ public class CurlyWhirlyGroupCreationResource extends BaseServerResource
 	@MinUserType(UserType.AUTH_USER)
 	public String accept(Representation entity)
 	{
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// Create a temp file
 			File file = createTempFile("group-upload", "txt");
@@ -52,7 +49,7 @@ public class CurlyWhirlyGroupCreationResource extends BaseServerResource
 			// Then return the name of the file
 			return file.getName();
 		}
-		catch (IOException | SQLException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

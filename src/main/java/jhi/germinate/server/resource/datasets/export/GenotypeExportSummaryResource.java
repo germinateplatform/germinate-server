@@ -1,13 +1,5 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.Database;
@@ -15,6 +7,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
@@ -42,8 +40,7 @@ public class GenotypeExportSummaryResource extends PaginatedServerResource
 		requestedIds.retainAll(datasetIds);
 
 		processRequest(request);
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// Prepare the sub-query to get the germplasm count
 			SelectConditionStep<Record1<Integer>> germplasmQuery = DSL.select(DSL.countDistinct(DATASETMEMBERS.FOREIGN_ID))
@@ -104,11 +101,6 @@ public class GenotypeExportSummaryResource extends PaginatedServerResource
 				.fetchInto(ViewTableDatasets.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

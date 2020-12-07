@@ -47,7 +47,7 @@ CREATE TABLE `attributes`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Defines the name of the attribute.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Describes the attribute. This should expand on the name to make it clear what the attribute actually is.',
-  `datatype` enum('int','float','char') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'int' COMMENT 'Describes the data type of the attribute. This can be INT, FLOAT or CHAR type.',
+  `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the attribute. This can be of numeric, text, date or categorical types.',
   `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'germinatebase',
   `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT 'When the record was created.',
   `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
@@ -160,7 +160,7 @@ CREATE TABLE `climates`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Describes the climate.',
   `short_name` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Shortened version of the climate name which is used in some table headers.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'A longer description of the climate.',
-  `datatype` enum('float','int','char') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'int' COMMENT 'Defines the datatype which can be FLOAT, INT or CHAR type.',
+  `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the climate. This can be of numeric, text, date or categorical types.',
   `unit_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to units (units.id).\n',
   `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT 'When the record was created.',
   `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
@@ -920,6 +920,47 @@ CREATE TABLE `experiments`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for fileresources
+-- ----------------------------
+DROP TABLE IF EXISTS `fileresources`;
+CREATE TABLE `fileresources`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'The name of the file resource.',
+  `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'The file name of the actual data file.',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'A description of the file contents.',
+  `filesize` bigint(20) NULL DEFAULT NULL COMMENT 'The file size in bytes.',
+  `fileresourcetype_id` int(11) NOT NULL COMMENT 'Foreign key to fileresourcetypes.',
+  `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT 'When this record was created.',
+  `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'When this record was last updated.',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fileresource_name`(`name`) USING BTREE,
+  INDEX `fileresourcetype_id`(`fileresourcetype_id`) USING BTREE,
+  CONSTRAINT `fileresources_ibfk_1` FOREIGN KEY (`fileresourcetype_id`) REFERENCES `fileresourcetypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of fileresources
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for fileresourcetypes
+-- ----------------------------
+DROP TABLE IF EXISTS `fileresourcetypes`;
+CREATE TABLE `fileresourcetypes`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'The name of the file type.',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'The description of the file type.',
+  `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT 'When this record was created.',
+  `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'When this record was last updated.',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fileresourcetype_name`(`name`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of fileresourcetypes
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for germinatebase
 -- ----------------------------
 DROP TABLE IF EXISTS `germinatebase`;
@@ -1616,7 +1657,8 @@ CREATE TABLE `phenotypes`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Phenotype full name.',
   `short_name` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Shortened name for the phenotype. This is used in table columns where space is an issue.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.',
-  `datatype` enum('float','int','char') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'int' COMMENT 'Defines the data type of the phenotype. This can be of float, int or char types.',
+  `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the phenotype. This can be of numeric, text, date or categorical types.',
+  `restrictions` json NULL COMMENT 'A json object describing the restrictions placed on this trait. It is an object containing a field called \"categories\" which is an array of arrays, each describing a categorical scale. Each scale must have the same length as they describe the same categories just using different terms or numbers. The other fields are \"min\" and \"max\" to specify upper and lower limits for numeric traits.',
   `unit_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign Key to units (units.id).',
   `created_on` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT 'When the record was created.',
   `updated_on` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
@@ -1660,6 +1702,9 @@ INSERT INTO `schema_version` VALUES (6, '3.4.0.1', 'update', 'SQL', 'V3.4.0.1__u
 INSERT INTO `schema_version` VALUES (7, '3.5.0', 'update', 'SQL', 'V3.5.0__update.sql', -1130493621, 'germinate3', '2018-03-27 14:29:38', 132, 1);
 INSERT INTO `schema_version` VALUES (8, '3.6.0', 'update', 'SQL', 'V3.6.0__update.sql', -739307975, 'germinate3', '2020-01-23 09:46:58', 125, 1);
 INSERT INTO `schema_version` VALUES (9, '4.0.0', 'update', 'SQL', 'V4.0.0__update.sql', -383131356, 'germinate', '2020-04-10 14:14:55', 193, 1);
+INSERT INTO `schema_version` VALUES (10, '4.20.06.15', 'update', 'SQL', 'V4.20.06.15__update.sql', 1355676521, 'germinate', '2020-06-15 10:41:49', 123, 1);
+INSERT INTO `schema_version` VALUES (11, '4.20.10.02', 'update', 'SQL', 'V4.20.10.02__update.sql', -1150563781, 'germinate', '2020-10-05 14:59:18', 43, 1);
+INSERT INTO `schema_version` VALUES (12, '4.20.10.30', 'update', 'SQL', 'V4.20.10.30__update.sql', -14100518, 'germinate', '2020-10-30 13:55:49', 43, 1);
 
 -- ----------------------------
 -- Table structure for storage

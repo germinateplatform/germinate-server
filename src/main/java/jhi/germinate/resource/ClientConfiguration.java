@@ -1,8 +1,8 @@
 package jhi.germinate.resource;
 
-import java.util.List;
-
 import jhi.germinate.server.auth.AuthenticationMode;
+
+import java.util.List;
 
 /**
  * @author Sebastian Raubach

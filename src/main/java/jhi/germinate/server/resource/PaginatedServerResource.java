@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource;
 
+import jhi.germinate.resource.*;
+import jhi.germinate.server.Database;
 import org.jooq.*;
 import org.jooq.impl.*;
 import org.restlet.data.*;
@@ -11,12 +13,7 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
-import java.sql.*;
 import java.util.*;
-import java.util.Date;
-
-import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
 
 /**
  * @author Sebastian Raubach
@@ -218,8 +215,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 			if (name.endsWith("-"))
 				name = name.substring(0, name.length() - 1);
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn);
+			try (DSLContext context = Database.getContext();
 				 FileSystem fs = FileSystems.newFileSystem(uri, env, null);
 				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + getFormattedDateTime(new Date()) +  ".txt"), StandardCharsets.UTF_8)))
 			{
@@ -236,11 +232,6 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 				filter(from, filters);
 
 				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true, settings);
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 			}
 
 			Disposition disposition = new Disposition(Disposition.TYPE_ATTACHMENT);

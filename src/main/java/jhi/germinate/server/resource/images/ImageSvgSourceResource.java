@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.images;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.apache.commons.io.IOUtils;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -7,11 +10,6 @@ import org.restlet.representation.ByteArrayRepresentation;
 import org.restlet.resource.*;
 
 import java.io.*;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach

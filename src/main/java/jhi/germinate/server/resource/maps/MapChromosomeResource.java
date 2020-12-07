@@ -1,14 +1,12 @@
 package jhi.germinate.server.resource.maps;
 
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.CustomVerifier;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.List;
-
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
 
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Maps.*;
@@ -43,8 +41,7 @@ public class MapChromosomeResource extends ServerResource
 		if (mapId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			return context.selectDistinct(MAPDEFINITIONS.CHROMOSOME)
 						  .from(MAPS)
@@ -54,11 +51,6 @@ public class MapChromosomeResource extends ServerResource
 											  .or(MAPS.USER_ID.eq(userDetails.getId())))
 						  .orderBy(MAPDEFINITIONS.CHROMOSOME)
 						  .fetchInto(String.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

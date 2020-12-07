@@ -1,28 +1,26 @@
 package jhi.germinate.server.resource.datasets.export;
 
 import com.google.gson.*;
-
+import jhi.germinate.resource.*;
+import jhi.germinate.server.*;
+import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.async.*;
 import org.jooq.Result;
 import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.io.*;
-import java.nio.charset.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.sql.*;
+import java.sql.Timestamp;
 import java.util.*;
-
-import jhi.germinate.resource.*;
-import jhi.germinate.server.*;
-import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.database.codegen.tables.records.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.async.*;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
@@ -52,8 +50,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 		if (datasetIds.size() < 1)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
 

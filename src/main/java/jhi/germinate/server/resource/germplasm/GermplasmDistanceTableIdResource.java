@@ -1,16 +1,14 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.PaginatedLocationRequest;
+import jhi.germinate.server.Database;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.List;
-
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedLocationRequest;
-import jhi.germinate.server.Database;
 
 /**
  * @author Sebastian Raubach
@@ -26,8 +24,7 @@ public class GermplasmDistanceTableIdResource extends GermplasmBaseResource
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			SelectConditionStep<?> from = getGermplasmIdQuery(context)
 				.where(DSL.field(LONGITUDE).isNotNull())
@@ -41,11 +38,6 @@ public class GermplasmDistanceTableIdResource extends GermplasmBaseResource
 				.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

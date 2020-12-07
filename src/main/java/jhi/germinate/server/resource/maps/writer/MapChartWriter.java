@@ -1,11 +1,10 @@
 package jhi.germinate.server.resource.maps.writer;
 
+import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 import org.jooq.Record;
 
 import java.io.*;
 import java.util.Objects;
-
-import jhi.germinate.server.database.codegen.tables.pojos.*;
 
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;

@@ -203,7 +203,14 @@ public class ScriptRunner
 		}
 		finally
 		{
-			conn.rollback();
+			try
+			{
+				conn.rollback();
+			}
+			catch (SQLException e)
+			{
+				// Ignore rollback errors
+			}
 			flush();
 		}
 	}

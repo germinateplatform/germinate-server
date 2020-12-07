@@ -1,19 +1,17 @@
 package jhi.germinate.server.resource.traits;
 
+import jhi.germinate.resource.DatasetRequest;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimates;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
-import java.sql.*;
 import java.util.*;
-
-import jhi.germinate.resource.DatasetRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
 import static jhi.germinate.server.database.codegen.tables.Climateoverlays.*;
@@ -47,8 +45,7 @@ public class DatasetClimateResource extends BaseServerResource implements Filter
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			return context.select(
 				CLIMATES.ID.as(VIEW_TABLE_CLIMATES.CLIMATE_ID.getName()),
@@ -70,11 +67,6 @@ public class DatasetClimateResource extends BaseServerResource implements Filter
 											   .limit(1)))
 						  .orderBy(CLIMATES.NAME)
 						  .fetchInto(ViewTableClimates.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

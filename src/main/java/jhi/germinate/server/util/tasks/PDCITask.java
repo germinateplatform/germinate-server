@@ -17,17 +17,15 @@
 
 package jhi.germinate.server.util.tasks;
 
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-
-import java.sql.Connection;
-import java.util.*;
-import java.util.logging.*;
-
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.GerminatebaseRecord;
 import jhi.germinate.server.util.StringUtils;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+
+import java.util.*;
+import java.util.logging.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Links.*;
@@ -54,8 +52,7 @@ public class PDCITask implements Runnable
 	@Override
 	public void run()
 	{
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			long start = System.currentTimeMillis();
 			final List<Integer> hasLink;

@@ -1,16 +1,5 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
-
-import java.io.File;
-import java.nio.file.*;
-import java.sql.Connection;
-import java.util.*;
-
 import jhi.flapjack.io.binning.MakeHistogram;
 import jhi.germinate.resource.SubsettedGenotypeDatasetRequest;
 import jhi.germinate.server.Database;
@@ -19,6 +8,15 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+import org.jooq.DSLContext;
+import org.restlet.data.Status;
+import org.restlet.data.*;
+import org.restlet.representation.FileRepresentation;
+import org.restlet.resource.*;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.util.*;
 
 /**
  * @author Sebastian Raubach
@@ -43,8 +41,7 @@ public class AlleleFrequencyHistogramExportResource extends BaseServerResource
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
 		FileRepresentation representation;
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
 

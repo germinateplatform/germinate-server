@@ -1,17 +1,16 @@
 package jhi.germinate.server.util.tasks;
 
-import org.apache.commons.io.FileUtils;
-import org.jooq.DSLContext;
-
-import java.io.*;
-import java.sql.*;
-import java.util.Arrays;
-import java.util.logging.*;
-
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import org.apache.commons.io.FileUtils;
+import org.jooq.DSLContext;
+
+import java.io.*;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.logging.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
@@ -40,8 +39,7 @@ public class AsyncFolderCleanupTask implements Runnable
 			Logger.getLogger("").log(Level.INFO, "Running AsyncFolderCleanupTask");
 		}
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			// Get all invisible jobs and failed jobs
 			context.selectFrom(DATASET_EXPORT_JOBS)
@@ -52,10 +50,6 @@ public class AsyncFolderCleanupTask implements Runnable
 				   .where(DATA_IMPORT_JOBS.VISIBILITY.eq(false)
 													 .or(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.failed)))
 				   .forEach(j -> checkJob(j.getUuid()));
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 	}
 

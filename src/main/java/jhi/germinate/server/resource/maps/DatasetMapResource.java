@@ -1,13 +1,5 @@
 package jhi.germinate.server.resource.maps;
 
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.*;
-
 import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
@@ -15,6 +7,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMaps;
 import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+import org.restlet.data.Status;
+import org.restlet.resource.*;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
@@ -41,8 +39,7 @@ public class DatasetMapResource extends BaseServerResource
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			return context.selectDistinct(
 				MAPS.ID.as("map_id"),
@@ -61,11 +58,6 @@ public class DatasetMapResource extends BaseServerResource
 						  .groupBy(MAPS.ID)
 						  .fetch()
 						  .into(ViewTableMaps.class);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

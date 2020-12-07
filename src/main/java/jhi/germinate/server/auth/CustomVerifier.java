@@ -16,6 +16,10 @@
 
 package jhi.germinate.server.auth;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.Germinate;
+import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.restlet.*;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -25,17 +29,11 @@ import org.restlet.routing.Route;
 import org.restlet.security.Verifier;
 import org.restlet.util.Series;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Germinate;
-import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach

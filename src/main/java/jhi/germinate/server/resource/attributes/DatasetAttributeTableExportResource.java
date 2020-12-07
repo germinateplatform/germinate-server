@@ -1,17 +1,15 @@
 package jhi.germinate.server.resource.attributes;
 
+import jhi.germinate.resource.*;
+import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.Condition;
 import org.restlet.data.Status;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.util.*;
-
-import jhi.germinate.resource.*;
-import jhi.germinate.resource.Filter;
-import jhi.germinate.server.resource.PaginatedServerResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasetAttributes.*;
 

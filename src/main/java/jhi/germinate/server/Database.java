@@ -1,6 +1,9 @@
 package jhi.germinate.server;
 
+import com.zaxxer.hikari.HikariDataSource;
 import jhi.germinate.server.database.codegen.GerminateDb;
+import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.database.ScriptRunner;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.jooq.*;
@@ -10,13 +13,10 @@ import org.jooq.impl.DSL;
 
 import java.io.*;
 import java.net.*;
-import java.nio.charset.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.TimeZone;
 import java.util.logging.*;
-
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.database.ScriptRunner;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
@@ -31,7 +31,18 @@ public class Database
 	private static String username;
 	private static String password;
 
+	private static HikariDataSource datasource;
+
 	private static final String utc = TimeZone.getDefault().getID();
+
+	public static void close()
+	{
+		if (datasource != null && !datasource.isClosed())
+		{
+			datasource.close();
+			datasource = null;
+		}
+	}
 
 	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password, boolean initAndUpdate)
 	{
@@ -52,13 +63,29 @@ public class Database
 			// handle the error
 		}
 
+		Database.datasource = new HikariDataSource();
+		Database.datasource.setJdbcUrl(getDatabaseUrl());
+		Database.datasource.setUsername(username);
+		Database.datasource.setPassword(password);
+		Database.datasource.addDataSourceProperty("cachePrepStmts", "true");
+		Database.datasource.addDataSourceProperty("prepStmtCacheSize", "250");
+		Database.datasource.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+		Database.datasource.addDataSourceProperty("useServerPrepStmts", "true");
+		Database.datasource.addDataSourceProperty("useLocalSessionState", "true");
+		Database.datasource.addDataSourceProperty("rewriteBatchedStatements", "true");
+		Database.datasource.addDataSourceProperty("cacheResultSetMetadata", "true");
+		Database.datasource.addDataSourceProperty("cacheServerConfiguration", "true");
+		Database.datasource.addDataSourceProperty("elideSetAutoCommits", "true");
+		Database.datasource.addDataSourceProperty("maintainTimeStats", "false");
+
 		// Get an initial connection to try if it works. Attempt a connection 10 times before failing
 		boolean connectionSuccessful = false;
 		for (int attempt = 0; attempt < 10; attempt++)
 		{
-			try (Connection conn = getConnection())
+			try (Connection conn = getDirectConnection();
+				 DSLContext context = Database.getContext(conn))
 			{
-				DSL.using(conn, SQLDialect.MYSQL).close();
+				context.close();
 				connectionSuccessful = true;
 				break;
 			}
@@ -84,14 +111,13 @@ public class Database
 		if (initAndUpdate)
 		{
 			boolean databaseExists = true;
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn))
+			try (DSLContext context = Database.getContext())
 			{
 				// Try and see if the `germinatebase` table exists
 				context.selectFrom(GERMINATEBASE)
 					   .fetchAny();
 			}
-			catch (SQLException | DataAccessException e)
+			catch (DataAccessException e)
 			{
 				databaseExists = false;
 			}
@@ -123,12 +149,11 @@ public class Database
 				Logger.getLogger("").log(Level.INFO, "DATABASE EXISTS, NO NEED TO CREATE IT!");
 			}
 
-			try (Connection conn = Database.getConnection();
-				 DSLContext context = Database.getContext(conn))
+			try (DSLContext context = Database.getContext())
 			{
 				context.execute("ALTER DATABASE `" + databaseName + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 			}
-			catch (SQLException | DataAccessException e)
+			catch (DataAccessException e)
 			{
 				e.printStackTrace();
 			}
@@ -176,7 +201,7 @@ public class Database
 
 	private static void executeFile(File sqlFile)
 	{
-		try (Connection conn = Database.getConnection();
+		try (Connection conn = Database.getDirectConnection();
 			 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sqlFile), StandardCharsets.UTF_8)))
 		{
 			ScriptRunner runner = new ScriptRunner(conn, true, true);
@@ -193,13 +218,24 @@ public class Database
 		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmpty(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
 	}
 
-	public static Connection getConnection()
+	private static Connection getDirectConnection()
 		throws SQLException
 	{
 		return DriverManager.getConnection(getDatabaseUrl(), username, password);
 	}
 
-	public static DSLContext getContext(Connection connection)
+	public static DSLContext getContext()
+	{
+		Settings settings = new Settings()
+			.withRenderMapping(new RenderMapping()
+				.withSchemata(
+					new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
+									  .withOutput(databaseName)));
+
+		return DSL.using(datasource, SQLDialect.MYSQL, settings);
+	}
+
+	private static DSLContext getContext(Connection connection)
 	{
 		Settings settings = new Settings()
 			.withRenderMapping(new RenderMapping()

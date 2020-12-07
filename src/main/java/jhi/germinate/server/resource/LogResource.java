@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.restlet.data.Status;
 import org.restlet.data.*;
 import org.restlet.ext.servlet.ServletUtils;
@@ -12,10 +16,6 @@ import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.util.*;
 import java.util.logging.*;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 /**
  * @author Sebastian Raubach
@@ -58,6 +58,9 @@ public class LogResource extends BaseServerResource
 
 			// Get the context path
 			String base = ServletUtils.getRequest(getRequest()).getContextPath();
+
+			if (StringUtils.isEmpty(base))
+				base = "ROOT";
 
 			// And the date
 			String formattedDate = getFormattedDate(date);

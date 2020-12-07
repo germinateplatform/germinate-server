@@ -1,18 +1,14 @@
 package jhi.germinate.server.resource.germplasm;
 
-import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
-
-import java.sql.*;
-import java.util.Date;
-import java.util.*;
-
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.restlet.representation.FileRepresentation;
+import org.restlet.resource.Post;
+
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -25,8 +21,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 	@Post("json")
 	public FileRepresentation postJson(GermplasmExportRequest request)
 	{
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			if (request != null && request.getIncludeAttributes() != null && request.getIncludeAttributes())
 			{
@@ -83,11 +78,6 @@ public class GermplasmExportResource extends GermplasmBaseResource
 				processRequest(request);
 				return export(getGermplasmQuery(context).fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
 			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

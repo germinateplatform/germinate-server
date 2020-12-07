@@ -1,17 +1,15 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.*;
+import jhi.germinate.server.Database;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
 import java.math.BigDecimal;
-import java.sql.*;
 import java.util.List;
-
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
 
 /**
  * @author Sebastian Raubach
@@ -25,8 +23,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
 		processRequest(request);
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Field<BigDecimal> dLat = DSL.rad(DSL.field(LATITUDE, BigDecimal.class).minus(request.getLatitude()));
 			Field<BigDecimal> dLon = DSL.rad(DSL.field(LONGITUDE, BigDecimal.class).minus(request.getLongitude()));
@@ -52,11 +49,6 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }

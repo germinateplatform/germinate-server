@@ -1,5 +1,11 @@
 package jhi.germinate.server.resource.climates;
 
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.Database;
+import jhi.germinate.server.auth.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Climateoverlays;
+import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.apache.commons.io.IOUtils;
 import org.jooq.DSLContext;
 import org.restlet.data.Status;
@@ -8,15 +14,7 @@ import org.restlet.representation.ByteArrayRepresentation;
 import org.restlet.resource.*;
 
 import java.io.*;
-import java.sql.*;
 import java.util.logging.*;
-
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.codegen.tables.pojos.Climateoverlays;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import static jhi.germinate.server.database.codegen.tables.Climateoverlays.*;
 
@@ -63,8 +61,7 @@ public class ClimateOverlaySourceResource extends ServerResource
 		if (overlayId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
-		try (Connection conn = Database.getConnection();
-			 DSLContext context = Database.getContext(conn))
+		try (DSLContext context = Database.getContext())
 		{
 			Climateoverlays overlay = context.select()
 											 .from(CLIMATEOVERLAYS)
@@ -120,11 +117,6 @@ public class ClimateOverlaySourceResource extends ServerResource
 			{
 				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 }
