@@ -1,5 +1,7 @@
 package jhi.germinate.resource;
 
+import jhi.germinate.server.util.StringUtils;
+
 import java.util.Arrays;
 
 /**
@@ -31,7 +33,14 @@ public class Filter
 
 	public String getSafeColumn()
 	{
-		return column.replaceAll("[^a-zA-Z0-9._-]", "").replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+		if (StringUtils.isEmpty(column))
+		{
+			return "";
+		}
+		else
+		{
+			return column.replaceAll("[^a-zA-Z0-9._-]", "").replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+		}
 	}
 
 	public Filter setColumn(String column)

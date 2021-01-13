@@ -31,7 +31,7 @@ public class TraitTableResource extends PaginatedServerResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRAITS);
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, filters, true);
 
 			List<ViewTableTraits> result = setPaginationAndOrderBy(from)
 				.fetch()

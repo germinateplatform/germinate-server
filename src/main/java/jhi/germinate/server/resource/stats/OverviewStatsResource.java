@@ -3,10 +3,13 @@ package jhi.germinate.server.resource.stats;
 import jhi.germinate.resource.enums.OverviewStats;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.restlet.resource.*;
+
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Climates.*;
 import static jhi.germinate.server.database.codegen.tables.Experiments.*;
@@ -45,30 +48,31 @@ public class OverviewStatsResource extends ServerResource
 			).fetchSingleInto(OverviewStats.class);
 
 			// Get the datasets this user has access to (ignore if licenses are accepted or not)
-			DatasetTableResource.getDatasetsForUser(getRequest(), getResponse(), false)
-								.forEach(d -> {
-									// Increase the specific counts
-									switch (d.getDatasetType())
-									{
-										case "genotype":
-											stats.setDatasetsGenotype(stats.getDatasetsGenotype() + 1);
-											break;
-										case "trials":
-											stats.setDatasetsTrials(stats.getDatasetsTrials() + 1);
-											break;
-										case "allelefreq":
-											stats.setDatasetsAllelefreq(stats.getDatasetsAllelefreq() + 1);
-											break;
-										case "climate":
-											stats.setDatasetsClimate(stats.getDatasetsClimate() + 1);
-											break;
-										case "compound":
-											stats.setDatasetsCompound(stats.getDatasetsCompound() + 1);
-											break;
-									}
-									// Increase the overall count
-									stats.setDatasets(stats.getDatasets() + 1);
-								});
+			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse(), false);
+			stats.setDatasets(datasets.size());
+			datasets.stream()
+					.filter(d -> !d.getIsExternal())
+					.forEach(d -> {
+						// Increase the specific counts
+						switch (d.getDatasetType())
+						{
+							case "genotype":
+								stats.setDatasetsGenotype(stats.getDatasetsGenotype() + 1);
+								break;
+							case "trials":
+								stats.setDatasetsTrials(stats.getDatasetsTrials() + 1);
+								break;
+							case "allelefreq":
+								stats.setDatasetsAllelefreq(stats.getDatasetsAllelefreq() + 1);
+								break;
+							case "climate":
+								stats.setDatasetsClimate(stats.getDatasetsClimate() + 1);
+								break;
+							case "compound":
+								stats.setDatasetsCompound(stats.getDatasetsCompound() + 1);
+								break;
+						}
+					});
 
 			return stats;
 		}
