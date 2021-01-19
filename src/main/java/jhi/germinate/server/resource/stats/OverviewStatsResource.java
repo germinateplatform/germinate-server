@@ -12,6 +12,7 @@ import org.restlet.resource.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Climates.*;
+import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -39,6 +40,7 @@ public class OverviewStatsResource extends ServerResource
 				DSL.selectCount().from(MARKERS).asField("markers"),
 				DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
 				DSL.selectCount().from(PHENOTYPES).asField("traits"),
+				DSL.selectCount().from(COMPOUNDS).asField("compounds"),
 				DSL.selectCount().from(CLIMATES).asField("climates"),
 				DSL.selectCount().from(LOCATIONS).asField("locations"),
 				DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
