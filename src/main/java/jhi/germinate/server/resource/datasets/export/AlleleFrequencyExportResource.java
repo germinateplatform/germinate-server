@@ -52,15 +52,15 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 
 		try (DSLContext context = Database.getContext())
 		{
-			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
+			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
 
-			if (CollectionUtils.isEmpty(ds))
+			if (ds == null)
 				return null;
 
 			Set<String> germplasmNames = GenotypeExportResource.getGermplasmNames(context, request);
 			Set<String> markerNames = GenotypeExportResource.getMarkerNames(context, request);
 
-			String dsName = "dataset-" + ds.get(0).getDatasetId();
+			String dsName = "dataset-" + ds.getDatasetId();
 
 			if (request.getMapId() != null)
 				dsName += "-map-" + request.getMapId();
@@ -99,7 +99,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			}
 
 			// Get the source hdf5 file
-			File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "allelefreq");
+			File hdf5 = getFromExternal(ds.getSourceFile(), "data", "allelefreq");
 
 			// Create all temporary files
 			if (!CollectionUtils.isEmpty(germplasmNames))
@@ -116,7 +116,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			File headerFile = new File(asyncFolder, dsName + ".header");
 			Files.write(headerFile.toPath(), GenotypeExportResource.getFlapjackHeaders(getRequest()), StandardCharsets.UTF_8);
 			File identifierFile = new File(asyncFolder, dsName + ".identifiers");
-			GenotypeExportResource.writeIdentifiersFile(context, identifierFile, germplasmNames, ds.get(0).getDatasetId());
+			GenotypeExportResource.writeIdentifiersFile(context, identifierFile, germplasmNames, ds.getDatasetId());
 
 			if (request.getConfig() != null) {
 				File configFile = new File(asyncFolder, dsName + ".json");
@@ -136,7 +136,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
 
 			JsonArray array = new JsonArray(1);
-			array.add(ds.get(0).getDatasetId());
+			array.add(ds.getDatasetId());
 
 			// Store the job information in the database
 			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
@@ -151,7 +151,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			dbJob.store();
 
 			DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
-			access.setDatasetId(ds.get(0).getDatasetId());
+			access.setDatasetId(ds.getDatasetId());
 			access.setUserId(userDetails.getId());
 			access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			access.store();

@@ -231,7 +231,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 				// Filter here!
 				filter(from, filters);
 
-				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true, settings);
+				exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true, settings != null ? settings.fieldsToNull : null);
 			}
 
 			Disposition disposition = new Disposition(Disposition.TYPE_ATTACHMENT);

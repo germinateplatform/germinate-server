@@ -2,7 +2,7 @@ package jhi.germinate.server.resource;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.restlet.data.Status;
 import org.restlet.data.*;
@@ -11,9 +11,6 @@ import org.restlet.representation.*;
 import org.restlet.resource.*;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.*;
 import java.util.*;
 import java.util.logging.*;
 
@@ -88,20 +85,7 @@ public class LogResource extends BaseServerResource
 				{
 					File zipFile = createTempFile(null, "log-" + formattedDate, ".zip", false);
 
-					String prefix = zipFile.getAbsolutePath().replace("\\", "/");
-					if (prefix.startsWith("/"))
-						prefix = prefix.substring(1);
-
-					URI uri = URI.create("jar:file:/" + prefix);
-
-					Map<String, String> env = new HashMap<>();
-					env.put("create", "true");
-					env.put("encoding", "UTF-8");
-
-					try (FileSystem fs = FileSystems.newFileSystem(uri, env, null))
-					{
-						Files.copy(file.toPath(), fs.getPath("/" + file.getName()), StandardCopyOption.REPLACE_EXISTING);
-					}
+					FileUtils.zipUp(zipFile, Collections.singletonList(file));
 
 					Disposition disposition = new Disposition(Disposition.TYPE_ATTACHMENT);
 					disposition.setFilename(zipFile.getName());

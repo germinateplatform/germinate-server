@@ -41,7 +41,6 @@ import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
  */
 public class GenotypeExportResource extends BaseServerResource
 {
-
 	@Post("json")
 	public List<AsyncExportResult> postJson(SubsettedGenotypeDatasetRequest request)
 	{
@@ -63,15 +62,15 @@ public class GenotypeExportResource extends BaseServerResource
 		{
 			for (Integer id : datasetIds)
 			{
-				List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(id, getRequest(), getResponse(), true);
+				ViewTableDatasets ds = DatasetTableResource.getDatasetForId(id, getRequest(), getResponse(), true);
 
-				if (CollectionUtils.isEmpty(ds))
+				if (ds == null)
 					return null;
 
 				Set<String> germplasmNames = getGermplasmNames(context, request);
 				Set<String> markerNames = getMarkerNames(context, request);
 
-				String dsName = "dataset-" + ds.get(0).getDatasetId();
+				String dsName = "dataset-" + ds.getDatasetId();
 
 				if (request.getMapId() != null)
 					dsName += "-map-" + request.getMapId();
@@ -111,7 +110,7 @@ public class GenotypeExportResource extends BaseServerResource
 				}
 
 				// Get the source hdf5 file
-				File hdf5 = getFromExternal(ds.get(0).getSourceFile(), "data", "genotypes");
+				File hdf5 = getFromExternal(ds.getSourceFile(), "data", "genotypes");
 
 				// Create all temporary files
 				if (!CollectionUtils.isEmpty(germplasmNames))
@@ -150,7 +149,7 @@ public class GenotypeExportResource extends BaseServerResource
 				String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
 
 				JsonArray array = new JsonArray(1);
-				array.add(ds.get(0).getDatasetId());
+				array.add(ds.getDatasetId());
 
 				// Store the job information in the database
 				DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
@@ -165,7 +164,7 @@ public class GenotypeExportResource extends BaseServerResource
 				dbJob.store();
 
 				DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
-				access.setDatasetId(ds.get(0).getDatasetId());
+				access.setDatasetId(ds.getDatasetId());
 				access.setUserId(userDetails.getId());
 				access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 				access.store();

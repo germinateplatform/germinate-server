@@ -6,6 +6,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import org.jooq.*;
+import org.jooq.impl.DSL;
 import org.restlet.resource.Post;
 
 import java.util.List;
@@ -40,6 +41,17 @@ public class TraitTableResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	public static List<ViewTableTraits> getForDataset(int datasetId)
+	{
+		try (DSLContext context = Database.getContext())
+		{
+			return context.select()
+						  .from(VIEW_TABLE_TRAITS)
+						  .where(DSL.condition("JSON_CONTAINS(" + VIEW_TABLE_TRAITS.DATASET_IDS.getName() + ", '" + datasetId + "')"))
+						  .fetchInto(ViewTableTraits.class);
 		}
 	}
 }

@@ -39,15 +39,14 @@ public class DatasetSourceDownloadResource extends BaseServerResource
 		if (datasetId == null)
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
 
-		List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetForId(datasetId, getRequest(), getResponse(), true);
+		ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, getRequest(), getResponse(), true);
 
-		if (CollectionUtils.isEmpty(datasets))
+		if (dataset == null)
 			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
 
 		File file;
 		MediaType type;
 
-		ViewTableDatasets dataset = datasets.get(0);
 		switch (dataset.getDatasetType()) {
 			case "allelefreq":
 				 file = getFromExternal(dataset.getSourceFile(), "data", "allelefreq");

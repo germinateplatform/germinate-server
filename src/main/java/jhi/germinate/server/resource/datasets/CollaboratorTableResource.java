@@ -5,8 +5,8 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.PaginatedServerResource;
-import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
+import org.restlet.*;
 import org.restlet.resource.*;
 
 import java.util.*;
@@ -41,9 +41,9 @@ public class CollaboratorTableResource extends PaginatedServerResource
 		processRequest(request);
 		try (DSLContext context = Database.getContext())
 		{
-			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetForId(datasetId, getRequest(), getResponse(), false);
+			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, getRequest(), getResponse(), false);
 
-			if (!CollectionUtils.isEmpty(datasets))
+			if (dataset != null)
 			{
 				SelectSelectStep<Record> select = context.select();
 
@@ -68,6 +68,26 @@ public class CollaboratorTableResource extends PaginatedServerResource
 			else
 			{
 				return new PaginatedResult<>(new ArrayList<>(), 0);
+			}
+		}
+	}
+
+	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, Request req, Response resp)
+	{
+		try (DSLContext context = Database.getContext())
+		{
+			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, false);
+
+			if (dataset != null)
+			{
+				return context.select()
+							  .from(VIEW_TABLE_COLLABORATORS)
+							  .where(VIEW_TABLE_COLLABORATORS.DATASET_ID.eq(datasetId)).fetch()
+							  .into(ViewTableCollaborators.class);
+			}
+			else
+			{
+				return null;
 			}
 		}
 	}

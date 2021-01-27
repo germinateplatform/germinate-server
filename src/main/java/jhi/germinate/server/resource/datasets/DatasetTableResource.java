@@ -74,7 +74,7 @@ public class DatasetTableResource extends PaginatedServerResource
 		}
 	}
 
-	public static List<ViewTableDatasets> getDatasetForId(Integer datasetId, Request req, Response resp, boolean checkIfLicenseAccepted)
+	public static ViewTableDatasets getDatasetForId(Integer datasetId, Request req, Response resp, boolean checkIfLicenseAccepted)
 	{
 		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(req, resp);
 
@@ -100,14 +100,20 @@ public class DatasetTableResource extends PaginatedServerResource
 
 			if (dataset == null)
 			{
-				return new ArrayList<>();
+				return null;
 			}
 			else
 			{
 				if (checkIfLicenseAccepted)
-					return restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), req, userDetails);
+				{
+					List<ViewTableDatasets> ds = restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), req, userDetails);
+
+					return CollectionUtils.isEmpty(ds) ? null : ds.get(0);
+				}
 				else
-					return Collections.singletonList(dataset);
+				{
+					return dataset;
+				}
 			}
 		}
 	}

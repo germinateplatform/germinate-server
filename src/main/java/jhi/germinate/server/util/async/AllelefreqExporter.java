@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import jhi.flapjack.io.FlapjackFile;
 import jhi.flapjack.io.binning.*;
 import jhi.flapjack.io.cmd.*;
-import jhi.germinate.server.util.TabFileSubsetter;
+import jhi.germinate.server.util.*;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -191,28 +189,7 @@ public class AllelefreqExporter
 			resultFiles.add(flapjackProjectFile);
 		}
 
-		String prefix = zipFile.getAbsolutePath().replace("\\", "/");
-		if (prefix.startsWith("/"))
-			prefix = prefix.substring(1);
-
-		URI uri = URI.create("jar:file:/" + prefix);
-
-		Map<String, String> env = new HashMap<>();
-		env.put("create", "true");
-		env.put("encoding", "UTF-8");
-
-		try (FileSystem fs = FileSystems.newFileSystem(uri, env, null))
-		{
-			for (File f : resultFiles)
-			{
-				Files.copy(f.toPath(), fs.getPath("/" + f.getName()), StandardCopyOption.REPLACE_EXISTING);
-				f.delete();
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		FileUtils.zipUp(zipFile, resultFiles);
 
 		return logs;
 	}

@@ -17,24 +17,33 @@ import java.util.stream.*;
  */
 public class BaseServerResource extends ServerResource
 {
-	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+	private static final SimpleDateFormat SDF      = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 	private static final SimpleDateFormat SDF_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
 	protected static final String CRLF = "\r\n";
 
-	protected static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, PaginatedServerResource.ExportSettings settings)
+	/**
+	 * Exports the given database result into the writer using the given parameters
+	 *
+	 * @param bw             The {@link Writer} to export to
+	 * @param results        The {@link Result} containing the data
+	 * @param includeHeaders Should the column headers of the database result be included?
+	 * @param fieldsToIgnore Array containing the fields to ignore from the data. They will not appear in the output.
+	 * @throws IOException Thrown if any IO operation fails
+	 */
+	protected static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field[] fieldsToIgnore)
 		throws IOException
 	{
-		List<Field> columnsToNullList = new ArrayList<>();
-		if (settings != null && settings.fieldsToNull != null)
+		List<Field> columnsToIgnore = new ArrayList<>();
+		if (fieldsToIgnore != null)
 		{
-			columnsToNullList.addAll(Arrays.asList(settings.fieldsToNull));
+			columnsToIgnore.addAll(Arrays.asList(fieldsToIgnore));
 		}
 		Row row = results.fieldsRow();
 		if (includeHeaders)
 		{
 			bw.write(row.fieldStream()
-						.filter(f -> !columnsToNullList.contains(f))
+						.filter(f -> !columnsToIgnore.contains(f))
 						.map(Field::getName)
 						.collect(Collectors.joining("\t", "", CRLF)));
 		}
@@ -43,7 +52,7 @@ public class BaseServerResource extends ServerResource
 			{
 				bw.write(IntStream.range(0, row.size())
 								  .boxed()
-								  .filter(i -> !columnsToNullList.contains(row.field(i)))
+								  .filter(i -> !columnsToIgnore.contains(row.field(i)))
 								  .map(i -> {
 									  Object value = r.getValue(i);
 									  if (value == null)
@@ -60,6 +69,11 @@ public class BaseServerResource extends ServerResource
 		});
 	}
 
+	/**
+	 * Returns the location of the project's lib filter as a {@link File}
+	 * @return The location of the project's lib filter as a {@link File}
+	 * @throws URISyntaxException Thrown if the URI of the folder location is invalid
+	 */
 	public static File getLibFolder()
 		throws URISyntaxException
 	{
@@ -73,6 +87,12 @@ public class BaseServerResource extends ServerResource
 		return null;
 	}
 
+	/**
+	 * Returns the file with the given name from the external data folder in the given sub directory structure
+	 * @param filename The name of the file to return
+	 * @param subdirs Optional sub-directory structure
+	 * @return The {@link File} representing the request
+	 */
 	public static File getFromExternal(String filename, String... subdirs)
 	{
 		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));

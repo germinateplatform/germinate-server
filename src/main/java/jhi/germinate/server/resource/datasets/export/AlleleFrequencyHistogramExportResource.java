@@ -43,16 +43,16 @@ public class AlleleFrequencyHistogramExportResource extends BaseServerResource
 		FileRepresentation representation;
 		try (DSLContext context = Database.getContext())
 		{
-			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
+			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), getRequest(), getResponse(), true);
 
-			if (CollectionUtils.isEmpty(ds))
+			if (ds == null)
 				return null;
 
 			Set<String> germplasmNames = GenotypeExportResource.getGermplasmNames(context, request);
 			Set<String> markerNames = GenotypeExportResource.getMarkerNames(context, request);
 
 			// Get the source file
-			File source = getFromExternal(ds.get(0).getSourceFile(), "data", "allelefreq");
+			File source = getFromExternal(ds.getSourceFile(), "data", "allelefreq");
 
 			// Create all temporary files
 			File target = createTempFile("allelefreq-" + CollectionUtils.join(datasetIds, "-"), ".txt");
