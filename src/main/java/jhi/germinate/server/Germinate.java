@@ -212,6 +212,8 @@ public class Germinate extends Application
 		attachToRouter(routerAuth, "/germplasm/{germplasmId}/mcpd", GermplasmMcpdResource.class);
 		attachToRouter(routerAuth, "/germplasm/entity", GermplasmEntityResource.class);
 		attachToRouter(routerAuth, "/germplasm/export", GermplasmExportResource.class);
+		attachToRouter(routerAuth, "/germplasm/location", GermplasmLocationResource.class);
+		attachToRouter(routerAuth, "/germplasm/taxonomy", GermplasmTaxonomyResource.class);
 
 		// GROUPS
 		attachToRouter(routerAuth, "/group/table", GroupTableResource.class);
