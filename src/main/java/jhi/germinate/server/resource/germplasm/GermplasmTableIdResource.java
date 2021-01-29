@@ -40,7 +40,7 @@ public class GermplasmTableIdResource extends GermplasmBaseResource
 		pageSize = Integer.MAX_VALUE;
 		try (DSLContext context = Database.getContext())
 		{
-			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQuery(context);
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
@@ -59,7 +59,7 @@ public class GermplasmTableIdResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

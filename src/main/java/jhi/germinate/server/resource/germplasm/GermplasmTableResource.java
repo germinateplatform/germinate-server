@@ -38,7 +38,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 		processRequest(request);
 		try (DSLContext context = Database.getContext())
 		{
-			SelectJoinStep<?> from = getGermplasmQuery(context);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
@@ -57,7 +57,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()
