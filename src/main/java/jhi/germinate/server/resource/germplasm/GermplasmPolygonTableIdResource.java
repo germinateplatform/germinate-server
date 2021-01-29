@@ -27,13 +27,13 @@ public class GermplasmPolygonTableIdResource extends GermplasmBaseResource
 		pageSize = Integer.MAX_VALUE;
 		try (DSLContext context = Database.getContext())
 		{
-			SelectConditionStep<Record1<Integer>> from = getGermplasmIdQuery(context)
+			SelectConditionStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, null)
 				.where(DSL.field(LATITUDE).isNotNull()
 						  .and(DSL.field(LONGITUDE).isNotNull())
-						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `longitude`, ' ', `latitude`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + GermplasmBaseResource.LONGITUDE + "`, ' ', `" + GermplasmBaseResource.LATITUDE + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

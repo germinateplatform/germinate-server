@@ -8,6 +8,7 @@ import org.jooq.impl.DSL;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -26,12 +27,12 @@ public class GermplasmDistanceTableIdResource extends GermplasmBaseResource
 		pageSize = Integer.MAX_VALUE;
 		try (DSLContext context = Database.getContext())
 		{
-			SelectConditionStep<?> from = getGermplasmIdQuery(context)
+			SelectConditionStep<?> from = getGermplasmIdQueryWrapped(context, null)
 				.where(DSL.field(LONGITUDE).isNotNull())
 				.and(DSL.field(LATITUDE).isNotNull());
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

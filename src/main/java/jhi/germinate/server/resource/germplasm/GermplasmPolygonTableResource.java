@@ -25,13 +25,13 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 		processRequest(request);
 		try (DSLContext context = Database.getContext())
 		{
-			SelectConditionStep<?> from = getGermplasmQuery(context)
+			SelectConditionStep<?> from = getGermplasmQueryWrapped(context, null)
 				.where(DSL.field(LATITUDE).isNotNull()
 						  .and(DSL.field(LONGITUDE).isNotNull())
-						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `longitude`, ' ', `latitude`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + GermplasmBaseResource.LONGITUDE + "`, ' ', `" + GermplasmBaseResource.LATITUDE + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()

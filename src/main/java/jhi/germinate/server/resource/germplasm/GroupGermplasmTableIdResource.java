@@ -6,9 +6,10 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.resource.groups.GroupResource;
 import org.jooq.*;
+import org.jooq.impl.DSL;
 import org.restlet.resource.*;
 
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -46,16 +47,19 @@ public class GroupGermplasmTableIdResource extends GermplasmBaseResource
 		{
 			GroupResource.checkGroupVisibility(context, CustomVerifier.getFromSession(getRequest(), getResponse()), groupId);
 
-			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQuery(context)
-				.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-				.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
+			Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
+			Field<Integer> fieldGroupTypeId = DSL.field("grouptype_id", Integer.class);
+			List<Join<?>> joins = new ArrayList<>();
+			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
+			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, joins, fieldGroupId, fieldGroupTypeId);
 
-			from.where(GROUPS.GROUPTYPE_ID.eq(3));
+			from.where(fieldGroupTypeId.eq(3));
 			if (groupId != null)
-				from.where(GROUPS.ID.eq(groupId));
+				from.where(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

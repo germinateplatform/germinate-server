@@ -38,17 +38,18 @@ public class GermplasmTableResource extends GermplasmBaseResource
 		processRequest(request);
 		try (DSLContext context = Database.getContext())
 		{
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
 			{
+				Field<Integer> fieldId = DSL.field(GermplasmBaseResource.GERMPLASM_ID, Integer.class);
 				try
 				{
 					List<String> names = Files.readAllLines(getTempDir(namesFromFile).toPath());
 
 					if (!CollectionUtils.isEmpty(names))
-						from.where(DSL.field(GERMINATEBASE.getName() + "." + GERMINATEBASE.ID.getName()).in(names));
+						from.where(fieldId.in(names));
 				}
 				catch (IOException e)
 				{

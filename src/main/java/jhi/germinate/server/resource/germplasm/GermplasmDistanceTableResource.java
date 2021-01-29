@@ -35,12 +35,12 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 
 			Field<BigDecimal> c = DSL.asin(DSL.sqrt(a)).times(2);
 
-			SelectConditionStep<?> from = getGermplasmQuery(context, DSL.cast(c.times(6372.8), Double.class).as("distance"))
+			SelectConditionStep<?> from = getGermplasmQueryWrapped(context, null, DSL.cast(c.times(6372.8), Double.class).as("distance"))
 				.where(DSL.field(LONGITUDE).isNotNull())
 				.and(DSL.field(LATITUDE).isNotNull());
 
 			// Filter here!
-			filter(from, adjustFilter(filters));
+			filter(from, filters);
 
 			List<GermplasmDistance> result = setPaginationAndOrderBy(from)
 				.fetch()

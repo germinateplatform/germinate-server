@@ -5,6 +5,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.impl.DSL;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.Post;
 
@@ -12,6 +13,7 @@ import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
 
 /**
  * @author Sebastian Raubach
@@ -37,7 +39,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				procedure.execute(context.configuration());
 
-				return export(procedure.getResults().get(0), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
+				return export(procedure.getResults().get(0), "germplasm-table-");
 			}
 			else
 			{
@@ -55,28 +57,30 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 						processRequest(request);
 
-						SelectJoinStep<?> from = getGermplasmQuery(context);
+						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
 
 						// Filter here!
-						filter(from, adjustFilter(filters));
+						filter(from, filters);
 
-						return export(from.fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
+						return export(from.fetch(), "germplasm-table-");
 					}
 					else if (request.getGroupIds() != null)
 					{
 						processRequest(request);
 
-						SelectConditionStep<?> from = getGermplasmQuery(context)
-							.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-							.where(GROUPMEMBERS.GROUP_ID.in(request.getGroupIds()));
+						Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
+						List<Join<?>> joins = new ArrayList<>();
+						joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
+						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, fieldGroupId);
+						from.where(fieldGroupId.in(request.getGroupIds()));
 
-						return export(from.fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
+						return export(from.fetch(), "germplasm-table-");
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return export(getGermplasmQuery(context).fetch(), "germplasm-table-" + getFormattedDateTime(new Date()) + "-");
+				return export(getGermplasmQueryWrapped(context, null).fetch(), "germplasm-table-");
 			}
 		}
 	}

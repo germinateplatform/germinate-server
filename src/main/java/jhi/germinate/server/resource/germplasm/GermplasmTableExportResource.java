@@ -18,7 +18,7 @@ public class GermplasmTableExportResource extends GermplasmBaseResource
 
 		try (DSLContext context = Database.getContext())
 		{
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
 
 			// Filter here!
 			filter(from, filters);
