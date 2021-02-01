@@ -53,7 +53,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 
 			Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
 			Field<Integer> fieldGroupTypeId = DSL.field("grouptype_id", Integer.class);
-			List<Join<?>> joins = new ArrayList<>();
+			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));

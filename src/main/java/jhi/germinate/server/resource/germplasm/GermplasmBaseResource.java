@@ -63,7 +63,7 @@ public class GermplasmBaseResource extends PaginatedServerResource
 	public static String HAS_ALLELEFREQ_DATA              = "has_allelefreq_data";
 	public static String HAS_COMPOUND_DATA                = "has_compound_data";
 
-	protected SelectJoinStep<Record1<Integer>> getGermplasmIdQueryWrapped(DSLContext context, List<Join<?>> joins, Field<?>... additionalFields)
+	protected <A> SelectJoinStep<Record1<Integer>> getGermplasmIdQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
 	{
 		Germinatebase g = GERMINATEBASE.as("g");
 
@@ -149,16 +149,14 @@ public class GermplasmBaseResource extends PaginatedServerResource
 										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins)) {
-			for (int i = 0; i < joins.size(); i++) {
-				Join join = joins.get(i);
+			for (Join<A> join : joins)
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
-			}
 		}
 
 		return context.selectDistinct(DSL.field(GERMPLASM_ID, Integer.class)).from(inner);
 	}
 
-	protected SelectJoinStep<?> getGermplasmQueryWrapped(DSLContext context, List<Join<?>> joins, Field<?>... additionalFields) {
+	protected <A> SelectJoinStep<?> getGermplasmQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields) {
 		Germinatebase g = GERMINATEBASE.as("g");
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
@@ -247,10 +245,8 @@ public class GermplasmBaseResource extends PaginatedServerResource
 										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins)) {
-			for (int i = 0; i < joins.size(); i++) {
-				Join join = joins.get(i);
+			for (Join<A> join : joins)
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
-			}
 		}
 
 		return select.from(inner);

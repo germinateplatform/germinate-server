@@ -69,7 +69,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						processRequest(request);
 
 						Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
-						List<Join<?>> joins = new ArrayList<>();
+						List<Join<Integer>> joins = new ArrayList<>();
 						joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, fieldGroupId);
 						from.where(fieldGroupId.in(request.getGroupIds()));
