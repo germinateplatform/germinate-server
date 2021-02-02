@@ -182,6 +182,6 @@ public class FileResourceResource extends BaseServerResource
 		String uuid = UUID.randomUUID().toString();
 
 		// Write the representation to a file in the temp directory initially. We'll move it later when the database object is received.
-		return FileUploadHandler.handle(entity, "file", new File(System.getProperty("java.io.tmpdir"), uuid));
+		return FileUploadHandler.handle(entity, "file", new File(System.getProperty("java.io.tmpdir"), uuid)).getName();
 	}
 }

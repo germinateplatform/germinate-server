@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-
 /**
  * @author Sebastian Raubach
  */

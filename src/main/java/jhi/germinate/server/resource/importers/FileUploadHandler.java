@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class FileUploadHandler
 {
-	public static String handle(Representation entity, String formIdentifier, File targetFile)
+	public static File handle(Representation entity, String formIdentifier, File targetFile)
 	{
 		if (entity != null)
 		{
@@ -46,7 +46,7 @@ public class FileUploadHandler
 							String extension = filename.substring(filename.lastIndexOf(".") + 1);
 							targetFile = new File(targetFile.getParentFile(), targetFile.getName() + "." + extension);
 							FileUtils.copyInputStreamToFile(fi.openStream(), targetFile);
-							return targetFile.getName();
+							return targetFile;
 						}
 					}
 

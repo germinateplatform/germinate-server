@@ -28,26 +28,30 @@ public class CurlyWhirlyGroupCreationResource extends BaseServerResource
 		try (DSLContext context = Database.getContext())
 		{
 			// Create a temp file
-			File file = createTempFile("group-upload", "txt");
+			File tempFile = createTempFile("group-upload", "txt");
 			// Write the representation to it
-			FileUploadHandler.handle(entity, "textfile", file);
+			File targetFile = FileUploadHandler.handle(entity, "textfile", tempFile);
 
-			List<String> names = Files.readAllLines(file.toPath());
+			List<String> names = Files.readAllLines(targetFile.toPath());
 
 			List<String> ids = new ArrayList<>();
 
 			// If there are names in the file, look up their ids
 			if (!CollectionUtils.isEmpty(names))
+			{
 				ids = context.selectDistinct(GERMINATEBASE.ID.cast(String.class))
 							 .from(GERMINATEBASE)
 							 .where(GERMINATEBASE.NAME.in(names))
 							 .fetchInto(String.class);
+			}
 
 			// Write the ids back
-			Files.write(file.toPath(), ids, StandardCharsets.UTF_8);
+			Files.write(targetFile.toPath(), ids, StandardCharsets.UTF_8);
+
+			tempFile.delete();
 
 			// Then return the name of the file
-			return file.getName();
+			return targetFile.getName();
 		}
 		catch (IOException e)
 		{
