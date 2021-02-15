@@ -1,6 +1,5 @@
 package jhi.germinate.server.resource.germplasm;
 
-import jhi.germinate.resource.Filter;
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
 import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.CollectionUtils;
@@ -148,7 +147,8 @@ public class GermplasmBaseResource extends PaginatedServerResource
 										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(GERMINATEBASE.BIOLOGICALSTATUS_ID))
 										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
-		if (!CollectionUtils.isEmpty(joins)) {
+		if (!CollectionUtils.isEmpty(joins))
+		{
 			for (Join<A> join : joins)
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
 		}
@@ -156,7 +156,8 @@ public class GermplasmBaseResource extends PaginatedServerResource
 		return context.selectDistinct(DSL.field(GERMPLASM_ID, Integer.class)).from(inner);
 	}
 
-	protected <A> SelectJoinStep<?> getGermplasmQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields) {
+	protected <A> SelectJoinStep<?> getGermplasmQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
+	{
 		Germinatebase g = GERMINATEBASE.as("g");
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
@@ -244,7 +245,8 @@ public class GermplasmBaseResource extends PaginatedServerResource
 										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(GERMINATEBASE.BIOLOGICALSTATUS_ID))
 										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
-		if (!CollectionUtils.isEmpty(joins)) {
+		if (!CollectionUtils.isEmpty(joins))
+		{
 			for (Join<A> join : joins)
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
 		}
@@ -252,8 +254,9 @@ public class GermplasmBaseResource extends PaginatedServerResource
 		return select.from(inner);
 	}
 
-	public static class Join<A> {
-		private TableImpl<?> table;
+	public static class Join<A>
+	{
+		private TableImpl<?>     table;
 		private TableField<?, A> left;
 		private TableField<?, A> right;
 

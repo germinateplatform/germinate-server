@@ -64,6 +64,7 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 			List<String> tags = Arrays.stream(request.getTags())
 									  .filter(Objects::nonNull)
 									  .map(String::strip)
+									  .map(String::toLowerCase)
 									  .collect(Collectors.toList());
 
 			if (request.isAddition())
@@ -108,6 +109,9 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 															.where(IMAGETAGS.TAG_NAME.in(tags))))
 					   .execute();
 			}
+
+			// Remove any tag that no longer has an image associated with it
+			context.deleteFrom(IMAGETAGS).whereNotExists(DSL.selectOne().from(IMAGE_TO_TAGS).where(IMAGE_TO_TAGS.IMAGETAG_ID.eq(IMAGETAGS.ID))).execute();
 		}
 		catch (IOException e)
 		{
@@ -138,11 +142,14 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 			List<String> newTags = Arrays.stream(tags)
 										 .filter(Objects::nonNull)
 										 .map(String::strip)
+										 .map(String::toLowerCase)
 										 .collect(Collectors.toList());
 
 			// Get the existing tags from the database
-			List<String> existingTags = context.selectFrom(IMAGETAGS.leftJoin(IMAGE_TO_TAGS).on(IMAGE_TO_TAGS.IMAGETAG_ID.eq(IMAGETAGS.ID)))
-											   .fetch(IMAGETAGS.TAG_NAME);
+			List<String> existingTags = context.select(IMAGETAGS.TAG_NAME.lower())
+											   .from(IMAGETAGS)
+											   .leftJoin(IMAGE_TO_TAGS).on(IMAGE_TO_TAGS.IMAGETAG_ID.eq(IMAGETAGS.ID))
+											   .fetchInto(String.class);
 
 			// Check which tags are actually new
 			List<String> toAdd = new ArrayList<>(newTags);
@@ -168,6 +175,9 @@ public class ImageSpecificTagResource extends PaginatedServerResource
 			InsertValuesStep2<ImageToTagsRecord, Integer, Integer> step = context.insertInto(IMAGE_TO_TAGS, IMAGE_TO_TAGS.IMAGE_ID, IMAGE_TO_TAGS.IMAGETAG_ID);
 			newTags.forEach(t -> step.values(imageId, idMapping.get(t)));
 			step.execute();
+
+			// Remove any tag that no longer has an image associated with it
+			context.deleteFrom(IMAGETAGS).whereNotExists(DSL.selectOne().from(IMAGE_TO_TAGS).where(IMAGE_TO_TAGS.IMAGETAG_ID.eq(IMAGETAGS.ID))).execute();
 		}
 	}
 

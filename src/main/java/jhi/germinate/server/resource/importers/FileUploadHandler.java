@@ -40,8 +40,7 @@ public class FileUploadHandler
 						FileItemStream fi = fileIterator.next();
 						if (fi.getFieldName().equals(formIdentifier))
 						{
-							// consume the stream immediately, otherwise the stream
-							// will be closed.
+							// Consume the stream immediately, otherwise the stream will be closed.
 							String filename = fi.getName();
 							String extension = filename.substring(filename.lastIndexOf(".") + 1);
 							targetFile = new File(targetFile.getParentFile(), targetFile.getName() + "." + extension);

@@ -10,7 +10,8 @@ import java.io.*;
 import java.net.*;
 import java.text.*;
 import java.util.*;
-import java.util.stream.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author Sebastian Raubach
@@ -31,36 +32,34 @@ public class BaseServerResource extends ServerResource
 	 * @param fieldsToIgnore Array containing the fields to ignore from the data. They will not appear in the output.
 	 * @throws IOException Thrown if any IO operation fails
 	 */
-	protected static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field[] fieldsToIgnore)
+	protected static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore)
 		throws IOException
 	{
-		List<Field> columnsToIgnore = new ArrayList<>();
-		if (fieldsToIgnore != null)
-		{
-			columnsToIgnore.addAll(Arrays.asList(fieldsToIgnore));
-		}
-		Row row = results.fieldsRow();
+		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).collect(Collectors.toList());
+		List<String> columnsToInclude = Arrays.stream(results.fields())
+											  .map(Field::getName)
+											  .filter(name -> !columnsToIgnore.contains(name))
+											  .collect(Collectors.toList());
+
+		Logger.getLogger("").info("FIELDSROW: " + results.fieldsRow().toString());
+
 		if (includeHeaders)
-		{
-			bw.write(row.fieldStream()
-						.filter(f -> !columnsToIgnore.contains(f))
-						.map(Field::getName)
-						.collect(Collectors.joining("\t", "", CRLF)));
-		}
+			bw.write(columnsToInclude.stream().collect(Collectors.joining("\t", "", CRLF)));
+
+		Logger.getLogger("").info("COLUMNS: " + columnsToInclude);
+
 		results.forEach(r -> {
 			try
 			{
-				bw.write(IntStream.range(0, row.size())
-								  .boxed()
-								  .filter(i -> !columnsToIgnore.contains(row.field(i)))
-								  .map(i -> {
-									  Object value = r.getValue(i);
-									  if (value == null)
-										  return "";
-									  else
-										  return value.toString();
-								  })
-								  .collect(Collectors.joining("\t", "", CRLF)));
+				bw.write(columnsToInclude.stream()
+										 .map(name -> {
+											 Object value = r.getValue(name);
+											 if (value == null)
+												 return "";
+											 else
+												 return value.toString();
+										 })
+										 .collect(Collectors.joining("\t", "", CRLF)));
 			}
 			catch (IOException e)
 			{
@@ -71,6 +70,7 @@ public class BaseServerResource extends ServerResource
 
 	/**
 	 * Returns the location of the project's lib filter as a {@link File}
+	 *
 	 * @return The location of the project's lib filter as a {@link File}
 	 * @throws URISyntaxException Thrown if the URI of the folder location is invalid
 	 */
@@ -89,8 +89,9 @@ public class BaseServerResource extends ServerResource
 
 	/**
 	 * Returns the file with the given name from the external data folder in the given sub directory structure
+	 *
 	 * @param filename The name of the file to return
-	 * @param subdirs Optional sub-directory structure
+	 * @param subdirs  Optional sub-directory structure
 	 * @return The {@link File} representing the request
 	 */
 	public static File getFromExternal(String filename, String... subdirs)

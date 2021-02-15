@@ -12,18 +12,16 @@ import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.traits.TraitTableResource;
 import jhi.germinate.server.util.*;
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.restlet.data.Status;
 import org.restlet.data.*;
 import org.restlet.representation.FileRepresentation;
 import org.restlet.resource.*;
 
 import java.io.*;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
-import java.nio.file.*;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.Date;
 import java.util.*;
 import java.util.logging.Logger;
 

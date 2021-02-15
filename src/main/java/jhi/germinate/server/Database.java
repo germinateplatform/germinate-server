@@ -73,7 +73,9 @@ public class Database
 		Database.datasource.addDataSourceProperty("useServerPrepStmts", "true");
 		Database.datasource.addDataSourceProperty("useLocalSessionState", "true");
 		Database.datasource.addDataSourceProperty("rewriteBatchedStatements", "true");
-		Database.datasource.addDataSourceProperty("cacheResultSetMetadata", "true");
+		// Setting this to `true` would cause stored procedures that return varying nmber of columns
+		// to be seen as always returning the number of columns as the first call to the stored procedure.
+		Database.datasource.addDataSourceProperty("cacheResultSetMetadata", "false");
 		Database.datasource.addDataSourceProperty("cacheServerConfiguration", "true");
 		Database.datasource.addDataSourceProperty("elideSetAutoCommits", "true");
 		Database.datasource.addDataSourceProperty("maintainTimeStats", "false");
