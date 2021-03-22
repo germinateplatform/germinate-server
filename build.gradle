@@ -29,6 +29,9 @@ repositories {
     jcenter()
     mavenCentral()
     maven {
+        url 'https://maven.restlet.talend.com'
+    }
+    maven {
         url 'https://repo.spring.io/plugins-release/'
     }
     maven {
@@ -43,11 +46,11 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-fileupload:commons-fileupload:1.4'
 
-    implementation 'org.restlet.jee:org.restlet:2.4.0'
-    implementation 'org.restlet.jee:org.restlet.ext.servlet:2.4.0'
-    implementation 'org.restlet.jee:org.restlet.ext.fileupload:2.4.0'
-    implementation 'org.restlet.jee:org.restlet.ext.json:2.4.0'
-    implementation 'org.restlet.jee:org.restlet.ext.gson:2.3.6'
+    implementation 'org.restlet.jee:org.restlet:2.4.3'
+    implementation 'org.restlet.jee:org.restlet.ext.servlet:2.4.3'
+    implementation 'org.restlet.jee:org.restlet.ext.fileupload:2.4.3'
+    implementation 'org.restlet.jee:org.restlet.ext.json:2.4.3'
+    implementation 'org.restlet.jee:org.restlet.ext.gson:2.4.3'
     implementation 'org.json:json:20160212'
 
     implementation 'mysql:mysql-connector-java:8.0.16'
