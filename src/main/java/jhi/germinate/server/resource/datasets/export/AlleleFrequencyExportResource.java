@@ -11,6 +11,7 @@ import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.CollectionUtils;
 import jhi.germinate.server.util.async.*;
+import jhi.oddjob.JobInfo;
 import org.jooq.Result;
 import org.jooq.*;
 import org.restlet.data.Status;
@@ -133,7 +134,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			args.add(dsName);
 			args.add(request.isGenerateFlapjackProject() ? AdditionalExportFormat.flapjack.name() : "\"\"");
 
-			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
+			JobInfo info = ApplicationListener.SCHEDULER.submit("AlleleFrequencyGenotypeExporter", "java", args, asyncFolder.getAbsolutePath());
 
 			JsonArray array = new JsonArray(1);
 			array.add(ds.getDatasetId());
@@ -141,7 +142,7 @@ public class AlleleFrequencyExportResource extends BaseServerResource
 			// Store the job information in the database
 			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
 			dbJob.setUuid(uuid);
-			dbJob.setJobId(jobId);
+			dbJob.setJobId(info.getId());
 			dbJob.setDatasetIds(array);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setDatasettypeId(4);

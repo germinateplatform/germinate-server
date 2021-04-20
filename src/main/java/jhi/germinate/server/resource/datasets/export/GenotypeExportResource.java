@@ -14,10 +14,11 @@ import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.oddjob.JobInfo;
 import org.jooq.Result;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.Request;
+import org.restlet.*;
 import org.restlet.data.Status;
 import org.restlet.resource.*;
 
@@ -146,7 +147,7 @@ public class GenotypeExportResource extends BaseServerResource
 				else
 					args.add("\"\"");
 
-				String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
+				JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateGenotypeExporter", "java", args, asyncFolder.getAbsolutePath());
 
 				JsonArray array = new JsonArray(1);
 				array.add(ds.getDatasetId());
@@ -154,7 +155,7 @@ public class GenotypeExportResource extends BaseServerResource
 				// Store the job information in the database
 				DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
 				dbJob.setUuid(uuid);
-				dbJob.setJobId(jobId);
+				dbJob.setJobId(info.getId());
 				dbJob.setDatasetIds(array);
 				dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 				dbJob.setDatasettypeId(1);

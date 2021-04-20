@@ -6,8 +6,6 @@ import jhi.germinate.server.util.Hdf5ToFJTabbedConverter;
 import jhi.germinate.server.util.*;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.*;

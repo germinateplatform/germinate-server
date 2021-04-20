@@ -1,0 +1,2 @@
+ALTER TABLE `data_import_jobs`
+MODIFY COLUMN `datatype` enum('mcpd','trial','compound','genotype','pedigree','groups','climate') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'mcpd' AFTER `is_update`;

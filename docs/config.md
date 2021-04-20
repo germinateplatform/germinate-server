@@ -126,13 +126,13 @@ data.directory.external = <location of the directory containing the configuratio
 # NONE disables authentication (and the use of Gatekeeper).
 # FULL requires all users to log in before they can even see any data.
 # SELECTIVE only requires users to log in if they want to use any features that alter the database, e.g. creating groups, adding comments, etc.
-authentication.mode = <either 'SELECTIVE', 'FULL' or 'NONE'>
+authentication.mode = <either 'SELECTIVE', 'FULL' or 'NONE'; don't include the quotes>
 
 # The data import mode determines whether Data Curators (in Gatekeeper) can verify or upload data in the Excel templates.
 # NONE disables data verification and upload
 # VERIFY allows the upload and checking/verification of templates
 # IMPORT allows everything VERIFY does, but also allows the actual import of data after the verification step
-data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'>
+data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'; don't include the quotes>
 
 # These are used to allow linking to an external resource from the marked germplasm page
 external.link.identifier=<the column from the germinatebase to use>
@@ -145,7 +145,7 @@ files.delete.after.hours.temp  = <after how many hours should temporary files be
 # Google Analytics will be enabled if this property is set.
 google.analytics.key      = <google analytics key if using>
 # The colored boxes at the top of the dashboard/home page can be changed here.
-dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'maps', 'traits', 'climates', 'compounds', 'locations', 'datasets', 'datasetsGenotype', 'datasetsTrials', 'datasetsAllelefreq', 'datasetsClimate', 'datasetsCompound', 'experiments', 'groups', 'images', 'fileresources'>
+dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'maps', 'traits', 'climates', 'compounds', 'locations', 'datasets', 'datasetsGenotype', 'datasetsTrials', 'datasetsAllelefreq', 'datasetsClimate', 'datasetsCompound', 'experiments', 'groups', 'images', 'fileresources'; don't include the quotes>
 # Pages can be hidden for example if you don't have that kind of data.
 hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/router/index.js)>
 # The comments feature can be disabled if you don't want users to add comments.

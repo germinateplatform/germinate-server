@@ -37,6 +37,13 @@ public class StringUtils
 		return input == null || input.strip().isEmpty();
 	}
 
+	public static boolean isEmptyOrQuotes(String input) {
+		if (isEmpty(input))
+			return true;
+		else
+			return isEmpty(input.replace("'", "").replace("\"", ""));
+	}
+
 	public static String orEmpty(String input)
 	{
 		if (isEmpty(input))

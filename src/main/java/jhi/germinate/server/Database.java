@@ -217,7 +217,7 @@ public class Database
 
 	private static String getDatabaseUrl()
 	{
-		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmpty(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
+		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
 	}
 
 	private static Connection getDirectConnection()

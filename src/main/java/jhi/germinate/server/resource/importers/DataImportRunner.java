@@ -10,6 +10,7 @@ import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.importer.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.restlet.data.Status;
@@ -60,9 +61,9 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.IMPORT.name()); // Import straight away, no need to check it again
 			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
 
-			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
+			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
-			record.setJobId(jobId);
+			record.setJobId(info.getId());
 			record.setStatus(DataImportJobsStatus.running);
 			record.setImported(true);
 			record.store();
@@ -111,12 +112,12 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
 			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
 
-			String jobId = ApplicationListener.SCHEDULER.submit("java", args, asyncFolder.getAbsolutePath());
+			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
 			// Store the job information in the database
 			DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);
 			dbJob.setUuid(uuid);
-			dbJob.setJobId(jobId);
+			dbJob.setJobId(info.getId());
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setDatatype(dataType);
 			dbJob.setOriginalFilename(originalFileName);
@@ -159,6 +160,8 @@ public class DataImportRunner
 				return PedigreeImporter.class.getCanonicalName();
 			case groups:
 				return GroupImporter.class.getCanonicalName();
+			case climate:
+				return ClimateDataImporter.class.getCanonicalName();
 			default:
 				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
 				// TODO: Others
