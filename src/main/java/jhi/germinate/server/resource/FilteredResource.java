@@ -82,7 +82,7 @@ public interface FilteredResource
 
 	default Condition filterIndividual(Filter filter, boolean jsonOperationAllowed)
 	{
-		Field<Object> field = DSL.field(filter.getSafeColumn());
+		Field<Object> field = DSL.field("{0}", filter.getSafeColumn());
 		List<String> values = new ArrayList<>();
 
 		if (!CollectionUtils.isEmpty(filter.getValues()))
