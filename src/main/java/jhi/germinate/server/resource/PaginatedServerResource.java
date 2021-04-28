@@ -98,9 +98,9 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		if (ascending != null && orderBy != null)
 		{
 			if (ascending)
-				step.orderBy(DSL.field(orderBy).asc());
+				step.orderBy(DSL.field("{0}", orderBy).asc());
 			else
-				step.orderBy(DSL.field(orderBy).desc());
+				step.orderBy(DSL.field("{0}", orderBy).desc());
 		}
 
 		return step.limit(pageSize)

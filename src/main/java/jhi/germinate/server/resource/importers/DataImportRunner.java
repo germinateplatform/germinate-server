@@ -42,7 +42,7 @@ public class DataImportRunner
 												 .where(DATA_IMPORT_JOBS.UUID.eq(uuid))
 												 .and(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.completed))
 												 .and(DATA_IMPORT_JOBS.IMPORTED.eq(false))
-												 .and(DSL.field("JSON_LENGTH(" + DATA_IMPORT_JOBS.FEEDBACK.getName() + ")").eq(0))
+												 .and(DSL.field("JSON_LENGTH({0})", DATA_IMPORT_JOBS.FEEDBACK.getName()).eq(0))
 												 .fetchAnyInto(DataImportJobsRecord.class);
 
 			if (record == null)

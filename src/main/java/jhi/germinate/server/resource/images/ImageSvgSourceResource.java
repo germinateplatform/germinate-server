@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.images;
 
 import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.apache.commons.io.IOUtils;
 import org.restlet.data.Status;
@@ -38,7 +38,11 @@ public class ImageSvgSourceResource extends ServerResource
 	{
 		if (!StringUtils.isEmpty(name))
 		{
-			File file = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), "template"), name);
+			File parent = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), "template");
+			File file = new File(parent, name);
+
+			if (!FileUtils.isSubDirectory(parent, file))
+				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
 
 			if (file.exists() && file.isFile())
 			{

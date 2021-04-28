@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.images;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.auth.*;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
@@ -78,7 +78,12 @@ public class ImageSourceResource extends ServerResource
 		}
 		else if (!StringUtils.isEmpty(name))
 		{
-			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), type.name()), name);
+			File parent = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images");
+			File large = new File(new File(parent, type.name()), name);
+
+			if (!FileUtils.isSubDirectory(parent, large))
+				throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 
 			name = large.getName();
