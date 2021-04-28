@@ -2,6 +2,7 @@ package jhi.germinate.server.resource;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.util.StringUtils;
 import org.jooq.*;
 import org.jooq.impl.*;
 import org.restlet.data.*;
@@ -98,14 +99,25 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 		if (ascending != null && orderBy != null)
 		{
 			if (ascending)
-				step.orderBy(DSL.field("{0}", orderBy).asc());
+				step.orderBy(DSL.field(getSafeColumn(orderBy)).asc());
 			else
-				step.orderBy(DSL.field("{0}", orderBy).desc());
+				step.orderBy(DSL.field(getSafeColumn(orderBy)).desc());
 		}
 
 		return step.limit(pageSize)
 				   .offset(pageSize * currentPage);
+	}
 
+	protected static String getSafeColumn(String column)
+	{
+		if (StringUtils.isEmpty(column))
+		{
+			return null;
+		}
+		else
+		{
+			return column.replaceAll("[^a-zA-Z0-9._-]", "").replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+		}
 	}
 
 	protected String getRequestAttributeAsString(String parameter)
@@ -217,7 +229,7 @@ public class PaginatedServerResource extends BaseServerResource implements Filte
 
 			try (DSLContext context = Database.getContext();
 				 FileSystem fs = FileSystems.newFileSystem(uri, env, null);
-				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + getFormattedDateTime(new Date()) +  ".txt"), StandardCharsets.UTF_8)))
+				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + getFormattedDateTime(new Date()) + ".txt"), StandardCharsets.UTF_8)))
 			{
 				SelectJoinStep<Record> from = context.select()
 													 .from(table);
