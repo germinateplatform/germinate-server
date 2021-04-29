@@ -67,6 +67,7 @@ public class Database
 		Database.datasource.setJdbcUrl(getDatabaseUrl());
 		Database.datasource.setUsername(username);
 		Database.datasource.setPassword(password);
+		Database.datasource.addDataSourceProperty("maximumPoolSize", "5");
 		Database.datasource.addDataSourceProperty("cachePrepStmts", "true");
 		Database.datasource.addDataSourceProperty("prepStmtCacheSize", "250");
 		Database.datasource.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -94,6 +95,7 @@ public class Database
 			catch (SQLException e)
 			{
 				e.printStackTrace();
+				Logger.getLogger("").severe(e.getLocalizedMessage());
 
 				// If the attempt fails, wait 5 seconds before the next one
 				try
