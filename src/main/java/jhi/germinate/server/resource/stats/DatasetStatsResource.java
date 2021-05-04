@@ -47,7 +47,7 @@ public class DatasetStatsResource extends BaseServerResource
 				Set<String> years = new TreeSet<>();
 				Map<String, DatasetStats> datasetTypeToStats = new TreeMap<>();
 
-				Field<String> theYear = DSL.field("IF(ISNULL({2}), 'UNKNOWN', DATE_FORMAT({0}, {1}))", SQLDataType.VARCHAR, DATASETS.DATE_START, DSL.inline("%Y"), DATASETS.DATE_START.getName());
+				Field<String> theYear = DSL.field("IF(ISNULL(" + DATASETS.DATE_START.getName() + "), 'UNKNOWN', DATE_FORMAT({0}, {1}))", SQLDataType.VARCHAR, DATASETS.DATE_START, DSL.inline("%Y"));
 
 				context.select(
 					DATASETTYPES.DESCRIPTION.as("dataset_type"),
