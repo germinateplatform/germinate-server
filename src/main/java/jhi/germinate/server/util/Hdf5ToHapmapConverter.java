@@ -14,6 +14,12 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 {
 	private Map<String, MarkerPosition> map;
 
+	public static void main(String[] args) {
+		File hdf5 = new File("C:\\Users\\sr41756\\Downloads\\germinate_genotype_780987359555222650.hdf5");
+
+		new Hdf5ToHapmapConverter(hdf5, null, null, new HashMap<>(), "C:\\Users\\sr41756\\Downloads\\germinate_genotype_780987359555222650.hapmap").extractData(null);
+	}
+
 	public Hdf5ToHapmapConverter(File hdf5File, Set<String> lines, Set<String> markers, Map<String, MarkerPosition> map, String outputFilePath)
 	{
 		super(hdf5File, lines, markers, outputFilePath);
@@ -60,7 +66,7 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 				// Read in a marker row (all of its alleles from file)
 				// Get from DATA, lineInds.size(), 1 column, start from row 0 and column markerInds.get(markerName).
 				// The resulting 2d array only contains one 1d array. Take that as the marker genotype data.
-				byte[][] g = reader.int8().readMatrixBlock(DATA, lineInds.size(), 1, 0, markerInds.get(markerName));
+				byte[][] g = reader.int8().readMatrixBlock(DATA, hdf5Lines.size(), 1, 0, markerInds.get(markerName));
 				byte[] genotypes = new byte[g.length];
 				for (int i = 0; i < g.length; i++)
 					genotypes[i] = g[i][0];

@@ -73,7 +73,7 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 					// Read in a marker row (all of its alleles from file)
 					// Get from DATA, lineInds.size(), 1 column, start from row 0 and column markerInds.get(markerName).
 					// The resulting 2d array only contains one 1d array. Take that as the marker genotype data.
-					byte[][] g = reader.int8().readMatrixBlock(DATA, lineInds.size(), 1, 0, markerInds.get(markerName));
+					byte[][] g = reader.int8().readMatrixBlock(DATA, hdf5Lines.size(), 1, 0, markerInds.get(markerName));
 					byte[] genotypes = new byte[g.length];
 					for (int i = 0; i < g.length; i++)
 						genotypes[i] = g[i][0];
