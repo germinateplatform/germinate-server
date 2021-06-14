@@ -81,8 +81,8 @@ public class MapExportRequest
 	public static class Region
 	{
 		private String chromosome;
-		private Double   start;
-		private Double   end;
+		private Double start;
+		private Double end;
 
 		public String getChromosome()
 		{

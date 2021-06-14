@@ -7,14 +7,14 @@ public class Quantiles
 {
 	private Integer datasetId;
 	private Integer xId;
-	private String groupIds;
-	private double min;
-	private double q1;
-	private double median;
-	private double q3;
-	private double max;
-	private double avg;
-	private int count;
+	private String  groupIds;
+	private double  min;
+	private double  q1;
+	private double  median;
+	private double  q3;
+	private double  max;
+	private double  avg;
+	private int     count;
 
 	public Integer getDatasetId()
 	{

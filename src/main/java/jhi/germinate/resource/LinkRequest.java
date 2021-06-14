@@ -5,7 +5,7 @@ package jhi.germinate.resource;
  */
 public class LinkRequest
 {
-	private String targetTable;
+	private String  targetTable;
 	private Integer foreignId;
 
 	public String getTargetTable()

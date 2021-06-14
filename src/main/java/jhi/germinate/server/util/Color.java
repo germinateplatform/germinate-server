@@ -28,13 +28,13 @@ import java.io.Serializable;
 public class Color implements Serializable
 {
 	/** White color constant: rgb(255, 255, 255) */
-	public static final Color WHITE      = new Color(255, 255, 255);
+	public static final  Color  WHITE  = new Color(255, 255, 255);
 	/** Black color constant: rgb(0, 0, 0) */
-	public static final Color BLACK      = new Color(0, 0, 0);
+	public static final  Color  BLACK  = new Color(0, 0, 0);
 	private static final double FACTOR = 0.7;
-	private int red   = 0;
-	private int green = 0;
-	private int blue  = 0;
+	private              int    red    = 0;
+	private              int    green  = 0;
+	private              int    blue   = 0;
 
 	public Color()
 	{
@@ -106,7 +106,7 @@ public class Color implements Serializable
 		else if (hex.length() == 4)
 		{
 			return new Color(Integer.valueOf(hex.substring(1, 2) + hex.substring(1, 2), 16), Integer.valueOf(hex.substring(2, 3) + hex.substring(2, 3), 16), Integer.valueOf(
-					hex.substring(3, 4) + hex.substring(3, 4), 16));
+				hex.substring(3, 4) + hex.substring(3, 4), 16));
 		}
 		else
 		{
@@ -229,8 +229,8 @@ public class Color implements Serializable
 	public Color darker()
 	{
 		return new Color(Math.max((int) (red * FACTOR), 0),
-				Math.max((int) (green * FACTOR), 0),
-				Math.max((int) (blue * FACTOR), 0));
+			Math.max((int) (green * FACTOR), 0),
+			Math.max((int) (blue * FACTOR), 0));
 	}
 
 	/**
@@ -260,8 +260,8 @@ public class Color implements Serializable
 		if (g > 0 && g < i) g = i;
 		if (b > 0 && b < i) b = i;
 		return new Color(Math.min((int) (r / FACTOR), 255),
-				Math.min((int) (g / FACTOR), 255),
-				Math.min((int) (b / FACTOR), 255));
+			Math.min((int) (g / FACTOR), 255),
+			Math.min((int) (b / FACTOR), 255));
 	}
 
 	public boolean isDark()

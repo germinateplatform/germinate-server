@@ -6,7 +6,7 @@ package jhi.germinate.resource;
 public class EntityTypeStats
 {
 	private Integer entityTypeId;
-	private String entityTypeName;
+	private String  entityTypeName;
 	private Integer count;
 
 	public EntityTypeStats()
