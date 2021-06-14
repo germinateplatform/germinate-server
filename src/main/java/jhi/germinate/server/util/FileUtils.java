@@ -2,6 +2,7 @@ package jhi.germinate.server.util;
 
 import java.io.*;
 import java.net.URI;
+import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.util.*;
 
@@ -42,8 +43,9 @@ public class FileUtils
 
 	/**
 	 * Creates a zip file in place of the given file and adds all files from the list to it.
+	 *
 	 * @param zipFile The zip file to create
-	 * @param files The files to add to the zip file
+	 * @param files   The files to add to the zip file
 	 */
 	public static void zipUp(File zipFile, List<File> files)
 	{

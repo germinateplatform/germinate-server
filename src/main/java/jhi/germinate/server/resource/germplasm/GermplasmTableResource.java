@@ -3,39 +3,38 @@ package jhi.germinate.server.resource.germplasm;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.*;
 import java.util.List;
 
-/**
- * @author Sebastian Raubach
- */
+@Path("germplasm/table")
+@Secured
+@PermitAll
 public class GermplasmTableResource extends GermplasmBaseResource
 {
-	public static final String PARAM_NAMES_FROM_FILE = "namesFromFile";
-
+	@DefaultValue("")
+	@QueryParam("namesFromFile")
 	private String namesFromFile;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		this.namesFromFile = getQueryValue(PARAM_NAMES_FROM_FILE);
-	}
-
-	@Post("json")
-	public PaginatedResult<List<ViewTableGermplasm>> getJson(PaginatedRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmTable(PaginatedRequest request)
+		throws SQLException
 	{
 		processRequest(request);
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
@@ -44,7 +43,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 				Field<Integer> fieldId = DSL.field(GermplasmBaseResource.GERMPLASM_ID, Integer.class);
 				try
 				{
-					List<String> names = Files.readAllLines(getTempDir(namesFromFile).toPath());
+					List<String> names = Files.readAllLines(ResourceUtils.getTempDir(namesFromFile).toPath());
 
 					if (!CollectionUtils.isEmpty(names))
 						from.where(fieldId.in(names));
@@ -65,6 +64,70 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> postGermplasmTableIds(PaginatedRequest request)
+		throws SQLException
+	{
+		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, null);
+
+			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
+			if (!StringUtils.isEmpty(namesFromFile))
+			{
+				Field<Integer> fieldId = DSL.field(GermplasmBaseResource.GERMPLASM_ID, Integer.class);
+				try
+				{
+					List<String> names = Files.readAllLines(ResourceUtils.getTempDir(namesFromFile).toPath());
+
+					if (!CollectionUtils.isEmpty(names))
+						from.where(fieldId.in(names));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+
+			// Filter here!
+			filter(from, filters);
+
+			List<Integer> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(Integer.class);
+
+			return new PaginatedResult<>(result, result.size());
+		}
+	}
+
+	@POST
+	@Path("/export")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("application/zip")
+	public Response postGermplasmTableExport(PaginatedRequest request)
+		throws IOException, SQLException
+	{
+		processRequest(request);
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
+
+			// Filter here!
+			filter(from, filters);
+
+			return ResourceUtils.export(from.fetch(), resp, "germplasm-table-");
 		}
 	}
 }

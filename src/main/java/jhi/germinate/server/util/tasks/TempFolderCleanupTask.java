@@ -1,7 +1,7 @@
 package jhi.germinate.server.util.tasks;
 
 import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.germinate.server.util.PropertyWatcher;
 
 import java.io.File;
 import java.util.Arrays;

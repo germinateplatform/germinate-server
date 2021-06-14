@@ -1,17 +1,20 @@
 package jhi.germinate.server.resource.stats;
 
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.resource.SubsettedServerResource;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.*;
@@ -23,18 +26,26 @@ import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class TraitStatsResource extends SubsettedServerResource
+@Path("dataset/stats/trial")
+@Secured
+@PermitAll
+public class TraitStatsResource extends ContextResource
 {
-	@Post("json")
-	public TraitDatasetStats postJson(SubsettedDatasetRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public TraitDatasetStats postTraitStats(SubsettedDatasetRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(req, resp, userDetails);
 		List<Integer> requestedDatasetIds = CollectionUtils.isEmpty(request.getDatasetIds()) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
@@ -45,10 +56,14 @@ public class TraitStatsResource extends SubsettedServerResource
 														 .collect(Collectors.toList()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			// All traits within the selected datasets
 			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_TRAITS)
 																.whereExists(DSL.selectOne()
@@ -199,7 +214,7 @@ public class TraitStatsResource extends SubsettedServerResource
 	}
 
 
-	private Quantiles generateStats(TempStats tempStats)
+	public static Quantiles generateStats(TempStats tempStats)
 	{
 		Quantiles q = new Quantiles();
 		q.setCount(tempStats.count);

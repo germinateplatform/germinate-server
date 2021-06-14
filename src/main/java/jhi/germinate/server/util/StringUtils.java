@@ -37,7 +37,8 @@ public class StringUtils
 		return input == null || input.strip().isEmpty();
 	}
 
-	public static boolean isEmptyOrQuotes(String input) {
+	public static boolean isEmptyOrQuotes(String input)
+	{
 		if (isEmpty(input))
 			return true;
 		else

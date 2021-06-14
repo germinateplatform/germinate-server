@@ -1,21 +1,20 @@
 package jhi.germinate.server.resource.maps;
 
 import jhi.germinate.resource.MapExportRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Maps;
 import jhi.germinate.server.database.codegen.tables.records.MapdefinitionsRecord;
-import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.maps.writer.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,46 +23,36 @@ import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Maps.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class MapExportResource extends BaseServerResource
+@Path("map/{mapId}/export")
+@Secured
+@PermitAll
+public class MapExportResource extends ContextResource
 {
-	// TODO: Export format!
-
+	@PathParam("mapId")
 	private Integer mapId;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response postMapFile(MapExportRequest request)
+		throws IOException, SQLException
 	{
-		super.doInit();
+		if (request == null || StringUtils.isEmpty(request.getFormat()) || mapId == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		try
 		{
-			this.mapId = Integer.parseInt(getRequestAttributes().get("mapId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
+			File file = ResourceUtils.createTempFile("map-" + mapId, ".tsv");
 
-	@Post
-	public FileRepresentation postFile(MapExportRequest request)
-	{
-		if (request == null || StringUtils.isEmpty(request.getFormat()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
-
-		FileRepresentation representation;
-		try
-		{
-			File file = createTempFile("map-" + mapId, ".tsv");
-
-			try (DSLContext context = Database.getContext();
+			try (Connection conn = Database.getConnection();
 				 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
 			{
+				DSLContext context = Database.getContext(conn);
 				Maps map = context.selectFrom(MAPS).where(MAPS.ID.eq(mapId)).fetchAnyInto(Maps.class);
 
 				if (map != null)
@@ -117,23 +106,26 @@ public class MapExportResource extends BaseServerResource
 			catch (IOException e)
 			{
 				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+				return null;
 			}
 
-			representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
-			representation.setSize(file.length());
-			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+			return Response.ok(file, MediaType.TEXT_PLAIN)
+						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
+						   .header("content-length", file.length())
+						   .build();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 		}
 
-		return representation;
+		return null;
 	}
 
 	private void filter(DSLContext context, SelectConditionStep<? extends Record> step, MapExportRequest request)
+		throws IOException
 	{
 		switch (request.getMethod().toLowerCase())
 		{
@@ -142,7 +134,10 @@ public class MapExportResource extends BaseServerResource
 				break;
 			case "regions":
 				if (CollectionUtils.isEmpty(request.getRegions()))
-					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return;
+				}
 
 				List<Condition> conditions = Arrays.stream(request.getRegions())
 												   .map(r -> MAPDEFINITIONS.CHROMOSOME.eq(r.getChromosome())
@@ -162,13 +157,19 @@ public class MapExportResource extends BaseServerResource
 				break;
 			case "markeridinterval":
 				if (request.getMarkerIdInterval() == null || request.getMarkerIdInterval().length != 2)
-					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return;
+				}
 
 				MapdefinitionsRecord one = context.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MAP_ID.eq(mapId).and(MAPDEFINITIONS.MARKER_ID.eq(request.getMarkerIdInterval()[0]))).fetchAny();
 				MapdefinitionsRecord two = context.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MAP_ID.eq(mapId).and(MAPDEFINITIONS.MARKER_ID.eq(request.getMarkerIdInterval()[1]))).fetchAny();
 
 				if (one == null || two == null)
-					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return;
+				}
 
 				step.and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(one.getDefinitionEnd())
 														.and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(two.getDefinitionStart()))
@@ -177,12 +178,18 @@ public class MapExportResource extends BaseServerResource
 				break;
 			case "radius":
 				if (request.getRadius() == null || request.getRadius().getMarkerId() == null || request.getRadius().getLeft() == null || request.getRadius().getRight() == null)
-					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return;
+				}
 
 				MapdefinitionsRecord marker = context.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MAP_ID.eq(mapId).and(MAPDEFINITIONS.MARKER_ID.eq(request.getRadius().getMarkerId()))).fetchAny();
 
 				if (marker == null)
-					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return;
+				}
 
 				step.and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(marker.getDefinitionStart() - request.getRadius().getLeft())
 														.and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(marker.getDefinitionEnd() + request.getRadius().getRight()))

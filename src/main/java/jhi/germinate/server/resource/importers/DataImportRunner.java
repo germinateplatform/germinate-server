@@ -1,25 +1,22 @@
 package jhi.germinate.server.resource.importers;
 
-import jhi.germinate.resource.*;
-import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.resource.AsyncExportResult;
+import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.auth.CustomVerifier;
 import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.importer.*;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.representation.Representation;
-import org.restlet.resource.ResourceException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.net.URISyntaxException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -30,15 +27,17 @@ import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
  */
 public class DataImportRunner
 {
-	public static List<AsyncExportResult> importData(String uuid)
+	public List<AsyncExportResult> importData(String uuid)
+		throws GerminateException, SQLException
 	{
 		DataImportMode mode = PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class);
 
 		if (mode != DataImportMode.IMPORT)
-			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
+			throw new GerminateException(Response.Status.SERVICE_UNAVAILABLE);
 
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
 												 .where(DATA_IMPORT_JOBS.UUID.eq(uuid))
 												 .and(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.completed))
@@ -47,13 +46,13 @@ public class DataImportRunner
 												 .fetchAnyInto(DataImportJobsRecord.class);
 
 			if (record == null)
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+				throw new GerminateException(Response.Status.NOT_FOUND);
 
 			String originalFileName = record.getOriginalFilename();
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			String importerClass = getImporterClass(record.getDatatype(), extension);
 
-			File asyncFolder = BaseServerResource.getFromExternal(uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 			File file = new File(asyncFolder, uuid + "." + extension);
 
 			List<String> args = getArgs(importerClass, file);
@@ -84,25 +83,27 @@ public class DataImportRunner
 		return null;
 	}
 
-	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, CustomVerifier.UserDetails userDetails, Representation entity, boolean isUpdate)
+	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, HttpServletRequest req, boolean isUpdate)
+		throws GerminateException
 	{
 		if (dataType == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			throw new GerminateException(Response.Status.BAD_REQUEST);
 
 		DataImportMode mode = PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class);
 
 		if (mode == DataImportMode.NONE)
-			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
+			throw new GerminateException(Response.Status.SERVICE_UNAVAILABLE);
 
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			String uuid = UUID.randomUUID().toString();
 
 			// Get the target folder for all generated files
-			File asyncFolder = BaseServerResource.getFromExternal(uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 			asyncFolder.mkdirs();
 
-			String originalFileName = FileUploadHandler.handle(entity, "fileToUpload", asyncFolder, uuid);
+			String originalFileName = FileUploadHandler.handle(req, "fileToUpload", asyncFolder, uuid);
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			File file = new File(asyncFolder, uuid + "." + extension);
 
@@ -139,11 +140,12 @@ public class DataImportRunner
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	private static String getImporterClass(DataImportJobsDatatype dataType, String extension)
+		throws GerminateException
 	{
 		switch (dataType)
 		{
@@ -165,7 +167,7 @@ public class DataImportRunner
 			case climate:
 				return ClimateDataImporter.class.getCanonicalName();
 			default:
-				throw new ResourceException(Status.SERVER_ERROR_NOT_IMPLEMENTED);
+				throw new GerminateException(Response.Status.NOT_IMPLEMENTED);
 				// TODO: Others
 		}
 	}
@@ -173,7 +175,7 @@ public class DataImportRunner
 	private static List<String> getArgs(String importerClass, File file)
 		throws URISyntaxException
 	{
-		File libFolder = BaseServerResource.getLibFolder();
+		File libFolder = ResourceUtils.getLibFolder();
 		List<String> args = new ArrayList<>();
 		args.add("-cp");
 		args.add(libFolder.getAbsolutePath() + File.separator + "*");

@@ -3,28 +3,35 @@ package jhi.germinate.server.resource.germplasm;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.Post;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
 
-/**
- * @author Sebastian Raubach
- */
+@Path("germplasm/export")
+@Secured
+@PermitAll
 public class GermplasmExportResource extends GermplasmBaseResource
 {
-	@Post("json")
-	public FileRepresentation postJson(GermplasmExportRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("application/zip")
+	public Response postGermplasmExport(GermplasmExportRequest request)
+		throws IOException, SQLException
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			if (request != null && request.getIncludeAttributes() != null && request.getIncludeAttributes())
 			{
 				String individualIdString = CollectionUtils.join(request.getIndividualIds(), ",");
@@ -39,7 +46,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				procedure.execute(context.configuration());
 
-				return export(procedure.getResults().get(0), "germplasm-table-");
+				return ResourceUtils.export(procedure.getResults().get(0), resp, "germplasm-table-");
 			}
 			else
 			{
@@ -62,25 +69,25 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						// Filter here!
 						filter(from, filters);
 
-						return export(from.fetch(), "germplasm-table-");
+						return ResourceUtils.export(from.fetch(), resp, "germplasm-table-");
 					}
 					else if (request.getGroupIds() != null)
 					{
 						processRequest(request);
 
 						Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
-						List<Join<Integer>> joins = new ArrayList<>();
-						joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
+						List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
+						joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, fieldGroupId);
 						from.where(fieldGroupId.in(request.getGroupIds()));
 
-						return export(from.fetch(), "germplasm-table-");
+						return ResourceUtils.export(from.fetch(), resp, "germplasm-table-");
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return export(getGermplasmQueryWrapped(context, null).fetch(), "germplasm-table-");
+				return ResourceUtils.export(getGermplasmQueryWrapped(context, null).fetch(), resp, "germplasm-table-");
 			}
 		}
 	}

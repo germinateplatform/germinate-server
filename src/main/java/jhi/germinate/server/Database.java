@@ -1,9 +1,7 @@
 package jhi.germinate.server;
 
-import com.zaxxer.hikari.HikariDataSource;
 import jhi.germinate.server.database.codegen.GerminateDb;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.database.ScriptRunner;
+import jhi.germinate.server.util.*;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.jooq.*;
@@ -31,17 +29,18 @@ public class Database
 	private static String username;
 	private static String password;
 
-	private static HikariDataSource datasource;
+//	private static HikariDataSource datasource;
 
 	private static final String utc = TimeZone.getDefault().getID();
 
 	public static void close()
 	{
-		if (datasource != null && !datasource.isClosed())
-		{
-			datasource.close();
-			datasource = null;
-		}
+//		Logger.getLogger("").info("CLOSE DATABASE " + (datasource != null && !datasource.isClosed()));
+//		if (datasource != null && !datasource.isClosed())
+//		{
+//			datasource.close();
+//			datasource = null;
+//		}
 	}
 
 	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password, boolean initAndUpdate)
@@ -63,32 +62,32 @@ public class Database
 			// handle the error
 		}
 
-		Database.datasource = new HikariDataSource();
-		Database.datasource.setJdbcUrl(getDatabaseUrl());
-		Database.datasource.setUsername(username);
-		Database.datasource.setPassword(password);
-		Database.datasource.addDataSourceProperty("maximumPoolSize", "5");
-		Database.datasource.addDataSourceProperty("cachePrepStmts", "true");
-		Database.datasource.addDataSourceProperty("prepStmtCacheSize", "250");
-		Database.datasource.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-		Database.datasource.addDataSourceProperty("useServerPrepStmts", "true");
-		Database.datasource.addDataSourceProperty("useLocalSessionState", "true");
-		Database.datasource.addDataSourceProperty("rewriteBatchedStatements", "true");
-		// Setting this to `true` would cause stored procedures that return varying number of columns
-		// to be seen as always returning the number of columns as the first call to the stored procedure.
-		Database.datasource.addDataSourceProperty("cacheResultSetMetadata", "false");
-		Database.datasource.addDataSourceProperty("cacheServerConfiguration", "true");
-		Database.datasource.addDataSourceProperty("elideSetAutoCommits", "true");
-		Database.datasource.addDataSourceProperty("maintainTimeStats", "false");
+//		Database.datasource = new HikariDataSource();
+//		Database.datasource.setJdbcUrl(getDatabaseUrl());
+//		Database.datasource.setUsername(username);
+//		Database.datasource.setPassword(password);
+//		Database.datasource.setMaxLifetime(10 * 60 * 1000);
+//		Database.datasource.setMaximumPoolSize(7);
+//		Database.datasource.addDataSourceProperty("cachePrepStmts", "true");
+//		Database.datasource.addDataSourceProperty("prepStmtCacheSize", "250");
+//		Database.datasource.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+//		Database.datasource.addDataSourceProperty("useServerPrepStmts", "true");
+//		Database.datasource.addDataSourceProperty("useLocalSessionState", "true");
+//		Database.datasource.addDataSourceProperty("rewriteBatchedStatements", "true");
+//		// Setting this to `true` would cause stored procedures that return varying number of columns
+//		// to be seen as always returning the number of columns as the first call to the stored procedure.
+//		Database.datasource.addDataSourceProperty("cacheResultSetMetadata", "false");
+//		Database.datasource.addDataSourceProperty("cacheServerConfiguration", "true");
+//		Database.datasource.addDataSourceProperty("elideSetAutoCommits", "true");
+//		Database.datasource.addDataSourceProperty("maintainTimeStats", "false");
 
 		// Get an initial connection to try if it works. Attempt a connection 10 times before failing
 		boolean connectionSuccessful = false;
 		for (int attempt = 0; attempt < 10; attempt++)
 		{
-			try (Connection conn = getDirectConnection();
-				 DSLContext context = Database.getContext(conn))
+			try (Connection conn = getDirectConnection())
 			{
-				context.close();
+				Database.getContext(conn);
 				connectionSuccessful = true;
 				break;
 			}
@@ -115,13 +114,14 @@ public class Database
 		if (initAndUpdate)
 		{
 			boolean databaseExists = true;
-			try (DSLContext context = Database.getContext())
+			try (Connection conn = getDirectConnection())
 			{
+				DSLContext context = Database.getContext(conn);
 				// Try and see if the `germinatebase` table exists
 				context.selectFrom(GERMINATEBASE)
 					   .fetchAny();
 			}
-			catch (DataAccessException e)
+			catch (SQLException | DataAccessException e)
 			{
 				databaseExists = false;
 			}
@@ -153,11 +153,12 @@ public class Database
 				Logger.getLogger("").log(Level.INFO, "DATABASE EXISTS, NO NEED TO CREATE IT!");
 			}
 
-			try (DSLContext context = Database.getContext())
+			try (Connection conn = getDirectConnection())
 			{
+				DSLContext context = Database.getContext(conn);
 				context.execute("ALTER DATABASE `" + databaseName + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 			}
-			catch (DataAccessException e)
+			catch (SQLException | DataAccessException e)
 			{
 				e.printStackTrace();
 			}
@@ -222,24 +223,31 @@ public class Database
 		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
 	}
 
+	public static Connection getConnection()
+		throws SQLException
+	{
+//		return datasource.getConnection();
+		return DriverManager.getConnection(getDatabaseUrl(), username, password);
+	}
+
 	private static Connection getDirectConnection()
 		throws SQLException
 	{
 		return DriverManager.getConnection(getDatabaseUrl(), username, password);
 	}
 
-	public static DSLContext getContext()
-	{
-		Settings settings = new Settings()
-			.withRenderMapping(new RenderMapping()
-				.withSchemata(
-					new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
-									  .withOutput(databaseName)));
+//	public static DSLContext getContext()
+//	{
+//		Settings settings = new Settings()
+//			.withRenderMapping(new RenderMapping()
+//				.withSchemata(
+//					new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
+//									  .withOutput(databaseName)));
+//
+//		return DSL.using(datasource, SQLDialect.MYSQL, settings);
+//	}
 
-		return DSL.using(datasource, SQLDialect.MYSQL, settings);
-	}
-
-	private static DSLContext getContext(Connection connection)
+	public static DSLContext getContext(Connection connection)
 	{
 		Settings settings = new Settings()
 			.withRenderMapping(new RenderMapping()

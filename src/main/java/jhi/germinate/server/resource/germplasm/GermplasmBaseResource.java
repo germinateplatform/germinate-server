@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
 import org.jooq.impl.*;
@@ -23,10 +23,7 @@ import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class GermplasmBaseResource extends PaginatedServerResource
+public class GermplasmBaseResource extends ExportResource
 {
 	public static String GERMPLASM_ID                     = "germplasm_id";
 	public static String GERMPLASM_NAME                   = "germplasm_name";

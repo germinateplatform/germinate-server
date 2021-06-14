@@ -1,9 +1,8 @@
 package jhi.germinate.server.util.tasks;
 
 import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.gatekeeper.GatekeeperClient;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.germinate.server.GatekeeperClient;
+import jhi.germinate.server.util.*;
 
 /**
  * @author Sebastian Raubach

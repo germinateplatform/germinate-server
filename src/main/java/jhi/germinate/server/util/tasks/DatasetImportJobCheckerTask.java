@@ -19,15 +19,15 @@ package jhi.germinate.server.util.tasks;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import jhi.germinate.server.*;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
 import jhi.germinate.server.database.pojo.ImportResult;
-import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.util.ApplicationListener;
 import org.jooq.DSLContext;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
@@ -37,8 +37,9 @@ public class DatasetImportJobCheckerTask implements Runnable
 	@Override
 	public void run()
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			context.selectFrom(DATA_IMPORT_JOBS)
 				   .where(DATA_IMPORT_JOBS.STATUS.notEqual(DataImportJobsStatus.completed))
 				   .forEach(j -> {
@@ -52,7 +53,7 @@ public class DatasetImportJobCheckerTask implements Runnable
 
 
 							   String uuid = j.getUuid();
-							   File jobFolder = BaseServerResource.getFromExternal(uuid, "async");
+							   File jobFolder = ApplicationListener.getFromExternal(uuid, "async");
 
 							   // Check if the json status file exists
 							   File json = new File(jobFolder, uuid + ".json");
@@ -87,6 +88,10 @@ public class DatasetImportJobCheckerTask implements Runnable
 						   e.printStackTrace();
 					   }
 				   });
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

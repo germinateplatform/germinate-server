@@ -2,8 +2,7 @@ package jhi.germinate.server.resource.maps.writer;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.database.codegen.tables.pojos.Maps;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.germinate.server.util.*;
 import org.jooq.Record;
 
 import java.io.*;

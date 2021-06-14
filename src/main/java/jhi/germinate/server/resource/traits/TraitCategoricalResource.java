@@ -1,33 +1,41 @@
 package jhi.germinate.server.resource.traits;
 
 import jhi.germinate.resource.SubsettedDatasetRequest;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportTraitCategorical;
-import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class TraitCategoricalResource extends BaseServerResource
+@Path("dataset/categorical/trial")
+@Secured
+@PermitAll
+public class TraitCategoricalResource extends ContextResource
 {
-	@Post
-	public FileRepresentation postJson(SubsettedDatasetRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response postJson(SubsettedDatasetRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getxIds()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		List<Integer> datasetsForUser = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse(), true);
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<Integer> datasetsForUser = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, true);
 		List<Integer> datasetIds = new ArrayList<>();
 		// If datasets were requested, add these to list
 		if (!CollectionUtils.isEmpty(request.getDatasetIds()))
@@ -44,11 +52,12 @@ public class TraitCategoricalResource extends BaseServerResource
 
 		try
 		{
-			File file = createTempFile("traits-" + CollectionUtils.join(request.getxIds(), "-"), ".tsv");
+			File file = ResourceUtils.createTempFile("traits-" + CollectionUtils.join(request.getxIds(), "-"), ".tsv");
 
-			try (DSLContext context = Database.getContext();
+			try (Connection conn = Database.getConnection();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
+				DSLContext context = Database.getContext(conn);
 				String traitIdString = CollectionUtils.join(request.getxIds(), ",");
 				String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
 				String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
@@ -65,19 +74,20 @@ public class TraitCategoricalResource extends BaseServerResource
 
 				procedure.execute(context.configuration());
 
-				exportToFile(bw, procedure.getResults().get(0), true, null);
+				ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
 			}
 
-			FileRepresentation representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
-			representation.setSize(file.length());
-			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
-
-			return representation;
+			return Response.ok(file)
+						   .type(MediaType.TEXT_PLAIN)
+						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+						   .header("content-length", file.length())
+						   .build();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+			return null;
 		}
 	}
 }

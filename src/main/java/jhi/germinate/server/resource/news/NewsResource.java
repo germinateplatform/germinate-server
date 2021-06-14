@@ -1,91 +1,45 @@
 package jhi.germinate.server.resource.news;
 
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
+import jhi.germinate.resource.enums.*;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.News;
 import jhi.germinate.server.database.codegen.tables.records.NewsRecord;
-import jhi.germinate.server.resource.images.ImageSourceResource;
-import jhi.germinate.server.util.StringUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.resource.images.ImageResource;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.sql.Timestamp;
+import java.nio.file.Files;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.News.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class NewsResource extends ServerResource
+@Path("news")
+@Secured({UserType.DATA_CURATOR})
+public class NewsResource extends ContextResource
 {
-	private Integer newsId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		try
-		{
-			this.newsId = Integer.parseInt(getRequestAttributes().get("newsId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@Delete
-	@MinUserType(UserType.DATA_CURATOR)
-	public boolean deleteJson()
-	{
-		if (newsId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
-		{
-			NewsRecord news = context.selectFrom(NEWS)
-				   .where(NEWS.ID.eq(newsId))
-				   .fetchAny();
-
-			if (news != null) {
-				String image = news.getImage();
-
-				if (!StringUtils.isEmpty(image)) {
-					File file = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.news.name()), image);
-					File thumb = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.news.name()), "thumbnail-" + image);
-
-					if (file.exists() && file.isFile())
-						file.delete();
-					if (thumb.exists() && thumb.isFile())
-						thumb.delete();
-				}
-
-				return news.delete() > 0;
-			}
-
-			return false;
-		}
-	}
-
-	@Post
-	@MinUserType(UserType.DATA_CURATOR)
-	public boolean postJson(News newsItem)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean postNews(News newsItem)
+		throws IOException, SQLException
 	{
 		if (newsItem == null || newsItem.getId() != null || StringUtils.isEmpty(newsItem.getTitle()) || StringUtils.isEmpty(newsItem.getContent()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			// Check if there's a base64 image to save
 			String base64 = newsItem.getImage();
 			if (!StringUtils.isEmpty(base64))
@@ -93,7 +47,10 @@ public class NewsResource extends ServerResource
 				String[] strings = base64.split(",");
 
 				if (strings.length != 2)
-					throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return false;
+				}
 
 				// Get the extension
 				String extension;
@@ -109,12 +66,13 @@ public class NewsResource extends ServerResource
 						extension = "jpg";
 						break;
 					default:
-						throw new ResourceException(Status.CLIENT_ERROR_UNSUPPORTED_MEDIA_TYPE);
+						resp.sendError(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
+						return false;
 				}
 				//convert base64 string to binary data
 				byte[] bytes = Base64.getDecoder().decode(strings[1].getBytes(StandardCharsets.UTF_8));
 
-				Path image = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.news.name()), UUID.randomUUID() + "." + extension).toPath();
+				java.nio.file.Path image = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.news.name()), UUID.randomUUID() + "." + extension).toPath();
 				Files.write(image, bytes);
 
 				newsItem.setImage(image.toFile().getName());
@@ -131,7 +89,49 @@ public class NewsResource extends ServerResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+			return false;
+		}
+	}
+
+
+	@DELETE
+	@Path("/{newsId}")
+	public boolean deleteNews(@PathParam("newsId") Integer newsId)
+		throws IOException, SQLException
+	{
+		if (newsId == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			NewsRecord news = context.selectFrom(NEWS)
+									 .where(NEWS.ID.eq(newsId))
+									 .fetchAny();
+
+			if (news != null)
+			{
+				String image = news.getImage();
+
+				if (!StringUtils.isEmpty(image))
+				{
+					File file = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.news.name()), image);
+					File thumb = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.news.name()), "thumbnail-" + image);
+
+					if (file.exists() && file.isFile())
+						file.delete();
+					if (thumb.exists() && thumb.isFile())
+						thumb.delete();
+				}
+
+				return news.delete() > 0;
+			}
+
+			return false;
 		}
 	}
 }

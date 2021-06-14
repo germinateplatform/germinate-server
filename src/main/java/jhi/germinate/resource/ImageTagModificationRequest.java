@@ -1,5 +1,7 @@
 package jhi.germinate.resource;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 /**
  * @author Sebastian Raubach
  */
@@ -23,6 +25,7 @@ public class ImageTagModificationRequest
 		return this;
 	}
 
+	@JsonGetter("isAddition")
 	public boolean isAddition()
 	{
 		return isAddition;

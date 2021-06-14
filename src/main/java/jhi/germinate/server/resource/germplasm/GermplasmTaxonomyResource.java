@@ -2,23 +2,32 @@ package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.pojo.TaxonCount;
+import jhi.germinate.server.util.Secured;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import org.restlet.resource.*;
+
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class GermplasmTaxonomyResource extends ServerResource
+@Path("germplasm/taxonomy")
+@Secured
+@PermitAll
+public class GermplasmTaxonomyResource
 {
-	@Get("json")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public TaxonCount getTaxonomies()
+		throws SQLException
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			TaxonCount result = new TaxonCount();
 
 			result.setGenus(context.select(TAXONOMIES.GENUS.as("taxonomy"), DSL.count().as("count"))

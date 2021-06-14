@@ -24,6 +24,7 @@ import jhi.germinate.server.util.StringUtils;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
+import java.sql.Connection;
 import java.util.*;
 import java.util.logging.*;
 
@@ -52,8 +53,9 @@ public class PDCITask implements Runnable
 	@Override
 	public void run()
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			long start = System.currentTimeMillis();
 			final List<Integer> hasLink;
 

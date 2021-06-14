@@ -1,17 +1,19 @@
 package jhi.germinate.server.resource.groups;
 
 import jhi.germinate.resource.DatasetGroupRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
@@ -22,20 +24,26 @@ import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.Grouptypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetGroupResource extends BaseServerResource implements FilteredResource
+@Path("dataset/group")
+@Secured
+@PermitAll
+public class DatasetGroupResource extends ContextResource
 {
-	@Post("json")
-	public List<ViewTableGroups> getJson(DatasetGroupRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ViewTableGroups> postDatasetGroups(DatasetGroupRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null || StringUtils.isEmpty(request.getDatasetType()) || CollectionUtils.isEmpty(request.getDatasetIds()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		requestedIds.retainAll(datasets);
@@ -43,8 +51,9 @@ public class DatasetGroupResource extends BaseServerResource implements Filtered
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			Field<Integer> count = DSL.countDistinct(GROUPMEMBERS.FOREIGN_ID).as("count");
 			SelectSelectStep<? extends Record> step = context.selectDistinct(
 				GROUPS.ID.as("group_id"),

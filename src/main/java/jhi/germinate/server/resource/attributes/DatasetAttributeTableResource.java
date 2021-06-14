@@ -2,50 +2,60 @@ package jhi.germinate.server.resource.attributes;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasetAttributes;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasetAttributes.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetAttributeTableResource extends PaginatedServerResource
+@Path("dataset")
+@Secured
+@PermitAll
+public class DatasetAttributeTableResource extends BaseResource implements IFilteredResource
 {
-	private Integer datasetId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@POST
+	@Path("/attribute/table")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(PaginatedRequest request)
+		throws IOException, SQLException
 	{
-		super.doInit();
-
-		try
-		{
-			this.datasetId = Integer.parseInt(getRequestAttributes().get("datasetId").toString());
-		}
-		catch (NumberFormatException | NullPointerException e)
-		{
-		}
+		processRequest(request);
+		return export(null, request);
 	}
 
-	@Post("json")
-	public PaginatedResult<List<ViewTableDatasetAttributes>> getJson(PaginatedRequest request)
+	@POST
+	@Path("/{datasetId}/attribute")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(@PathParam("datasetId") Integer datasetId)
+		throws IOException, SQLException
 	{
+		return export(datasetId, null);
+	}
+
+	private PaginatedResult<List<ViewTableDatasetAttributes>> export(Integer datasetId, PaginatedRequest request)
+		throws SQLException
+	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
 		List<Integer> requestedIds = new ArrayList<>();
 
 		if (datasetId != null)
 		{
 			requestedIds.add(datasetId);
 		}
-		else if (request.getFilter() != null)
+		else if (request != null && request.getFilter() != null)
 		{
 			Filter matchingFilter = Arrays.stream(request.getFilter())
 										  .filter(f -> f.getColumn().equals("datasetId"))
@@ -67,7 +77,7 @@ public class DatasetAttributeTableResource extends PaginatedServerResource
 			}
 		}
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
 
 		// If nothing has been requested, return data for all datasets, else, use the requested ones that the user has access to
 		if (CollectionUtils.isEmpty(requestedIds))
@@ -75,13 +85,14 @@ public class DatasetAttributeTableResource extends PaginatedServerResource
 		else
 			requestedIds.retainAll(availableDatasets);
 
-		// If either nothing is available or the user has access to nothing, return a 404
+		// If either nothing is available or the user has access to nothing, return an empty result
 		if (CollectionUtils.isEmpty(availableDatasets) || CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		processRequest(request);
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)

@@ -1,50 +1,75 @@
 package jhi.germinate.server.resource.maps;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
-import jhi.germinate.server.database.codegen.tables.pojos.Maps;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Maps.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableMaps.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class MapResource extends PaginatedServerResource
+@Path("map")
+@Secured
+@PermitAll
+public class MapResource extends BaseResource implements IFilteredResource
 {
-	private Integer mapId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@POST
+	@Path("/table")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableMaps>> getJson(PaginatedRequest request)
+		throws SQLException
 	{
-		super.doInit();
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		try
+		processRequest(request);
+		try (Connection conn = Database.getConnection())
 		{
-			this.mapId = Integer.parseInt(getRequestAttributes().get("mapId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
+			DSLContext context = Database.getContext(conn);
+			SelectSelectStep<Record> select = context.select();
+
+			if (previousCount == -1)
+				select.hint("SQL_CALC_FOUND_ROWS");
+
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MAPS);
+
+			from.where(VIEW_TABLE_MAPS.VISIBILITY.eq(true)
+												 .or(VIEW_TABLE_MAPS.USER_ID.eq(userDetails.getId())));
+
+			// Filter here!
+			filter(from, filters);
+
+			List<ViewTableMaps> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(ViewTableMaps.class);
+
+			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
+
+			return new PaginatedResult<>(result, count);
 		}
 	}
 
-	@Get("json")
-	public PaginatedResult<List<Maps>> getJson()
+	@GET
+	@Path("/{mapId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Maps>> getMaps(@QueryParam("mapId") Integer mapId)
+		throws SQLException
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		if (userDetails == null)
-			throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
-
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)

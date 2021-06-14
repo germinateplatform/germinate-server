@@ -1,53 +1,79 @@
 package jhi.germinate.server.resource.comment;
 
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
+import jhi.germinate.resource.enums.UserType;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Comments;
 import jhi.germinate.server.database.codegen.tables.records.CommentsRecord;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
-import java.sql.Timestamp;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.Objects;
 
 import static jhi.germinate.server.database.codegen.tables.Comments.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class CommentResource extends BaseServerResource
+@Path("comment")
+@Secured({UserType.AUTH_USER})
+public class CommentResource
 {
-	private Integer commentId;
+	@Context
+	protected SecurityContext     securityContext;
+	@Context
+	protected HttpServletResponse resp;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Integer putComment(Comments comment)
+		throws IOException, SQLException
 	{
-		super.doInit();
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		try
+		if (comment.getUserId() == null || !Objects.equals(comment.getUserId(), userDetails.getId()))
 		{
-			this.commentId = Integer.parseInt(getRequestAttributes().get("commentId").toString());
+			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
+			return null;
 		}
-		catch (NullPointerException | NumberFormatException e)
+		if (StringUtils.isEmpty(comment.getDescription()) || comment.getCommenttypeId() == null || comment.getReferenceId() == null || comment.getId() != null)
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			comment.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			comment.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+
+			CommentsRecord record = context.newRecord(COMMENTS, comment);
+			record.store();
+			return record.getId();
 		}
 	}
 
-	@Delete("json")
-	@MinUserType(UserType.AUTH_USER)
-	public boolean deleteJson()
+	@DELETE
+	@Path("/{commentId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deleteComment(@PathParam("commentId") Integer commentId)
+		throws IOException, SQLException
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (commentId == null)
-			throw new ResourceException(org.restlet.data.Status.CLIENT_ERROR_BAD_REQUEST, "Missing id");
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			CommentsRecord dbRecord = context.selectFrom(COMMENTS)
 											 .where(COMMENTS.ID.eq(commentId))
 											 .and(COMMENTS.USER_ID.eq(userDetails.getId()))
@@ -55,31 +81,14 @@ public class CommentResource extends BaseServerResource
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbRecord == null)
-				throw new ResourceException(org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND);
+			{
+				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+				return false;
+			}
 			else
+			{
 				return dbRecord.delete() == 1;
-		}
-	}
-
-	@Put("json")
-	@MinUserType(UserType.AUTH_USER)
-	public Integer putJson(Comments comment)
-	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
-
-		if (comment.getUserId() == null || !Objects.equals(comment.getUserId(), userDetails.getId()))
-			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
-		if (StringUtils.isEmpty(comment.getDescription()) || comment.getCommenttypeId() == null || comment.getReferenceId() == null || comment.getId() != null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
-		{
-			comment.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-			comment.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-
-			CommentsRecord record = context.newRecord(COMMENTS, comment);
-			record.store();
-			return record.getId();
+			}
 		}
 	}
 }

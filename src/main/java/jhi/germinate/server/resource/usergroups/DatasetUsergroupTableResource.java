@@ -2,52 +2,46 @@ package jhi.germinate.server.resource.usergroups;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
+import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableUsergroups;
 import jhi.germinate.server.database.codegen.tables.records.DatasetpermissionsRecord;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.BaseResource;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableUsergroups.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetUsergroupTableResource extends PaginatedServerResource
+@Path("dataset/{datasetId}/usergroup")
+@Secured({UserType.ADMIN})
+public class DatasetUsergroupTableResource extends BaseResource
 {
+	@PathParam("datasetId")
 	private Integer datasetId;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		try
-		{
-			this.datasetId = Integer.parseInt(getRequestAttributes().get("datasetId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@MinUserType(UserType.ADMIN)
-	@Patch("json")
-	public boolean patchJson(DatasetGroupModificationRequest request)
+	@PATCH
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean patchDatasetUsergroupTable(DatasetGroupModificationRequest request)
+		throws SQLException, IOException
 	{
 		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.isAddOperation() == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			if (request.isAddOperation())
 			{
 				List<Integer> existingIds = context.selectDistinct(DATASETPERMISSIONS.USER_ID).from(DATASETPERMISSIONS).where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId())).fetchInto(Integer.class);
@@ -71,16 +65,22 @@ public class DatasetUsergroupTableResource extends PaginatedServerResource
 		}
 	}
 
-	@MinUserType(UserType.ADMIN)
-	@Post("json")
-	public PaginatedResult<List<ViewTableUsergroups>> getJson(PaginatedRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableUsergroups>> postDatasetUsergroupTable(PaginatedRequest request)
+		throws IOException, SQLException
 	{
 		if (datasetId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
 		processRequest(request);
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)
@@ -102,6 +102,37 @@ public class DatasetUsergroupTableResource extends PaginatedServerResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> getDatasetUsergroupIds(PaginatedRequest request)
+		throws SQLException
+	{
+		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_USERGROUPS.USER_GROUP_ID)
+														   .from(VIEW_TABLE_USERGROUPS);
+
+			from.where(DSL.exists(DSL.selectOne().from(DATASETPERMISSIONS)
+									 .where(DATASETPERMISSIONS.GROUP_ID.eq(VIEW_TABLE_USERGROUPS.USER_GROUP_ID))
+									 .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
+
+			// Filter here!
+			filter(from, filters);
+
+			List<Integer> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(Integer.class);
+
+			return new PaginatedResult<>(result, result.size());
 		}
 	}
 }

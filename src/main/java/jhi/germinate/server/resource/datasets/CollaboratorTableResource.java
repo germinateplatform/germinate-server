@@ -2,46 +2,42 @@ package jhi.germinate.server.resource.datasets;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.BaseResource;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-import org.restlet.*;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.servlet.http.*;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableCollaborators.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class CollaboratorTableResource extends PaginatedServerResource
+@Path("dataset/{datasetId}/collaborator")
+@Secured
+@PermitAll
+public class CollaboratorTableResource extends BaseResource
 {
-	private Integer datasetId = null;
+	@PathParam("datasetId")
+	private Integer datasetId;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		try
-		{
-			this.datasetId = Integer.parseInt(getRequestAttributes().get("datasetId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@Post("json")
-	public PaginatedResult<List<ViewTableCollaborators>> getJson(PaginatedRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableCollaborators>> postCollaboratorTable(PaginatedRequest request)
+		throws SQLException
 	{
 		processRequest(request);
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
-			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, getRequest(), getResponse(), false);
+			DSLContext context = Database.getContext(conn);
+			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
 
 			if (dataset != null)
 			{
@@ -72,11 +68,13 @@ public class CollaboratorTableResource extends PaginatedServerResource
 		}
 	}
 
-	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, Request req, Response resp)
+	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails)
+		throws SQLException
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
-			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, false);
+			DSLContext context = Database.getContext(conn);
+			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
 
 			if (dataset != null)
 			{

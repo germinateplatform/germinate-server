@@ -2,53 +2,49 @@ package jhi.germinate.server.resource.groups;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.BaseResource;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class MarkerGroupTableResource extends PaginatedServerResource
+@Path("marker/{markerId}/group")
+@Secured
+@PermitAll
+public class MarkerGroupTableResource extends BaseResource
 {
+	@PathParam("markerId")
 	private Integer markerId;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		try
-		{
-			this.markerId = Integer.parseInt(getRequestAttributes().get("markerId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@Post("json")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGroups>> getJson(PaginatedRequest request)
+		throws IOException, SQLException
 	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (markerId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
 		processRequest(request);
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)

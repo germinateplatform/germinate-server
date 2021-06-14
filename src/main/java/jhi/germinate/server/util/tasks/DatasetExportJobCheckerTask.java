@@ -17,14 +17,13 @@
 
 package jhi.germinate.server.util.tasks;
 
-import jhi.germinate.server.*;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
 import java.io.File;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
@@ -33,8 +32,9 @@ public class DatasetExportJobCheckerTask implements Runnable
 	@Override
 	public void run()
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			context.selectFrom(DATASET_EXPORT_JOBS)
 				   .where(DATASET_EXPORT_JOBS.STATUS.notEqual(DatasetExportJobsStatus.completed))
 				   .forEach(j -> {
@@ -45,7 +45,7 @@ public class DatasetExportJobCheckerTask implements Runnable
 						   if (finished)
 						   {
 							   String uuid = j.getUuid();
-							   File jobFolder = BaseServerResource.getFromExternal(uuid, "async");
+							   File jobFolder = ApplicationListener.getFromExternal(uuid, "async");
 
 							   // Get zip result files (there'll only be one per folder)
 							   File[] zipFiles = jobFolder.listFiles((dir, name) -> name.endsWith(".zip"));
@@ -62,6 +62,10 @@ public class DatasetExportJobCheckerTask implements Runnable
 						   e.printStackTrace();
 					   }
 				   });
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

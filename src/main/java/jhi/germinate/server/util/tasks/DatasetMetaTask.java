@@ -21,17 +21,22 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.routines.DatasetMeta;
 import org.jooq.DSLContext;
 
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatasetMetaTask implements Runnable
 {
 	@Override
 	public void run()
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			DatasetMeta procedure = new DatasetMeta();
 			procedure.execute(context.configuration());
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }

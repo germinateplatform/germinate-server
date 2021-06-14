@@ -1,7 +1,5 @@
 package jhi.germinate.resource;
 
-import com.google.gson.JsonArray;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -22,7 +20,7 @@ public class ViewTableGermplasm
 	private String     entityParentGeneralIdentifier;
 	private Integer    biologicalStatusId;
 	private String     biologicalStatusName;
-	private JsonArray  synonyms;
+	private String[]   synonyms;
 	private String     collectorNumber;
 	private String     genus;
 	private String     species;
@@ -180,12 +178,12 @@ public class ViewTableGermplasm
 		return this;
 	}
 
-	public JsonArray getSynonyms()
+	public String[] getSynonyms()
 	{
 		return synonyms;
 	}
 
-	public ViewTableGermplasm setSynonyms(JsonArray synonyms)
+	public ViewTableGermplasm setSynonyms(String[] synonyms)
 	{
 		this.synonyms = synonyms;
 		return this;

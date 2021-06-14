@@ -1,6 +1,6 @@
 package jhi.germinate.resource;
 
-import jhi.germinate.server.auth.AuthenticationMode;
+import jhi.germinate.resource.enums.*;
 
 import java.util.List;
 

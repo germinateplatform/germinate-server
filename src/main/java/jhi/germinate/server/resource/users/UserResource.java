@@ -1,104 +1,26 @@
 package jhi.germinate.server.resource.users;
 
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
-import jhi.germinate.resource.UserGroupModificationRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.database.codegen.tables.records.UsergroupmembersRecord;
-import jhi.germinate.server.gatekeeper.GatekeeperClient;
-import jhi.germinate.server.resource.BaseServerResource;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
+import jhi.germinate.resource.enums.UserType;
+import jhi.germinate.server.GatekeeperClient;
+import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.util.Secured;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.sql.SQLException;
+import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
-
-/**
- * @author Sebastian Raubach
- */
-public class UserResource extends BaseServerResource
+@Path("user")
+@Secured({UserType.ADMIN})
+public class UserResource extends ContextResource
 {
-	private Integer groupId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ViewUserDetails> getUser()
+		throws SQLException
 	{
-		super.doInit();
-
-		try
-		{
-			this.groupId = Integer.parseInt(getRequestAttributes().get("usergroupId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@MinUserType(UserType.ADMIN)
-	@Patch("json")
-	public boolean patchJson(UserGroupModificationRequest request)
-	{
-		if (request == null || this.groupId == null || this.groupId != request.getUserGroupId() || request.isAddOperation() == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
-		{
-			if (request.isAddOperation())
-			{
-				List<Integer> existingIds = context.selectDistinct(USERGROUPMEMBERS.USER_ID).from(USERGROUPMEMBERS).where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId())).fetchInto(Integer.class);
-				List<Integer> toAdd = new ArrayList<>(Arrays.asList(request.getUserIds()));
-
-				toAdd.removeAll(existingIds);
-
-				InsertValuesStep2<UsergroupmembersRecord, Integer, Integer> step = context.insertInto(USERGROUPMEMBERS, USERGROUPMEMBERS.USER_ID, USERGROUPMEMBERS.USERGROUP_ID);
-
-				toAdd.forEach(id -> step.values(id, request.getUserGroupId()));
-
-				return step.execute() > 0;
-			}
-			else
-			{
-				return context.deleteFrom(USERGROUPMEMBERS)
-							  .where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId()))
-							  .and(USERGROUPMEMBERS.USER_ID.in(request.getUserIds()))
-							  .execute() > 0;
-			}
-		}
-	}
-
-	@MinUserType(UserType.ADMIN)
-	@Get("json")
-	public List<ViewUserDetails> getJson()
-	{
-		if (groupId == null)
-		{
-			return GatekeeperClient.getUsers();
-		}
-		else
-		{
-			try (DSLContext context = Database.getContext())
-			{
-				List<ViewUserDetails> result = context.select(
-					USERGROUPMEMBERS.USER_ID.as("id"),
-					DSL.val("", String.class).as("username"),
-					DSL.val("", String.class).as("full_name"),
-					DSL.val("", String.class).as("email_address"),
-					DSL.val("", String.class).as("name")
-				)
-													  .from(USERGROUPMEMBERS)
-													  .where(USERGROUPMEMBERS.USERGROUP_ID.eq(groupId))
-													  .fetchInto(ViewUserDetails.class);
-
-				return result.stream()
-							 .map(r -> GatekeeperClient.getUser(r.getId()))
-							 .filter(Objects::nonNull)
-							 .collect(Collectors.toList());
-			}
-		}
+		return GatekeeperClient.getUsers();
 	}
 }

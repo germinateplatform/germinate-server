@@ -2,35 +2,51 @@ package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.PaginatedServerResource;
 import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class GermplasmExternalIdResource extends PaginatedServerResource
+@Path("germplasm/external/ids")
+@Secured
+@PermitAll
+public class GermplasmExternalIdResource
 {
-	@Post("json")
-	public List<String> getJson(Integer[] ids)
+	@Context
+	protected HttpServletResponse resp;
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> postExternalIds(Integer[] ids)
+		throws IOException, SQLException
 	{
 		String identifier = PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER);
 
 		if (StringUtils.isEmpty(identifier))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-		if (CollectionUtils.isEmpty(ids))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+			return null;
+		}
+		if (CollectionUtils.isEmpty(ids))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			Field<?> field = DSL.field(identifier);
 
 			return context.selectDistinct(field)

@@ -1,16 +1,19 @@
 package jhi.germinate.server.resource.traits;
 
 import jhi.germinate.resource.DatasetRequest;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
@@ -19,18 +22,26 @@ import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.Units.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetTraitResource extends BaseServerResource implements FilteredResource
+@Path("dataset/trait")
+@Secured
+@PermitAll
+public class DatasetTraitResource extends ContextResource
 {
-	@Post("json")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableTraits> getJson(DatasetRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		requestedIds.retainAll(datasets);
@@ -38,8 +49,9 @@ public class DatasetTraitResource extends BaseServerResource implements Filtered
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			return context.select(
 				PHENOTYPES.ID.as(VIEW_TABLE_TRAITS.TRAIT_ID.getName()),
 				PHENOTYPES.NAME.as(VIEW_TABLE_TRAITS.TRAIT_NAME.getName()),

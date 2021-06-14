@@ -1,5 +1,7 @@
 package jhi.germinate.resource;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 /**
  * @author Sebastian Raubach
  */
@@ -31,6 +33,7 @@ public class DatasetGroupModificationRequest
 		return this;
 	}
 
+	@JsonGetter("isAddOperation")
 	public Boolean isAddOperation()
 	{
 		return isAddOperation;

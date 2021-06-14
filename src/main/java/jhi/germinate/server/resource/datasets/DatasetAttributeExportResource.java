@@ -1,45 +1,53 @@
 package jhi.germinate.server.resource.datasets;
 
 import jhi.germinate.resource.ExperimentRequest;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportDatasetAttributes;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetAttributeExportResource extends BaseServerResource
+@Path("dataset/attribute/export")
+@Secured
+@PermitAll
+public class DatasetAttributeExportResource extends ContextResource
 {
-	@Post("json")
-	public FileRepresentation getJson(ExperimentRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response postDatasetAttributeExport(ExperimentRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
 
 		List<Integer> datasetIds = new ArrayList<>();
 
 		if (request.getExperimentId() != null)
 		{
-			try (DSLContext context = Database.getContext())
+			try (Connection conn = Database.getConnection())
 			{
+				DSLContext context = Database.getContext(conn);
 				datasetIds = context.selectDistinct(DATASETS.ID)
-					   .from(DATASETS)
-					   .where(DATASETS.EXPERIMENT_ID.eq(request.getExperimentId()))
-					   .fetchInto(Integer.class);
+									.from(DATASETS)
+									.where(DATASETS.EXPERIMENT_ID.eq(request.getExperimentId()))
+									.fetchInto(Integer.class);
 			}
 		}
 		else if (!CollectionUtils.isEmpty(request.getDatasetIds()))
@@ -49,39 +57,44 @@ public class DatasetAttributeExportResource extends BaseServerResource
 		datasetIds.retainAll(availableDatasets);
 
 		if (datasetIds.size() < 1)
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+			return null;
+		}
 
-		FileRepresentation representation;
 		try
 		{
-			File file = createTempFile("attributes-" + CollectionUtils.join(datasetIds, "-"), ".txt");
+			File file = ResourceUtils.createTempFile("attributes-" + CollectionUtils.join(datasetIds, "-"), ".txt");
 
-			try (DSLContext context = Database.getContext();
+			try (Connection conn = Database.getConnection();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
+				DSLContext context = Database.getContext(conn);
 				ExportDatasetAttributes procedure = new ExportDatasetAttributes();
 				procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
 
 				procedure.execute(context.configuration());
 
-				exportToFile(bw, procedure.getResults().get(0), true, null);
+				ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+				return null;
 			}
 
-			representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
-			representation.setSize(file.length());
-			representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+			return Response.ok(file)
+						   .type("text/plain")
+						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+						   .header("content-length", file.length())
+						   .build();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+			return null;
 		}
-
-		return representation;
 	}
 }

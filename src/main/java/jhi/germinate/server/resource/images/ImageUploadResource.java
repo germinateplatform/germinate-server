@@ -1,20 +1,18 @@
 package jhi.germinate.server.resource.images;
 
-import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.resource.importers.FileUploadHandler;
-import jhi.germinate.server.util.ExifUtils;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
-import org.restlet.data.Status;
-import org.restlet.representation.Representation;
-import org.restlet.resource.*;
 
-import java.io.File;
-import java.sql.Timestamp;
+import javax.servlet.http.*;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.*;
+import java.io.*;
+import java.sql.*;
+import java.util.Date;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Compounds.*;
@@ -23,46 +21,30 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class ImageUploadResource extends BaseServerResource
+@Path("image/{referenceTable}/{foreignId}")
+@Secured({UserType.DATA_CURATOR})
+public class ImageUploadResource
 {
-	private String  referenceTable;
-	private Integer foreignId;
+	@Context
+	protected HttpServletRequest  req;
+	@Context
+	protected HttpServletResponse resp;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)
+		throws IOException, SQLException
 	{
-		super.doInit();
-
-		try
+		if (foreignId == null || referenceTable == null || req == null)
 		{
-			this.foreignId = Integer.parseInt(getRequestAttributes().get("foreignId").toString());
-		}
-		catch (NumberFormatException | NullPointerException e)
-		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
 		}
 
-		try
+		try (Connection conn = Database.getConnection())
 		{
-			this.referenceTable = getRequestAttributes().get("referenceTable").toString();
-		}
-		catch (NullPointerException e)
-		{
-		}
-	}
-
-	@Post
-	@MinUserType(UserType.DATA_CURATOR)
-	public boolean postImage(Representation entity)
-	{
-		if (foreignId == null || referenceTable == null || entity == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
-		{
+			DSLContext context = Database.getContext(conn);
 			ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
 												.where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
 												.fetchAny();
@@ -88,12 +70,15 @@ public class ImageUploadResource extends BaseServerResource
 			}
 
 			if (record == null)
-				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			{
+				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+				return false;
+			}
 
-			File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageSourceResource.ImageType.database.name()), "upload");
+			File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.database.name()), "upload");
 			folder.mkdirs();
 
-			List<String> finalFilenames = FileUploadHandler.handleMultiple(entity, "imageFiles", folder);
+			List<String> finalFilenames = FileUploadHandler.handleMultiple(req, "imageFiles", folder);
 
 			int counter = 0;
 
@@ -114,6 +99,11 @@ public class ImageUploadResource extends BaseServerResource
 			}
 
 			return counter > 0;
+		}
+		catch (GerminateException e)
+		{
+			resp.sendError(e.getStatus().getStatusCode());
+			return false;
 		}
 	}
 }

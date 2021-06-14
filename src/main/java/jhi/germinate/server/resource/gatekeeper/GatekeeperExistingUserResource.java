@@ -5,88 +5,87 @@ import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.resource.NewUserAccessRequest;
 import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.gatekeeper.GatekeeperClient;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
-import jhi.germinate.server.util.gatekeeper.GatekeeperApiError;
-import jhi.germinate.server.util.watcher.PropertyWatcher;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
+import jhi.germinate.server.*;
+import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.util.*;
 import retrofit2.Response;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * @author Sebastian Raubach
- */
-public class GatekeeperExistingUserResource extends BaseServerResource
+@Path("gatekeeper/user/existing")
+public class GatekeeperExistingUserResource extends ContextResource
 {
-	@Post("json")
-	public Boolean postJson(NewUserAccessRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean postGatekeeperExistingUser(NewUserAccessRequest request)
+		throws IOException
 	{
 		GatekeeperService service = GatekeeperClient.get();
 
-		try
+		// Check if the current system exists
+		Response<PaginatedResult<List<DatabaseSystems>>> systems = service.getDatabaseSystems(Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
+
+		if (systems.isSuccessful())
 		{
-			// Check if the current system exists
-			Response<PaginatedResult<List<DatabaseSystems>>> systems = service.getDatabaseSystems(Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
+			PaginatedResult<List<DatabaseSystems>> list = systems.body();
 
-			if (systems.isSuccessful())
+			// Check if the user exists
+			Users u = new Users();
+			u.setUsername(request.getUsername());
+			u.setPassword(request.getPassword());
+			Response<Token> user = service.postToken(u).execute();
+
+			if (user.isSuccessful())
 			{
-				PaginatedResult<List<DatabaseSystems>> list = systems.body();
+				Token token = user.body();
 
-				// Check if the user exists
-				Users u = new Users();
-				u.setUsername(request.getUsername());
-				u.setPassword(request.getPassword());
-				Response<Token> user = service.postToken(u).execute();
-
-				if (user.isSuccessful())
+				// User logged in successfully and the current system exists
+				if (token != null && list != null && !CollectionUtils.isEmpty(list.getData()))
 				{
-					Token token = user.body();
+					// Create a new request
+					NewAccessRequest newRequest = new NewAccessRequest();
+					newRequest.setUserId(token.getId());
+					newRequest.setDatabaseSystemId(list.getData().get(0).getId());
+					newRequest.setLocale(request.getLocale());
+					newRequest.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
 
-					// User logged in successfully and the current system exists
-					if (token != null && list != null && !CollectionUtils.isEmpty(list.getData()))
+					Response<Boolean> response = service.addExistingRequest(newRequest).execute();
+
+					if (response.isSuccessful())
 					{
-						// Create a new request
-						NewAccessRequest newRequest = new NewAccessRequest();
-						newRequest.setUserId(token.getId());
-						newRequest.setDatabaseSystemId(list.getData().get(0).getId());
-						newRequest.setLocale(request.getLocale());
-						newRequest.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
-
-						Response<Boolean> response = service.addExistingRequest(newRequest).execute();
-
-						if (response.isSuccessful())
-						{
-							return response.body();
-						}
-						else
-						{
-							GatekeeperApiError error = GatekeeperClient.parseError(response);
-							throw new ResourceException(response.code(), error.getDescription());
-						}
+						return response.body();
 					}
-				}
-				else
-				{
-					GatekeeperApiError error = GatekeeperClient.parseError(user);
-					throw new ResourceException(user.code(), error.getDescription());
+					else
+					{
+						GatekeeperApiError error = GatekeeperClient.parseError(response);
+						resp.sendError(response.code(), error.getDescription());
+						return false;
+					}
 				}
 			}
 			else
 			{
-				GatekeeperApiError error = GatekeeperClient.parseError(systems);
-				throw new ResourceException(systems.code(), error.getDescription());
+				GatekeeperApiError error = GatekeeperClient.parseError(user);
+				resp.sendError(user.code(), error.getDescription());
+				return false;
 			}
 		}
-		catch (IOException e)
+		else
 		{
-			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_SERVICE_UNAVAILABLE);
+			GatekeeperApiError error = GatekeeperClient.parseError(systems);
+			resp.sendError(systems.code(), error.getDescription());
+			return false;
 		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//			resp.sendError(javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
+//			return false;
+//		}
 
 		return false;
 	}

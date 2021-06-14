@@ -2,8 +2,9 @@ package jhi.germinate.server.util.async;
 
 import jhi.flapjack.io.FlapjackFile;
 import jhi.flapjack.io.cmd.*;
-import jhi.germinate.server.util.Hdf5ToFJTabbedConverter;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.hdf5.Hdf5ToFJTabbedConverter;
+import jhi.germinate.server.util.hdf5.*;
 
 import java.io.*;
 import java.nio.file.*;

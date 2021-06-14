@@ -3,12 +3,15 @@ package jhi.germinate.server.resource.images;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.pojo.ImageTag;
-import jhi.germinate.server.resource.PaginatedServerResource;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.resource.BaseResource;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.ImageToTags.*;
@@ -16,41 +19,40 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetags.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class ImageTagResource extends PaginatedServerResource
+@Path("imagetag")
+@Secured
+@PermitAll
+public class ImageTagResource extends BaseResource
 {
-	private String  referenceTable;
-	private Integer foreignId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ImageTag>> getImageTag()
+		throws SQLException
 	{
-		super.doInit();
-
-		try
-		{
-			this.referenceTable = getRequestAttributes().get("referenceTable").toString();
-		}
-		catch (NullPointerException e)
-		{
-		}
-		try
-		{
-			this.foreignId = Integer.parseInt(getRequestAttributes().get("foreignId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
+		return getImageTag(null);
 	}
 
-	@Get("json")
-	public PaginatedResult<List<ImageTag>> getJson()
+	@GET
+	@Path("/{referenceTable}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable)
+		throws SQLException
 	{
-		try (DSLContext context = Database.getContext())
+		return getImageTag(referenceTable, null);
+	}
+
+	@GET
+	@Path("/{referenceTable}/{foreignId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)
+		throws SQLException
+	{
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record2<Integer, String>> select = context.select(
 				IMAGETAGS.ID.as("tagId"),
 				IMAGETAGS.TAG_NAME.as("tagName")

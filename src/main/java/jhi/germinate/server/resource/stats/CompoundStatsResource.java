@@ -1,17 +1,20 @@
 package jhi.germinate.server.resource.stats;
 
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.resource.SubsettedServerResource;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.*;
@@ -23,18 +26,26 @@ import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableCompounds.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class CompoundStatsResource extends SubsettedServerResource
+@Path("dataset/stats/compound")
+@Secured
+@PermitAll
+public class CompoundStatsResource extends ContextResource
 {
-	@Post("json")
-	public CompoundDatasetStats postJson(SubsettedDatasetRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public CompoundDatasetStats postCompountStats(SubsettedDatasetRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(req, resp, userDetails);
 		List<Integer> requestedDatasetIds = CollectionUtils.isEmpty(request.getDatasetIds()) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
@@ -45,10 +56,14 @@ public class CompoundStatsResource extends SubsettedServerResource
 														 .collect(Collectors.toList()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
-			throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			// All compounds within the selected datasets
 			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_COMPOUNDS)
 																.whereExists(DSL.selectOne()
@@ -119,7 +134,7 @@ public class CompoundStatsResource extends SubsettedServerResource
 				{
 					if (tempStats.prev != null)
 					{
-						stats.put(tempStats.prev, generateStats(tempStats));
+						stats.put(tempStats.prev, TraitStatsResource.generateStats(tempStats));
 					}
 
 					tempStats.avg = 0;
@@ -166,7 +181,7 @@ public class CompoundStatsResource extends SubsettedServerResource
 
 			// Add the last one
 			if (!StringUtils.isEmpty(tempStats.prev))
-				stats.put(tempStats.prev, generateStats(tempStats));
+				stats.put(tempStats.prev, TraitStatsResource.generateStats(tempStats));
 
 			CompoundDatasetStats result = new CompoundDatasetStats();
 			Set<ViewTableCompounds> compounds = new LinkedHashSet<>();
@@ -196,44 +211,5 @@ public class CompoundStatsResource extends SubsettedServerResource
 
 			return result;
 		}
-	}
-
-	private Quantiles generateStats(TraitStatsResource.TempStats tempStats)
-	{
-		Quantiles q = new Quantiles();
-		q.setCount(tempStats.count);
-
-		if (tempStats.values.size() > 0)
-		{
-			q.setMin(tempStats.values.get(0));
-			q.setAvg(tempStats.avg / tempStats.values.size());
-			q.setMax(tempStats.values.get(tempStats.values.size() - 1));
-
-			if (tempStats.values.size() > 1)
-			{
-				// If there is more than one value, calculate the median
-				int index = tempStats.values.size() / 2;
-				if (tempStats.values.size() % 2 == 0)
-				{
-					q.setMedian((tempStats.values.get(index) + tempStats.values.get(index - 1)) / 2.0f);
-				}
-				else
-				{
-					q.setMedian(tempStats.values.get(index));
-				}
-
-				q.setQ1(tempStats.values.get((int) Math.floor(tempStats.values.size() / 4f)));
-				q.setQ3(tempStats.values.get((int) Math.floor(tempStats.values.size() / 4f * 3f)));
-			}
-			else
-			{
-				// If there's only one value, just use it
-				q.setMedian(tempStats.values.get(0));
-				q.setQ1(tempStats.values.get(0));
-				q.setQ3(tempStats.values.get(0));
-			}
-		}
-
-		return q;
 	}
 }

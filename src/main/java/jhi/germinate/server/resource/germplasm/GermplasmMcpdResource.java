@@ -3,10 +3,16 @@ package jhi.germinate.server.resource.germplasm;
 import jhi.germinate.resource.ViewMcpd;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
+import jhi.germinate.server.util.Secured;
 import org.jooq.DSLContext;
 import org.jooq.impl.*;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
+
+import javax.annotation.security.PermitAll;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Attributedata.*;
 import static jhi.germinate.server.database.codegen.tables.Attributes.*;
@@ -20,36 +26,29 @@ import static jhi.germinate.server.database.codegen.tables.Storage.*;
 import static jhi.germinate.server.database.codegen.tables.Storagedata.*;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class GermplasmMcpdResource extends ServerResource
+@Path("germplasm/{germplasmId}/mcpd")
+@Secured
+@PermitAll
+public class GermplasmMcpdResource
 {
-	private Integer germplasmId;
+	@Context
+	protected HttpServletResponse resp;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
-
-		try
-		{
-			this.germplasmId = Integer.parseInt(getRequestAttributes().get("germplasmId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@Get("json")
-	public ViewMcpd getJson()
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ViewMcpd getGermplasmMcpd(@PathParam("germplasmId") Integer germplasmId)
+		throws IOException, SQLException
 	{
 		if (germplasmId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			Germinatebase g = GERMINATEBASE.as("g");
 			Germinatebase p = GERMINATEBASE.as("p");
 

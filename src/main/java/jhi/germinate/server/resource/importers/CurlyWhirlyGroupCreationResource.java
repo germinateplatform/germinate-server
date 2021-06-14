@@ -1,36 +1,38 @@
 package jhi.germinate.server.resource.importers;
 
+import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.representation.Representation;
-import org.restlet.resource.*;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class CurlyWhirlyGroupCreationResource extends BaseServerResource
+@Path("group/upload")
+@Secured({UserType.AUTH_USER})
+public class CurlyWhirlyGroupCreationResource extends ContextResource
 {
-	@Post
-	@MinUserType(UserType.AUTH_USER)
-	public String accept(Representation entity)
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String accept()
+		throws IOException, SQLException
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			// Create a temp file
-			File tempFile = createTempFile("group-upload", "txt");
+			File tempFile = ResourceUtils.createTempFile("group-upload", "txt");
 			// Write the representation to it
-			File targetFile = FileUploadHandler.handle(entity, "textfile", tempFile);
+			File targetFile = FileUploadHandler.handle(req, "textfile", tempFile);
 
 			List<String> names = Files.readAllLines(targetFile.toPath());
 
@@ -53,10 +55,16 @@ public class CurlyWhirlyGroupCreationResource extends BaseServerResource
 			// Then return the name of the file
 			return targetFile.getName();
 		}
+		catch (GerminateException e)
+		{
+			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
+			return null;
+		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+			return null;
 		}
 	}
 }

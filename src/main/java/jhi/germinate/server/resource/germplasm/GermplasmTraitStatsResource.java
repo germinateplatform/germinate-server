@@ -1,47 +1,51 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.resource.GermplasmStats;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.codegen.tables.Phenotypedata;
-import jhi.germinate.server.resource.BaseServerResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.*;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.servlet.http.*;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.*;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
-public class GermplasmTraitStatsResource extends BaseServerResource
+@Path("germplasm/{germplasmId}/stats/trait")
+@Secured
+@PermitAll
+public class GermplasmTraitStatsResource
 {
-	private Integer germplasmId;
+	@Context
+	protected SecurityContext     securityContext;
+	@Context
+	protected HttpServletRequest  req;
+	@Context
+	protected HttpServletResponse resp;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<GermplasmStats> getGermplasmTraitStats(@PathParam("germplasmId") Integer germplasmId)
+		throws SQLException
 	{
-		super.doInit();
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		try
-		{
-			this.germplasmId = Integer.parseInt(getRequestAttributes().get("germplasmId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, true);
 
-	@Get
-	public List<GermplasmStats> getGermplasmTraitStats()
-	{
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse(), true);
-
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			Phenotypedata p = PHENOTYPEDATA.as("p");
 
 			SelectConditionStep<?> min = context.select(DSL.min(p.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))))

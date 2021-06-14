@@ -4,25 +4,34 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations;
-import jhi.germinate.server.resource.PaginatedServerResource;
+import jhi.germinate.server.resource.ExportResource;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-import org.restlet.resource.Post;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class LocationTableResource extends PaginatedServerResource
+@Path("location/table")
+@Secured
+@PermitAll
+public class LocationTableResource extends ExportResource
 {
-	@Post("json")
-	public PaginatedResult<List<ViewTableLocations>> getJson(PaginatedRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<ViewTableLocations>> postLocationTable(PaginatedRequest request)
+		throws SQLException
 	{
 		processRequest(request);
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
 			if (previousCount == -1)
@@ -41,5 +50,44 @@ public class LocationTableResource extends PaginatedServerResource
 
 			return new PaginatedResult<>(result, count);
 		}
+	}
+
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> postLocationTableIds(PaginatedRequest request)
+		throws SQLException
+	{
+		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_LOCATIONS.LOCATION_ID)
+														   .from(VIEW_TABLE_LOCATIONS);
+
+			// Filter here!
+			filter(from, filters);
+
+			List<Integer> result = setPaginationAndOrderBy(from)
+				.fetch()
+				.into(Integer.class);
+
+			return new PaginatedResult<>(result, result.size());
+		}
+	}
+
+	@POST
+	@Path("/export")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("application/zip")
+	public Response postLocationTableExport(PaginatedRequest request)
+		throws SQLException, IOException
+	{
+		processRequest(request);
+
+		return export(VIEW_TABLE_LOCATIONS, "location-table-", null);
 	}
 }

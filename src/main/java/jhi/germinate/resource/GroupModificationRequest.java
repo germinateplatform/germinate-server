@@ -1,5 +1,9 @@
 package jhi.germinate.resource;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
+import java.util.Arrays;
+
 /**
  * @author Sebastian Raubach
  */
@@ -23,6 +27,7 @@ public class GroupModificationRequest
 		return this;
 	}
 
+	@JsonGetter("isAddition")
 	public boolean isAddition()
 	{
 		return isAddition;
@@ -32,5 +37,14 @@ public class GroupModificationRequest
 	{
 		isAddition = addition;
 		return this;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "GroupModificationRequest{" +
+			"ids=" + Arrays.toString(ids) +
+			", isAddition=" + isAddition +
+			'}';
 	}
 }

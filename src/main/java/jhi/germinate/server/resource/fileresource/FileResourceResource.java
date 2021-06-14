@@ -1,138 +1,66 @@
 package jhi.germinate.server.resource.fileresource;
 
+import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.database.codegen.tables.records.*;
-import jhi.germinate.server.resource.BaseServerResource;
-import jhi.germinate.server.resource.importers.FileUploadHandler;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.*;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
 import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class FileResourceResource extends BaseServerResource
+@Path("fileresource")
+public class FileResourceResource extends ContextResource
 {
-	private Integer fileResourceId;
-
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@POST
+	@Consumes("*/*")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured({UserType.DATA_CURATOR})
+	public String postFileResource()
+		throws IOException
 	{
-		super.doInit();
+		// Generate a UUID to identify the file
+		String uuid = UUID.randomUUID().toString();
 
+		// Write the representation to a file in the temp directory initially. We'll move it later when the database object is received.
 		try
 		{
-			this.fileResourceId = Integer.parseInt(getRequestAttributes().get("fileResourceId").toString());
+			return FileUploadHandler.handle(req, "file", new File(System.getProperty("java.io.tmpdir"), uuid)).getName();
 		}
-		catch (NullPointerException | NumberFormatException e)
+		catch (GerminateException e)
 		{
+			e.printStackTrace();
+			resp.sendError(e.getStatus().getStatusCode());
+			return null;
 		}
 	}
 
-	@Delete
-	@MinUserType(UserType.DATA_CURATOR)
-	public boolean deleteJson()
-	{
-		if (fileResourceId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
-		{
-			FileresourcesRecord fileResource = context.selectFrom(FILERESOURCES)
-													  .where(FILERESOURCES.ID.eq(fileResourceId))
-													  .fetchAny();
-
-			if (fileResource != null)
-			{
-				String path = fileResource.getPath();
-
-				if (!StringUtils.isEmpty(path))
-				{
-					File file = BaseServerResource.getFromExternal(path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
-
-					if (file.exists() && file.isFile())
-						file.delete();
-				}
-
-				return fileResource.delete() > 0;
-			}
-
-			return false;
-		}
-	}
-
-	@Get
-	public FileRepresentation getJson()
-	{
-		if (fileResourceId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
-		{
-			FileresourcesRecord record = context.selectFrom(FILERESOURCES)
-												.where(FILERESOURCES.ID.eq(fileResourceId))
-												.fetchAny();
-
-			if (record == null)
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-
-			File resultFile = BaseServerResource.getFromExternal(record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
-
-			if (!resultFile.exists() || !resultFile.isFile())
-				throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-
-
-			MediaType type = MediaType.ALL;
-			String filename = resultFile.getName();
-
-			try
-			{
-				String mimeType = Files.probeContentType(resultFile.toPath());
-				type = MediaType.valueOf(mimeType);
-
-				filename = record.getName().replaceAll("[^a-zA-Z0-9-_.]", "-") + filename.substring(filename.lastIndexOf("."));
-			}
-			catch (IOException | IndexOutOfBoundsException e)
-			{
-			}
-
-			FileRepresentation representation = new FileRepresentation(resultFile, type);
-			representation.setSize(resultFile.length());
-
-			Logger.getLogger("").info("FILENAME: " + filename);
-
-			Disposition disp = new Disposition(Disposition.TYPE_ATTACHMENT);
-			disp.setFilename(filename);
-			disp.setSize(resultFile.length());
-			representation.setDisposition(disp);
-			return representation;
-		}
-	}
-
-	@Put
-	@MinUserType(UserType.DATA_CURATOR)
-	public boolean putJson(ViewTableFileresources fileResource)
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured({UserType.DATA_CURATOR})
+	public boolean putFileResource(ViewTableFileresources fileResource)
+		throws IOException, SQLException
 	{
 		if (fileResource == null || fileResource.getFileresourceId() != null || fileResource.getFileresourcetypeId() == null || StringUtils.isEmpty(fileResource.getFileresourcePath()) || StringUtils.isEmpty(fileResource.getFileresourceName()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			FileresourcetypesRecord type = context.selectFrom(FILERESOURCETYPES)
 												  .where(FILERESOURCETYPES.ID.eq(fileResource.getFileresourcetypeId()))
 												  .fetchAny();
@@ -142,10 +70,13 @@ public class FileResourceResource extends BaseServerResource
 
 			// If the type doesn't exist or the source file isn't available fail
 			if (type == null || !source.exists() || !source.isFile())
-				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			{
+				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+				return false;
+			}
 
 			// Get the target location for this file
-			File target = BaseServerResource.getFromExternal(fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
+			File target = ResourceUtils.getFromExternal(fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
 			target.getParentFile().mkdirs();
 
 			try
@@ -158,7 +89,8 @@ public class FileResourceResource extends BaseServerResource
 				// If the operation fails, delete the source.
 				source.delete();
 				e.printStackTrace();
-				throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+				return false;
 			}
 
 			// If we get here the file was successfully found and moved
@@ -174,14 +106,97 @@ public class FileResourceResource extends BaseServerResource
 		}
 	}
 
-	@Post
-	@MinUserType(UserType.DATA_CURATOR)
-	public String accept(Representation entity)
-	{
-		// Generate a UUID to identify the file
-		String uuid = UUID.randomUUID().toString();
 
-		// Write the representation to a file in the temp directory initially. We'll move it later when the database object is received.
-		return FileUploadHandler.handle(entity, "file", new File(System.getProperty("java.io.tmpdir"), uuid)).getName();
+	@GET
+	@Path("/{fileResourceId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("*/*")
+	@Secured
+	@PermitAll
+	public Response getFileResource(@PathParam("fileResourceId") Integer fileResourceId)
+		throws IOException, SQLException
+	{
+		if (fileResourceId == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			FileresourcesRecord record = context.selectFrom(FILERESOURCES)
+												.where(FILERESOURCES.ID.eq(fileResourceId))
+												.fetchAny();
+
+			if (record == null)
+			{
+				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+				return null;
+			}
+
+			File resultFile = ResourceUtils.getFromExternal(record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
+
+			if (!resultFile.exists() || !resultFile.isFile())
+			{
+				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+				return null;
+			}
+
+
+			String filename = resultFile.getName();
+
+			String type = Files.probeContentType(resultFile.toPath());
+			filename = record.getName().replaceAll("[^a-zA-Z0-9-_.]", "-") + filename.substring(filename.lastIndexOf("."));
+
+			if (StringUtils.isEmpty(type))
+				type = "*/*";
+
+			return Response.ok(resultFile)
+						   .type(type)
+						   .header("content-disposition", "attachment;filename= \"" + filename + "\"")
+						   .header("content-length", resultFile.length())
+						   .build();
+		}
+	}
+
+	@DELETE
+	@Path("/{fileResourceId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured({UserType.DATA_CURATOR})
+	public boolean deleteFileResource(@PathParam("fileResourceId") Integer fileResourceId)
+		throws IOException, SQLException
+	{
+		if (fileResourceId == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			FileresourcesRecord fileResource = context.selectFrom(FILERESOURCES)
+													  .where(FILERESOURCES.ID.eq(fileResourceId))
+													  .fetchAny();
+
+			if (fileResource != null)
+			{
+				String path = fileResource.getPath();
+
+				if (!StringUtils.isEmpty(path))
+				{
+					File file = ResourceUtils.getFromExternal(path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
+
+					if (file.exists() && file.isFile())
+						file.delete();
+				}
+
+				return fileResource.delete() > 0;
+			}
+
+			return false;
+		}
 	}
 }

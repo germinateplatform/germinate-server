@@ -1,19 +1,19 @@
 package jhi.germinate.server.resource.stats;
 
-import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.*;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.*;
-import org.restlet.data.Status;
-import org.restlet.data.*;
-import org.restlet.representation.FileRepresentation;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetmeta.*;
@@ -21,26 +21,30 @@ import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 import static jhi.germinate.server.database.codegen.tables.Datasettypes.*;
 import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetStatsResource extends BaseServerResource
+@Path("stats/dataset")
+@Secured
+@PermitAll
+public class DatasetStatsResource extends ContextResource
 {
-	@Get
-	public FileRepresentation getJson()
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getJson()
+		throws IOException, SQLException
 	{
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse(), false);
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		FileRepresentation representation = null;
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, false);
 
 		try
 		{
-			File file = createTempFile("datasets", ".tsv");
+			File file = ResourceUtils.createTempFile("datasets", ".tsv");
 			boolean hasResult = false;
 
-			try (DSLContext context = Database.getContext();
+			try (Connection conn = Database.getConnection();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
+				DSLContext context = Database.getContext(conn);
 				Set<String> years = new TreeSet<>();
 				Map<String, DatasetStats> datasetTypeToStats = new TreeMap<>();
 
@@ -82,7 +86,7 @@ public class DatasetStatsResource extends BaseServerResource
 
 				bw.write("DatasetType\t");
 				bw.write(String.join("\t", years));
-				bw.write(CRLF);
+				bw.write(ResourceUtils.CRLF);
 
 				for (DatasetStats stat : datasetTypeToStats.values())
 				{
@@ -99,15 +103,17 @@ public class DatasetStatsResource extends BaseServerResource
 							bw.write("\t" + value);
 					}
 
-					bw.write(CRLF);
+					bw.write(ResourceUtils.CRLF);
 				}
 			}
 
 			if (hasResult)
 			{
-				representation = new FileRepresentation(file, MediaType.TEXT_PLAIN);
-				representation.setSize(file.length());
-				representation.setDisposition(new Disposition(Disposition.TYPE_ATTACHMENT));
+				return Response.ok(file)
+							   .type("text/plain")
+							   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+							   .header("content-length", file.length())
+							   .build();
 			}
 			else
 			{
@@ -117,9 +123,10 @@ public class DatasetStatsResource extends BaseServerResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 		}
-		return representation;
+
+		return null;
 	}
 
 	private static class DatasetStats

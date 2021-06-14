@@ -1,37 +1,45 @@
 package jhi.germinate.server.resource.maps;
 
 import jhi.germinate.resource.DatasetRequest;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMaps;
-import jhi.germinate.server.resource.BaseServerResource;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.CollectionUtils;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Maps.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class DatasetMapResource extends BaseServerResource
+@Path("dataset/map")
+@Secured
+@PermitAll
+public class DatasetMapResource extends ContextResource
 {
-	@Post("json")
-	public List<ViewTableMaps> getJson(DatasetRequest request)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ViewTableMaps> postDatasetMaps(DatasetRequest request)
+		throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
 
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(getRequest(), getResponse());
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		requestedIds.retainAll(datasets);
@@ -39,8 +47,9 @@ public class DatasetMapResource extends BaseServerResource
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();
 
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			return context.selectDistinct(
 				MAPS.ID.as("map_id"),
 				MAPS.NAME.as("map_name"),

@@ -1,39 +1,44 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.server.Database;
+import jhi.germinate.server.util.Secured;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class GermplasmEntityResource extends ServerResource
+@Path("germplasm/entity")
+@Secured
+@PermitAll
+public class GermplasmEntityResource
 {
-	public static final String PARAM_DIRECTION = "direction";
-
+	@QueryParam("direction")
 	private String direction;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
-	{
-		super.doInit();
+	@Context
+	protected HttpServletResponse resp;
 
-		direction = getQueryValue(PARAM_DIRECTION);
-	}
-
-	@Post("json")
-	public List<Integer> postIds(Integer[] ids)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Integer> postGermplasmEntities(Integer[] ids)
+		throws IOException, SQLException
 	{
-		try (DSLContext context = Database.getContext())
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
 			if (ids == null)
-				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+			{
+				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+				return null;
+			}
 
 			if (Objects.equals(direction, "down"))
 			{
@@ -52,7 +57,8 @@ public class GermplasmEntityResource extends ServerResource
 			}
 			else
 			{
-				throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
+				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+				return null;
 			}
 		}
 	}

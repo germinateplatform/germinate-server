@@ -1,48 +1,45 @@
 package jhi.germinate.server.resource.maps;
 
-import jhi.germinate.server.Database;
-import jhi.germinate.server.auth.CustomVerifier;
+import jhi.germinate.server.*;
+import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.util.Secured;
 import org.jooq.DSLContext;
-import org.restlet.data.Status;
-import org.restlet.resource.*;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.io.IOException;
+import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Maps.*;
 
-/**
- * @author Sebastian Raubach
- */
-public class MapChromosomeResource extends ServerResource
+@Path("map/{mapId}/chromosome")
+@Secured
+@PermitAll
+public class MapChromosomeResource extends ContextResource
 {
+	@PathParam("mapId")
 	private Integer mapId;
 
-	@Override
-	protected void doInit()
-		throws ResourceException
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getMapChromosomes()
+		throws IOException, SQLException
 	{
-		super.doInit();
-
-		try
-		{
-			this.mapId = Integer.parseInt(getRequestAttributes().get("mapId").toString());
-		}
-		catch (NullPointerException | NumberFormatException e)
-		{
-		}
-	}
-
-	@Get("json")
-	public List<String> getJson()
-	{
-		CustomVerifier.UserDetails userDetails = CustomVerifier.getFromSession(getRequest(), getResponse());
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (mapId == null)
-			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST);
-
-		try (DSLContext context = Database.getContext())
 		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 			return context.selectDistinct(MAPDEFINITIONS.CHROMOSOME)
 						  .from(MAPS)
 						  .leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MAP_ID.eq(MAPS.ID))
