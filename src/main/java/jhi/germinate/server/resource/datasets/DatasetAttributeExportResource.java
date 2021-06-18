@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
@@ -84,7 +85,11 @@ public class DatasetAttributeExportResource extends ContextResource
 				return null;
 			}
 
-			return Response.ok(file)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
 						   .type("text/plain")
 						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
 						   .header("content-length", file.length())

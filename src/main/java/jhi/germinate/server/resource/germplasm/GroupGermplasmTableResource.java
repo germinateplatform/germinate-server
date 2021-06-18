@@ -167,7 +167,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			// Filter here!
 			filter(from, filters);
 
-			return ResourceUtils.export(from.fetch(), resp, "germplasm-group-table-");
+			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-group-table-");
 		}
 		catch (GerminateException e)
 		{

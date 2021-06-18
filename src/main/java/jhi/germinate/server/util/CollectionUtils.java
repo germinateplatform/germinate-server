@@ -146,4 +146,9 @@ public class CollectionUtils
 
 		return result;
 	}
+
+	public static <T> int length(T[] array)
+	{
+		return array == null ? 0 : array.length;
+	}
 }

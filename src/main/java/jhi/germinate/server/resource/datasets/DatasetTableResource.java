@@ -148,7 +148,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 														   }
 														   else
 														   {
-															   d.setAcceptedBy();
+															   d.setAcceptedBy(new Integer[0]);
 															   return true;
 														   }
 													   }
@@ -166,7 +166,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 															   }
 															   else
 															   {
-																   d.setAcceptedBy();
+																   d.setAcceptedBy(new Integer[0]);
 																   return true;
 															   }
 														   }
@@ -187,14 +187,14 @@ public class DatasetTableResource extends BaseDatasetTableResource
 																   else
 																   {
 																	   // Else, clear this information
-																	   d.setAcceptedBy();
+																	   d.setAcceptedBy(new Integer[0]);
 																	   return true;
 																   }
 															   }
 															   else
 															   {
 																   // Else, clear this information
-																   d.setAcceptedBy();
+																   d.setAcceptedBy(new Integer[0]);
 																   return true;
 															   }
 														   }
@@ -215,14 +215,14 @@ public class DatasetTableResource extends BaseDatasetTableResource
 															   else
 															   {
 																   // Else, clear this information
-																   d.setAcceptedBy();
+																   d.setAcceptedBy(new Integer[0]);
 																   return true;
 															   }
 														   }
 														   else
 														   {
 															   // Else, clear this information
-															   d.setAcceptedBy();
+															   d.setAcceptedBy(new Integer[0]);
 															   return true;
 														   }
 													   }

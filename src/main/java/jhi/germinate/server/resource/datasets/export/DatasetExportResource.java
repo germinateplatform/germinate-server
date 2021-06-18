@@ -244,7 +244,12 @@ public class DatasetExportResource extends ContextResource
 				new MakeHistogram(200, target.getAbsolutePath(), histogram.getAbsolutePath()).createHistogram();
 			}
 
-			return Response.ok(histogram, MediaType.TEXT_PLAIN)
+			java.nio.file.Path filePath = histogram.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
+						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment; filename=\"" + histogram.getName() + "\"")
 						   .header("content-length", histogram.length())
 						   .build();
@@ -325,7 +330,12 @@ public class DatasetExportResource extends ContextResource
 				return null;
 			}
 
-			return Response.ok(file, MediaType.TEXT_PLAIN)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
+						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
 						   .build();
@@ -407,7 +417,12 @@ public class DatasetExportResource extends ContextResource
 				return null;
 			}
 
-			return Response.ok(file, MediaType.TEXT_PLAIN)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
+						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
 						   .build();
@@ -494,7 +509,12 @@ public class DatasetExportResource extends ContextResource
 				access.store();
 			}
 
-			return Response.ok(file, mediaType)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
+						   .type(mediaType)
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
 						   .build();

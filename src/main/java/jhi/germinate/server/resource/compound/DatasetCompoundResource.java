@@ -40,7 +40,7 @@ public class DatasetCompoundResource
 	public List<ViewTableCompounds> getJson(DatasetRequest request)
 		throws IOException, SQLException
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+		if (request == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return null;
@@ -49,9 +49,17 @@ public class DatasetCompoundResource
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
-		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+		List<Integer> requestedIds;
 
-		requestedIds.retainAll(datasets);
+		if (CollectionUtils.isEmpty(request.getDatasetIds()))
+		{
+			requestedIds = datasets;
+		}
+		else
+		{
+			requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+			requestedIds.retainAll(datasets);
+		}
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

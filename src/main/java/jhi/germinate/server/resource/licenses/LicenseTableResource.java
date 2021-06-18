@@ -65,7 +65,7 @@ public class LicenseTableResource extends BaseResource
 					}
 					else
 					{
-						d.setAcceptedBy();
+						d.setAcceptedBy(new Integer[0]);
 					}
 				}
 				else if (mode == AuthenticationMode.SELECTIVE)
@@ -81,7 +81,7 @@ public class LicenseTableResource extends BaseResource
 						}
 						else
 						{
-							d.setAcceptedBy();
+							d.setAcceptedBy(new Integer[0]);
 						}
 					}
 					else
@@ -99,13 +99,13 @@ public class LicenseTableResource extends BaseResource
 							else
 							{
 								// Else, clear this information
-								d.setAcceptedBy();
+								d.setAcceptedBy(new Integer[0]);
 							}
 						}
 						else
 						{
 							// Else, clear this information
-							d.setAcceptedBy();
+							d.setAcceptedBy(new Integer[0]);
 						}
 					}
 				}
@@ -124,13 +124,13 @@ public class LicenseTableResource extends BaseResource
 						else
 						{
 							// Else, clear this information
-							d.setAcceptedBy();
+							d.setAcceptedBy(new Integer[0]);
 						}
 					}
 					else
 					{
 						// Else, clear this information
-						d.setAcceptedBy();
+						d.setAcceptedBy(new Integer[0]);
 					}
 				}
 			});

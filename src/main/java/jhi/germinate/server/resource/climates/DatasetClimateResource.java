@@ -40,7 +40,7 @@ public class DatasetClimateResource
 	public List<ViewTableClimates> getJson(DatasetRequest request)
 		throws IOException, SQLException
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+		if (request == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return null;
@@ -48,16 +48,17 @@ public class DatasetClimateResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
 		List<Integer> requestedIds;
 
 		if (CollectionUtils.isEmpty(request.getDatasetIds()))
 		{
-			requestedIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+			requestedIds = datasets;
 		}
 		else
 		{
 			requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-			requestedIds.retainAll(DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails));
+			requestedIds.retainAll(datasets);
 		}
 
 		if (CollectionUtils.isEmpty(requestedIds))

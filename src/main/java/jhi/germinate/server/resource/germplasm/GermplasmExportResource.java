@@ -46,7 +46,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				procedure.execute(context.configuration());
 
-				return ResourceUtils.export(procedure.getResults().get(0), resp, "germplasm-table-");
+				return ResourceUtils.exportToZip(procedure.getResults().get(0), resp, "germplasm-table-");
 			}
 			else
 			{
@@ -69,7 +69,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						// Filter here!
 						filter(from, filters);
 
-						return ResourceUtils.export(from.fetch(), resp, "germplasm-table-");
+						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
 					}
 					else if (request.getGroupIds() != null)
 					{
@@ -81,13 +81,13 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, fieldGroupId);
 						from.where(fieldGroupId.in(request.getGroupIds()));
 
-						return ResourceUtils.export(from.fetch(), resp, "germplasm-table-");
+						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return ResourceUtils.export(getGermplasmQueryWrapped(context, null).fetch(), resp, "germplasm-table-");
+				return ResourceUtils.exportToZip(getGermplasmQueryWrapped(context, null).fetch(), resp, "germplasm-table-");
 			}
 		}
 	}

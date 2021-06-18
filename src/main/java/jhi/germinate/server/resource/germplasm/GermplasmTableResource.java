@@ -3,6 +3,7 @@ package jhi.germinate.server.resource.germplasm;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.ViewTableGermplasmDeprecated;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
@@ -14,7 +15,8 @@ import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.*;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Path("germplasm/table")
 @Secured
@@ -127,7 +129,16 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			// Filter here!
 			filter(from, filters);
 
-			return ResourceUtils.export(from.fetch(), resp, "germplasm-table-");
+			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
 		}
+	}
+
+	@GET
+	@Path("/columns")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getGermplasmTableColumns()
+	{
+		return Arrays.stream(ViewTableGermplasmDeprecated.VIEW_TABLE_GERMPLASM_DEPRECATED.fields()).map(Field::getName).collect(Collectors.toList());
 	}
 }

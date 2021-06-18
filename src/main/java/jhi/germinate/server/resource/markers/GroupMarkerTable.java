@@ -169,7 +169,7 @@ public class GroupMarkerTable extends BaseResource
 			Result<Record> result = setPaginationAndOrderBy(from)
 				.fetch();
 
-			return ResourceUtils.export(result, resp, "marker-group-table-");
+			return ResourceUtils.exportToZip(result, resp, "marker-group-table-");
 		}
 		catch (GerminateException e)
 		{

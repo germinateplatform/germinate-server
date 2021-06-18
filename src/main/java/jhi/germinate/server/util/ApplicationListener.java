@@ -73,18 +73,10 @@ public class ApplicationListener implements ServletContextListener
 		if (asyncDeleteDelay != null)
 			backgroundScheduler.scheduleAtFixedRate(new AsyncFolderCleanupTask(), 0, asyncDeleteDelay, TimeUnit.HOURS);
 
-		String path = sce.getServletContext().getContextPath();
-		if (!StringUtils.isEmpty(path) && tempDeleteDelay != null)
+		if (tempDeleteDelay != null)
 		{
-			String[] parts = path.split("/");
-			String firstNonEmptyPart = Arrays.stream(parts)
-											 .filter(p -> !StringUtils.isEmpty(p))
-											 .findFirst()
-											 .orElse(null);
-
 			// Every specified amount of hours, delete the temp files
-			if (!StringUtils.isEmpty(firstNonEmptyPart))
-				backgroundScheduler.scheduleAtFixedRate(new TempFolderCleanupTask(firstNonEmptyPart), 0, tempDeleteDelay, TimeUnit.HOURS);
+			backgroundScheduler.scheduleAtFixedRate(new TempFolderCleanupTask(), 0, tempDeleteDelay, TimeUnit.HOURS);
 		}
 
 		// Every 4 hours, update the PDCI

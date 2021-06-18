@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static jhi.germinate.server.database.codegen.tables.Comments.*;

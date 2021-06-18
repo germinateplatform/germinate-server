@@ -12,16 +12,10 @@ import java.util.logging.*;
  */
 public class TempFolderCleanupTask implements Runnable
 {
-	private String path;
-
-	public TempFolderCleanupTask(String path)
-	{
-		this.path = path;
-	}
-
 	@Override
 	public void run()
 	{
+		String path = PropertyWatcher.get(ServerProperty.DATABASE_NAME);
 		File tempFolder = new File(System.getProperty("java.io.tmpdir"), path);
 		Long keepFilesFor = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);
 

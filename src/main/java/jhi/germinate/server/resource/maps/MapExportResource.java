@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -110,7 +111,11 @@ public class MapExportResource extends ContextResource
 				return null;
 			}
 
-			return Response.ok(file, MediaType.TEXT_PLAIN)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
 						   .build();

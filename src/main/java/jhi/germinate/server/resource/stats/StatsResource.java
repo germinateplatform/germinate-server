@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
 
@@ -186,7 +187,11 @@ public class StatsResource
 				return null;
 			}
 
-			return Response.ok(file)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
 						   .type("text/plain")
 						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
 						   .header("content-length", file.length())

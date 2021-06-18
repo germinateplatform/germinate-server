@@ -16,8 +16,6 @@ import java.sql.*;
 import java.util.TimeZone;
 import java.util.logging.*;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-
 /**
  * @author Sebastian Raubach
  */
@@ -114,16 +112,22 @@ public class Database
 		if (initAndUpdate)
 		{
 			boolean databaseExists = true;
-			try (Connection conn = getDirectConnection())
+			// Check if the germinatebase table exists
+			try (Connection conn = getConnection();
+				 PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(1) AS count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?"))
 			{
-				DSLContext context = Database.getContext(conn);
-				// Try and see if the `germinatebase` table exists
-				context.selectFrom(GERMINATEBASE)
-					   .fetchAny();
+				stmt.setString(1, databaseName);
+				stmt.setString(2, "germinatebase");
+				ResultSet rs = stmt.executeQuery();
+
+				while (rs.next())
+					databaseExists = rs.getInt("count") > 0;
+
+				rs.close();
 			}
-			catch (SQLException | DataAccessException e)
+			catch (SQLException e)
 			{
-				databaseExists = false;
+				e.printStackTrace();
 			}
 
 			if (!databaseExists)
@@ -170,7 +174,7 @@ public class Database
 				Flyway flyway = Flyway.configure()
 									  .table("schema_version")
 									  .validateOnMigrate(false)
-									  .dataSource(getDatabaseUrl(), username, password)
+									  .dataSource(getDatabaseUrl(false), username, password)
 									  .locations("classpath:jhi/germinate/server/util/database/migration")
 									  .baselineOnMigrate(true)
 									  .load();
@@ -218,22 +222,27 @@ public class Database
 		}
 	}
 
-	private static String getDatabaseUrl()
+	private static String getDatabaseUrl(boolean allowStreaming)
 	{
-		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc;
+		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc + (allowStreaming ? "&useCursorFetch=true" : "");
 	}
 
 	public static Connection getConnection()
 		throws SQLException
 	{
-//		return datasource.getConnection();
-		return DriverManager.getConnection(getDatabaseUrl(), username, password);
+		return getConnection(false);
+	}
+
+	public static Connection getConnection(boolean allowStreaming)
+		throws SQLException
+	{
+		return DriverManager.getConnection(getDatabaseUrl(allowStreaming), username, password);
 	}
 
 	private static Connection getDirectConnection()
 		throws SQLException
 	{
-		return DriverManager.getConnection(getDatabaseUrl(), username, password);
+		return DriverManager.getConnection(getDatabaseUrl(false), username, password);
 	}
 
 //	public static DSLContext getContext()

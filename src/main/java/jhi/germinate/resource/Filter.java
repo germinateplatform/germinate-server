@@ -33,6 +33,11 @@ public class Filter
 
 	public String getSafeColumn()
 	{
+		return getSafeColumn(this.column);
+	}
+
+	public static String getSafeColumn(String column)
+	{
 		if (StringUtils.isEmpty(column))
 		{
 			return "";

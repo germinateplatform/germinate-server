@@ -13,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
@@ -77,7 +78,11 @@ public class TraitCategoricalResource extends ContextResource
 				ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
 			}
 
-			return Response.ok(file)
+			java.nio.file.Path filePath = file.toPath();
+			return Response.ok((StreamingOutput) output -> {
+				Files.copy(filePath, output);
+				Files.deleteIfExists(filePath);
+			})
 						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
 						   .header("content-length", file.length())

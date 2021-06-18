@@ -76,7 +76,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 					}
 					else
 					{
-						d.setAcceptedBy();
+						d.setAcceptedBy(new Integer[0]);
 					}
 				}
 				else if (mode == AuthenticationMode.SELECTIVE)
@@ -92,7 +92,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 						}
 						else
 						{
-							d.setAcceptedBy();
+							d.setAcceptedBy(new Integer[0]);
 						}
 					}
 					else
@@ -109,13 +109,13 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 							else
 							{
 								// Else, clear this information
-								d.setAcceptedBy();
+								d.setAcceptedBy(new Integer[0]);
 							}
 						}
 						else
 						{
 							// Else, clear this information
-							d.setAcceptedBy();
+							d.setAcceptedBy(new Integer[0]);
 						}
 					}
 				}
@@ -133,13 +133,13 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 						else
 						{
 							// Else, clear this information
-							d.setAcceptedBy();
+							d.setAcceptedBy(new Integer[0]);
 						}
 					}
 					else
 					{
 						// Else, clear this information
-						d.setAcceptedBy();
+						d.setAcceptedBy(new Integer[0]);
 					}
 				}
 			});
