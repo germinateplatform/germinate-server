@@ -29,9 +29,6 @@ repositories {
     jcenter()
     mavenCentral()
     maven {
-        url 'https://maven.restlet.talend.com'
-    }
-    maven {
         url 'https://repo.spring.io/plugins-release/'
     }
     maven {

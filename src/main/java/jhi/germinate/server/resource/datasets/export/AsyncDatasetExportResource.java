@@ -20,13 +20,13 @@ import java.util.*;
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 
 @Path("dataset/export/async")
-@Secured
-@PermitAll
 public class AsyncDatasetExportResource extends ContextResource implements AsyncResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public List<DatasetExportJobs> postJson(UuidRequest request)
 		throws SQLException
 	{
@@ -51,6 +51,8 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Path("/{jobUuid}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public boolean deleteAsyncDatasetExport(@PathParam("jobUuid") String jobUuid)
 		throws IOException, SQLException
 	{

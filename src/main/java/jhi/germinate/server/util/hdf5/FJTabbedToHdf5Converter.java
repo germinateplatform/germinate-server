@@ -62,13 +62,13 @@ public class FJTabbedToHdf5Converter
 		long s = System.currentTimeMillis();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8));
 			 // The second reader is just to get the number of rows
-			 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8)))
+			 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8));
+			 IHDF5Writer writer = HDF5Factory.open(hdf5File))
 		{
 			// Delete old files with this name, because otherwise the new data will get appended to the old data
 			if (hdf5File.exists() && hdf5File.isFile())
 				hdf5File.delete();
 
-			IHDF5Writer writer = HDF5Factory.open(hdf5File);
 			LinkedHashMap<String, Byte> stateTable = new LinkedHashMap<>();
 			stateTable.put("", (byte) 0);
 
@@ -150,7 +150,6 @@ public class FJTabbedToHdf5Converter
 
 			// Write the state table
 			writer.string().writeArray(STATE_TABLE, stateTable.keySet().toArray(new String[0]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
-			writer.close();
 		}
 		catch (IOException e)
 		{
