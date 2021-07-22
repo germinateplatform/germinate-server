@@ -70,12 +70,12 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 													.map(allele -> {
 														String state = stateTable[allele];
 
+														if (StringUtils.isEmpty(state))
+															state = "N";
+
 														// Replace slashes
 														if (state.contains("/"))
 															state = state.replace("/", "");
-
-														if (StringUtils.isEmpty(state))
-															state = "N";
 
 														// Duplicate individual nucleotides
 														if (state.length() == 1)
