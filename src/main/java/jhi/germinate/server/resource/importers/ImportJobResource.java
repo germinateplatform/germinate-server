@@ -138,7 +138,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@POST
 	@Path("/file")
 	@Secured({UserType.DATA_CURATOR})
-	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("type") String type)
+	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("type") String type, @QueryParam("datasetStateId") Integer datasetStateId)
 		throws IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -156,7 +156,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 
 		try
 		{
-			return DataImportRunner.checkData(dataType, userDetails, req, isUpdate);
+			return DataImportRunner.checkData(dataType, userDetails, req, isUpdate, datasetStateId);
 		}
 		catch (GerminateException e)
 		{

@@ -33,6 +33,12 @@ public class GatekeeperClient
 	private static       OkHttpClient                                httpClient;
 	private static       ConnectionPool                              connectionPool;
 
+	/**
+	 * Initialises the Gatekeeper Client using the remote URL, username and password
+	 * @param url The remote API URL of Gatekeeper
+	 * @param username The username to use. This has to be a user with admin permissions on the Gatekeeper database.
+	 * @param password The user password.
+	 */
 	public static void init(String url, String username, String password)
 	{
 		if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) == AuthenticationMode.NONE
@@ -42,6 +48,7 @@ public class GatekeeperClient
 			return;
 		}
 
+		// Fix any issues that might occur with the URL
 		if (!url.endsWith("/"))
 			url += "/";
 
@@ -52,10 +59,12 @@ public class GatekeeperClient
 		GatekeeperClient.username = username;
 		GatekeeperClient.password = password;
 
+		// Create a connection pool
 		connectionPool = new ConnectionPool(3, 1, TimeUnit.MINUTES);
 
 		try
 		{
+			// (Re)set everything
 			reset();
 		}
 		catch (Exception e)
@@ -67,7 +76,9 @@ public class GatekeeperClient
 
 	private static void reset()
 	{
+		// Close any existing connections
 		close();
+		// Create the HTTP client with the pool and timeouts
 		httpClient = new OkHttpClient.Builder()
 			.readTimeout(1, TimeUnit.MINUTES)
 			.callTimeout(1, TimeUnit.MINUTES)
@@ -76,20 +87,25 @@ public class GatekeeperClient
 			.connectionPool(connectionPool)
 			.retryOnConnectionFailure(true)
 			.build();
+		// Create the retrofit instance
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
 										   .addConverterFactory(GsonConverterFactory.create())
 										   .client(httpClient)
 										   .build();
 
+		// Create an instance of the service interface
 		service = retrofit.create(GatekeeperService.class);
 
+		// Create a user POJO
 		Users user = new Users();
 		user.setUsername(username);
 		user.setPassword(password);
 		try
 		{
+			// Log in using the credentials
 			Response<Token> response = service.postToken(user).execute();
 
+			// Remember the token if it worked
 			if (response.isSuccessful())
 				token = response.body();
 			else
@@ -102,7 +118,9 @@ public class GatekeeperClient
 			return;
 		}
 
+		// Close the current connection again
 		close();
+		// And now create a new one that will use the token for all further requests
 		httpClient = (new OkHttpClient.Builder())
 			.readTimeout(1, TimeUnit.MINUTES)
 			.callTimeout(1, TimeUnit.MINUTES)
@@ -115,6 +133,7 @@ public class GatekeeperClient
 														.addHeader("Cookie", "token=" + token.getToken())
 														.build()))
 			.addInterceptor(chain -> {
+				// Add an interceptor that will handle some error codes
 				Request request = chain.request();
 				okhttp3.Response response = chain.proceed(request);
 
@@ -132,6 +151,7 @@ public class GatekeeperClient
 			})
 			.build();
 
+		// Now recreate the retrofit instance and the service
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
 										   .addConverterFactory(GsonConverterFactory.create())
 										   .client(httpClient)
@@ -147,6 +167,9 @@ public class GatekeeperClient
 		return service;
 	}
 
+	/**
+	 * Gets all users with access to this Germinate database from Gatekeeper
+	 */
 	public static synchronized void getUsersFromGatekeeper()
 	{
 		try
@@ -186,6 +209,11 @@ public class GatekeeperClient
 		return error;
 	}
 
+	/**
+	 * Returns the Gatekeeper user with the given id if any. <code>null</code> otherwise
+	 * @param id The id of the user
+	 * @return The user or <code>null</code>
+	 */
 	public static ViewUserDetails getUser(Integer id)
 	{
 		if (id == null)
@@ -196,8 +224,10 @@ public class GatekeeperClient
 		{
 			if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) != AuthenticationMode.NONE)
 			{
+				// Get the user
 				ViewUserDetails result = users.get(id);
 
+				// If it doesn't exist, try to get it again from Gatekeeper
 				if (result == null)
 				{
 					// Try to get them again, Gatekeeper may have been unavailable

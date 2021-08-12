@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;
 
+/**
+ * This filter makes sure that the {@link Secured} resources are only accessible by users with the correct user type.
+ */
 @Secured
 @Provider
 @Priority(Priorities.AUTHORIZATION)

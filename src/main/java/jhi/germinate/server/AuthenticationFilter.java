@@ -21,6 +21,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+/**
+ * Filter that checks if restricted resources are only accessed if a valid Bearer token is set.
+ */
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
@@ -360,9 +363,13 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		return result;
 	}
 
+	/**
+	 * Checks whether the given image token is valid
+	 * @param imageToken The token
+	 * @return <code>true</code> if the token is valid
+	 */
 	public static boolean isValidImageToken(String imageToken)
 	{
-		Logger.getLogger("").info("TOKENS: " + tokenToImageToken.toString());
 		return tokenToImageToken.containsValue(imageToken);
 	}
 

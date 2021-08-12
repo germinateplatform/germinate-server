@@ -37,6 +37,12 @@ public class StringUtils
 		return input == null || input.strip().isEmpty();
 	}
 
+	/**
+	 * Checks if the given {@link String} is either <code>null</code>, empty or contains solely of single or double quotes.
+	 *
+	 * @param input The input to check
+	 * @return <code>true</code> if the input is either empty or consists solely of single or double quotes.
+	 */
 	public static boolean isEmptyOrQuotes(String input)
 	{
 		if (isEmpty(input))
@@ -45,6 +51,12 @@ public class StringUtils
 			return isEmpty(input.replace("'", "").replace("\"", ""));
 	}
 
+	/**
+	 * Returns either the original string (if it's not empty) or an empty string (if it is)
+	 *
+	 * @param input The input to check
+	 * @return Either the original string (if it's not empty) or an empty string (if it is)
+	 */
 	public static String orEmpty(String input)
 	{
 		if (isEmpty(input))
@@ -53,6 +65,12 @@ public class StringUtils
 			return input;
 	}
 
+	/**
+	 * Returns either the original string (if it's not empty) or empty double quotes (if it is)
+	 *
+	 * @param input The input to check
+	 * @return Either the original string (if it's not empty) or empty double quotes (if it is)
+	 */
 	public static String orEmptyQuotes(String input)
 	{
 		if (isEmpty(input))
@@ -61,26 +79,14 @@ public class StringUtils
 			return input;
 	}
 
+	/**
+	 * Null-safe toString method for Objects. Returns <code>null</code> if the input is <code>null</code>.
+	 *
+	 * @param value The input object to check
+	 * @return Null-safe toString method for Objects. Returns <code>null</code> if the input is <code>null</code>.
+	 */
 	public static String toString(Object value)
 	{
 		return value == null ? null : Objects.toString(value);
-	}
-
-	public static String join(String separator, String... parts)
-	{
-		List<String> nonNull = new ArrayList<>();
-
-		if (parts != null)
-		{
-			for (String part : parts)
-			{
-				if (!StringUtils.isEmpty(part))
-					nonNull.add(part);
-			}
-
-			return String.join(separator, nonNull);
-		}
-
-		return null;
 	}
 }

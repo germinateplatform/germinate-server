@@ -83,7 +83,7 @@ public class Database
 		boolean connectionSuccessful = false;
 		for (int attempt = 0; attempt < 10; attempt++)
 		{
-			try (Connection conn = getDirectConnection())
+			try (Connection conn = getConnection())
 			{
 				Database.getContext(conn);
 				connectionSuccessful = true;
@@ -157,7 +157,8 @@ public class Database
 				Logger.getLogger("").log(Level.INFO, "DATABASE EXISTS, NO NEED TO CREATE IT!");
 			}
 
-			try (Connection conn = getDirectConnection())
+			// Convert the database to UTF-8
+			try (Connection conn = getConnection())
 			{
 				DSLContext context = Database.getContext(conn);
 				context.execute("ALTER DATABASE `" + databaseName + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
@@ -167,7 +168,7 @@ public class Database
 				e.printStackTrace();
 			}
 
-			// Run database update
+			// Run database updates
 			try
 			{
 				Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
@@ -208,9 +209,14 @@ public class Database
 		}
 	}
 
+	/**
+	 * Executes an .sql file against the database
+	 *
+	 * @param sqlFile The file to execute
+	 */
 	private static void executeFile(File sqlFile)
 	{
-		try (Connection conn = Database.getDirectConnection();
+		try (Connection conn = getConnection();
 			 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sqlFile), StandardCharsets.UTF_8)))
 		{
 			ScriptRunner runner = new ScriptRunner(conn, true, true);
@@ -222,27 +228,48 @@ public class Database
 		}
 	}
 
+	/**
+	 * Creates and returns the database connection string
+	 *
+	 * @param allowStreaming Should streaming of results be allowed?
+	 * @return
+	 */
 	private static String getDatabaseUrl(boolean allowStreaming)
 	{
-		return "jdbc:mysql://" + databaseServer + ":" + (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort) + "/" + databaseName + "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=" + utc + (allowStreaming ? "&useCursorFetch=true" : "");
+		return "jdbc:mysql://"
+			+ databaseServer
+			+ ":"
+			+ (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort)
+			+ "/"
+			+ databaseName
+			+ "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone="
+			+ utc
+			+ (allowStreaming ? "&useCursorFetch=true" : "");
 	}
 
+	/**
+	 * Get a database connection
+	 *
+	 * @return The {@link Connection} to the database
+	 * @throws SQLException thrown if the database interaction fails
+	 */
 	public static Connection getConnection()
 		throws SQLException
 	{
 		return getConnection(false);
 	}
 
+	/**
+	 * Get a database connection
+	 *
+	 * @param allowStreaming Should streaming of results be allowed?
+	 * @return The {@link Connection} to the database
+	 * @throws SQLException thrown if the database interaction fails
+	 */
 	public static Connection getConnection(boolean allowStreaming)
 		throws SQLException
 	{
 		return DriverManager.getConnection(getDatabaseUrl(allowStreaming), username, password);
-	}
-
-	private static Connection getDirectConnection()
-		throws SQLException
-	{
-		return DriverManager.getConnection(getDatabaseUrl(false), username, password);
 	}
 
 //	public static DSLContext getContext()
@@ -256,6 +283,12 @@ public class Database
 //		return DSL.using(datasource, SQLDialect.MYSQL, settings);
 //	}
 
+	/**
+	 * Gets the {@link DSLContext} based on the given connection. This allows jOOQ queries.
+	 *
+	 * @param connection The active {@link Connection}
+	 * @return The {@link DSLContext} based on the given connection.
+	 */
 	public static DSLContext getContext(Connection connection)
 	{
 		Settings settings = new Settings()

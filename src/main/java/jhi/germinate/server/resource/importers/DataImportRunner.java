@@ -60,6 +60,7 @@ public class DataImportRunner
 			args.add("true"); // Delete file if failed
 			args.add(AbstractImporter.RunType.IMPORT.name()); // Import straight away, no need to check it again
 			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
+			args.add(record.getDatasetstateId() == null ? "1" : Integer.toString(record.getDatasetstateId()));
 
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
@@ -83,7 +84,7 @@ public class DataImportRunner
 		return null;
 	}
 
-	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, HttpServletRequest req, boolean isUpdate)
+	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, HttpServletRequest req, boolean isUpdate, Integer datasetStateId)
 		throws GerminateException
 	{
 		if (dataType == null)
@@ -114,6 +115,7 @@ public class DataImportRunner
 			args.add("true"); // Delete file if failed
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
 			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
+			args.add(datasetStateId == null ? "1" : Integer.toString(datasetStateId));
 
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
@@ -125,6 +127,7 @@ public class DataImportRunner
 			dbJob.setDatatype(dataType);
 			dbJob.setOriginalFilename(originalFileName);
 			dbJob.setIsUpdate(isUpdate);
+			dbJob.setDatasetstateId(datasetStateId);
 			dbJob.setStatus(DataImportJobsStatus.running);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());

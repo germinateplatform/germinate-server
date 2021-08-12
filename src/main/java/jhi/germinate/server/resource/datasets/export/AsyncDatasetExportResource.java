@@ -156,7 +156,8 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			java.nio.file.Path zipFilePath = resultFile.toPath();
 			return Response.ok((StreamingOutput) output -> {
 				Files.copy(zipFilePath, output);
-				Files.deleteIfExists(zipFilePath);
+				// Delete the whole folder once we're done
+				Files.deleteIfExists(zipFilePath.getParent());
 			})
 						   .type("application/zip")
 						   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")

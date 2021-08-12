@@ -2,7 +2,6 @@ package jhi.germinate.server.util;
 
 import com.google.gson.*;
 
-import java.lang.reflect.Type;
 import java.text.*;
 import java.util.Date;
 
@@ -68,35 +67,18 @@ public class GsonUtil
 		{
 			gsonBuilder.excludeFieldsWithoutExposeAnnotation();
 		}
-		gsonBuilder.registerTypeAdapter(Date.class,
-			new JsonDeserializer<Date>()
+		gsonBuilder.registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, type, arg2) -> {
+			try
 			{
-				@Override
-				public Date deserialize(JsonElement json, Type type,
-										JsonDeserializationContext arg2)
-					throws JsonParseException
-				{
-					try
-					{
-						return getSDFInstance().parse(json.getAsString());
-					}
-					catch (ParseException e)
-					{
-						return null;
-					}
-				}
-
-			});
-		gsonBuilder.registerTypeAdapter(Date.class, new JsonSerializer<Date>()
-		{
-			@Override
-			public JsonElement serialize(Date src, Type typeOfSrc,
-										 JsonSerializationContext context)
+				return getSDFInstance().parse(json.getAsString());
+			}
+			catch (ParseException e)
 			{
-				return src == null ? null : new JsonPrimitive(getSDFInstance()
-					.format(src));
+				return null;
 			}
 		});
+		gsonBuilder.registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> src == null ? null : new JsonPrimitive(getSDFInstance()
+			.format(src)));
 		return gsonBuilder;
 	}
 

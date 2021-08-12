@@ -6,10 +6,21 @@ import java.util.Collection;
 import java.util.stream.*;
 
 /**
+ * Used to subset tab-delimited files by given column and row identifiers
+ *
  * @author Sebastian Raubach
  */
 public class TabFileSubsetter
 {
+	/**
+	 * @param input          The input file to subset
+	 * @param output         The output file to create
+	 * @param rowsToKeep     The row headers of the rows to keep
+	 * @param columnsToKeep  The column headers of the columns to keep
+	 * @param optionalHeader An optional header that will be added to the beginning of the output
+	 * @return An array of length two. Index 0 indicates how many columns were kept, index 1 how many rows were kept.
+	 * @throws IOException thrown if the file interaction fails
+	 */
 	public int[] run(File input, File output, Collection<String> rowsToKeep, Collection<String> columnsToKeep, String optionalHeader)
 		throws IOException
 	{
