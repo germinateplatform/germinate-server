@@ -1,42 +1,80 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.pojo.DbObjectCount;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.database.codegen.tables.pojos.Locations;
+import jhi.germinate.server.database.codegen.tables.records.LocationsRecord;
+import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
-import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
+import java.io.IOException;
 import java.sql.*;
-import java.util.List;
+import java.util.logging.Logger;
 
-import static jhi.germinate.server.database.codegen.tables.Countries.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Locations.*;
 
-@Path("germplasm/location")
-@Secured
-@PermitAll
-public class GermplasmLocationResource
+@Path("germplasm/{germplasmId}/location")
+@Secured(UserType.DATA_CURATOR)
+public class GermplasmLocationResource extends ContextResource
 {
-	@GET
+	@PathParam("germplasmId")
+	private Integer germplasmId;
+
+	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<DbObjectCount> getGermplasmLocations()
-		throws SQLException
+	public boolean patchGermplasmLocation(Locations newLocation)
+		throws SQLException, IOException
 	{
+		if (germplasmId == null || newLocation == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			return context.select(
-				COUNTRIES.COUNTRY_NAME.as("key"),
-				DSL.selectCount().from(GERMINATEBASE).leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID)).where(LOCATIONS.COUNTRY_ID.eq(COUNTRIES.ID)).asField("count")
-			)
-						  .from(COUNTRIES)
-						  .orderBy(COUNTRIES.COUNTRY_NAME)
-						  .fetchInto(DbObjectCount.class);
+
+			if (newLocation.getId() != null)
+			{
+				// It exists
+				return context.update(GERMINATEBASE)
+							  .set(GERMINATEBASE.LOCATION_ID, newLocation.getId())
+							  .where(GERMINATEBASE.ID.eq(germplasmId))
+							  .execute() > 0;
+			}
+			else
+			{
+				// It needs to be created
+				if (newLocation.getCountryId() == null || StringUtils.isEmpty(newLocation.getSiteName()))
+				{
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return false;
+				}
+
+				try
+				{
+					LocationsRecord l = context.newRecord(LOCATIONS, newLocation);
+					l.store();
+
+					return context.update(GERMINATEBASE)
+								  .set(GERMINATEBASE.LOCATION_ID, l.getId())
+								  .where(GERMINATEBASE.ID.eq(germplasmId))
+								  .execute() > 0;
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+					Logger.getLogger("").info(e.getLocalizedMessage());
+					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+					return false;
+				}
+			}
 		}
 	}
 }

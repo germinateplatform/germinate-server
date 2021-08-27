@@ -44,6 +44,7 @@ public class GermplasmBaseResource extends ExportResource
 	public static String SUBTAXA                          = "subtaxa";
 	public static String INSTITUTION_ID                   = "institution_id";
 	public static String INSTITUTION_NAME                 = "institution_name";
+	public static String LOCATION_ID                      = "location_id";
 	public static String LOCATION                         = "location";
 	public static String LATITUDE                         = "latitude";
 	public static String LONGITUDE                        = "longitude";
@@ -82,6 +83,7 @@ public class GermplasmBaseResource extends ExportResource
 			TAXONOMIES.SUBTAXA.as(SUBTAXA),
 			INSTITUTIONS.ID.as(INSTITUTION_ID),
 			INSTITUTIONS.NAME.as(INSTITUTION_NAME),
+			LOCATIONS.ID.as(LOCATION_ID),
 			LOCATIONS.SITE_NAME.as(LOCATION),
 			LOCATIONS.LATITUDE.as(LATITUDE),
 			LOCATIONS.LONGITUDE.as(LONGITUDE),
@@ -176,6 +178,7 @@ public class GermplasmBaseResource extends ExportResource
 			TAXONOMIES.SUBTAXA.as(SUBTAXA),
 			INSTITUTIONS.ID.as(INSTITUTION_ID),
 			INSTITUTIONS.NAME.as(INSTITUTION_NAME),
+			LOCATIONS.ID.as(LOCATION_ID),
 			LOCATIONS.SITE_NAME.as(LOCATION),
 			LOCATIONS.LATITUDE.as(LATITUDE),
 			LOCATIONS.LONGITUDE.as(LONGITUDE),

@@ -27,6 +27,7 @@ public class ViewTableGermplasm
 	private String     subtaxa;
 	private Integer    institutionId;
 	private String     institutionName;
+	private Integer    locationId;
 	private String     location;
 	private BigDecimal latitude;
 	private BigDecimal longitude;
@@ -252,6 +253,17 @@ public class ViewTableGermplasm
 	public ViewTableGermplasm setInstitutionName(String institutionName)
 	{
 		this.institutionName = institutionName;
+		return this;
+	}
+
+	public Integer getLocationId()
+	{
+		return locationId;
+	}
+
+	public ViewTableGermplasm setLocationId(Integer locationId)
+	{
+		this.locationId = locationId;
 		return this;
 	}
 
