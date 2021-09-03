@@ -109,7 +109,7 @@ public class GatekeeperClient
 			if (response.isSuccessful())
 				token = response.body();
 			else
-				throw new RuntimeException();
+				throw new RuntimeException(response.errorBody().string());
 		}
 		catch (IOException e)
 		{

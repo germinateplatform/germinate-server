@@ -55,9 +55,11 @@ public class GermplasmMcpdResource
 			return context.select(
 				g.ID.as("ID"),
 				g.PUID.as("PUID"),
-				INSTITUTIONS.CODE.as("INSTCODE)"),
+				INSTITUTIONS.CODE.as("INSTCODE"),
 				g.GENERAL_IDENTIFIER.as("ACCENUMB"),
-				g.COLLNUMB.as("COLLNUMN"),
+				g.BREEDERS_CODE.as("BREDCODE"),
+				g.BREEDERS_NAME.as("BREDNAME"),
+				g.COLLNUMB.as("COLLNUMB"),
 				g.COLLCODE.as("COLLCODE"),
 				g.COLLNAME.as("COLLNAME"),
 				INSTITUTIONS.ADDRESS.as("COLLINSTADDRESS"),

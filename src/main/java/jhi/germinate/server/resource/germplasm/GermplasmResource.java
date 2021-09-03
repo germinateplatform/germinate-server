@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.germplasm;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.Germinatebase;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
@@ -14,6 +14,7 @@ import java.sql.*;
 import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
 
 @Path("germplasm")
 @Secured
@@ -43,6 +44,21 @@ public class GermplasmResource extends BaseResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@Path("/{germplasmId}/pedigree")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Pedigreedefinitions> getGermplasmPedigreeStrings(@PathParam("germplasmId") Integer germplasmId)
+		throws SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.selectFrom(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(germplasmId)).fetchInto(Pedigreedefinitions.class);
 		}
 	}
 }
