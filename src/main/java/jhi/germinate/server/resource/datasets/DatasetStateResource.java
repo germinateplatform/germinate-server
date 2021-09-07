@@ -2,19 +2,21 @@ package jhi.germinate.server.resource.datasets;
 
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.records.DatasetsRecord;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
+import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 
-@Path("dataset/{datasetId}/state")
+@Path("dataset/{datasetId}")
 @Secured(UserType.ADMIN)
 public class DatasetStateResource extends ContextResource
 {
@@ -24,14 +26,20 @@ public class DatasetStateResource extends ContextResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchDatasetState(Integer stateId)
+	public boolean patchDatasetState(Datasets updatedDataset)
 		throws SQLException, IOException
 	{
+		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
+		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
 
-		if (dataset == null)
+		if (ds == null)
 		{
 			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
 			return false;
@@ -42,10 +50,20 @@ public class DatasetStateResource extends ContextResource
 			{
 				DSLContext context = Database.getContext(conn);
 
-				return context.update(DATASETS)
-							  .set(DATASETS.DATASET_STATE_ID, stateId)
-							  .where(DATASETS.ID.eq(dataset.getDatasetId()))
-							  .execute() > 0;
+				DatasetsRecord dataset = context.selectFrom(DATASETS).where(DATASETS.ID.eq(ds.getDatasetId())).fetchAny();
+
+				if (dataset == null)
+				{
+					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+					return false;
+				}
+
+				dataset.setName(updatedDataset.getName());
+				dataset.setDescription(updatedDataset.getDescription());
+				dataset.setDateStart(updatedDataset.getDateStart());
+				dataset.setDateEnd(updatedDataset.getDateEnd());
+				dataset.setDatasetStateId(updatedDataset.getDatasetStateId());
+				return dataset.store() > 0;
 			}
 		}
 	}
