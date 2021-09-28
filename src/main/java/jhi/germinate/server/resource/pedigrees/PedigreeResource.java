@@ -3,6 +3,7 @@ package jhi.germinate.server.resource.pedigrees;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePedigrees;
 import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
 import jhi.germinate.server.resource.*;
@@ -64,7 +65,7 @@ public class PedigreeResource extends ExportResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response getJson(PaginatedRequest request)
+	public Response postPedigreeTableExport(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);
@@ -75,8 +76,8 @@ public class PedigreeResource extends ExportResource
 	@Path("/export")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response postJson(PedigreeRequest request)
+	@Produces("*/*")
+	public Response postPedigreeExport(PedigreeRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -85,12 +86,17 @@ public class PedigreeResource extends ExportResource
 			return null;
 		}
 
+		File zipFile = ResourceUtils.createTempFile("pedigree", "zip");
 		try
 		{
-			File file = ResourceUtils.createTempFile("pedigree", "helium");
+			boolean includeAttributes = request.getIncludeAttributes() != null && request.getIncludeAttributes();
+			String mt = MediaType.TEXT_PLAIN;
+			File heliumFile = ResourceUtils.createTempFile("pedigree", "helium");
+			File attributesFile = ResourceUtils.createTempFile("pedigree-attributes", "helium");
 
 			try (Connection conn = Database.getConnection();
-				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+				 PrintWriter bwH = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(heliumFile), StandardCharsets.UTF_8)));
+				 PrintWriter bwA = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(attributesFile), StandardCharsets.UTF_8))))
 			{
 				DSLContext context = Database.getContext(conn);
 				Map<String, List<ViewTablePedigreesRecord>> parentToChildren = new HashMap<>();
@@ -117,23 +123,40 @@ public class PedigreeResource extends ExportResource
 
 				try
 				{
-					export(context, bw, parentToChildren, childrenToParents, request);
+					export(context, bwH, parentToChildren, childrenToParents, request);
 				}
 				catch (GerminateException e)
 				{
 					resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
 					return null;
 				}
+
+				if (includeAttributes)
+				{
+
+					mt = "application/zip";
+
+					ExportPassportData procedure = new ExportPassportData();
+
+					procedure.execute(context.configuration());
+
+					ResourceUtils.exportToFile(bwA, procedure.getResults().get(0), true, null, "#heliumInput = PHENOTYPE");
+				}
 			}
 
-			java.nio.file.Path filePath = file.toPath();
+			File target = includeAttributes ? zipFile : heliumFile;
+
+			if (includeAttributes)
+				FileUtils.zipUp(zipFile, Arrays.asList(heliumFile, attributesFile));
+
+			java.nio.file.Path targetFilePath = target.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
+				Files.copy(targetFilePath, output);
+				Files.deleteIfExists(targetFilePath);
 			})
-						   .type(MediaType.TEXT_PLAIN)
-						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-						   .header("content-length", file.length())
+						   .type(mt)
+						   .header("content-disposition", "attachment;filename= \"" + target.getName() + "\"")
+						   .header("content-length", target.length())
 						   .build();
 		}
 		catch (IOException e)

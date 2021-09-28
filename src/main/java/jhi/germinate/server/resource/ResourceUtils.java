@@ -90,7 +90,7 @@ public class ResourceUtils
 	 * @param fieldsToIgnore Array containing the fields to ignore from the data. They will not appear in the output.
 	 * @throws IOException Thrown if any IO operation fails
 	 */
-	public static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore)
+	public static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore, String... headers)
 		throws IOException
 	{
 		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).collect(Collectors.toList());
@@ -98,6 +98,14 @@ public class ResourceUtils
 											  .map(Field::getName)
 											  .filter(name -> !columnsToIgnore.contains(name))
 											  .collect(Collectors.toList());
+
+		if (!CollectionUtils.isEmpty(headers))
+		{
+			for (String header : headers)
+			{
+				bw.write(header + CRLF);
+			}
+		}
 
 		if (includeHeaders)
 			bw.write(columnsToInclude.stream().collect(Collectors.joining("\t", "", CRLF)));
@@ -143,7 +151,8 @@ public class ResourceUtils
 		if (includeHeaders)
 			bw.write(columnsToInclude.stream().collect(Collectors.joining("\t", "", CRLF)));
 
-		while (results.hasNext()) {
+		while (results.hasNext())
+		{
 			Record r = results.fetchNext();
 
 			if (r == null)

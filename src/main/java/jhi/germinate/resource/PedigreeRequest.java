@@ -9,6 +9,7 @@ public class PedigreeRequest
 	private Integer[] groupIds;
 	private Integer   levelsUp;
 	private Integer   levelsDown;
+	private Boolean   includeAttributes;
 
 	public Integer[] getIndividualIds()
 	{
@@ -51,6 +52,17 @@ public class PedigreeRequest
 	public PedigreeRequest setLevelsDown(Integer levelsDown)
 	{
 		this.levelsDown = levelsDown;
+		return this;
+	}
+
+	public Boolean getIncludeAttributes()
+	{
+		return includeAttributes;
+	}
+
+	public PedigreeRequest setIncludeAttributes(Boolean includeAttributes)
+	{
+		this.includeAttributes = includeAttributes;
 		return this;
 	}
 }
