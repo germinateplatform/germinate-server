@@ -8,16 +8,19 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.conf.ParamType;
 import org.jooq.impl.*;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -81,29 +84,32 @@ public class TraitStatsResource extends ContextResource
 			Map<String, Quantiles> stats = new TreeMap<>();
 
 			TempStats tempStats = new TempStats();
+			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
+
+			Field<String> groupIds = CollectionUtils.isEmpty(request.getyGroupIds())
+				? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
+				: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+					 .from(GROUPMEMBERS)
+					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+					 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+					 .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds");
 
 			// Run the query
-			SelectOnConditionStep<Record4<Integer, Integer, String, String>> dataStep = context.select(
+			SelectOnConditionStep<Record4<Integer, Integer, String, BigDecimal>> dataStep = context.select(
 				PHENOTYPEDATA.DATASET_ID,
 				PHENOTYPEDATA.PHENOTYPE_ID,
 				// Now, get the concatenated group names for the requested selection.
-				CollectionUtils.isEmpty(request.getyGroupIds())
-					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
-					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-						 .from(GROUPMEMBERS)
-						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-						 .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds"),
-				DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
+				groupIds,
+				DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 			)
 																							   .from(PHENOTYPEDATA)
 																							   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
 
 			// Restrict to dataset ids and phenotype ids
-			SelectConditionStep<Record4<Integer, Integer, String, String>> condStep = dataStep.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+			SelectConditionStep<Record4<Integer, Integer, String, BigDecimal>> condStep = dataStep.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
 																							  .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
 
-			SelectLimitStep<Record4<Integer, Integer, String, String>> orderByStep;
+			SelectLimitStep<Record4<Integer, Integer, String, BigDecimal>> orderByStep;
 
 			// If a subselection was requested
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
@@ -113,22 +119,32 @@ public class TraitStatsResource extends ContextResource
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(PHENOTYPEDATA.ID)
-									  .having(DSL.field("groupIds").isNotNull())
-									  .orderBy(DSL.field("groupIds"), PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
+									  .having(groupIds.isNotNull())
+									  .orderBy(groupIds, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 			else
 			{
 				// If nothing specific was requested, order by dataset instead
-				orderByStep = dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class));
+				orderByStep = dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 
+			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getyGroupIds());
+
 			// This consumes the database result and generates the stats
-			Consumer<Record4<Integer, Integer, String, String>> consumer = pd -> {
+			Consumer<Record4<Integer, Integer, String, BigDecimal>> consumer = pd -> {
 				Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
 				Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
-				String groupIds = pd.get("groupIds", String.class);
-				String key = datasetId + "|" + traitId + "|" + groupIds;
-				String value = pd.get("phenotype_value", String.class);
+				String groupId = pd.get(groupIds);
+
+				String key;
+
+				if (isGroupQuery)
+					key = "null|" + traitId + "|" + groupId;
+				else
+					key = datasetId + "|" + traitId + "|null";
+
+//				String key = datasetId + "|" + traitId + "|" + groupId;
+				BigDecimal value = pd.get("phenotype_value", BigDecimal.class);
 
 				if (!Objects.equals(key, tempStats.prev))
 				{
@@ -137,6 +153,8 @@ public class TraitStatsResource extends ContextResource
 						stats.put(tempStats.prev, generateStats(tempStats));
 					}
 
+					tempStats.datasetId = datasetId;
+					tempStats.groupIds = groupId;
 					tempStats.avg = 0;
 					tempStats.count = 0;
 					tempStats.prev = key;
@@ -145,16 +163,11 @@ public class TraitStatsResource extends ContextResource
 
 				// Count in any case
 				tempStats.count++;
-				try
-				{
-					float v = Float.parseFloat(value);
-					tempStats.avg += v;
-					tempStats.values.add(v);
-				}
-				catch (NumberFormatException | NullPointerException e)
-				{
-				}
+				tempStats.avg += value.doubleValue();
+				tempStats.values.add(value.doubleValue());
 			};
+
+			Logger.getLogger("").info(orderByStep.getSQL(ParamType.INLINED));
 
 			// Now stream the result and consume it
 			orderByStep.stream()
@@ -167,14 +180,14 @@ public class TraitStatsResource extends ContextResource
 					PHENOTYPEDATA.DATASET_ID,
 					PHENOTYPEDATA.PHENOTYPE_ID,
 					DSL.inline("Marked items").as("groupIds"),
-					DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).as("phenotype_value")
+					DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 				)
 					   .from(PHENOTYPEDATA)
 					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 					   .where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
 					   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
 					   .and(PHENOTYPEDATA.GERMINATEBASE_ID.in(request.getyIds()))
-					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, Double.class))
+					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
 					   .forEach(consumer);
 			}
 
@@ -187,20 +200,23 @@ public class TraitStatsResource extends ContextResource
 			Set<ViewTableTraits> traits = new LinkedHashSet<>();
 			Set<ViewTableDatasets> datasets = new LinkedHashSet<>();
 
-			result.setStats(stats.keySet().stream()
-								 .map(ids -> {
-									 String[] split = ids.split("\\|");
-									 Integer datasetId = Integer.parseInt(split[0]);
+			result.setStats(stats.entrySet().stream()
+								 .map(entry -> {
+									 String[] split = entry.getKey().split("\\|");
+//									 Integer datasetId = Integer.parseInt(split[0]);
+									 Integer datasetId = entry.getValue().getDatasetId();
 									 Integer traitId = Integer.parseInt(split[1]);
-									 String groupIds = split[2];
+//									 String groupId = split[2];
+									 String groupId = entry.getValue().getGroupIds();
+
 
 									 traits.add(traitMap.get(traitId));
 									 datasets.add(datasetMap.get(datasetId));
 
-									 Quantiles q = stats.get(ids);
+									 Quantiles q = stats.get(entry.getKey());
 									 q.setDatasetId(datasetId);
 									 q.setxId(traitId);
-									 q.setGroupIds(groupIds);
+									 q.setGroupIds(groupId);
 
 									 return q;
 								 })
@@ -250,14 +266,19 @@ public class TraitStatsResource extends ContextResource
 			}
 		}
 
+		q.setDatasetId(tempStats.datasetId);
+		q.setGroupIds(tempStats.groupIds);
+
 		return q;
 	}
 
 	static class TempStats
 	{
-		public String      prev   = null;
-		public List<Float> values = new ArrayList<>();
-		public float       avg    = 0;
-		public int         count  = 0;
+		public String       prev   = null;
+		public List<Double> values = new ArrayList<>();
+		public double       avg    = 0;
+		public int          count  = 0;
+		public int          datasetId;
+		public String       groupIds;
 	}
 }

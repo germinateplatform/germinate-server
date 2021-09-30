@@ -13,6 +13,7 @@ import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
@@ -81,22 +82,24 @@ public class ClimateStatsResource extends ContextResource
 
 			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
 
+			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getyGroupIds())
+				? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
+				: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+					 .from(GROUPMEMBERS)
+					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+					 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+					 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
+
 			// Run the query
 			SelectOnConditionStep<Record4<Integer, Integer, String, Double>> dataStep = context.select(
 				CLIMATEDATA.DATASET_ID,
 				CLIMATEDATA.CLIMATE_ID,
 				// Now, get the concatenated group names for the requested selection.
-				CollectionUtils.isEmpty(request.getyGroupIds())
-					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
-					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-						 .from(GROUPMEMBERS)
-						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-						 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds"),
+				groupIdsField,
 				CLIMATEDATA.CLIMATE_VALUE.as("climate_value")
 			)
-																							   .from(CLIMATEDATA)
-																							   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID));
+																								   .from(CLIMATEDATA)
+																								   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID));
 
 			// Restrict to dataset ids and climate ids
 			SelectConditionStep<Record4<Integer, Integer, String, Double>> condStep = dataStep.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
@@ -112,22 +115,22 @@ public class ClimateStatsResource extends ContextResource
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(CLIMATEDATA.ID)
-									  .having(DSL.field("groupIds").isNotNull())
-									  .orderBy(DSL.field("groupIds"), CLIMATEDATA.CLIMATE_ID, DSL.cast(CLIMATEDATA.CLIMATE_VALUE, Double.class));
+									  .having(groupIdsField.isNotNull())
+									  .orderBy(groupIdsField, CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE);
 			}
 			else
 			{
 				// If nothing specific was requested, order by dataset instead
-				orderByStep = dataStep.orderBy(CLIMATEDATA.DATASET_ID, CLIMATEDATA.CLIMATE_ID, DSL.cast(CLIMATEDATA.CLIMATE_VALUE, Double.class));
+				orderByStep = dataStep.orderBy(CLIMATEDATA.DATASET_ID, CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE);
 			}
 
 			// This consumes the database result and generates the stats
 			Consumer<Record4<Integer, Integer, String, Double>> consumer = pd -> {
 				Integer datasetId = pd.get(CLIMATEDATA.DATASET_ID);
 				Integer climateId = pd.get(CLIMATEDATA.CLIMATE_ID);
-				String groupIds = pd.get("groupIds", String.class);
+				String groupIds = pd.get(groupIdsField);
 				String key = datasetId + "|" + climateId + "|" + groupIds;
-				String value = pd.get("climate_value", String.class);
+				Double value = pd.get("climate_value", Double.class);
 
 				if (!Objects.equals(key, tempStats.prev))
 				{
@@ -144,15 +147,8 @@ public class ClimateStatsResource extends ContextResource
 
 				// Count in any case
 				tempStats.count++;
-				try
-				{
-					float v = Float.parseFloat(value);
-					tempStats.avg += v;
-					tempStats.values.add(v);
-				}
-				catch (NumberFormatException | NullPointerException e)
-				{
-				}
+				tempStats.avg += value;
+				tempStats.values.add(value);
 			};
 
 			// Now stream the result and consume it
@@ -173,7 +169,7 @@ public class ClimateStatsResource extends ContextResource
 					   .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
 					   .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()))
 					   .and(CLIMATEDATA.LOCATION_ID.in(request.getyIds()))
-					   .orderBy(CLIMATEDATA.CLIMATE_ID, DSL.cast(CLIMATEDATA.CLIMATE_VALUE, Double.class))
+					   .orderBy(CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE)
 					   .forEach(consumer);
 			}
 

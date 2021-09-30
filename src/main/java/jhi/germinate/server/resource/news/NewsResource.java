@@ -72,7 +72,8 @@ public class NewsResource extends ContextResource
 				//convert base64 string to binary data
 				byte[] bytes = Base64.getDecoder().decode(strings[1].getBytes(StandardCharsets.UTF_8));
 
-				java.nio.file.Path image = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.news.name()), UUID.randomUUID() + "." + extension).toPath();
+				File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.news.name());
+				java.nio.file.Path image = new File(folder, UUID.randomUUID() + "." + extension).toPath();
 				Files.write(image, bytes);
 
 				newsItem.setImage(image.toFile().getName());

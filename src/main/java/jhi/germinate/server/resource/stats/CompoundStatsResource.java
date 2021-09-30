@@ -7,6 +7,7 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.conf.ParamType;
 import org.jooq.impl.*;
 
 import javax.annotation.security.PermitAll;
@@ -18,6 +19,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
@@ -82,18 +84,20 @@ public class CompoundStatsResource extends ContextResource
 
 			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
 
+			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getyGroupIds())
+				? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
+				: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+					 .from(GROUPMEMBERS)
+					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+					 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+					 .and(GROUPMEMBERS.FOREIGN_ID.eq(COMPOUNDDATA.GERMINATEBASE_ID)).asField("groupIds");
+
 			// Run the query
 			SelectOnConditionStep<Record4<Integer, Integer, String, BigDecimal>> dataStep = context.select(
 				COMPOUNDDATA.DATASET_ID,
 				COMPOUNDDATA.COMPOUND_ID,
 				// Now, get the concatenated group names for the requested selection.
-				CollectionUtils.isEmpty(request.getyGroupIds())
-					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
-					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-						 .from(GROUPMEMBERS)
-						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-						 .and(GROUPMEMBERS.FOREIGN_ID.eq(COMPOUNDDATA.GERMINATEBASE_ID)).asField("groupIds"),
+				groupIdsField,
 				COMPOUNDDATA.COMPOUND_VALUE.as("compound_value")
 			)
 																								   .from(COMPOUNDDATA)
@@ -113,22 +117,22 @@ public class CompoundStatsResource extends ContextResource
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(COMPOUNDDATA.ID)
-									  .having(DSL.field("groupIds").isNotNull())
-									  .orderBy(DSL.field("groupIds"), COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class));
+									  .having(groupIdsField.isNotNull())
+									  .orderBy(groupIdsField, COMPOUNDDATA.COMPOUND_ID, COMPOUNDDATA.COMPOUND_VALUE);
 			}
 			else
 			{
 				// If nothing specific was requested, order by dataset instead
-				orderByStep = dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class));
+				orderByStep = dataStep.orderBy(COMPOUNDDATA.DATASET_ID, COMPOUNDDATA.COMPOUND_ID, COMPOUNDDATA.COMPOUND_VALUE);
 			}
 
 			// This consumes the database result and generates the stats
 			Consumer<Record4<Integer, Integer, String, BigDecimal>> consumer = pd -> {
 				Integer datasetId = pd.get(COMPOUNDDATA.DATASET_ID);
 				Integer compoundId = pd.get(COMPOUNDDATA.COMPOUND_ID);
-				String groupIds = pd.get("groupIds", String.class);
+				String groupIds = pd.get(groupIdsField);
 				String key = datasetId + "|" + compoundId + "|" + groupIds;
-				String value = pd.get("compound_value", String.class);
+				BigDecimal value = pd.get("compound_value", BigDecimal.class);
 
 				if (!Objects.equals(key, tempStats.prev))
 				{
@@ -145,15 +149,8 @@ public class CompoundStatsResource extends ContextResource
 
 				// Count in any case
 				tempStats.count++;
-				try
-				{
-					float v = Float.parseFloat(value);
-					tempStats.avg += v;
-					tempStats.values.add(v);
-				}
-				catch (NumberFormatException | NullPointerException e)
-				{
-				}
+				tempStats.avg += value.doubleValue();
+				tempStats.values.add(value.doubleValue());
 			};
 
 			// Now stream the result and consume it
@@ -174,7 +171,7 @@ public class CompoundStatsResource extends ContextResource
 					   .where(COMPOUNDDATA.DATASET_ID.in(requestedDatasetIds))
 					   .and(COMPOUNDDATA.COMPOUND_ID.in(compoundMap.keySet()))
 					   .and(COMPOUNDDATA.GERMINATEBASE_ID.in(request.getyIds()))
-					   .orderBy(COMPOUNDDATA.COMPOUND_ID, DSL.cast(COMPOUNDDATA.COMPOUND_VALUE, Double.class))
+					   .orderBy(COMPOUNDDATA.COMPOUND_ID, COMPOUNDDATA.COMPOUND_VALUE)
 					   .forEach(consumer);
 			}
 
