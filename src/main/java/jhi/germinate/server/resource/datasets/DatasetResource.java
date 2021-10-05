@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 
 @Path("dataset/{datasetId}")
 @Secured(UserType.ADMIN)
-public class DatasetStateResource extends ContextResource
+public class DatasetResource extends ContextResource
 {
 	@PathParam("datasetId")
 	private Integer datasetId;
@@ -26,7 +26,7 @@ public class DatasetStateResource extends ContextResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchDatasetState(Datasets updatedDataset)
+	public boolean patchDataset(Datasets updatedDataset)
 		throws SQLException, IOException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
