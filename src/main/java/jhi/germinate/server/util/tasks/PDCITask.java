@@ -100,7 +100,7 @@ public class PDCITask implements Runnable
 
 
 			context.selectFrom(GERMINATEBASE)
-				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1)) // Just the accessions
 				   .forEach(g -> {
 					   boolean gLink = false;
 					   boolean gPedigree = false;
@@ -152,13 +152,10 @@ public class PDCITask implements Runnable
 
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation complete in " + (System.currentTimeMillis() - start) + "ms");
 		}
-		catch (
-			Exception e)
-
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-
 	}
 
 	private int calculateGenericPart(GerminatebaseRecord acc, boolean hasLink, boolean hasStorage)
