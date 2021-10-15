@@ -155,4 +155,11 @@ pdci.enabled              = <should the PDCI be calculated and shown on the user
 # GDPR compliance is important and this has to be enabled if you're expecting users from the EU. It gives them the option to enable non-essential cookies for convenience. 
 gdpr.notification.enabled = <should the GDPR compliance banner be shown. if so, users can deny the usage of cookies which will disable some features>
 ```
-  
+
+# Gatekeeper Configuration
+
+If you're using Gatekeeper for user authentication or you would like to use the data upload mechanisms offered by Germinate, then Gatekeeper needs to be properly configured.
+Please follow the documentation at https://germinateplatform.github.io/gatekeeper-server/ to set up Gatekeeper.
+
+Once running, you will need to create a new user in Gatekeeper that Germinate can use to authenticate itself. To this end, create a new user with `Administrator` permissions for the default Gatekeeper (not Germinate) database.
+You can then use the username and password of this new account in the Germinate configuration by providing: `gatekeeper.username` and `gatekeeper.password`.

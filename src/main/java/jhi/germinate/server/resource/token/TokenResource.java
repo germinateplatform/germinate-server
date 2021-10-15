@@ -95,8 +95,8 @@ public class TokenResource extends ContextResource
 			return null;
 		}
 
-		boolean canAccess = false;
-		String userType = UserType.UNKNOWN.name();
+		boolean canAccess;
+		String userType;
 
 		Users user = new Users();
 		user.setUsername(request.getUsername());
@@ -120,9 +120,14 @@ public class TokenResource extends ContextResource
 										  .orElse(null);
 
 					if (StringUtils.isEmpty(userType))
+					{
 						this.resp.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INSUFFICIENT_PERMISSIONS.name());
+						return null;
+					}
 					else
+					{
 						canAccess = true;
+					}
 				}
 				else
 				{
