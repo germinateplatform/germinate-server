@@ -19,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 
 /**
  * Filter that checks if restricted resources are only accessed if a valid Bearer token is set.
@@ -158,6 +157,15 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		{
 			abortWithUnauthorized(requestContext);
 		}
+	}
+
+	/**
+	 * Removes and invalidates all currently available tokens.
+	 */
+	public static void invalidateAllTokens()
+	{
+		tokenToTimestamp.clear();
+		tokenToImageToken.clear();
 	}
 
 	private boolean isTokenBasedAuthentication(String authorizationHeader)
@@ -365,6 +373,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 	/**
 	 * Checks whether the given image token is valid
+	 *
 	 * @param imageToken The token
 	 * @return <code>true</code> if the token is valid
 	 */

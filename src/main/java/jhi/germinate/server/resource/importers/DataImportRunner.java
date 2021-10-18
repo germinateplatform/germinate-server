@@ -62,6 +62,13 @@ public class DataImportRunner
 			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
 			args.add(record.getDatasetstateId() == null ? "1" : Integer.toString(record.getDatasetstateId()));
 
+			if (record.getDatatype() == DataImportJobsDatatype.genotype)
+			{
+				File hdf5Folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "data"), "genotypes");
+				hdf5Folder.mkdirs();
+				args.add(hdf5Folder.getAbsolutePath());
+			}
+
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
 			record.setJobId(info.getId());
@@ -116,6 +123,13 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
 			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
 			args.add(datasetStateId == null ? "1" : Integer.toString(datasetStateId));
+
+			if (dataType == DataImportJobsDatatype.genotype)
+			{
+				File hdf5Folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "data"), "genotypes");
+				hdf5Folder.mkdirs();
+				args.add(hdf5Folder.getAbsolutePath());
+			}
 
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 

@@ -17,6 +17,7 @@
 
 package jhi.germinate.server.util;
 
+import de.poiu.apron.PropertyFile;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.token.TokenResource;
@@ -25,6 +26,7 @@ import org.apache.commons.io.monitor.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * {@link PropertyWatcher} is a wrapper around {@link Properties} to readAll properties.
@@ -36,7 +38,7 @@ public class PropertyWatcher
 	/** The name of the properties file */
 	private static final String PROPERTIES_FILE = "config.properties";
 
-	private static Properties properties = new Properties();
+	private static PropertyFile properties = new PropertyFile();
 
 	private static FileAlterationMonitor monitor;
 	private static File                  config = null;
@@ -101,11 +103,27 @@ public class PropertyWatcher
 		}
 	}
 
+	public static boolean storeProperties()
+	{
+		try (FileOutputStream stream = new FileOutputStream(config))
+		{
+			properties.saveTo(stream);
+		}
+		catch (IOException | NullPointerException e)
+		{
+			e.printStackTrace();
+			Logger.getLogger("").severe(e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
 	private static void loadProperties(boolean checkAndInit)
 	{
 		try (FileInputStream stream = new FileInputStream(config))
 		{
-			properties.load(stream);
+			properties = PropertyFile.from(stream);
 		}
 		catch (IOException | NullPointerException e)
 		{
@@ -204,7 +222,7 @@ public class PropertyWatcher
 	 */
 	public static String get(ServerProperty property)
 	{
-		String value = properties.getProperty(property.getKey());
+		String value = properties.get(property.getKey());
 
 		return StringUtils.isEmpty(value) ? property.getDefaultValue() : value.strip();
 	}
@@ -220,7 +238,7 @@ public class PropertyWatcher
 		if (value == null)
 			properties.remove(property.getKey());
 		else
-			properties.setProperty(property.getKey(), value);
+			properties.set(property.getKey(), value);
 	}
 
 	/**
@@ -416,6 +434,11 @@ public class PropertyWatcher
 				return null;
 			}
 		}
+	}
+
+	public static <T> void setPropertyList(ServerProperty property, List<T> parts)
+	{
+		set(property, CollectionUtils.join(parts, ","));
 	}
 
 	public static <T> List<T> getPropertyList(ServerProperty property, Class<T> type)

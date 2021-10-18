@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.settings;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
+import jhi.germinate.server.AuthenticationFilter;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 
@@ -50,12 +51,13 @@ public class SettingsResource
 	{
 		// Get the admin specific settings
 		ClientAdminConfiguration result = new ClientAdminConfiguration()
-			.setBcryptSalt(PropertyWatcher.getInteger(ServerProperty.BRAPI_ENABLED))
+			.setBcryptSalt(PropertyWatcher.getInteger(ServerProperty.BCRYPT_SALT))
 			.setBrapiEnabled(PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED))
 			.setDataDirectoryExternal(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
 			.setFilesDeleteAfterHoursAsync(PropertyWatcher.getInteger(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC))
 			.setFilesDeleteAfterHoursTemp(PropertyWatcher.getInteger(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP))
 			.setGatekeeperUsername(PropertyWatcher.get(ServerProperty.GATEKEEPER_USERNAME))
+			.setGatekeeperPassword(PropertyWatcher.get(ServerProperty.GATEKEEPER_PASSWORD))
 			.setGatekeeperRegistrationRequiresApproval(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL))
 			.setPdciEnabled(PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED));
 
@@ -76,6 +78,53 @@ public class SettingsResource
 			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class));
 
 		return result;
+	}
+
+	@POST
+	@Path("/admin")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public boolean postAdminSettings(ClientAdminConfiguration config)
+		throws IOException
+	{
+		// This is the only one that's really required for Germinate to run. Everything else is optional.
+		// This doesn't mean that sending properties without other settings won't screw things over. If no Gatekeeper settings are returned,
+		// then logging back into Germinate to change the settings again won't be possible anymore.
+		if (StringUtils.isEmpty(config.getDataDirectoryExternal()))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		PropertyWatcher.setInteger(ServerProperty.BRAPI_ENABLED, config.getBcryptSalt());
+		PropertyWatcher.setBoolean(ServerProperty.BRAPI_ENABLED, config.getBrapiEnabled());
+		PropertyWatcher.set(ServerProperty.DATA_DIRECTORY_EXTERNAL, config.getDataDirectoryExternal());
+		PropertyWatcher.setInteger(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC, config.getFilesDeleteAfterHoursAsync());
+		PropertyWatcher.setInteger(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP, config.getFilesDeleteAfterHoursTemp());
+		PropertyWatcher.set(ServerProperty.GATEKEEPER_USERNAME, config.getGatekeeperUsername());
+		PropertyWatcher.set(ServerProperty.GATEKEEPER_PASSWORD, config.getGatekeeperPassword());
+		PropertyWatcher.setBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL, config.getGatekeeperRegistrationRequiresApproval());
+		PropertyWatcher.setBoolean(ServerProperty.PDCI_ENABLED, config.getPdciEnabled());
+		PropertyWatcher.setPropertyList(ServerProperty.COLORS_CHART, config.getColorsCharts());
+		PropertyWatcher.setPropertyList(ServerProperty.COLORS_TEMPLATE, config.getColorsTemplate());
+		PropertyWatcher.set(ServerProperty.COLOR_PRIMARY, config.getColorPrimary());
+		PropertyWatcher.setPropertyList(ServerProperty.DASHBOARD_CATEGORIES, config.getDashboardCategories());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_PAGES, config.getHiddenPages());
+		PropertyWatcher.set(ServerProperty.AUTHENTICATION_MODE, config.getAuthMode().name());
+		PropertyWatcher.setBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED, config.getRegistrationEnabled());
+		PropertyWatcher.set(ServerProperty.EXTERNAL_LINK_IDENTIFIER, config.getExternalLinkIdentifier());
+		PropertyWatcher.set(ServerProperty.EXTERNAL_LINK_TEMPLATE, config.getExternalLinkTemplate());
+		PropertyWatcher.setBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED, config.getShowGdprNotification());
+		PropertyWatcher.set(ServerProperty.GOOGLE_ANALYTICS_KEY, config.getGoogleAnalyticsKey());
+		PropertyWatcher.set(ServerProperty.GATEKEEPER_URL, config.getGatekeeperUrl());
+		PropertyWatcher.setBoolean(ServerProperty.COMMENTS_ENABLED, config.getCommentsEnabled());
+		PropertyWatcher.set(ServerProperty.DATA_IMPORT_MODE, config.getDataImportMode().name());
+
+		// Invalidate all tokens
+		AuthenticationFilter.invalidateAllTokens();
+
+		return PropertyWatcher.storeProperties();
 	}
 
 	@GET
