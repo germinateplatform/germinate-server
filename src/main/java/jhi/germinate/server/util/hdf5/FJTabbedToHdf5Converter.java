@@ -22,6 +22,7 @@ import ch.systemsx.cisd.hdf5.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -59,16 +60,16 @@ public class FJTabbedToHdf5Converter
 	{
 		checkFileExists(genotypeFile);
 
+		// Delete old files with this name, because otherwise the new data will get appended to the old data
+		if (hdf5File.exists() && hdf5File.isFile())
+			hdf5File.delete();
+
 		long s = System.currentTimeMillis();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8));
 			 // The second reader is just to get the number of rows
 			 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8));
 			 IHDF5Writer writer = HDF5Factory.open(hdf5File))
 		{
-			// Delete old files with this name, because otherwise the new data will get appended to the old data
-			if (hdf5File.exists() && hdf5File.isFile())
-				hdf5File.delete();
-
 			LinkedHashMap<String, Byte> stateTable = new LinkedHashMap<>();
 			stateTable.put("", (byte) 0);
 
@@ -153,6 +154,7 @@ public class FJTabbedToHdf5Converter
 		}
 		catch (IOException e)
 		{
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 			System.exit(1);
 		}
