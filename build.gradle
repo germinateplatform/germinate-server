@@ -93,7 +93,7 @@ task jarForImporter (type: Jar, dependsOn: classes) {
     include '**/germinate/resource/**'
     include '**/Database.class'
     include '**/util/**Utils**'
-    include '**/util/**/**Hdf**'
+    include '**/util/**/**hdf**/**'
     include '**/auth/**UserType**'
     include '**/Secured**'
     include '**/PermitAll**'

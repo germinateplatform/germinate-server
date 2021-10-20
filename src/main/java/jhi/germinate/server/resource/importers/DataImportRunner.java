@@ -172,9 +172,11 @@ public class DataImportRunner
 				return TraitDataImporter.class.getCanonicalName();
 			case genotype:
 				if (Objects.equals(extension, "xlsx"))
-					return GenotypeImporter.class.getCanonicalName();
+					return GenotypeExcelImporter.class.getCanonicalName();
 				else if (Objects.equals(extension, "txt"))
 					return GenotypeFlatFileImporter.class.getCanonicalName();
+				else if (Objects.equals(extension, "hapmap"))
+					return GenotypeHapmapImporter.class.getCanonicalName();
 			case compound:
 				return CompoundDataImporter.class.getCanonicalName();
 			case pedigree:
