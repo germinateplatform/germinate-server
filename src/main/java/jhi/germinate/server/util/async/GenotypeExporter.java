@@ -9,7 +9,9 @@ import jhi.germinate.server.util.hdf5.*;
 import java.io.*;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -35,8 +37,11 @@ public class GenotypeExporter
 	private String      headers = "";
 	private String      projectName;
 
+	private Instant start;
+
 	public GenotypeExporter()
 	{
+		start = Instant.now();
 	}
 
 	public static void main(String[] args)
@@ -169,7 +174,15 @@ public class GenotypeExporter
 			resultFiles.add(flapjackProjectFile);
 		}
 
+		Duration duration = Duration.between(start, Instant.now());
+		Logger.getLogger("").info("DURATION BEFORE ZIPPING: " + duration);
+		System.out.println("DURATION BEFORE ZIPPING: " + duration);
+
 		FileUtils.zipUp(zipFile, resultFiles);
+
+		duration = Duration.between(start, Instant.now());
+		Logger.getLogger("").info("DURATION AFTER ZIPPING: " + duration);
+		System.out.println("DURATION AFTER ZIPPING: " + duration);
 
 		return logs;
 	}
