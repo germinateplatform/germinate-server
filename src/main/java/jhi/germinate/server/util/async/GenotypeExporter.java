@@ -303,7 +303,7 @@ public class GenotypeExporter
 
 				Path hapmapPath = fs.getPath("/" + hapmapFile.getName());
 
-				Hdf5ToHapmapTransposeConverter hapmap = new Hdf5ToHapmapTransposeConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+				Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
 				hapmap.extractData(null);
 			}
 			catch (IOException e)
