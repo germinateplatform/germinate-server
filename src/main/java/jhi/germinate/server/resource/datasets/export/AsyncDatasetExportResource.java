@@ -7,6 +7,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.DatasetExportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
 
 import javax.annotation.security.PermitAll;
@@ -157,7 +158,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			return Response.ok((StreamingOutput) output -> {
 				Files.copy(zipFilePath, output);
 				// Delete the whole folder once we're done
-				Files.deleteIfExists(zipFilePath.getParent());
+				FileUtils.deleteDirectory(zipFilePath.getParent().toFile());
 			})
 						   .type("application/zip")
 						   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")

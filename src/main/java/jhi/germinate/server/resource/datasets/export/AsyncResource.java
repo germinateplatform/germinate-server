@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.datasets.export;
 
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.ApplicationListener;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.nio.file.*;
@@ -17,14 +18,11 @@ public interface AsyncResource
 		{
 			ApplicationListener.SCHEDULER.cancelJob(jobId);
 
-			File asyncFolder = new File(ResourceUtils.getFromExternal(uuid, "async"), uuid);
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 
 			if (asyncFolder.exists() && asyncFolder.isDirectory())
 			{
-				Files.walk(asyncFolder.toPath())
-					 .map(Path::toFile)
-					 .sorted((o1, o2) -> -o1.compareTo(o2))
-					 .forEach(File::delete);
+				FileUtils.deleteDirectory(asyncFolder);
 			}
 		}
 		catch (Exception e)

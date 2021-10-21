@@ -40,11 +40,14 @@ public class GenotypeExporter
 	private String      headers = "";
 	private String      projectName;
 
-	private Instant start;
+	private final CountDownLatch latch;
+
+	private final Instant start;
 
 	public GenotypeExporter()
 	{
 		start = Instant.now();
+		latch = new CountDownLatch(3);
 	}
 
 	public static void main(String[] args)
@@ -123,11 +126,12 @@ public class GenotypeExporter
 		}
 	}
 
-	private void zip(FileSystem fs, File f)
+	private void zip(FileSystem fs, File f, boolean delete)
 		throws IOException
 	{
 		Files.copy(f.toPath(), fs.getPath("/" + f.getName()), StandardCopyOption.REPLACE_EXISTING);
-		f.delete();
+		if (delete)
+			f.delete();
 	}
 
 	private List<String> run()
@@ -151,98 +155,63 @@ public class GenotypeExporter
 
 		try (FileSystem fs = FileSystems.newFileSystem(uri, env, null))
 		{
-			// Extract from HDF5 to flat file
-			Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedFile.toPath(), false);
-			converter.extractData(headers);
-
-			CountDownLatch latch = new CountDownLatch(2);
-
-			// Extract from HDF5 to HapMap
-			if (hapmapFile != null)
+			// No Flapjack, so we can speed things up
+			if (flapjackProjectFile == null)
 			{
-				new Thread(() -> {
-					try
-					{
-						Map<String, Hdf5ToHapmapConverter.MarkerPosition> map = new HashMap<>();
-						if (mapFile != null)
-						{
-							Files.readAllLines(mapFile.toPath())
-								 .stream()
-								 .skip(1)
-								 .filter(l -> !StringUtils.isEmpty(l))
-								 .forEachOrdered(m -> {
-									 String[] parts = m.split("\t");
-									 map.put(parts[0], new Hdf5ToHapmapConverter.MarkerPosition(parts[1], Integer.toString((int) Math.round(Double.parseDouble(parts[2])))));
-								 });
-						}
+				// Count down one, cause no Flapjack
+				latch.countDown();
 
-						Path hapmapPath = fs.getPath("/" + hapmapFile.getName());
+				Path tabbedZipped = fs.getPath("/" + tabbedFile.getName());
+				// Extract from HDF5 to flat file (zipped)
+				Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedZipped, false);
+				converter.extractData(headers);
 
-						Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
-						hapmap.extractData(null);
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-					finally
-					{
-						latch.countDown();
-					}
-				}).start();
+				// Extract from HDF5 to HapMap
+				if (hapmapFile != null)
+				{
+					exportHapmap(fs);
+				}
+				else
+				{
+					latch.countDown();
+				}
+
+				// Start copying the files into the zip
+				zipUp(fs, false);
 			}
 			else
 			{
-				latch.countDown();
-			}
-			// Create the Flapjack project
-			if (flapjackProjectFile != null)
-			{
-				new Thread(() -> {
-					try
-					{
-						File tempTarget = Files.createTempFile(folder.getName(), ".flapjack").toFile();
-						FlapjackFile project = new FlapjackFile(tempTarget.getAbsolutePath());
-						CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
+				// Extract from HDF5 to flat file (not zipped)
+				Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedFile.toPath(), false);
+				converter.extractData(headers);
 
-						CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
-						logs.addAll(createProject.doProjectCreation());
+				// Create the Flapjack project
+				exportFlapjack(fs, logs);
 
-						Files.move(tempTarget.toPath(), flapjackProjectFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				// Extract from HDF5 to HapMap
+				if (hapmapFile != null)
+				{
+					exportHapmap(fs);
+				}
+				else
+				{
+					latch.countDown();
+				}
 
-						zip(fs, flapjackProjectFile);
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-					finally
-					{
-						latch.countDown();
-					}
-				}).start();
-			}
-			else
-			{
-				latch.countDown();
+				// Start copying the files into the zip
+				zipUp(fs, true);
 			}
 
+			// Wait for everything to finish
 			latch.await();
 
+			// Now delete the remaining files
+			mapFile.delete();
+			tabbedFile.delete();
+
 			Duration duration = Duration.between(start, Instant.now());
-			Logger.getLogger("").info("DURATION BEFORE ZIPPING: " + duration);
-			System.out.println("DURATION BEFORE ZIPPING: " + duration);
-
-			zip(fs, tabbedFile);
-
-			if (mapFile != null)
-				zip(fs, mapFile);
-			if (identifierFile != null)
-				zip(fs, identifierFile);
-
-			duration = Duration.between(start, Instant.now());
-			Logger.getLogger("").info("DURATION AFTER ZIPPING: " + duration);
-			System.out.println("DURATION AFTER ZIPPING: " + duration);
+			Logger.getLogger("").info("DURATION: " + duration);
+			System.out.println("DURATION: " + duration);
 		}
 		catch (IOException | InterruptedException e)
 		{
@@ -250,5 +219,95 @@ public class GenotypeExporter
 		}
 
 		return logs;
+	}
+
+	private void zipUp(FileSystem fs, boolean includeTabbed)
+	{
+		new Thread(() -> {
+			try
+			{
+				if (includeTabbed)
+				{
+					// Zip and don't delete the tabbed file
+					zip(fs, tabbedFile, false);
+				}
+
+				// Zip and don't delete the map
+				if (mapFile != null)
+					zip(fs, mapFile, false);
+				// Zip and delete the identifiers
+				if (identifierFile != null)
+					zip(fs, identifierFile, true);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				latch.countDown();
+			}
+		}).start();
+	}
+
+	private void exportFlapjack(FileSystem fs, List<String> logs)
+	{
+		new Thread(() -> {
+			try
+			{
+				File tempTarget = Files.createTempFile(folder.getName(), ".flapjack").toFile();
+				FlapjackFile project = new FlapjackFile(tempTarget.getAbsolutePath());
+				CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
+
+				CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
+				logs.addAll(createProject.doProjectCreation());
+
+				Files.move(tempTarget.toPath(), flapjackProjectFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+				zip(fs, flapjackProjectFile, true);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				latch.countDown();
+			}
+		}).start();
+	}
+
+	private void exportHapmap(FileSystem fs)
+	{
+		new Thread(() -> {
+			try
+			{
+				Map<String, Hdf5ToHapmapConverter.MarkerPosition> map = new HashMap<>();
+				if (mapFile != null)
+				{
+					Files.readAllLines(mapFile.toPath())
+						 .stream()
+						 .skip(1)
+						 .filter(l -> !StringUtils.isEmpty(l))
+						 .forEachOrdered(m -> {
+							 String[] parts = m.split("\t");
+							 map.put(parts[0], new Hdf5ToHapmapConverter.MarkerPosition(parts[1], Integer.toString((int) Math.round(Double.parseDouble(parts[2])))));
+						 });
+				}
+
+				Path hapmapPath = fs.getPath("/" + hapmapFile.getName());
+
+				Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+				hapmap.extractData(null);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				latch.countDown();
+			}
+		}).start();
 	}
 }
