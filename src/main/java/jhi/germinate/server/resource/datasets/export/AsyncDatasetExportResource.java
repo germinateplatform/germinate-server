@@ -158,7 +158,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			return Response.ok((StreamingOutput) output -> {
 				Files.copy(zipFilePath, output);
 				// Delete the whole folder once we're done
-				FileUtils.deleteDirectory(zipFilePath.getParent().toFile());
+				FileUtils.deleteDirectory(jobFolder);
 			})
 						   .type("application/zip")
 						   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")

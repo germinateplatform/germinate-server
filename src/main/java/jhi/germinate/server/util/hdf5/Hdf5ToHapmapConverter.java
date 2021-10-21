@@ -44,7 +44,6 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 			if (headerLines != null && !headerLines.isEmpty())
 				writer.print(headerLines);
 
-
 			// Write the header line of a Hapmap file
 			writer.println(lines.stream().collect(Collectors.joining("\t", "rs#\talleles\tchrom\tpos\tstrand\tassembly#\tcenter\tprotLSID\tassayLSID\tpanelLSID\tQCcode\t", "")));
 

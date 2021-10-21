@@ -158,13 +158,19 @@ public class GenotypeExporter
 			// No Flapjack, so we can speed things up
 			if (flapjackProjectFile == null)
 			{
-				// Count down one, cause no Flapjack
-				latch.countDown();
-
-				Path tabbedZipped = fs.getPath("/" + tabbedFile.getName());
-				// Extract from HDF5 to flat file (zipped)
-				Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedZipped, false);
-				converter.extractData(headers);
+				new Thread(() -> {
+					try
+					{
+						Path tabbedZipped = fs.getPath("/" + tabbedFile.getName());
+						// Extract from HDF5 to flat file (zipped)
+						Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedZipped, false);
+						converter.extractData(headers);
+					}
+					finally
+					{
+						latch.countDown();
+					}
+				}).start();
 
 				// Extract from HDF5 to HapMap
 				if (hapmapFile != null)
@@ -297,7 +303,7 @@ public class GenotypeExporter
 
 				Path hapmapPath = fs.getPath("/" + hapmapFile.getName());
 
-				Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+				Hdf5ToHapmapTransposeConverter hapmap = new Hdf5ToHapmapTransposeConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
 				hapmap.extractData(null);
 			}
 			catch (IOException e)

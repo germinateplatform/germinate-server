@@ -21,7 +21,7 @@ import ch.systemsx.cisd.hdf5.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -35,19 +35,19 @@ public class HapmapTransposeToHdf5Converter
 	private static final String DATA        = "DataMatrix";
 	private static final String STATE_TABLE = "StateTable";
 
-	private File hapmapFile;
-	private File transposedHapmap;
+	private Path hapmapFile;
+	private Path transposedHapmap;
 	private File hdf5File;
 
-	public HapmapTransposeToHdf5Converter(File hapmapFile, File hdf5File)
+	public HapmapTransposeToHdf5Converter(Path hapmapFile, File hdf5File)
 	{
 		this.hapmapFile = hapmapFile;
 		this.hdf5File = hdf5File;
 	}
 
-	private void checkFileExists(File file)
+	private void checkFileExists(Path file)
 	{
-		if (!file.exists())
+		if (!file.toFile().exists())
 			System.err.println("Genotype file doesn't exist. Please specify a valid genotype file.");
 	}
 
@@ -57,7 +57,7 @@ public class HapmapTransposeToHdf5Converter
 
 		try
 		{
-			this.transposedHapmap = Files.createTempFile("hapmap_transposed", "txt").toFile();
+			this.transposedHapmap = Files.createTempFile("hapmap_transposed", "txt");
 			new Transpose(hapmapFile, transposedHapmap);
 		}
 		catch (IOException e)
@@ -70,9 +70,9 @@ public class HapmapTransposeToHdf5Converter
 			hdf5File.delete();
 
 		long s = System.currentTimeMillis();
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(transposedHapmap), StandardCharsets.UTF_8));
+		try (BufferedReader reader = Files.newBufferedReader(transposedHapmap, StandardCharsets.UTF_8);
 			 // The second reader is just to get the number of rows
-			 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(transposedHapmap), StandardCharsets.UTF_8));
+			 LineNumberReader lineNumberReader = new LineNumberReader(Files.newBufferedReader(transposedHapmap, StandardCharsets.UTF_8));
 			 IHDF5Writer writer = HDF5Factory.open(hdf5File))
 		{
 			LinkedHashMap<String, Byte> stateTable = new LinkedHashMap<>();
@@ -88,7 +88,8 @@ public class HapmapTransposeToHdf5Converter
 			String[] markers = Arrays.copyOfRange(tokens, 1, tokens.length);
 
 			// Skip anything we don't need
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++)
+			{
 				reader.readLine();
 			}
 

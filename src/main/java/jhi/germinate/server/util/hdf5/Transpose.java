@@ -3,7 +3,7 @@ package jhi.germinate.server.util.hdf5;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
-import java.nio.file.Files;
+import java.nio.file.*;
 import java.util.*;
 
 public class Transpose
@@ -38,7 +38,7 @@ public class Transpose
 //		FileUtils.deleteDirectory(folder);
 //	}
 
-	public Transpose(File input, File output)
+	public Transpose(Path input, Path output)
 		throws IOException
 	{
 		folder = Files.createTempDirectory("transpose").toFile();
@@ -56,10 +56,10 @@ public class Transpose
 		FileUtils.deleteDirectory(folder);
 	}
 
-	private void readData(File filename)
+	private void readData(Path input)
 		throws IOException
 	{
-		try (BufferedReader in = new BufferedReader(new FileReader(filename)))
+		try (BufferedReader in = Files.newBufferedReader(input))
 		{
 			String str;
 			int line = 0;
@@ -120,10 +120,10 @@ public class Transpose
 		data.clear();
 	}
 
-	private void writeData(File filename)
+	private void writeData(Path output)
 		throws IOException
 	{
-		try (BufferedWriter out = new BufferedWriter(new FileWriter(filename)))
+		try (BufferedWriter out = Files.newBufferedWriter(output))
 		{
 			for (int i = 0; i < maxCols; i++)
 			{
