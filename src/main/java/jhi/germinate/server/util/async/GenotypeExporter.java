@@ -2,15 +2,18 @@ package jhi.germinate.server.util.async;
 
 import jhi.flapjack.io.FlapjackFile;
 import jhi.flapjack.io.cmd.*;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.StringUtils;
 import jhi.germinate.server.util.hdf5.Hdf5ToFJTabbedConverter;
 import jhi.germinate.server.util.hdf5.*;
 
 import java.io.*;
+import java.net.URI;
+import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -120,69 +123,131 @@ public class GenotypeExporter
 		}
 	}
 
+	private void zip(FileSystem fs, File f)
+		throws IOException
+	{
+		Files.copy(f.toPath(), fs.getPath("/" + f.getName()), StandardCopyOption.REPLACE_EXISTING);
+		f.delete();
+	}
+
 	private List<String> run()
 		throws IOException
 	{
 		init();
 
-		List<File> resultFiles = new ArrayList<>();
-		resultFiles.add(tabbedFile);
+		// Make sure it doesn't exist
+		if (zipFile.exists())
+			zipFile.delete();
 
-		if (mapFile != null)
-			resultFiles.add(mapFile);
-		if (identifierFile != null)
-			resultFiles.add(identifierFile);
-
-		// Extract from HDF5 to flat file
-		Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File, germplasm, markers, tabbedFile.getAbsolutePath(), false);
-		converter.extractData(headers);
+		String prefix = zipFile.getAbsolutePath().replace("\\", "/");
+		if (prefix.startsWith("/"))
+			prefix = prefix.substring(1);
+		URI uri = URI.create("jar:file:/" + prefix);
+		Map<String, String> env = new HashMap<>();
+		env.put("create", "true");
+		env.put("encoding", "UTF-8");
 
 		List<String> logs = new ArrayList<>();
 
-		// Extract from HDF5 to HapMap
-		if (hapmapFile != null)
+		try (FileSystem fs = FileSystems.newFileSystem(uri, env, null))
 		{
-			Map<String, Hdf5ToHapmapConverter.MarkerPosition> map = new HashMap<>();
-			if (mapFile != null)
+			// Extract from HDF5 to flat file
+			Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedFile.toPath(), false);
+			converter.extractData(headers);
+
+			CountDownLatch latch = new CountDownLatch(2);
+
+			// Extract from HDF5 to HapMap
+			if (hapmapFile != null)
 			{
-				Files.readAllLines(mapFile.toPath())
-					 .stream()
-					 .skip(1)
-					 .filter(l -> !StringUtils.isEmpty(l))
-					 .forEachOrdered(m -> {
-						 String[] parts = m.split("\t");
-						 map.put(parts[0], new Hdf5ToHapmapConverter.MarkerPosition(parts[1], Integer.toString((int) Math.round(Double.parseDouble(parts[2])))));
-					 });
+				new Thread(() -> {
+					try
+					{
+						Map<String, Hdf5ToHapmapConverter.MarkerPosition> map = new HashMap<>();
+						if (mapFile != null)
+						{
+							Files.readAllLines(mapFile.toPath())
+								 .stream()
+								 .skip(1)
+								 .filter(l -> !StringUtils.isEmpty(l))
+								 .forEachOrdered(m -> {
+									 String[] parts = m.split("\t");
+									 map.put(parts[0], new Hdf5ToHapmapConverter.MarkerPosition(parts[1], Integer.toString((int) Math.round(Double.parseDouble(parts[2])))));
+								 });
+						}
+
+						Path hapmapPath = fs.getPath("/" + hapmapFile.getName());
+
+						Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+						hapmap.extractData(null);
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+					finally
+					{
+						latch.countDown();
+					}
+				}).start();
+			}
+			else
+			{
+				latch.countDown();
+			}
+			// Create the Flapjack project
+			if (flapjackProjectFile != null)
+			{
+				new Thread(() -> {
+					try
+					{
+						File tempTarget = Files.createTempFile(folder.getName(), ".flapjack").toFile();
+						FlapjackFile project = new FlapjackFile(tempTarget.getAbsolutePath());
+						CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
+
+						CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
+						logs.addAll(createProject.doProjectCreation());
+
+						Files.move(tempTarget.toPath(), flapjackProjectFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+						zip(fs, flapjackProjectFile);
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+					finally
+					{
+						latch.countDown();
+					}
+				}).start();
+			}
+			else
+			{
+				latch.countDown();
 			}
 
-			Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File, germplasm, markers, map, hapmapFile.getAbsolutePath());
-			hapmap.extractData(null);
+			latch.await();
 
-			resultFiles.add(hapmapFile);
+			Duration duration = Duration.between(start, Instant.now());
+			Logger.getLogger("").info("DURATION BEFORE ZIPPING: " + duration);
+			System.out.println("DURATION BEFORE ZIPPING: " + duration);
+
+			zip(fs, tabbedFile);
+
+			if (mapFile != null)
+				zip(fs, mapFile);
+			if (identifierFile != null)
+				zip(fs, identifierFile);
+
+			duration = Duration.between(start, Instant.now());
+			Logger.getLogger("").info("DURATION AFTER ZIPPING: " + duration);
+			System.out.println("DURATION AFTER ZIPPING: " + duration);
 		}
-		// Create the Flapjack project
-		if (flapjackProjectFile != null)
+		catch (IOException | InterruptedException e)
 		{
-			File tempTarget = Files.createTempFile(folder.getName(), ".flapjack").toFile();
-			FlapjackFile project = new FlapjackFile(tempTarget.getAbsolutePath());
-			CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
-
-			CreateProject createProject = new CreateProject(cpSettings, new DataImportSettings());
-			logs.addAll(createProject.doProjectCreation());
-
-			Files.move(tempTarget.toPath(), flapjackProjectFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			resultFiles.add(flapjackProjectFile);
+			e.printStackTrace();
 		}
-
-		Duration duration = Duration.between(start, Instant.now());
-		Logger.getLogger("").info("DURATION BEFORE ZIPPING: " + duration);
-		System.out.println("DURATION BEFORE ZIPPING: " + duration);
-
-		FileUtils.zipUp(zipFile, resultFiles);
-
-		duration = Duration.between(start, Instant.now());
-		Logger.getLogger("").info("DURATION AFTER ZIPPING: " + duration);
-		System.out.println("DURATION AFTER ZIPPING: " + duration);
 
 		return logs;
 	}

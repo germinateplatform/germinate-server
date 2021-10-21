@@ -2,7 +2,7 @@ package jhi.germinate.server.util.hdf5;
 
 import ch.systemsx.cisd.hdf5.*;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,17 +16,17 @@ public abstract class AbstractHdf5Converter
 	public static final String DATA        = "DataMatrix";
 	public static final String STATE_TABLE = "StateTable";
 
-	protected final File        hdf5File;
+	protected final Path        hdf5File;
 	protected       Set<String> lines;
 	protected       Set<String> markers;
-	protected final String      outputFilePath;
+	protected final Path        outputFilePath;
 
 	protected Map<String, Integer> lineInds;
 	protected Map<String, Integer> markerInds;
 	protected List<String>         hdf5Lines;
 	protected List<String>         hdf5Markers;
 
-	public AbstractHdf5Converter(File hdf5File, Set<String> lines, Set<String> markers, String outputFilePath)
+	public AbstractHdf5Converter(Path hdf5File, Set<String> lines, Set<String> markers, Path outputFilePath)
 	{
 		this.hdf5File = hdf5File;
 		this.lines = lines;
@@ -38,7 +38,7 @@ public abstract class AbstractHdf5Converter
 
 	private void readInput()
 	{
-		try (IHDF5Reader reader = HDF5Factory.openForReading(hdf5File))
+		try (IHDF5Reader reader = HDF5Factory.openForReading(hdf5File.toFile()))
 		{
 			long s = System.currentTimeMillis();
 

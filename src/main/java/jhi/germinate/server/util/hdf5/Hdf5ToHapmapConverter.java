@@ -5,6 +5,7 @@ import jhi.germinate.server.util.StringUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 {
 	private Map<String, MarkerPosition> map;
 
-	public Hdf5ToHapmapConverter(File hdf5File, Set<String> lines, Set<String> markers, Map<String, MarkerPosition> map, String outputFilePath)
+	public Hdf5ToHapmapConverter(Path hdf5File, Set<String> lines, Set<String> markers, Map<String, MarkerPosition> map, Path outputFilePath)
 	{
 		super(hdf5File, lines, markers, outputFilePath);
 
@@ -33,8 +34,8 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 		s = System.currentTimeMillis();
 
 		// Write our output file line by line
-		try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFilePath), StandardCharsets.UTF_8)));
-			 IHDF5Reader reader = HDF5Factory.openForReading(hdf5File))
+		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(outputFilePath, StandardCharsets.UTF_8));
+			 IHDF5Reader reader = HDF5Factory.openForReading(hdf5File.toFile()))
 		{
 			String[] stateTable = reader.readStringArray(STATE_TABLE);
 			System.out.println("Read statetable: " + (System.currentTimeMillis() - s) + " (ms)");

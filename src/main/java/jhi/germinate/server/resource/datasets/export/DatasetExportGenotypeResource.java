@@ -65,41 +65,15 @@ public class DatasetExportGenotypeResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-
-			Set<String> germplasmNames = getGermplasmNames(context, request);
-			Set<String> markerNames = getMarkerNames(context, request);
-
-			File sharedMapFile = null;
-
-			if (request.getMapId() != null)
-			{
-				sharedMapFile = ResourceUtils.createTempFile("map-" + request.getMapId(), "map");
-
-				try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8))))
-				{
-					bw.write("# fjFile = MAP" + ResourceUtils.CRLF);
-					SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
-																						.from(MAPDEFINITIONS)
-																						.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-//																						.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
-//																						.where(DATASETMEMBERS.DATASET_ID.eq(id))
-																						.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
-
-					if (!CollectionUtils.isEmpty(markerNames))
-						query.and(MARKERS.MARKER_NAME.in(markerNames));
-
-					Result<Record3<String, String, Double>> mapResult = query.fetch();
-
-					ResourceUtils.exportToFile(bw, mapResult, false, null);
-				}
-			}
-
 			for (Integer id : datasetIds)
 			{
 				ViewTableDatasets ds = DatasetTableResource.getDatasetForId(id, req, resp, userDetails, true);
 
 				if (ds == null)
 					return null;
+
+				Set<String> germplasmNames = getGermplasmNames(context, request);
+				Set<String> markerNames = getMarkerNames(context, request);
 
 				String dsName = "dataset-" + ds.getDatasetId();
 
@@ -112,8 +86,30 @@ public class DatasetExportGenotypeResource extends ContextResource
 				File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 				asyncFolder.mkdirs();
 
-				if (sharedMapFile != null)
+				File sharedMapFile;
+
+				if (request.getMapId() != null)
 				{
+					sharedMapFile = ResourceUtils.createTempFile("map-" + request.getMapId(), "map");
+
+					try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8))))
+					{
+						bw.write("# fjFile = MAP" + ResourceUtils.CRLF);
+						SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
+																							.from(MAPDEFINITIONS)
+																							.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
+																							.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
+																							.where(DATASETMEMBERS.DATASET_ID.eq(id))
+																							.and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
+
+						if (!CollectionUtils.isEmpty(markerNames))
+							query.and(MARKERS.MARKER_NAME.in(markerNames));
+
+						Result<Record3<String, String, Double>> mapResult = query.fetch();
+
+						ResourceUtils.exportToFile(bw, mapResult, false, null);
+					}
+
 					File mapFile = new File(asyncFolder, dsName + ".map");
 					Files.copy(sharedMapFile.toPath(), mapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				}
