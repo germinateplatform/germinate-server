@@ -65,35 +65,11 @@ public class Hdf5ToHapmapTransposeConverter extends AbstractHdf5Converter
 
 				List<Integer> markerIndices = markers.stream().map(marker -> markerInds.get(marker)).collect(Collectors.toList());
 				// Write the header line of a Flapjack file
-				StringBuilder markersString = new StringBuilder();
-				StringBuilder chromosomesString = new StringBuilder();
-				StringBuilder positionsString = new StringBuilder();
-				StringBuilder naString = new StringBuilder();
-
-				markers.forEach(m -> {
-					markersString.append("\t").append(m);
-					Hdf5ToHapmapConverter.MarkerPosition mp = map.get(m);
-
-					if (mp != null)
-					{
-						chromosomesString.append("\t").append(mp.chromosome);
-						positionsString.append("\t").append(mp.position);
-					}
-					else
-					{
-						chromosomesString.append("\tNA");
-						positionsString.append("\t1");
-					}
-
-					naString.append("\tNA");
-				});
-
-				String naFinal = naString.toString();
-
-				writer.println("rs#" + markersString.toString());
+				String naFinal = markers.stream().map(m -> "NA").collect(Collectors.joining("\t", "\t", ""));
+				writer.println(markers.stream().collect(Collectors.joining("\t", "rs#\t", "")));
 				writer.println("alleles" + naFinal);
-				writer.println("chrom" + chromosomesString.toString());
-				writer.println("pos" + positionsString.toString());
+				writer.println(markers.stream().collect(Collectors.joining("\t", "chrom\t", "")));
+				writer.println(markers.stream().collect(Collectors.joining("\t", "pos\t", "")));
 				writer.println("strand" + naFinal);
 				writer.println("assembly#" + naFinal);
 				writer.println("center" + naFinal);
