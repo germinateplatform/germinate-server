@@ -5,6 +5,7 @@ package jhi.germinate.server.util.async;
  */
 public enum AdditionalExportFormat
 {
+	text,
 	flapjack,
 	hapmap
 }

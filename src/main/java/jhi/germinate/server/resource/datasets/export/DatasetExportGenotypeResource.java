@@ -62,7 +62,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 			return new ArrayList<>();
 
 		List<AsyncExportResult> result = new ArrayList<>();
-		try (Connection conn = Database.getConnection())
+		try (Connection conn = Database.getConnection(true))
 		{
 			DSLContext context = Database.getContext(conn);
 			for (Integer id : datasetIds)
@@ -73,7 +73,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 					return null;
 
 				Set<String> germplasmNames = getGermplasmNames(context, request);
-				Set<String> markerNames = getMarkerNames(context, request);
+				SelectConditionStep<Record1<String>> markerNames = getMarkerNames(context, request);
 
 				String dsName = "dataset-" + ds.getDatasetId();
 
@@ -92,22 +92,19 @@ public class DatasetExportGenotypeResource extends ContextResource
 				{
 					sharedMapFile = ResourceUtils.createTempFile("map-" + request.getMapId(), "map");
 
-					try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8))))
+					SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
+																						.from(MAPDEFINITIONS)
+																						.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
+																						.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
+																						.where(DATASETMEMBERS.DATASET_ID.eq(id))
+																						.and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
+
+					try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8)));
+						 Cursor<? extends Record> cursor = query.fetchLazy())
 					{
 						bw.write("# fjFile = MAP" + ResourceUtils.CRLF);
-						SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
-																							.from(MAPDEFINITIONS)
-																							.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-																							.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
-																							.where(DATASETMEMBERS.DATASET_ID.eq(id))
-																							.and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
 
-						if (!CollectionUtils.isEmpty(markerNames))
-							query.and(MARKERS.MARKER_NAME.in(markerNames));
-
-						Result<Record3<String, String, Double>> mapResult = query.fetch();
-
-						ResourceUtils.exportToFile(bw, mapResult, false, null);
+						ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
 					}
 
 					File mapFile = new File(asyncFolder, dsName + ".map");
@@ -123,10 +120,15 @@ public class DatasetExportGenotypeResource extends ContextResource
 					File germplasmFile = new File(asyncFolder, dsName + ".germplasm");
 					Files.write(germplasmFile.toPath(), new ArrayList<>(germplasmNames), StandardCharsets.UTF_8);
 				}
-				if (!CollectionUtils.isEmpty(markerNames))
+				if (markerNames != null)
 				{
-					File markerFile = new File(asyncFolder, dsName + ".markers");
-					Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
+					java.nio.file.Path markerFile = new File(asyncFolder, dsName + ".markers").toPath();
+
+					try (BufferedWriter bw = Files.newBufferedWriter(markerFile, StandardCharsets.UTF_8);
+						 Cursor<? extends Record> cursor = markerNames.fetchLazy())
+					{
+						ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
+					}
 				}
 				File identifierFile = new File(asyncFolder, dsName + ".identifiers");
 				writeIdentifiersFile(context, identifierFile, germplasmNames, id);
@@ -146,6 +148,8 @@ public class DatasetExportGenotypeResource extends ContextResource
 					formats.add(AdditionalExportFormat.flapjack.name());
 				if (request.isGenerateHapMap())
 					formats.add(AdditionalExportFormat.hapmap.name());
+				if (request.isGenerateFlatFile())
+					formats.add(AdditionalExportFormat.text.name());
 				if (formats.size() > 0)
 					args.add(String.join(",", formats));
 				else
@@ -210,7 +214,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 		return result;
 	}
 
-	static Set<String> getMarkerNames(DSLContext context, SubsettedGenotypeDatasetRequest request)
+	static Set<String> getMarkerNameList(DSLContext context, SubsettedGenotypeDatasetRequest request)
 	{
 		if (request.getxGroupIds() == null && request.getxIds() == null)
 		{
@@ -247,6 +251,26 @@ public class DatasetExportGenotypeResource extends ContextResource
 			}
 
 			return result;
+		}
+	}
+
+	static SelectConditionStep<Record1<String>> getMarkerNames(DSLContext context, SubsettedGenotypeDatasetRequest request)
+	{
+		if (request.getxGroupIds() == null && request.getxIds() == null)
+		{
+			return null;
+		}
+		else
+		{
+			SelectConditionStep<Record1<String>> step = context.selectDistinct(MARKERS.MARKER_NAME)
+															   .from(MARKERS)
+															   .where(MARKERS.ID.in(request.getxIds())
+																				.orExists(DSL.selectFrom(GROUPMEMBERS).where(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(GROUPMEMBERS.GROUP_ID.in(request.getxGroupIds())))));
+
+			if (request.getMapId() != null)
+				step.andExists(DSL.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID).and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()))));
+
+			return step;
 		}
 	}
 

@@ -80,10 +80,10 @@ public class GatekeeperClient
 		close();
 		// Create the HTTP client with the pool and timeouts
 		httpClient = new OkHttpClient.Builder()
-			.readTimeout(1, TimeUnit.MINUTES)
-			.callTimeout(1, TimeUnit.MINUTES)
-			.connectTimeout(1, TimeUnit.MINUTES)
-			.writeTimeout(1, TimeUnit.MINUTES)
+			.readTimeout(20, TimeUnit.SECONDS)
+			.callTimeout(20, TimeUnit.SECONDS)
+			.connectTimeout(20, TimeUnit.SECONDS)
+			.writeTimeout(20, TimeUnit.SECONDS)
 			.connectionPool(connectionPool)
 			.retryOnConnectionFailure(true)
 			.build();
@@ -122,10 +122,10 @@ public class GatekeeperClient
 		close();
 		// And now create a new one that will use the token for all further requests
 		httpClient = (new OkHttpClient.Builder())
-			.readTimeout(1, TimeUnit.MINUTES)
-			.callTimeout(1, TimeUnit.MINUTES)
-			.connectTimeout(1, TimeUnit.MINUTES)
-			.writeTimeout(1, TimeUnit.MINUTES)
+			.readTimeout(20, TimeUnit.SECONDS)
+			.callTimeout(20, TimeUnit.SECONDS)
+			.connectTimeout(20, TimeUnit.SECONDS)
+			.writeTimeout(20, TimeUnit.SECONDS)
 			.connectionPool(connectionPool)
 			.retryOnConnectionFailure(true)
 			.addInterceptor(chain -> chain.proceed(chain.request().newBuilder()

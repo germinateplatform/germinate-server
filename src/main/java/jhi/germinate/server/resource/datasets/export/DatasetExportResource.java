@@ -74,7 +74,7 @@ public class DatasetExportResource extends ContextResource
 				return null;
 
 			Set<String> germplasmNames = DatasetExportGenotypeResource.getGermplasmNames(context, request);
-			Set<String> markerNames = DatasetExportGenotypeResource.getMarkerNames(context, request);
+			SelectConditionStep<Record1<String>> markerNames = DatasetExportGenotypeResource.getMarkerNames(context, request);
 
 			String dsName = "dataset-" + ds.getDatasetId();
 
@@ -93,22 +93,19 @@ public class DatasetExportResource extends ContextResource
 			{
 				sharedMapFile = ResourceUtils.createTempFile("map-" + request.getMapId(), "map");
 
-				try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8))))
+				SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
+																					.from(MAPDEFINITIONS)
+																					.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
+																					.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
+																					.where(DATASETMEMBERS.DATASET_ID.in(datasetIds))
+																					.and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
+
+				try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8)));
+					 Cursor<? extends Record> cursor = query.fetchLazy())
 				{
 					bw.write("# fjFile = MAP" + ResourceUtils.CRLF);
-					SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
-																						.from(MAPDEFINITIONS)
-																						.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-																						.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
-																						.where(DATASETMEMBERS.DATASET_ID.in(datasetIds))
-																						.and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
 
-					if (!CollectionUtils.isEmpty(markerNames))
-						query.and(MARKERS.MARKER_NAME.in(markerNames));
-
-					Result<Record3<String, String, Double>> mapResult = query.fetch();
-
-					ResourceUtils.exportToFile(bw, mapResult, false, null);
+					ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
 				}
 
 				File mapFile = new File(asyncFolder, dsName + ".map");
@@ -125,10 +122,15 @@ public class DatasetExportResource extends ContextResource
 				Files.write(germplasmFile.toPath(), new ArrayList<>(germplasmNames), StandardCharsets.UTF_8);
 			}
 
-			if (!CollectionUtils.isEmpty(markerNames))
+			if (markerNames != null)
 			{
-				File markerFile = new File(asyncFolder, dsName + ".markers");
-				Files.write(markerFile.toPath(), new ArrayList<>(markerNames), StandardCharsets.UTF_8);
+				java.nio.file.Path markerFile = new File(asyncFolder, dsName + ".markers").toPath();
+
+				try (BufferedWriter bw = Files.newBufferedWriter(markerFile, StandardCharsets.UTF_8);
+					 Cursor<? extends Record> cursor = markerNames.fetchLazy())
+				{
+					ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
+				}
 			}
 			File headerFile = new File(asyncFolder, dsName + ".header");
 			Files.write(headerFile.toPath(), DatasetExportGenotypeResource.getFlapjackHeaders(), StandardCharsets.UTF_8);
@@ -222,7 +224,7 @@ public class DatasetExportResource extends ContextResource
 				return null;
 
 			Set<String> germplasmNames = DatasetExportGenotypeResource.getGermplasmNames(context, request);
-			Set<String> markerNames = DatasetExportGenotypeResource.getMarkerNames(context, request);
+			Set<String> markerNames = DatasetExportGenotypeResource.getMarkerNameList(context, request);
 
 			// Get the source file
 			File source = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");

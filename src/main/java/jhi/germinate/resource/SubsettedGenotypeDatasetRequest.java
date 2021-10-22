@@ -8,6 +8,7 @@ public class SubsettedGenotypeDatasetRequest extends SubsettedDatasetRequest
 	private Integer mapId;
 	private boolean generateFlapjackProject;
 	private boolean generateHapMap;
+	private boolean generateFlatFile;
 
 	public Integer getMapId()
 	{
@@ -39,6 +40,17 @@ public class SubsettedGenotypeDatasetRequest extends SubsettedDatasetRequest
 	public SubsettedGenotypeDatasetRequest setGenerateHapMap(boolean generateHapMap)
 	{
 		this.generateHapMap = generateHapMap;
+		return this;
+	}
+
+	public boolean isGenerateFlatFile()
+	{
+		return generateFlatFile;
+	}
+
+	public SubsettedGenotypeDatasetRequest setGenerateFlatFile(boolean generateFlatFile)
+	{
+		this.generateFlatFile = generateFlatFile;
 		return this;
 	}
 }

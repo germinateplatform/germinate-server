@@ -16,28 +16,6 @@ public class Transpose
 
 	private static File folder;
 
-//	public static void main(String[] args)
-//		throws IOException
-//	{
-//		args = new String[] { "c:/Users/sr41756/Downloads/hapmap/test.hapmap", "c:/Users/sr41756/Downloads/hapmap/test.hapmap.transposed" };
-//
-//		long s = System.currentTimeMillis();
-//
-//		folder = Files.createTempDirectory("transpose").toFile();
-//
-//		Transpose t = new Transpose();
-//		System.out.println("Reading input...");
-//		t.readData(args[0]);
-//		System.out.println("Read time: " + (System.currentTimeMillis() - s) + "ms");
-//		System.out.println("Transposing output...");
-//		t.writeData(args[1]);
-//
-//		long e = System.currentTimeMillis();
-//		System.out.println("Time: " + (e - s) + "ms");
-//
-//		FileUtils.deleteDirectory(folder);
-//	}
-
 	public Transpose(Path input, Path output)
 		throws IOException
 	{
