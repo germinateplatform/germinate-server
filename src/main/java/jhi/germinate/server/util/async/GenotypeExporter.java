@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +42,7 @@ public class GenotypeExporter
 
 	private final CountDownLatch latch;
 
-	private final Instant start;
+	private final Instant         start;
 	private final ExecutorService executor;
 
 	public GenotypeExporter()
@@ -203,7 +202,7 @@ public class GenotypeExporter
 			}
 			else
 			{
-				// Create the Flapjack project
+				// Create the Flapjack project (this will first extract to the flat file, then create the flapjack file, then zip both if required)
 				exportFlapjack(fs, logs);
 
 				// Extract from HDF5 to HapMap
@@ -216,7 +215,7 @@ public class GenotypeExporter
 					latch.countDown();
 				}
 
-				// Start copying the files into the zip
+				// Start copying the files into the zip, don't zip the flat file yet, the flapjack task needs to generate it first
 				zipUp(fs, false, includeFlatText);
 			}
 

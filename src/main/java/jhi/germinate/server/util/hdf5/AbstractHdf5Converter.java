@@ -23,8 +23,8 @@ public abstract class AbstractHdf5Converter
 
 	protected Map<String, Integer> lineInds;
 	protected Map<String, Integer> markerInds;
-	protected List<String>         hdf5Lines;
-	protected List<String>         hdf5Markers;
+	protected LinkedHashSet<String>         hdf5Lines;
+	protected LinkedHashSet<String>         hdf5Markers;
 
 	public AbstractHdf5Converter(Path hdf5File, Set<String> lines, Set<String> markers, Path outputFilePath)
 	{
@@ -48,10 +48,10 @@ public abstract class AbstractHdf5Converter
 			s = System.currentTimeMillis();
 			// Load lines from HDF5 and find the indices of our loaded lines
 			String[] hdf5LinesArray = reader.readStringArray(LINES);
-			hdf5Lines = new ArrayList<>(Arrays.asList(hdf5LinesArray));
+			hdf5Lines = new LinkedHashSet<>(Arrays.asList(hdf5LinesArray));
 
 			if (lines == null)
-				lines = new LinkedHashSet<>(hdf5Lines);
+				lines = hdf5Lines;
 			else
 				lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(LinkedHashSet::new));
 
@@ -65,10 +65,10 @@ public abstract class AbstractHdf5Converter
 			s = System.currentTimeMillis();
 			// Load markers from HDF5 and find the indices of our loaded markers
 			String[] hdf5MarkersArray = reader.readStringArray(MARKERS);
-			hdf5Markers = new ArrayList<>(Arrays.asList(hdf5MarkersArray));
+			hdf5Markers = new LinkedHashSet<>(Arrays.asList(hdf5MarkersArray));
 
 			if (markers == null)
-				markers = new LinkedHashSet<>(hdf5Markers);
+				markers = hdf5Markers;
 			else
 				markers = markers.stream().filter(marker -> hdf5Markers.contains(marker)).collect(Collectors.toCollection(LinkedHashSet::new));
 
