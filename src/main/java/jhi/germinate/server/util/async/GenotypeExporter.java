@@ -168,7 +168,7 @@ public class GenotypeExporter
 				if (includeFlatText)
 				{
 					executor.execute(() -> {
-						Logger.getLogger("").info("EXTRACTING FLAT FILE INTO ZIP");
+						System.out.println("EXTRACTING FLAT FILE INTO ZIP");
 						try
 						{
 							Path tabbedZipped = fs.getPath("/" + tabbedFile.getName());
@@ -199,7 +199,7 @@ public class GenotypeExporter
 				}
 
 				// Start copying the files into the zip
-				zipUp(fs, false, true);
+				zipUp(fs, false, includeFlatText);
 			}
 			else
 			{
@@ -217,7 +217,7 @@ public class GenotypeExporter
 				}
 
 				// Start copying the files into the zip
-				zipUp(fs, includeFlatText, includeFlatText);
+				zipUp(fs, false, includeFlatText);
 			}
 
 			// Wait for everything to finish
@@ -230,7 +230,6 @@ public class GenotypeExporter
 				tabbedFile.delete();
 
 			Duration duration = Duration.between(start, Instant.now());
-			Logger.getLogger("").info("DURATION: " + duration);
 			System.out.println("DURATION: " + duration);
 		}
 		catch (IOException | InterruptedException e)
@@ -250,7 +249,7 @@ public class GenotypeExporter
 			{
 				if (includeTabbed)
 				{
-					Logger.getLogger("").info("ZIPPING UP TABBED");
+					System.out.println("ZIPPING UP TABBED");
 					// Zip and don't delete the tabbed file
 					zip(fs, tabbedFile, false);
 				}
@@ -258,13 +257,13 @@ public class GenotypeExporter
 				// Zip and don't delete the map
 				if (includeMap && mapFile != null)
 				{
-					Logger.getLogger("").info("ZIPPING UP MAP");
+					System.out.println("ZIPPING UP MAP");
 					zip(fs, mapFile, false);
 				}
 				// Zip and delete the identifiers
 				if (identifierFile != null)
 				{
-					Logger.getLogger("").info("ZIPPING UP IDENTIFIERS");
+					System.out.println("ZIPPING UP IDENTIFIERS");
 					zip(fs, identifierFile, true);
 				}
 			}
@@ -284,12 +283,12 @@ public class GenotypeExporter
 		executor.execute(() -> {
 			try
 			{
-				Logger.getLogger("").info("EXTRACTING TO TABBED");
+				System.out.println("EXTRACTING TO TABBED");
 				// Extract from HDF5 to flat file (not zipped)
 				Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedFile.toPath(), false);
 				converter.extractData(headers);
 
-				Logger.getLogger("").info("CONVERTING TO FLAPJACK");
+				System.out.println("CONVERTING TO FLAPJACK");
 				File tempTarget = Files.createTempFile(folder.getName(), ".flapjack").toFile();
 				FlapjackFile project = new FlapjackFile(tempTarget.getAbsolutePath());
 				CreateProjectSettings cpSettings = new CreateProjectSettings(tabbedFile, mapFile, null, null, project, projectName);
@@ -298,6 +297,9 @@ public class GenotypeExporter
 				logs.addAll(createProject.doProjectCreation());
 
 				Files.move(tempTarget.toPath(), flapjackProjectFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+				if (includeFlatText)
+					zip(fs, tabbedFile, true);
 
 				zip(fs, flapjackProjectFile, true);
 			}
@@ -317,7 +319,7 @@ public class GenotypeExporter
 		executor.execute(() -> {
 			try
 			{
-				Logger.getLogger("").info("EXTRACTING HAPMAP INTO ZIP");
+				System.out.println("EXTRACTING HAPMAP INTO ZIP");
 				Map<String, Hdf5ToHapmapConverter.MarkerPosition> map = new HashMap<>();
 				if (mapFile != null)
 				{
