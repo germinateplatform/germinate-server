@@ -54,7 +54,7 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 				MarkerPosition mp = map.get(markerName);
 
 				if (mp == null)
-					mp = new MarkerPosition("NA", "1");
+					mp = new MarkerPosition("", "");
 
 				writer.print(markerName + "\tNA\t" + mp.chromosome + "\t" + mp.position + "\tNA\tNA\tNA\tNA\tNA\tNA\tNA");
 
