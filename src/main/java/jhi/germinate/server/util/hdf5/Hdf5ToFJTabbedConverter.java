@@ -90,13 +90,19 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 
 			if (transposed)
 			{
-				List<Integer> lineIndices = lines.stream().map(line -> lineInds.get(line)).collect(Collectors.toList());
 				// Write the header line of a Flapjack file
-				writer.println(lines.stream().collect(Collectors.joining("\t", "Marker/Accession\t", "")));
+				List<Integer> lineIndices = new ArrayList<>();
+				writer.print("Marker/Accession");
+				for (String line : lines)
+				{
+					lineIndices.add(lineInds.get(line));
+					writer.print("\t" + line);
+				}
+				writer.println();
 
 				s = System.currentTimeMillis();
 
-				markers.forEach(markerName ->
+				for (String markerName : markers)
 				{
 					// Read in a marker row (all of its alleles from file)
 					// Get from DATA, lineInds.size(), 1 column, start from row 0 and column markerInds.get(markerName).
@@ -105,27 +111,31 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 					byte[] genotypes = new byte[g.length];
 					for (int i = 0; i < g.length; i++)
 						genotypes[i] = g[i][0];
-					String outputGenotypes = createGenotypeFlatFileString(markerName, genotypes, lineIndices, stateTable);
-					writer.println(outputGenotypes);
-				});
+					writeGenotypeFlatFileString(writer, markerName, genotypes, lineIndices, stateTable);
+				}
 			}
 			else
 			{
-				List<Integer> markerIndices = markers.stream().map(marker -> markerInds.get(marker)).collect(Collectors.toList());
 				// Write the header line of a Flapjack file
-				writer.println(markers.stream().collect(Collectors.joining("\t", "Accession/Marker\t", "")));
+				List<Integer> markerIndices = new ArrayList<>();
+				writer.print("Accession/Marker");
+				for (String marker : markers)
+				{
+					markerIndices.add(markerInds.get(marker));
+					writer.print("\t" + marker);
+				}
+				writer.println();
 
 				s = System.currentTimeMillis();
 
-				lines.forEach(lineName ->
+				for (String lineName : lines)
 				{
 					// Read in a line (all of its alleles from file)
 					// Get from DATA, 1 row, markerInds.size() columns, start from row lineInds.get(lineName) and column 0.
 					// The resulting 2d array only contains one 1d array. Take that as the lines genotype data.
 					byte[] genotypes = reader.int8().readMatrixBlock(DATA, 1, markerInds.size(), lineInds.get(lineName), 0)[0];
-					String outputGenotypes = createGenotypeFlatFileString(lineName, genotypes, markerIndices, stateTable);
-					writer.println(outputGenotypes);
-				});
+					writeGenotypeFlatFileString(writer, lineName, genotypes, markerIndices, stateTable);
+				}
 			}
 			System.out.println("Output lines to genotype file: " + (System.currentTimeMillis() - s) + " (ms)");
 		}
@@ -138,12 +148,13 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 		System.out.println("HDF5 file converted to Flapjack genotype format");
 	}
 
-	private String createGenotypeFlatFileString(String lineName, byte[] genotypes, List<Integer> markerIndices, String[] stateTable)
+	private void writeGenotypeFlatFileString(PrintWriter bw, String lineName, byte[] genotypes, List<Integer> markerIndices, String[] stateTable)
 	{
 		// Collect the alleles which match the line and markers we're looking for
-		return markerIndices.stream()
-							.map(index -> genotypes[index])
-							.map(allele -> stateTable[allele])
-							.collect(Collectors.joining("\t", lineName + "\t", ""));
+		bw.write(lineName);
+		for (Integer index : markerIndices) {
+			bw.write("\t" + stateTable[genotypes[index]]);
+		}
+		bw.println();
 	}
 }

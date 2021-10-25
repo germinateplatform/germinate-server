@@ -28,7 +28,9 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 	{
 		System.out.println();
 		long s = System.currentTimeMillis();
-		List<Integer> lineIndices = lines.stream().map(line -> lineInds.get(line)).collect(Collectors.toList());
+		List<Integer> lineIndices = new ArrayList<>();
+		for (String line : lines)
+			lineIndices.add(lineInds.get(line));
 		System.out.println("Read and mapped markers: " + (System.currentTimeMillis() - s) + " (ms)");
 
 		s = System.currentTimeMillis();
@@ -45,12 +47,14 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 				writer.print(headerLines);
 
 			// Write the header line of a Hapmap file
-			writer.println(lines.stream().collect(Collectors.joining("\t", "rs#\talleles\tchrom\tpos\tstrand\tassembly#\tcenter\tprotLSID\tassayLSID\tpanelLSID\tQCcode\t", "")));
+			writer.print("rs#\talleles\tchrom\tpos\tstrand\tassembly#\tcenter\tprotLSID\tassayLSID\tpanelLSID\tQCcode");
+			for (String line : lines)
+				writer.print("\t" + line);
+			writer.println();
 
 			s = System.currentTimeMillis();
 
-			markers.forEach(markerName ->
-			{
+			for (String markerName : markers) {
 				MarkerPosition mp = map.get(markerName);
 
 				if (mp == null)
@@ -65,27 +69,24 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 				byte[] genotypes = new byte[g.length];
 				for (int i = 0; i < g.length; i++)
 					genotypes[i] = g[i][0];
-				String outputGenotypes = lineIndices.stream()
-													.map(index -> genotypes[index])
-													.map(allele -> {
-														String state = stateTable[allele];
 
-														if (StringUtils.isEmpty(state))
-															state = "N";
+				for(Integer index : lineIndices) {
+					String state = stateTable[genotypes[index]];
 
-														// Replace slashes
-														if (state.contains("/"))
-															state = state.replace("/", "");
+					if (StringUtils.isEmpty(state))
+						state = "N";
 
-														// Duplicate individual nucleotides
-														if (state.length() == 1)
-															state = state + state;
+					// Replace slashes
+					if (state.contains("/"))
+						state = state.replace("/", "");
 
-														return state;
-													})
-													.collect(Collectors.joining("\t", "\t", ""));
-				writer.println(outputGenotypes);
-			});
+					// Duplicate individual nucleotides
+					if (state.length() == 1)
+						state = state + state;
+
+					writer.println("\t" + state);
+				}
+			}
 			System.out.println("Output lines to genotype file: " + (System.currentTimeMillis() - s) + " (ms)");
 		}
 		catch (Exception e)
