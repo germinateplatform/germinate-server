@@ -7,7 +7,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Sebastian Raubach
@@ -36,7 +35,7 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 		s = System.currentTimeMillis();
 
 		// Write our output file line by line
-		try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(outputFilePath, StandardCharsets.UTF_8));
+		try (BufferedWriter bw = Files.newBufferedWriter(outputFilePath, StandardCharsets.UTF_8);
 			 IHDF5Reader reader = HDF5Factory.openForReading(hdf5File.toFile()))
 		{
 			String[] stateTable = reader.readStringArray(STATE_TABLE);
@@ -44,23 +43,24 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 
 			// Output any extra header lines that have been provided
 			if (headerLines != null && !headerLines.isEmpty())
-				writer.print(headerLines);
+				bw.write(headerLines);
 
 			// Write the header line of a Hapmap file
-			writer.print("rs#\talleles\tchrom\tpos\tstrand\tassembly#\tcenter\tprotLSID\tassayLSID\tpanelLSID\tQCcode");
+			bw.write("rs#\talleles\tchrom\tpos\tstrand\tassembly#\tcenter\tprotLSID\tassayLSID\tpanelLSID\tQCcode");
 			for (String line : lines)
-				writer.print("\t" + line);
-			writer.println();
+				bw.write("\t" + line);
+			bw.newLine();
 
 			s = System.currentTimeMillis();
 
+			int counter = 0;
 			for (String markerName : markers) {
 				MarkerPosition mp = map.get(markerName);
 
 				if (mp == null)
 					mp = new MarkerPosition("", "");
 
-				writer.print(markerName + "\tNA\t" + mp.chromosome + "\t" + mp.position + "\tNA\tNA\tNA\tNA\tNA\tNA\tNA");
+				bw.write(markerName + "\tNA\t" + mp.chromosome + "\t" + mp.position + "\tNA\tNA\tNA\tNA\tNA\tNA\tNA");
 
 				// Read in a marker row (all of its alleles from file)
 				// Get from DATA, lineInds.size(), 1 column, start from row 0 and column markerInds.get(markerName).
@@ -84,7 +84,14 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 					if (state.length() == 1)
 						state = state + state;
 
-					writer.println("\t" + state);
+					bw.write("\t" + state);
+				}
+
+				bw.newLine();
+
+				if (counter++ > 1_000_000) {
+					bw.flush();
+					counter = 0;
 				}
 			}
 			System.out.println("Output lines to genotype file: " + (System.currentTimeMillis() - s) + " (ms)");
