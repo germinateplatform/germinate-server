@@ -152,10 +152,12 @@ public class GenotypeExporter
 		if (prefix.startsWith("/"))
 			prefix = prefix.substring(1);
 		URI uri = URI.create("jar:file:/" + prefix);
-		Map<String, String> env = new HashMap<>();
+		Map<String, Object> env = new HashMap<>();
+		// This has to be a String that's "true"
 		env.put("create", "true");
 		env.put("encoding", "UTF-8");
-		env.put("useTempFile", "true");
+		// This has to be a Boolean that's true.
+		env.put("useTempFile", Boolean.TRUE);
 
 		List<String> logs = new ArrayList<>();
 
