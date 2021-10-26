@@ -155,6 +155,7 @@ public class GenotypeExporter
 		Map<String, String> env = new HashMap<>();
 		env.put("create", "true");
 		env.put("encoding", "UTF-8");
+		env.put("useTempFile", "true");
 
 		List<String> logs = new ArrayList<>();
 
