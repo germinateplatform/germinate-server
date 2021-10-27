@@ -1,7 +1,9 @@
 package jhi.germinate.server.util.hdf5;
 
 import ch.systemsx.cisd.hdf5.*;
+import jhi.flapjack.io.Hdf5Utils;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,10 +23,10 @@ public abstract class AbstractHdf5Converter
 	protected       Set<String> markers;
 	protected final Path        outputFilePath;
 
-	protected Map<String, Integer> lineInds;
-	protected Map<String, Integer> markerInds;
-	protected LinkedHashSet<String>         hdf5Lines;
-	protected LinkedHashSet<String>         hdf5Markers;
+	protected Map<String, Integer>  lineInds;
+	protected Map<String, Integer>  markerInds;
+	protected LinkedHashSet<String> hdf5Lines;
+	protected LinkedHashSet<String> hdf5Markers;
 
 	public AbstractHdf5Converter(Path hdf5File, Set<String> lines, Set<String> markers, Path outputFilePath)
 	{
@@ -86,4 +88,38 @@ public abstract class AbstractHdf5Converter
 	}
 
 	public abstract void extractData(String headerLines);
+
+	public static long getMarkerCount(File hdf5File)
+	{
+		try (IHDF5Reader reader = HDF5Factory.openForReading(hdf5File))
+		{
+			return reader.readStringArray(MARKERS).length;
+		}
+	}
+
+	/**
+	 * Updates the given HDF5 file by replacing all occurrences of germplasm in otherNames with the preferredName.
+	 *
+	 * @param hdf5File      The HDF5 file to update
+	 * @param preferredName The preferred name to replace the others with
+	 * @param otherNames    The other names to replace
+	 */
+	public static synchronized void updateGermplasmNames(File hdf5File, String preferredName, List<String> otherNames)
+	{
+		// Update the names
+		List<String> oldNames = Hdf5Utils.getLines(hdf5File);
+		for (int i = 0; i < oldNames.size(); i++)
+		{
+			if (otherNames.contains(oldNames.get(i)))
+			{
+				oldNames.set(i, preferredName);
+			}
+		}
+
+		// Write them back to the file
+		try (IHDF5Writer writer = HDF5Factory.open(hdf5File))
+		{
+			writer.string().writeArray(LINES, oldNames.toArray(new String[0]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
+		}
+	}
 }

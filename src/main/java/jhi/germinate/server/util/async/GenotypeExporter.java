@@ -25,6 +25,7 @@ public class GenotypeExporter
 
 	private File        folder;
 	private File        hdf5File;
+	private File        hdf5TransposedFile;
 	private File        mapFile;
 	private File        tabbedFile;
 	private File        germplasmFile;
@@ -59,6 +60,11 @@ public class GenotypeExporter
 		int i = 0;
 		GenotypeExporter exporter = new GenotypeExporter();
 		exporter.hdf5File = new File(args[i++]);
+
+		File potential = new File(exporter.hdf5File.getParentFile(), "transposed-" + exporter.hdf5File.getName());
+
+		if (potential.exists() && potential.isFile())
+			exporter.hdf5TransposedFile = potential;
 
 		exporter.folder = new File(args[i++]);
 		exporter.projectName = args[i++];
@@ -153,6 +159,8 @@ public class GenotypeExporter
 			prefix = prefix.substring(1);
 		URI uri = URI.create("jar:file:/" + prefix);
 		Map<String, Object> env = new HashMap<>();
+		// We need to write this to a temp file, because genotypic data is potentially much larger than the memory and by default ZipFileSystem
+		// generates the Zip in memory: https://stackoverflow.com/questions/23858706/zipping-a-huge-folder-by-using-a-zipfilesystem-results-in-outofmemoryerror
 		// This has to be a String that's "true"
 		env.put("create", "true");
 		env.put("encoding", "UTF-8");
@@ -337,8 +345,14 @@ public class GenotypeExporter
 
 				Path hapmapPath = fs.getPath("/" + hapmapFile.getName());
 
-				Hdf5ToHapmapConverter hapmap = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
-				hapmap.extractData(null);
+				AbstractHdf5Converter converter;
+
+				if (hdf5TransposedFile != null)
+					converter = new Hdf5TransposedToHapmapConverter(hdf5TransposedFile.toPath(), germplasm, markers, map, hapmapPath);
+				else
+					converter = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+
+				converter.extractData(null);
 			}
 			catch (IOException e)
 			{

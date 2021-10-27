@@ -27,29 +27,23 @@ import java.util.stream.Stream;
 /**
  * @author The Flapjack authors (https://ics.hutton.ac.uk/flapjack)
  */
-public class FJTabbedToHdf5Converter
+public class HapmapToHdf5Converter
 {
-	private static final int CHUNK_SIZE = 100;
+	private static final int CHUNK_SIZE = 100_000;
 
 	private static final String LINES       = "Lines";
 	private static final String MARKERS     = "Markers";
 	private static final String DATA        = "DataMatrix";
 	private static final String STATE_TABLE = "StateTable";
 
-	private File    genotypeFile;
+	private File    hapmapFile;
 	private File    hdf5File;
-	private int     skipLines = 0;
 	private boolean transpose = false;
 
-	public FJTabbedToHdf5Converter(File genotypeFile, File hdf5File)
+	public HapmapToHdf5Converter(File hapmapFile, File hdf5File)
 	{
-		this.genotypeFile = genotypeFile;
+		this.hapmapFile = hapmapFile;
 		this.hdf5File = hdf5File;
-	}
-
-	public void setSkipLines(int skipLines)
-	{
-		this.skipLines = skipLines;
 	}
 
 	public void setTranspose(boolean transpose)
@@ -65,16 +59,16 @@ public class FJTabbedToHdf5Converter
 
 	public void convertToHdf5()
 	{
-		checkFileExists(genotypeFile);
+		checkFileExists(hapmapFile);
 
 		// Delete old files with this name, because otherwise the new data will get appended to the old data
 		if (hdf5File.exists() && hdf5File.isFile())
 			hdf5File.delete();
 
 		long s = System.currentTimeMillis();
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8));
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(hapmapFile), StandardCharsets.UTF_8));
 			 // The second reader is just to get the number of rows
-			 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(genotypeFile), StandardCharsets.UTF_8));
+			 LineNumberReader lineNumberReader = new LineNumberReader(new InputStreamReader(new FileInputStream(hapmapFile), StandardCharsets.UTF_8));
 			 IHDF5Writer writer = HDF5Factory.open(hdf5File))
 		{
 			LinkedHashMap<String, Byte> stateTable = new LinkedHashMap<>();
@@ -91,25 +85,19 @@ public class FJTabbedToHdf5Converter
 				line = reader.readLine();
 			}
 
-			for (int i = 0; i < skipLines; i++)
-			{
-				offset++;
-				line = reader.readLine();
-			}
-
 			// Skip to the end
 			lineNumberReader.skip(Long.MAX_VALUE);
 
 			// Get the number of actual data rows
 			int nrOfRows = lineNumberReader.getLineNumber() - 1 - offset;
 
-			// We need to generate a mapping between the marker indices in the
+			// We need to generate a mapping between the germplasm indices in the
 			// genotype file and those in the map file
 			String[] tokens = line.split("\t", -1);
-			String[] markers = Arrays.copyOfRange(tokens, 1, tokens.length);
+			String[] germplasm = Arrays.copyOfRange(tokens, 11, tokens.length);
 
-			// Remember the line names
-			List<String> lines = new ArrayList<>();
+			// Remember the marker names
+			List<String> markers = new ArrayList<>();
 
 			// Here we determine the size of the chunks within the matrix.
 			// HDF5 has a hard limit of 4GB per chunk, so we need to set the chunk sizes appropriately.
@@ -118,13 +106,13 @@ public class FJTabbedToHdf5Converter
 
 			if (transpose)
 			{
-				// The number of rows is at least one and then depends on the number of times we can fit all the lines into 4GB
-				int verticalChunk = (int) Math.min(markers.length, Math.max(1, Math.floor(fourGig / (nrOfRows * 1d))));
-				// The number of columns is at most the number of lines and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
-				int horizontalChunk = (int) Math.min(nrOfRows, fourGig);
+				// The number of rows is at least one and then depends on the number of times we can fit all the markers into 4GB
+				int verticalChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (germplasm.length * 1d))));
+				// The number of columns is at most the number of markers and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
+				int horizontalChunk = (int) Math.min(germplasm.length, fourGig);
 
 				// Create the matrix based on the number of rows and the number of markers
-				writer.int8().createMatrix(DATA, markers.length, nrOfRows, verticalChunk, horizontalChunk);
+				writer.int8().createMatrix(DATA, nrOfRows, germplasm.length, verticalChunk, horizontalChunk);
 
 				List<byte[]> cache = new ArrayList<>();
 				while ((line = reader.readLine()) != null)
@@ -132,23 +120,22 @@ public class FJTabbedToHdf5Converter
 					String[] columns = line.split("\t", -1);
 
 					// Remember the line name
-					lines.add(columns[0]);
+					markers.add(columns[0]);
 
 					// The actual SNP calls are all but the first element of the split line
-					String[] snpCalls = Arrays.copyOfRange(columns, 1, columns.length);
+					String[] snpCalls = Arrays.copyOfRange(columns, 11, columns.length);
 					Stream.of(snpCalls).forEach(token -> stateTable.putIfAbsent(token, (byte) stateTable.size()));
 
 					Byte[] bytes = Stream.of(snpCalls).map(stateTable::get).toArray(Byte[]::new);
 					byte[] outBytes = convertBytesToPrimitive(bytes);
 
-					if (outBytes.length != markers.length)
+					if (outBytes.length != germplasm.length)
 						continue;
 
 					cache.add(outBytes);
 
-					if (cache.size() >= CHUNK_SIZE)
-					{
-						writeCacheTransposed(writer, cache, markers.length, counter);
+					if (cache.size() >= CHUNK_SIZE) {
+						writeCacheTransposed(writer, cache, germplasm.length, counter);
 						counter += cache.size();
 						cache.clear();
 						System.out.println("Processed: " + counter);
@@ -157,55 +144,57 @@ public class FJTabbedToHdf5Converter
 
 				if (cache.size() > 0)
 				{
-					writeCacheTransposed(writer, cache, markers.length, counter);
+					writeCacheTransposed(writer, cache, germplasm.length, counter);
 				}
 			}
 			else
 			{
-				// The number of rows is at least one and then depends on the number of times we can fit all the markers into 4GB
-				int verticalChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (markers.length * 1d))));
-				// The number of columns is at most the number of markers and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
-				int horizontalChunk = (int) Math.min(markers.length, fourGig);
+				// The number of rows is at least one and then depends on the number of times we can fit all the lines into 4GB
+				int verticalChunk = (int) Math.min(germplasm.length, Math.max(1, Math.floor(fourGig / (nrOfRows * 1d))));
+				// The number of columns is at most the number of lines and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
+				int horizontalChunk = (int) Math.min(nrOfRows, fourGig);
 
 				// Create the matrix based on the number of rows and the number of markers
-				writer.int8().createMatrix(DATA, nrOfRows, markers.length, verticalChunk, horizontalChunk);
+				writer.int8().createMatrix(DATA, nrOfRows, germplasm.length, verticalChunk, horizontalChunk);
 
 				List<byte[]> cache = new ArrayList<>();
 				while ((line = reader.readLine()) != null)
 				{
-					if (counter % 1000 == 0)
-						System.out.println("Processed: " + counter);
-
 					String[] columns = line.split("\t", -1);
 
-					// Remember the line name
-					lines.add(columns[0]);
+					// Remember the marker name
+					markers.add(columns[0]);
 
 					// The actual SNP calls are all but the first element of the split line
-					String[] snpCalls = Arrays.copyOfRange(columns, 1, columns.length);
+					String[] snpCalls = Arrays.copyOfRange(columns, 11, columns.length);
 					Stream.of(snpCalls).forEach(token -> stateTable.putIfAbsent(token, (byte) stateTable.size()));
 
 					Byte[] bytes = Stream.of(snpCalls).map(stateTable::get).toArray(Byte[]::new);
 					byte[] outBytes = convertBytesToPrimitive(bytes);
 
-					if (outBytes.length != markers.length)
+					if (outBytes.length != germplasm.length)
 						continue;
 
 					cache.add(outBytes);
 
 					if (cache.size() >= CHUNK_SIZE)
 					{
-						writeCache(writer, cache, markers.length, counter);
+						writeCache(writer, cache, germplasm.length, counter);
 						counter += cache.size();
 						cache.clear();
 						System.out.println("Processed: " + counter);
 					}
 				}
+
+				if (cache.size() > 0)
+				{
+					writeCache(writer, cache, germplasm.length, counter);
+				}
 			}
 
 			// Write the marker and line names as arrays
-			writer.string().writeArray(MARKERS, markers, HDF5GenericStorageFeatures.GENERIC_DEFLATE);
-			writer.string().writeArray(LINES, lines.toArray(new String[0]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
+			writer.string().writeArray(MARKERS, markers.toArray(new String[0]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
+			writer.string().writeArray(LINES, germplasm, HDF5GenericStorageFeatures.GENERIC_DEFLATE);
 
 			// Write the state table
 			writer.string().writeArray(STATE_TABLE, stateTable.keySet().toArray(new String[0]), HDF5GenericStorageFeatures.GENERIC_DEFLATE);
@@ -221,19 +210,6 @@ public class FJTabbedToHdf5Converter
 
 	private void writeCache(IHDF5Writer writer, List<byte[]> cache, int width, int startPosition)
 	{
-		byte[][] outMatrixBytes = new byte[cache.size()][width];
-		for (int j = 0; j < cache.size(); j++)
-		{
-			byte[] outBytes = cache.get(j);
-
-			for (int i = 0; i < outBytes.length; i++)
-				outMatrixBytes[j][i] = outBytes[i];
-		}
-		writer.int8().writeMatrixBlockWithOffset(DATA, outMatrixBytes, startPosition, 0);
-	}
-
-	private void writeCacheTransposed(IHDF5Writer writer, List<byte[]> cache, int width, int startPosition)
-	{
 		byte[][] outMatrixBytes = new byte[width][cache.size()];
 		for (int j = 0; j < cache.size(); j++)
 		{
@@ -243,6 +219,19 @@ public class FJTabbedToHdf5Converter
 				outMatrixBytes[i][j] = outBytes[i];
 		}
 		writer.int8().writeMatrixBlockWithOffset(DATA, outMatrixBytes, 0, startPosition);
+	}
+
+	private void writeCacheTransposed(IHDF5Writer writer, List<byte[]> cache, int width, int startPosition)
+	{
+		byte[][] outMatrixBytes = new byte[cache.size()][width];
+		for (int j = 0; j < cache.size(); j++)
+		{
+			byte[] outBytes = cache.get(j);
+
+			for (int i = 0; i < outBytes.length; i++)
+				outMatrixBytes[j][i] = outBytes[i];
+		}
+		writer.int8().writeMatrixBlockWithOffset(DATA, outMatrixBytes, startPosition, 0);
 	}
 
 	private byte[] convertBytesToPrimitive(Byte[] bytes)
