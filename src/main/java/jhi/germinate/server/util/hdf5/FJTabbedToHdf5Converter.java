@@ -116,6 +116,12 @@ public class FJTabbedToHdf5Converter
 			// IMPORTANT: If we ever move away from using bytes for the states, then this needs to be adjusted.
 			long fourGig = 4L * 1024L * 1024L * 1024L;
 
+			int localChunkSize = CHUNK_SIZE;
+
+			if (markers.length > 2_000_000) {
+				localChunkSize = CHUNK_SIZE / 2;
+			}
+
 			if (transpose)
 			{
 				// The number of rows is at least one and then depends on the number of times we can fit all the lines into 4GB
@@ -146,7 +152,7 @@ public class FJTabbedToHdf5Converter
 
 					cache.add(outBytes);
 
-					if (cache.size() >= CHUNK_SIZE)
+					if (cache.size() >= localChunkSize)
 					{
 						writeCacheTransposed(writer, cache, markers.length, counter);
 						counter += cache.size();
