@@ -119,7 +119,7 @@ public class FJTabbedToHdf5Converter
 			int localChunkSize = CHUNK_SIZE;
 
 			if (markers.length > 2_000_000) {
-				localChunkSize = CHUNK_SIZE / 2;
+				localChunkSize = CHUNK_SIZE / 4;
 			}
 
 			if (transpose)
