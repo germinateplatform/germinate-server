@@ -173,9 +173,6 @@ public class FJTabbedToHdf5Converter
 				List<byte[]> cache = new ArrayList<>();
 				while ((line = reader.readLine()) != null)
 				{
-					if (counter % 1000 == 0)
-						System.out.println("Processed: " + counter);
-
 					String[] columns = line.split("\t", -1);
 
 					// Remember the line name
