@@ -30,6 +30,7 @@ import java.util.stream.Stream;
 public class FJTabbedToHdf5Converter
 {
 	private static final int CHUNK_SIZE = 100;
+	private static final int CHUNK_SIZE_SMALL = 10;
 
 	private static final String LINES       = "Lines";
 	private static final String MARKERS     = "Markers";
@@ -119,7 +120,7 @@ public class FJTabbedToHdf5Converter
 			int localChunkSize = CHUNK_SIZE;
 
 			if (markers.length > 2_000_000) {
-				localChunkSize = CHUNK_SIZE / 4;
+				localChunkSize = CHUNK_SIZE_SMALL;
 			}
 
 			if (transpose)
