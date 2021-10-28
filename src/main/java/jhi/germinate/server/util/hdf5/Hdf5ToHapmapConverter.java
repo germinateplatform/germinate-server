@@ -71,7 +71,7 @@ public class Hdf5ToHapmapConverter extends AbstractHdf5Converter
 					genotypes[i] = g[i][0];
 
 				for(Integer index : lineIndices) {
-					String state = stateTable[genotypes[index]];
+					String state = stateTable[genotypes[index] & 0xFF];
 
 					if (StringUtils.isEmpty(state))
 						state = "N";

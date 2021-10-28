@@ -121,13 +121,15 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 		System.out.println("HDF5 file converted to Flapjack genotype format");
 	}
 
-	private void writeGenotypeFlatFileString(BufferedWriter bw, String lineName, byte[] genotypes, List<Integer> markerIndices, String[] stateTable) throws IOException
+	private void writeGenotypeFlatFileString(BufferedWriter bw, String lineName, byte[] genotypes, List<Integer> markerIndices, String[] stateTable)
+		throws IOException
 	{
 		// Collect the alleles which match the line and markers we're looking for
 		bw.write(lineName);
 		int counter = 0;
-		for (Integer index : markerIndices) {
-			bw.write("\t" + stateTable[genotypes[index]]);
+		for (Integer index : markerIndices)
+		{
+			bw.write("\t" + stateTable[genotypes[index] & 0xFF]);
 
 			if (counter++ > 1_000_000)
 			{

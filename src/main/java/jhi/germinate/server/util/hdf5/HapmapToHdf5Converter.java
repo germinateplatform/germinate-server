@@ -40,14 +40,6 @@ public class HapmapToHdf5Converter
 	private File    hdf5File;
 	private boolean transpose = false;
 
-	public static void main(String[] args) {
-		HapmapToHdf5Converter converter = new HapmapToHdf5Converter(
-			new File("c:/Users/sr41756/Downloads/hapmap/dataset-8-map-1-transposed.hdf5.hapmap"),
-			new File("c:/Users/sr41756/Downloads/hapmap/dataset-8-map-1-transposed.hdf5.hdf5")
-		);
-		converter.convertToHdf5();
-	}
-
 	public HapmapToHdf5Converter(File hapmapFile, File hdf5File)
 	{
 		this.hapmapFile = hapmapFile;
