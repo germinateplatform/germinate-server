@@ -56,7 +56,7 @@ public class GermplasmMcpdResource
 				g.ID.as("ID"),
 				g.PUID.as("PUID"),
 				INSTITUTIONS.CODE.as("INSTCODE"),
-				g.GENERAL_IDENTIFIER.as("ACCENUMB"),
+				g.NAME.as("ACCENUMB"),
 				g.BREEDERS_CODE.as("BREDCODE"),
 				g.BREEDERS_NAME.as("BREDNAME"),
 				g.COLLNUMB.as("COLLNUMB"),
