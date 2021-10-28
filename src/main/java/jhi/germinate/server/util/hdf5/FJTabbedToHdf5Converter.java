@@ -197,7 +197,7 @@ public class FJTabbedToHdf5Converter
 
 					cache.add(outBytes);
 
-					if (cache.size() >= CHUNK_SIZE)
+					if (cache.size() >= localChunkSize)
 					{
 						writeCache(writer, cache, markers.length, counter);
 						counter += cache.size();
