@@ -29,7 +29,7 @@ import java.util.stream.Stream;
  */
 public class FJTabbedToHdf5Converter
 {
-	private static final int CHUNK_SIZE = 100;
+	private static final int CHUNK_SIZE       = 100;
 	private static final int CHUNK_SIZE_SMALL = 10;
 
 	private static final String LINES       = "Lines";
@@ -119,7 +119,8 @@ public class FJTabbedToHdf5Converter
 
 			int localChunkSize = CHUNK_SIZE;
 
-			if (markers.length > 2_000_000) {
+			if (markers.length > 2_000_000)
+			{
 				localChunkSize = CHUNK_SIZE_SMALL;
 			}
 
@@ -205,6 +206,11 @@ public class FJTabbedToHdf5Converter
 						System.out.println("Processed: " + counter);
 					}
 				}
+
+				if (cache.size() > 0)
+				{
+					writeCache(writer, cache, markers.length, counter);
+				}
 			}
 
 			// Write the marker and line names as arrays
@@ -228,10 +234,7 @@ public class FJTabbedToHdf5Converter
 		byte[][] outMatrixBytes = new byte[cache.size()][width];
 		for (int j = 0; j < cache.size(); j++)
 		{
-			byte[] outBytes = cache.get(j);
-
-			for (int i = 0; i < outBytes.length; i++)
-				outMatrixBytes[j][i] = outBytes[i];
+			outMatrixBytes[j] = cache.get(j);
 		}
 		writer.int8().writeMatrixBlockWithOffset(DATA, outMatrixBytes, startPosition, 0);
 	}

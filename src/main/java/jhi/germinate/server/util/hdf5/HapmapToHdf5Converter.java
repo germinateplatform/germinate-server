@@ -40,6 +40,14 @@ public class HapmapToHdf5Converter
 	private File    hdf5File;
 	private boolean transpose = false;
 
+	public static void main(String[] args) {
+		HapmapToHdf5Converter converter = new HapmapToHdf5Converter(
+			new File("c:/Users/sr41756/Downloads/hapmap/dataset-8-map-1-transposed.hdf5.hapmap"),
+			new File("c:/Users/sr41756/Downloads/hapmap/dataset-8-map-1-transposed.hdf5.hdf5")
+		);
+		converter.convertToHdf5();
+	}
+
 	public HapmapToHdf5Converter(File hapmapFile, File hdf5File)
 	{
 		this.hapmapFile = hapmapFile;
@@ -155,7 +163,7 @@ public class HapmapToHdf5Converter
 				int horizontalChunk = (int) Math.min(nrOfRows, fourGig);
 
 				// Create the matrix based on the number of rows and the number of markers
-				writer.int8().createMatrix(DATA, nrOfRows, germplasm.length, verticalChunk, horizontalChunk);
+				writer.int8().createMatrix(DATA, germplasm.length, nrOfRows, verticalChunk, horizontalChunk);
 
 				List<byte[]> cache = new ArrayList<>();
 				while ((line = reader.readLine()) != null)
@@ -226,10 +234,7 @@ public class HapmapToHdf5Converter
 		byte[][] outMatrixBytes = new byte[cache.size()][width];
 		for (int j = 0; j < cache.size(); j++)
 		{
-			byte[] outBytes = cache.get(j);
-
-			for (int i = 0; i < outBytes.length; i++)
-				outMatrixBytes[j][i] = outBytes[i];
+			outMatrixBytes[j] = cache.get(j);
 		}
 		writer.int8().writeMatrixBlockWithOffset(DATA, outMatrixBytes, startPosition, 0);
 	}
