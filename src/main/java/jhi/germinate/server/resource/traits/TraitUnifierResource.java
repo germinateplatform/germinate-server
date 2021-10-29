@@ -75,7 +75,7 @@ public class TraitUnifierResource extends ContextResource
 			{
 				synonymsRecord = context.newRecord(SYNONYMS);
 				synonymsRecord.setForeignId(preferredId);
-				synonymsRecord.setSynonymtypeId(1);
+				synonymsRecord.setSynonymtypeId(4);
 				synonymsRecord.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			}
 			// Update the synonyms to include the ones that have just been removed.
