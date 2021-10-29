@@ -89,4 +89,22 @@ public class StringUtils
 	{
 		return value == null ? null : Objects.toString(value);
 	}
+
+	public static String join(String separator, String... parts)
+	{
+		List<String> nonNull = new ArrayList<>();
+
+		if (parts != null)
+		{
+			for (String part : parts)
+			{
+				if (!StringUtils.isEmpty(part))
+					nonNull.add(part);
+			}
+
+			return String.join(separator, nonNull);
+		}
+
+		return null;
+	}
 }
