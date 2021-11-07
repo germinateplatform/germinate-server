@@ -4,15 +4,14 @@ import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.DatasetsRecord;
-import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
-import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 
@@ -26,7 +25,7 @@ public class DatasetResource extends ContextResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchDataset(Datasets updatedDataset)
+	public boolean patchDatasetById(Datasets updatedDataset)
 		throws SQLException, IOException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
@@ -64,6 +63,56 @@ public class DatasetResource extends ContextResource
 				dataset.setDateEnd(updatedDataset.getDateEnd());
 				dataset.setDatasetStateId(updatedDataset.getDatasetStateId());
 				return dataset.store() > 0;
+			}
+		}
+	}
+
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deleteDatasetById()
+		throws IOException, SQLException
+	{
+		if (datasetId == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
+
+		if (ds == null)
+		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+			return false;
+		}
+		else
+		{
+			try (Connection conn = Database.getConnection())
+			{
+				DSLContext context = Database.getContext(conn);
+
+				context.deleteFrom(DATASETS).where(DATASETS.ID.eq(datasetId)).execute();
+
+				// Get the source file
+				File sourceFile = null;
+
+				switch (ds.getDatasetType())
+				{
+					case "genotype":
+						sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "genotypes");
+						break;
+					case "allelefreq":
+						sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
+						break;
+				}
+
+				if (sourceFile != null && sourceFile.exists() && sourceFile.isFile())
+					sourceFile.delete();
+
+				return true;
 			}
 		}
 	}
