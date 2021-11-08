@@ -3,6 +3,7 @@ package jhi.germinate.server.resource;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.impl.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.*;
@@ -175,6 +176,15 @@ public class ResourceUtils
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void resetAutoincrement(DSLContext context, TableImpl<?> table)
+	{
+		Field<Integer> id = table.field("id", Integer.class);
+
+		Integer maxId = context.select(DSL.max(id)).from(table).fetchAnyInto(Integer.class);
+
+		context.execute("ALTER TABLE " + table.getName() + " AUTO_INCREMENT = " + maxId);
 	}
 
 	public static File getTempDir(String fileOrSubFolder)

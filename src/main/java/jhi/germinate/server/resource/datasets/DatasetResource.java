@@ -13,7 +13,11 @@ import javax.ws.rs.core.*;
 import java.io.*;
 import java.sql.*;
 
+import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
+import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 
 @Path("dataset/{datasetId}")
 @Secured(UserType.ADMIN)
@@ -96,6 +100,8 @@ public class DatasetResource extends ContextResource
 
 				context.deleteFrom(DATASETS).where(DATASETS.ID.eq(datasetId)).execute();
 
+				ResourceUtils.resetAutoincrement(context, DATASETMEMBERS);
+
 				// Get the source file
 				File sourceFile = null;
 
@@ -106,6 +112,15 @@ public class DatasetResource extends ContextResource
 						break;
 					case "allelefreq":
 						sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
+						break;
+					case "climate":
+						ResourceUtils.resetAutoincrement(context, CLIMATEDATA);
+						break;
+					case "trials":
+						ResourceUtils.resetAutoincrement(context, PHENOTYPEDATA);
+						break;
+					case "compound":
+						ResourceUtils.resetAutoincrement(context, COMPOUNDDATA);
 						break;
 				}
 
