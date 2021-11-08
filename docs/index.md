@@ -29,6 +29,7 @@ which brings focus and facilitates community building into research communities.
 There are a few sub-pages that contain specific information about Germinate's setup, configuration, etc. Use the links below to get to these pages.
 
 - <a href="setup.html">View setup instructions</a>
+  - <a href="setup-example.html">View a setup example</a>
 - <a href="config.html">View configuration options</a>
 - <a href="dataimport.html">View data upload information</a>
 - <a href="migration.html">View migration information</a>
