@@ -66,9 +66,9 @@ public class ResourceUtils
 
 			Path zipFilePath = zipFile.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(zipFilePath, output);
-				Files.deleteIfExists(zipFilePath);
-			})
+							   Files.copy(zipFilePath, output);
+							   Files.deleteIfExists(zipFilePath);
+						   })
 						   .type("application/zip")
 						   .header("content-disposition", "attachment;filename= \"" + zipFile.getName() + "\"")
 						   .header("content-length", zipFile.length())
@@ -180,11 +180,21 @@ public class ResourceUtils
 
 	public static void resetAutoincrement(DSLContext context, TableImpl<?> table)
 	{
-		Field<Integer> id = table.field("id", Integer.class);
+		try
+		{
+			Field<Integer> id = table.field("id", Integer.class);
 
-		Integer maxId = context.select(DSL.max(id)).from(table).fetchAnyInto(Integer.class);
+			Integer maxId = context.select(DSL.max(id)).from(table).fetchAnyInto(Integer.class);
 
-		context.execute("ALTER TABLE " + table.getName() + " AUTO_INCREMENT = " + maxId);
+			if (maxId != null)
+			{
+				context.execute("ALTER TABLE " + table.getName() + " AUTO_INCREMENT = " + maxId);
+			}
+		}
+		catch (Exception e)
+		{
+			// Do nothing if this fails for ANY reason.
+		}
 	}
 
 	public static File getTempDir(String fileOrSubFolder)

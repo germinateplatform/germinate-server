@@ -81,7 +81,7 @@ public class Database
 
 		// Get an initial connection to try if it works. Attempt a connection 10 times before failing
 		boolean connectionSuccessful = false;
-		for (int attempt = 0; attempt < 10; attempt++)
+		for (int attempt = 0; attempt < 6; attempt++)
 		{
 			try (Connection conn = getConnection())
 			{
