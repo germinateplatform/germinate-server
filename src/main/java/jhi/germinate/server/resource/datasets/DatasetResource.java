@@ -109,6 +109,10 @@ public class DatasetResource extends ContextResource
 				{
 					case "genotype":
 						sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "genotypes");
+						File transposed = new File(sourceFile.getParentFile(), "transposed-" + sourceFile.getName());
+
+						if (transposed.exists() && transposed.isFile())
+							transposed.delete();
 						break;
 					case "allelefreq":
 						sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
