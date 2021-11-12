@@ -59,12 +59,8 @@ public class TraitUnifierResource extends ContextResource
 				return false;
 			}
 
-			context.update(SYNONYMS).set(SYNONYMS.FOREIGN_ID, preferredId).where(SYNONYMS.SYNONYMTYPE_ID.eq(4).and(SYNONYMS.FOREIGN_ID.in(otherIds))).execute();
 			context.update(IMAGES.leftJoin(IMAGETYPES).on(IMAGETYPES.ID.eq(IMAGES.IMAGETYPE_ID))).set(IMAGES.FOREIGN_ID, preferredId).where(IMAGETYPES.REFERENCE_TABLE.eq("phenotypes").and(IMAGES.FOREIGN_ID.in(otherIds))).execute();
 			context.update(PHENOTYPEDATA).set(PHENOTYPEDATA.PHENOTYPE_ID, preferredId).where(PHENOTYPEDATA.PHENOTYPE_ID.in(otherIds)).execute();
-
-			// Delete the old ids
-			context.deleteFrom(PHENOTYPES).where(PHENOTYPES.ID.in(otherIds)).execute();
 
 			List<String> otherNames = others.stream().map(Phenotypes::getName).collect(Collectors.toList());
 
@@ -86,6 +82,9 @@ public class TraitUnifierResource extends ContextResource
 			synonymsRecord.setSynonyms(synonyms.toArray(new String[0]));
 			// Store back to the database
 			synonymsRecord.store();
+
+			// Delete the old ids
+			context.deleteFrom(PHENOTYPES).where(PHENOTYPES.ID.in(otherIds)).execute();
 
 			return true;
 		}
