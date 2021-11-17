@@ -142,5 +142,5 @@ database.port=3306
 
 # This is only true if trying to access it from the machine running Docker.
 # If you want the setup to be available from the outside world, use whatever your Proxy setup is configured as. 
-web.base=http://localhost:8082/
+web.base=http://localhost:9081/
 ```
