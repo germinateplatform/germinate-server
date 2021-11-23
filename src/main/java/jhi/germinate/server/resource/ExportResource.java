@@ -42,7 +42,7 @@ public class ExportResource extends BaseResource
 			if (name.endsWith("-"))
 				name = name.substring(0, name.length() - 1);
 
-			try (Connection conn = Database.getConnection();
+			try (Connection conn = Database.getConnection(true);
 				 FileSystem fs = FileSystems.newFileSystem(uri, env, null);
 				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + DateTimeUtils.getFormattedDateTime(new Date()) + ".txt"), StandardCharsets.UTF_8)))
 			{
@@ -59,7 +59,7 @@ public class ExportResource extends BaseResource
 				// Filter here!
 				filter(from, filters);
 
-				ResourceUtils.exportToFile(bw, setPaginationAndOrderBy(from).fetch(), true, settings != null ? settings.fieldsToNull : null);
+				ResourceUtils.exportToFileStreamed(bw, setPaginationAndOrderBy(from).fetchLazy(), true, settings != null ? settings.fieldsToNull : null);
 			}
 
 			Path zipFilePath = zipFile.toPath();
