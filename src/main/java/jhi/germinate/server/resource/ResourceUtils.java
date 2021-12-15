@@ -1,7 +1,9 @@
 package jhi.germinate.server.resource;
 
+import com.google.gson.Gson;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.jooq.*;
 import org.jooq.impl.*;
 
@@ -111,16 +113,17 @@ public class ResourceUtils
 		if (includeHeaders)
 			bw.write(columnsToInclude.stream().collect(Collectors.joining("\t", "", CRLF)));
 
+		Gson gson = new Gson();
 		results.forEach(r -> {
 			try
 			{
 				bw.write(columnsToInclude.stream()
 										 .map(name -> {
-											 Object value = r.getValue(name);
+											 Object value = r.get(name);
 											 if (value == null)
 												 return "";
 											 else
-												 return value.toString();
+												 return value.getClass().isArray() ? gson.toJson(value) : value.toString();
 										 })
 										 .collect(Collectors.joining("\t", "", CRLF)));
 			}

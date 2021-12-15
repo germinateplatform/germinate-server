@@ -138,7 +138,13 @@ public class GermplasmUnifierResource extends ContextResource
 			context.select(VIEW_TABLE_DATASETS.SOURCE_FILE).from(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.IS_EXTERNAL.eq(false).and(VIEW_TABLE_DATASETS.SOURCE_FILE.isNotNull()).and(VIEW_TABLE_DATASETS.DATASET_TYPE.eq("genotype"))).fetchInto(String.class)
 				   .stream()
 				   .map(f -> ResourceUtils.getFromExternal(f, "data", "genotypes"))
-				   .forEach(gf -> Hdf5ToFJTabbedConverter.updateGermplasmNames(gf, preferred.getName(), otherNames));
+				   .forEach(gf -> {
+					   Hdf5ToFJTabbedConverter.updateGermplasmNames(gf, preferred.getName(), otherNames);
+
+					   File transposed = new File(gf.getParentFile(), "transposed-" + gf.getName());
+					   if (transposed.exists())
+						   Hdf5ToFJTabbedConverter.updateGermplasmNames(transposed, preferred.getName(), otherNames);
+				   });
 
 			// Update the names in the allele frequency files
 			context.select(VIEW_TABLE_DATASETS.SOURCE_FILE).from(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.IS_EXTERNAL.eq(false).and(VIEW_TABLE_DATASETS.SOURCE_FILE.isNotNull()).and(VIEW_TABLE_DATASETS.DATASET_TYPE.eq("allelefreq"))).fetchInto(String.class)
