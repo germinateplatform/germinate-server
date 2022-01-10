@@ -41,6 +41,8 @@ public class GatekeeperClient
 	 */
 	public static void init(String url, String username, String password)
 	{
+		Logger.getLogger("").info("GATEKEEPER CLIENT INIT: " + url + " " + username + " " + password);
+
 		if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) == AuthenticationMode.NONE
 			|| StringUtils.isEmpty(url)
 			|| StringUtils.isEmpty(username))
@@ -83,6 +85,8 @@ public class GatekeeperClient
 			// Create a connection pool
 			connectionPool = new ConnectionPool(3, 1, TimeUnit.MINUTES);
 		}
+
+		Logger.getLogger("").info("GATEKEEPER CLIENT RESET: " + url);
 
 		// Create the HTTP client with the pool and timeouts
 		httpClient = new OkHttpClient.Builder()
