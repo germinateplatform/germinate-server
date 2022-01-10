@@ -82,7 +82,7 @@ services:
 
   # This is Gatekeeper itself.
   gatekeeper:
-      image: cropgeeks/gatekeeper:development-x86
+      image: cropgeeks/gatekeeper:<VERSION>
       environment:
         - JAVA_OPTS:-Xmx512m
       # Expose port 8080 at 9081
