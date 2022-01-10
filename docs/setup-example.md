@@ -140,6 +140,12 @@ database.password=gatekeeper-password
 # Note, we're not using the 9307 port here. That's only for remote access.
 database.port=3306
 
+email.address=
+email.username=
+email.password=
+email.server=
+email.port=
+
 # This is only true if trying to access it from the machine running Docker.
 # If you want the setup to be available from the outside world, use whatever your Proxy setup is configured as. 
 web.base=http://localhost:9081/

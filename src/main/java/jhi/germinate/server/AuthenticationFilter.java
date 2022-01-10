@@ -379,7 +379,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 	 */
 	public static boolean isValidImageToken(String imageToken)
 	{
-		return tokenToImageToken.containsValue(imageToken);
+		return !StringUtils.isEmpty(imageToken) && tokenToImageToken.containsValue(imageToken);
 	}
 
 	public static class UserDetails implements Principal

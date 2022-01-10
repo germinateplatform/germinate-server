@@ -122,7 +122,8 @@ public class ImageResource
 			return null;
 		}
 
-		if (mode == AuthenticationMode.FULL)
+		// If it's not a template image, check the image token
+		if (mode == AuthenticationMode.FULL && type != ImageType.template)
 		{
 			Logger.getLogger("").info("TOKEN: " + token + " -> " + AuthenticationFilter.isValidImageToken(token));
 			if (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token))

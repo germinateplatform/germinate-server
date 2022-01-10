@@ -78,6 +78,12 @@ public class GatekeeperClient
 	{
 		// Close any existing connections
 		close();
+
+		if (connectionPool == null) {
+			// Create a connection pool
+			connectionPool = new ConnectionPool(3, 1, TimeUnit.MINUTES);
+		}
+
 		// Create the HTTP client with the pool and timeouts
 		httpClient = new OkHttpClient.Builder()
 			.readTimeout(20, TimeUnit.SECONDS)
