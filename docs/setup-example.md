@@ -123,10 +123,14 @@ database.port=3306
 
 # We're using the Docker container name of Gatekeeper here.
 gatekeeper.url=http://gatekeeper:8080
+gatekeeper.username=gatekeeper-username
+gatekeeper.password=gatekeeper-password
 
 # This is only true if trying to access it from the machine running Docker.
 # If you want the setup to be available from the outside world, use whatever your Proxy setup is configured as.
 germinate.client.url=http://localhost:9080
+
+authentication.mode=SELECTIVE
 ```
 
 For Gatekeeper, the configuration should look something like this:
@@ -150,3 +154,5 @@ email.port=
 # If you want the setup to be available from the outside world, use whatever your Proxy setup is configured as. 
 web.base=http://localhost:9081/
 ```
+
+Please consult the [Gatekeeper specific configuration page](https://germinateplatform.github.io/germinate-server/config.html#gatekeeper-configuration) to ensure the `gatekeeper.username` and `gatekeeper.password` properties of the Germinate configuration are properly configured.
