@@ -3,7 +3,7 @@ import com.bmuschko.gradle.cargo.tasks.remote.CargoRedeployRemote
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -26,7 +26,6 @@ version '4.2.0'
 sourceCompatibility = 11
 
 repositories {
-    jcenter()
     mavenCentral()
     maven {
         url 'https://repo.spring.io/plugins-release/'
