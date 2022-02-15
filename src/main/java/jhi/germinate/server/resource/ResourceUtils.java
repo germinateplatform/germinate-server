@@ -251,7 +251,8 @@ public class ResourceUtils
 	 * @param subdirs  Optional sub-directory structure
 	 * @return The {@link File} representing the request
 	 */
-	public static File getFromExternal(String filename, String... subdirs)
+	public static File getFromExternal(HttpServletResponse resp, String filename, String... subdirs)
+		throws IOException
 	{
 		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
 
@@ -263,6 +264,13 @@ public class ResourceUtils
 			}
 		}
 
-		return new File(folder, filename);
+		File target = new File(folder, filename);
+
+		if (resp != null && !FileUtils.isSubDirectory(folder, target)) {
+			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
+			return null;
+		}
+
+		return target;
 	}
 }

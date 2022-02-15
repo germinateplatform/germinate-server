@@ -52,7 +52,7 @@ public class DataImportRunner
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 			String importerClass = getImporterClass(record.getDatatype(), extension);
 
-			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
 			File file = new File(asyncFolder, uuid + "." + extension);
 
 			List<String> args = getArgs(importerClass, file);
@@ -108,7 +108,7 @@ public class DataImportRunner
 			String uuid = UUID.randomUUID().toString();
 
 			// Get the target folder for all generated files
-			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
 			asyncFolder.mkdirs();
 
 			String originalFileName = FileUploadHandler.handle(req, "fileToUpload", asyncFolder, uuid);

@@ -37,6 +37,9 @@ public class SettingsResource
 			.setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 			.setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
 			.setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+			.setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
+			.setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
+			.setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
 			.setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 			.setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 			.setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class));
@@ -73,6 +76,9 @@ public class SettingsResource
 			  .setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 			  .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
 			  .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+			  .setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
+			  .setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
+			  .setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
 			  .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 			  .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class));
@@ -117,6 +123,9 @@ public class SettingsResource
 		PropertyWatcher.set(ServerProperty.EXTERNAL_LINK_TEMPLATE, config.getExternalLinkTemplate());
 		PropertyWatcher.setBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED, config.getShowGdprNotification());
 		PropertyWatcher.set(ServerProperty.GOOGLE_ANALYTICS_KEY, config.getGoogleAnalyticsKey());
+		PropertyWatcher.set(ServerProperty.PLAUSIBLE_DOMAIN, config.getPlausibleDomain());
+		PropertyWatcher.setBoolean(ServerProperty.PLAUSIBLE_HASH_MODE, config.getPlausibleHashMode());
+		PropertyWatcher.set(ServerProperty.PLAUSIBLE_API_HOST, config.getPlausibleApiHost());
 		PropertyWatcher.set(ServerProperty.GATEKEEPER_URL, config.getGatekeeperUrl());
 		PropertyWatcher.setBoolean(ServerProperty.COMMENTS_ENABLED, config.getCommentsEnabled());
 		PropertyWatcher.set(ServerProperty.DATA_IMPORT_MODE, config.getDataImportMode().name());
@@ -214,11 +223,11 @@ public class SettingsResource
 	}
 
 	private Response getFile(String name)
-		throws GerminateException
+		throws GerminateException, IOException
 	{
 		try
 		{
-			File file = ResourceUtils.getFromExternal(name, "template");
+			File file = ResourceUtils.getFromExternal(resp, name, "template");
 
 			if (file.exists() && file.isFile())
 			{

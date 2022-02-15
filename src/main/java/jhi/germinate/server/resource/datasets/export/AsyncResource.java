@@ -18,7 +18,7 @@ public interface AsyncResource
 		{
 			ApplicationListener.SCHEDULER.cancelJob(jobId);
 
-			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
 
 			if (asyncFolder.exists() && asyncFolder.isDirectory())
 			{

@@ -136,7 +136,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			}
 
 			String uuid = record.getUuid();
-			File jobFolder = ResourceUtils.getFromExternal(uuid, "async");
+			File jobFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
 
 			// Get zip result files (there'll only be one per folder)
 			File[] zipFiles = jobFolder.listFiles((dir, name) -> name.endsWith(".zip"));

@@ -19,6 +19,9 @@ public class ClientConfiguration
 	private String             externalLinkIdentifier;
 	private String             externalLinkTemplate;
 	private String             googleAnalyticsKey;
+	private String             plausibleDomain;
+	private Boolean            plausibleHashMode;
+	private String             plausibleApiHost;
 	private String             gatekeeperUrl;
 	private List<String>       hiddenPages;
 	private Boolean            registrationEnabled;
@@ -146,6 +149,39 @@ public class ClientConfiguration
 	public ClientConfiguration setGoogleAnalyticsKey(String googleAnalyticsKey)
 	{
 		this.googleAnalyticsKey = googleAnalyticsKey;
+		return this;
+	}
+
+	public String getPlausibleDomain()
+	{
+		return plausibleDomain;
+	}
+
+	public ClientConfiguration setPlausibleDomain(String plausibleDomain)
+	{
+		this.plausibleDomain = plausibleDomain;
+		return this;
+	}
+
+	public Boolean getPlausibleHashMode()
+	{
+		return plausibleHashMode;
+	}
+
+	public ClientConfiguration setPlausibleHashMode(Boolean plausibleHashMode)
+	{
+		this.plausibleHashMode = plausibleHashMode;
+		return this;
+	}
+
+	public String getPlausibleApiHost()
+	{
+		return plausibleApiHost;
+	}
+
+	public ClientConfiguration setPlausibleApiHost(String plausibleApiHost)
+	{
+		this.plausibleApiHost = plausibleApiHost;
 		return this;
 	}
 

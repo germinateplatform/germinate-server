@@ -76,7 +76,7 @@ public class FileResourceResource extends ContextResource
 			}
 
 			// Get the target location for this file
-			File target = ResourceUtils.getFromExternal(fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
+			File target = ResourceUtils.getFromExternal(resp, fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
 			target.getParentFile().mkdirs();
 
 			try
@@ -135,7 +135,7 @@ public class FileResourceResource extends ContextResource
 				return null;
 			}
 
-			File resultFile = ResourceUtils.getFromExternal(record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
+			File resultFile = ResourceUtils.getFromExternal(resp, record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
 
 			if (!resultFile.exists() || !resultFile.isFile())
 			{
@@ -187,7 +187,7 @@ public class FileResourceResource extends ContextResource
 
 				if (!StringUtils.isEmpty(path))
 				{
-					File file = ResourceUtils.getFromExternal(path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
+					File file = ResourceUtils.getFromExternal(resp, path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
 
 					if (file.exists() && file.isFile())
 						file.delete();

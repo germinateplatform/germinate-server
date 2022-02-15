@@ -81,7 +81,7 @@ public class FileResourceTypeResource extends ContextResource
 		{
 			DSLContext context = Database.getContext(conn);
 			// Delete all files associated with fileresource database objects.
-			File target = ResourceUtils.getFromExternal(Integer.toString(fileResourceTypeId), "data", "download");
+			File target = ResourceUtils.getFromExternal(resp, Integer.toString(fileResourceTypeId), "data", "download");
 
 			try
 			{

@@ -83,7 +83,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 				String uuid = UUID.randomUUID().toString();
 
 				// Get the target folder for all generated files
-				File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
+				File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
 				asyncFolder.mkdirs();
 
 				File sharedMapFile;
@@ -112,7 +112,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 				}
 
 				// Get the source hdf5 file
-				File hdf5 = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "genotypes");
+				File hdf5 = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "genotypes");
 
 				// Create all temporary files
 				if (!CollectionUtils.isEmpty(germplasmNames))

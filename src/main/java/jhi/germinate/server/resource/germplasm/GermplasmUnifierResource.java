@@ -137,19 +137,40 @@ public class GermplasmUnifierResource extends ContextResource
 			// Update the names in the genotype files
 			context.select(VIEW_TABLE_DATASETS.SOURCE_FILE).from(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.IS_EXTERNAL.eq(false).and(VIEW_TABLE_DATASETS.SOURCE_FILE.isNotNull()).and(VIEW_TABLE_DATASETS.DATASET_TYPE.eq("genotype"))).fetchInto(String.class)
 				   .stream()
-				   .map(f -> ResourceUtils.getFromExternal(f, "data", "genotypes"))
+				   .map(f -> {
+					   try
+					   {
+						   return ResourceUtils.getFromExternal(resp, f, "data", "genotypes");
+					   }
+					   catch (IOException e)
+					   {
+						   return null;
+					   }
+				   })
 				   .forEach(gf -> {
-					   Hdf5ToFJTabbedConverter.updateGermplasmNames(gf, preferred.getName(), otherNames);
+					   if (gf != null)
+					   {
+						   Hdf5ToFJTabbedConverter.updateGermplasmNames(gf, preferred.getName(), otherNames);
 
-					   File transposed = new File(gf.getParentFile(), "transposed-" + gf.getName());
-					   if (transposed.exists())
-						   Hdf5ToFJTabbedConverter.updateGermplasmNames(transposed, preferred.getName(), otherNames);
+						   File transposed = new File(gf.getParentFile(), "transposed-" + gf.getName());
+						   if (transposed.exists())
+							   Hdf5ToFJTabbedConverter.updateGermplasmNames(transposed, preferred.getName(), otherNames);
+					   }
 				   });
 
 			// Update the names in the allele frequency files
 			context.select(VIEW_TABLE_DATASETS.SOURCE_FILE).from(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.IS_EXTERNAL.eq(false).and(VIEW_TABLE_DATASETS.SOURCE_FILE.isNotNull()).and(VIEW_TABLE_DATASETS.DATASET_TYPE.eq("allelefreq"))).fetchInto(String.class)
 				   .stream()
-				   .map(f -> ResourceUtils.getFromExternal(f, "data", "allelefreq"))
+				   .map(f -> {
+					   try
+					   {
+						   return ResourceUtils.getFromExternal(resp, f, "data", "allelefreq");
+					   }
+					   catch (IOException e)
+					   {
+						   return null;
+					   }
+				   })
 				   .forEach(af -> updateAllelefreqFile(af, preferred.getName(), otherNames));
 
 			return true;
@@ -158,6 +179,9 @@ public class GermplasmUnifierResource extends ContextResource
 
 	private synchronized void updateAllelefreqFile(File file, String preferredName, List<String> otherNames)
 	{
+		if (file == null)
+			return;
+
 		File target = new File(file.getParentFile(), file.getName() + ".temp");
 
 		try

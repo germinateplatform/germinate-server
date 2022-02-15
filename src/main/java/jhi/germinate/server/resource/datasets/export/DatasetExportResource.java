@@ -84,7 +84,7 @@ public class DatasetExportResource extends ContextResource
 			String uuid = UUID.randomUUID().toString();
 
 			// Get the target folder for all generated files
-			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
 			asyncFolder.mkdirs();
 
 			File sharedMapFile;
@@ -113,7 +113,7 @@ public class DatasetExportResource extends ContextResource
 			}
 
 			// Get the source hdf5 file
-			File hdf5 = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
+			File hdf5 = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
 
 			// Create all temporary files
 			if (!CollectionUtils.isEmpty(germplasmNames))
@@ -227,7 +227,7 @@ public class DatasetExportResource extends ContextResource
 			Set<String> markerNames = DatasetExportGenotypeResource.getMarkerNameList(context, request);
 
 			// Get the source file
-			File source = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
+			File source = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
 
 			// Create all temporary files
 			File target = ResourceUtils.createTempFile("allelefreq-" + CollectionUtils.join(datasetIds, "-"), ".txt");

@@ -43,11 +43,11 @@ public class DatasetSourceDownloadResource extends ContextResource
 		switch (dataset.getDatasetType())
 		{
 			case "allelefreq":
-				file = ResourceUtils.getFromExternal(dataset.getSourceFile(), "data", "allelefreq");
+				file = ResourceUtils.getFromExternal(resp, dataset.getSourceFile(), "data", "allelefreq");
 				type = "text/plain";
 				break;
 			case "genotype":
-				file = ResourceUtils.getFromExternal(dataset.getSourceFile(), "data", "genotypes");
+				file = ResourceUtils.getFromExternal(resp, dataset.getSourceFile(), "data", "genotypes");
 				type = "application/x-hdf5";
 				break;
 			default:

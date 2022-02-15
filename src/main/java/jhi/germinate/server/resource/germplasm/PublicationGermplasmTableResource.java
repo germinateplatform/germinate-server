@@ -53,7 +53,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 			Integer[] ids = pub.getReferencingIds();
 
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
-			from.where(DSL.field(GERMPLASM_ID).in(ids));
+			from.where(DSL.field(GERMPLASM_ID, Integer.class).in(ids));
 
 			// Filter here!
 			filter(from, filters);
