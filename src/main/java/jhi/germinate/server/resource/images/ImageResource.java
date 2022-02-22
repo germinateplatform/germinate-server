@@ -15,7 +15,6 @@ import javax.ws.rs.core.*;
 import java.io.*;
 import java.sql.*;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 
@@ -104,7 +103,6 @@ public class ImageResource
 	public Response getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
 		throws IOException
 	{
-		Logger.getLogger("").info("IMAGE: " + name);
 		return this.getImage(imageType, name, size, token);
 	}
 
