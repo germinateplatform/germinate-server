@@ -1,27 +1,25 @@
 package jhi.germinate.server.resource.traits;
 
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.UserType;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Phenotypes;
-import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.records.PhenotypesRecord;
 import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
-import org.jooq.*;
+import org.jooq.DSLContext;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
 
 @Path("trait/{traitId}")
-@Secured(UserType.ADMIN)
 public class TraitResource extends ContextResource
 {
 	@PathParam("traitId")
@@ -30,7 +28,8 @@ public class TraitResource extends ContextResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean pathTrait(Phenotypes updatedTrait)
+	@Secured(UserType.ADMIN)
+	public boolean patchTrait(Phenotypes updatedTrait)
 		throws SQLException, IOException
 	{
 		if (updatedTrait == null || StringUtils.isEmpty(updatedTrait.getName()))
@@ -58,6 +57,36 @@ public class TraitResource extends ContextResource
 			trait.setShortName(updatedTrait.getShortName());
 			trait.setUnitId(updatedTrait.getUnitId());
 			return trait.store() > 0;
+		}
+	}
+
+	@GET
+	@Path("values")
+	@PermitAll
+	@Secured
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<String> getDistinctTraitValues()
+		throws IOException, SQLException
+	{
+		if (traitId == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+			List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+
+			return context.selectDistinct(PHENOTYPEDATA.PHENOTYPE_VALUE).from(PHENOTYPEDATA)
+						  .where(PHENOTYPEDATA.DATASET_ID.in(datasets))
+						  .and(PHENOTYPEDATA.PHENOTYPE_ID.eq(traitId))
+						  .orderBy(PHENOTYPEDATA.PHENOTYPE_VALUE)
+						  .fetchInto(String.class);
 		}
 	}
 }
