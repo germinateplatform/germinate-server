@@ -98,6 +98,17 @@ public class ImageResource
 	}
 
 	@GET
+	@Path("/src/{name}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
+	public Response getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
+		throws IOException
+	{
+		Logger.getLogger("").info("IMAGE: " + name);
+		return this.getImage(imageType, name, size, token);
+	}
+
+	@GET
 	@Path("/src")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})

@@ -21,7 +21,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
-@Path("image/{referenceTable}/{foreignId}")
+@Path("image/upload/{referenceTable}/{foreignId}")
 @Secured({UserType.DATA_CURATOR})
 public class ImageUploadResource
 {
@@ -91,7 +91,7 @@ public class ImageUploadResource
 				ImagesRecord image = context.newRecord(IMAGES);
 				image.setForeignId(foreignId);
 				image.setImagetypeId(imageType.getId());
-				image.setPath("upload/" + finalFilename);
+				image.setPath("uploaded/" + finalFilename);
 				image.setDescription(finalFilename);
 				if (date != null)
 					image.setCreatedOn(new Timestamp(date.getTime()));
