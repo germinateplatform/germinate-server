@@ -2,16 +2,18 @@ package jhi.germinate.server.resource.pedigrees;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePedigrees;
 import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
 import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import javax.annotation.security.PermitAll;
+import javax.servlet.http.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.*;
@@ -37,6 +39,12 @@ public class PedigreeResource extends ExportResource
 	public PaginatedResult<List<ViewTablePedigrees>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "pedigree");
+		if (CollectionUtils.isEmpty(datasets))
+			return new PaginatedResult<>(new ArrayList<>(), 0);
+
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
 		{
@@ -46,7 +54,8 @@ public class PedigreeResource extends ExportResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_PEDIGREES);
+			SelectConditionStep<Record> from = select.from(VIEW_TABLE_PEDIGREES)
+													 .where(VIEW_TABLE_PEDIGREES.DATASET_ID.in(datasets));
 
 			// Filter here!
 			filter(from, filters);
@@ -61,28 +70,22 @@ public class PedigreeResource extends ExportResource
 		}
 	}
 
-	@Path("/table/export")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("application/zip")
-	public Response postPedigreeTableExport(PaginatedRequest request)
-		throws IOException, SQLException
-	{
-		processRequest(request);
-
-		return export(VIEW_TABLE_PEDIGREES, "pedigree-table-", null);
-	}
-
-	@Path("/export")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("*/*")
-	public Response postPedigreeExport(PedigreeRequest request)
+	public static Response exportFlatFile(PedigreeRequest request, HttpServletRequest req, HttpServletResponse resp, SecurityContext securityContext)
 		throws IOException, SQLException
 	{
 		if (request == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return null;
+		}
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "pedigree");
+
+		if (CollectionUtils.isEmpty(datasets))
+		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
 			return null;
 		}
 
@@ -102,6 +105,7 @@ public class PedigreeResource extends ExportResource
 				Map<String, List<ViewTablePedigreesRecord>> parentToChildren = new HashMap<>();
 				Map<String, List<ViewTablePedigreesRecord>> childrenToParents = new HashMap<>();
 				context.selectFrom(VIEW_TABLE_PEDIGREES)
+					   .where(VIEW_TABLE_PEDIGREES.DATASET_ID.in(datasets))
 					   .forEach(r -> {
 						   String child = r.getChildName();
 						   String parent = r.getParentName();
@@ -133,7 +137,6 @@ public class PedigreeResource extends ExportResource
 
 				if (includeAttributes)
 				{
-
 					mt = "application/zip";
 
 					ExportPassportData procedure = new ExportPassportData();
@@ -151,9 +154,9 @@ public class PedigreeResource extends ExportResource
 
 			java.nio.file.Path targetFilePath = target.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(targetFilePath, output);
-				Files.deleteIfExists(targetFilePath);
-			})
+							   Files.copy(targetFilePath, output);
+							   Files.deleteIfExists(targetFilePath);
+						   })
 						   .type(mt)
 						   .header("content-disposition", "attachment;filename= \"" + target.getName() + "\"")
 						   .header("content-length", target.length())
@@ -167,14 +170,13 @@ public class PedigreeResource extends ExportResource
 		}
 	}
 
-
-	private void export(DSLContext context, PrintWriter bw, Map<String, List<ViewTablePedigreesRecord>> down, Map<String, List<ViewTablePedigreesRecord>> up, PedigreeRequest request)
+	private static void export(DSLContext context, PrintWriter bw, Map<String, List<ViewTablePedigreesRecord>> down, Map<String, List<ViewTablePedigreesRecord>> up, PedigreeRequest request)
 		throws GerminateException
 	{
 		bw.write("# heliumInput = PEDIGREE" + CRLF);
 		bw.write("LineName\tParent\tParentType" + CRLF);
 
-		if (CollectionUtils.isEmpty(request.getGroupIds()) && CollectionUtils.isEmpty(request.getIndividualIds()))
+		if (CollectionUtils.isEmpty(request.getyGroupIds()) && CollectionUtils.isEmpty(request.getyIds()))
 		{
 			if (down.size() < 1)
 				throw new GerminateException(Response.Status.NOT_FOUND);
@@ -190,12 +192,12 @@ public class PedigreeResource extends ExportResource
 																					.where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)
 																													 .or(PEDIGREES.PARENT_ID.eq(GERMINATEBASE.ID)))));
 
-			if (!CollectionUtils.isEmpty(request.getIndividualIds()))
-				step.and(GERMINATEBASE.ID.in(request.getIndividualIds()));
-			if (!CollectionUtils.isEmpty(request.getGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getyIds()))
+				step.and(GERMINATEBASE.ID.in(request.getyIds()));
+			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
 				step.and(DSL.exists(DSL.selectOne()
 									   .from(GROUPMEMBERS)
-									   .where(GROUPMEMBERS.GROUP_ID.in(request.getGroupIds())
+									   .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds())
 																   .and(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID)))));
 
 			List<String> requestedNames = step.orderBy(GERMINATEBASE.NAME)
@@ -225,7 +227,7 @@ public class PedigreeResource extends ExportResource
 
 	}
 
-	private class PedigreeWriter
+	private static class PedigreeWriter
 	{
 		private Set<String>                                 visitedNodes = new HashSet<>();
 		private Set<Edge>                                   edges        = new HashSet<>();
@@ -276,7 +278,7 @@ public class PedigreeResource extends ExportResource
 		}
 	}
 
-	private class Edge
+	private static class Edge
 	{
 		private String from;
 		private String to;

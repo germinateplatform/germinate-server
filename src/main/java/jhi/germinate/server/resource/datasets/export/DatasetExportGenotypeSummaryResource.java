@@ -42,7 +42,7 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, true);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "genotype", true);
 
 		if (CollectionUtils.isEmpty(datasetIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);

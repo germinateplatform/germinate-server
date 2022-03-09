@@ -70,7 +70,6 @@ dependencies {
 
     implementation 'de.ipk-gatersleben:isa4j:1.0.4'
 
-
     providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
     implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:2.34'
     implementation 'org.glassfish.jersey.inject:jersey-hk2:2.34'
@@ -96,7 +95,12 @@ task jarForImporter (type: Jar, dependsOn: classes) {
     include '**/auth/**UserType**'
     include '**/Secured**'
     include '**/PermitAll**'
-    include '**/auth/**AuthenticationFilter**'
+    include '**/AuthenticationFilter**'
+    include '**/**DatasetTableResource**'
+    include '**/ExportResource**'
+    include '**/BaseResource**'
+    include '**/ContextResource**'
+    include '**/IFilteredResource**'
     include '**/PropertyWatcher**'
 }
 

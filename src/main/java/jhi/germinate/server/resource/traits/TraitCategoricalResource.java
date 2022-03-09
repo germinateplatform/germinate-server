@@ -36,7 +36,7 @@ public class TraitCategoricalResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetsForUser = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, true);
+		List<Integer> datasetsForUser = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials", true);
 		List<Integer> datasetIds = new ArrayList<>();
 		// If datasets were requested, add these to list
 		if (!CollectionUtils.isEmpty(request.getDatasetIds()))

@@ -36,7 +36,7 @@ public class DatasetAttributeExportResource extends ContextResource
 		}
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
 
 		List<Integer> datasetIds = new ArrayList<>();
 

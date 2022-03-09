@@ -43,7 +43,7 @@ public class DatasetGroupResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
 
 		List<Integer> requestedIds;
 

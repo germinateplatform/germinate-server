@@ -2,18 +2,18 @@ package jhi.germinate.server.resource.pedigrees;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePedigreedefinitions;
 import jhi.germinate.server.resource.ExportResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.IOException;
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTablePedigreedefinitions.*;
 
@@ -29,6 +29,12 @@ public class PedigreeDefinitionTableResource extends ExportResource
 	public PaginatedResult<List<ViewTablePedigreedefinitions>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "pedigree");
+		if (CollectionUtils.isEmpty(datasets))
+			return new PaginatedResult<>(new ArrayList<>(), 0);
+
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
 		{
@@ -38,7 +44,8 @@ public class PedigreeDefinitionTableResource extends ExportResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_PEDIGREEDEFINITIONS);
+			SelectConditionStep<Record> from = select.from(VIEW_TABLE_PEDIGREEDEFINITIONS)
+													 .where(VIEW_TABLE_PEDIGREEDEFINITIONS.DATASET_ID.in(datasets));
 
 			// Filter here!
 			filter(from, filters);
@@ -51,17 +58,5 @@ public class PedigreeDefinitionTableResource extends ExportResource
 
 			return new PaginatedResult<>(result, count);
 		}
-	}
-
-	@Path("/table/export")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("application/zip")
-	public Response getJson(PaginatedRequest request)
-		throws IOException, SQLException
-	{
-		processRequest(request);
-
-		return export(VIEW_TABLE_PEDIGREEDEFINITIONS, "pedigree-definitions-table-", null);
 	}
 }

@@ -3,35 +3,11 @@ package jhi.germinate.resource;
 /**
  * @author Sebastian Raubach
  */
-public class PedigreeRequest
+public class PedigreeRequest extends SubsettedDatasetRequest
 {
-	private Integer[] individualIds;
-	private Integer[] groupIds;
 	private Integer   levelsUp;
 	private Integer   levelsDown;
 	private Boolean   includeAttributes;
-
-	public Integer[] getIndividualIds()
-	{
-		return individualIds;
-	}
-
-	public PedigreeRequest setIndividualIds(Integer[] individualIds)
-	{
-		this.individualIds = individualIds;
-		return this;
-	}
-
-	public Integer[] getGroupIds()
-	{
-		return groupIds;
-	}
-
-	public PedigreeRequest setGroupIds(Integer[] groupIds)
-	{
-		this.groupIds = groupIds;
-		return this;
-	}
 
 	public Integer getLevelsUp()
 	{

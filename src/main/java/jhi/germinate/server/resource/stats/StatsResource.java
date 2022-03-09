@@ -80,9 +80,9 @@ public class StatsResource
 		{
 			DSLContext context = Database.getContext(conn);
 			return context.select(
-				ENTITYTYPES.ID.as("entity_type_id"),
-				ENTITYTYPES.NAME.as("entity_type_name"),
-				DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.ENTITYTYPE_ID.eq(ENTITYTYPES.ID)).asField("count"))
+							  ENTITYTYPES.ID.as("entity_type_id"),
+							  ENTITYTYPES.NAME.as("entity_type_name"),
+							  DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.ENTITYTYPE_ID.eq(ENTITYTYPES.ID)).asField("count"))
 						  .from(ENTITYTYPES)
 						  .fetchInto(EntityTypeStats.class);
 		}
@@ -115,7 +115,7 @@ public class StatsResource
 			).fetchSingleInto(OverviewStats.class);
 
 			// Get the datasets this user has access to (ignore if licenses are accepted or not)
-			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(req, resp, userDetails, false);
+			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(req, resp, userDetails, null, false);
 			stats.setDatasets(datasets.size());
 			datasets.stream()
 					.filter(d -> !d.getIsExternal())
@@ -137,6 +137,9 @@ public class StatsResource
 								break;
 							case "compound":
 								stats.setDatasetsCompound(stats.getDatasetsCompound() + 1);
+								break;
+							case "pedigree":
+								stats.setDatasetsPedigree(stats.getDatasetsPedigree() + 1);
 								break;
 						}
 					});
@@ -189,9 +192,9 @@ public class StatsResource
 
 			java.nio.file.Path filePath = file.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
+							   Files.copy(filePath, output);
+							   Files.deleteIfExists(filePath);
+						   })
 						   .type("text/plain")
 						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
 						   .header("content-length", file.length())

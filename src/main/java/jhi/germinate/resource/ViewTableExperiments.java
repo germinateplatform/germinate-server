@@ -18,6 +18,7 @@ public class ViewTableExperiments
 	private Long      alleleFreqCount;
 	private Long      climateCount;
 	private Long      compoundCount;
+	private Long      pedigreeCount;
 
 	public ViewTableExperiments()
 	{
@@ -121,5 +122,16 @@ public class ViewTableExperiments
 	public void setCompoundCount(Long compoundCount)
 	{
 		this.compoundCount = compoundCount;
+	}
+
+	public Long getPedigreeCount()
+	{
+		return pedigreeCount;
+	}
+
+	public ViewTableExperiments setPedigreeCount(Long pedigreeCount)
+	{
+		this.pedigreeCount = pedigreeCount;
+		return this;
 	}
 }

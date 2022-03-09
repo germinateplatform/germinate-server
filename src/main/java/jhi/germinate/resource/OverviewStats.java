@@ -15,6 +15,7 @@ public class OverviewStats
 	private long datasetsAllelefreq = 0;
 	private long datasetsClimate    = 0;
 	private long datasetsCompound   = 0;
+	private long datasetsPedigree   = 0;
 	private long experiments        = 0;
 	private long groups             = 0;
 	private long images             = 0;
@@ -78,6 +79,17 @@ public class OverviewStats
 	public void setCompounds(long compounds)
 	{
 		this.compounds = compounds;
+	}
+
+	public long getDatasetsPedigree()
+	{
+		return datasetsPedigree;
+	}
+
+	public OverviewStats setDatasetsPedigree(long datasetsPedigree)
+	{
+		this.datasetsPedigree = datasetsPedigree;
+		return this;
 	}
 
 	public long getLocations()

@@ -80,7 +80,7 @@ public class TraitResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-			List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+			List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
 
 			return context.selectDistinct(PHENOTYPEDATA.PHENOTYPE_VALUE).from(PHENOTYPEDATA)
 						  .where(PHENOTYPEDATA.DATASET_ID.in(datasets))

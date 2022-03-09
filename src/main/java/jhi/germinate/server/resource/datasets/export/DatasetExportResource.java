@@ -11,6 +11,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
+import jhi.germinate.server.resource.pedigrees.PedigreeResource;
 import jhi.germinate.server.resource.traits.TraitTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.*;
@@ -54,7 +55,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "allelefreq");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -204,7 +205,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "allelefreq");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -248,9 +249,9 @@ public class DatasetExportResource extends ContextResource
 
 			java.nio.file.Path filePath = histogram.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
+							   Files.copy(filePath, output);
+							   Files.deleteIfExists(filePath);
+						   })
 						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment; filename=\"" + histogram.getName() + "\"")
 						   .header("content-length", histogram.length())
@@ -279,7 +280,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "climate");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -334,9 +335,9 @@ public class DatasetExportResource extends ContextResource
 
 			java.nio.file.Path filePath = file.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
+							   Files.copy(filePath, output);
+							   Files.deleteIfExists(filePath);
+						   })
 						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
@@ -366,7 +367,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "compound");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -421,9 +422,9 @@ public class DatasetExportResource extends ContextResource
 
 			java.nio.file.Path filePath = file.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
+							   Files.copy(filePath, output);
+							   Files.deleteIfExists(filePath);
+						   })
 						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
@@ -453,7 +454,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -513,9 +514,9 @@ public class DatasetExportResource extends ContextResource
 
 			java.nio.file.Path filePath = file.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
+							   Files.copy(filePath, output);
+							   Files.deleteIfExists(filePath);
+						   })
 						   .type(mediaType)
 						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
 						   .header("content-length", file.length())
@@ -527,6 +528,16 @@ public class DatasetExportResource extends ContextResource
 			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 			return null;
 		}
+	}
+
+	@POST
+	@Path("/pedigree")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
+	public Response postDatasetExportPedigree(PedigreeRequest request)
+		throws IOException, SQLException
+	{
+		return PedigreeResource.exportFlatFile(request, req, resp, securityContext);
 	}
 
 
