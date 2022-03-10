@@ -42,6 +42,7 @@ public class ViewTableGermplasm
 	private Integer    hasGenotypicData;
 	private Integer    hasAllelefreqData;
 	private Integer    hasCompoundData;
+	private Integer    hasPedigreeData;
 
 	public ViewTableGermplasm()
 	{
@@ -418,6 +419,17 @@ public class ViewTableGermplasm
 	public ViewTableGermplasm setHasCompoundData(Integer hasCompoundData)
 	{
 		this.hasCompoundData = hasCompoundData;
+		return this;
+	}
+
+	public Integer getHasPedigreeData()
+	{
+		return hasPedigreeData;
+	}
+
+	public ViewTableGermplasm setHasPedigreeData(Integer hasPedigreeData)
+	{
+		this.hasPedigreeData = hasPedigreeData;
 		return this;
 	}
 }

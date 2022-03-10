@@ -4,9 +4,11 @@ import jhi.germinate.server.database.codegen.tables.Germinatebase;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
+import org.jooq.conf.ParamType;
 import org.jooq.impl.*;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
 import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
@@ -19,6 +21,8 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Institutions.*;
 import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
@@ -59,6 +63,7 @@ public class GermplasmBaseResource extends ExportResource
 	public static String HAS_GENOTYPIC_DATA               = "has_genotypic_data";
 	public static String HAS_ALLELEFREQ_DATA              = "has_allelefreq_data";
 	public static String HAS_COMPOUND_DATA                = "has_compound_data";
+	public static String HAS_PEDIGREE_DATA                = "has_pedigree_data";
 
 	protected <A> SelectJoinStep<Record1<Integer>> getGermplasmIdQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
 	{
@@ -130,7 +135,11 @@ public class GermplasmBaseResource extends ExportResource
 			   .from(COMPOUNDDATA)
 			   .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 			   .limit(1)
-			   .asField(HAS_COMPOUND_DATA)));
+			   .asField(HAS_COMPOUND_DATA),
+			DSL.coalesce(
+				DSL.selectOne().from(PEDIGREES).where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
+				DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
+			).as(HAS_PEDIGREE_DATA)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
@@ -225,7 +234,11 @@ public class GermplasmBaseResource extends ExportResource
 			   .from(COMPOUNDDATA)
 			   .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 			   .limit(1)
-			   .asField(HAS_COMPOUND_DATA)));
+			   .asField(HAS_COMPOUND_DATA),
+			DSL.coalesce(
+				DSL.selectOne().from(PEDIGREES).where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
+				DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
+			).as(HAS_PEDIGREE_DATA)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
@@ -250,6 +263,8 @@ public class GermplasmBaseResource extends ExportResource
 			for (Join<A> join : joins)
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
 		}
+
+		Logger.getLogger("").info(inner.getSQL(ParamType.INLINED));
 
 		return select.from(inner);
 	}
