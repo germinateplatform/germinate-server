@@ -63,26 +63,34 @@ public class TraitCategoricalResource extends ContextResource
 				String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
 				String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
 
-				ExportTraitCategorical procedure = new ExportTraitCategorical();
-				if (!CollectionUtils.isEmpty(datasetIds))
-					procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
-				if (!StringUtils.isEmpty(groupIdString))
-					procedure.setGroupids(groupIdString);
-				if (!StringUtils.isEmpty(germplasmIdString))
-					procedure.setMarkedids(germplasmIdString);
-				if (!StringUtils.isEmpty(traitIdString))
-					procedure.setTraitids(traitIdString);
+				if (CollectionUtils.isEmpty(datasetIds))
+				{
+					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+					return null;
+				}
+				else
+				{
+					ExportTraitCategorical procedure = new ExportTraitCategorical();
+					if (!CollectionUtils.isEmpty(datasetIds))
+						procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
+					if (!StringUtils.isEmpty(groupIdString))
+						procedure.setGroupids(groupIdString);
+					if (!StringUtils.isEmpty(germplasmIdString))
+						procedure.setMarkedids(germplasmIdString);
+					if (!StringUtils.isEmpty(traitIdString))
+						procedure.setTraitids(traitIdString);
 
-				procedure.execute(context.configuration());
+					procedure.execute(context.configuration());
 
-				ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+					ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+				}
 			}
 
 			java.nio.file.Path filePath = file.toPath();
 			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
+							   Files.copy(filePath, output);
+							   Files.deleteIfExists(filePath);
+						   })
 						   .type(MediaType.TEXT_PLAIN)
 						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
 						   .header("content-length", file.length())

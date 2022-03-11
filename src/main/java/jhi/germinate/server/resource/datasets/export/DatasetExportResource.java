@@ -606,6 +606,11 @@ public class DatasetExportResource extends ContextResource
 
 		try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 		{
+			if (CollectionUtils.isEmpty(datasetIds)) {
+				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+				return null;
+			}
+
 			// Run the procedure
 			ExportTrialsData procedure = new ExportTrialsData();
 			procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
