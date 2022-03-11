@@ -264,8 +264,6 @@ public class GermplasmBaseResource extends ExportResource
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
 		}
 
-		Logger.getLogger("").info(inner.getSQL(ParamType.INLINED));
-
 		return select.from(inner);
 	}
 
