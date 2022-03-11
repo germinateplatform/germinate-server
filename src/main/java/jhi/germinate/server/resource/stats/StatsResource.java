@@ -32,6 +32,7 @@ import static jhi.germinate.server.database.codegen.tables.Locations.*;
 import static jhi.germinate.server.database.codegen.tables.Maps.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Publications.*;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsBiologicalstatus.*;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsCountry.*;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsPdci.*;
@@ -111,7 +112,8 @@ public class StatsResource
 				DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
 				DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
 				DSL.selectCount().from(IMAGES).asField("images"),
-				DSL.selectCount().from(FILERESOURCES).asField("fileresources")
+				DSL.selectCount().from(FILERESOURCES).asField("fileresources"),
+				DSL.selectCount().from(PUBLICATIONS).asField("publications")
 			).fetchSingleInto(OverviewStats.class);
 
 			// Get the datasets this user has access to (ignore if licenses are accepted or not)

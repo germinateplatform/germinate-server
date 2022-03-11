@@ -4,6 +4,7 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.GroupModificationRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.enums.PublicationdataReferenceType;
 import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseResource;
@@ -19,6 +20,7 @@ import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
 
 @Path("group")
 @Secured
@@ -181,6 +183,12 @@ public class GroupResource extends BaseResource
 			}
 			else
 			{
+				// Delete the publication reference
+				context.deleteFrom(PUBLICATIONDATA)
+					   .where(PUBLICATIONDATA.REFERENCE_TYPE.eq(PublicationdataReferenceType.group))
+					   .and(PUBLICATIONDATA.FOREIGN_ID.eq(dbGroup.getId()))
+					   .execute();
+
 				return dbGroup.delete() == 1;
 			}
 		}

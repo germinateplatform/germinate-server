@@ -20,6 +20,7 @@ public class OverviewStats
 	private long groups             = 0;
 	private long images             = 0;
 	private long fileresources      = 0;
+	private long publications       = 0;
 
 	public long getGermplasm()
 	{
@@ -200,5 +201,16 @@ public class OverviewStats
 	public void setFileresources(long fileresources)
 	{
 		this.fileresources = fileresources;
+	}
+
+	public long getPublications()
+	{
+		return publications;
+	}
+
+	public OverviewStats setPublications(long publications)
+	{
+		this.publications = publications;
+		return this;
 	}
 }
