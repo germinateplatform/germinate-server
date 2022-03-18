@@ -42,7 +42,8 @@ public class SettingsResource
 			.setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
 			.setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 			.setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
-			.setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class));
+			.setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
+			.setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL));
 	}
 
 	@GET
@@ -81,7 +82,8 @@ public class SettingsResource
 			  .setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
 			  .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 			  .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
-			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class));
+			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
+			  .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL));
 
 		return result;
 	}
@@ -129,6 +131,7 @@ public class SettingsResource
 		PropertyWatcher.set(ServerProperty.GATEKEEPER_URL, config.getGatekeeperUrl());
 		PropertyWatcher.setBoolean(ServerProperty.COMMENTS_ENABLED, config.getCommentsEnabled());
 		PropertyWatcher.set(ServerProperty.DATA_IMPORT_MODE, config.getDataImportMode().name());
+		PropertyWatcher.set(ServerProperty.HELIUM_URL, config.getHeliumUrl());
 
 		// Invalidate all tokens
 		AuthenticationFilter.invalidateAllTokens();

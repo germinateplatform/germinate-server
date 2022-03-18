@@ -26,6 +26,7 @@ public class ClientConfiguration
 	private List<String>       hiddenPages;
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
+	private String             heliumUrl;
 
 	public ClientConfiguration()
 	{
@@ -215,6 +216,17 @@ public class ClientConfiguration
 	public ClientConfiguration setDataImportMode(DataImportMode dataImportMode)
 	{
 		this.dataImportMode = dataImportMode;
+		return this;
+	}
+
+	public String getHeliumUrl()
+	{
+		return heliumUrl;
+	}
+
+	public ClientConfiguration setHeliumUrl(String heliumUrl)
+	{
+		this.heliumUrl = heliumUrl;
 		return this;
 	}
 }

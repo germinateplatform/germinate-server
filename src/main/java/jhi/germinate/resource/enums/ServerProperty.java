@@ -32,6 +32,7 @@ public enum ServerProperty
 	PLAUSIBLE_DOMAIN("plausible.domain", null, false),
 	PLAUSIBLE_HASH_MODE("plausible.hash.mode", "true", false),
 	PLAUSIBLE_API_HOST("plausible.api.host", "https://plausible.io", false),
+	HELIUM_URL("helium.url", null, false),
 	GRPD_NOTIFICATION_ENABLED("gdpr.notification.enabled", "false", false),
 	HIDDEN_PAGES("hidden.pages", null, false),
 	PDCI_ENABLED("pdci.enabled", "true", false),

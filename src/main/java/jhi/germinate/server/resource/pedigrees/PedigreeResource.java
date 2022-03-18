@@ -227,16 +227,16 @@ public class PedigreeResource extends ExportResource
 
 	}
 
-	private static class PedigreeWriter
+	public static class PedigreeWriter
 	{
 		private Set<String>                                 visitedNodes = new HashSet<>();
 		private Set<Edge>                                   edges        = new HashSet<>();
 		private Map<String, List<ViewTablePedigreesRecord>> mapping;
 		private boolean                                     isUp;
 		private int                                         maxLevels;
-		private PrintWriter                                 bw;
+		private Writer                                 bw;
 
-		public PedigreeWriter(PrintWriter bw, Map<String, List<ViewTablePedigreesRecord>> mapping, boolean isUp, int maxLevels)
+		public PedigreeWriter(Writer bw, Map<String, List<ViewTablePedigreesRecord>> mapping, boolean isUp, int maxLevels)
 		{
 			this.mapping = mapping;
 			this.isUp = isUp;
@@ -265,13 +265,20 @@ public class PedigreeResource extends ExportResource
 
 					if (!edges.contains(edge))
 					{
-						edges.add(edge);
-						bw.write(child + "\t" + parent + "\t" + n.getRelationshipType().getLiteral() + CRLF);
+						try
+						{
+							bw.write(child + "\t" + parent + "\t" + n.getRelationshipType().getLiteral() + CRLF);
+							edges.add(edge);
 
-						if (isUp)
-							run(parent, level + 1);
-						else
-							run(child, level + 1);
+							if (isUp)
+								run(parent, level + 1);
+							else
+								run(child, level + 1);
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
 					}
 				});
 			}
