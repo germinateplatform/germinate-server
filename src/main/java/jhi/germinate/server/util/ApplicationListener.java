@@ -8,8 +8,8 @@ import jhi.oddjob.*;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebListener;
-import java.io.File;
-import java.util.*;
+import java.io.*;
+import java.util.Properties;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
@@ -120,6 +120,7 @@ public class ApplicationListener implements ServletContextListener
 	 * @return The {@link File} representing the request
 	 */
 	public static File getFromExternal(String filename, String... subdirs)
+		throws IOException
 	{
 		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
 
@@ -131,7 +132,12 @@ public class ApplicationListener implements ServletContextListener
 			}
 		}
 
-		return new File(folder, filename);
+		File result = new File(folder, filename);
+
+		if (!FileUtils.isSubDirectory(folder, result))
+			throw new IOException("Invalid file access");
+
+		return result;
 	}
 
 	private void logMessage()

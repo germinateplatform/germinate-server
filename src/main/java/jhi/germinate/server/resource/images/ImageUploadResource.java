@@ -91,7 +91,7 @@ public class ImageUploadResource
 				ImagesRecord image = context.newRecord(IMAGES);
 				image.setForeignId(foreignId);
 				image.setImagetypeId(imageType.getId());
-				image.setPath("uploaded/" + finalFilename);
+				image.setPath("upload/" + finalFilename);
 				image.setDescription(finalFilename);
 				if (date != null)
 					image.setCreatedOn(new Timestamp(date.getTime()));

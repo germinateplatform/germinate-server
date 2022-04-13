@@ -143,7 +143,6 @@ public class FileResourceResource extends ContextResource
 				return null;
 			}
 
-
 			String filename = resultFile.getName();
 
 			String type = Files.probeContentType(resultFile.toPath());
