@@ -221,5 +221,32 @@ color: {{PRIMARY}} !important;
 }
 
 .card.bg-primary {
-border-color: {{PRIMARY}};
+border-color: {{PRIMARY}} !important;
+}
+
+
+
+
+.v-sidebar-menu .vsm--link.vsm--link_active {
+box-shadow: 3px 0px 0px 0px {{PRIMARY}} inset !important;
+}
+
+.v-sidebar-menu.vsm_expanded .vsm--item_open .vsm--link_level-1 {
+background-color: {{PRIMARY}} !important;
+}
+
+.v-sidebar-menu.vsm_expanded .vsm--item_open .vsm--link_level-1 .vsm--icon {
+background-color: {{PRIMARY}} !important;
+}
+
+.v-sidebar-menu.vsm_collapsed .vsm--link_level-1.vsm--link_hover .vsm--icon, .v-sidebar-menu.vsm_collapsed .vsm--link_level-1:hover .vsm--icon {
+background-color: {{PRIMARY}} !important;
+}
+
+.v-sidebar-menu .vsm--mobile-bg {
+background-color: {{PRIMARY}} !important;
+}
+
+.v-sidebar-menu .vsm--link_hover, .v-sidebar-menu .vsm--link:hover {
+background-color: {{PRIMARY}} !important;
 }
