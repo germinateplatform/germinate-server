@@ -1,9 +1,12 @@
 package jhi.germinate.server.resource.importers;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.*;
+import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
 import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
 import jhi.germinate.server.resource.ContextResource;
@@ -11,9 +14,6 @@ import jhi.germinate.server.resource.datasets.export.AsyncResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import javax.annotation.security.PermitAll;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
@@ -130,36 +130,6 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 		catch (GerminateException e)
 		{
 			e.printStackTrace();
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
-		}
-	}
-
-	@POST
-	@Path("/file")
-	@Secured({UserType.DATA_CURATOR})
-	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("type") String type, @QueryParam("datasetStateId") Integer datasetStateId)
-		throws IOException
-	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		DataImportJobsDatatype dataType;
-
-		try
-		{
-			dataType = DataImportJobsDatatype.valueOf(type);
-		}
-		catch (Exception e)
-		{
-			dataType = null;
-		}
-
-		try
-		{
-			return DataImportRunner.checkData(dataType, userDetails, req, isUpdate, datasetStateId);
-		}
-		catch (GerminateException e)
-		{
 			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
 			return null;
 		}

@@ -3,11 +3,11 @@ package jhi.germinate.server;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.util.*;
 
-import javax.annotation.Priority;
-import javax.ws.rs.Priorities;
-import javax.ws.rs.container.*;
-import javax.ws.rs.core.*;
-import javax.ws.rs.ext.Provider;
+import jakarta.annotation.Priority;
+import jakarta.ws.rs.Priorities;
+import jakarta.ws.rs.container.*;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;

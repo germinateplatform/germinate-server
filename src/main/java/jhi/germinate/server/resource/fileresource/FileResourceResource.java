@@ -1,18 +1,20 @@
 package jhi.germinate.server.resource.fileresource;
 
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import org.glassfish.jersey.media.multipart.*;
 import org.jooq.DSLContext;
 
-import javax.annotation.security.PermitAll;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.annotation.security.PermitAll;
 import java.io.*;
-import java.nio.file.Files;
+import java.nio.file.*;
 import java.sql.*;
 import java.util.UUID;
 
@@ -22,29 +24,6 @@ import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 @Path("fileresource")
 public class FileResourceResource extends ContextResource
 {
-	@POST
-	@Consumes("*/*")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Secured({UserType.DATA_CURATOR})
-	public String postFileResource()
-		throws IOException
-	{
-		// Generate a UUID to identify the file
-		String uuid = UUID.randomUUID().toString();
-
-		// Write the representation to a file in the temp directory initially. We'll move it later when the database object is received.
-		try
-		{
-			return FileUploadHandler.handle(req, "file", new File(System.getProperty("java.io.tmpdir"), uuid)).getName();
-		}
-		catch (GerminateException e)
-		{
-			e.printStackTrace();
-			resp.sendError(e.getStatus().getStatusCode());
-			return null;
-		}
-	}
-
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

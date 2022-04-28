@@ -8,9 +8,9 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import javax.annotation.security.PermitAll;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -23,7 +23,7 @@ import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
 
-@javax.ws.rs.Path("image/table/export")
+@jakarta.ws.rs.Path("image/table/export")
 @Secured
 @PermitAll
 public class ImageTableExportResource extends BaseResource

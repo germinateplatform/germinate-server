@@ -1,15 +1,13 @@
 package jhi.germinate.server.util;
 
-import com.thetransactioncompany.cors.*;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebListener;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.util.tasks.*;
 import jhi.oddjob.*;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebListener;
 import java.io.*;
-import java.util.Properties;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
@@ -32,19 +30,6 @@ public class ApplicationListener implements ServletContextListener
 	public void contextInitialized(ServletContextEvent sce)
 	{
 		logMessage();
-
-		try
-		{
-			Properties props = new Properties();
-			props.setProperty("cors.supportedMethods", "GET, POST, HEAD, OPTIONS, PATCH, DELETE, PUT");
-			final FilterRegistration.Dynamic corsFilter = sce.getServletContext().addFilter("CORS", new CORSFilter(new CORSConfiguration(props)));
-			corsFilter.setInitParameter("cors.supportedMethods", "GET, POST, HEAD, OPTIONS, PATCH, DELETE, PUT");
-			corsFilter.addMappingForUrlPatterns(null, false, "/*");
-		}
-		catch (CORSConfigurationException e)
-		{
-			e.printStackTrace();
-		}
 
 		try
 		{

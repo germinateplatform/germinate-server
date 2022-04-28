@@ -12,8 +12,8 @@ import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.Response;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -91,7 +91,7 @@ public class DataImportRunner
 		return null;
 	}
 
-	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, HttpServletRequest req, boolean isUpdate, Integer datasetStateId)
+	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, boolean isUpdate, Integer datasetStateId)
 		throws GerminateException
 	{
 		if (dataType == null)
@@ -105,19 +105,13 @@ public class DataImportRunner
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			String uuid = UUID.randomUUID().toString();
 
-			// Get the target folder for all generated files
-			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
-			asyncFolder.mkdirs();
-
-			String originalFileName = FileUploadHandler.handle(req, "fileToUpload", asyncFolder, uuid);
+			String originalFileName = templateFile.getName();
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-			File file = new File(asyncFolder, uuid + "." + extension);
 
 			String importerClass = getImporterClass(dataType, extension);
 
-			List<String> args = getArgs(importerClass, file);
+			List<String> args = getArgs(importerClass, templateFile.getAbsoluteFile());
 			args.add(Boolean.toString(isUpdate)); // Update?
 			args.add("true"); // Delete file if failed
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
@@ -131,7 +125,7 @@ public class DataImportRunner
 				args.add(hdf5Folder.getAbsolutePath());
 			}
 
-			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
+			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, templateFile.getParentFile().getAbsolutePath());
 
 			// Store the job information in the database
 			DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);

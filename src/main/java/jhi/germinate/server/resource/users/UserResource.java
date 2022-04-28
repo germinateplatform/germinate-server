@@ -6,8 +6,8 @@ import jhi.germinate.server.GatekeeperClient;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.Secured;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.sql.SQLException;
 import java.util.List;
 

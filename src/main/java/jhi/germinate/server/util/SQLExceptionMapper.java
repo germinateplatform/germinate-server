@@ -1,7 +1,7 @@
 package jhi.germinate.server.util;
 
-import javax.ws.rs.core.*;
-import javax.ws.rs.ext.*;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.ext.*;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 

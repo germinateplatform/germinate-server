@@ -5,7 +5,7 @@ import jhi.germinate.server.util.DateTimeUtils;
 import org.jooq.*;
 import org.jooq.impl.TableImpl;
 
-import javax.ws.rs.core.*;
+import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;

@@ -4,6 +4,7 @@ import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
 import jhi.germinate.resource.enums.*;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
 import okhttp3.*;
 import retrofit2.Response;

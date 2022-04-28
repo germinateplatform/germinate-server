@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource;
 
-import javax.servlet.http.*;
-import javax.ws.rs.core.*;
+import jakarta.servlet.http.*;
+import jakarta.ws.rs.core.*;
 
 public class ContextResource
 {

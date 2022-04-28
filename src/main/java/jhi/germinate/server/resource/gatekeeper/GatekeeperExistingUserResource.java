@@ -10,8 +10,8 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import retrofit2.Response;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 

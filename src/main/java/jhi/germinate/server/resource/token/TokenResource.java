@@ -25,8 +25,8 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import retrofit2.Response;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.*;
 
@@ -49,13 +49,13 @@ public class TokenResource extends ContextResource
 
 		if (mode == AuthenticationMode.NONE)
 		{
-			resp.sendError(javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
+			resp.sendError(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
 			return false;
 		}
 
 		if (user == null)
 		{
-			resp.sendError(javax.ws.rs.core.Response.Status.NOT_FOUND.getStatusCode(), StatusMessage.NOT_FOUND_TOKEN.name());
+			resp.sendError(jakarta.ws.rs.core.Response.Status.NOT_FOUND.getStatusCode(), StatusMessage.NOT_FOUND_TOKEN.name());
 			return false;
 		}
 
@@ -63,7 +63,7 @@ public class TokenResource extends ContextResource
 
 		if (sessionUser == null || !Objects.equals(sessionUser.getToken(), user.getPassword()))
 		{
-			resp.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_ACCESS_TO_OTHER_USER.name());
+			resp.sendError(jakarta.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_ACCESS_TO_OTHER_USER.name());
 			return false;
 		}
 
@@ -91,7 +91,7 @@ public class TokenResource extends ContextResource
 
 		if (mode == AuthenticationMode.NONE)
 		{
-			resp.sendError(javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
+			resp.sendError(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
 			return null;
 		}
 
@@ -121,7 +121,7 @@ public class TokenResource extends ContextResource
 
 					if (StringUtils.isEmpty(userType))
 					{
-						this.resp.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INSUFFICIENT_PERMISSIONS.name());
+						this.resp.sendError(jakarta.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INSUFFICIENT_PERMISSIONS.name());
 						return null;
 					}
 					else
@@ -131,20 +131,20 @@ public class TokenResource extends ContextResource
 				}
 				else
 				{
-					this.resp.sendError(javax.ws.rs.core.Response.Status.BAD_REQUEST.getStatusCode());
+					this.resp.sendError(jakarta.ws.rs.core.Response.Status.BAD_REQUEST.getStatusCode());
 					return null;
 				}
 			}
 			else
 			{
-				this.resp.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
+				this.resp.sendError(jakarta.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 				return null;
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			this.resp.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
+			this.resp.sendError(jakarta.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 			return null;
 		}
 
@@ -159,7 +159,7 @@ public class TokenResource extends ContextResource
 		}
 		else
 		{
-			this.resp.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
+			this.resp.sendError(jakarta.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 			return null;
 		}
 

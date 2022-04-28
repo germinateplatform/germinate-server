@@ -10,9 +10,9 @@ import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.hdf5.Hdf5ToFJTabbedConverter;
 import org.jooq.DSLContext;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;

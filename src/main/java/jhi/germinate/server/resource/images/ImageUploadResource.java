@@ -1,16 +1,20 @@
 package jhi.germinate.server.resource.images;
 
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.*;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.util.*;
+import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
 
-import javax.servlet.http.*;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.*;
 import java.io.*;
+import java.nio.file.*;
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
@@ -23,6 +27,7 @@ import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
 @Path("image/upload/{referenceTable}/{foreignId}")
 @Secured({UserType.DATA_CURATOR})
+@MultipartConfig
 public class ImageUploadResource
 {
 	@Context
@@ -33,7 +38,7 @@ public class ImageUploadResource
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)
+	public boolean postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId, @FormDataParam("imageFiles") InputStream fileIs, @FormDataParam("imageFiles") FormDataContentDisposition fileDetails)
 		throws IOException, SQLException
 	{
 		if (foreignId == null || referenceTable == null || req == null)
@@ -78,32 +83,30 @@ public class ImageUploadResource
 			File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.database.name()), "upload");
 			folder.mkdirs();
 
-			List<String> finalFilenames = FileUploadHandler.handleMultiple(req, "imageFiles", folder);
+			String itemName = fileDetails.getFileName();
+			String uuid = UUID.randomUUID().toString();
+			String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
+			File targetFile = new File(folder, uuid + "." + extension);
 
-			int counter = 0;
-
-			for (String finalFilename : finalFilenames)
-			{
-				File imageFile = new File(folder, finalFilename);
-
-				Date date = ExifUtils.getCreatedOnOrClosest(imageFile);
-
-				ImagesRecord image = context.newRecord(IMAGES);
-				image.setForeignId(foreignId);
-				image.setImagetypeId(imageType.getId());
-				image.setPath("upload/" + finalFilename);
-				image.setDescription(finalFilename);
-				if (date != null)
-					image.setCreatedOn(new Timestamp(date.getTime()));
-				counter += image.store();
+			if (!FileUtils.isSubDirectory(folder, targetFile)) {
+				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+				return false;
 			}
 
-			return counter > 0;
-		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode());
-			return false;
+			Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+			Date date = ExifUtils.getCreatedOnOrClosest(targetFile);
+
+			ImagesRecord image = context.newRecord(IMAGES);
+			image.setForeignId(foreignId);
+			image.setImagetypeId(imageType.getId());
+			image.setPath("upload/" + targetFile.getName());
+			image.setDescription(targetFile.getName());
+			if (date != null)
+				image.setCreatedOn(new Timestamp(date.getTime()));
+			image.store();
+
+			return true;
 		}
 	}
 }

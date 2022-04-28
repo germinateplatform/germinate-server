@@ -4,8 +4,8 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.Countries;
 import jhi.germinate.server.util.Secured;
 
-import javax.annotation.security.PermitAll;
-import javax.ws.rs.*;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
 import java.sql.*;
 import java.util.List;
 

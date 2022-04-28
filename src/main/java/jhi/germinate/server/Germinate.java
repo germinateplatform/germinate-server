@@ -3,9 +3,10 @@ package jhi.germinate.server;
 import jhi.germinate.brapi.server.Brapi;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.PropertyWatcher;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import javax.ws.rs.ApplicationPath;
+import jakarta.ws.rs.ApplicationPath;
 
 @ApplicationPath("/api/")
 public class Germinate extends ResourceConfig
@@ -29,5 +30,7 @@ public class Germinate extends ResourceConfig
 			// Otherwise, just load the main stuff
 			packages("jhi.germinate.server");
 		}
+
+		register(MultiPartFeature.class);
 	}
 }

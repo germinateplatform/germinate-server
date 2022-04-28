@@ -11,8 +11,8 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;

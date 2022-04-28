@@ -3,9 +3,9 @@ package jhi.germinate.server.resource;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
 
-import javax.servlet.ServletContext;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import jakarta.servlet.ServletContext;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.sql.SQLException;

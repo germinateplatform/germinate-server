@@ -7,8 +7,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.jooq.*;
 import org.jooq.impl.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.*;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;

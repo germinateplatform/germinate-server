@@ -2,7 +2,7 @@ package jhi.germinate.server.util;
 
 import jhi.germinate.resource.enums.UserType;
 
-import javax.ws.rs.NameBinding;
+import jakarta.ws.rs.NameBinding;
 import java.lang.annotation.*;
 
 /**

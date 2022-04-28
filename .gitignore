@@ -6,6 +6,7 @@
 # Package Files #
 *.war
 *.ear
+*.7z
 
 /.gradle/
 # /gradle/

@@ -8,8 +8,8 @@ import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.*;
 import retrofit2.Response;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class GatekeeperInstitutionResource extends BaseResource
 		}
 		else
 		{
-			resp.sendError(javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
+			resp.sendError(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
 			return null;
 		}
 	}
