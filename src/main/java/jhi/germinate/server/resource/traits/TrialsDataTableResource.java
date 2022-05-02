@@ -1,27 +1,26 @@
 package jhi.germinate.server.resource.traits;
 
-import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedDatasetRequest;
-import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTrialsData;
-import jhi.germinate.server.resource.ExportResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.*;
-import org.jooq.*;
-
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.*;
+import jhi.germinate.server.*;
+import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.util.*;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableTrialsData.*;
 
 @Path("dataset/data/trial/table")
 @Secured
 @PermitAll
-public class TrialsDataTableResource extends ExportResource
+public class TrialsDataTableResource extends TrialsDataBaseResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -53,14 +52,9 @@ public class TrialsDataTableResource extends ExportResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectSelectStep<Record> select = context.select();
+			SelectJoinStep<?> from = getTrialsDataQueryWrapped(context, null);
 
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
-
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRIALS_DATA);
-
-			from.where(VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds));
+			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);
@@ -102,16 +96,16 @@ public class TrialsDataTableResource extends ExportResource
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
+
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_TRIALS_DATA.GERMPLASM_ID)
-														   .from(VIEW_TABLE_TRIALS_DATA);
+			SelectJoinStep<Record1<Integer>> from = getTrialsDataIdQueryWrapped(context, null);
 
-			from.where(VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds));
+			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
 			// Filter here!
 			filter(from, filters);
@@ -150,8 +144,17 @@ public class TrialsDataTableResource extends ExportResource
 
 		processRequest(request);
 
-		ExportSettings settings = new ExportSettings();
-		settings.conditions = new Condition[]{VIEW_TABLE_TRIALS_DATA.DATASET_ID.in(requestedIds)};
-		return export(VIEW_TABLE_TRIALS_DATA, "trials-data-table-", settings);
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<?> from = getTrialsDataQueryWrapped(context, null);
+
+			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
+
+			// Filter here!
+			filter(from, filters);
+
+			return ResourceUtils.exportToZip(from.fetch(), resp, "trials-data-table-");
+		}
 	}
 }
