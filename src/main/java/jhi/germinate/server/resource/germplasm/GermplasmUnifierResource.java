@@ -1,6 +1,9 @@
 package jhi.germinate.server.resource.germplasm;
 
-import jhi.germinate.resource.GermplasmUnificationRequest;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
+import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Germinatebase;
@@ -10,9 +13,6 @@ import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.hdf5.Hdf5ToFJTabbedConverter;
 import org.jooq.DSLContext;
 
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -46,6 +46,56 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class GermplasmUnifierResource extends ContextResource
 {
 	@POST
+	@Path("/sgone")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean postGermplasmUnifierSgone(SgoneGermplasmUnificationRequest request)
+		throws IOException, SQLException
+	{
+		if (request == null || CollectionUtils.isEmpty(request.getUnifications()))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		List<GermplasmUnificationRequest> mapped = request.getUnifications()
+														  .stream()
+														  .map(u -> {
+															  try
+															  {
+																  GermplasmUnificationRequest req = new GermplasmUnificationRequest();
+																  req.setPreferredGermplasmId(Integer.parseInt(u.getPreferred().getId()));
+																  req.setOtherGermplasmIds(u.getOthers().stream().map(o -> Integer.parseInt(o.getId())).toArray(Integer[]::new));
+																  req.setExplanation("SGONE unification");
+
+																  return req;
+															  }
+															  catch (Exception e)
+															  {
+																  return null;
+															  }
+														  })
+														  .collect(Collectors.toList());
+
+		boolean allGood = true;
+
+		for (GermplasmUnificationRequest u : mapped)
+		{
+			try
+			{
+				allGood &= postGermplasmUnifier(u);
+			}
+			catch (SQLException | IOException e)
+			{
+				Logger.getLogger(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+		}
+
+		return allGood;
+	}
+
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean postGermplasmUnifier(GermplasmUnificationRequest request)
@@ -57,6 +107,12 @@ public class GermplasmUnifierResource extends ContextResource
 			return false;
 		}
 
+		return unify(request);
+	}
+
+	private boolean unify(GermplasmUnificationRequest request)
+		throws IOException, SQLException
+	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		// Remove the preferred id from the list just in case it was added
