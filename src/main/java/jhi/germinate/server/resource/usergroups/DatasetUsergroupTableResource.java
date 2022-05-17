@@ -33,7 +33,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 	public boolean patchDatasetUsergroupTable(DatasetGroupModificationRequest request)
 		throws SQLException, IOException
 	{
-		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.isAddOperation() == null)
+		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.getAddOperation() == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return false;
@@ -42,7 +42,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			if (request.isAddOperation())
+			if (request.getAddOperation())
 			{
 				List<Integer> existingIds = context.selectDistinct(DATASETPERMISSIONS.USER_ID).from(DATASETPERMISSIONS).where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId())).fetchInto(Integer.class);
 				List<Integer> toAdd = new ArrayList<>(Arrays.asList(request.getGroupIds()));

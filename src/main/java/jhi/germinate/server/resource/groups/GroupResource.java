@@ -229,7 +229,7 @@ public class GroupResource extends BaseResource
 			if (modification == null || modification.getIds() == null)
 				throw new GerminateException(Response.Status.BAD_REQUEST);
 
-			if (modification.isAddition())
+			if (modification.getAddition())
 			{
 				// We need to make sure not to introduce duplicates
 				List<Integer> newIds = new ArrayList<>(Arrays.asList(modification.getIds()));

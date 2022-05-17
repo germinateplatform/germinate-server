@@ -1,14 +1,12 @@
 package jhi.germinate.resource;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
 /**
  * @author Sebastian Raubach
  */
 public class ImageTagModificationRequest
 {
 	private String[] tags;
-	private boolean  isAddition;
+	private Boolean  addition;
 
 	public ImageTagModificationRequest()
 	{
@@ -25,15 +23,14 @@ public class ImageTagModificationRequest
 		return this;
 	}
 
-	@JsonGetter("isAddition")
-	public boolean isAddition()
+	public Boolean getAddition()
 	{
-		return isAddition;
+		return addition;
 	}
 
-	public ImageTagModificationRequest setAddition(boolean addition)
+	public ImageTagModificationRequest setAddition(Boolean addition)
 	{
-		isAddition = addition;
+		this.addition = addition;
 		return this;
 	}
 }

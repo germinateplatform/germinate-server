@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.images;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.ImageTagModificationRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
@@ -8,10 +12,6 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
@@ -63,7 +63,7 @@ public class ImageSpecificTagModResource
 									  .map(String::toLowerCase)
 									  .collect(Collectors.toList());
 
-			if (request.isAddition())
+			if (request.getAddition())
 			{
 				Map<String, ImagetagsRecord> existingTags = context.selectFrom(IMAGETAGS)
 																   .where(IMAGETAGS.TAG_NAME.in(tags))

@@ -1,7 +1,5 @@
 package jhi.germinate.resource;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
 /**
  * @author Sebastian Raubach
  */
@@ -9,7 +7,7 @@ public class UserGroupModificationRequest
 {
 	private Integer   userGroupId;
 	private Integer[] userIds;
-	private Boolean   isAddOperation;
+	private Boolean   addOperation;
 
 	public Integer getUserGroupId()
 	{
@@ -33,15 +31,14 @@ public class UserGroupModificationRequest
 		return this;
 	}
 
-	@JsonGetter("isAddOperation")
-	public Boolean isAddOperation()
+	public Boolean getAddOperation()
 	{
-		return isAddOperation;
+		return addOperation;
 	}
 
 	public UserGroupModificationRequest setAddOperation(Boolean addOperation)
 	{
-		isAddOperation = addOperation;
+		this.addOperation = addOperation;
 		return this;
 	}
 }

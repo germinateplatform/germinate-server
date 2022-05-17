@@ -43,14 +43,14 @@ dependencies {
 
     implementation 'org.json:json:20160212'
 
-    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'mysql:mysql-connector-java:8.0.29'
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
     implementation 'cisd:jhdf5:14.12.6'
     implementation 'net.coobird:thumbnailator:0.4.17'
 //    implementation 'com.zaxxer:HikariCP:4.0.3'
     implementation 'org.jooq:jooq:3.11.10'
     implementation 'org.dhatim:fastexcel-reader:0.12.14'
-    implementation 'com.drewnoakes:metadata-extractor:2.17.0'
+    implementation 'com.drewnoakes:metadata-extractor:2.18.0'
     implementation 'xerces:xercesImpl:2.12.2'
     implementation 'org.codehaus.castor:castor-core:1.4.1'
     implementation ('org.codehaus.castor:castor-xml:1.4.1') {
@@ -62,18 +62,18 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
 
-    implementation 'org.flywaydb:flyway-core:6.3.3'
+    implementation 'org.flywaydb:flyway-core:6.5.7'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'de.poiu.apron:apron:2.1.1'
 
     implementation 'de.ipk-gatersleben:isa4j:1.1.0'
 
-    providedCompile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
-    implementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-servlet:3.0.4'
+    compileOnly 'jakarta.platform:jakarta.jakartaee-api:9.1.0'
+
+    implementation 'org.glassfish.jersey.containers:jersey-container-servlet:3.0.4'
     implementation 'org.glassfish.jersey.inject:jersey-hk2:3.0.4'
     implementation 'org.glassfish.jersey.media:jersey-media-multipart:3.0.4'
-    implementation 'org.glassfish.jersey.media:jersey-media-json-jackson:3.0.4'
 
     // Disabled Swagger until we can figure out how to make it work with Jersey3 and Jakarta
 //    implementation 'io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.0'

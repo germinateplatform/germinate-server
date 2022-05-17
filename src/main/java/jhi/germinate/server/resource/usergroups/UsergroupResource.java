@@ -129,7 +129,7 @@ public class UsergroupResource extends ContextResource
 	public boolean patchUser(@PathParam("usergroupId") Integer usergroupId, UserGroupModificationRequest request)
 		throws IOException, SQLException
 	{
-		if (request == null || usergroupId == null || usergroupId != request.getUserGroupId() || request.isAddOperation() == null)
+		if (request == null || usergroupId == null || usergroupId != request.getUserGroupId() || request.getAddOperation() == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return false;
@@ -138,7 +138,7 @@ public class UsergroupResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			if (request.isAddOperation())
+			if (request.getAddOperation())
 			{
 				List<Integer> existingIds = context.selectDistinct(USERGROUPMEMBERS.USER_ID).from(USERGROUPMEMBERS).where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId())).fetchInto(Integer.class);
 				List<Integer> toAdd = new ArrayList<>(Arrays.asList(request.getUserIds()));

@@ -1,16 +1,12 @@
 package jhi.germinate.resource;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-
-import java.util.Arrays;
-
 /**
  * @author Sebastian Raubach
  */
 public class GroupModificationRequest
 {
 	private Integer[] ids;
-	private boolean   isAddition;
+	private Boolean   addition;
 
 	public GroupModificationRequest()
 	{
@@ -27,24 +23,14 @@ public class GroupModificationRequest
 		return this;
 	}
 
-	@JsonGetter("isAddition")
-	public boolean isAddition()
+	public Boolean getAddition()
 	{
-		return isAddition;
+		return addition;
 	}
 
-	public GroupModificationRequest setAddition(boolean addition)
+	public GroupModificationRequest setAddition(Boolean addition)
 	{
-		isAddition = addition;
+		this.addition = addition;
 		return this;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "GroupModificationRequest{" +
-			"ids=" + Arrays.toString(ids) +
-			", isAddition=" + isAddition +
-			'}';
 	}
 }
