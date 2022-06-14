@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.bmuschko:gradle-cargo-plugin:2.7.0'
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.9.0'
     }
 }
 
@@ -48,7 +48,7 @@ dependencies {
     implementation 'cisd:jhdf5:14.12.6'
     implementation 'net.coobird:thumbnailator:0.4.17'
 //    implementation 'com.zaxxer:HikariCP:4.0.3'
-    implementation 'org.jooq:jooq:3.11.10'
+    implementation 'org.jooq:jooq:3.16.6'
     implementation 'org.dhatim:fastexcel-reader:0.12.14'
     implementation 'com.drewnoakes:metadata-extractor:2.18.0'
     implementation 'xerces:xercesImpl:2.12.2'
@@ -146,7 +146,7 @@ war {
 // Deploy the created .war file to Tomcat
 task deployTomcat (type: CargoRedeployRemote) {
     dependsOn = [war]
-    containerId = project.findProperty('tomcat.manager.version') ?: "tomcat8x"
+    containerId = project.findProperty('tomcat.manager.version') ?: "tomcat10x"
     protocol = project.findProperty('tomcat.manager.protocol') ?: "http"
     hostname = project.findProperty('tomcat.manager.hostname') ?: "localhost"
     port = (project.findProperty('tomcat.manager.port') ?: "8080") as Integer

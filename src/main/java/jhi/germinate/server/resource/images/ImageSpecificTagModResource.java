@@ -151,7 +151,7 @@ public class ImageSpecificTagModResource
 										 .collect(Collectors.toList());
 
 			// Get the existing tags from the database
-			List<String> existingTags = context.select(IMAGETAGS.TAG_NAME.lower())
+			List<String> existingTags = context.select(DSL.lower(IMAGETAGS.TAG_NAME))
 											   .from(IMAGETAGS)
 											   .leftJoin(IMAGE_TO_TAGS).on(IMAGE_TO_TAGS.IMAGETAG_ID.eq(IMAGETAGS.ID))
 											   .fetchInto(String.class);
