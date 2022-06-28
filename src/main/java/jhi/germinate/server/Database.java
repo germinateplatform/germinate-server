@@ -243,7 +243,7 @@ public class Database
 			+ (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort)
 			+ "/"
 			+ databaseName
-			+ "?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone="
+			+ "?allowMultiQueries=true&useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone="
 			+ utc
 			+ (allowStreaming ? "&useCursorFetch=true" : "");
 	}
