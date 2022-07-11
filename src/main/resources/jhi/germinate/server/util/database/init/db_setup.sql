@@ -183,6 +183,7 @@ CREATE TABLE `collaborators`  (
   `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
+  `external_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.',
   `institution_id` int(11) NULL DEFAULT NULL COMMENT 'Author\'s affiliation when the resource was created. Foreign key to \'institutions\'',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
@@ -682,6 +683,7 @@ CREATE TABLE `datasetcollaborators`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dataset_id` int(11) NOT NULL,
   `collaborator_id` int(11) NOT NULL,
+  `collaborator_roles` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Type of contribution of the person to the investigation (e.g. data submitter; author; corresponding author)',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
@@ -869,7 +871,7 @@ CREATE TABLE `datasettypes`  (
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasettypes
@@ -880,6 +882,7 @@ INSERT INTO `datasettypes` VALUES (3, 'trials', '2013-09-02 13:16:44', NULL);
 INSERT INTO `datasettypes` VALUES (4, 'allelefreq', '2013-10-11 09:23:15', NULL);
 INSERT INTO `datasettypes` VALUES (5, 'climate', '2015-09-02 10:35:58', NULL);
 INSERT INTO `datasettypes` VALUES (6, 'compound', '2018-11-07 11:49:53', '2018-11-07 11:49:53');
+INSERT INTO `datasettypes` VALUES (7, 'pedigree', '2022-03-08 08:43:32', '2022-03-08 08:43:32');
 
 -- ----------------------------
 -- Table structure for entitytypes
@@ -1530,6 +1533,7 @@ INSERT INTO `newstypes` VALUES (4, 'Projects', 'News about new projects', NULL, 
 DROP TABLE IF EXISTS `pedigreedefinitions`;
 CREATE TABLE `pedigreedefinitions`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `dataset_id` int(11) NOT NULL,
   `germinatebase_id` int(11) NOT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
   `pedigreenotation_id` int(11) NOT NULL COMMENT 'Foreign key to pedigreenotations (pedigreenotations.id).',
   `pedigreedescription_id` int(11) NULL DEFAULT NULL,
@@ -1540,9 +1544,11 @@ CREATE TABLE `pedigreedefinitions`  (
   INDEX `pedigreedefinitions_ibfk_pedigreenotations`(`pedigreenotation_id`) USING BTREE,
   INDEX `pedigreedefinitions_ibfk_germinatebase`(`germinatebase_id`) USING BTREE,
   INDEX `pedigreedefinitions_ibfk_3`(`pedigreedescription_id`) USING BTREE,
+  INDEX `dataset_id`(`dataset_id`) USING BTREE,
   CONSTRAINT `pedigreedefinitions_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigreedefinitions_ibfk_2` FOREIGN KEY (`pedigreenotation_id`) REFERENCES `pedigreenotations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `pedigreedefinitions_ibfk_3` FOREIGN KEY (`pedigreedescription_id`) REFERENCES `pedigreedescriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `pedigreedefinitions_ibfk_3` FOREIGN KEY (`pedigreedescription_id`) REFERENCES `pedigreedescriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pedigreedefinitions_ibfk_4` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'This table holds the actual pedigree definition data.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1591,6 +1597,7 @@ CREATE TABLE `pedigreenotations`  (
 DROP TABLE IF EXISTS `pedigrees`;
 CREATE TABLE `pedigrees`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `dataset_id` int(11) NOT NULL,
   `germinatebase_id` int(11) NOT NULL COMMENT 'Foreign key germinatebase (germinatebase.id).',
   `parent_id` int(11) NOT NULL COMMENT 'Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.',
   `relationship_type` enum('M','F','OTHER') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'OTHER' COMMENT 'Male or Female parent. Should be recorded as \'M\' (male) or \'F\' (female).',
@@ -1602,9 +1609,11 @@ CREATE TABLE `pedigrees`  (
   INDEX `pedigrees_ibfk_germinatebase`(`germinatebase_id`) USING BTREE,
   INDEX `pedigrees_ibfk_germinatebase_parent`(`parent_id`) USING BTREE,
   INDEX `pedigrees_ibfk_pedigreedescriptions`(`pedigreedescription_id`) USING BTREE,
+  INDEX `dataset_id`(`dataset_id`) USING BTREE,
   CONSTRAINT `pedigrees_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigrees_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `pedigrees_ibfk_3` FOREIGN KEY (`pedigreedescription_id`) REFERENCES `pedigreedescriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `pedigrees_ibfk_3` FOREIGN KEY (`pedigreedescription_id`) REFERENCES `pedigreedescriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pedigrees_ibfk_4` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Holds pedigree definitions. A pedigree is constructed from a series of individial->parent records. This gives a great deal of flexibility in how pedigree networks can be constructed. This table is required for operation with the Helium pedigree viewer.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1620,6 +1629,10 @@ CREATE TABLE `phenotypedata`  (
   `phenotype_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key phenotypes (phenotype.id).',
   `germinatebase_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key germinatebase (germinatebase.id).',
   `rep` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `block` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `latitude` decimal(64, 10) NULL DEFAULT NULL,
+  `longitude` decimal(64, 10) NULL DEFAULT NULL,
+  `elevation` decimal(64, 10) NULL DEFAULT NULL,
   `phenotype_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'The phenotype value for this phenotype_id and germinatebase_id combination.',
   `dataset_id` int(11) NOT NULL COMMENT 'Foreign key datasets (datasets.id).',
   `recording_date` datetime NULL DEFAULT NULL COMMENT 'Date when the phenotypic result was recorded. Should be formatted \'YYYY-MM-DD HH:MM:SS\' or just \'YYYY-MM-DD\' where a timestamp is not available.',
@@ -1736,19 +1749,22 @@ INSERT INTO `schema_version` VALUES (1, '1', '<< Flyway Baseline >>', 'BASELINE'
 INSERT INTO `schema_version` VALUES (2, '3.3.2', 'update', 'SQL', 'V3.3.2__update.sql', 905709629, 'germinate3', '2016-08-22 16:24:04', 111, 1);
 INSERT INTO `schema_version` VALUES (3, '3.3.2.1', 'update', 'SQL', 'V3.3.2.1__update.sql', -256506759, 'germinate3', '2016-11-03 15:46:40', 123, 1);
 INSERT INTO `schema_version` VALUES (4, '3.3.2.2', 'update', 'SQL', 'V3.3.2.2__update.sql', 508407614, 'germinate3', '2016-11-04 10:31:18', 9, 1);
-INSERT INTO `schema_version` VALUES (5, '3.4.0', 'update', 'SQL', 'V3.4.0__update.sql', 1635546146, 'germinate3', '2017-01-10 14:23:11', 198, 1);
+INSERT INTO `schema_version` VALUES (5, '3.4.0', 'update', 'SQL', 'V3.4.0__update.sql', 771931752, 'germinate3', '2017-01-10 14:23:11', 198, 1);
 INSERT INTO `schema_version` VALUES (6, '3.4.0.1', 'update', 'SQL', 'V3.4.0.1__update.sql', -1497522993, 'germinate3', '2017-09-28 15:58:00', 161, 1);
 INSERT INTO `schema_version` VALUES (7, '3.5.0', 'update', 'SQL', 'V3.5.0__update.sql', -1130493621, 'germinate3', '2018-03-27 14:29:38', 132, 1);
-INSERT INTO `schema_version` VALUES (8, '3.6.0', 'update', 'SQL', 'V3.6.0__update.sql', -739307975, 'germinate3', '2020-01-23 09:46:58', 125, 1);
-INSERT INTO `schema_version` VALUES (9, '4.0.0', 'update', 'SQL', 'V4.0.0__update.sql', -383131356, 'germinate', '2020-04-10 14:14:55', 193, 1);
-INSERT INTO `schema_version` VALUES (10, '4.20.06.15', 'update', 'SQL', 'V4.20.06.15__update.sql', 1355676521, 'germinate', '2020-06-15 10:41:49', 123, 1);
+INSERT INTO `schema_version` VALUES (8, '3.6.0', 'update', 'SQL', 'V3.6.0__update.sql', -576211582, 'germinate3', '2020-01-23 09:46:58', 125, 1);
+INSERT INTO `schema_version` VALUES (9, '4.0.0', 'update', 'SQL', 'V4.0.0__update.sql', -1062238208, 'germinate', '2020-04-10 14:14:55', 193, 1);
+INSERT INTO `schema_version` VALUES (10, '4.20.06.15', 'update', 'SQL', 'V4.20.06.15__update.sql', -924460307, 'germinate', '2020-06-15 10:41:49', 123, 1);
 INSERT INTO `schema_version` VALUES (11, '4.20.10.02', 'update', 'SQL', 'V4.20.10.02__update.sql', -1150563781, 'germinate', '2020-10-05 14:59:18', 43, 1);
 INSERT INTO `schema_version` VALUES (12, '4.20.10.30', 'update', 'SQL', 'V4.20.10.30__update.sql', -14100518, 'germinate', '2020-10-30 13:55:49', 43, 1);
 INSERT INTO `schema_version` VALUES (13, '4.21.04.09', 'update', 'SQL', 'V4.21.04.09__update.sql', 1453956800, 'germinate', '2021-08-11 16:15:35', 111, 1);
 INSERT INTO `schema_version` VALUES (14, '4.21.08.11', 'update', 'SQL', 'V4.21.08.11__update.sql', -587448746, 'germinate', '2021-08-11 16:14:44', 111, 1);
 INSERT INTO `schema_version` VALUES (15, '4.21.08.19', 'update', 'SQL', 'V4.21.08.19__update.sql', -71098644, 'germinate', '2021-08-19 15:51:36', 111, 1);
-INSERT INTO `schema_version` VALUES (16, '4.21.10.05', 'update', 'SQL', 'V4.21.10.05__update.sql', 1568919983, 'germinate', '2021-10-07 13:07:19', 111, 1);
+INSERT INTO `schema_version` VALUES (16, '4.21.10.05', 'update', 'SQL', 'V4.21.10.05__update.sql', -1542652149, 'germinate', '2021-10-07 13:07:19', 111, 1);
 INSERT INTO `schema_version` VALUES (17, '4.21.11.08', 'update', 'SQL', 'V4.21.11.08__update.sql', -1396782859, 'germinate', '2021-11-09 14:06:47', 111, 1);
+INSERT INTO `schema_version` VALUES (18, '4.22.03.08', 'update', 'SQL', 'V4.22.03.08__update.sql', 1266180548, 'germinate', '2022-03-10 11:31:21', 111, 1);
+INSERT INTO `schema_version` VALUES (19, '4.22.04.29', 'update', 'SQL', 'V4.22.04.29__update.sql', -1600868952, 'root', '2022-04-29 11:04:44', 86, 1);
+INSERT INTO `schema_version` VALUES (20, '4.22.05.04', 'update', 'SQL', 'V4.22.05.04__update.sql', -442883119, 'root', '2022-07-11 18:17:26', 222, 1);
 
 -- ----------------------------
 -- Table structure for storage
