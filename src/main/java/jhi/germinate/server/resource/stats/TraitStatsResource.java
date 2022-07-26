@@ -167,8 +167,6 @@ public class TraitStatsResource extends ContextResource
 				tempStats.values.add(value.doubleValue());
 			};
 
-			Logger.getLogger("").info(orderByStep.getSQL(ParamType.INLINED));
-
 			// Now stream the result and consume it
 			orderByStep.stream()
 					   .forEachOrdered(consumer);

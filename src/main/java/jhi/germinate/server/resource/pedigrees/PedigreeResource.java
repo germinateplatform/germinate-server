@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.pedigrees;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -12,12 +16,8 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.http.*;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-import java.io.*;
 import java.io.File;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
@@ -235,7 +235,7 @@ public class PedigreeResource extends ExportResource
 		private Map<String, List<ViewTablePedigreesRecord>> mapping;
 		private boolean                                     isUp;
 		private int                                         maxLevels;
-		private Writer                                 bw;
+		private Writer                                      bw;
 
 		public PedigreeWriter(Writer bw, Map<String, List<ViewTablePedigreesRecord>> mapping, boolean isUp, int maxLevels)
 		{
