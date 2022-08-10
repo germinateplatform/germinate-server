@@ -61,6 +61,7 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.IMPORT.name()); // Import straight away, no need to check it again
 			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
 			args.add(record.getDatasetstateId() == null ? "1" : Integer.toString(record.getDatasetstateId()));
+			args.add(originalFileName);
 
 			if (record.getDatatype() == DataImportJobsDatatype.genotype)
 			{
@@ -91,7 +92,7 @@ public class DataImportRunner
 		return null;
 	}
 
-	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, boolean isUpdate, Integer datasetStateId)
+	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, String originalFileName, boolean isUpdate, Integer datasetStateId)
 		throws GerminateException
 	{
 		if (dataType == null)
@@ -106,7 +107,6 @@ public class DataImportRunner
 		{
 			DSLContext context = Database.getContext(conn);
 
-			String originalFileName = templateFile.getName();
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 
 			String importerClass = getImporterClass(dataType, extension);
@@ -117,6 +117,7 @@ public class DataImportRunner
 			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
 			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
 			args.add(datasetStateId == null ? "1" : Integer.toString(datasetStateId));
+			args.add(originalFileName);
 
 			if (dataType == DataImportJobsDatatype.genotype)
 			{

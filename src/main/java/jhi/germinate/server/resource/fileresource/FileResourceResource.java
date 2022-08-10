@@ -75,7 +75,7 @@ public class FileResourceResource extends ContextResource
 			// If we get here the file was successfully found and moved
 			FileresourcesRecord record = context.newRecord(FILERESOURCES);
 			record.setName(fileResource.getFileresourceName());
-			record.setPath(fileResource.getFileresourcePath());
+			record.setPath(target.getName());
 			record.setFilesize(target.length());
 			record.setDescription(fileResource.getFileresourceDescription());
 			record.setFileresourcetypeId(type.getId());

@@ -21,7 +21,7 @@ apply plugin: 'com.bmuschko.cargo-base'
 compileJava.options.encoding = 'UTF-8'
 
 group 'uk.ac.hutton.germinate'
-version '4.3.4'
+version '4.3.5'
 
 sourceCompatibility = 11
 

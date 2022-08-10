@@ -58,7 +58,7 @@ public class ImportJobUploadResource extends ContextResource
 
 			Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-			return DataImportRunner.checkData(dataType, userDetails, uuid, targetFile, isUpdate, datasetStateId);
+			return DataImportRunner.checkData(dataType, userDetails, uuid, targetFile, itemName, isUpdate, datasetStateId);
 		}
 		catch (GerminateException e)
 		{
