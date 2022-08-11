@@ -49,8 +49,8 @@ public class ApplicationListener implements ServletContextListener
 		// Every hour, update the dataset sizes
 		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 1, 1, TimeUnit.HOURS);
 		// Every minute, check the async job status
-		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 1, TimeUnit.MINUTES);
-		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 1, TimeUnit.MINUTES);
+		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
+		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		// Every 5 minutes, get an update on the user information from Gatekeeper
 		if (!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL)))
 			backgroundScheduler.scheduleAtFixedRate(new GatekeeperUserUpdaterTask(), 1, 5, TimeUnit.MINUTES);

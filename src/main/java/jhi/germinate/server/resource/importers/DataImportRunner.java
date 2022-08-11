@@ -5,6 +5,7 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
+import jhi.germinate.server.database.pojo.*;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.importer.*;
@@ -53,23 +54,16 @@ public class DataImportRunner
 			String importerClass = getImporterClass(record.getDatatype(), extension);
 
 			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
-			File file = new File(asyncFolder, uuid + "." + extension);
 
-			List<String> args = getArgs(importerClass, file);
-			args.add(Boolean.toString(record.getIsUpdate())); // Update?
-			args.add("true"); // Delete file if failed
-			args.add(AbstractImporter.RunType.IMPORT.name()); // Import straight away, no need to check it again
-			args.add(Integer.toString(record.getUserId() == null ? -1 : record.getUserId())); // Add the user id
-			args.add(record.getDatasetstateId() == null ? "1" : Integer.toString(record.getDatasetstateId()));
-			args.add(originalFileName);
+			// Replace the whole job details, because jOOQ will only execute the update if the job_config field changed, not fields within the JSON.
+			record.setJobConfig(new ImportJobDetails()
+				.setBaseFolder(record.getJobConfig().getBaseFolder())
+				.setDataFilename(record.getJobConfig().getDataFilename())
+				.setDeleteOnFail(record.getJobConfig().getDeleteOnFail())
+				.setRunType(RunType.IMPORT));
+			record.store();
 
-			if (record.getDatatype() == DataImportJobsDatatype.genotype)
-			{
-				File hdf5Folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "data"), "genotypes");
-				hdf5Folder.mkdirs();
-				args.add(hdf5Folder.getAbsolutePath());
-			}
-
+			List<String> args = getArgs(importerClass, record.getId());
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
 			record.setJobId(info.getId());
@@ -111,35 +105,33 @@ public class DataImportRunner
 
 			String importerClass = getImporterClass(dataType, extension);
 
-			List<String> args = getArgs(importerClass, templateFile.getAbsoluteFile());
-			args.add(Boolean.toString(isUpdate)); // Update?
-			args.add("true"); // Delete file if failed
-			args.add(AbstractImporter.RunType.CHECK.name()); // Only check, don't import
-			args.add(Integer.toString(userDetails.getId() == -1000 ? -1 : userDetails.getId())); // Add the user id
-			args.add(datasetStateId == null ? "1" : Integer.toString(datasetStateId));
-			args.add(originalFileName);
-
-			if (dataType == DataImportJobsDatatype.genotype)
-			{
-				File hdf5Folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "data"), "genotypes");
-				hdf5Folder.mkdirs();
-				args.add(hdf5Folder.getAbsolutePath());
-			}
-
-			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, templateFile.getParentFile().getAbsolutePath());
+			ImportJobDetails details = new ImportJobDetails()
+				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+				.setDataFilename(templateFile.getName())
+				.setDeleteOnFail(true)
+				.setRunType(RunType.CHECK);
 
 			// Store the job information in the database
 			DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);
 			dbJob.setUuid(uuid);
-			dbJob.setJobId(info.getId());
+			dbJob.setJobId("N/A");
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setDatatype(dataType);
 			dbJob.setOriginalFilename(originalFileName);
 			dbJob.setIsUpdate(isUpdate);
 			dbJob.setDatasetstateId(datasetStateId);
 			dbJob.setStatus(DataImportJobsStatus.running);
+			dbJob.setJobConfig(details);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
+			dbJob.store();
+
+			List<String> args = getArgs(importerClass, dbJob.getId());
+
+			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, templateFile.getParentFile().getAbsolutePath());
+
+			// Update the job id
+			dbJob.setJobId(info.getId());
 			dbJob.store();
 
 			// Return the result
@@ -186,7 +178,7 @@ public class DataImportRunner
 		}
 	}
 
-	private static List<String> getArgs(String importerClass, File file)
+	private static List<String> getArgs(String importerClass, Integer jobDbId)
 		throws URISyntaxException
 	{
 		File libFolder = ResourceUtils.getLibFolder();
@@ -199,7 +191,7 @@ public class DataImportRunner
 		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PORT)));
 		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_USERNAME)));
 		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD)));
-		args.add(file.getAbsolutePath());
+		args.add(Integer.toString(jobDbId));
 		return args;
 	}
 }

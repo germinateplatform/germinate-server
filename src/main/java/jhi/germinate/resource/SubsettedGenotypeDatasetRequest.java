@@ -1,5 +1,9 @@
 package jhi.germinate.resource;
 
+import jhi.germinate.server.database.pojo.AdditionalExportFormat;
+
+import java.util.*;
+
 /**
  * @author Sebastian Raubach
  */
@@ -52,5 +56,18 @@ public class SubsettedGenotypeDatasetRequest extends SubsettedDatasetRequest
 	{
 		this.generateFlatFile = generateFlatFile;
 		return this;
+	}
+
+	public AdditionalExportFormat[] getFileTypes() {
+		List<AdditionalExportFormat> result = new ArrayList<>();
+
+		if (generateFlapjackProject)
+			result.add(AdditionalExportFormat.flapjack);
+		if (generateFlatFile)
+			result.add(AdditionalExportFormat.text);
+		if (generateHapMap)
+			result.add(AdditionalExportFormat.hapmap);
+
+		return result.toArray(new AdditionalExportFormat[0]);
 	}
 }

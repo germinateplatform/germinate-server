@@ -7,3 +7,9 @@ CREATE TABLE `datasetfileresources`  (
   FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`fileresource_id`) REFERENCES `fileresources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ALTER TABLE `data_import_jobs`
+ADD COLUMN `job_config` json NULL AFTER `job_id`;
+
+ALTER TABLE `dataset_export_jobs`
+ADD COLUMN `job_config` json NULL AFTER `job_id`;

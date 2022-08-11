@@ -1,6 +1,6 @@
 package jhi.germinate.resource;
 
-import jhi.germinate.server.util.async.BinningConfig;
+import jhi.germinate.server.database.pojo.BinningConfig;
 
 /**
  * @author Sebastian Raubach

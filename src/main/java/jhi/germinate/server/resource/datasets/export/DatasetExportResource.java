@@ -1,31 +1,29 @@
 package jhi.germinate.server.resource.datasets.export;
 
-import com.google.gson.Gson;
 import de.ipk_gatersleben.bit.bi.isa4j.components.*;
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.flapjack.io.binning.MakeHistogram;
 import jhi.germinate.resource.*;
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.codegen.routines.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.database.pojo.ExportJobDetails;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.resource.pedigrees.PedigreeResource;
 import jhi.germinate.server.resource.traits.TraitTableResource;
 import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.async.*;
+import jhi.germinate.server.util.async.AllelefreqExporter;
 import jhi.oddjob.JobInfo;
-import org.jooq.*;
+import org.jooq.DSLContext;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.Date;
@@ -33,9 +31,6 @@ import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Markers.*;
 
 @Path("dataset/export")
 @Secured
@@ -76,100 +71,52 @@ public class DatasetExportResource extends ContextResource
 			if (ds == null)
 				return null;
 
-			Set<String> germplasmNames = DatasetExportGenotypeResource.getGermplasmNames(context, request);
-			SelectConditionStep<Record1<String>> markerNames = DatasetExportGenotypeResource.getMarkerNames(context, request);
-
-			String dsName = "dataset-" + ds.getDatasetId();
-
-			if (request.getMapId() != null)
-				dsName += "-map-" + request.getMapId();
-
 			String uuid = UUID.randomUUID().toString();
 
 			// Get the target folder for all generated files
 			File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
 			asyncFolder.mkdirs();
 
-			File sharedMapFile;
+			Integer[] array = {ds.getDatasetId()};
 
-			if (request.getMapId() != null)
-			{
-				sharedMapFile = ResourceUtils.createTempFile("map-" + request.getMapId(), "map");
-
-				SelectConditionStep<Record3<String, String, Double>> query = context.select(MARKERS.MARKER_NAME, MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START)
-																					.from(MAPDEFINITIONS)
-																					.leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-																					.leftJoin(DATASETMEMBERS).on(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID).and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)))
-																					.where(DATASETMEMBERS.DATASET_ID.in(datasetIds))
-																					.and(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()));
-
-				try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(sharedMapFile), StandardCharsets.UTF_8)));
-					 Cursor<? extends Record> cursor = query.fetchLazy())
-				{
-					bw.write("# fjFile = MAP" + ResourceUtils.CRLF);
-
-					ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
-				}
-
-				File mapFile = new File(asyncFolder, dsName + ".map");
-				Files.copy(sharedMapFile.toPath(), mapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			}
-
-			// Get the source hdf5 file
-			File hdf5 = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
-
-			// Create all temporary files
-			if (!CollectionUtils.isEmpty(germplasmNames))
-			{
-				File germplasmFile = new File(asyncFolder, dsName + ".germplasm");
-				Files.write(germplasmFile.toPath(), new ArrayList<>(germplasmNames), StandardCharsets.UTF_8);
-			}
-
-			if (markerNames != null)
-			{
-				java.nio.file.Path markerFile = new File(asyncFolder, dsName + ".markers").toPath();
-
-				try (BufferedWriter bw = Files.newBufferedWriter(markerFile, StandardCharsets.UTF_8);
-					 Cursor<? extends Record> cursor = markerNames.fetchLazy())
-				{
-					ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
-				}
-			}
-			File headerFile = new File(asyncFolder, dsName + ".header");
-			Files.write(headerFile.toPath(), DatasetExportGenotypeResource.getFlapjackHeaders(), StandardCharsets.UTF_8);
-			File identifierFile = new File(asyncFolder, dsName + ".identifiers");
-			DatasetExportGenotypeResource.writeIdentifiersFile(context, identifierFile, germplasmNames, ds.getDatasetId());
-
-			if (request.getConfig() != null)
-			{
-				File configFile = new File(asyncFolder, dsName + ".json");
-				Files.write(configFile.toPath(), Collections.singleton(new Gson().toJson(request.getConfig())), StandardCharsets.UTF_8);
-			}
+			// Store the job information in the database
+			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
+			dbJob.setUuid(uuid);
+			dbJob.setJobId("N/A");
+			dbJob.setDatasetIds(array);
+			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			dbJob.setDatasettypeId(4);
+			dbJob.setJobConfig(new ExportJobDetails()
+				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+				.setxIds(request.getxIds())
+				.setxGroupIds(request.getxGroupIds())
+				.setyIds(request.getyIds())
+				.setyGroupIds(request.getyGroupIds())
+				.setSubsetId(request.getMapId())
+				.setBinningConfig(request.getConfig())
+				.setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
+				.setFileTypes(request.getFileTypes()));
+			dbJob.setStatus(DatasetExportJobsStatus.running);
+			if (userDetails.getId() != -1000)
+				dbJob.setUserId(userDetails.getId());
+			dbJob.store();
 
 			File libFolder = ResourceUtils.getLibFolder();
 			List<String> args = new ArrayList<>();
 			args.add("-cp");
 			args.add(libFolder.getAbsolutePath() + File.separator + "*");
 			args.add(AllelefreqExporter.class.getCanonicalName());
-			args.add(hdf5.getAbsolutePath());
-			args.add(asyncFolder.getAbsolutePath());
-			args.add(dsName);
-			args.add(request.isGenerateFlapjackProject() ? AdditionalExportFormat.flapjack.name() : "\"\"");
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_SERVER)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_NAME)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PORT)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_USERNAME)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD)));
+			args.add(Integer.toString(dbJob.getId()));
 
 			JobInfo info = ApplicationListener.SCHEDULER.submit("AlleleFrequencyGenotypeExporter", "java", args, asyncFolder.getAbsolutePath());
 
-			Integer[] array = {ds.getDatasetId()};
-
 			// Store the job information in the database
-			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
-			dbJob.setUuid(uuid);
 			dbJob.setJobId(info.getId());
-			dbJob.setDatasetIds(array);
-			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-			dbJob.setDatasettypeId(4);
-			dbJob.setStatus(DatasetExportJobsStatus.running);
-			if (userDetails != null && userDetails.getId() != -1000)
-				dbJob.setUserId(userDetails.getId());
 			dbJob.store();
 
 			DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
@@ -608,7 +555,8 @@ public class DatasetExportResource extends ContextResource
 
 		try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 		{
-			if (CollectionUtils.isEmpty(datasetIds)) {
+			if (CollectionUtils.isEmpty(datasetIds))
+			{
 				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
 				return null;
 			}

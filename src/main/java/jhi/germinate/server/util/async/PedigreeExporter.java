@@ -1,38 +1,53 @@
 package jhi.germinate.server.util.async;
 
 import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
-import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.database.pojo.AdditionalExportFormat;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.resource.pedigrees.PedigreeResource;
 import jhi.germinate.server.util.CollectionUtils;
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.jooq.exception.DataAccessException;
+import org.jooq.impl.DSL;
 
 import java.io.*;
+import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
+import java.nio.file.Files;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Datasets.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
 
 public class PedigreeExporter
 {
-	private static final String           CRLF              = "\r\n";
-	private static final SimpleDateFormat SDF               = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-	private              File             folder;
-	private              Boolean          includeAttributes = false;
-	private              File             zipFile;
-	private              File             germplasmFile;
-	private              Set<String>      germplasm;
-	private              List<Integer>    datasetIds;
+	private static final String            CRLF              = "\r\n";
+	private static final SimpleDateFormat  SDF               = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+	private              File              folder;
+	private              Boolean           includeAttributes = false;
+	private              File              zipFile;
+	private              Set<String>       germplasm;
+	private              DatasetExportJobs exportJob;
+	private              Datasets          dataset;
 
 	private final Instant start;
 
@@ -44,27 +59,79 @@ public class PedigreeExporter
 	public static void main(String[] args)
 		throws IOException, SQLException
 	{
-		Database.init(args[0], args[1], args[2], args[3], args[4], false);
 		PedigreeExporter exporter = new PedigreeExporter();
-		exporter.datasetIds = Arrays.stream(args[5].split(",")).map(id -> Integer.parseInt(id)).collect(Collectors.toList());
-		exporter.folder = new File(args[6]);
-		exporter.includeAttributes = Boolean.parseBoolean(args[7]);
-		exporter.zipFile = new File(exporter.folder, exporter.folder.getName() + "-" + SDF.format(new Date()) + ".zip");
-		File germplasmFile = new File(exporter.folder, exporter.folder.getName() + ".germplasm");
+		Database.init(args[0], args[1], args[2], args[3], args[4], false);
+		Integer jobId = Integer.parseInt(args[5]);
 
-		if (germplasmFile.exists() && germplasmFile.isFile())
-			exporter.germplasmFile = germplasmFile;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
 
-		exporter.run();
+			exporter.exportJob = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAnyInto(DatasetExportJobs.class);
+			exporter.dataset = context.selectFrom(DATASETS).where(DATASETS.ID.eq(exporter.exportJob.getDatasetIds()[0])).fetchAnyInto(Datasets.class);
+
+			exporter.folder = new File(new File(exporter.exportJob.getJobConfig().getBaseFolder(), "async"), exporter.exportJob.getUuid());
+			String[] params = exporter.exportJob.getJobConfig().getExportParams();
+			exporter.includeAttributes = params != null && Arrays.asList(params).contains("includeAttributes");
+
+			exporter.zipFile = new File(exporter.folder, exporter.folder.getName() + "-" + SDF.format(new Date()) + ".zip");
+
+			exporter.run();
+
+			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			record.setStatus(DatasetExportJobsStatus.completed);
+			record.setResultSize(exporter.zipFile.length());
+			record.store(DATASET_EXPORT_JOBS.STATUS, DATASET_EXPORT_JOBS.RESULT_SIZE);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			try (Connection conn = Database.getConnection())
+			{
+				DSLContext context = Database.getContext(conn);
+
+				DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+				record.setStatus(DatasetExportJobsStatus.failed);
+				record.store(DATASET_EXPORT_JOBS.STATUS);
+			}
+			catch (Exception ee)
+			{
+				ee.printStackTrace();
+				Logger.getLogger("").severe(ee.getMessage());
+			}
+		}
 	}
 
 	private void init()
-		throws IOException
+		throws IOException, SQLException
 	{
-		if (germplasmFile != null)
+		try (Connection conn = Database.getConnection())
 		{
-			germplasm = new LinkedHashSet<>(Files.readAllLines(germplasmFile.toPath()));
-			germplasmFile.delete();
+			DSLContext context = Database.getContext(conn);
+
+			// Get the germplasm
+			if (exportJob.getJobConfig().getyGroupIds() != null || exportJob.getJobConfig().getyIds() != null)
+			{
+				Set<String> result = new LinkedHashSet<>();
+
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getyIds()))
+				{
+					result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
+										 .from(GERMINATEBASE)
+										 .where(GERMINATEBASE.ID.in(exportJob.getJobConfig().getyIds()))
+										 .fetchInto(String.class));
+				}
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getyGroupIds()))
+				{
+					result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
+										 .from(GERMINATEBASE)
+										 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getyGroupIds()))
+										 .fetchInto(String.class));
+				}
+
+				this.germplasm = result;
+			}
 		}
 	}
 
@@ -94,7 +161,7 @@ public class PedigreeExporter
 				Map<String, List<ViewTablePedigreesRecord>> parentToChildren = new HashMap<>();
 				Map<String, List<ViewTablePedigreesRecord>> childrenToParents = new HashMap<>();
 				context.selectFrom(VIEW_TABLE_PEDIGREES)
-					   .where(VIEW_TABLE_PEDIGREES.DATASET_ID.in(datasetIds))
+					   .where(VIEW_TABLE_PEDIGREES.DATASET_ID.in(dataset.getId()))
 					   .forEach(r -> {
 						   String child = r.getChildName();
 						   String parent = r.getParentName();
