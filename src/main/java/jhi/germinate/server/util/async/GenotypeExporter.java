@@ -67,6 +67,8 @@ public class GenotypeExporter
 	private final Instant         start;
 	private final ExecutorService executor;
 
+	private List<String> errors = new ArrayList<>();
+
 	public GenotypeExporter()
 	{
 		start = Instant.now();
@@ -106,7 +108,8 @@ public class GenotypeExporter
 			exporter.tabbedFile = new File(exporter.folder, exporter.projectName + ".txt");
 			exporter.zipFile = new File(exporter.folder, exporter.projectName + "-" + SDF.format(new Date()) + ".zip");
 
-			exporter.mapFile = new File(exporter.folder, exporter.projectName + ".map");
+			if (exporter.exportJob.getJobConfig().getSubsetId() != null)
+				exporter.mapFile = new File(exporter.folder, exporter.projectName + ".map");
 			exporter.identifierFile = new File(exporter.folder, exporter.projectName + ".identifiers");
 
 			if (formats.contains(AdditionalExportFormat.flapjack))
@@ -117,6 +120,9 @@ public class GenotypeExporter
 			exporter.includeFlatText = formats.contains(AdditionalExportFormat.text);
 
 			exporter.run();
+
+			if (!CollectionUtils.isEmpty(exporter.errors))
+				throw new IOException("Importer failed to run successfully. " + String.join("\n", exporter.errors));
 
 			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
 			record.setStatus(DatasetExportJobsStatus.completed);
@@ -282,6 +288,7 @@ public class GenotypeExporter
 			}
 			catch (IOException e)
 			{
+				errors.add(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -391,6 +398,7 @@ public class GenotypeExporter
 		}
 		catch (IOException | InterruptedException e)
 		{
+			errors.add(e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -426,6 +434,7 @@ public class GenotypeExporter
 			}
 			catch (IOException e)
 			{
+				errors.add(e.getMessage());
 				e.printStackTrace();
 			}
 			finally
@@ -461,6 +470,7 @@ public class GenotypeExporter
 			}
 			catch (IOException e)
 			{
+				errors.add(e.getMessage());
 				e.printStackTrace();
 			}
 			finally
@@ -477,7 +487,7 @@ public class GenotypeExporter
 			{
 				System.out.println("EXTRACTING HAPMAP INTO ZIP");
 				Map<String, Hdf5ToHapmapConverter.MarkerPosition> map = new HashMap<>();
-				if (mapFile != null)
+				if (mapFile != null && mapFile.exists())
 				{
 					Files.readAllLines(mapFile.toPath()).stream().skip(1).filter(l -> !StringUtils.isEmpty(l)).forEachOrdered(m -> {
 						String[] parts = m.split("\t");
@@ -497,6 +507,7 @@ public class GenotypeExporter
 			}
 			catch (IOException e)
 			{
+				errors.add(e.getMessage());
 				e.printStackTrace();
 			}
 			finally

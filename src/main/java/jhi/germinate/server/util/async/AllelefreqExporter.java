@@ -59,6 +59,8 @@ public class AllelefreqExporter
 	private DatasetExportJobs exportJob;
 	private Datasets          dataset;
 
+	private List<String> errors = new ArrayList<>();
+
 	public AllelefreqExporter()
 	{
 	}
@@ -91,7 +93,8 @@ public class AllelefreqExporter
 			exporter.tabbedUnbinnedFile = new File(exporter.folder, exporter.projectName + "-unbinned.txt");
 			exporter.zipFile = new File(exporter.folder, exporter.projectName + "-" + SDF.format(new Date()) + ".zip");
 
-			exporter.mapFile = new File(exporter.folder, exporter.projectName + ".map");
+			if (exporter.exportJob.getJobConfig().getSubsetId() != null)
+				exporter.mapFile = new File(exporter.folder, exporter.projectName + ".map");
 			exporter.identifierFile = new File(exporter.folder, exporter.projectName + ".identifiers");
 
 			exporter.binningConfig = exporter.exportJob.getJobConfig().getBinningConfig();
@@ -100,6 +103,9 @@ public class AllelefreqExporter
 				exporter.flapjackProjectFile = new File(exporter.folder, exporter.projectName + ".flapjack");
 
 			exporter.run();
+
+			if (!CollectionUtils.isEmpty(exporter.errors))
+				throw new IOException("Importer failed to run successfully. " + String.join("\n", exporter.errors));
 
 			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
 			record.setStatus(DatasetExportJobsStatus.completed);
@@ -265,6 +271,7 @@ public class AllelefreqExporter
 			}
 			catch (IOException e)
 			{
+				errors.add(e.getMessage());
 				e.printStackTrace();
 			}
 		}
