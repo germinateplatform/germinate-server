@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.publications;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
@@ -8,9 +11,6 @@ import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import java.sql.*;
 import java.util.List;
 

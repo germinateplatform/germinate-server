@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.groups;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.GroupModificationRequest;
 import jhi.germinate.resource.enums.UserType;
@@ -10,10 +13,8 @@ import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
@@ -26,6 +27,24 @@ import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
 @Secured
 public class GroupResource extends BaseResource
 {
+	public static List<Integer> getGroupIdsForUser(AuthenticationFilter.UserDetails userDetails, Integer foreignId)
+		throws IOException, SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			SelectConditionStep<Record1<Integer>> where = context.select(GROUPS.ID)
+																 .from(GROUPS)
+																 .where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())));
+
+			if (foreignId != null)
+				where.andExists(DSL.selectOne().from(GROUPMEMBERS).where(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID).and(GROUPMEMBERS.FOREIGN_ID.eq(foreignId))));
+
+			return where.fetchInto(Integer.class);
+		}
+	}
+
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
