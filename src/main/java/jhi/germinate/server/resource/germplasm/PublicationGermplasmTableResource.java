@@ -32,8 +32,6 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 	public PaginatedResult<List<ViewTablePublicationGermplasm>> postPublicationGermplasmTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
 		{

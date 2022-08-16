@@ -1,23 +1,23 @@
 package jhi.germinate.server.resource.fileresource;
 
-import jakarta.ws.rs.Path;
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.UserType;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.datasets.*;
 import jhi.germinate.server.util.*;
-import org.glassfish.jersey.media.multipart.*;
 import org.jooq.DSLContext;
 
-import jakarta.annotation.security.PermitAll;
 import java.io.*;
-import java.nio.file.*;
+import java.nio.file.Files;
 import java.sql.*;
-import java.util.UUID;
+import java.util.*;
 
+import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
 import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
 import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 
@@ -81,7 +81,28 @@ public class FileResourceResource extends ContextResource
 			record.setFileresourcetypeId(type.getId());
 			record.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-			return record.store() > 0;
+			record.store();
+
+			if (!CollectionUtils.isEmpty(fileResource.getDatasetIds()))
+			{
+				AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+				List<Integer> requestedIds = new ArrayList<>(Arrays.asList(fileResource.getDatasetIds()));
+				List<Integer> availableIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+
+				requestedIds.retainAll(availableIds);
+
+				for (Integer datasetId : requestedIds)
+				{
+					DatasetfileresourcesRecord fileRes = context.newRecord(DATASETFILERESOURCES);
+					fileRes.setDatasetId(datasetId);
+					fileRes.setFileresourceId(record.getId());
+					fileRes.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+					fileRes.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+					fileRes.store();
+				}
+			}
+
+			return true;
 		}
 	}
 
