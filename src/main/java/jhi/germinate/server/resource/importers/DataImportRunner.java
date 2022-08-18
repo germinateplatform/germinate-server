@@ -172,6 +172,8 @@ public class DataImportRunner
 				return GroupImporter.class.getCanonicalName();
 			case climate:
 				return ClimateDataImporter.class.getCanonicalName();
+			case images:
+				return ImageImporter.class.getCanonicalName();
 			default:
 				throw new GerminateException(Response.Status.NOT_IMPLEMENTED);
 				// TODO: Others

@@ -1,18 +1,23 @@
 package jhi.germinate.server.resource.images;
 
-import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
-import jhi.germinate.server.resource.*;
-import jhi.germinate.server.util.*;
-import org.jooq.*;
-
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.*;
+import jhi.germinate.resource.*;
+import jhi.germinate.resource.enums.ServerProperty;
+import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
+import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.pojo.ExportJobDetails;
+import jhi.germinate.server.resource.*;
+import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.async.ImageZipExporter;
+import jhi.oddjob.JobInfo;
+import org.jooq.*;
+
 import java.io.File;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -23,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
 
+import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
 
 @jakarta.ws.rs.Path("image/table/export")
@@ -32,96 +38,75 @@ public class ImageTableExportResource extends BaseResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("application/zip")
-	public Response postImageTableExport(PaginatedRequest request)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<AsyncExportResult> postImageTableExport(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);
 
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
-		String name = "images";
-
-		try
+		try (Connection conn = Database.getConnection())
 		{
-			File zipFile = ResourceUtils.createTempFile(null, name, ".zip", false);
+			DSLContext context = Database.getContext(conn);
 
-			String prefix = zipFile.getAbsolutePath().replace("\\", "/");
-			if (prefix.startsWith("/"))
-				prefix = prefix.substring(1);
+			SelectJoinStep<Record> from = context.select().from(VIEW_TABLE_IMAGES);
+			// Filter here!
+			filter(from, filters);
+			List<Integer> imageIds = new ArrayList<>();
 
-			URI uri = URI.create("jar:file:/" + prefix);
+			setPaginationAndOrderBy(from)
+				.forEach(i -> {
+					imageIds.add(i.get(VIEW_TABLE_IMAGES.IMAGE_ID));
+				});
 
-			Map<String, String> env = new HashMap<>();
-			env.put("create", "true");
-			env.put("encoding", "UTF-8");
+			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-			try (Connection conn = Database.getConnection();
-				 FileSystem fs = FileSystems.newFileSystem(uri, env, null))
-			{
-				DSLContext context = Database.getContext(conn);
-				SelectJoinStep<Record> from = context.select().from(VIEW_TABLE_IMAGES);
+			String uuid = UUID.randomUUID().toString();
 
-				// Filter here!
-				filter(from, filters);
+			// Get the target folder for all generated files
+			File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
+			asyncFolder.mkdirs();
 
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+			// Store the job information in the database
+			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
+			dbJob.setUuid(uuid);
+			dbJob.setJobId("N/A");
+			dbJob.setDatasettypeId(8008);
+			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			dbJob.setJobConfig(new ExportJobDetails()
+				.setyIds(imageIds.toArray(new Integer[0]))
+				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL)));
+			dbJob.setStatus(DatasetExportJobsStatus.running);
+			if (userDetails.getId() != -1000)
+				dbJob.setUserId(userDetails.getId());
+			dbJob.store();
 
-				setPaginationAndOrderBy(from)
-					.fetchInto(ViewTableImages.class)
-					.forEach(i -> {
-						File source = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), "database"), i.getImagePath());
+			File libFolder = ResourceUtils.getLibFolder();
+			List<String> args = new ArrayList<>();
+			args.add("-cp");
+			args.add(libFolder.getAbsolutePath() + File.separator + "*");
+			args.add(ImageZipExporter.class.getCanonicalName());
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_SERVER)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_NAME)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PORT)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_USERNAME)));
+			args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD)));
+			args.add(Integer.toString(dbJob.getId()));
 
-						if (source.exists())
-						{
-							String targetPrefix = i.getImageRefTable();
-							String targetName;
-							if (i.getCreatedOn() != null)
-								targetName = sdf.format(new Date(i.getCreatedOn().getTime())) + "-" + i.getReferenceName();
-							else
-								targetName = i.getReferenceName();
-							String fileExtension = i.getImagePath().substring(i.getImagePath().lastIndexOf("."));
-							java.nio.file.Path target = fs.getPath("/", targetPrefix, targetName + fileExtension);
-							try
-							{
-								Files.createDirectories(target.getParent());
-							}
-							catch (IOException e)
-							{
-								e.printStackTrace();
-							}
+			JobInfo info = ApplicationListener.SCHEDULER.submit("ImageZipExporter", "java", args, asyncFolder.getAbsolutePath());
 
-							int counter = 1;
-							while (Files.exists(target))
-							{
-								String tempName = targetName + "-" + (counter++) + fileExtension;
-								target = fs.getPath("/", targetPrefix, tempName);
-							}
+			// Store the job information in the database
+			dbJob.setJobId(info.getId());
+			dbJob.store();
 
-							try
-							{
-								Files.copy(source.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
-							}
-							catch (IOException e)
-							{
-								e.printStackTrace();
-							}
-						}
-					});
-			}
-
-
-			Path zipFilePath = zipFile.toPath();
-			return Response.ok((StreamingOutput) output -> {
-				Files.copy(zipFilePath, output);
-				Files.deleteIfExists(zipFilePath);
-			})
-						   .type("application/zip")
-						   .header("content-disposition", "attachment;filename= \"" + zipFile.getName() + "\"")
-						   .header("content-length", zipFile.length())
-						   .build();
+			// Return the result
+			AsyncExportResult result = new AsyncExportResult();
+			result.setUuid(uuid);
+			result.setStatus("running");
+			return Collections.singletonList(result);
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
