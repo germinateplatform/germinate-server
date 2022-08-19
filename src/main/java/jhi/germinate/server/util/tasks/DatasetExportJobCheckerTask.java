@@ -18,14 +18,14 @@
 package jhi.germinate.server.util.tasks;
 
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
 import java.io.File;
 import java.sql.*;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 
 public class DatasetExportJobCheckerTask implements Runnable
 {
@@ -35,8 +35,8 @@ public class DatasetExportJobCheckerTask implements Runnable
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			context.selectFrom(DATASET_EXPORT_JOBS)
-				   .where(DATASET_EXPORT_JOBS.STATUS.notEqual(DatasetExportJobsStatus.completed))
+			context.selectFrom(DATA_EXPORT_JOBS)
+				   .where(DATA_EXPORT_JOBS.STATUS.notEqual(DataExportJobsStatus.completed))
 				   .forEach(j -> {
 					   try
 					   {
@@ -53,7 +53,7 @@ public class DatasetExportJobCheckerTask implements Runnable
 							   if (!CollectionUtils.isEmpty(zipFiles))
 								   j.setResultSize(zipFiles[0].length());
 
-							   j.setStatus(DatasetExportJobsStatus.completed);
+							   j.setStatus(DataExportJobsStatus.completed);
 							   j.store();
 						   }
 					   }

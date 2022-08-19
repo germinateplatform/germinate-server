@@ -3,9 +3,9 @@ package jhi.germinate.server.util.async;
 import jhi.flapjack.io.FlapjackFile;
 import jhi.flapjack.io.cmd.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.database.pojo.AdditionalExportFormat;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -59,7 +59,7 @@ public class GenotypeExporter
 	private String            headers         = "";
 	private String            projectName;
 	private boolean           includeFlatText = true;
-	private DatasetExportJobs exportJob;
+	private DataExportJobs exportJob;
 	private Datasets          dataset;
 
 	private final CountDownLatch latch;
@@ -88,7 +88,10 @@ public class GenotypeExporter
 		{
 			DSLContext context = Database.getContext(conn);
 
-			exporter.exportJob = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAnyInto(DatasetExportJobs.class);
+			DataExportJobsRecord job = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			job.setStatus(DataExportJobsStatus.running);
+			job.store(DATA_EXPORT_JOBS.STATUS);
+			exporter.exportJob = job.into(DataExportJobs.class);
 			exporter.dataset = context.selectFrom(DATASETS).where(DATASETS.ID.eq(exporter.exportJob.getDatasetIds()[0])).fetchAnyInto(Datasets.class);
 
 			exporter.hdf5File = new File(new File(new File(exporter.exportJob.getJobConfig().getBaseFolder(), "data"), "genotypes"), exporter.dataset.getSourceFile());
@@ -124,10 +127,10 @@ public class GenotypeExporter
 			if (!CollectionUtils.isEmpty(exporter.errors))
 				throw new IOException("Importer failed to run successfully. " + String.join("\n", exporter.errors));
 
-			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
-			record.setStatus(DatasetExportJobsStatus.completed);
+			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			record.setStatus(DataExportJobsStatus.completed);
 			record.setResultSize(exporter.zipFile.length());
-			record.store(DATASET_EXPORT_JOBS.STATUS, DATASET_EXPORT_JOBS.RESULT_SIZE);
+			record.store(DATA_EXPORT_JOBS.STATUS, DATA_EXPORT_JOBS.RESULT_SIZE);
 		}
 		catch (Exception e)
 		{
@@ -136,9 +139,9 @@ public class GenotypeExporter
 			{
 				DSLContext context = Database.getContext(conn);
 
-				DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
-				record.setStatus(DatasetExportJobsStatus.failed);
-				record.store(DATASET_EXPORT_JOBS.STATUS);
+				DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+				record.setStatus(DataExportJobsStatus.failed);
+				record.store(DATA_EXPORT_JOBS.STATUS);
 			}
 			catch (Exception ee)
 			{

@@ -8,7 +8,7 @@ import jhi.flapjack.io.binning.MakeHistogram;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.routines.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
@@ -29,7 +29,7 @@ import java.sql.*;
 import java.util.Date;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
 
 @Path("dataset/export")
@@ -80,12 +80,12 @@ public class DatasetExportResource extends ContextResource
 			Integer[] array = {ds.getDatasetId()};
 
 			// Store the job information in the database
-			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
+			DataExportJobsRecord dbJob = context.newRecord(DATA_EXPORT_JOBS);
 			dbJob.setUuid(uuid);
 			dbJob.setJobId("N/A");
 			dbJob.setDatasetIds(array);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-			dbJob.setDatasettypeId(4);
+			dbJob.setDatatype(DataExportJobsDatatype.allelefreq);
 			dbJob.setJobConfig(new ExportJobDetails()
 				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
 				.setxIds(request.getxIds())
@@ -96,7 +96,7 @@ public class DatasetExportResource extends ContextResource
 				.setBinningConfig(request.getConfig())
 				.setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
 				.setFileTypes(request.getFileTypes()));
-			dbJob.setStatus(DatasetExportJobsStatus.running);
+			dbJob.setStatus(DataExportJobsStatus.waiting);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
 			dbJob.store();
@@ -128,7 +128,7 @@ public class DatasetExportResource extends ContextResource
 			// Return the result
 			AsyncExportResult result = new AsyncExportResult();
 			result.setUuid(uuid);
-			result.setStatus("running");
+			result.setStatus("waiting");
 			return result;
 		}
 		catch (Exception e)

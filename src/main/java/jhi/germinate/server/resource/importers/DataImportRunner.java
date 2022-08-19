@@ -67,14 +67,14 @@ public class DataImportRunner
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
 
 			record.setJobId(info.getId());
-			record.setStatus(DataImportJobsStatus.running);
+			record.setStatus(DataImportJobsStatus.waiting);
 			record.setImported(true);
 			record.store();
 
 			// Return the result
 			AsyncExportResult individualResult = new AsyncExportResult();
 			individualResult.setUuid(uuid);
-			individualResult.setStatus("running");
+			individualResult.setStatus("waiting");
 
 			return Collections.singletonList(individualResult);
 		}
@@ -120,7 +120,7 @@ public class DataImportRunner
 			dbJob.setOriginalFilename(originalFileName);
 			dbJob.setIsUpdate(isUpdate);
 			dbJob.setDatasetstateId(datasetStateId);
-			dbJob.setStatus(DataImportJobsStatus.running);
+			dbJob.setStatus(DataImportJobsStatus.waiting);
 			dbJob.setJobConfig(details);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
@@ -137,7 +137,7 @@ public class DataImportRunner
 			// Return the result
 			AsyncExportResult individualResult = new AsyncExportResult();
 			individualResult.setUuid(uuid);
-			individualResult.setStatus("running");
+			individualResult.setStatus("waiting");
 
 			return Collections.singletonList(individualResult);
 		}

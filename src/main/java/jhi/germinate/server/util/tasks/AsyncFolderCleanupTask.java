@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.logging.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 
 /**
  * @author Sebastian Raubach
@@ -43,9 +43,9 @@ public class AsyncFolderCleanupTask implements Runnable
 		{
 			DSLContext context = Database.getContext(conn);
 			// Get all invisible jobs and failed jobs
-			context.selectFrom(DATASET_EXPORT_JOBS)
-				   .where(DATASET_EXPORT_JOBS.VISIBILITY.eq(false)
-														.or(DATASET_EXPORT_JOBS.STATUS.eq(DatasetExportJobsStatus.failed)))
+			context.selectFrom(DATA_EXPORT_JOBS)
+				   .where(DATA_EXPORT_JOBS.VISIBILITY.eq(false)
+														.or(DATA_EXPORT_JOBS.STATUS.eq(DataExportJobsStatus.failed)))
 				   .forEach(j -> checkJob(j.getUuid()));
 			context.selectFrom(DATA_IMPORT_JOBS)
 				   .where(DATA_IMPORT_JOBS.VISIBILITY.eq(false)

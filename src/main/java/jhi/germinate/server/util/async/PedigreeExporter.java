@@ -1,7 +1,7 @@
 package jhi.germinate.server.util.async;
 
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
@@ -28,7 +28,7 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -46,7 +46,7 @@ public class PedigreeExporter
 	private              Boolean           includeAttributes = false;
 	private              File              zipFile;
 	private              Set<String>       germplasm;
-	private              DatasetExportJobs exportJob;
+	private              DataExportJobs exportJob;
 	private              Datasets          dataset;
 
 	private final Instant start;
@@ -67,7 +67,10 @@ public class PedigreeExporter
 		{
 			DSLContext context = Database.getContext(conn);
 
-			exporter.exportJob = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAnyInto(DatasetExportJobs.class);
+			DataExportJobsRecord job = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			job.setStatus(DataExportJobsStatus.running);
+			job.store(DATA_EXPORT_JOBS.STATUS);
+			exporter.exportJob = job.into(DataExportJobs.class);
 			exporter.dataset = context.selectFrom(DATASETS).where(DATASETS.ID.eq(exporter.exportJob.getDatasetIds()[0])).fetchAnyInto(Datasets.class);
 
 			exporter.folder = new File(new File(exporter.exportJob.getJobConfig().getBaseFolder(), "async"), exporter.exportJob.getUuid());
@@ -78,10 +81,10 @@ public class PedigreeExporter
 
 			exporter.run();
 
-			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
-			record.setStatus(DatasetExportJobsStatus.completed);
+			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			record.setStatus(DataExportJobsStatus.completed);
 			record.setResultSize(exporter.zipFile.length());
-			record.store(DATASET_EXPORT_JOBS.STATUS, DATASET_EXPORT_JOBS.RESULT_SIZE);
+			record.store(DATA_EXPORT_JOBS.STATUS, DATA_EXPORT_JOBS.RESULT_SIZE);
 		}
 		catch (Exception e)
 		{
@@ -90,9 +93,9 @@ public class PedigreeExporter
 			{
 				DSLContext context = Database.getContext(conn);
 
-				DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
-				record.setStatus(DatasetExportJobsStatus.failed);
-				record.store(DATASET_EXPORT_JOBS.STATUS);
+				DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+				record.setStatus(DataExportJobsStatus.failed);
+				record.store(DATA_EXPORT_JOBS.STATUS);
 			}
 			catch (Exception ee)
 			{

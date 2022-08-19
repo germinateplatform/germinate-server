@@ -1,9 +1,9 @@
 package jhi.germinate.server.util.async;
 
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import org.jooq.DSLContext;
 import org.jooq.exception.DataAccessException;
 
@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
 
 public class ImageZipExporter
@@ -26,7 +26,7 @@ public class ImageZipExporter
 	private static final SimpleDateFormat      SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 	private              File                  folder;
 	private              File                  zipFile;
-	private              DatasetExportJobs     exportJob;
+	private              DataExportJobs     exportJob;
 	private              List<ViewTableImages> images;
 
 	private final Instant start;
@@ -47,16 +47,19 @@ public class ImageZipExporter
 		{
 			DSLContext context = Database.getContext(conn);
 
-			exporter.exportJob = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAnyInto(DatasetExportJobs.class);
+			DataExportJobsRecord job = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			job.setStatus(DataExportJobsStatus.running);
+			job.store(DATA_EXPORT_JOBS.STATUS);
+			exporter.exportJob = job.into(DataExportJobs.class);
 			exporter.folder = new File(new File(exporter.exportJob.getJobConfig().getBaseFolder(), "async"), exporter.exportJob.getUuid());
 			exporter.zipFile = new File(exporter.folder, exporter.folder.getName() + "-" + SDF.format(new Date()) + ".zip");
 
 			exporter.run();
 
-			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
-			record.setStatus(DatasetExportJobsStatus.completed);
+			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+			record.setStatus(DataExportJobsStatus.completed);
 			record.setResultSize(exporter.zipFile.length());
-			record.store(DATASET_EXPORT_JOBS.STATUS, DATASET_EXPORT_JOBS.RESULT_SIZE);
+			record.store(DATA_EXPORT_JOBS.STATUS, DATA_EXPORT_JOBS.RESULT_SIZE);
 		}
 		catch (Exception e)
 		{
@@ -65,9 +68,9 @@ public class ImageZipExporter
 			{
 				DSLContext context = Database.getContext(conn);
 
-				DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS).where(DATASET_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
-				record.setStatus(DatasetExportJobsStatus.failed);
-				record.store(DATASET_EXPORT_JOBS.STATUS);
+				DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS).where(DATA_EXPORT_JOBS.ID.eq(jobId)).fetchAny();
+				record.setStatus(DataExportJobsStatus.failed);
+				record.store(DATA_EXPORT_JOBS.STATUS);
 			}
 			catch (Exception ee)
 			{

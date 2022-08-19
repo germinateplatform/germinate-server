@@ -2,9 +2,9 @@ package jhi.germinate.server.resource.datasets.export;
 
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
-import jhi.germinate.server.database.codegen.tables.pojos.DatasetExportJobs;
-import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
+import jhi.germinate.server.database.codegen.tables.pojos.DataExportJobs;
+import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.apache.commons.io.FileUtils;
@@ -18,7 +18,7 @@ import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 
 @Path("dataset/export/async")
 public class AsyncDatasetExportResource extends ContextResource implements AsyncResource
@@ -28,7 +28,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
-	public List<DatasetExportJobs> postJson(UuidRequest request)
+	public List<DataExportJobs> postJson(UuidRequest request)
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -39,12 +39,12 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			return context.selectFrom(DATASET_EXPORT_JOBS)
-						  .where(DATASET_EXPORT_JOBS.UUID.in(request.getUuids())
-														 .or(DATASET_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
-						  .and(DATASET_EXPORT_JOBS.VISIBILITY.eq(true))
-						  .orderBy(DATASET_EXPORT_JOBS.UPDATED_ON.desc())
-						  .fetchInto(DatasetExportJobs.class);
+			return context.selectFrom(DATA_EXPORT_JOBS)
+						  .where(DATA_EXPORT_JOBS.UUID.in(request.getUuids())
+														 .or(DATA_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
+						  .and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
+						  .orderBy(DATA_EXPORT_JOBS.UPDATED_ON.desc())
+						  .fetchInto(DataExportJobs.class);
 		}
 	}
 
@@ -68,11 +68,11 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS)
-													.where(DATASET_EXPORT_JOBS.UUID.in(jobUuid))
-													.fetchAnyInto(DatasetExportJobsRecord.class);
+			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS)
+													.where(DATA_EXPORT_JOBS.UUID.in(jobUuid))
+													.fetchAnyInto(DataExportJobsRecord.class);
 
-			boolean isCancelRequest = record.getStatus() == DatasetExportJobsStatus.running;
+			boolean isCancelRequest = record.getStatus() == DataExportJobsStatus.running;
 
 			// If the user is logged in
 			if (userDetails.getId() != -1000)
@@ -81,7 +81,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 				{
 					if (isCancelRequest)
 					{
-						record.setStatus(DatasetExportJobsStatus.cancelled);
+						record.setStatus(DataExportJobsStatus.cancelled);
 						cancelJob(record.getUuid(), record.getJobId());
 					}
 					record.setVisibility(false);
@@ -98,7 +98,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			{
 				if (isCancelRequest)
 				{
-					record.setStatus(DatasetExportJobsStatus.cancelled);
+					record.setStatus(DataExportJobsStatus.cancelled);
 					cancelJob(record.getUuid(), record.getJobId());
 				}
 				record.setVisibility(false);
@@ -124,10 +124,10 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			DatasetExportJobsRecord record = context.selectFrom(DATASET_EXPORT_JOBS)
-													.where(DATASET_EXPORT_JOBS.UUID.eq(jobUuid))
-													.and(DATASET_EXPORT_JOBS.VISIBILITY.eq(true))
-													.fetchAnyInto(DatasetExportJobsRecord.class);
+			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS)
+													.where(DATA_EXPORT_JOBS.UUID.eq(jobUuid))
+													.and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
+													.fetchAnyInto(DataExportJobsRecord.class);
 
 			if (record == null)
 			{
@@ -152,7 +152,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			resultFile.setLastModified(System.currentTimeMillis());
 
 			record.setVisibility(false);
-			record.store(DATASET_EXPORT_JOBS.VISIBILITY);
+			record.store(DATA_EXPORT_JOBS.VISIBILITY);
 
 			java.nio.file.Path zipFilePath = resultFile.toPath();
 			return Response.ok((StreamingOutput) output -> {

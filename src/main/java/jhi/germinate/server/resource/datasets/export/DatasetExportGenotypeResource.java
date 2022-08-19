@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.database.codegen.tables.records.*;
@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -81,12 +81,12 @@ public class DatasetExportGenotypeResource extends ContextResource
 				Integer[] array = {ds.getDatasetId()};
 
 				// Store the job information in the database
-				DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
+				DataExportJobsRecord dbJob = context.newRecord(DATA_EXPORT_JOBS);
 				dbJob.setUuid(uuid);
 				dbJob.setJobId("N/A");
 				dbJob.setDatasetIds(array);
 				dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-				dbJob.setDatasettypeId(1);
+				dbJob.setDatatype(DataExportJobsDatatype.genotype);
 				dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
 					.setxIds(request.getxIds())
@@ -96,7 +96,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 					.setSubsetId(request.getMapId())
 					.setFileHeaders(String.join("\n", getFlapjackHeaders()) + "\n")
 					.setFileTypes(request.getFileTypes()));
-				dbJob.setStatus(DatasetExportJobsStatus.running);
+				dbJob.setStatus(DataExportJobsStatus.waiting);
 				if (userDetails.getId() != -1000)
 					dbJob.setUserId(userDetails.getId());
 				dbJob.store();
@@ -128,7 +128,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 				// Return the result
 				AsyncExportResult individualResult = new AsyncExportResult();
 				individualResult.setUuid(uuid);
-				individualResult.setStatus("running");
+				individualResult.setStatus("waiting");
 
 				result.add(individualResult);
 			}

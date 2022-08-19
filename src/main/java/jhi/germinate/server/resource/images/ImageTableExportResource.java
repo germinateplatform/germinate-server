@@ -6,9 +6,9 @@ import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.DatasetExportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
-import jhi.germinate.server.database.codegen.tables.records.DatasetExportJobsRecord;
+import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.database.pojo.ExportJobDetails;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DatasetExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
 
 @jakarta.ws.rs.Path("image/table/export")
@@ -69,15 +69,15 @@ public class ImageTableExportResource extends BaseResource
 			asyncFolder.mkdirs();
 
 			// Store the job information in the database
-			DatasetExportJobsRecord dbJob = context.newRecord(DATASET_EXPORT_JOBS);
+			DataExportJobsRecord dbJob = context.newRecord(DATA_EXPORT_JOBS);
 			dbJob.setUuid(uuid);
 			dbJob.setJobId("N/A");
-			dbJob.setDatasettypeId(8008);
+			dbJob.setDatatype(DataExportJobsDatatype.images);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setJobConfig(new ExportJobDetails()
 				.setyIds(imageIds.toArray(new Integer[0]))
 				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL)));
-			dbJob.setStatus(DatasetExportJobsStatus.running);
+			dbJob.setStatus(DataExportJobsStatus.waiting);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
 			dbJob.store();
@@ -103,7 +103,7 @@ public class ImageTableExportResource extends BaseResource
 			// Return the result
 			AsyncExportResult result = new AsyncExportResult();
 			result.setUuid(uuid);
-			result.setStatus("running");
+			result.setStatus("waiting");
 			return Collections.singletonList(result);
 		}
 		catch (Exception e)
