@@ -8,11 +8,13 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.*;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
-import org.jooq.DSLContext;
+import org.jooq.*;
+import org.jooq.impl.DSL;
 
 import java.io.*;
+import java.io.File;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
@@ -116,6 +118,9 @@ public class FileResourceResource extends ContextResource
 	public Response getFileResource(@PathParam("fileResourceId") Integer fileResourceId)
 		throws IOException, SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+
 		if (fileResourceId == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
@@ -124,9 +129,12 @@ public class FileResourceResource extends ContextResource
 
 		try (Connection conn = Database.getConnection())
 		{
+			// Check whether there isn't a dataset linked to this resource OR whether the user has access to that dataset
+			Condition cond = DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
+								.or(DSL.exists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 			DSLContext context = Database.getContext(conn);
 			FileresourcesRecord record = context.selectFrom(FILERESOURCES)
-												.where(FILERESOURCES.ID.eq(fileResourceId))
+												.where(FILERESOURCES.ID.eq(fileResourceId).and(cond))
 												.fetchAny();
 
 			if (record == null)
