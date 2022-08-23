@@ -9,8 +9,8 @@ import org.jooq.conf.*;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
-import java.io.*;
 import java.io.File;
+import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -209,6 +209,24 @@ public class Database
 			}
 		}
 	}
+
+//	public static void main(String[] args)
+//		throws IOException, URISyntaxException
+//	{
+//		Database.init("localhost", "germinate_template_4_22_08_23", null, "root", null, false);
+//
+//		URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
+//
+//		if (url != null)
+//		{
+//			Logger.getLogger("").log(Level.INFO, "RUNNING VIEW/PROCEDURE CREATION SCRIPT!");
+//			executeFile(new File(url.toURI()));
+//		}
+//		else
+//		{
+//			throw new IOException("View/procedure SQL file not found!");
+//		}
+//	}
 
 	/**
 	 * Executes an .sql file against the database
