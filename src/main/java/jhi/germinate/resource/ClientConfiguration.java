@@ -12,6 +12,7 @@ public class ClientConfiguration
 	private AuthenticationMode authMode;
 	private List<String>       colorsTemplate;
 	private List<String>       colorsCharts;
+	private List<String>       colorsGradient;
 	private String             colorPrimary;
 	private Boolean            commentsEnabled;
 	private List<String>       dashboardCategories;
@@ -51,6 +52,17 @@ public class ClientConfiguration
 	public ClientConfiguration setColorsCharts(List<String> colorsCharts)
 	{
 		this.colorsCharts = colorsCharts;
+		return this;
+	}
+
+	public List<String> getColorsGradient()
+	{
+		return colorsGradient;
+	}
+
+	public ClientConfiguration setColorsGradient(List<String> colorsGradient)
+	{
+		this.colorsGradient = colorsGradient;
 		return this;
 	}
 

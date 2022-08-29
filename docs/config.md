@@ -118,6 +118,7 @@ bcrypt.salt                               = <the salt value used for password ha
 color.primary   = <the primary color (hex-code) of the user interface>
 colors.charts   = <comma separated list of colors (hex-code) used for charts>
 colors.template = <comma separated list of colors (hex-code) used for the user interface>
+colors.gradient = <comma separated list of colors (hex-code) used for gradients>
 
 # This is the most important property. It points Germinate to the location of all configuration files.
 data.directory.external = <location of the directory containing the configuration files (the ones explained in this section). Should be '/data/germinate' if using the Docker image.>

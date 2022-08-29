@@ -31,6 +31,7 @@ import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 
 /**
@@ -57,7 +58,7 @@ public class AllelefreqExporter
 	private String        projectName;
 
 	private DataExportJobs exportJob;
-	private Datasets          dataset;
+	private Datasets       dataset;
 
 	private List<String> errors = new ArrayList<>();
 
@@ -227,10 +228,11 @@ public class AllelefreqExporter
 				bw.write("\tPUID\tSource Material Name\tSource Material PUID\tSynonyms");
 
 				jhi.germinate.server.database.codegen.tables.Germinatebase g = GERMINATEBASE.as("g");
+				jhi.germinate.server.database.codegen.tables.Mcpd m = MCPD.as("m");
 				Field<String> childName = GERMINATEBASE.NAME.as("childName");
-				Field<String> childPuid = GERMINATEBASE.PUID.as("childPuid");
+				Field<String> childPuid = MCPD.PUID.as("childPuid");
 				Field<String> parentName = g.NAME.as("parentName");
-				Field<String> parentPuid = g.PUID.as("parentPuid");
+				Field<String> parentPuid = m.PUID.as("parentPuid");
 				Field<String[]> synonyms = SYNONYMS.SYNONYMS_.as("synonyms");
 
 				SelectJoinStep<Record5<String, String, String, String, String[]>> step = context.select(
@@ -240,6 +242,8 @@ public class AllelefreqExporter
 					parentPuid,
 					synonyms
 				).from(GERMINATEBASE.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
+									.leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+									.leftJoin(m).on(m.GERMINATEBASE_ID.eq(g.ID))
 									.leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID))));
 
 				// Restrict to the requested germplasm (if any)
@@ -253,8 +257,8 @@ public class AllelefreqExporter
 																			 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
 																			 .and(DATASETMEMBERS.DATASET_ID.eq(exportJob.getDatasetIds()[0])))));
 
-				// Get only the ones where there's either an entity parent or the PUID or the synonyms are't null, otherwise we're wasting space in the file
-				step.where(GERMINATEBASE.ENTITYPARENT_ID.isNotNull().or(GERMINATEBASE.PUID.isNotNull()).or(SYNONYMS.SYNONYMS_.isNotNull()));
+				// Get only the ones where there's either an entity parent or the PUID or the synonyms aren't null, otherwise we're wasting space in the file
+				step.where(GERMINATEBASE.ENTITYPARENT_ID.isNotNull().or(MCPD.PUID.isNotNull()).or(SYNONYMS.SYNONYMS_.isNotNull()));
 
 				step.forEach(r -> {
 					try
@@ -264,7 +268,7 @@ public class AllelefreqExporter
 						bw.write((r.get(childPuid) == null ? "" : r.get(childPuid)) + "\t");
 						bw.write((r.get(parentName) == null ? "" : r.get(parentName)) + "\t");
 						bw.write((r.get(parentPuid) == null ? "" : r.get(parentPuid)) + "\t");
-						bw.write((r.get(synonyms)) == null ? "" : r.get(synonyms).toString());
+						bw.write((r.get(synonyms)) == null ? "" : Arrays.toString(r.get(synonyms)));
 					}
 					catch (IOException e)
 					{

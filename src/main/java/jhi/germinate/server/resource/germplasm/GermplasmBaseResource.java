@@ -1,14 +1,13 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
+import jhi.germinate.server.database.pojo.GermplasmInstitution;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
-import org.jooq.conf.ParamType;
 import org.jooq.impl.*;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
 import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
@@ -17,10 +16,12 @@ import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Germplasminstitutions.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Institutions.*;
 import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
@@ -46,8 +47,9 @@ public class GermplasmBaseResource extends ExportResource
 	public static String GENUS                            = "genus";
 	public static String SPECIES                          = "species";
 	public static String SUBTAXA                          = "subtaxa";
-	public static String INSTITUTION_ID                   = "institution_id";
-	public static String INSTITUTION_NAME                 = "institution_name";
+	public static String INSTITUTIONS_FIELD               = "institutions";
+	//	public static String INSTITUTION_ID                   = "institution_id";
+//	public static String INSTITUTION_NAME                 = "institution_name";
 	public static String LOCATION_ID                      = "location_id";
 	public static String LOCATION                         = "location";
 	public static String LATITUDE                         = "latitude";
@@ -65,15 +67,60 @@ public class GermplasmBaseResource extends ExportResource
 	public static String HAS_COMPOUND_DATA                = "has_compound_data";
 	public static String HAS_PEDIGREE_DATA                = "has_pedigree_data";
 
+	public static List<String> COLUMNS = new ArrayList<>();
+
+	static
+	{
+		COLUMNS.add(GERMPLASM_ID);
+		COLUMNS.add(GERMPLASM_NAME);
+		COLUMNS.add(GERMPLASM_GID);
+		COLUMNS.add(GERMPLASM_NUMBER);
+		COLUMNS.add(GERMPLASM_PUID);
+		COLUMNS.add(ENTITY_TYPE_ID);
+		COLUMNS.add(ENTITY_TYPE_NAME);
+		COLUMNS.add(ENTITY_PARENT_ID);
+		COLUMNS.add(ENTITY_PARENT_NAME);
+		COLUMNS.add(ENTITY_PARENT_GENERAL_IDENTIFIER);
+		COLUMNS.add(BIOLOGICAL_STATUS_ID);
+		COLUMNS.add(BIOLOGICAL_STATUS_NAME);
+		COLUMNS.add(SSYNONYMS);
+		COLUMNS.add(COLLECTOR_NUMBER);
+		COLUMNS.add(GENUS);
+		COLUMNS.add(SPECIES);
+		COLUMNS.add(SUBTAXA);
+		COLUMNS.add(INSTITUTIONS_FIELD);
+		COLUMNS.add(LOCATION_ID);
+		COLUMNS.add(LOCATION);
+		COLUMNS.add(LATITUDE);
+		COLUMNS.add(LONGITUDE);
+		COLUMNS.add(ELEVATION);
+		COLUMNS.add(COUNTRY_NAME);
+		COLUMNS.add(COUNTRY_CODE);
+		COLUMNS.add(COLL_DATE);
+		COLUMNS.add(PDCI);
+		COLUMNS.add(IMAGE_COUNT);
+		COLUMNS.add(FIRST_IMAGE_PATH);
+		COLUMNS.add(HAS_TRIALS_DATA);
+		COLUMNS.add(HAS_GENOTYPIC_DATA);
+		COLUMNS.add(HAS_ALLELEFREQ_DATA);
+		COLUMNS.add(HAS_COMPOUND_DATA);
+		COLUMNS.add(HAS_PEDIGREE_DATA);
+	}
+
 	protected <A> SelectJoinStep<Record1<Integer>> getGermplasmIdQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
 	{
 		Germinatebase g = GERMINATEBASE.as("g");
+
+		Field<?> institutions = DSL.select(DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(INSTITUTIONS.ID), DSL.key("code").value(INSTITUTIONS.CODE), DSL.key("name").value(INSTITUTIONS.NAME), DSL.key("type").value(GERMPLASMINSTITUTIONS.TYPE))))
+								   .from(GERMPLASMINSTITUTIONS).leftJoin(INSTITUTIONS).on(GERMPLASMINSTITUTIONS.INSTITUTION_ID.eq(INSTITUTIONS.ID))
+								   .where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
 			GERMINATEBASE.ID.as(GERMPLASM_ID),
 			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 			GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
-			GERMINATEBASE.PUID.as(GERMPLASM_PUID),
+			MCPD.PUID.as(GERMPLASM_PUID),
 			ENTITYTYPES.ID.as(ENTITY_TYPE_ID),
 			ENTITYTYPES.NAME.as(ENTITY_TYPE_NAME),
 			GERMINATEBASE.ENTITYPARENT_ID.as(ENTITY_PARENT_ID),
@@ -82,12 +129,11 @@ public class GermplasmBaseResource extends ExportResource
 			BIOLOGICALSTATUS.ID.as(BIOLOGICAL_STATUS_ID),
 			BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
 			SYNONYMS.SYNONYMS_.as(SSYNONYMS),
-			GERMINATEBASE.COLLNUMB.as(COLLECTOR_NUMBER),
+			MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
 			TAXONOMIES.GENUS.as(GENUS),
 			TAXONOMIES.SPECIES.as(SPECIES),
 			TAXONOMIES.SUBTAXA.as(SUBTAXA),
-			INSTITUTIONS.ID.as(INSTITUTION_ID),
-			INSTITUTIONS.NAME.as(INSTITUTION_NAME),
+			institutions.as(INSTITUTIONS_FIELD),
 			LOCATIONS.ID.as(LOCATION_ID),
 			LOCATIONS.SITE_NAME.as(LOCATION),
 			LOCATIONS.LATITUDE.as(LATITUDE),
@@ -95,7 +141,7 @@ public class GermplasmBaseResource extends ExportResource
 			LOCATIONS.ELEVATION.as(ELEVATION),
 			COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
 			COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE),
-			GERMINATEBASE.COLLDATE.as(COLL_DATE),
+			MCPD.COLLDATE.as(COLL_DATE),
 			GERMINATEBASE.PDCI.as(PDCI),
 			DSL.selectCount()
 			   .from(IMAGES)
@@ -147,12 +193,12 @@ public class GermplasmBaseResource extends ExportResource
 		SelectJoinStep<?> inner = context.select(fields)
 										 .from(GERMINATEBASE)
 										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
-										 .leftJoin(INSTITUTIONS).on(INSTITUTIONS.ID.eq(GERMINATEBASE.INSTITUTION_ID))
+										 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
 										 .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
 										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
 										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(GERMINATEBASE.BIOLOGICALSTATUS_ID))
+										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
 										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins))
@@ -168,11 +214,16 @@ public class GermplasmBaseResource extends ExportResource
 	{
 		Germinatebase g = GERMINATEBASE.as("g");
 
+		Field<?> institutions = DSL.select(DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(INSTITUTIONS.ID), DSL.key("code").value(INSTITUTIONS.CODE), DSL.key("name").value(INSTITUTIONS.NAME), DSL.key("type").value(GERMPLASMINSTITUTIONS.TYPE))))
+								   .from(GERMPLASMINSTITUTIONS).leftJoin(INSTITUTIONS).on(GERMPLASMINSTITUTIONS.INSTITUTION_ID.eq(INSTITUTIONS.ID))
+								   .where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
+
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
 			GERMINATEBASE.ID.as(GERMPLASM_ID),
 			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 			GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
-			GERMINATEBASE.PUID.as(GERMPLASM_PUID),
+			MCPD.PUID.as(GERMPLASM_PUID),
 			ENTITYTYPES.ID.as(ENTITY_TYPE_ID),
 			ENTITYTYPES.NAME.as(ENTITY_TYPE_NAME),
 			GERMINATEBASE.ENTITYPARENT_ID.as(ENTITY_PARENT_ID),
@@ -181,12 +232,11 @@ public class GermplasmBaseResource extends ExportResource
 			BIOLOGICALSTATUS.ID.as(BIOLOGICAL_STATUS_ID),
 			BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
 			SYNONYMS.SYNONYMS_.as(SSYNONYMS),
-			GERMINATEBASE.COLLNUMB.as(COLLECTOR_NUMBER),
+			MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
 			TAXONOMIES.GENUS.as(GENUS),
 			TAXONOMIES.SPECIES.as(SPECIES),
 			TAXONOMIES.SUBTAXA.as(SUBTAXA),
-			INSTITUTIONS.ID.as(INSTITUTION_ID),
-			INSTITUTIONS.NAME.as(INSTITUTION_NAME),
+			institutions.as(INSTITUTIONS_FIELD),
 			LOCATIONS.ID.as(LOCATION_ID),
 			LOCATIONS.SITE_NAME.as(LOCATION),
 			LOCATIONS.LATITUDE.as(LATITUDE),
@@ -194,7 +244,7 @@ public class GermplasmBaseResource extends ExportResource
 			LOCATIONS.ELEVATION.as(ELEVATION),
 			COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
 			COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE),
-			GERMINATEBASE.COLLDATE.as(COLL_DATE),
+			MCPD.COLLDATE.as(COLL_DATE),
 			GERMINATEBASE.PDCI.as(PDCI),
 			DSL.selectCount()
 			   .from(IMAGES)
@@ -250,12 +300,12 @@ public class GermplasmBaseResource extends ExportResource
 
 		SelectJoinStep<?> inner = context.select(fields).from(GERMINATEBASE)
 										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
-										 .leftJoin(INSTITUTIONS).on(INSTITUTIONS.ID.eq(GERMINATEBASE.INSTITUTION_ID))
+										 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
 										 .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
 										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
 										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(GERMINATEBASE.BIOLOGICALSTATUS_ID))
+										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
 										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins))

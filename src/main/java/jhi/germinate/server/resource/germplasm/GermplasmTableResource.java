@@ -3,10 +3,10 @@ package jhi.germinate.server.resource.germplasm;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.ViewTableGermplasmDeprecated;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Path("germplasm/table")
@@ -57,7 +58,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			filter(from, filters);
+			filter(from, filters, true);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -139,6 +140,6 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getGermplasmTableColumns()
 	{
-		return Arrays.stream(ViewTableGermplasmDeprecated.VIEW_TABLE_GERMPLASM_DEPRECATED.fields()).map(Field::getName).collect(Collectors.toList());
+		return COLUMNS;
 	}
 }

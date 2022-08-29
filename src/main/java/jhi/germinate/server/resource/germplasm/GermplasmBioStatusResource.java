@@ -14,6 +14,7 @@ import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
 
 @Path("germplasm/biologicalstatus")
 @Secured
@@ -31,7 +32,7 @@ public class GermplasmBioStatusResource
 			DSLContext context = Database.getContext(conn);
 			return context.select(
 				BIOLOGICALSTATUS.SAMPSTAT.as("key"),
-				DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.BIOLOGICALSTATUS_ID.eq(BIOLOGICALSTATUS.ID)).asField("count")
+				DSL.selectCount().from(MCPD).where(MCPD.SAMPSTAT.eq(BIOLOGICALSTATUS.ID)).asField("count")
 			)
 						  .from(BIOLOGICALSTATUS)
 						  .orderBy(BIOLOGICALSTATUS.SAMPSTAT)

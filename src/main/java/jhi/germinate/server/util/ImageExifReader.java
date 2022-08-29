@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
+import static com.drew.metadata.exif.ExifDirectoryBase.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 
 /**
@@ -118,139 +119,149 @@ public class ImageExifReader implements Callable<ImageExifReader.ExifResult>
 				{
 					switch (tag.getTagType())
 					{
-						case 0x0100:
+						case TAG_IMAGE_WIDTH:
 						case 0xbc80:
 							exif.setImageWidth(tag.getDescription());
 							break;
-						case 0x0101:
+						case TAG_IMAGE_HEIGHT:
 						case 0xbc81:
 							exif.setImageHeight(tag.getDescription());
 							break;
-						case 0x0103:
+						case TAG_COMPRESSION:
 							exif.setCompression(tag.getDescription());
 							break;
-						case 0x0106:
+						case TAG_PHOTOMETRIC_INTERPRETATION:
 							exif.setPhotometricInterpretation(tag.getDescription());
 							break;
-						case 0x010f:
+						case TAG_MAKE:
 							exif.setCameraMake(tag.getDescription());
 							break;
-						case 0x0110:
+						case TAG_MODEL:
 							exif.setCameraModel(tag.getDescription());
 							break;
-						case 0x0112:
+						case TAG_ORIENTATION:
+							try
+							{
+								Integer code = dir.getInt(TAG_ORIENTATION);
+								exif.setOrientationCode(code);
+							}
+							catch (Exception e)
+							{
+								// Do nothing here
+							}
 							exif.setOrientation(tag.getDescription());
 							break;
-						case 0x0115:
+						case TAG_SAMPLES_PER_PIXEL:
 							exif.setSamplesPerPixel(tag.getDescription());
 							break;
-						case 0x011a:
+						case TAG_X_RESOLUTION:
 							exif.setxResolution(tag.getDescription());
 							break;
-						case 0x011b:
+						case TAG_Y_RESOLUTION:
 							exif.setyResolution(tag.getDescription());
 							break;
-						case 0x829a:
+						case TAG_EXPOSURE_TIME:
 							exif.setExposureTime(tag.getDescription());
 							break;
-						case 0x829d:
+						case TAG_FNUMBER:
 							exif.setfNumber(tag.getDescription());
 							break;
-						case 0x8827:
+						case TAG_ISO_EQUIVALENT:
 							exif.setIsoSpeedRatings(tag.getDescription());
 							break;
-						case 0x9000:
+						case TAG_EXIF_VERSION:
 							exif.setExifVersion(tag.getDescription());
 							break;
-						case 0x9003:
+						case TAG_DATETIME_ORIGINAL:
 							exif.setDateTimeOriginal(sdf.parse(tag.getDescription()));
 							break;
-						case 0x0132:
+						case TAG_DATETIME:
 							exif.setDateTime(sdf.parse(tag.getDescription()));
 							break;
-						case 0x9004:
+						case TAG_DATETIME_DIGITIZED:
 							exif.setDateTimeDigitized(sdf.parse(tag.getDescription()));
 							break;
-						case 0x9201:
+						case TAG_SHUTTER_SPEED:
 							exif.setShutterSpeedValue(tag.getDescription());
 							break;
-						case 0x9202:
+						case TAG_APERTURE:
 							exif.setApertureValue(tag.getDescription());
 							break;
-						case 0x9207:
+						case TAG_METERING_MODE:
 							exif.setMeteringMode(tag.getDescription());
 							break;
-						case 0x9209:
+						case TAG_FLASH:
 							exif.setFlash(tag.getDescription());
 							break;
-						case 0x920a:
+						case TAG_FOCAL_LENGTH:
 							exif.setFocalLength(tag.getDescription());
 							break;
 						case 0x9217:
-						case 0xa217:
+						case TAG_SENSING_METHOD:
 							exif.setSensingMethod(tag.getDescription());
 							break;
-						case 0xa001:
+						case TAG_COLOR_SPACE:
 							exif.setColorSpace(tag.getDescription());
 							break;
-						case 0xa002:
+						case TAG_EXIF_IMAGE_WIDTH:
 							exif.setExifImageWidth(tag.getDescription());
 							break;
-						case 0xa003:
+						case TAG_EXIF_IMAGE_HEIGHT:
 							exif.setExifImageHeight(tag.getDescription());
 							break;
-						case 0xa402:
+						case TAG_EXPOSURE_MODE:
 							exif.setExposureMode(tag.getDescription());
 							break;
-						case 0xa403:
+						case TAG_WHITE_BALANCE_MODE:
 							exif.setWhiteBalanceMode(tag.getDescription());
 							break;
-						case 0xa404:
+						case TAG_DIGITAL_ZOOM_RATIO:
 							exif.setDigitalZoomRatio(tag.getDescription());
 							break;
-						case 0xa406:
+						case TAG_SCENE_CAPTURE_TYPE:
 							exif.setSceneCaptureType(tag.getDescription());
 							break;
-						case 0xa407:
+						case TAG_GAIN_CONTROL:
 							exif.setGainControl(tag.getDescription());
 							break;
-						case 0xa408:
+						case TAG_CONTRAST:
 						case 0xfe54:
 							exif.setContrast(tag.getDescription());
 							break;
-						case 0xa409:
+						case TAG_SATURATION:
 						case 0xfe55:
 							exif.setSaturation(tag.getDescription());
 							break;
-						case 0xa40a:
+						case TAG_SHARPNESS:
 						case 0xfe56:
 							exif.setSharpness(tag.getDescription());
 							break;
-						case 0xa433:
+						case TAG_LENS_MAKE:
 							exif.setLensMake(tag.getDescription());
 							break;
-						case 0xa434:
+						case TAG_LENS_MODEL:
 							exif.setLensModel(tag.getDescription());
 							break;
+						case TAG_WHITE_BALANCE:
 						case 0xfe4e:
 							exif.setWhiteBalance(tag.getDescription());
 							break;
 						case 0xfe51:
 							exif.setExposure(tag.getDescription());
 							break;
-						case 0x9204:
+						case TAG_EXPOSURE_BIAS:
 							exif.setExposureBiasValue(tag.getDescription());
 							break;
-						case 0x8822:
+						case TAG_EXPOSURE_PROGRAM:
 							exif.setExposureProgram(tag.getDescription());
 							break;
-						case 0xa300:
+						case TAG_FILE_SOURCE:
 							exif.setFileSource(tag.getDescription());
 							break;
-						case 0xa301:
+						case TAG_SCENE_TYPE:
 							exif.setSceneType(tag.getDescription());
 							break;
-						case 0x9286:
+						case TAG_USER_COMMENT:
 							exif.setUserComment(tag.getDescription());
 							break;
 						case 0x0219:

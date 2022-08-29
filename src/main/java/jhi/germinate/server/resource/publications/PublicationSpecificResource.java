@@ -19,7 +19,7 @@ import java.util.List;
 import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
 import static jhi.germinate.server.database.codegen.tables.Publications.*;
 
-@Path("publication/type")
+@Path("publicationtype")
 @Secured
 @PermitAll
 public class PublicationSpecificResource extends ContextResource

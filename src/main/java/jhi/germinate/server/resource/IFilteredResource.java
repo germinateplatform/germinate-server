@@ -116,6 +116,27 @@ public interface IFilteredResource
 				return field.lessThan(first);
 			case "lessOrEquals":
 				return field.lessOrEqual(first);
+			case "jsonSearch":
+				if (jsonOperationAllowed)
+				{
+					List<Condition> conditions = values.stream()
+													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
+													   .map(v -> DSL.condition("JSON_SEARCH(LOWER(" + field.getName() + "), 'one', LOWER('%" + v + "%')) IS NOT NULL"))
+													   .collect(Collectors.toList());
+
+					Condition result = conditions.get(0);
+
+					for (int i = 1; i < conditions.size(); i++)
+					{
+						result = result.or(conditions.get(i));
+					}
+
+					return result;
+				}
+				else
+				{
+					return null;
+				}
 			case "arrayContains":
 				if (jsonOperationAllowed)
 				{

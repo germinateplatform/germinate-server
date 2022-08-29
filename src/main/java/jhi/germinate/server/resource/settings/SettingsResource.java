@@ -1,14 +1,14 @@
 package jhi.germinate.server.resource.settings;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.AuthenticationFilter;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +28,7 @@ public class SettingsResource
 		return new ClientConfiguration()
 			.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
 			.setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
+			.setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 			.setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
 			.setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
 			.setHiddenPages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class))
@@ -68,6 +69,7 @@ public class SettingsResource
 		// Get all the base settings as well
 		result.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
 			  .setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
+			  .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 			  .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
 			  .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
 			  .setHiddenPages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class))
@@ -116,6 +118,7 @@ public class SettingsResource
 		PropertyWatcher.setBoolean(ServerProperty.PDCI_ENABLED, config.getPdciEnabled());
 		PropertyWatcher.setPropertyList(ServerProperty.COLORS_CHART, config.getColorsCharts());
 		PropertyWatcher.setPropertyList(ServerProperty.COLORS_TEMPLATE, config.getColorsTemplate());
+		PropertyWatcher.setPropertyList(ServerProperty.COLORS_GRADIENT, config.getColorsGradient());
 		PropertyWatcher.set(ServerProperty.COLOR_PRIMARY, config.getColorPrimary());
 		PropertyWatcher.setPropertyList(ServerProperty.DASHBOARD_CATEGORIES, config.getDashboardCategories());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_PAGES, config.getHiddenPages());

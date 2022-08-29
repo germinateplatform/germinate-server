@@ -19,7 +19,7 @@ package jhi.germinate.server.util.tasks;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.database.codegen.tables.records.GerminatebaseRecord;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.util.StringUtils;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -32,9 +32,9 @@ import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Links.*;
 import static jhi.germinate.server.database.codegen.tables.Linktypes.*;
 import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
-import static jhi.germinate.server.database.codegen.tables.Storagedata.*;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 
 /**
@@ -85,9 +85,13 @@ public class PDCITask implements Runnable
 											   .from(DSL.selectDistinct(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.as("id")).from(PEDIGREEDEFINITIONS)
 														.unionAll(DSL.selectDistinct(PEDIGREES.GERMINATEBASE_ID.as("id")).from(PEDIGREES)))
 											   .fetchInto(Integer.class);
-			List<Integer> hasStorage = context.selectDistinct(STORAGEDATA.GERMINATEBASE_ID)
-											  .from(STORAGEDATA)
+			List<Integer> hasStorage = context.selectDistinct(MCPD.GERMINATEBASE_ID)
+											  .from(MCPD)
+											  .where(MCPD.STORAGE.isNotNull())
 											  .fetchInto(Integer.class);
+
+			Map<Integer, McpdRecord> mcpds = context.selectFrom(MCPD)
+												   .fetchMap(MCPD.GERMINATEBASE_ID);
 
 			taxonomies = context.selectFrom(TAXONOMIES).fetchMap(TAXONOMIES.ID, Taxonomies.class);
 			locations = context.selectFrom(LOCATIONS).fetchMap(LOCATIONS.ID, Locations.class);
@@ -97,7 +101,6 @@ public class PDCITask implements Runnable
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation link cache: " + hasLink.size());
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation pedigree cache: " + hasPedigree.size());
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation storage cache: " + hasStorage.size());
-
 
 			context.selectFrom(GERMINATEBASE)
 				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1)) // Just the accessions
@@ -121,25 +124,27 @@ public class PDCITask implements Runnable
 						   gStorage = true;
 					   }
 
-					   double value = calculateGenericPart(g, gLink, gStorage);
+					   McpdRecord mcpd = mcpds.get(g.getId());
 
-					   switch (g.getBiologicalstatusId() != null ? (g.getBiologicalstatusId() / 100) : -1)
+					   double value = calculateGenericPart(g, mcpd, gLink, gStorage);
+
+					   switch ((mcpd != null && mcpd.getSampstat() != null) ? (mcpd.getSampstat() / 100) : -1)
 					   {
 						   case 1:
 						   case 2:
-							   value += calculateWildWeedy(g);
+							   value += calculateWildWeedy(g, mcpd);
 							   break;
 						   case 3:
-							   value += calculateLandrace(g, gPedigree);
+							   value += calculateLandrace(g, mcpd, gPedigree);
 							   break;
 						   case 4:
-							   value += calculateBreedingMaterial(g, gPedigree);
+							   value += calculateBreedingMaterial(g, mcpd, gPedigree);
 							   break;
 						   case 5:
-							   value += calculateCultivar(g, gPedigree);
+							   value += calculateCultivar(g, mcpd, gPedigree);
 							   break;
 						   default:
-							   value += calculateOther(g, gPedigree);
+							   value += calculateOther(g, mcpd, gPedigree);
 							   break;
 					   }
 
@@ -158,7 +163,7 @@ public class PDCITask implements Runnable
 		}
 	}
 
-	private int calculateGenericPart(GerminatebaseRecord acc, boolean hasLink, boolean hasStorage)
+	private int calculateGenericPart(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasLink, boolean hasStorage)
 	{
 		int value = 0;
 
@@ -184,27 +189,27 @@ public class PDCITask implements Runnable
 			}
 		}
 
-		if (!StringUtils.isEmpty(acc.getAcqdate()))
+		if (!StringUtils.isEmpty(mcpd.getAcqdate()))
 			value += 10;
 
-		if (acc.getBiologicalstatusId() != null)
+		if (mcpd.getSampstat() != null)
 			value += 80;
-		if (!StringUtils.isEmpty(acc.getDonorCode()))
+		if (!StringUtils.isEmpty(mcpd.getDonorcode()))
 			value += 40;
-		else if (!StringUtils.isEmpty(acc.getDonorName()))
+		else if (!StringUtils.isEmpty(mcpd.getDonorname()))
 			value += 20;
-		if (!StringUtils.isEmpty(acc.getDonorNumber()))
+		if (!StringUtils.isEmpty(mcpd.getDonornumb()))
 		{
-			if (StringUtils.isEmpty(acc.getDonorCode()) && StringUtils.isEmpty(acc.getDonorName()))
+			if (StringUtils.isEmpty(mcpd.getDonorcode()) && StringUtils.isEmpty(mcpd.getDonorname()))
 				value += 20;
 			else
 				value += 40;
 		}
-		if (!StringUtils.isEmpty(acc.getOthernumb()))
+		if (!StringUtils.isEmpty(mcpd.getOthernumb()))
 			value += 35;
-		if (!StringUtils.isEmpty(acc.getDuplsite()))
+		if (!StringUtils.isEmpty(mcpd.getDuplsite()))
 			value += 30;
-		else if (!StringUtils.isEmpty(acc.getDuplinstname()))
+		else if (!StringUtils.isEmpty(mcpd.getDuplinstname()))
 			value += 15;
 
 		if (hasStorage)
@@ -213,13 +218,13 @@ public class PDCITask implements Runnable
 		if (hasLink)
 			value += 40;
 
-		if (acc.getMlsstatusId() != null)
+		if (mcpd.getMlsstat() != null)
 			value += 15;
 
 		return value;
 	}
 
-	private int calculateOther(GerminatebaseRecord acc, boolean hasPedigree)
+	private int calculateOther(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -244,35 +249,35 @@ public class PDCITask implements Runnable
 				value += 5;
 		}
 
-		if (acc.getColldate() != null)
+		if (mcpd.getColldate() != null)
 			value += 10;
 
-		if (!StringUtils.isEmpty(acc.getBreedersCode()))
+		if (!StringUtils.isEmpty(mcpd.getBredcode()))
 			value += 10;
-		else if (!StringUtils.isEmpty(acc.getBreedersName()))
+		else if (!StringUtils.isEmpty(mcpd.getBredname()))
 			value += 10;
 
 		if (hasPedigree)
 			value += 40;
 
-		if (acc.getCollsrcId() != null)
+		if (mcpd.getCollsrc() != null)
 			value += 25;
 
 		if (!StringUtils.isEmpty(acc.getNumber()))
 			value += 40;
 
-		if (!StringUtils.isEmpty(acc.getCollnumb()))
+		if (!StringUtils.isEmpty(mcpd.getCollnumb()))
 			value += 20;
 
-		if (!StringUtils.isEmpty(acc.getCollcode()))
+		if (!StringUtils.isEmpty(mcpd.getCollcode()))
 			value += 20;
-		else if (!StringUtils.isEmpty(acc.getCollname()))
+		else if (!StringUtils.isEmpty(mcpd.getCollname()))
 			value += 10;
 
 		return value;
 	}
 
-	private int calculateCultivar(GerminatebaseRecord acc, boolean hasPedigree)
+	private int calculateCultivar(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -284,15 +289,15 @@ public class PDCITask implements Runnable
 				value += 40;
 		}
 
-		if (!StringUtils.isEmpty(acc.getBreedersCode()))
+		if (!StringUtils.isEmpty(mcpd.getBredcode()))
 			value += 80;
-		else if (!StringUtils.isEmpty(acc.getBreedersName()))
+		else if (!StringUtils.isEmpty(mcpd.getBredname()))
 			value += 40;
 
 		if (hasPedigree)
 			value += 100;
 
-		if (acc.getCollsrcId() != null)
+		if (mcpd.getCollsrc() != null)
 			value += 20;
 
 		if (!StringUtils.isEmpty(acc.getNumber()))
@@ -301,7 +306,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateBreedingMaterial(GerminatebaseRecord acc, boolean hasPedigree)
+	private int calculateBreedingMaterial(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -313,15 +318,15 @@ public class PDCITask implements Runnable
 				value += 40;
 		}
 
-		if (!StringUtils.isEmpty(acc.getBreedersCode()))
+		if (!StringUtils.isEmpty(mcpd.getBredcode()))
 			value += 110;
-		else if (!StringUtils.isEmpty(acc.getBreedersName()))
+		else if (!StringUtils.isEmpty(mcpd.getBredname()))
 			value += 55;
 
 		if (hasPedigree)
 			value += 150;
 
-		if (acc.getCollsrcId() != null)
+		if (mcpd.getCollsrc() != null)
 			value += 20;
 
 		if (!StringUtils.isEmpty(acc.getNumber()))
@@ -330,7 +335,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateLandrace(GerminatebaseRecord acc, boolean hasPedigree)
+	private int calculateLandrace(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -355,30 +360,30 @@ public class PDCITask implements Runnable
 				value += 15;
 		}
 
-		if (acc.getColldate() != null)
+		if (mcpd.getColldate() != null)
 			value += 30;
 
 		if (hasPedigree)
 			value += 10;
 
-		if (acc.getCollsrcId() != null)
+		if (mcpd.getCollsrc() != null)
 			value += 50;
 
 		if (!StringUtils.isEmpty(acc.getNumber()))
 			value += 50;
 
-		if (!StringUtils.isEmpty(acc.getCollnumb()))
+		if (!StringUtils.isEmpty(mcpd.getCollnumb()))
 			value += 40;
 
-		if (!StringUtils.isEmpty(acc.getCollcode()))
+		if (!StringUtils.isEmpty(mcpd.getCollcode()))
 			value += 30;
-		else if (!StringUtils.isEmpty(acc.getCollname()))
+		else if (!StringUtils.isEmpty(mcpd.getCollname()))
 			value += 15;
 
 		return value;
 	}
 
-	private int calculateWildWeedy(GerminatebaseRecord acc)
+	private int calculateWildWeedy(GerminatebaseRecord acc, McpdRecord mcpd)
 	{
 		int value = 0;
 
@@ -403,18 +408,18 @@ public class PDCITask implements Runnable
 				value += 20;
 		}
 
-		if (acc.getColldate() != null)
+		if (mcpd.getColldate() != null)
 			value += 30;
 
-		if (acc.getCollsrcId() != null)
+		if (mcpd.getCollsrc() != null)
 			value += 30;
 
-		if (!StringUtils.isEmpty(acc.getCollnumb()))
+		if (!StringUtils.isEmpty(mcpd.getCollnumb()))
 			value += 60;
 
-		if (!StringUtils.isEmpty(acc.getCollcode()))
+		if (!StringUtils.isEmpty(mcpd.getCollcode()))
 			value += 40;
-		else if (!StringUtils.isEmpty(acc.getCollname()))
+		else if (!StringUtils.isEmpty(mcpd.getCollname()))
 			value += 20;
 
 		return value;

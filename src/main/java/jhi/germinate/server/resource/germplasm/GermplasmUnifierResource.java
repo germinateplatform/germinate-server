@@ -37,7 +37,6 @@ import static jhi.germinate.server.database.codegen.tables.Linktypes.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Storagedata.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 
@@ -144,7 +143,6 @@ public class GermplasmUnifierResource extends ContextResource
 			context.update(PEDIGREEDEFINITIONS).set(PEDIGREEDEFINITIONS.GERMINATEBASE_ID, preferredId).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREES).set(PEDIGREES.GERMINATEBASE_ID, preferredId).where(PEDIGREES.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREES).set(PEDIGREES.PARENT_ID, preferredId).where(PEDIGREES.PARENT_ID.in(otherIds)).execute();
-			context.update(STORAGEDATA).set(STORAGEDATA.GERMINATEBASE_ID, preferredId).where(STORAGEDATA.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(GERMINATEBASE).set(GERMINATEBASE.ENTITYPARENT_ID, preferredId).where(GERMINATEBASE.ENTITYPARENT_ID.in(otherIds)).execute();
 			context.update(ATTRIBUTEDATA.leftJoin(ATTRIBUTES).on(ATTRIBUTES.ID.eq(ATTRIBUTEDATA.ATTRIBUTE_ID))).set(ATTRIBUTEDATA.FOREIGN_ID, preferredId).where(ATTRIBUTES.TARGET_TABLE.eq("germinatebase").and(ATTRIBUTEDATA.FOREIGN_ID.in(otherIds))).execute();
 			context.update(COMMENTS.leftJoin(COMMENTTYPES).on(COMMENTTYPES.ID.eq(COMMENTS.COMMENTTYPE_ID))).set(COMMENTS.REFERENCE_ID, preferredId).where(COMMENTTYPES.REFERENCE_TABLE.eq("germinatebase").and(COMMENTS.REFERENCE_ID.in(otherIds))).execute();

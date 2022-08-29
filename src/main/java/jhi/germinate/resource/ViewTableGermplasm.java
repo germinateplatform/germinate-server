@@ -1,5 +1,7 @@
 package jhi.germinate.resource;
 
+import jhi.germinate.server.database.pojo.GermplasmInstitution;
+
 import java.math.BigDecimal;
 import java.sql.Date;
 
@@ -8,41 +10,40 @@ import java.sql.Date;
  */
 public class ViewTableGermplasm
 {
-	private String     germplasmName;
-	private Integer    germplasmId;
-	private String     germplasmGid;
-	private String     germplasmNumber;
-	private String     germplasmPuid;
-	private Integer    entityTypeId;
-	private String     entityTypeName;
-	private Integer    entityParentId;
-	private String     entityParentName;
-	private String     entityParentGeneralIdentifier;
-	private Integer    biologicalStatusId;
-	private String     biologicalStatusName;
-	private String[]   synonyms;
-	private String     collectorNumber;
-	private String     genus;
-	private String     species;
-	private String     subtaxa;
-	private Integer    institutionId;
-	private String     institutionName;
-	private Integer    locationId;
-	private String     location;
-	private BigDecimal latitude;
-	private BigDecimal longitude;
-	private BigDecimal elevation;
-	private String     countryName;
-	private String     countryCode;
-	private Date       collDate;
-	private Double     pdci;
-	private Long       imageCount;
-	private String     firstImagePath;
-	private Integer    hasTrialsData;
-	private Integer    hasGenotypicData;
-	private Integer    hasAllelefreqData;
-	private Integer    hasCompoundData;
-	private Integer    hasPedigreeData;
+	private String                 germplasmName;
+	private Integer                germplasmId;
+	private String                 germplasmGid;
+	private String                 germplasmNumber;
+	private String                 germplasmPuid;
+	private Integer                entityTypeId;
+	private String                 entityTypeName;
+	private Integer                entityParentId;
+	private String                 entityParentName;
+	private String                 entityParentGeneralIdentifier;
+	private Integer                biologicalStatusId;
+	private String                 biologicalStatusName;
+	private String[]               synonyms;
+	private String                 collectorNumber;
+	private String                 genus;
+	private String                 species;
+	private String                 subtaxa;
+	private GermplasmInstitution[] institutions;
+	private Integer                locationId;
+	private String                 location;
+	private BigDecimal             latitude;
+	private BigDecimal             longitude;
+	private BigDecimal             elevation;
+	private String                 countryName;
+	private String                 countryCode;
+	private Date                   collDate;
+	private Double                 pdci;
+	private Long                   imageCount;
+	private String                 firstImagePath;
+	private Integer                hasTrialsData;
+	private Integer                hasGenotypicData;
+	private Integer                hasAllelefreqData;
+	private Integer                hasCompoundData;
+	private Integer                hasPedigreeData;
 
 	public ViewTableGermplasm()
 	{
@@ -235,25 +236,14 @@ public class ViewTableGermplasm
 		return this;
 	}
 
-	public Integer getInstitutionId()
+	public GermplasmInstitution[] getInstitutions()
 	{
-		return institutionId;
+		return institutions;
 	}
 
-	public ViewTableGermplasm setInstitutionId(Integer institutionId)
+	public ViewTableGermplasm setInstitutions(GermplasmInstitution[] institutions)
 	{
-		this.institutionId = institutionId;
-		return this;
-	}
-
-	public String getInstitutionName()
-	{
-		return institutionName;
-	}
-
-	public ViewTableGermplasm setInstitutionName(String institutionName)
-	{
-		this.institutionName = institutionName;
+		this.institutions = institutions;
 		return this;
 	}
 

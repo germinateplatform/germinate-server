@@ -10,6 +10,7 @@ public enum ServerProperty
 	BRAPI_ENABLED("brapi.enabled", "false", false),
 	COLORS_CHART("colors.charts", "#00a0f1,#5ec418,#910080,#222183,#ff7c00,#c5e000,#c83831,#ff007a,#fff600", true),
 	COLORS_TEMPLATE("colors.template", "#FF9E15,#799900,#00748C,#853175,#555559,#FFD100,#C2002F,#CF009E,#6AA2B8,#D6C200", true),
+	COLORS_GRADIENT("colors.gradient", "#440154,#48186a,#472d7b,#424086,#3b528b,#33638d,#2c728e,#26828e,#21918c,#1fa088,#28ae80,#3fbc73,#5ec962,#84d44b,#addc30,#d8e219,#fde725", true),
 	COLOR_PRIMARY("color.primary", null, false),
 	COMMENTS_ENABLED("comments.enabled", "true", false),
 	DASHBOARD_CATEGORIES("dashboard.categories", "germplasm,markers,traits,locations", false),
