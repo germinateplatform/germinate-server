@@ -153,6 +153,34 @@ plausible.api.host  = <plausible's api host to use. Change this if you are self-
 dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'maps', 'traits', 'climates', 'compounds', 'locations', 'datasets', 'datasetsGenotype', 'datasetsTrials', 'datasetsAllelefreq', 'datasetsClimate', 'datasetsCompound', 'experiments', 'groups', 'images', 'fileresources'; don't include the quotes>
 # Pages can be hidden for example if you don't have that kind of data.
 hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/router/index.js)>
+# Columns of each table can be hidden. Note that this only takes effect the first time Germinate is loaded.
+# Afterwards we cannot overwrite the client configuration as the user may have chosen to show/hide different columns.
+# The values are comma-separated lists of the column keys found in the corresponsing client components found here: https://github.com/germinateplatform/germinate-vue/tree/master/src/components/tables
+hidden.columns.germplasm            = <columns to hide in this table >
+hidden.columns.germplasm.attributes = <columns to hide in this table >
+hidden.columns.images               = <columns to hide in this table >
+hidden.columns.climates             = <columns to hide in this table >
+hidden.columns.climate.data         = <columns to hide in this table >
+hidden.columns.compounds            = <columns to hide in this table >
+hidden.columns.compound.data        = <columns to hide in this table >
+hidden.columns.comments             = <columns to hide in this table >
+hidden.columns.fileresources        = <columns to hide in this table >
+hidden.columns.maps                 = <columns to hide in this table >
+hidden.columns.markers              = <columns to hide in this table >
+hidden.columns.map.definitions      = <columns to hide in this table >
+hidden.columns.datasets             = <columns to hide in this table >
+hidden.columns.dataset.attributes   = <columns to hide in this table >
+hidden.columns.experiments          = <columns to hide in this table >
+hidden.columns.entities             = <columns to hide in this table >
+hidden.columns.groups               = <columns to hide in this table >
+hidden.columns.institutions         = <columns to hide in this table >
+hidden.columns.locations            = <columns to hide in this table >
+hidden.columns.pedigrees            = <columns to hide in this table >
+hidden.columns.pedigreedefinitions  = <columns to hide in this table >
+hidden.columns.traits               = <columns to hide in this table >
+hidden.columns.trials.data          = <columns to hide in this table >
+hidden.columns.collaborators        = <columns to hide in this table >
+hidden.columns.publications         = <columns to hide in this table >
 # The comments feature can be disabled if you don't want users to add comments.
 comments.enabled          = <should the comments feature be enabled>
 # The PDCI calculation can be disabled if you don't wish to show this information.

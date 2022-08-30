@@ -9,13 +9,16 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.database.pojo.Exif;
 import jhi.germinate.server.resource.images.ImageResource;
+import org.apache.commons.io.IOUtils;
 import org.jooq.DSLContext;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 import static com.drew.metadata.exif.ExifDirectoryBase.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
@@ -43,6 +46,23 @@ public class ImageExifReader implements Callable<ImageExifReader.ExifResult>
 		{
 			File parent = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images");
 			File file = new File(new File(parent, ImageResource.ImageType.database.name()), image.getPath());
+
+			if (!file.exists())
+				return null;
+
+			try
+			{
+				// Auto rotate the image in place
+				String[] commands = {"mogrify", "-auto-orient", file.getAbsolutePath()};
+				Process p = new ProcessBuilder(commands).start();
+				p.waitFor();
+			}
+			catch (Exception e)
+			{
+				Logger.getLogger("").info(e.getMessage());
+				e.printStackTrace();
+			}
+
 			exif = getExif(file);
 
 			if (exif.exif.getDateTimeOriginal() != null)

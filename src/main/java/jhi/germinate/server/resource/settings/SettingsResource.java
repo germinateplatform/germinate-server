@@ -38,6 +38,32 @@ public class SettingsResource
 			.setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 			.setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
 			.setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+			.setHiddenColumns(new HiddenColumns()
+				.setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
+				.setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
+				.setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
+				.setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
+				.setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
+				.setCompounds(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUNDS, String.class))
+				.setCompoundData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUND_DATA, String.class))
+				.setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
+				.setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
+				.setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
+				.setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
+				.setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
+				.setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
+				.setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
+				.setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
+				.setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
+				.setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
+				.setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
+				.setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
+				.setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
+				.setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
+				.setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
+				.setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
+				.setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
+			)
 			.setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
 			.setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
 			.setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
@@ -79,6 +105,32 @@ public class SettingsResource
 			  .setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 			  .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
 			  .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+			  .setHiddenColumns(new HiddenColumns()
+				  .setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
+				  .setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
+				  .setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
+				  .setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
+				  .setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
+				  .setCompounds(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUNDS, String.class))
+				  .setCompoundData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUND_DATA, String.class))
+				  .setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
+				  .setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
+				  .setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
+				  .setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
+				  .setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
+				  .setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
+				  .setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
+				  .setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
+				  .setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
+				  .setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
+				  .setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
+				  .setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
+				  .setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
+				  .setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
+				  .setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
+				  .setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
+				  .setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
+			  )
 			  .setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
 			  .setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
 			  .setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
@@ -135,6 +187,30 @@ public class SettingsResource
 		PropertyWatcher.setBoolean(ServerProperty.COMMENTS_ENABLED, config.getCommentsEnabled());
 		PropertyWatcher.set(ServerProperty.DATA_IMPORT_MODE, config.getDataImportMode().name());
 		PropertyWatcher.set(ServerProperty.HELIUM_URL, config.getHeliumUrl());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, config.getHiddenColumns().getGermplasm());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, config.getHiddenColumns().getGermplasmAttributes());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, config.getHiddenColumns().getImages());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, config.getHiddenColumns().getClimates());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, config.getHiddenColumns().getClimateData());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUNDS, config.getHiddenColumns().getCompounds());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUND_DATA, config.getHiddenColumns().getCompoundData());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, config.getHiddenColumns().getComments());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, config.getHiddenColumns().getFileresources());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, config.getHiddenColumns().getMaps());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, config.getHiddenColumns().getMarkers());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, config.getHiddenColumns().getMapDefinitions());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, config.getHiddenColumns().getDatasets());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, config.getHiddenColumns().getDatasetAttributes());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, config.getHiddenColumns().getExperiments());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, config.getHiddenColumns().getEntities());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, config.getHiddenColumns().getGroups());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, config.getHiddenColumns().getInstitutions());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, config.getHiddenColumns().getLocations());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, config.getHiddenColumns().getPedigrees());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, config.getHiddenColumns().getTraits());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, config.getHiddenColumns().getTrialsData());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, config.getHiddenColumns().getCollaborators());
+		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, config.getHiddenColumns().getPublications());
 
 		// Invalidate all tokens
 		AuthenticationFilter.invalidateAllTokens();
