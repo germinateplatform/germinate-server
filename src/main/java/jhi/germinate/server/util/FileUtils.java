@@ -49,6 +49,18 @@ public class FileUtils
 	 */
 	public static void zipUp(File zipFile, List<File> files)
 	{
+		zipUp(zipFile, files, true);
+	}
+
+	/**
+	 * Creates a zip file in place of the given file and adds all files from the list to it.
+	 *
+	 * @param zipFile The zip file to create
+	 * @param files   The files to add to the zip file
+	 * @param deleteAfterZip Should the original files be deleted after the zip process has finished?
+	 */
+	public static void zipUp(File zipFile, List<File> files, boolean deleteAfterZip)
+	{
 		// Make sure it doesn't exist
 		if (zipFile.exists())
 			zipFile.delete();
@@ -66,7 +78,9 @@ public class FileUtils
 			for (File f : files)
 			{
 				Files.copy(f.toPath(), fs.getPath("/" + f.getName()), StandardCopyOption.REPLACE_EXISTING);
-				f.delete();
+
+				if (deleteAfterZip)
+					f.delete();
 			}
 		}
 		catch (IOException e)

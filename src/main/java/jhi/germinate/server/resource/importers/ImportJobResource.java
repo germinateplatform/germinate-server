@@ -9,14 +9,17 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
 import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
-import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.export.AsyncResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
+import java.util.stream.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
 
@@ -57,7 +60,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Path("/{jobUuid}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured({UserType.DATA_CURATOR})
+	@Secured(UserType.DATA_CURATOR)
 	public boolean deleteImportJob(@PathParam("jobUuid") String jobUuid)
 		throws IOException, SQLException
 	{
@@ -116,7 +119,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Path("/{jobUuid}/import")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured({UserType.DATA_CURATOR})
+	@Secured(UserType.DATA_CURATOR)
 	public List<AsyncExportResult> getImportJob(@PathParam("jobUuid") String jobUuid)
 		throws SQLException, IOException
 	{
@@ -132,6 +135,58 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 			e.printStackTrace();
 			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
 			return null;
+		}
+	}
+
+	@GET
+	@Path("/{jobUuid}/log")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
+	@Secured(UserType.DATA_CURATOR)
+	public Response getImportJobLog(@PathParam("jobUuid") String jobUuid)
+		throws IOException, SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
+												 .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
+												 .and(DATA_IMPORT_JOBS.VISIBILITY.eq(true))
+												 .and(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.failed))
+												 .fetchAnyInto(DataImportJobsRecord.class);
+
+			if (record == null)
+			{
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode())
+							   .build();
+			}
+
+			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
+
+			if (asyncFolder == null || !asyncFolder.exists())
+			{
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode())
+							   .build();
+			}
+
+			try (Stream<java.nio.file.Path> stream = Files.find(asyncFolder.toPath(), 1, (path, basicFileAttributes) -> path.toFile().getName().matches(".+\\.(e|o)\\d+")))
+			{
+				List<File> logFiles = stream.map(java.nio.file.Path::toFile).collect(Collectors.toList());
+
+				File zipFile = ResourceUtils.createTempFile(null, "log-" + record.getUuid(), ".zip", false);
+
+				FileUtils.zipUp(zipFile, logFiles, false);
+
+				java.nio.file.Path zipFilePath = zipFile.toPath();
+				return Response.ok((StreamingOutput) output -> {
+								   java.nio.file.Files.copy(zipFilePath, output);
+								   java.nio.file.Files.deleteIfExists(zipFilePath);
+							   })
+							   .type("application/zip")
+							   .header("content-disposition", "attachment;filename= \"" + zipFile.getName() + "\"")
+							   .header("content-length", zipFile.length())
+							   .build();
+			}
 		}
 	}
 }
