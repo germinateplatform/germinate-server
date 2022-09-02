@@ -76,7 +76,7 @@ public class PublicationSpecificResource extends ContextResource
 				where = where.or(PUBLICATIONDATA.REFERENCE_TYPE.eq(PublicationdataReferenceType.group).and(PUBLICATIONDATA.FOREIGN_ID.in(groupIds)));
 			}
 
-			return where.fetchInto(ViewTablePublications.class);
+			return where.orderBy(PUBLICATIONS.CREATED_ON.desc()).fetchInto(ViewTablePublications.class);
 		}
 	}
 }

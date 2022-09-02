@@ -59,8 +59,7 @@ public class ImageExifReader implements Callable<ImageExifReader.ExifResult>
 			}
 			catch (Exception e)
 			{
-				Logger.getLogger("").info(e.getMessage());
-				e.printStackTrace();
+				// Ignore errors, it means mogrify isn't available or can't auto rotate the image
 			}
 
 			exif = getExif(file);
