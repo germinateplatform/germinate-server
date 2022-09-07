@@ -1,18 +1,17 @@
 package jhi.germinate.server.resource.groups;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.ViewTablePublicationsReferenceType;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.germplasm.GermplasmBaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
@@ -43,7 +42,7 @@ public class PublicationGroupTableResource extends GermplasmBaseResource
 
 			ViewTablePublications pub = context.selectFrom(VIEW_TABLE_PUBLICATIONS)
 											   .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
-											   .and(VIEW_TABLE_PUBLICATIONS.REFERENCE_TYPE.eq(ViewTablePublicationsReferenceType.group))
+											   .and(VIEW_TABLE_PUBLICATIONS.GROUP_IDS.isNotNull())
 											   .fetchAnyInto(ViewTablePublications.class);
 
 			if (pub == null)
@@ -52,7 +51,7 @@ public class PublicationGroupTableResource extends GermplasmBaseResource
 				return null;
 			}
 
-			Integer[] ids = pub.getReferencingIds();
+			Integer[] ids = pub.getGroupIds();
 
 			SelectSelectStep<Record> select = context.select();
 

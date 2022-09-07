@@ -1,17 +1,16 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.ViewTablePublicationsReferenceType;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
@@ -39,7 +38,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 
 			ViewTablePublications pub = context.selectFrom(VIEW_TABLE_PUBLICATIONS)
 											   .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
-											   .and(VIEW_TABLE_PUBLICATIONS.REFERENCE_TYPE.eq(ViewTablePublicationsReferenceType.germplasm))
+											   .and(VIEW_TABLE_PUBLICATIONS.GERMPLASM_IDS.isNotNull())
 											   .fetchAnyInto(ViewTablePublications.class);
 
 			if (pub == null)
@@ -48,7 +47,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 				return null;
 			}
 
-			Integer[] ids = pub.getReferencingIds();
+			Integer[] ids = pub.getGermplasmIds();
 
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
 			from.where(DSL.field(GERMPLASM_ID, Integer.class).in(ids));

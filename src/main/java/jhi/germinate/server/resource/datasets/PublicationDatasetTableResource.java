@@ -3,7 +3,6 @@ package jhi.germinate.server.resource.datasets;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.UnacceptedLicenseRequest;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.enums.ViewTablePublicationsReferenceType;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.util.Secured;
 import org.jooq.DSLContext;
@@ -35,7 +34,7 @@ public class PublicationDatasetTableResource extends BaseDatasetTableResource
 
 			ViewTablePublications pub = context.selectFrom(VIEW_TABLE_PUBLICATIONS)
 											   .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
-											   .and(VIEW_TABLE_PUBLICATIONS.REFERENCE_TYPE.eq(ViewTablePublicationsReferenceType.dataset))
+												.and(VIEW_TABLE_PUBLICATIONS.DATASET_IDS.isNotNull())
 											   .fetchAnyInto(ViewTablePublications.class);
 
 			if (pub == null)
@@ -44,7 +43,7 @@ public class PublicationDatasetTableResource extends BaseDatasetTableResource
 				return null;
 			}
 
-			Integer[] ids = pub.getReferencingIds();
+			Integer[] ids = pub.getDatasetIds();
 
 			return runQuery(request, query -> query.where(VIEW_TABLE_DATASETS.DATASET_ID.in(ids)));
 		}

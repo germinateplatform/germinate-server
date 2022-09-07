@@ -210,23 +210,23 @@ public class Database
 		}
 	}
 
-//	public static void main(String[] args)
-//		throws IOException, URISyntaxException
-//	{
-//		Database.init("localhost", "germinate_template_4_22_08_24", null, "root", null, true);
+	public static void main(String[] args)
+		throws IOException, URISyntaxException
+	{
+		Database.init("localhost", "germinate_template_4_22_09_02", null, "root", null, true);
 
-//		URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
-//
-//		if (url != null)
-//		{
-//			Logger.getLogger("").log(Level.INFO, "RUNNING VIEW/PROCEDURE CREATION SCRIPT!");
-//			executeFile(new File(url.toURI()));
-//		}
-//		else
-//		{
-//			throw new IOException("View/procedure SQL file not found!");
-//		}
-//	}
+		URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
+
+		if (url != null)
+		{
+			Logger.getLogger("").log(Level.INFO, "RUNNING VIEW/PROCEDURE CREATION SCRIPT!");
+			executeFile(new File(url.toURI()));
+		}
+		else
+		{
+			throw new IOException("View/procedure SQL file not found!");
+		}
+	}
 
 	/**
 	 * Executes an .sql file against the database
