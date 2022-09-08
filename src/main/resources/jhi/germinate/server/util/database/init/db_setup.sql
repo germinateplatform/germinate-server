@@ -599,6 +599,30 @@ INSERT INTO `countries` VALUES (248, 'ZM', 'ZMB', 'Zambia', NULL, NULL);
 INSERT INTO `countries` VALUES (249, 'ZW', 'ZWE', 'Zimbabwe', NULL, NULL);
 
 -- ----------------------------
+-- Table structure for data_export_jobs
+-- ----------------------------
+DROP TABLE IF EXISTS `data_export_jobs`;
+CREATE TABLE `data_export_jobs`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `job_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `job_config` json NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'waiting',
+  `visibility` tinyint(1) NOT NULL DEFAULT 1,
+  `datatype` enum('genotype','trials','allelefreq','climate','compound','pedigree','unknown','images') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unknown',
+  `dataset_ids` json NULL,
+  `result_size` bigint(20) NULL DEFAULT NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of data_export_jobs
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for data_import_jobs
 -- ----------------------------
 DROP TABLE IF EXISTS `data_import_jobs`;
@@ -606,11 +630,12 @@ CREATE TABLE `data_import_jobs`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `job_id` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `job_config` json NULL,
   `user_id` int(11) NULL DEFAULT NULL,
   `original_filename` varchar(266) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_update` tinyint(1) NOT NULL DEFAULT 0,
   `datasetstate_id` int(11) NOT NULL DEFAULT 1,
-  `datatype` enum('mcpd','trial','compound','genotype','pedigree','groups','climate') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'mcpd',
+  `datatype` enum('mcpd','trial','compound','genotype','pedigree','groups','climate','images') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'mcpd',
   `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'waiting',
   `imported` tinyint(1) NOT NULL DEFAULT 0,
   `visibility` tinyint(1) NOT NULL DEFAULT 1,
@@ -625,31 +650,6 @@ CREATE TABLE `data_import_jobs`  (
 
 -- ----------------------------
 -- Records of data_import_jobs
--- ----------------------------
-
--- ----------------------------
--- Table structure for dataset_export_jobs
--- ----------------------------
-DROP TABLE IF EXISTS `dataset_export_jobs`;
-CREATE TABLE `dataset_export_jobs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `job_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'waiting',
-  `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `datasettype_id` int(11) NULL DEFAULT NULL,
-  `dataset_ids` json NULL,
-  `result_size` bigint(20) NULL DEFAULT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `datasettype_id`(`datasettype_id`) USING BTREE,
-  CONSTRAINT `dataset_export_jobs_ibfk_1` FOREIGN KEY (`datasettype_id`) REFERENCES `datasettypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of dataset_export_jobs
 -- ----------------------------
 
 -- ----------------------------
@@ -695,6 +695,25 @@ CREATE TABLE `datasetcollaborators`  (
 
 -- ----------------------------
 -- Records of datasetcollaborators
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for datasetfileresources
+-- ----------------------------
+DROP TABLE IF EXISTS `datasetfileresources`;
+CREATE TABLE `datasetfileresources`  (
+  `dataset_id` int(11) NOT NULL,
+  `fileresource_id` int(11) NOT NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`dataset_id`, `fileresource_id`) USING BTREE,
+  INDEX `fileresource_id`(`fileresource_id`) USING BTREE,
+  CONSTRAINT `datasetfileresources_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `datasetfileresources_ibfk_2` FOREIGN KEY (`fileresource_id`) REFERENCES `fileresources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of datasetfileresources
 -- ----------------------------
 
 -- ----------------------------
@@ -974,27 +993,8 @@ CREATE TABLE `germinatebase`  (
   `number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'A unique name which defines an entry in the germinatbase table.',
   `bank_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Alternative genebank number.',
-  `breeders_code` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.',
-  `breeders_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.',
   `taxonomy_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to taxonomies (taxonomies.id).',
-  `institution_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to institutions (institutions.id).',
   `plant_passport` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Record if the entry has a plant passport.',
-  `donor_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the donor institute. Follows INSTCODE standard.',
-  `donor_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.',
-  `donor_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Identifier assigned to an accession by the donor. Follows ACCENUMB standard.',
-  `acqdate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Date on which the accession entered the collection where YYYY is the year, MM is the month and\nDD is the day. Missing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero].',
-  `collnumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Original identifier assigned by the collector(s) of the sample, normally composed of the name or\ninitials of the collector(s) followed by a number (e.g. ‘FM9909’). This identifier is essential for\nidentifying duplicates held in different collections.',
-  `colldate` date NULL DEFAULT NULL COMMENT 'Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day.\nMissing data (MM or DD) should be indicated with hyphens or ‘00’ [double zero]. ',
-  `collcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the\nmaterial, the collecting institute code (COLLCODE) should be the same as the holding institute\ncode (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon\nwithout space.',
-  `collname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.',
-  `collmissid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. \'CIATFOR-052\', \'CN426\').',
-  `othernumb` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.',
-  `duplsite` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained.\nMultiple values are separated by a semicolon without space. Follows INSTCODE standard.',
-  `duplinstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.',
-  `mlsstatus_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to mlsstatus (mlsstatus.id).',
-  `puid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.',
-  `biologicalstatus_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to biologicalstatus (biologicalstaus.id).',
-  `collsrc_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to collectionsources (collectionsources.id).',
   `location_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to locations (locations.id).',
   `entitytype_id` int(11) NULL DEFAULT 1 COMMENT 'Foreign key to entitytypes (entitytypes.id).',
   `entityparent_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
@@ -1002,29 +1002,41 @@ CREATE TABLE `germinatebase`  (
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `institution_id`(`institution_id`) USING BTREE,
   INDEX `taxonomy_id`(`taxonomy_id`) USING BTREE,
   INDEX `collsite_id`(`location_id`) USING BTREE,
   INDEX `general_identifier`(`general_identifier`) USING BTREE,
-  INDEX `germinatebase_ibfk_biologicalstatus`(`biologicalstatus_id`) USING BTREE,
-  INDEX `germinatebase_ibfk_collectingsource`(`collsrc_id`) USING BTREE,
-  INDEX `germinatebase_ibfk_8`(`mlsstatus_id`) USING BTREE,
   INDEX `germinatebase_ibfk_entitytype`(`entitytype_id`) USING BTREE,
   INDEX `germinatebase_ibfk_entityparent`(`entityparent_id`) USING BTREE,
   INDEX `germinatebase_name`(`name`) USING BTREE,
   INDEX `germinatebase_number`(`number`) USING BTREE,
-  CONSTRAINT `germinatebase_ibfk_biologicalstatus` FOREIGN KEY (`biologicalstatus_id`) REFERENCES `biologicalstatus` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `germinatebase_ibfk_collsrc` FOREIGN KEY (`collsrc_id`) REFERENCES `collectingsources` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_entityparent` FOREIGN KEY (`entityparent_id`) REFERENCES `germinatebase` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_entitytype` FOREIGN KEY (`entitytype_id`) REFERENCES `entitytypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `germinatebase_ibfk_institution` FOREIGN KEY (`institution_id`) REFERENCES `institutions` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `germinatebase_ibfk_mlsstatus` FOREIGN KEY (`mlsstatus_id`) REFERENCES `mlsstatus` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_taxonomy` FOREIGN KEY (`taxonomy_id`) REFERENCES `taxonomies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Germinatebase is the Germinate base table which contains passport and other germplasm definition data.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of germinatebase
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for germplasminstitutions
+-- ----------------------------
+DROP TABLE IF EXISTS `germplasminstitutions`;
+CREATE TABLE `germplasminstitutions`  (
+  `germinatebase_id` int(11) NOT NULL,
+  `institution_id` int(11) NOT NULL,
+  `type` enum('collection','maintenance','breeding','duplicate','donor') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'maintenance',
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`germinatebase_id`, `institution_id`, `type`) USING BTREE,
+  INDEX `institution_id`(`institution_id`) USING BTREE,
+  CONSTRAINT `germplasminstitutions_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `germplasminstitutions_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `institutions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of germplasminstitutions
 -- ----------------------------
 
 -- ----------------------------
@@ -1118,6 +1130,7 @@ CREATE TABLE `images`  (
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'A description of what the image shows if required.',
   `foreign_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Relates to the UID of the table to which the comment relates.',
   `path` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'The file system path to the image.',
+  `exif` json NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
@@ -1463,6 +1476,69 @@ CREATE TABLE `markertypes`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for mcpd
+-- ----------------------------
+DROP TABLE IF EXISTS `mcpd`;
+CREATE TABLE `mcpd`  (
+  `germinatebase_id` int(11) NOT NULL,
+  `puid` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.',
+  `instcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute where the accession is maintained. The codes consist of the 3-letter ISO 3166 country code of the country where the institute is located plus a number (e.g. COL001). The current set of institute codes is available from http://www.fao.org/wiews. For those institutes not yet having an FAO Code, or for those with \'obsolete\' codes, see \'Common formatting rules (v)\'.',
+  `accenumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'This is the unique identifier for accessions within a genebank, and is assigned when a sample is entered into the genebank collection (e.g. \'PI 113869\').',
+  `collnumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Original identifier assigned by the collector(s) of the sample, normally composed of the name or initials of the collector(s) followed by a number (e.g. \'FM9909\'). This identifier is essential for identifying duplicates held in different collections.',
+  `collcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute collecting the sample. If the holding institute has collected the material, the collecting institute code (COLLCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.',
+  `collname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.',
+  `collinstaddress` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'Address of the institute collecting the sample. This descriptor should be used only if COLLCODE cannot be filled since the FAO WIEWS code for this institute is not available. Multiple values are separated by a semicolon without space.',
+  `collmissid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Identifier of the collecting mission used by the Collecting Institute (4 or 4.1) (e.g. \'CIATFOR052\', \'CN426\').',
+  `genus` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Genus name for taxon. Initial uppercase letter required.',
+  `species` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Specific epithet portion of the scientific name in lowercase letters. Only the following abbreviation is allowed: \'sp.\'',
+  `spauthor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Provide the authority for the species name.',
+  `subtaxa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Subtaxon can be used to store any additional taxonomic identifier. The following abbreviations are allowed: \'subsp.\' (for subspecies); \'convar.\' (for convariety); \'var.\' (for variety); \'f.\' (for form); \'Group\' (for \'cultivar group\').',
+  `subtauthor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Provide the subtaxon authority at the most detailed taxonomic level.',
+  `cropname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Common name of the crop. Example: \'malting barley\', \'macadamia\', \'maïs\'.',
+  `accename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Either a registered or other designation given to the material received, other than the donor\'s accession number (23) or collecting number (3). First letter uppercase. Multiple names are separated by a semicolon without space. Example: Accession name: Bogatyr;Symphony;Emma.',
+  `acqdate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Date on which the accession entered the collection where YYYY is the year, MM is the month and DD is the day. Missing data (MM or DD) should be indicated with hyphens or \'00\' [double zero].',
+  `origcty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '3-letter ISO 3166-1 code of the country in which the sample was originally collected (e.g. landrace, crop wild relative, farmers\' variety), bred or selected (breeding lines, GMOs, segregating populations, hybrids, modern cultivars, etc.).',
+  `collsite` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Location information below the country level that describes where the accession was collected, preferable in English. This might include the distance in kilometres and direction from the nearest town, village or map grid reference point, (e.g. 7 km south of Curitiba in the state of Parana).',
+  `declatitude` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Latitude expressed in decimal degrees. Positive values are North of the Equator; negative values are South of the Equator (e.g. -44.6975).',
+  `latitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Degrees (2 digits) minutes (2 digits), and seconds (2 digits) followed by N (North) or S (South) (e.g. 103020S). Every missing digit (minutes or seconds) should be indicated with a hyphen. Leading zeros are required (e.g. 10----S; 011530N; 4531--S).',
+  `declongitude` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Longitude expressed in decimal degrees. Positive values are East of the Greenwich Meridian; negative values are West of the Greenwich Meridian (e.g. +120.9123).',
+  `longitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Degrees (3 digits), minutes (2 digits), and seconds (2 digits) followed by E (East) or W (West) (e.g. 0762510W). Every missing digit (minutes or seconds) should be indicated with a hyphen. Leading zeros are required (e.g. 076----W).',
+  `coorduncert` int(11) NULL DEFAULT NULL COMMENT 'Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.',
+  `coorddatum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.',
+  `georefmeth` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.',
+  `elevation` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Elevation of collecting site expressed in metres above sea level. Negative values are allowed.',
+  `colldate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day. Missing data (MM or DD) should be indicated with hyphens or \'00\' [double zero].',
+  `bredcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.',
+  `bredname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.',
+  `sampstat` int(11) NULL DEFAULT NULL COMMENT 'The coding scheme proposed can be used at 3 different levels of detail: either by using the general codes (in boldface) such as 100, 200, 300, 400, or by using the more specific codes such as 110, 120, etc.',
+  `ancest` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'Information about either pedigree or other description of ancestral information (e.g. parent variety in case of mutant or selection). For example a pedigree \'Hanna/7*Atlas//Turk/8*Atlas\' or a description \'mutation found in Hanna\', \'selection from Irene\' or \'cross involving amongst others Hanna and Irene\'.',
+  `collsrc` int(11) NULL DEFAULT NULL COMMENT 'The coding scheme proposed can be used at 2 different levels of detail: either by using the general codes (in boldface) such as 10, 20, 30, 40, etc., or by using the more specific codes, such as 11, 12, etc.',
+  `donorcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the donor institute. Follows INSTCODE standard.',
+  `donorname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.',
+  `donornumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Identifier assigned to an accession by the donor. Follows ACCENUMB standard.',
+  `othernumb` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'Any other identifiers known to exist in other collections for this accession. Use the following format: INSTCODE:ACCENUMB;INSTCODE:identifier;… INSTCODE and identifier are separated by a colon without space. Pairs of INSTCODE and identifier are separated by a semicolon without space. When the institute is not known, the identifier should be preceded by a colon.',
+  `duplsite` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space. Follows INSTCODE standard.',
+  `duplinstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.',
+  `storage` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'If germplasm is maintained under different types of storage, multiple choices are allowed, separated by a semicolon (e.g. 20;30). (Refer to FAO/IPGRI Genebank Standards 1994 for details on storage type.)',
+  `mlsstat` int(11) NULL DEFAULT NULL COMMENT 'The status of an accession with regards to the Multilateral System (MLS) of the International Treaty on Plant Genetic Resources for Food and Agriculture. Leave the value empty if the status is not known',
+  `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'The remarks field is used to add notes or to elaborate on descriptors with value 99 or 999 (= Other). Prefix remarks with the field name they refer to and a colon (:) without space (e.g. COLLSRC:riverside). Distinct remarks referring to different fields are separated by semicolons without space.',
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date and time when this record was created.',
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp of the last update to this record.',
+  PRIMARY KEY (`germinatebase_id`) USING BTREE,
+  INDEX `sampstat`(`sampstat`) USING BTREE,
+  INDEX `collsrc`(`collsrc`) USING BTREE,
+  INDEX `mlsstat`(`mlsstat`) USING BTREE,
+  CONSTRAINT `mcpd_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `mcpd_ibfk_2` FOREIGN KEY (`sampstat`) REFERENCES `biologicalstatus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `mcpd_ibfk_3` FOREIGN KEY (`collsrc`) REFERENCES `collectingsources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `mcpd_ibfk_4` FOREIGN KEY (`mlsstat`) REFERENCES `mlsstatus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mcpd
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for mlsstatus
 -- ----------------------------
 DROP TABLE IF EXISTS `mlsstatus`;
@@ -1765,52 +1841,11 @@ INSERT INTO `schema_version` VALUES (17, '4.21.11.08', 'update', 'SQL', 'V4.21.1
 INSERT INTO `schema_version` VALUES (18, '4.22.03.08', 'update', 'SQL', 'V4.22.03.08__update.sql', 1266180548, 'germinate', '2022-03-10 11:31:21', 111, 1);
 INSERT INTO `schema_version` VALUES (19, '4.22.04.29', 'update', 'SQL', 'V4.22.04.29__update.sql', -1600868952, 'root', '2022-04-29 11:04:44', 86, 1);
 INSERT INTO `schema_version` VALUES (20, '4.22.05.04', 'update', 'SQL', 'V4.22.05.04__update.sql', -442883119, 'root', '2022-07-11 18:17:26', 222, 1);
-
--- ----------------------------
--- Table structure for storage
--- ----------------------------
-DROP TABLE IF EXISTS `storage`;
-CREATE TABLE `storage`  (
-  `id` int(11) NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of storage
--- ----------------------------
-INSERT INTO `storage` VALUES (10, 'Seed collection', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (11, 'Short term', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (12, 'Medium term', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (13, 'Long term', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (20, 'Field collection', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (30, 'In vitro collection', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (40, 'Cryopreserved collection', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (50, 'DNA collection', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-INSERT INTO `storage` VALUES (99, 'Other (elaborate in REMARKS field', '2017-10-12 13:19:34', '2017-10-12 13:19:34');
-
--- ----------------------------
--- Table structure for storagedata
--- ----------------------------
-DROP TABLE IF EXISTS `storagedata`;
-CREATE TABLE `storagedata`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `germinatebase_id` int(11) NOT NULL,
-  `storage_id` int(11) NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `germinatebase_id`(`germinatebase_id`) USING BTREE,
-  INDEX `storage_id`(`storage_id`) USING BTREE,
-  CONSTRAINT `storagedata_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `storagedata_ibfk_2` FOREIGN KEY (`storage_id`) REFERENCES `storage` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of storagedata
--- ----------------------------
+INSERT INTO `schema_version` VALUES (21, '4.22.08.10', 'update', 'SQL', 'V4.22.08.10__update.sql', 1992346541, 'root', '2022-08-10 08:25:59', 100, 1);
+INSERT INTO `schema_version` VALUES (22, '4.22.08.18', 'update', 'SQL', 'V4.22.08.18__update.sql', -1881471068, 'root', '2022-08-25 15:18:39', 44, 1);
+INSERT INTO `schema_version` VALUES (23, '4.22.08.23', 'update', 'SQL', 'V4.22.08.23__update.sql', -1016121391, 'root', '2022-08-25 15:19:12', 177, 1);
+INSERT INTO `schema_version` VALUES (24, '4.22.08.24', 'update', 'SQL', 'V4.22.08.24__update.sql', 954931293, 'root', '2022-08-26 09:39:32', 1058, 1);
+INSERT INTO `schema_version` VALUES (25, '4.22.09.02', 'update', 'SQL', 'V4.22.09.02__update.sql', -21851311, 'root', '2022-09-02 14:14:14', 154, 1);
 
 -- ----------------------------
 -- Table structure for synonyms
