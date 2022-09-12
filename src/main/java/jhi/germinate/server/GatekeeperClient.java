@@ -75,10 +75,26 @@ public class GatekeeperClient
 		}
 	}
 
+	public static boolean connectionValid() {
+		if (token != null) {
+			return true;
+		} else {
+			reset();
+
+			return token != null;
+		}
+	}
+
 	private static void reset()
 	{
+		token = null;
+
 		// Close any existing connections
 		close();
+
+		if (url == null) {
+			return;
+		}
 
 		if (connectionPool == null) {
 			// Create a connection pool
