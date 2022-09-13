@@ -16,11 +16,57 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.sql.*;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 @Path("setup")
 public class SetupResource
 {
+	@POST
+	@Path("/store")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response postSetupConfig(ServerSetupConfig config) {
+		Response availability = checkAvailability();
+
+		// This means no configuration is required and we don't accept requests.
+		if (availability.getStatus() != 200)
+			return availability;
+
+		if (config == null)
+		{
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid configuration provided.")
+						   .entity("Invalid configuration provided.")
+						   .build();
+		} else {
+			Response resp = postDatabaseConfig(config.getDbConfig());
+			if (resp.getStatus() != 200)
+				return resp;
+
+			if (config.getGkConfig() != null)
+			{
+				resp = postGatekeeperConfig(config.getGkConfig());
+				if (resp.getStatus() != 200)
+					return resp;
+			}
+
+			PropertyWatcher.set(ServerProperty.DATABASE_SERVER, config.getDbConfig().getHost());
+			PropertyWatcher.set(ServerProperty.DATABASE_NAME, config.getDbConfig().getDatabase());
+			PropertyWatcher.set(ServerProperty.DATABASE_PORT, config.getDbConfig().getPort());
+			PropertyWatcher.set(ServerProperty.DATABASE_USERNAME, config.getDbConfig().getUsername());
+			PropertyWatcher.set(ServerProperty.DATABASE_PASSWORD, config.getDbConfig().getPassword());
+
+			if (config.getGkConfig() != null) {
+				PropertyWatcher.set(ServerProperty.GATEKEEPER_URL, config.getGkConfig().getUrl());
+				PropertyWatcher.set(ServerProperty.GATEKEEPER_USERNAME, config.getGkConfig().getUsername());
+				PropertyWatcher.set(ServerProperty.GATEKEEPER_PASSWORD, config.getGkConfig().getPassword());
+			}
+
+			// Invalidate all tokens
+			AuthenticationFilter.invalidateAllTokens();
+
+			return Response.ok(PropertyWatcher.storeProperties()).build();
+		}
+	}
+
 	@GET
 	@Path("/check")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -101,7 +147,6 @@ public class SetupResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postGatekeeperConfig(GatekeeperConfig config)
-		throws IOException
 	{
 		Response availability = checkAvailability();
 
@@ -152,7 +197,6 @@ public class SetupResource
 
 			if (!resp.isSuccessful())
 			{
-				Logger.getLogger("").info(resp.toString());
 				if (resp.code() == 500)
 				{
 					return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Internal server error: " + resp.message())
@@ -162,7 +206,7 @@ public class SetupResource
 				else
 				{
 					return Response.status(Response.Status.UNAUTHORIZED.getStatusCode(), "Invalid details: " + resp.message())
-								   .entity("Internal server error: " + resp.message())
+								   .entity("Invalid details: " + resp.message())
 								   .build();
 				}
 			}
