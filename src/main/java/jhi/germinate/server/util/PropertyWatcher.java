@@ -160,48 +160,14 @@ public class PropertyWatcher
 	 */
 	private static void checkRequiredProperties()
 	{
-		for (ServerProperty prop : ServerProperty.values())
-		{
-			if (prop.isRequired())
-			{
-				// TODO
-//				switch (prop)
-//				{
-//					case GERMINATE_AVAILABLE_PAGES:
-//						Set<Page> availablePages = getSet(prop, Page.class);
-//						if (CollectionUtils.isEmpty(availablePages))
-//							throwException(prop);
-//						break;
-//
-//					case GERMINATE_USE_AUTHENTICATION:
-//						boolean useAuthentication = getBoolean(prop);
-//						if (useAuthentication)
-//						{
-//							if (StringUtils.isEmpty(get(ServerProperty.GERMINATE_GATEKEEPER_SERVER)))
-//								throwException(ServerProperty.GERMINATE_GATEKEEPER_SERVER);
-//							if (StringUtils.isEmpty(get(ServerProperty.GERMINATE_GATEKEEPER_NAME)))
-//								throwException(ServerProperty.GERMINATE_GATEKEEPER_NAME);
-//						}
-//						break;
-//
-//					case GERMINATE_GATEKEEPER_REGISTRATION_ENABLED:
-//						boolean registrationNeedsGatekeeper = getBoolean(prop);
-//
-//						if (registrationNeedsGatekeeper)
-//						{
-//							String gatekeeperUrl = get(ServerProperty.GERMINATE_GATEKEEPER_URL);
-//
-//							if (StringUtils.isEmpty(gatekeeperUrl))
-//								throwException(ServerProperty.GERMINATE_GATEKEEPER_URL);
-//						}
-//						break;
-//
-//					default:
-				if (StringUtils.isEmpty(get(prop)))
-					throwException(prop);
-//				}
-			}
-		}
+//		for (ServerProperty prop : ServerProperty.values())
+//		{
+//			if (prop.isRequired())
+//			{
+//				if (StringUtils.isEmpty(get(prop)))
+//					throwException(prop);
+//			}
+//		}
 	}
 
 	/**

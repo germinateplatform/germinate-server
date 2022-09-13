@@ -42,6 +42,52 @@ public class Database
 //		}
 	}
 
+	public static boolean check(String databaseServer, String databaseName, String databasePort, String username, String password)
+	{
+		String oldDbServer = Database.databaseServer;
+		String oldDbName = Database.databaseName;
+		String oldDbPort = Database.databasePort;
+		String oldUsername = Database.username;
+		String oldPassword = Database.password;
+
+		Database.databaseServer = databaseServer;
+		Database.databaseName = databaseName;
+		Database.databasePort = databasePort;
+		Database.username = username;
+		Database.password = password;
+
+		try
+		{
+			// The newInstance() call is a work around for some
+			// broken Java implementations
+			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+		}
+		catch (Exception ex)
+		{
+			// handle the error
+		}
+
+		try (Connection conn = getConnection())
+		{
+			Database.getContext(conn);
+			return true;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			Logger.getLogger("").severe(e.getLocalizedMessage());
+			return false;
+		}
+		finally
+		{
+			Database.databaseServer = oldDbServer;
+			Database.databaseName = oldDbName;
+			Database.databasePort = oldDbPort;
+			Database.username = oldUsername;
+			Database.password = oldPassword;
+		}
+	}
+
 	public static void init(String databaseServer, String databaseName, String databasePort, String username, String password, boolean initAndUpdate)
 	{
 		Database.databaseServer = databaseServer;
@@ -108,7 +154,10 @@ public class Database
 		}
 
 		if (!connectionSuccessful)
-			throw new RuntimeException("Unable to connect to database after 10 attempts. Exiting.");
+		{
+			Logger.getLogger("").severe("Unable to connect to database after 10 attempts. Exiting.");
+			return;
+		}
 
 		if (initAndUpdate)
 		{
