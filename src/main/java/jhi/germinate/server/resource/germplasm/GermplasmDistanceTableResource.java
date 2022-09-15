@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
+import static jhi.germinate.server.database.codegen.tables.Locations.*;
+
 @Path("germplasm/distance")
 @Secured
 @PermitAll
@@ -37,12 +39,12 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			Field<BigDecimal> dLat = DSL.rad(DSL.field(LATITUDE, BigDecimal.class).minus(request.getLatitude()));
-			Field<BigDecimal> dLon = DSL.rad(DSL.field(LONGITUDE, BigDecimal.class).minus(request.getLongitude()));
+			Field<BigDecimal> dLat = DSL.rad(LOCATIONS.LATITUDE.minus(request.getLatitude()));
+			Field<BigDecimal> dLon = DSL.rad(LOCATIONS.LONGITUDE.minus(request.getLongitude()));
 
 			Field<BigDecimal> a = DSL.power(DSL.sin(dLon.div(2)), 2)
 									 .times(DSL.cos(DSL.rad(request.getLatitude())))
-									 .times(DSL.cos(DSL.rad(DSL.field(LATITUDE, BigDecimal.class))))
+									 .times(DSL.cos(DSL.rad(LOCATIONS.LATITUDE)))
 									 .plus(DSL.power(DSL.sin(dLat.div(2)), 2));
 
 			Field<BigDecimal> c = DSL.asin(DSL.sqrt(a)).times(2);

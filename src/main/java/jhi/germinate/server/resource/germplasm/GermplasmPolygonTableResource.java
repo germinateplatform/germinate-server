@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
+import static jhi.germinate.server.database.codegen.tables.Locations.*;
+
 @Path("germplasm/polygon")
 @Secured
 @PermitAll
@@ -40,7 +42,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 			SelectConditionStep<?> from = getGermplasmQueryWrapped(context, null)
 				.where(DSL.field(LATITUDE).isNotNull()
 						  .and(DSL.field(LONGITUDE).isNotNull())
-						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + GermplasmBaseResource.LONGITUDE + "`, ' ', `" + GermplasmBaseResource.LATITUDE + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
 			filter(from, filters);
@@ -77,7 +79,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 			SelectConditionStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, null)
 				.where(DSL.field(LATITUDE).isNotNull()
 						  .and(DSL.field(LONGITUDE).isNotNull())
-						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + GermplasmBaseResource.LONGITUDE + "`, ' ', `" + GermplasmBaseResource.LATITUDE + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
 			filter(from, filters);
