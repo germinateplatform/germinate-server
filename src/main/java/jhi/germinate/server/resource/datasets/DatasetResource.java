@@ -63,6 +63,7 @@ public class DatasetResource extends ContextResource
 
 				dataset.setName(updatedDataset.getName());
 				dataset.setDescription(updatedDataset.getDescription());
+				dataset.setLicenseId(updatedDataset.getLicenseId());
 				dataset.setDateStart(updatedDataset.getDateStart());
 				dataset.setDateEnd(updatedDataset.getDateEnd());
 				dataset.setDatasetStateId(updatedDataset.getDatasetStateId());
