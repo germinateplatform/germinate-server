@@ -53,7 +53,6 @@ public class LicenseTableResource extends BaseResource
 
 			result.forEach(d -> {
 				Integer[] acceptedBy = d.getAcceptedBy();
-				JsonElement userId = new JsonParser().parse(Integer.toString(userDetails.getId()));
 				if (mode == AuthenticationMode.NONE)
 				{
 					// If there's no authentication, check if the license is in the cookie
