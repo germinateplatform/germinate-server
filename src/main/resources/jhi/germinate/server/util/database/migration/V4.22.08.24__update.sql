@@ -159,13 +159,13 @@ SELECT DISTINCT `duplsite` as `code`, COALESCE(`duplinstname`, 'N/A') as `name`,
 ) inst_temp;
 
 /* Delete anything that already exists */
-DELETE FROM `temp_institutions` WHERE EXISTS (SELECT 1 FROM `institutions` WHERE `institutions`.`code` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`code` AND `institutions`.`name` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`name` AND `institutions`.`address` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`address`);
+DELETE FROM `temp_institutions` WHERE EXISTS (SELECT 1 FROM `institutions` WHERE `institutions`.`code` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`code` AND `institutions`.`name` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`name` AND `institutions`.`address` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`address` LIMIT 1);
 
 /* Now insert the "new" institutions into the table */
 INSERT INTO `institutions` (`code`, `name`, `address`) SELECT `code`, `name`, `address` FROM `temp_institutions`;
 
 /* Update the temp table with the newly inserted ids */
-UPDATE `temp_institutions` SET `institution_id` = (SELECT `id` FROM `institutions` WHERE `institutions`.`code` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`code` AND `institutions`.`name` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`name` AND `institutions`.`address` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`address`);
+UPDATE `temp_institutions` SET `institution_id` = (SELECT `id` FROM `institutions` WHERE `institutions`.`code` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`code` AND `institutions`.`name` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`name` AND `institutions`.`address` COLLATE utf8mb4_unicode_ci <=> `temp_institutions`.`address` LIMIT 1);
 
 /* Now insert the mapping between germplasm and institution with the corresponding type */
 INSERT INTO `germplasminstitutions` ( `germinatebase_id`, `institution_id`, `type` ) SELECT `germinatebase_id`, `institution_id`, `type` FROM ( SELECT `mcpd`.`germinatebase_id` AS `germinatebase_id`, `ti`.`institution_id` AS `institution_id`, 'maintenance' AS `type` FROM `mcpd` LEFT JOIN `temp_institutions` AS `ti` ON `ti`.`type` = 'maintenance' AND `ti`.`code` <=> `mcpd`.`instcode` ) AS maintenance_table WHERE `germinatebase_id` IS NOT NULL AND `institution_id` IS NOT NULL;
