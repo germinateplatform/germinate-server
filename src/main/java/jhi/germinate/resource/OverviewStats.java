@@ -7,14 +7,12 @@ public class OverviewStats
 	private long maps               = 0;
 	private long traits             = 0;
 	private long climates           = 0;
-	private long compounds          = 0;
 	private long locations          = 0;
 	private long datasets           = 0;
 	private long datasetsGenotype   = 0;
 	private long datasetsTrials     = 0;
 	private long datasetsAllelefreq = 0;
 	private long datasetsClimate    = 0;
-	private long datasetsCompound   = 0;
 	private long datasetsPedigree   = 0;
 	private long experiments        = 0;
 	private long groups             = 0;
@@ -70,16 +68,6 @@ public class OverviewStats
 	public void setClimates(long climates)
 	{
 		this.climates = climates;
-	}
-
-	public long getCompounds()
-	{
-		return compounds;
-	}
-
-	public void setCompounds(long compounds)
-	{
-		this.compounds = compounds;
 	}
 
 	public long getDatasetsPedigree()
@@ -151,16 +139,6 @@ public class OverviewStats
 	public void setDatasetsClimate(long datasetsClimate)
 	{
 		this.datasetsClimate = datasetsClimate;
-	}
-
-	public long getDatasetsCompound()
-	{
-		return datasetsCompound;
-	}
-
-	public void setDatasetsCompound(long datasetsCompound)
-	{
-		this.datasetsCompound = datasetsCompound;
 	}
 
 	public long getExperiments()

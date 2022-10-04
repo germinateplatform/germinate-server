@@ -14,7 +14,8 @@ These data templates currently cover the following data type:
 - Genotypic marker data
 - Pedigree data
 - Trials data
-- Chemical compound data
+- Climate data
+- Image data
 
 As a requirement for the data import, [Gatekeeper](https://github.com/germinateplatform/gatekeeper-vue) has to be running and there has to be a Gatekeeper user that has either administrator or data curator permissions set for the Germinate database in question.
 

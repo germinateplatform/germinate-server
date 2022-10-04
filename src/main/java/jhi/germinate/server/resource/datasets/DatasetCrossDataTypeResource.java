@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climates.*;
-import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetlocations.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -181,50 +180,6 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 				addFiltering(step, userDetails, climate, germplasm, x.LOCATION_ID, y.GERMPLASM_ID, x.DATASET_ID, x.DATASET_ID);
 			}
-			else if ((f == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN && s == DatasetCrossDataTypeRequest.DataType.COMPOUND)
-				|| (f == DatasetCrossDataTypeRequest.DataType.COMPOUND && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN))
-			{
-				DatasetCrossDataTypeRequest.Config compound = first.getType() == DatasetCrossDataTypeRequest.DataType.COMPOUND ? first : second;
-				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
-
-				if (compound.getId() == null || StringUtils.isEmpty(germplasm.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
-
-				String germplasmColumn = Filter.getSafeColumn(germplasm.getColumnName());
-
-				Map<Integer, String> compounds = getCompoundMapping(context, compound.getId());
-
-				Compounddata x = Compounddata.COMPOUNDDATA.as("x");
-				ViewTableGermplasmDeprecated y = ViewTableGermplasmDeprecated.VIEW_TABLE_GERMPLASM_DEPRECATED.as("y");
-
-				Optional<Field<?>> field = y.fieldStream().filter(tf -> Objects.equals(tf.getName(), germplasmColumn))
-											.findAny();
-
-				if (field.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
-
-				String displayName = germplasmColumn.replace("_", " ");
-				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
-
-				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.COMPOUND_VALUE.as(compounds.get(compound.getId())),
-					field.get().as(displayName)
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .leftJoin(y).on(y.GERMPLASM_ID.eq(GERMINATEBASE.ID))
-							  .where(x.COMPOUND_ID.eq(compound.getId()));
-
-				addFiltering(step, userDetails, compound, germplasm, x.GERMINATEBASE_ID, y.GERMPLASM_ID, x.DATASET_ID, x.DATASET_ID);
-			}
 			else if ((f == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN && s == DatasetCrossDataTypeRequest.DataType.TRAIT)
 				|| (f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN))
 			{
@@ -296,38 +251,6 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 				addFiltering(step, userDetails, first, second, x.GERMINATEBASE_ID, y.GERMINATEBASE_ID, x.DATASET_ID, y.DATASET_ID);
 			}
-			else if ((f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.COMPOUND)
-				|| (f == DatasetCrossDataTypeRequest.DataType.COMPOUND && s == DatasetCrossDataTypeRequest.DataType.TRAIT))
-			{
-				DatasetCrossDataTypeRequest.Config trait = first.getType() == DatasetCrossDataTypeRequest.DataType.TRAIT ? first : second;
-				DatasetCrossDataTypeRequest.Config compound = first.getType() == DatasetCrossDataTypeRequest.DataType.COMPOUND ? first : second;
-
-				if (trait.getId() == null || compound.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
-
-				Map<Integer, String> traits = getTraitMapping(context, trait.getId());
-				Map<Integer, String> compounds = getCompoundMapping(context, compound.getId());
-
-				// Get the actual data.
-				Phenotypedata x = Phenotypedata.PHENOTYPEDATA.as("x");
-				Compounddata y = Compounddata.COMPOUNDDATA.as("y");
-				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.PHENOTYPE_VALUE.as(traits.get(trait.getId())),
-					y.COMPOUND_VALUE.as(compounds.get(compound.getId()))
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .leftJoin(y).on(y.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .where(x.PHENOTYPE_ID.eq(trait.getId()))
-							  .and(y.COMPOUND_ID.eq(compound.getId()));
-
-				addFiltering(step, userDetails, trait, compound, x.GERMINATEBASE_ID, y.GERMINATEBASE_ID, x.DATASET_ID, y.DATASET_ID);
-			}
 			else if ((f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
 				|| (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.TRAIT))
 			{
@@ -359,65 +282,6 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .and(y.CLIMATE_ID.eq(climate.getId()));
 
 				addFiltering(step, userDetails, trait, climate, x.GERMINATEBASE_ID, y.LOCATION_ID, x.DATASET_ID, y.DATASET_ID);
-			}
-			else if (f == DatasetCrossDataTypeRequest.DataType.COMPOUND && s == DatasetCrossDataTypeRequest.DataType.COMPOUND)
-			{
-				if (first.getId() == null || second.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
-
-				Map<Integer, String> compounds = getCompoundMapping(context, first.getId(), second.getId());
-
-				// Get the actual data.
-				Compounddata x = Compounddata.COMPOUNDDATA.as("x");
-				Compounddata y = Compounddata.COMPOUNDDATA.as("y");
-				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.COMPOUND_VALUE.as(compounds.get(first.getId())),
-					y.COMPOUND_VALUE.as(compounds.get(second.getId()))
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .leftJoin(y).on(y.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .where(x.COMPOUND_ID.eq(first.getId()))
-							  .and(y.COMPOUND_ID.eq(second.getId()));
-
-				addFiltering(step, userDetails, first, second, x.GERMINATEBASE_ID, y.GERMINATEBASE_ID, x.DATASET_ID, y.DATASET_ID);
-			}
-			else if ((f == DatasetCrossDataTypeRequest.DataType.COMPOUND && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
-				|| (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.COMPOUND))
-			{
-				DatasetCrossDataTypeRequest.Config compound = first.getType() == DatasetCrossDataTypeRequest.DataType.COMPOUND ? first : second;
-				DatasetCrossDataTypeRequest.Config climate = first.getType() == DatasetCrossDataTypeRequest.DataType.CLIMATE ? first : second;
-
-				if (compound.getId() == null || climate.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
-
-				Map<Integer, String> compounds = getCompoundMapping(context, compound.getId());
-				Map<Integer, String> climates = getClimateMapping(context, climate.getId());
-
-				// Get the actual data.
-				Compounddata x = Compounddata.COMPOUNDDATA.as("x");
-				Climatedata y = Climatedata.CLIMATEDATA.as("y");
-				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.COMPOUND_VALUE.as(compounds.get(compound.getId())),
-					y.CLIMATE_VALUE.as(climates.get(climate.getId()))
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .leftJoin(y).on(y.LOCATION_ID.in(DSL.select(DATASETLOCATIONS.LOCATION_ID).from(DATASETLOCATIONS).where(DATASETLOCATIONS.DATASET_ID.in(compound.getDatasetIds()))))
-							  .where(x.COMPOUND_ID.eq(compound.getId()))
-							  .and(y.CLIMATE_ID.eq(climate.getId()));
-
-				addFiltering(step, userDetails, compound, climate, x.GERMINATEBASE_ID, y.LOCATION_ID, x.DATASET_ID, y.DATASET_ID);
 			}
 			else if (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
 			{
@@ -502,17 +366,6 @@ public class DatasetCrossDataTypeResource extends ContextResource
 					  .leftJoin(UNITS).on(UNITS.ID.eq(CLIMATES.UNIT_ID))
 					  .where(CLIMATES.ID.in(ids))
 					  .fetchMap(CLIMATES.ID, climateUnit);
-	}
-
-	private Map<Integer, String> getCompoundMapping(DSLContext context, Integer... ids)
-	{
-		// Get the compound names including units. Map id to concat name.
-		Field<String> compoundUnit = DSL.concat(COMPOUNDS.NAME, DSL.iif(COMPOUNDS.UNIT_ID.isNull().or(UNITS.UNIT_ABBREVIATION.isNull()), "", DSL.concat(" [", UNITS.UNIT_ABBREVIATION).concat("]")));
-		return context.select(COMPOUNDS.ID, compoundUnit)
-					  .from(COMPOUNDS)
-					  .leftJoin(UNITS).on(UNITS.ID.eq(COMPOUNDS.UNIT_ID))
-					  .where(COMPOUNDS.ID.in(ids))
-					  .fetchMap(COMPOUNDS.ID, compoundUnit);
 	}
 
 	private Map<Integer, String> getTraitMapping(DSLContext context, Integer... ids)

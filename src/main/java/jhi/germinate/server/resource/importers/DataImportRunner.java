@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.importers;
 
+import jakarta.ws.rs.core.Response;
 import jhi.germinate.resource.AsyncExportResult;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
@@ -13,8 +14,6 @@ import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.ws.rs.core.Response;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -164,8 +163,6 @@ public class DataImportRunner
 					return GenotypeFlatFileImporter.class.getCanonicalName();
 				else if (Objects.equals(extension, "hapmap"))
 					return GenotypeHapmapImporter.class.getCanonicalName();
-			case compound:
-				return CompoundDataImporter.class.getCanonicalName();
 			case pedigree:
 				return PedigreeImporter.class.getCanonicalName();
 			case groups:

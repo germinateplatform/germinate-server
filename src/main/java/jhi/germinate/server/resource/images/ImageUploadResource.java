@@ -13,15 +13,14 @@ import jhi.germinate.server.util.*;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
 
-import java.io.*;
 import java.io.File;
-import java.nio.file.*;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.*;
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
@@ -69,11 +68,6 @@ public class ImageUploadResource
 									.where(PHENOTYPES.ID.eq(foreignId))
 									.fetchAny();
 					break;
-				case "compounds":
-					record = context.selectFrom(COMPOUNDS)
-									.where(COMPOUNDS.ID.eq(foreignId))
-									.fetchAny();
-					break;
 			}
 
 			if (record == null)
@@ -90,7 +84,8 @@ public class ImageUploadResource
 			String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
 			File targetFile = new File(folder, uuid + "." + extension);
 
-			if (!FileUtils.isSubDirectory(folder, targetFile)) {
+			if (!FileUtils.isSubDirectory(folder, targetFile))
+			{
 				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 				return false;
 			}

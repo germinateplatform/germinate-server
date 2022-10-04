@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.Attributedata.*;
 import static jhi.germinate.server.database.codegen.tables.Attributes.*;
 import static jhi.germinate.server.database.codegen.tables.Comments.*;
 import static jhi.germinate.server.database.codegen.tables.Commenttypes.*;
-import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
@@ -139,7 +138,6 @@ public class GermplasmUnifierResource extends ContextResource
 			context.update(DATASETMEMBERS).set(DATASETMEMBERS.FOREIGN_ID, preferredId).where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2).and(DATASETMEMBERS.FOREIGN_ID.in(otherIds))).execute();
 			context.update(SYNONYMS).set(SYNONYMS.FOREIGN_ID, preferredId).where(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.in(otherIds))).execute();
 			context.update(PHENOTYPEDATA).set(PHENOTYPEDATA.GERMINATEBASE_ID, preferredId).where(PHENOTYPEDATA.GERMINATEBASE_ID.in(otherIds)).execute();
-			context.update(COMPOUNDDATA).set(COMPOUNDDATA.GERMINATEBASE_ID, preferredId).where(COMPOUNDDATA.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREEDEFINITIONS).set(PEDIGREEDEFINITIONS.GERMINATEBASE_ID, preferredId).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREES).set(PEDIGREES.GERMINATEBASE_ID, preferredId).where(PEDIGREES.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREES).set(PEDIGREES.PARENT_ID, preferredId).where(PEDIGREES.PARENT_ID.in(otherIds)).execute();
