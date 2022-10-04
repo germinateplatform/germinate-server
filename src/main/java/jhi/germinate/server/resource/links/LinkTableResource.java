@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
 import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
@@ -69,12 +68,6 @@ public class LinkTableResource extends ContextResource
 											 .from(GERMINATEBASE)
 											 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 											 .where(GERMINATEBASE.ID.eq(request.getForeignId()))
-											 .fetchAnyInto(String.class);
-							  break;
-						  case "compounds":
-							  value = context.select(DSL.field(targetColumn).cast(String.class))
-											 .from(COMPOUNDS)
-											 .where(COMPOUNDS.ID.eq(request.getForeignId()))
 											 .fetchAnyInto(String.class);
 							  break;
 						  case "markers":

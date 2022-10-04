@@ -9,8 +9,6 @@ public class HiddenColumns
 	private List<String> images;
 	private List<String> climates;
 	private List<String> climateData;
-	private List<String> compounds;
-	private List<String> compoundData;
 	private List<String> comments;
 	private List<String> fileresources;
 	private List<String> maps;
@@ -82,28 +80,6 @@ public class HiddenColumns
 	public HiddenColumns setClimateData(List<String> climateData)
 	{
 		this.climateData = climateData;
-		return this;
-	}
-
-	public List<String> getCompounds()
-	{
-		return compounds;
-	}
-
-	public HiddenColumns setCompounds(List<String> compounds)
-	{
-		this.compounds = compounds;
-		return this;
-	}
-
-	public List<String> getCompoundData()
-	{
-		return compoundData;
-	}
-
-	public HiddenColumns setCompoundData(List<String> compoundData)
-	{
-		this.compoundData = compoundData;
 		return this;
 	}
 

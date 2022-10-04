@@ -35,8 +35,6 @@ public enum ServerProperty
 	HIDDEN_COLUMNS_IMAGES("hidden.columns.images", null, false),
 	HIDDEN_COLUMNS_CLIMATES("hidden.columns.climates", null, false),
 	HIDDEN_COLUMNS_CLIMATE_DATA("hidden.columns.climate.data", "climateId", false),
-	HIDDEN_COLUMNS_COMPOUNDS("hidden.columns.compounds", null, false),
-	HIDDEN_COLUMNS_COMPOUND_DATA("hidden.columns.compound.data", "compoundId", false),
 	HIDDEN_COLUMNS_COMMENTS("hidden.columns.comments", "commentForeignId,commentTypeId", false),
 	HIDDEN_COLUMNS_FILERESOURCES("hidden.columns.fileresources", "fileresourcetypeId", false),
 	HIDDEN_COLUMNS_MAPS("hidden.columns.maps", null, false),

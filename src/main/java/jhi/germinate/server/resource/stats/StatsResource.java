@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Climates.*;
-import static jhi.germinate.server.database.codegen.tables.Compounds.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
 import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
 import static jhi.germinate.server.database.codegen.tables.Experiments.*;
@@ -113,7 +112,6 @@ public class StatsResource
 				DSL.selectCount().from(MARKERS).asField("markers"),
 				DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
 				DSL.selectCount().from(PHENOTYPES).asField("traits"),
-				DSL.selectCount().from(COMPOUNDS).asField("compounds"),
 				DSL.selectCount().from(CLIMATES).asField("climates"),
 				DSL.selectCount().from(LOCATIONS).asField("locations"),
 				DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
@@ -142,9 +140,6 @@ public class StatsResource
 								break;
 							case "climate":
 								stats.setDatasetsClimate(stats.getDatasetsClimate() + 1);
-								break;
-							case "compound":
-								stats.setDatasetsCompound(stats.getDatasetsCompound() + 1);
 								break;
 							case "pedigree":
 								stats.setDatasetsPedigree(stats.getDatasetsPedigree() + 1);

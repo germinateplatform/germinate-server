@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.experiment;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -8,15 +11,10 @@ import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 
@@ -52,7 +50,6 @@ public class ExperimentTableResource extends BaseResource
 				DSL.zero().as("trials_count"),
 				DSL.zero().as("allele_freq_count"),
 				DSL.zero().as("climate_count"),
-				DSL.zero().as("compound_count"),
 				DSL.zero().as("pedigree_count")
 			).from(EXPERIMENTS);
 
@@ -88,9 +85,6 @@ public class ExperimentTableResource extends BaseResource
 								break;
 							case "climate":
 								experiment.setClimateCount(experiment.getClimateCount() + 1);
-								break;
-							case "compound":
-								experiment.setCompoundCount(experiment.getCompoundCount() + 1);
 								break;
 							case "pedigree":
 								experiment.setPedigreeCount(experiment.getPedigreeCount() + 1);

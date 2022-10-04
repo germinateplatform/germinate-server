@@ -51,8 +51,6 @@ public class SettingsResource
 					.setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
 					.setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
 					.setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
-					.setCompounds(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUNDS, String.class))
-					.setCompoundData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUND_DATA, String.class))
 					.setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
 					.setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
 					.setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
@@ -118,8 +116,6 @@ public class SettingsResource
 				  .setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
 				  .setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
 				  .setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
-				  .setCompounds(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUNDS, String.class))
-				  .setCompoundData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUND_DATA, String.class))
 				  .setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
 				  .setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
 				  .setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
@@ -199,8 +195,6 @@ public class SettingsResource
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, config.getHiddenColumns().getImages());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, config.getHiddenColumns().getClimates());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, config.getHiddenColumns().getClimateData());
-		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUNDS, config.getHiddenColumns().getCompounds());
-		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COMPOUND_DATA, config.getHiddenColumns().getCompoundData());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, config.getHiddenColumns().getComments());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, config.getHiddenColumns().getFileresources());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, config.getHiddenColumns().getMaps());

@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.groups;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
@@ -9,15 +12,11 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
-import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
@@ -86,9 +85,6 @@ public class DatasetGroupResource extends ContextResource
 				case "trials":
 					resultStep = getTrialsGroups(step, requestedIds, userDetails.getId());
 					break;
-				case "compound":
-					resultStep = getCompoundGroups(step, requestedIds, userDetails.getId());
-					break;
 				case "genotype":
 				case "allelefreq":
 					if (Objects.equals(request.getGroupType(), "germinatebase"))
@@ -136,19 +132,6 @@ public class DatasetGroupResource extends ContextResource
 								 .where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
 								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 								 .and(PHENOTYPEDATA.DATASET_ID.in(requestedIds)));
-	}
-
-	private SelectConditionStep<? extends Record> getCompoundGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)
-	{
-		return step.from(GROUPS)
-				   .leftJoin(GROUPTYPES).on(GROUPTYPES.ID.eq(GROUPS.GROUPTYPE_ID))
-				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
-				   .where(GROUPS.GROUPTYPE_ID.eq(3))
-				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
-				   .andExists(DSL.selectOne().from(COMPOUNDDATA)
-								 .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
-								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
-								 .and(COMPOUNDDATA.DATASET_ID.in(requestedIds)));
 	}
 
 	private SelectConditionStep<? extends Record> getGenotypeAllelefreqMarkerGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)

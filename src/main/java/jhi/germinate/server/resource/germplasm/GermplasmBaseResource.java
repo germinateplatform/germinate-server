@@ -1,7 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jhi.germinate.server.database.codegen.tables.Germinatebase;
-import jhi.germinate.server.database.pojo.GermplasmInstitution;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
@@ -10,7 +9,6 @@ import org.jooq.impl.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
-import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
 import static jhi.germinate.server.database.codegen.tables.Countries.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
@@ -64,7 +62,6 @@ public class GermplasmBaseResource extends ExportResource
 	public static String HAS_TRIALS_DATA                  = "has_trials_data";
 	public static String HAS_GENOTYPIC_DATA               = "has_genotypic_data";
 	public static String HAS_ALLELEFREQ_DATA              = "has_allelefreq_data";
-	public static String HAS_COMPOUND_DATA                = "has_compound_data";
 	public static String HAS_PEDIGREE_DATA                = "has_pedigree_data";
 
 	public static List<String> COLUMNS = new ArrayList<>();
@@ -103,7 +100,6 @@ public class GermplasmBaseResource extends ExportResource
 		COLUMNS.add(HAS_TRIALS_DATA);
 		COLUMNS.add(HAS_GENOTYPIC_DATA);
 		COLUMNS.add(HAS_ALLELEFREQ_DATA);
-		COLUMNS.add(HAS_COMPOUND_DATA);
 		COLUMNS.add(HAS_PEDIGREE_DATA);
 	}
 
@@ -177,11 +173,6 @@ public class GermplasmBaseResource extends ExportResource
 			   .and(DATASETS.DATASETTYPE_ID.eq(4))
 			   .limit(1)
 			   .asField(HAS_ALLELEFREQ_DATA),
-			DSL.selectOne()
-			   .from(COMPOUNDDATA)
-			   .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-			   .limit(1)
-			   .asField(HAS_COMPOUND_DATA),
 			DSL.coalesce(
 				DSL.selectOne().from(PEDIGREES).where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
 				DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
@@ -280,11 +271,6 @@ public class GermplasmBaseResource extends ExportResource
 			   .and(DATASETS.DATASETTYPE_ID.eq(4))
 			   .limit(1)
 			   .asField(HAS_ALLELEFREQ_DATA),
-			DSL.selectOne()
-			   .from(COMPOUNDDATA)
-			   .where(COMPOUNDDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-			   .limit(1)
-			   .asField(HAS_COMPOUND_DATA),
 			DSL.coalesce(
 				DSL.selectOne().from(PEDIGREES).where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
 				DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)

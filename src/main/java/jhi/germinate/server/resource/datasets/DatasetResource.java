@@ -14,7 +14,6 @@ import java.io.*;
 import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
-import static jhi.germinate.server.database.codegen.tables.Compounddata.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
@@ -123,9 +122,6 @@ public class DatasetResource extends ContextResource
 						break;
 					case "trials":
 						ResourceUtils.resetAutoincrement(context, PHENOTYPEDATA);
-						break;
-					case "compound":
-						ResourceUtils.resetAutoincrement(context, COMPOUNDDATA);
 						break;
 				}
 
