@@ -14,6 +14,14 @@ INSERT INTO `phenotypedata` (`germinatebase_id`, `phenotype_id`, `phenotype_valu
 
 UPDATE `datasets` SET `datasettype_id` = 3 WHERE `datasettype_id` = 6;
 
+update `images` left join `compounds` on `compounds`.`id` = `images`.`foreign_id` set `images`.`foreign_id` = ( select `id` from `phenotypes` where `phenotypes`.`name` = `compounds`.`name` and `phenotypes`.`description` <=> `compounds`.`description` limit 1) where `images`.`imagetype_id` = 2;
+UPDATE `images` SET `imagetype_id` = 3 WHERE `imagetype_id` = 2;
+DELETE FROM `imagetypes` WHERE `reference_table` = 'compounds';
+
+update `synonyms` left join `compounds` on `compounds`.`id` = `synonyms`.`foreign_id` set `synonyms`.`foreign_id` = ( select `id` from `phenotypes` where `phenotypes`.`name` = `compounds`.`name` and `phenotypes`.`description` <=> `compounds`.`description` limit 1) where `synonyms`.`synonymtype_id` = 3;
+UPDATE `synonyms` SET `synonymtype_id` = 4 WHERE `synonymtype_id` = 3;
+DELETE FROM `synonymtypes` WHERE `target_table` = 'compounds';
+
 DROP TABLE `compounddata`;
 DROP TABLE `compounds`;
 DROP TABLE `analysismethods`;

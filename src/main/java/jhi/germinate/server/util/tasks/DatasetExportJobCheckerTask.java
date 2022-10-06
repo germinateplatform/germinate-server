@@ -42,7 +42,7 @@ public class DatasetExportJobCheckerTask implements Runnable
 					   {
 						   boolean finished = ApplicationListener.SCHEDULER.isJobFinished(j.getJobId());
 
-						   if (finished)
+						   if (finished && j.getStatus() == DataExportJobsStatus.running)
 						   {
 							   String uuid = j.getUuid();
 							   File jobFolder = ApplicationListener.getFromExternal(uuid, "async");

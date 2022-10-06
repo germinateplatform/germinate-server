@@ -47,10 +47,9 @@ public class DatasetImportJobCheckerTask implements Runnable
 					   {
 						   boolean finished = ApplicationListener.SCHEDULER.isJobFinished(j.getJobId());
 
-						   if (finished)
+						   if (finished && j.getStatus() == DataImportJobsStatus.running)
 						   {
 							   j.setStatus(DataImportJobsStatus.completed);
-
 
 							   String uuid = j.getUuid();
 							   File jobFolder = ApplicationListener.getFromExternal(uuid, "async");
