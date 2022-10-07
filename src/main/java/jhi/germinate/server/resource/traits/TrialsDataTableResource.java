@@ -61,15 +61,9 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			// Filter here!
 			filter(from, filters);
 
-			Logger.getLogger("").info("QUERY: " + from.getSQL(ParamType.INLINED));
-
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
 				.fetch()
 				.into(ViewTableTrialsData.class);
-
-			Set<Timestamp> ts = new TreeSet<>();
-			result.forEach(r -> ts.add(r.getRecordingDate()));
-			Logger.getLogger("").info("DATES: " + ts);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
