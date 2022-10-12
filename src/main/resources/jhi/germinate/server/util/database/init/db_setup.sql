@@ -1792,9 +1792,9 @@ INSERT INTO `schema_version` VALUES (20, '4.22.05.04', 'update', 'SQL', 'V4.22.0
 INSERT INTO `schema_version` VALUES (21, '4.22.08.10', 'update', 'SQL', 'V4.22.08.10__update.sql', 1992346541, 'root', '2022-08-10 08:25:59', 100, 1);
 INSERT INTO `schema_version` VALUES (22, '4.22.08.18', 'update', 'SQL', 'V4.22.08.18__update.sql', -1881471068, 'root', '2022-08-25 15:18:39', 44, 1);
 INSERT INTO `schema_version` VALUES (23, '4.22.08.23', 'update', 'SQL', 'V4.22.08.23__update.sql', -1016121391, 'root', '2022-08-25 15:19:12', 177, 1);
-INSERT INTO `schema_version` VALUES (24, '4.22.08.24', 'update', 'SQL', 'V4.22.08.24__update.sql', -1344271830, 'root', '2022-08-26 09:39:32', 1058, 1);
+INSERT INTO `schema_version` VALUES (24, '4.22.08.24', 'update', 'SQL', 'V4.22.08.24__update.sql', -943687077, 'root', '2022-08-26 09:39:32', 1058, 1);
 INSERT INTO `schema_version` VALUES (25, '4.22.09.02', 'update', 'SQL', 'V4.22.09.02__update.sql', -21851311, 'root', '2022-09-02 14:14:14', 154, 1);
-INSERT INTO `schema_version` VALUES (26, '4.22.09.26', 'update', 'SQL', 'V4.22.09.26__update.sql', -757036275, 'root', '2022-09-26 09:53:37', 45, 1);
+INSERT INTO `schema_version` VALUES (26, '4.22.09.26', 'update', 'SQL', 'V4.22.09.26__update.sql', 2124455446, 'root', '2022-09-26 09:53:37', 45, 1);
 INSERT INTO `schema_version` VALUES (27, '4.22.10.03', 'update', 'SQL', 'V4.22.10.03__update.sql', 2025067794, 'root', '2022-10-06 10:39:31', 85, 1);
 
 -- ----------------------------
