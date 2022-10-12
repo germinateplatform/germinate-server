@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS `mcpd`;
+
 /* Create a new dedicated MCPD table */
 CREATE TABLE `mcpd` (
   `germinatebase_id` int NOT NULL,
