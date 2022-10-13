@@ -28,6 +28,8 @@ public class ViewTableTrialsData
 	private String            treatment;
 	private String            rep;
 	private String            block;
+	private Short             trialRow;
+	private Short             trialColumn;
 	private BigDecimal        latitude;
 	private BigDecimal        longitude;
 	private BigDecimal        elevation;
@@ -251,6 +253,28 @@ public class ViewTableTrialsData
 	public ViewTableTrialsData setRep(String rep)
 	{
 		this.rep = rep;
+		return this;
+	}
+
+	public Short getTrialRow()
+	{
+		return trialRow;
+	}
+
+	public ViewTableTrialsData setTrialRow(Short trialRow)
+	{
+		this.trialRow = trialRow;
+		return this;
+	}
+
+	public Short getTrialColumn()
+	{
+		return trialColumn;
+	}
+
+	public ViewTableTrialsData setTrialColumn(Short trialColumn)
+	{
+		this.trialColumn = trialColumn;
 		return this;
 	}
 

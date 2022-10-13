@@ -6,7 +6,6 @@ import jhi.germinate.server.util.CollectionUtils;
 import org.jooq.*;
 import org.jooq.impl.*;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Countries.*;
@@ -43,6 +42,8 @@ public class TrialsDataBaseResource extends ExportResource
 	public static String TREATMENT                        = "treatment";
 	public static String REP                              = "rep";
 	public static String BLOCK                            = "block";
+	public static String TRIAL_ROW                        = "trial_row";
+	public static String TRIAL_COLUMN                     = "trial_column";
 	public static String LATITUDE                         = "latitude";
 	public static String LONGITUDE                        = "longitude";
 	public static String ELEVATION                        = "elevation";
@@ -75,6 +76,8 @@ public class TrialsDataBaseResource extends ExportResource
 			TREATMENTS.NAME.as(TREATMENT),
 			PHENOTYPEDATA.REP.as(REP),
 			PHENOTYPEDATA.BLOCK.as(BLOCK),
+			PHENOTYPEDATA.TRIAL_ROW.as(TRIAL_ROW),
+			PHENOTYPEDATA.TRIAL_COLUMN.as(TRIAL_COLUMN),
 			PHENOTYPEDATA.LATITUDE.as(LATITUDE),
 			PHENOTYPEDATA.LONGITUDE.as(LONGITUDE),
 			PHENOTYPEDATA.ELEVATION.as(ELEVATION),
@@ -106,7 +109,8 @@ public class TrialsDataBaseResource extends ExportResource
 		return context.selectDistinct(DSL.field(GERMPLASM_ID, Integer.class)).from(inner);
 	}
 
-	protected <A> SelectJoinStep<?> getTrialsTimepointsQueryWrapped(DSLContext context) {
+	protected <A> SelectJoinStep<?> getTrialsTimepointsQueryWrapped(DSLContext context)
+	{
 		Germinatebase g = GERMINATEBASE.as("g");
 
 		Field<?> recordingDate = PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE);
@@ -132,6 +136,8 @@ public class TrialsDataBaseResource extends ExportResource
 			TREATMENTS.NAME.as(TREATMENT),
 			PHENOTYPEDATA.REP.as(REP),
 			PHENOTYPEDATA.BLOCK.as(BLOCK),
+			PHENOTYPEDATA.TRIAL_ROW.as(TRIAL_ROW),
+			PHENOTYPEDATA.TRIAL_COLUMN.as(TRIAL_COLUMN),
 			PHENOTYPEDATA.LATITUDE.as(LATITUDE),
 			PHENOTYPEDATA.LONGITUDE.as(LONGITUDE),
 			PHENOTYPEDATA.ELEVATION.as(ELEVATION),
@@ -185,6 +191,8 @@ public class TrialsDataBaseResource extends ExportResource
 			TREATMENTS.NAME.as(TREATMENT),
 			PHENOTYPEDATA.REP.as(REP),
 			PHENOTYPEDATA.BLOCK.as(BLOCK),
+			PHENOTYPEDATA.TRIAL_ROW.as(TRIAL_ROW),
+			PHENOTYPEDATA.TRIAL_COLUMN.as(TRIAL_COLUMN),
 			PHENOTYPEDATA.LATITUDE.as(LATITUDE),
 			PHENOTYPEDATA.LONGITUDE.as(LONGITUDE),
 			PHENOTYPEDATA.ELEVATION.as(ELEVATION),
