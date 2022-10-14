@@ -111,56 +111,27 @@ public class TrialsDataBaseResource extends ExportResource
 
 	protected <A> SelectJoinStep<?> getTrialsTimepointsQueryWrapped(DSLContext context)
 	{
-		Germinatebase g = GERMINATEBASE.as("g");
-
 		Field<?> recordingDate = PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE);
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(
 			GERMINATEBASE.ID.as(GERMPLASM_ID),
 			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 			GERMINATEBASE.NAME.as(GERMPLASM_NAME),
-			SYNONYMS.SYNONYMS_.as(GERMPLASM_SYNONYMS),
-			g.NAME.as(ENTITY_PARENT_NAME),
-			g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
-			ENTITYTYPES.NAME.as(ENTITY_TYPE),
 			DATASETS.ID.as(DATASET_ID),
-			DATASETS.NAME.as(DATASET_NAME),
-			DATASETS.DESCRIPTION.as(DATASET_DESCRIPTION),
-			LOCATIONS.SITE_NAME.as(LOCATION_NAME),
-			COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
-			COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE2),
 			PHENOTYPES.ID.as(TRAIT_ID),
 			PHENOTYPES.NAME.as(TRAIT_NAME),
-			PHENOTYPES.SHORT_NAME.as(TRAIT_NAME_SHORT),
-			PHENOTYPES.RESTRICTIONS.as(TRAIT_RESTRICTIONS),
-			UNITS.UNIT_NAME.as(UNIT_NAME),
-			TREATMENTS.NAME.as(TREATMENT),
-			PHENOTYPEDATA.REP.as(REP),
-			PHENOTYPEDATA.BLOCK.as(BLOCK),
-			PHENOTYPEDATA.TRIAL_ROW.as(TRIAL_ROW),
-			PHENOTYPEDATA.TRIAL_COLUMN.as(TRIAL_COLUMN),
-			PHENOTYPEDATA.LATITUDE.as(LATITUDE),
-			PHENOTYPEDATA.LONGITUDE.as(LONGITUDE),
-			PHENOTYPEDATA.ELEVATION.as(ELEVATION),
-			recordingDate,
-			PHENOTYPEDATA.PHENOTYPE_VALUE.as(TRAIT_VALUE)));
+			recordingDate));
 
 		SelectSelectStep<?> select = context.selectDistinct(DSL.field("DATE_FORMAT({0}, {1})", SQLDataType.VARCHAR, recordingDate, DSL.inline("%Y-%m-%d")).as(RECORDING_DATE));
 
 		if (previousCount == -1)
 			select.hint("SQL_CALC_FOUND_ROWS");
 
-		SelectJoinStep<?> inner = context.select(fields)
-										 .from(PHENOTYPEDATA)
-										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
-										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
-										 .leftJoin(SYNONYMS).on(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID).and(SYNONYMS.SYNONYMTYPE_ID.eq(1)))
-										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
-										 .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-										 .leftJoin(UNITS).on(UNITS.ID.eq(PHENOTYPES.UNIT_ID))
-										 .leftJoin(DATASETS).on(DATASETS.ID.eq(PHENOTYPEDATA.DATASET_ID))
-										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(PHENOTYPEDATA.LOCATION_ID))
-										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(PHENOTYPEDATA.TREATMENT_ID));
+		SelectConditionStep<Record> inner = context.select(fields)
+												   .from(PHENOTYPEDATA)
+												   .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
+												   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												   .leftJoin(DATASETS).on(DATASETS.ID.eq(PHENOTYPEDATA.DATASET_ID))
+												   .where(recordingDate.isNotNull());
 
 		return select.from(inner);
 	}

@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.resource.BaseResource;
@@ -52,6 +53,9 @@ public class FileResourceTableResource extends BaseResource
 																				 .from(DATASETFILERESOURCES)
 																				 .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
 																															.and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
+
+			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
+				from.and(VIEW_TABLE_FILERESOURCES.PUBLIC_VISIBILITY.eq(true));
 
 			// Filter here!
 			filter(from, filters);

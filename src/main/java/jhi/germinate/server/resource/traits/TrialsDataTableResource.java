@@ -18,6 +18,10 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+
 
 @Path("dataset/data/trial/table")
 @Secured
@@ -27,7 +31,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableTrialsData>> postTrialsDataTable(PaginatedDatasetRequest request)
+	public PaginatedResult<List<ViewTableTrialsData>> postTrialsDataTable(SubsettedDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -58,8 +62,19 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
+			// Handle requested germplasm ids or group ids
+			Set<Integer> germplasmIds = new HashSet<>();
+			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
+				germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getyGroupIds())).fetchInto(Integer.class));
+			if (!CollectionUtils.isEmpty(request.getyIds()))
+				germplasmIds.addAll(Arrays.asList(request.getyIds()));
+			if (!CollectionUtils.isEmpty(germplasmIds))
+				from.where(DSL.field(TrialsDataBaseResource.GERMPLASM_ID, Integer.class).in(germplasmIds));
+
 			// Filter here!
 			filter(from, filters);
+
+			Logger.getLogger("").info(from.getSQL(ParamType.INLINED));
 
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
 				.fetch()

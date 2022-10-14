@@ -6,6 +6,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
+import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.ResourceUtils;
@@ -27,6 +28,7 @@ import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.
 import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
 import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
+import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
@@ -106,6 +108,17 @@ public class StatsResource
 			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(req, resp, userDetails, null, false);
 			List<Integer> datasetIds = datasets.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
 
+			SelectConditionStep<Record1<Integer>> step = DSL.selectCount()
+															.from(FILERESOURCES)
+															.leftJoin(FILERESOURCETYPES).on(FILERESOURCETYPES.ID.eq(FILERESOURCES.FILERESOURCETYPE_ID))
+															.where(DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES)
+																					.where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
+																	  .orExists(DSL.selectOne().from(DATASETFILERESOURCES)
+																				   .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
+
+			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
+				step.and(FILERESOURCETYPES.PUBLIC_VISIBILITY.eq(true));
+
 			DSLContext context = Database.getContext(conn);
 			OverviewStats stats = context.select(
 				DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
@@ -117,8 +130,7 @@ public class StatsResource
 				DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
 				DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
 				DSL.selectCount().from(IMAGES).asField("images"),
-				DSL.selectCount().from(FILERESOURCES).where(DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID))))
-				   .or(DSL.exists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))).asField("fileresources"),
+				step.asField("fileresources"),
 				DSL.selectCount().from(PUBLICATIONS).asField("publications")
 			).fetchSingleInto(OverviewStats.class);
 
