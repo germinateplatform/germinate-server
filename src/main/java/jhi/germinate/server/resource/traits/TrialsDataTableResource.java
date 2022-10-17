@@ -74,8 +74,6 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			// Filter here!
 			filter(from, filters);
 
-			Logger.getLogger("").info(from.getSQL(ParamType.INLINED));
-
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
 				.fetch()
 				.into(ViewTableTrialsData.class);

@@ -110,7 +110,7 @@ public class FileResourceResource extends ContextResource
 
 
 	@GET
-	@Path("/{fileResourceId}")
+	@Path("/{fileResourceId:[0-9]+}{fileExtension:.?[a-zA-Z]*}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
