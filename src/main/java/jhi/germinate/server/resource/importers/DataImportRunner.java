@@ -42,7 +42,8 @@ public class DataImportRunner
 												 .where(DATA_IMPORT_JOBS.UUID.eq(uuid))
 												 .and(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.completed))
 												 .and(DATA_IMPORT_JOBS.IMPORTED.eq(false))
-												 .and(DSL.field("JSON_LENGTH(" + DATA_IMPORT_JOBS.FEEDBACK.getName() + ")").eq(0))
+												 // Check that there aren't any ERROR status types in there (all the ones that are there are WARNING).
+												 .and(DSL.field("JSON_CONTAINS(" + DATA_IMPORT_JOBS.FEEDBACK.getName() + ", JSON_OBJECT('type', 'WARNING'))").eq(DSL.field("JSON_LENGTH(" + DATA_IMPORT_JOBS.FEEDBACK.getName() + ")")))
 												 .fetchAnyInto(DataImportJobsRecord.class);
 
 			if (record == null)
@@ -58,6 +59,7 @@ public class DataImportRunner
 			record.setJobConfig(new ImportJobDetails()
 				.setBaseFolder(record.getJobConfig().getBaseFolder())
 				.setDataFilename(record.getJobConfig().getDataFilename())
+				.setTargetDatasetId(record.getJobConfig().getTargetDatasetId())
 				.setDeleteOnFail(record.getJobConfig().getDeleteOnFail())
 				.setRunType(RunType.IMPORT));
 			record.store();
@@ -85,7 +87,7 @@ public class DataImportRunner
 		return null;
 	}
 
-	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, String originalFileName, boolean isUpdate, Integer datasetStateId)
+	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, String originalFileName, boolean isUpdate, Integer datasetId, Integer datasetStateId)
 		throws GerminateException
 	{
 		if (dataType == null)
@@ -108,6 +110,7 @@ public class DataImportRunner
 				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
 				.setDataFilename(templateFile.getName())
 				.setDeleteOnFail(true)
+				.setTargetDatasetId(datasetId)
 				.setRunType(RunType.CHECK);
 
 			// Store the job information in the database
@@ -171,6 +174,8 @@ public class DataImportRunner
 				return ClimateDataImporter.class.getCanonicalName();
 			case images:
 				return ImageImporter.class.getCanonicalName();
+			case shapefile:
+				return ShapefileImporter.class.getCanonicalName();
 			default:
 				throw new GerminateException(Response.Status.NOT_IMPLEMENTED);
 				// TODO: Others

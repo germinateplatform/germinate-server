@@ -25,7 +25,7 @@ public class ImportJobUploadResource extends ContextResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("type") String type, @QueryParam("datasetStateId") Integer datasetStateId, @FormDataParam("fileToUpload") InputStream fileIs, @FormDataParam("fileToUpload") FormDataContentDisposition fileDetails)
+	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("type") String type, @QueryParam("datasetId") Integer datasetId, @QueryParam("datasetStateId") Integer datasetStateId, @FormDataParam("fileToUpload") InputStream fileIs, @FormDataParam("fileToUpload") FormDataContentDisposition fileDetails)
 		throws IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -58,7 +58,7 @@ public class ImportJobUploadResource extends ContextResource
 
 			Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-			return DataImportRunner.checkData(dataType, userDetails, uuid, targetFile, itemName, isUpdate, datasetStateId);
+			return DataImportRunner.checkData(dataType, userDetails, uuid, targetFile, itemName, isUpdate, datasetId, datasetStateId);
 		}
 		catch (GerminateException e)
 		{
