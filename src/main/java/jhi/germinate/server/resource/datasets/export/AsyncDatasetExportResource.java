@@ -111,7 +111,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			// Delete the async folder corresponding to the job uuid.
 			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
 			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory()) {
-				asyncFolder.delete();
+				org.apache.commons.io.FileUtils.deleteDirectory(asyncFolder);
 			}
 		}
 
