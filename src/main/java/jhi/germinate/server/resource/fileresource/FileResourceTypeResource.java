@@ -87,22 +87,35 @@ public class FileResourceTypeResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			// Delete all files associated with fileresource database objects.
-			File target = ResourceUtils.getFromExternal(resp, Integer.toString(fileResourceTypeId), "data", "download");
 
-			try
-			{
-				FileUtils.deleteDirectory(target);
-			}
-			catch (IllegalArgumentException e)
-			{
-				e.printStackTrace();
-			}
+			FileresourcetypesRecord record = context.selectFrom(FILERESOURCETYPES)
+													.where(FILERESOURCETYPES.ID.eq(fileResourceTypeId))
+													// Don't allow deletion of these new default resource types
+													.andNot(FILERESOURCETYPES.NAME.eq("Trials Shapefile").and(FILERESOURCETYPES.DESCRIPTION.eq("Shape file associated with a phenotypic trial. Fields within the shape file have to match the database entries.")))
+													.andNot(FILERESOURCETYPES.NAME.eq("Trials GeoTIFF").and(FILERESOURCETYPES.DESCRIPTION.eq("GeoTIFF file associated with a phenotypic trial. The \"created_on\" date of this fileresource determines the time point at which it was recorded.")))
+													.fetchAny();
 
-			// Delete the fileresource type. This will trigger the deletion of the referencing fileresouces.
-			return context.deleteFrom(FILERESOURCETYPES)
-						  .where(FILERESOURCETYPES.ID.eq(fileResourceTypeId))
-						  .execute() > 0;
+			if (record != null)
+			{
+				// Delete all files associated with fileresource database objects.
+				File target = ResourceUtils.getFromExternal(resp, Integer.toString(record.getId()), "data", "download");
+
+				try
+				{
+					FileUtils.deleteDirectory(target);
+				}
+				catch (IllegalArgumentException e)
+				{
+					e.printStackTrace();
+				}
+
+				// Delete the fileresource type. This will trigger the deletion of the referencing fileresouces.
+				return record.delete() > 0;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		catch (IOException e)
 		{
