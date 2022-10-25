@@ -233,6 +233,7 @@ public class ImageResource
 		climate,
 		database,
 		news,
-		template
+		template,
+		mapoverlay
 	}
 }
