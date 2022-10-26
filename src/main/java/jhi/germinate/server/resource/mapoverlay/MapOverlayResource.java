@@ -1,11 +1,14 @@
 package jhi.germinate.server.resource.mapoverlay;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMapoverlays;
+import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
 import org.apache.commons.io.IOUtils;
@@ -13,11 +16,14 @@ import org.jooq.DSLContext;
 
 import java.io.*;
 import java.sql.*;
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableMapoverlays.*;
 
 @Path("mapoverlay")
-public class MapOverlayResource
+@Secured
+@PermitAll
+public class MapOverlayResource extends ContextResource
 {
 	@Context
 	protected HttpServletResponse resp;
@@ -31,6 +37,8 @@ public class MapOverlayResource
 	{
 		if (mapoverlayId == null)
 			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -54,6 +62,18 @@ public class MapOverlayResource
 
 			if (overlay == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
+
+			// Check they have access to the dataset (if present)
+			if (overlay.getDatasetId() != null)
+			{
+				List<Integer> ids = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null, true);
+
+				if (!ids.contains(overlay.getDatasetId()))
+				{
+					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+					return null;
+				}
+			}
 
 			File parent = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.mapoverlay.name());
 			File image = new File(parent, overlay.getMapoverlayId() + ".png");

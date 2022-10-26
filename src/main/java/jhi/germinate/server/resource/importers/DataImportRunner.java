@@ -176,6 +176,8 @@ public class DataImportRunner
 				return ImageImporter.class.getCanonicalName();
 			case shapefile:
 				return ShapefileImporter.class.getCanonicalName();
+			case geotiff:
+				return GeotiffImporter.class.getCanonicalName();
 			default:
 				throw new GerminateException(Response.Status.NOT_IMPLEMENTED);
 				// TODO: Others
