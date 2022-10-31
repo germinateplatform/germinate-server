@@ -137,6 +137,8 @@ Server:
 - Tomcat 10.0.18 or above
 - MySQL 5.7.37 or above
 - imagemagick 6.9.10 or above
+- Gradle 5.2 or above
+- gdal 3.0.4 or above
 
 Client:
 - Node.js 16.15.1 or above
