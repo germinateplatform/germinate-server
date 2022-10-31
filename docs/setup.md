@@ -57,7 +57,7 @@ services:
     container_name: mysql
 
   tomcat:
-      image: cropgeeks/germinate:release-x86-4.2.0
+      image: cropgeeks/germinate:release-<version>
       environment:
         - JAVA_OPTS:-Xmx512m
       ports:
@@ -108,7 +108,7 @@ docker run -d \
     -v /path/to/your/germinate/config:/data/germinate \
     -p 9080:8080 \
     --restart unless-stopped \
-    cropgeeks/germinate:release-x86-4.2.0
+    cropgeeks/germinate:release-<version>
 ```
 
 Make sure you have at least a `config.properties` file in the location at `/path/to/your/germinate/config`. See <a href="config.html">Configuration</a> for additional config options. This file will contain the database configuration and also this property:
@@ -134,12 +134,15 @@ Setting up Germinate manually involves a few steps that have to be done for ever
 
 Server:
 - Java 11 or above
-- Tomcat 8.5.12 or above
-- MySQL 5.7.22 or above (or MariaDB 10.5.0 or above)
+- Tomcat 10.0.18 or above
+- MySQL 5.7.37 or above
+- imagemagick 6.9.10 or above
+- Gradle 5.2 or above
+- gdal 3.0.4 or above
 
 Client:
-- Node.js 10.15.1 or above
-- NPM 6.4.1 or above
+- Node.js 16.15.1 or above
+- NPM 8.12.2 or above
 
 We are going to assume that you have a running Tomcat and a running MySQL database that we can link into.
 
@@ -163,7 +166,7 @@ The steps involved to build the client of Germinate are as follows:
 You can either download the code from GitHub directly via the [releases](https://github.com/germinateplatform/germinate-vue/releases) or you can check out the latest release via the command line: 
 
 ```shell
-git clone -b '4.2.0' --depth 1 https://github.com/germinateplatform/germinate-vue.git
+git clone -b '<version>' --depth 1 https://github.com/germinateplatform/germinate-vue.git
 ```
 
 #### Configure Germinate Client
@@ -207,7 +210,7 @@ Let's go through these steps one at a time.
 You can either download the code from GitHub directly via the [releases](https://github.com/germinateplatform/germinate-server/releases) or you can check out the latest release via the command line: 
 
 ```shell
-git clone -b '4.2.0' --depth 1 https://github.com/germinateplatform/germinate-server.git
+git clone -b '<version>' --depth 1 https://github.com/germinateplatform/germinate-server.git
 ```
 
 #### Configure Germinate Server
@@ -217,14 +220,14 @@ Rename `config.template.properties` to `config.properties` and `gradle.template.
 Change `gradle.properties` like this:
 
 ```ini
-tomcat.manager.version=<your tomcat version, e.g. 'tomcat8x'>
+tomcat.manager.version=<your tomcat version, e.g. 'tomcat10x'>
 tomcat.manager.protocol=<protocol of tomcat, e.g. 'http'>
 tomcat.manager.hostname=<host of tomcat, e.g. 'localhost'>
 tomcat.manager.port=<port of tomcat, e.g. '8080'>
 tomcat.manager.username=<tomcat username>
 tomcat.manager.password=<tomcat password>
 
-project.name=<the relative path inside tomcat, e.g. 'germinate' -> http://localhost:8080/germinate/v4.2.0>
+project.name=<the relative path inside tomcat, e.g. 'germinate' -> http://localhost:8080/germinate/v<version>>
 ```
 
 Change `config.properties` like this:
@@ -247,7 +250,7 @@ Once all previous steps are complete, building Germinate Server is as simple as 
 gradle deployTomcat
 ```
 
-After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v4.2.0`).
+After the build process is complete, the Germinate API will be available at the specified location (`<tomcat-url>/<project.name>/v<version>`).
 
 
 ## Proxy

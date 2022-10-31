@@ -4,8 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.resource.enums.UserType;
+import jhi.germinate.resource.PaginatedDatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.resource.BaseResource;
@@ -20,19 +19,26 @@ import java.util.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableFileresources.*;
 
-@Path("fileresource/table")
+@Path("dataset/fileresource")
 @Secured
 @PermitAll
-public class FileResourceTableResource extends BaseResource
+public class DatasetFileResourceTableResource extends BaseResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableFileresources>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableFileresources>> postDatasetFileResources(PaginatedDatasetRequest request)
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> requestedIds = CollectionUtils.isEmpty(request.getDatasetIds()) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
+
+		requestedIds.retainAll(datasetIds);
+
+		// None of the requested dataset ids are available to the user, return nothing
+		if (CollectionUtils.isEmpty(requestedIds))
+			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -44,18 +50,15 @@ public class FileResourceTableResource extends BaseResource
 				select.hint("SQL_CALC_FOUND_ROWS");
 
 			SelectConditionStep<Record> from = select.from(VIEW_TABLE_FILERESOURCES)
-													 // Check whether this resource either isn't linked to any dataset
-													 .where(DSL.notExists(DSL.selectOne()
-																			 .from(DATASETFILERESOURCES)
-																			 .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)))
-															   // Or whether the user has access to the dataset
-															   .or(DSL.exists(DSL.selectOne()
-																				 .from(DATASETFILERESOURCES)
-																				 .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
-																															.and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
+													 // Filter on the referenced dataset ids
+													 .where(DSL.exists(DSL.selectOne()
+																		  .from(DATASETFILERESOURCES)
+																		  .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
+																													 .and(DATASETFILERESOURCES.DATASET_ID.in(requestedIds)))));
 
-			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
-				from.and(VIEW_TABLE_FILERESOURCES.PUBLIC_VISIBILITY.eq(true));
+			// Do not filter here as specific file resources are being requested.
+//			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
+//				from.and(VIEW_TABLE_FILERESOURCES.PUBLIC_VISIBILITY.eq(true));
 
 			// Filter here!
 			filter(from, filters);

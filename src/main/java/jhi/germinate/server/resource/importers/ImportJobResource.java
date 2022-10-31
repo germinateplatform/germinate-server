@@ -72,6 +72,8 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 			return false;
 		}
 
+		boolean result = false;
+
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
@@ -93,12 +95,12 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 					}
 					record.setVisibility(false);
 					record.store();
-					return true;
+					result = true;
 				}
 				else
 				{
 					resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-					return false;
+					result = false;
 				}
 			}
 			else
@@ -110,9 +112,17 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 				}
 				record.setVisibility(false);
 				record.store();
-				return true;
+				result = true;
+			}
+
+			// Delete the async folder corresponding to the job uuid.
+			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
+			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory()) {
+				org.apache.commons.io.FileUtils.deleteDirectory(asyncFolder);
 			}
 		}
+
+		return result;
 	}
 
 	@GET
