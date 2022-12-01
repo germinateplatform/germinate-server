@@ -505,4 +505,13 @@ public class PropertyWatcher
 
 		return result;
 	}
+
+	public static boolean isEmailConfigured()
+	{
+		String server = PropertyWatcher.get(ServerProperty.EMAIL_SERVER);
+		String email = PropertyWatcher.get(ServerProperty.EMAIL_ADDRESS);
+		String username = PropertyWatcher.get(ServerProperty.EMAIL_USERNAME);
+
+		return !StringUtils.isEmpty(server) && !StringUtils.isEmpty(email) && !StringUtils.isEmpty(username);
+	}
 }

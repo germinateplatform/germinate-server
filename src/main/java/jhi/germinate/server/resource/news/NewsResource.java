@@ -73,6 +73,7 @@ public class NewsResource extends ContextResource
 				byte[] bytes = Base64.getDecoder().decode(strings[1].getBytes(StandardCharsets.UTF_8));
 
 				File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.news.name());
+				folder.mkdirs();
 				java.nio.file.Path image = new File(folder, UUID.randomUUID() + "." + extension).toPath();
 				Files.write(image, bytes);
 

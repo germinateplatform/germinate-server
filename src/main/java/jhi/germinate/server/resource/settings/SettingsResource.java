@@ -75,7 +75,9 @@ public class SettingsResource
 				.setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 				.setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 				.setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
-				.setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))).build();
+				.setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
+				.setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
+			).build();
 	}
 
 	@GET
@@ -140,7 +142,8 @@ public class SettingsResource
 			  .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 			  .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
-			  .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL));
+			  .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
+			  .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured());
 
 		return result;
 	}

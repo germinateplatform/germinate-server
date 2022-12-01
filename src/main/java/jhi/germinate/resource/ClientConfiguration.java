@@ -29,6 +29,7 @@ public class ClientConfiguration
 	private Boolean            showGdprNotification;
 	private String             heliumUrl;
 	private HiddenColumns      hiddenColumns;
+	private Boolean            supportsFeedback;
 
 	public ClientConfiguration()
 	{
@@ -251,6 +252,17 @@ public class ClientConfiguration
 	public ClientConfiguration setHiddenColumns(HiddenColumns hiddenColumns)
 	{
 		this.hiddenColumns = hiddenColumns;
+		return this;
+	}
+
+	public Boolean getSupportsFeedback()
+	{
+		return supportsFeedback;
+	}
+
+	public ClientConfiguration setSupportsFeedback(Boolean supportsFeedback)
+	{
+		this.supportsFeedback = supportsFeedback;
 		return this;
 	}
 }

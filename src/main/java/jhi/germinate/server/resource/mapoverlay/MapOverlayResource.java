@@ -76,7 +76,7 @@ public class MapOverlayResource extends ContextResource
 			}
 
 			File parent = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.mapoverlay.name());
-			File image = new File(parent, overlay.getMapoverlayId() + ".png");
+			File image = new File(parent, overlay.getMapoverlayName());
 
 			if (!image.exists() || !image.isFile())
 				return Response.status(Response.Status.NOT_FOUND).build();

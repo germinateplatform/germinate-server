@@ -1,8 +1,5 @@
 package jhi.germinate.server;
 
-import jhi.germinate.resource.enums.*;
-import jhi.germinate.server.util.*;
-
 import jakarta.annotation.Priority;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.ServletContext;
@@ -12,6 +9,9 @@ import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
+import jhi.germinate.resource.enums.*;
+import jhi.germinate.server.util.*;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
@@ -33,8 +33,9 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 	public static final long AGE = 43200000; // 12 hours
 
-	private static Map<String, UserDetails> tokenToTimestamp  = new ConcurrentHashMap<>();
-	private static Map<String, String>      tokenToImageToken = new ConcurrentHashMap<>();
+	private static Map<String, UserDetails> tokenToUserDetails      = new ConcurrentHashMap<>();
+	private static Map<String, UserDetails> imageTokenToUserDetails = new ConcurrentHashMap<>();
+	private static Map<String, String>      tokenToImageToken       = new ConcurrentHashMap<>();
 
 	@Context
 	private HttpServletRequest  request;
@@ -56,6 +57,11 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		cookie.setMaxAge((int) (AGE / 1000));
 		cookie.setHttpOnly(true);
 		resp.addCookie(cookie);
+	}
+
+	public static UserDetails getDetailsFromImageToken(String imageToken)
+	{
+		return imageTokenToUserDetails.get(imageToken);
 	}
 
 	@Override
@@ -94,7 +100,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			@Override
 			public Principal getUserPrincipal()
 			{
-				UserDetails details = finalToken == null ? null : tokenToTimestamp.get(finalToken);
+				UserDetails details = finalToken == null ? null : tokenToUserDetails.get(finalToken);
 
 				if (details == null)
 				{
@@ -111,7 +117,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 				{
 					UserType type = UserType.valueOf(role);
 
-					return UserDetails.isAtLeast(tokenToTimestamp.get(finalToken).userType, type);
+					return UserDetails.isAtLeast(tokenToUserDetails.get(finalToken).userType, type);
 				}
 				catch (Exception e)
 				{
@@ -164,7 +170,8 @@ public class AuthenticationFilter implements ContainerRequestFilter
 	 */
 	public static void invalidateAllTokens()
 	{
-		tokenToTimestamp.clear();
+		tokenToUserDetails.clear();
+		imageTokenToUserDetails.clear();
 		tokenToImageToken.clear();
 	}
 
@@ -198,7 +205,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			boolean canAccess = false;
 
 			// Check if it's a valid token
-			UserDetails details = tokenToTimestamp.get(token);
+			UserDetails details = tokenToUserDetails.get(token);
 
 			if (details != null)
 			{
@@ -208,7 +215,8 @@ public class AuthenticationFilter implements ContainerRequestFilter
 					canAccess = true;
 					// Extend the cookie
 					details.timestamp = System.currentTimeMillis();
-					tokenToTimestamp.put(token, details);
+					tokenToUserDetails.put(token, details);
+					imageTokenToUserDetails.put(details.imageToken, details);
 				}
 				else
 				{
@@ -256,7 +264,8 @@ public class AuthenticationFilter implements ContainerRequestFilter
 				details.userType = UserType.UNKNOWN;
 		}
 		details.id = userId;
-		tokenToTimestamp.put(token, details);
+		tokenToUserDetails.put(token, details);
+		imageTokenToUserDetails.put(details.imageToken, details);
 		tokenToImageToken.put(token, details.imageToken);
 	}
 
@@ -264,9 +273,12 @@ public class AuthenticationFilter implements ContainerRequestFilter
 	{
 		if (token != null)
 		{
-			UserDetails exists = tokenToTimestamp.remove(token);
+			UserDetails exists = tokenToUserDetails.remove(token);
 			if (exists != null)
+			{
 				tokenToImageToken.remove(exists.imageToken);
+				imageTokenToUserDetails.remove(exists.imageToken);
+			}
 		}
 
 		setCookie(null, request, response);

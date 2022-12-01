@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.datasets.export;
 
+import com.google.gson.Gson;
 import de.ipk_gatersleben.bit.bi.isa4j.components.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
@@ -9,7 +10,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.*;
-import jhi.germinate.server.database.codegen.routines.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.database.pojo.ExportJobDetails;
@@ -20,17 +20,35 @@ import jhi.germinate.server.resource.traits.TraitTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.AllelefreqExporter;
 import jhi.oddjob.JobInfo;
-import org.jooq.DSLContext;
+import org.apache.commons.lang3.ObjectUtils;
+import org.jooq.*;
+import org.jooq.impl.DSL;
 
+import java.io.File;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
 import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
+import static jhi.germinate.server.database.codegen.tables.Treatments.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
 
 @Path("dataset/export")
 @Secured
@@ -242,37 +260,56 @@ public class DatasetExportResource extends ContextResource
 
 		try
 		{
-			File file = ResourceUtils.createTempFile("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), ".tsv");
-
-			try (Connection conn = Database.getConnection();
-				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+			try (Connection conn = Database.getConnection())
 			{
 				DSLContext context = Database.getContext(conn);
-				String climateIdString = CollectionUtils.join(request.getxIds(), ",");
-				String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
-				String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
 
-				ExportClimateData procedure = new ExportClimateData();
-				procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
-
-				if (!StringUtils.isEmpty(groupIdString))
-					procedure.setGroupids(groupIdString);
-				if (!StringUtils.isEmpty(germplasmIdString))
-					procedure.setMarkedids(germplasmIdString);
-				if (!StringUtils.isEmpty(climateIdString))
-					procedure.setClimateids(climateIdString);
-
-				procedure.execute(context.configuration());
-
-				ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
-
-				for (Integer dsId : datasetIds)
+				try
 				{
-					DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
-					access.setDatasetId(dsId);
-					access.setUserId(userDetails.getId());
-					access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-					access.store();
+					File file = exportTabFastClimate("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
+
+//					String climateIdString = CollectionUtils.join(request.getxIds(), ",");
+//					String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
+//					String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
+//
+//					ExportClimateData procedure = new ExportClimateData();
+//					procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
+//
+//					if (!StringUtils.isEmpty(groupIdString))
+//						procedure.setGroupids(groupIdString);
+//					if (!StringUtils.isEmpty(germplasmIdString))
+//						procedure.setMarkedids(germplasmIdString);
+//					if (!StringUtils.isEmpty(climateIdString))
+//						procedure.setClimateids(climateIdString);
+//
+//					procedure.execute(context.configuration());
+//
+//					ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+
+					for (Integer dsId : datasetIds)
+					{
+						DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
+						access.setDatasetId(dsId);
+						access.setUserId(userDetails.getId());
+						access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+						access.store();
+					}
+
+					java.nio.file.Path filePath = file.toPath();
+					return Response.ok((StreamingOutput) output -> {
+									   Files.copy(filePath, output);
+									   Files.deleteIfExists(filePath);
+								   })
+								   .type(MediaType.TEXT_PLAIN)
+								   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
+								   .header("content-length", file.length())
+								   .build();
+				}
+				catch (GerminateException e)
+				{
+					conn.close();
+					resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
+					return null;
 				}
 			}
 			catch (IOException e)
@@ -281,16 +318,6 @@ public class DatasetExportResource extends ContextResource
 				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 				return null;
 			}
-
-			java.nio.file.Path filePath = file.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-							   Files.deleteIfExists(filePath);
-						   })
-						   .type(MediaType.TEXT_PLAIN)
-						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
-						   .header("content-length", file.length())
-						   .build();
 		}
 		catch (IOException e)
 		{
@@ -352,7 +379,8 @@ public class DatasetExportResource extends ContextResource
 				default:
 					try
 					{
-						file = exportTab("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
+						file = exportTabFast("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
+//						file = exportTab("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 						mediaType = MediaType.TEXT_PLAIN;
 					}
 					catch (GerminateException e)
@@ -427,7 +455,7 @@ public class DatasetExportResource extends ContextResource
 				study.setTitle(dataset.getDatasetName());
 				study.setDescription(dataset.getDatasetDescription());
 				study.setPublicReleaseDate(dataset.getCreatedOn());
-				File datasetFile = exportTab("s_" + dsId + DateTimeUtils.getFormattedDateTime(new Date()), request, context, Collections.singletonList(dsId));
+				File datasetFile = exportTabFast("s_" + dsId + DateTimeUtils.getFormattedDateTime(new Date()), request, context, Collections.singletonList(dsId));
 				study.setFileName(datasetFile.getName());
 				resultFiles.add(datasetFile);
 				inv.addStudy(study);
@@ -460,7 +488,7 @@ public class DatasetExportResource extends ContextResource
 		return zipFile;
 	}
 
-	private File exportTab(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+	private File exportTabFast(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
 		throws GerminateException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
@@ -473,24 +501,184 @@ public class DatasetExportResource extends ContextResource
 				return null;
 			}
 
-			// Run the procedure
-			ExportTrialsData procedure = new ExportTrialsData();
-			procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
+			// Get the dataset metadata
+			Map<Integer, String> datasets = new HashMap<>();
+			context.selectFrom(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.DATASET_ID.in(datasetIds)).forEach(ds -> {
+				String name = ds.getDatasetName() + "\t" + ds.getVersion() + "\t" + ds.getLicenseName();
+				datasets.put(ds.getDatasetId(), name);
+			});
 
-			// Set parameters if present
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-				procedure.setGroupids(CollectionUtils.join(request.getyGroupIds(), ","));
-			if (!CollectionUtils.isEmpty(request.getyIds()))
-				procedure.setMarkedids(CollectionUtils.join(request.getyIds(), ","));
+			Map<Integer, String> locations = new HashMap<>();
+			context.selectFrom(LOCATIONS).forEach(l -> locations.put(l.getId(), l.getSiteName()));
+
+			Map<Integer, GroupsRecord> groups = context.selectFrom(GROUPS).fetchMap(GROUPS.ID);
+
+			// Get the requested traits
+			Map<Integer, String> traits = new LinkedHashMap<>();
+			SelectConditionStep<ViewTableTraitsRecord> step = context.selectFrom(VIEW_TABLE_TRAITS)
+																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).where(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)).and(PHENOTYPEDATA.DATASET_ID.in(datasetIds)).limit(1));
+
+			// Limit to requested traits
 			if (!CollectionUtils.isEmpty(request.getxIds()))
-				procedure.setPhenotypeids(CollectionUtils.join(request.getxIds(), ","));
+				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getxIds()));
 
-			// Execute the procedure
-			procedure.execute(context.configuration());
+			// Map to their display name
+			step.forEach(t -> {
+				String name = t.getTraitName();
 
-			// Write everything to a file
+				if (!StringUtils.isEmpty(t.getUnitAbbreviation()))
+					name += " [" + t.getUnitAbbreviation() + "]";
+
+				traits.put(t.getTraitId(), name);
+			});
+
+			// Optional conditions for germplasm restrictions
+			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getyIds()) ? GERMINATEBASE.ID.in(request.getyIds()) : null;
+			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getyGroupIds()) ? GROUPS.ID.in(request.getyGroupIds()) : null;
+
+			// Germplasm lookup
+			Map<Integer, ViewTableTrialGermplasm> germplasm = new LinkedHashMap<>();
+
+			// Select the germplasm
+			jhi.germinate.server.database.codegen.tables.Germinatebase g = GERMINATEBASE.as("g");
+			List<Field<?>> fields = new ArrayList<>(Arrays.asList(
+				GERMINATEBASE.ID.as("germplasmId"),
+				GERMINATEBASE.NAME.as("germplasmName"),
+				GERMINATEBASE.GENERAL_IDENTIFIER.as("germplasmGid"),
+				TAXONOMIES.GENUS.as("genus"),
+				TAXONOMIES.SPECIES.as("species"),
+				TAXONOMIES.SUBTAXA.as("subtaxa"),
+				MCPD.PUID.as("puid"),
+				g.NAME.as("entityParentName"),
+				g.GENERAL_IDENTIFIER.as("entityParentGeneralIdentifier")
+			));
+
+			if (hasGroupIds != null)
+			{
+				fields.add(DSL.select(DSL.jsonArrayAgg(GROUPS.ID))
+							  .from(GROUPMEMBERS)
+							  .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+							  .where(GROUPS.ID.in(request.getyGroupIds()))
+							  .and(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+							  .asField("groupIds"));
+			}
+
+			SelectOnConditionStep<?> gStep = context.select(fields)
+													.from(GERMINATEBASE)
+													.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
+													.leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+													.leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID));
+
+			// Join more tables if groups are requested
+			if (hasGroupIds != null)
+				gStep.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID).and(GROUPS.GROUPTYPE_ID.eq(3)));
+
+			// The overall condition, by default only limiting to the germplasm that has phenotypic data in those datasets
+			Condition condition = DSL.exists(DSL.selectOne().from(PHENOTYPEDATA).where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).and(PHENOTYPEDATA.DATASET_ID.in(datasetIds)).limit(1));
+
+			// Add the optional conditions
+			if (hasMarkedIds != null && hasGroupIds != null)
+				condition = condition.and(hasMarkedIds.or(hasGroupIds));
+			else if (hasMarkedIds != null)
+				condition = condition.and(hasMarkedIds);
+			else if (hasGroupIds != null)
+				condition = condition.and(hasGroupIds);
+
+			// Run the query and store germplasm mapping
+			gStep.where(condition)
+				 .forEach(gp -> {
+					 ViewTableTrialGermplasm vgp = gp.into(ViewTableTrialGermplasm.class);
+					 germplasm.put(vgp.getGermplasmId(), vgp);
+				 });
+
+			// Get all treatments into a map
+			Map<Integer, String> treatments = new HashMap<>();
+			context.selectFrom(TREATMENTS).forEach(t -> treatments.put(t.getId(), t.getName()));
+
+			// Add header rows
 			bw.write("#input=PHENOTYPE" + ResourceUtils.CRLF);
-			ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_name\tdataset_version\tlicense_name\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\trow\tcolumn\t");
+			bw.write(String.join("\t", traits.values()));
+
+			// Keep track of the data for each germplasm record (name, rep, row, column, treatment)-tuple
+			Map<GermplasmRecord, String[]> dataMap = new TreeMap<>();
+
+			// Get the traits in insertion order
+			List<String> traitsOrdered = new ArrayList<>(traits.values());
+
+			// Iterate all phenotypic data based on request
+			context.selectFrom(PHENOTYPEDATA)
+				   .where(PHENOTYPEDATA.DATASET_ID.in(datasetIds))
+				   .and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasm.keySet()))
+				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traits.keySet()))
+//				   .orderBy(PHENOTYPEDATA.GERMINATEBASE_ID, PHENOTYPEDATA.REP, PHENOTYPEDATA.TRIAL_ROW, PHENOTYPEDATA.TRIAL_COLUMN, PHENOTYPEDATA.TREATMENT_ID)
+				   .stream()
+				   .forEach(pd -> {
+					   ViewTableTrialGermplasm gp = germplasm.get(pd.getGerminatebaseId());
+					   String rep = pd.getRep();
+					   Short trialRow = pd.getTrialRow();
+					   Short trialColumn = pd.getTrialColumn();
+					   String traitHeader = traits.get(pd.getPhenotypeId());
+					   int traitIndex = traitsOrdered.indexOf(traitHeader);
+					   String treatment = treatments.get(pd.getTreatmentId());
+					   // Create a record
+					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmName(), rep, trialRow, trialColumn, treatment, pd.getDatasetId(), pd.getLocationId(), pd.get(PHENOTYPEDATA.LATITUDE, Double.class), pd.get(PHENOTYPEDATA.LONGITUDE, Double.class), pd.get(PHENOTYPEDATA.ELEVATION, Double.class));
+					   String value = pd.getPhenotypeValue();
+
+					   // Get or create the data
+					   String[] data = dataMap.computeIfAbsent(record, k -> new String[traits.size()]);
+					   // Set the trait value
+					   data[traitIndex] = value;
+				   });
+
+			Gson gson = new Gson();
+
+			// Once we're done, we can start printing it out
+			dataMap.entrySet().stream()
+				   .forEach(e -> {
+					   GermplasmRecord gp = e.getKey();
+					   String[] values = e.getValue();
+					   ViewTableTrialGermplasm gpdb = germplasm.get(gp.germplasmId);
+					   String puid = StringUtils.orEmpty(gpdb.getGermplasmPuid());
+					   String gid = StringUtils.orEmpty(gpdb.getGermplasmGid());
+					   String genus = gpdb.getGenus();
+					   String species = gpdb.getSpecies();
+					   String taxonomy = gpdb.getSubtaxa();
+					   String tax = StringUtils.join(" ", genus, species, taxonomy);
+					   String rep = StringUtils.orEmpty(gp.rep);
+					   String row = gp.trialRow == null ? "" : String.valueOf(gp.trialRow);
+					   String col = gp.trialColumn == null ? "" : String.valueOf(gp.trialColumn);
+					   String treatment = StringUtils.orEmpty(gp.treatment);
+					   String entityParentName = StringUtils.orEmpty(gpdb.getEntityParentName());
+					   String entityParentGid = StringUtils.orEmpty(gpdb.getEntityParentGeneralIdentifier());
+					   String dataset = datasets.get(gp.datasetId);
+					   String location = gp.locationId == null ? "" : locations.get(gp.locationId);
+					   String latitude = gp.latitude == null ? "" : String.valueOf(gp.latitude);
+					   String longitude = gp.longitude == null ? "" : String.valueOf(gp.longitude);
+					   String elevation = gp.elevation == null ? "" : String.valueOf(gp.elevation);
+					   String groupString = "";
+
+					   if (!CollectionUtils.isEmpty(gpdb.getGroupIds())) {
+						   List<String> germplasmGroups = gpdb.getGroupIds().stream().map(gr -> {
+							   GroupsRecord group = groups.get(gr);
+							   return StringUtils.truncate(group.getName(), 10);
+						   }).sorted().collect(Collectors.toList());
+
+						   groupString = gson.toJson(germplasmGroups);
+					   }
+
+					   bw.write(ResourceUtils.CRLF);
+					   bw.write(String.join("\t", gp.germplasmName, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, dataset, groupString, location, latitude, longitude, elevation, treatment, rep, row, col));
+
+					   // Print trait data
+					   traits.values().forEach(traitHeader -> {
+						   int index = traitsOrdered.indexOf(traitHeader);
+						   String value = StringUtils.orEmpty(values[index]);
+
+						   bw.write("\t" + value);
+					   });
+				   });
 		}
 		catch (IOException e)
 		{
@@ -501,9 +689,309 @@ public class DatasetExportResource extends ContextResource
 		return file;
 	}
 
+	private File exportTabFastClimate(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+		throws GerminateException, IOException
+	{
+		File file = ResourceUtils.createTempFile(filename, ".txt");
+
+		try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+		{
+			if (CollectionUtils.isEmpty(datasetIds))
+			{
+				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+				return null;
+			}
+
+			// Get the dataset metadata
+			Map<Integer, String> datasets = new HashMap<>();
+			context.selectFrom(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.DATASET_ID.in(datasetIds)).forEach(ds -> {
+				String name = ds.getDatasetName() + "\t" + ds.getVersion() + "\t" + ds.getLicenseName();
+				datasets.put(ds.getDatasetId(), name);
+			});
+
+			// Get the requested traits
+			Map<Integer, String> climates = new LinkedHashMap<>();
+			SelectConditionStep<ViewTableClimatesRecord> step = context.selectFrom(VIEW_TABLE_CLIMATES)
+																	   .whereExists(DSL.selectOne().from(CLIMATEDATA).where(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)).and(CLIMATEDATA.DATASET_ID.in(datasetIds)).limit(1));
+
+			// Limit to requested traits
+			if (!CollectionUtils.isEmpty(request.getxIds()))
+				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getxIds()));
+
+			// Map to their display name
+			step.forEach(t -> {
+				String name = t.getClimateName();
+
+				if (!StringUtils.isEmpty(t.getUnitAbbreviation()))
+					name += " [" + t.getUnitAbbreviation() + "]";
+
+				climates.put(t.getClimateId(), name);
+			});
+
+			// Location lookup
+			Map<Integer, ViewTableLocations> locations = new LinkedHashMap<>();
+
+			// Select the locations
+			SelectJoinStep<?> lStep = context.select(VIEW_TABLE_LOCATIONS.fields()).from(VIEW_TABLE_LOCATIONS);
+
+			// Optional conditions for germplasm restrictions
+			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getyIds()) ? VIEW_TABLE_LOCATIONS.LOCATION_ID.in(request.getyIds()) : null;
+			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getyGroupIds()) ? GROUPS.ID.in(request.getyGroupIds()) : null;
+
+			// Join more tables if groups are requested
+			if (hasGroupIds != null)
+				lStep.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_LOCATIONS.LOCATION_ID))
+					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID).and(GROUPS.GROUPTYPE_ID.eq(1)));
+
+			// The overall condition, by default only limiting to the germplasm that has phenotypic data in those datasets
+			Condition condition = DSL.exists(DSL.selectOne().from(CLIMATEDATA).where(CLIMATEDATA.LOCATION_ID.eq(VIEW_TABLE_LOCATIONS.LOCATION_ID)).and(CLIMATEDATA.DATASET_ID.in(datasetIds)).limit(1));
+
+			// Add the optional conditions
+			if (hasMarkedIds != null && hasGroupIds != null)
+				condition = condition.and(hasMarkedIds.or(hasGroupIds));
+			else if (hasMarkedIds != null)
+				condition = condition.and(hasMarkedIds);
+			else if (hasGroupIds != null)
+				condition = condition.and(hasGroupIds);
+
+			// Run the query and store germplasm mapping
+			lStep.where(condition)
+				 .forEach(gp -> {
+					 ViewTableLocations vtl = gp.into(ViewTableLocations.class);
+					 locations.put(vtl.getLocationId(), vtl);
+				 });
+
+			// Add header rows
+			bw.write("name\tdbId\tdataset_name\tdataset_version\tlicense_name\tlatitude\tlongitude\televation\tdate\tyear\t");
+			bw.write(String.join("\t", climates.values()));
+
+			// Keep track of the data for each location record
+			Map<LocationRecord, Double[]> dataMap = new TreeMap<>();
+
+			// Get the traits in insertion order
+			List<String> climatesOrdered = new ArrayList<>(climates.values());
+
+			List<Field<?>> fields = new ArrayList<>(List.of(CLIMATEDATA.fields()));
+			fields.add(DSL.date(CLIMATEDATA.RECORDING_DATE).as("formatted_date"));
+
+			// Iterate all phenotypic data based on request
+			context.select(fields)
+				   .from(CLIMATEDATA)
+				   .where(CLIMATEDATA.DATASET_ID.in(datasetIds))
+				   .and(CLIMATEDATA.LOCATION_ID.in(locations.keySet()))
+				   .and(CLIMATEDATA.CLIMATE_ID.in(climates.keySet()))
+				   .stream()
+				   .forEach(pd -> {
+					   String traitHeader = climates.get(pd.get(CLIMATEDATA.CLIMATE_ID));
+					   int traitIndex = climatesOrdered.indexOf(traitHeader);
+					   LocationRecord record = new LocationRecord(pd.get(CLIMATEDATA.LOCATION_ID), pd.get(CLIMATEDATA.DATASET_ID), pd.get("formatted_date", Date.class));
+					   // Create a record
+					   Double value = pd.get(CLIMATEDATA.CLIMATE_VALUE, Double.class);
+
+					   // Get or create the data
+					   Double[] data = dataMap.computeIfAbsent(record, k -> new Double[climates.size()]);
+					   // Set the trait value
+					   data[traitIndex] = value;
+				   });
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+
+			// Once we're done, we can start printing it out
+			dataMap.entrySet().stream()
+				   .forEach(e -> {
+					   LocationRecord rec = e.getKey();
+					   ViewTableLocations loc = locations.get(rec.locationId);
+					   Double[] values = e.getValue();
+					   String dataset = datasets.get(rec.datasetId);
+					   String latitude = loc.getLocationLatitude() == null ? "" : String.valueOf(loc.getLocationLatitude());
+					   String longitude = loc.getLocationLongitude() == null ? "" : String.valueOf(loc.getLocationLongitude());
+					   String elevation = loc.getLocationElevation() == null ? "" : String.valueOf(loc.getLocationElevation());
+					   String date = rec.date == null ? "" : dateFormat.format(rec.date);
+					   String year = rec.date == null ? "" : yearFormat.format(rec.date);
+
+					   bw.write(ResourceUtils.CRLF);
+					   bw.write(String.join("\t", loc.getLocationName(), String.valueOf(loc.getLocationId()), dataset, latitude, longitude, elevation, date, year));
+
+					   // Print trait data
+					   climates.values().forEach(traitHeader -> {
+						   int index = climatesOrdered.indexOf(traitHeader);
+						   Double value = values[index];
+
+						   if (value != null)
+							   bw.write("\t" + value);
+						   else
+							   bw.write("\t");
+					   });
+				   });
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+
+		return file;
+	}
+
+//	private File exportTab(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+//		throws GerminateException, IOException
+//	{
+//		File file = ResourceUtils.createTempFile(filename, ".txt");
+//
+//		try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+//		{
+//			if (CollectionUtils.isEmpty(datasetIds))
+//			{
+//				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+//				return null;
+//			}
+//
+//			// Run the procedure
+//			ExportTrialsData procedure = new ExportTrialsData();
+//			procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
+//
+//			// Set parameters if present
+//			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
+//				procedure.setGroupids(CollectionUtils.join(request.getyGroupIds(), ","));
+//			if (!CollectionUtils.isEmpty(request.getyIds()))
+//				procedure.setMarkedids(CollectionUtils.join(request.getyIds(), ","));
+//			if (!CollectionUtils.isEmpty(request.getxIds()))
+//				procedure.setPhenotypeids(CollectionUtils.join(request.getxIds(), ","));
+//
+//			// Execute the procedure
+//			procedure.execute(context.configuration());
+//
+//			// Write everything to a file
+//			bw.write("#input=PHENOTYPE" + ResourceUtils.CRLF);
+//			ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
+//		}
+//
+//		return file;
+//	}
+
 	public enum TrialsExportFormat
 	{
 		tab,
 		isatab
+	}
+
+	private static class LocationRecord implements Comparable<LocationRecord>
+	{
+		private Integer locationId;
+		private Integer datasetId;
+		private Date    date;
+
+		public LocationRecord(Integer locationId, Integer datasetId, Date date)
+		{
+			this.locationId = locationId;
+			this.datasetId = datasetId;
+			this.date = date;
+		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			LocationRecord that = (LocationRecord) o;
+			return locationId.equals(that.locationId) && datasetId.equals(that.datasetId) && date.equals(that.date);
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return Objects.hash(locationId, datasetId, date);
+		}
+
+		@Override
+		public int compareTo(LocationRecord o)
+		{
+			if (this == o)
+				return 0;
+
+			int result = locationId.compareTo(o.locationId);
+
+			if (result == 0)
+				result = ObjectUtils.compare(datasetId, o.datasetId);
+			if (result == 0)
+				result = ObjectUtils.compare(date, o.date);
+
+			return result;
+		}
+	}
+
+	private static class GermplasmRecord implements Comparable<GermplasmRecord>
+	{
+		private Integer germplasmId;
+		private String  germplasmName;
+		private String  rep;
+		private Short   trialRow;
+		private Short   trialColumn;
+		private String  treatment;
+		private Integer datasetId;
+		private Integer locationId;
+		private Double  latitude;
+		private Double  longitude;
+		private Double  elevation;
+
+		public GermplasmRecord(Integer germplasmId, String germplasmName, String rep, Short trialRow, Short trialColumn, String treatment, Integer datasetId, Integer locationId, Double latitude, Double longitude, Double elevation)
+		{
+			this.germplasmId = germplasmId;
+			this.germplasmName = germplasmName;
+			this.rep = rep;
+			this.trialRow = trialRow;
+			this.trialColumn = trialColumn;
+			this.treatment = treatment;
+			this.datasetId = datasetId;
+			this.locationId = locationId;
+			this.latitude = latitude;
+			this.longitude = longitude;
+			this.elevation = elevation;
+		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			GermplasmRecord that = (GermplasmRecord) o;
+			return germplasmId.equals(that.germplasmId) && germplasmName.equals(that.germplasmName) && datasetId.equals(that.datasetId)&& Objects.equals(locationId, that.locationId) && Objects.equals(rep, that.rep) && Objects.equals(trialRow, that.trialRow) && Objects.equals(trialColumn, that.trialColumn) && Objects.equals(treatment, that.treatment);
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return Objects.hash(germplasmId, germplasmName, rep, trialRow, trialColumn, treatment, datasetId, locationId);
+		}
+
+		@Override
+		public int compareTo(GermplasmRecord o)
+		{
+			if (this == o)
+				return 0;
+
+			int result = germplasmId.compareTo(o.germplasmId);
+
+			if (result == 0)
+				result = ObjectUtils.compare(datasetId, o.datasetId);
+			if (result == 0)
+				result = ObjectUtils.compare(locationId, o.locationId);
+			if (result == 0)
+				result = ObjectUtils.compare(rep, o.rep);
+			if (result == 0)
+				result = ObjectUtils.compare(trialRow, o.trialRow);
+			if (result == 0)
+				result = ObjectUtils.compare(trialColumn, o.trialColumn);
+			if (result == 0)
+				result = ObjectUtils.compare(treatment, o.treatment);
+
+			return result;
+		}
 	}
 }

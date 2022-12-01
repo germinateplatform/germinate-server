@@ -29,6 +29,9 @@ public class ApplicationListener implements ServletContextListener
 	@Override
 	public void contextInitialized(ServletContextEvent sce)
 	{
+		System.setProperty("org.jooq.no-logo", "true");
+		System.setProperty("org.jooq.no-tips", "true");
+
 		logMessage();
 
 		try
@@ -52,6 +55,7 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new ImageExifReaderTask(), 5, 1440, TimeUnit.MINUTES);
+		backgroundScheduler.scheduleAtFixedRate(new UserFeedbackEmailRemovalTask(), 0, 1, TimeUnit.DAYS);
 
 		// Every 5 minutes, get an update on the user information from Gatekeeper
 		if (!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL)))

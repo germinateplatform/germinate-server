@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.climates;
 
 import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.enums.MapoverlaysReferenceTable;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimates;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
@@ -17,8 +18,8 @@ import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
-import static jhi.germinate.server.database.codegen.tables.Climateoverlays.*;
 import static jhi.germinate.server.database.codegen.tables.Climates.*;
+import static jhi.germinate.server.database.codegen.tables.Mapoverlays.*;
 import static jhi.germinate.server.database.codegen.tables.Units.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
 
@@ -77,7 +78,7 @@ public class DatasetClimateResource
 				UNITS.UNIT_NAME.as(VIEW_TABLE_CLIMATES.UNIT_NAME.getName()),
 				UNITS.UNIT_DESCRIPTION.as(VIEW_TABLE_CLIMATES.UNIT_DESCRIPTION.getName()),
 				UNITS.UNIT_ABBREVIATION.as(VIEW_TABLE_CLIMATES.UNIT_ABBREVIATION.getName()),
-				DSL.selectCount().from(CLIMATEOVERLAYS).where(CLIMATEOVERLAYS.CLIMATE_ID.eq(CLIMATES.ID)).asField(VIEW_TABLE_CLIMATES.OVERLAYS.getName()),
+				DSL.selectCount().from(MAPOVERLAYS).where(MAPOVERLAYS.REFERENCE_TABLE.eq(MapoverlaysReferenceTable.climates)).and(MAPOVERLAYS.FOREIGN_ID.eq(CLIMATES.ID)).asField(VIEW_TABLE_CLIMATES.OVERLAYS.getName()),
 				DSL.zero().as(VIEW_TABLE_CLIMATES.COUNT.getName())
 			)
 						  .from(CLIMATES.leftJoin(UNITS).on(CLIMATES.UNIT_ID.eq(UNITS.ID)))

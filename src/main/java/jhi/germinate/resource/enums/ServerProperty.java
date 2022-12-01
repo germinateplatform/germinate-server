@@ -61,7 +61,14 @@ public enum ServerProperty
 	HIDDEN_PAGES("hidden.pages", null, false),
 	PDCI_ENABLED("pdci.enabled", "true", false),
 	FILES_DELETE_AFTER_HOURS_ASYNC("files.delete.after.hours.async", "12", false),
-	FILES_DELETE_AFTER_HOURS_TEMP("files.delete.after.hours.temp", "12", false);
+	FILES_DELETE_AFTER_HOURS_TEMP("files.delete.after.hours.temp", "12", false),
+	FEEDBACK_EMAIL("feedback.email", null, false),
+	EMAIL_USERNAME("email.username", null, false),
+	EMAIL_PASSWORD("email.password", null, false),
+	EMAIL_SERVER("email.server", null, false),
+	EMAIL_ADDRESS("email.address", null, false),
+	EMAIL_PORT("email.port", null, false),
+	EMAIL_USE_TLS_1_2("email.use.tls.1.2", "false", false);
 
 	String  key;
 	String  defaultValue;

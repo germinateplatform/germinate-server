@@ -107,4 +107,12 @@ public class StringUtils
 
 		return null;
 	}
+
+	public static String truncate(String input, int limit) {
+		if (input == null)
+			return "";
+		if (input.length() < limit)
+			return input;
+		return input.substring(0, limit) + "...";
+	}
 }
