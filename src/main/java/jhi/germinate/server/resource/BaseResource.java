@@ -1,11 +1,10 @@
 package jhi.germinate.server.resource;
 
+import jakarta.ws.rs.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.util.StringUtils;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-
-import jakarta.ws.rs.*;
 
 public abstract class BaseResource extends ContextResource implements IFilteredResource
 {
@@ -28,6 +27,10 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 
 	@QueryParam("orderBy")
 	protected String orderBy;
+
+	@QueryParam("minimal")
+	@DefaultValue("false")
+	protected boolean minimal;
 
 	protected Filter[] filters;
 
@@ -79,6 +82,15 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 		catch (NullPointerException | NumberFormatException e)
 		{
 			this.previousCount = -1L;
+		}
+
+		try
+		{
+			this.minimal = request == null ? this.minimal : request.isMinimal();
+		}
+		catch (NullPointerException e)
+		{
+			this.minimal = false;
 		}
 	}
 

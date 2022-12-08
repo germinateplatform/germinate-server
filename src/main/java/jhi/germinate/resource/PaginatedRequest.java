@@ -12,6 +12,7 @@ public class PaginatedRequest
 	private int      limit     = Integer.MAX_VALUE;
 	private int      page      = 0;
 	private long     prevCount = -1;
+	private boolean  minimal   = false;
 	private Filter[] filter;
 
 	public PaginatedRequest()
@@ -70,6 +71,17 @@ public class PaginatedRequest
 	public PaginatedRequest setPrevCount(long prevCount)
 	{
 		this.prevCount = prevCount;
+		return this;
+	}
+
+	public boolean isMinimal()
+	{
+		return minimal;
+	}
+
+	public PaginatedRequest setMinimal(boolean minimal)
+	{
+		this.minimal = minimal;
 		return this;
 	}
 

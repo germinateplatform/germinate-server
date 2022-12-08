@@ -598,7 +598,7 @@ public class DatasetExportResource extends ContextResource
 
 			// Add header rows
 			bw.write("#input=PHENOTYPE" + ResourceUtils.CRLF);
-			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_name\tdataset_version\tlicense_name\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\trow\tcolumn\t");
+			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_name\tdataset_version\tlicense_name\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\ttrial_row\ttrial_column\t");
 			bw.write(String.join("\t", traits.values()));
 
 			// Keep track of the data for each germplasm record (name, rep, row, column, treatment)-tuple

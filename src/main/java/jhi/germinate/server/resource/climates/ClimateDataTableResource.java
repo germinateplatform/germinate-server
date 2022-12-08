@@ -1,21 +1,26 @@
 package jhi.germinate.server.resource.climates;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedDatasetRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimateData;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.resource.traits.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import org.jooq.impl.DSL;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
+import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableClimateData.*;
 
 @Path("dataset/data/climate/table")
@@ -26,7 +31,7 @@ public class ClimateDataTableResource extends ExportResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableClimateData>> postClimateDataTable(PaginatedDatasetRequest request)
+	public PaginatedResult<List<ViewTableClimateDataWithGroups>> postClimateDataTable(SubsettedDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -62,12 +67,44 @@ public class ClimateDataTableResource extends ExportResource
 
 			from.where(VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds));
 
+			Field<Integer> locationId = GROUPMEMBERS.FOREIGN_ID.as("locationId");
+			Map<Integer, LocationGroups> locationGroups = new HashMap<>();
+			context.select(
+					   locationId,
+					   DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(GROUPS.ID), DSL.key("name").value(GROUPS.NAME))).as("groups")
+				   )
+				   .from(GROUPS)
+				   .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+				   .where(GROUPS.GROUPTYPE_ID.eq(1)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+				   .groupBy(locationId)
+				   .forEach(r -> {
+					   locationGroups.put(r.get(locationId), r.into(LocationGroups.class));
+				   });
+
+			// Handle requested location ids or group ids
+			Set<Integer> locationIds = new HashSet<>();
+			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
+				locationIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getyGroupIds())).fetchInto(Integer.class));
+			if (!CollectionUtils.isEmpty(request.getyIds()))
+				locationIds.addAll(Arrays.asList(request.getyIds()));
+			if (!CollectionUtils.isEmpty(locationIds))
+				from.where(VIEW_TABLE_CLIMATE_DATA.LOCATION_ID.in(locationIds));
+			if (!CollectionUtils.isEmpty(request.getxIds()))
+				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getxIds()));
+
 			// Filter here!
 			filter(from, filters);
 
-			List<ViewTableClimateData> result = setPaginationAndOrderBy(from)
+			List<ViewTableClimateDataWithGroups> result = setPaginationAndOrderBy(from)
 				.fetch()
-				.into(ViewTableClimateData.class);
+				.into(ViewTableClimateDataWithGroups.class);
+
+			result.forEach(r -> {
+				if (locationGroups.containsKey(r.getLocationId()))
+				{
+					r.setGroups(locationGroups.get(r.getLocationId()).getGroups());
+				}
+			});
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -153,5 +190,33 @@ public class ClimateDataTableResource extends ExportResource
 		ExportSettings settings = new ExportSettings();
 		settings.conditions = new Condition[]{VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds)};
 		return export(VIEW_TABLE_CLIMATE_DATA, "climate-data-table-", settings);
+	}
+
+	private static class LocationGroups
+	{
+		private Integer      locationId;
+		private List<Groups> groups;
+
+		public Integer getLocationId()
+		{
+			return locationId;
+		}
+
+		public LocationGroups setLocationId(Integer locationId)
+		{
+			this.locationId = locationId;
+			return this;
+		}
+
+		public List<Groups> getGroups()
+		{
+			return groups;
+		}
+
+		public LocationGroups setGroups(List<Groups> groups)
+		{
+			this.groups = groups;
+			return this;
+		}
 	}
 }

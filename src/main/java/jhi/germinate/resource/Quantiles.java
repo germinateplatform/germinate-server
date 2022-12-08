@@ -6,6 +6,7 @@ package jhi.germinate.resource;
 public class Quantiles
 {
 	private Integer datasetId;
+	private Integer treatmentId;
 	private Integer xId;
 	private String  groupIds;
 	private double  min;
@@ -24,6 +25,17 @@ public class Quantiles
 	public Quantiles setDatasetId(Integer datasetId)
 	{
 		this.datasetId = datasetId;
+		return this;
+	}
+
+	public Integer getTreatmentId()
+	{
+		return treatmentId;
+	}
+
+	public Quantiles setTreatmentId(Integer treatmentId)
+	{
+		this.treatmentId = treatmentId;
 		return this;
 	}
 

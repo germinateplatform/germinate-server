@@ -1,9 +1,11 @@
 package jhi.germinate.resource;
 
+import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.database.pojo.TraitRestrictions;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ViewTableTrialsData
 {
@@ -30,6 +32,7 @@ public class ViewTableTrialsData
 	private String            block;
 	private Short             trialRow;
 	private Short             trialColumn;
+	private List<Groups>      groups;
 	private BigDecimal        latitude;
 	private BigDecimal        longitude;
 	private BigDecimal        elevation;
@@ -308,6 +311,17 @@ public class ViewTableTrialsData
 	public ViewTableTrialsData setBlock(String block)
 	{
 		this.block = block;
+		return this;
+	}
+
+	public List<Groups> getGroups()
+	{
+		return groups;
+	}
+
+	public ViewTableTrialsData setGroups(List<Groups> groups)
+	{
+		this.groups = groups;
 		return this;
 	}
 

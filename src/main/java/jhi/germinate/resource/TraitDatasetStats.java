@@ -11,6 +11,7 @@ public class TraitDatasetStats
 {
 	private Set<ViewTableDatasets> datasets;
 	private Set<ViewTableTraits>   traits;
+	private Set<Treatments>        treatments;
 	private List<Quantiles>        stats;
 
 	public Set<ViewTableDatasets> getDatasets()
@@ -32,6 +33,17 @@ public class TraitDatasetStats
 	public TraitDatasetStats setTraits(Set<ViewTableTraits> traits)
 	{
 		this.traits = traits;
+		return this;
+	}
+
+	public Set<Treatments> getTreatments()
+	{
+		return treatments;
+	}
+
+	public TraitDatasetStats setTreatments(Set<Treatments> treatments)
+	{
+		this.treatments = treatments;
 		return this;
 	}
 
