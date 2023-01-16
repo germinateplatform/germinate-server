@@ -21,18 +21,18 @@ apply plugin: 'com.bmuschko.cargo-base'
 compileJava.options.encoding = 'UTF-8'
 
 group 'uk.ac.hutton.germinate'
-version '4.4.2'
+version '4.4.3'
 
 sourceCompatibility = 11
 
 repositories {
-    mavenCentral()
-    maven {
-        url 'https://repo.spring.io/plugins-release/'
-    }
     maven {
         url 'http://maven.imagej.net/content/repositories/public/'
     }
+    maven {
+        url 'https://repo.spring.io/plugins-release/'
+    }
+    mavenCentral()
 }
 
 dependencies {
