@@ -50,7 +50,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 		// Get the datasets the user has access to
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> allDatasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> allDatasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 		List<Integer> firstDatasetIds = new ArrayList<>();
 		List<Integer> secondDatasetIds = new ArrayList<>();
 

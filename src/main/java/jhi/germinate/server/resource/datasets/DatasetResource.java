@@ -39,7 +39,7 @@ public class DatasetResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
+		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 		if (ds == null)
 		{
@@ -63,6 +63,7 @@ public class DatasetResource extends ContextResource
 				dataset.setName(updatedDataset.getName());
 				dataset.setDescription(updatedDataset.getDescription());
 				dataset.setLicenseId(updatedDataset.getLicenseId());
+				dataset.setExperimentId(updatedDataset.getExperimentId());
 				dataset.setDateStart(updatedDataset.getDateStart());
 				dataset.setDateEnd(updatedDataset.getDateEnd());
 				dataset.setDatasetStateId(updatedDataset.getDatasetStateId());
@@ -85,7 +86,7 @@ public class DatasetResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
+		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 		if (ds == null)
 		{
@@ -108,14 +109,20 @@ public class DatasetResource extends ContextResource
 				switch (ds.getDatasetType())
 				{
 					case "genotype":
-						sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "genotypes");
-						File transposed = new File(sourceFile.getParentFile(), "transposed-" + sourceFile.getName());
+						if (ds.getSourceFile() != null)
+						{
+							sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "genotypes");
+							File transposed = new File(sourceFile.getParentFile(), "transposed-" + sourceFile.getName());
 
-						if (transposed.exists() && transposed.isFile())
-							transposed.delete();
+							if (transposed.exists() && transposed.isFile())
+								transposed.delete();
+						}
 						break;
 					case "allelefreq":
-						sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
+						if (ds.getSourceFile() != null)
+						{
+							sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
+						}
 						break;
 					case "climate":
 						ResourceUtils.resetAutoincrement(context, CLIMATEDATA);

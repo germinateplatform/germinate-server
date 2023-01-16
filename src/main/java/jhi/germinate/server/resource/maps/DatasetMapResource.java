@@ -39,7 +39,7 @@ public class DatasetMapResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		requestedIds.retainAll(datasets);

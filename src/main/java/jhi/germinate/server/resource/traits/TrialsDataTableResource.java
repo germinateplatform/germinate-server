@@ -40,7 +40,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets
@@ -120,7 +120,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets
@@ -163,7 +163,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets

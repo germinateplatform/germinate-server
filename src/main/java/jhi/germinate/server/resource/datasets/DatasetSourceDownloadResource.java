@@ -29,7 +29,7 @@ public class DatasetSourceDownloadResource extends ContextResource
 		}
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, true);
+		ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, true);
 
 		if (dataset == null)
 		{

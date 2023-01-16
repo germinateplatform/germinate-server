@@ -53,7 +53,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "genotype");
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "genotype");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -67,7 +67,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 			for (Integer id : datasetIds)
 			{
-				ViewTableDatasets ds = DatasetTableResource.getDatasetForId(id, req, resp, userDetails, true);
+				ViewTableDatasets ds = DatasetTableResource.getDatasetForId(id, req, userDetails, true);
 
 				if (ds == null)
 					return null;

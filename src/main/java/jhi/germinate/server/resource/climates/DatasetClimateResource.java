@@ -49,7 +49,7 @@ public class DatasetClimateResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "climate");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds;
 
 		if (CollectionUtils.isEmpty(request.getDatasetIds()))

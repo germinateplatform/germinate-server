@@ -31,7 +31,7 @@ public class DatasetFileResourceTableResource extends BaseResource
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 		List<Integer> requestedIds = CollectionUtils.isEmpty(request.getDatasetIds()) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		requestedIds.retainAll(datasetIds);

@@ -42,7 +42,7 @@ public class ClimateDataTableResource extends ExportResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "climate");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets
@@ -127,7 +127,7 @@ public class ClimateDataTableResource extends ExportResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "climate");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets
@@ -170,7 +170,7 @@ public class ClimateDataTableResource extends ExportResource
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "climate");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		// If nothing specific was requested, just return everything, else restrict to available datasets

@@ -77,7 +77,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 			}
 		}
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		// If nothing has been requested, return data for all datasets, else, use the requested ones that the user has access to
 		if (CollectionUtils.isEmpty(requestedIds))

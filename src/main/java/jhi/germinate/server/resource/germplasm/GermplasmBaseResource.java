@@ -46,8 +46,6 @@ public class GermplasmBaseResource extends ExportResource
 	public static String SPECIES                          = "species";
 	public static String SUBTAXA                          = "subtaxa";
 	public static String INSTITUTIONS_FIELD               = "institutions";
-	//	public static String INSTITUTION_ID                   = "institution_id";
-//	public static String INSTITUTION_NAME                 = "institution_name";
 	public static String LOCATION_ID                      = "location_id";
 	public static String LOCATION                         = "location";
 	public static String LATITUDE                         = "latitude";
@@ -305,9 +303,9 @@ public class GermplasmBaseResource extends ExportResource
 
 	public static class Join<A>
 	{
-		private TableImpl<?>     table;
-		private TableField<?, A> left;
-		private TableField<?, A> right;
+		private final TableImpl<?>     table;
+		private final TableField<?, A> left;
+		private final TableField<?, A> right;
 
 		public Join(TableImpl<?> table, TableField<?, A> left, TableField<?, A> right)
 		{

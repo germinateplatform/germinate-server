@@ -41,7 +41,7 @@ public class GermplasmTraitStatsResource
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials", true);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials", true);
 
 		try (Connection conn = Database.getConnection())
 		{

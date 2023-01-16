@@ -56,7 +56,7 @@ public class FileResourceStreamerResource extends ContextResource
 		throws SQLException, IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		if (fileResourceId == null)
 		{

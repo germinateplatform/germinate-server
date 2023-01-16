@@ -1,0 +1,1 @@
+ALTER TABLE `data_import_jobs` ADD COLUMN `stats` json NULL AFTER `feedback`;

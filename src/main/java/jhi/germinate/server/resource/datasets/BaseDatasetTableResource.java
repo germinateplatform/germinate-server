@@ -64,7 +64,6 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 
 			result.forEach(d -> {
 				Integer[] acceptedBy = d.getAcceptedBy();
-				JsonElement userId = new JsonParser().parse(Integer.toString(userDetails.getId()));
 				if (mode == AuthenticationMode.NONE)
 				{
 					// If there's no authentication, check if the license is in the cookie

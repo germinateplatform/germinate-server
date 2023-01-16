@@ -41,7 +41,7 @@ public class DatasetTraitResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
 
 		List<Integer> requestedIds;
 

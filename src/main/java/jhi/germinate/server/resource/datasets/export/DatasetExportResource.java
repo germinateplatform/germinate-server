@@ -70,7 +70,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "allelefreq");
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "allelefreq");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -84,7 +84,7 @@ public class DatasetExportResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), req, resp, userDetails, true);
+			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), req, userDetails, true);
 
 			if (ds == null)
 				return null;
@@ -172,7 +172,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "allelefreq");
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "allelefreq");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -186,7 +186,7 @@ public class DatasetExportResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), req, resp, userDetails, true);
+			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), req, userDetails, true);
 
 			if (ds == null)
 				return null;
@@ -247,7 +247,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "climate");
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -342,7 +342,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "trials");
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
 
 		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		datasetIds.retainAll(availableDatasets);
@@ -446,7 +446,7 @@ public class DatasetExportResource extends ContextResource
 		{
 			try
 			{
-				ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(dsId, req, resp, userDetails, true);
+				ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(dsId, req, userDetails, true);
 
 				if (dataset == null)
 					continue;

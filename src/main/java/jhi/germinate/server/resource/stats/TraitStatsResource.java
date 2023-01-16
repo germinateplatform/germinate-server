@@ -47,7 +47,7 @@ public class TraitStatsResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(req, resp, userDetails, "trials");
+		List<ViewTableDatasets> datasetsForUser = DatasetTableResource.getDatasetsForUser(req, userDetails, "trials");
 		List<Integer> requestedDatasetIds = CollectionUtils.isEmpty(request.getDatasetIds()) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))

@@ -66,7 +66,7 @@ public class MapOverlayResource extends ContextResource
 			// Check they have access to the dataset (if present)
 			if (overlay.getDatasetId() != null)
 			{
-				List<Integer> ids = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null, true);
+				List<Integer> ids = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, true);
 
 				if (!ids.contains(overlay.getDatasetId()))
 				{

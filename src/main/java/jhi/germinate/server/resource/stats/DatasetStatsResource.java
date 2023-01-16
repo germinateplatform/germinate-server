@@ -36,7 +36,7 @@ public class DatasetStatsResource extends ContextResource
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null, false);
+		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, false);
 
 		try
 		{

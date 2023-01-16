@@ -32,7 +32,7 @@ public class FileResourceTableResource extends BaseResource
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

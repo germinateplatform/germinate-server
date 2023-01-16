@@ -89,7 +89,7 @@ public class FileResourceResource extends ContextResource
 			{
 				AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 				List<Integer> requestedIds = new ArrayList<>(Arrays.asList(fileResource.getDatasetIds()));
-				List<Integer> availableIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+				List<Integer> availableIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 				requestedIds.retainAll(availableIds);
 
@@ -119,7 +119,7 @@ public class FileResourceResource extends ContextResource
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, null);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		if (fileResourceId == null)
 		{

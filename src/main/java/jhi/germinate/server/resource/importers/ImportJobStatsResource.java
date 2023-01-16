@@ -1,4 +1,4 @@
-package jhi.germinate.server.resource.mapoverlay;
+package jhi.germinate.server.resource.importers;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
@@ -6,30 +6,31 @@ import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMapoverlays;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImportJobs;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
+import org.jooq.impl.DSL;
 
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableMapoverlays.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableImportJobs.*;
 
-@Path("mapoverlay/table")
+@Path("import/stats")
 @Secured
 @PermitAll
-public class MapOverlayTableResource extends BaseResource
+public class ImportJobStatsResource extends BaseResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableMapoverlays>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableImportJobs>> getImportJobStats(PaginatedRequest request)
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, true);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, false);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -40,16 +41,17 @@ public class MapOverlayTableResource extends BaseResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
-			SelectConditionStep<Record> from = select.from(VIEW_TABLE_MAPOVERLAYS)
-													 // Restrict to visible datasets
-													 .where(VIEW_TABLE_MAPOVERLAYS.DATASET_ID.isNull().or(VIEW_TABLE_MAPOVERLAYS.DATASET_ID.in(datasetIds)));
+			SelectJoinStep<Record> from = select.from(VIEW_TABLE_IMPORT_JOBS);
+
+			Field<JSON> datasetIdField = DSL.field("json_extract(" + VIEW_TABLE_IMPORT_JOBS.STATS.getName() + ", '$.datasetId')", JSON.class);
+			SelectConditionStep<Record> step = from.where(datasetIdField.isNull().or(datasetIdField.cast(String.class).in(datasetIds)));
 
 			// Filter here!
-			filter(from, filters);
+			filter(step, filters);
 
-			List<ViewTableMapoverlays> result = setPaginationAndOrderBy(from)
+			List<ViewTableImportJobs> result = setPaginationAndOrderBy(step)
 				.fetch()
-				.into(ViewTableMapoverlays.class);
+				.into(ViewTableImportJobs.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

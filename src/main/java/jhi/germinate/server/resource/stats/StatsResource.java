@@ -105,7 +105,7 @@ public class StatsResource
 		try (Connection conn = Database.getConnection())
 		{
 			// Get the datasets this user has access to (ignore if licenses are accepted or not)
-			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(req, resp, userDetails, null, false);
+			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(req, userDetails, null, false);
 			List<Integer> datasetIds = datasets.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
 
 			SelectConditionStep<Record1<Integer>> step = DSL.selectCount()

@@ -90,7 +90,7 @@ public class PublicationResource extends ContextResource
 					exists = true;
 					break;
 				case dataset:
-					ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(data.getForeignId(), req, resp, userDetails, false);
+					ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(data.getForeignId(), req, userDetails, false);
 					exists = dataset != null;
 					break;
 				case group:

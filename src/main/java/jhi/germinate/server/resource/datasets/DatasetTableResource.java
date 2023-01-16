@@ -33,27 +33,27 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 @PermitAll
 public class DatasetTableResource extends BaseDatasetTableResource
 {
-	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails, String datasetType)
+	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType)
 		throws SQLException
 	{
-		return getDatasetIdsForUser(req, resp, userDetails, datasetType, true);
+		return getDatasetIdsForUser(req, userDetails, datasetType, true);
 	}
 
-	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
+	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
 		throws SQLException
 	{
-		return getDatasetsForUser(req, resp, userDetails, datasetType, checkIfLicenseAccepted).stream()
+		return getDatasetsForUser(req, userDetails, datasetType, checkIfLicenseAccepted).stream()
 																							  .map(ViewTableDatasets::getDatasetId)
 																							  .collect(Collectors.toList());
 	}
 
-	public static List<ViewTableDatasets> getDatasetsForUser(HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails, String datasetType)
+	public static List<ViewTableDatasets> getDatasetsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType)
 		throws SQLException
 	{
-		return getDatasetsForUser(req, resp, userDetails, datasetType, true);
+		return getDatasetsForUser(req, userDetails, datasetType, true);
 	}
 
-	public static List<ViewTableDatasets> getDatasetsForUser(HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
+	public static List<ViewTableDatasets> getDatasetsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -84,7 +84,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 		}
 	}
 
-	public static ViewTableDatasets getDatasetForId(Integer datasetId, HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails, boolean checkIfLicenseAccepted)
+	public static ViewTableDatasets getDatasetForId(Integer datasetId, HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, boolean checkIfLicenseAccepted)
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())

@@ -37,7 +37,7 @@ public class CollaboratorTableResource extends BaseResource
 			DSLContext context = Database.getContext(conn);
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
+			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 			if (dataset != null)
 			{
@@ -74,7 +74,7 @@ public class CollaboratorTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, resp, userDetails, false);
+			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 			if (dataset != null)
 			{

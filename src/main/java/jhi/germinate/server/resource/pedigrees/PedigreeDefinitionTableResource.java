@@ -31,7 +31,7 @@ public class PedigreeDefinitionTableResource extends ExportResource
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, resp, userDetails, "pedigree");
+		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "pedigree");
 		if (CollectionUtils.isEmpty(datasets))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 

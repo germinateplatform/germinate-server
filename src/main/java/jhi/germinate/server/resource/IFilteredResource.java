@@ -81,7 +81,7 @@ public interface IFilteredResource
 
 	default Condition filterIndividual(Filter filter, boolean jsonOperationAllowed)
 	{
-		Field<Object> field = DSL.field(filter.getSafeColumn());
+		Field<String> field = DSL.field(filter.getSafeColumn(), String.class);
 		List<String> values = new ArrayList<>();
 
 		if (!CollectionUtils.isEmpty(filter.getValues()))
@@ -105,7 +105,7 @@ public interface IFilteredResource
 			case "equals":
 				return field.eq(first);
 			case "contains":
-				return field.lower().like("%" + (first == null ? "" : first.toLowerCase()) + "%");
+				return DSL.lower(field).like("%" + (first == null ? "" : first.toLowerCase()) + "%");
 			case "between":
 				return field.between(first, second);
 			case "greaterThan":
