@@ -315,7 +315,7 @@ public class SettingsResource
 		{
 			File file = ResourceUtils.getFromExternal(resp, name, "template");
 
-			if (file.exists() && file.isFile())
+			if (file != null && file.exists() && file.isFile())
 			{
 				return Response.ok(file)
 							   .type("text/plain")
