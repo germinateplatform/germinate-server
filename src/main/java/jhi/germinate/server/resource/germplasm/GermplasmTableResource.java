@@ -1,23 +1,20 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
-import org.jooq.conf.ParamType;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.*;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Path("germplasm/table")
 @Secured
