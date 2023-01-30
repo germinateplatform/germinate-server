@@ -5,8 +5,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -31,6 +32,9 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 	public PaginatedResult<List<ViewTablePublicationGermplasm>> postPublicationGermplasmTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
 		{
@@ -49,7 +53,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 
 			Integer[] ids = pub.getGermplasmIds();
 
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 			from.where(DSL.field(GERMPLASM_ID, Integer.class).in(ids));
 
 			// Filter here!

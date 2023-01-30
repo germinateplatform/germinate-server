@@ -1,16 +1,17 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
@@ -31,6 +32,9 @@ public class GermplasmExportResource extends GermplasmBaseResource
 	{
 		try (Connection conn = Database.getConnection())
 		{
+			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+			List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 			DSLContext context = Database.getContext(conn);
 			if (request != null && request.getIncludeAttributes() != null && request.getIncludeAttributes())
 			{
@@ -64,7 +68,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 						processRequest(request);
 
-						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
+						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 
 						// Filter here!
 						filter(from, filters);
@@ -78,7 +82,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
 						List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
 						joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
-						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, fieldGroupId);
+						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, fieldGroupId);
 						from.where(fieldGroupId.in(request.getGroupIds()));
 
 						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
@@ -87,7 +91,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return ResourceUtils.exportToZip(getGermplasmQueryWrapped(context, null).fetch(), resp, "germplasm-table-");
+				return ResourceUtils.exportToZip(getGermplasmQueryWrapped(context, datasetIds, null).fetch(), resp, "germplasm-table-");
 			}
 		}
 	}

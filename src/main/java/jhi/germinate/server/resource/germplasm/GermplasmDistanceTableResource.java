@@ -2,7 +2,8 @@ package jhi.germinate.server.resource.germplasm;
 
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -35,6 +36,9 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			return null;
 		}
 
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
 		{
@@ -49,7 +53,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 
 			Field<BigDecimal> c = DSL.asin(DSL.sqrt(a)).times(2);
 
-			SelectConditionStep<?> from = getGermplasmQueryWrapped(context, null, DSL.cast(c.times(6372.8), Double.class).as("distance"))
+			SelectConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null, DSL.cast(c.times(6372.8), Double.class).as("distance"))
 				.where(DSL.field(LONGITUDE).isNotNull())
 				.and(DSL.field(LATITUDE).isNotNull());
 
@@ -79,13 +83,16 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			return null;
 		}
 
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectConditionStep<?> from = getGermplasmIdQueryWrapped(context, null)
+			SelectConditionStep<?> from = getGermplasmIdQueryWrapped(context, datasetIds, null)
 				.where(DSL.field(LONGITUDE).isNotNull())
 				.and(DSL.field(LATITUDE).isNotNull());
 

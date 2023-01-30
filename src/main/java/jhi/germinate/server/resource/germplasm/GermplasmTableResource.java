@@ -5,8 +5,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -31,11 +32,14 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmTable(PaginatedRequest request)
 		throws SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
@@ -74,13 +78,16 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	public PaginatedResult<List<Integer>> postGermplasmTableIds(PaginatedRequest request)
 		throws SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 		processRequest(request);
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, null);
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, datasetIds, null);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
@@ -117,12 +124,15 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	public Response postGermplasmTableExport(PaginatedRequest request)
 		throws IOException, SQLException
 	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+
 		processRequest(request);
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, null);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 
 			// Filter here!
 			filter(from, filters);

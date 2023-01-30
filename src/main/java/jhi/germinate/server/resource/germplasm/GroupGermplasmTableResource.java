@@ -1,17 +1,18 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
@@ -35,6 +36,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -47,7 +49,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
 
 			from.where(fieldGroupTypeId.eq(3));
 			if (groupId != null)
@@ -98,6 +100,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		processRequest(request);
 		currentPage = 0;
@@ -112,7 +115,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
-			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, joins, fieldGroupId, fieldGroupTypeId);
+			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, datasetIds, joins, fieldGroupId, fieldGroupTypeId);
 
 			from.where(fieldGroupTypeId.eq(3));
 			if (groupId != null)
@@ -142,6 +145,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		processRequest(request);
 
@@ -158,7 +162,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
 
 			from.where(fieldGroupTypeId.eq(3));
 			if (groupId != null)
