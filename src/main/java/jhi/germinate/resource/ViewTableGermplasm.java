@@ -35,7 +35,7 @@ public class ViewTableGermplasm
 	private BigDecimal             elevation;
 	private String                 countryName;
 	private String                 countryCode;
-	private Date                   collDate;
+	private String                 collDate;
 	private Double                 pdci;
 	private Long                   imageCount;
 	private String                 firstImagePath;
@@ -324,12 +324,12 @@ public class ViewTableGermplasm
 		return this;
 	}
 
-	public Date getCollDate()
+	public String getCollDate()
 	{
 		return collDate;
 	}
 
-	public ViewTableGermplasm setCollDate(Date collDate)
+	public ViewTableGermplasm setCollDate(String collDate)
 	{
 		this.collDate = collDate;
 		return this;
