@@ -18,17 +18,39 @@ import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 
-@Path("dataset/{datasetId}")
-@Secured(UserType.ADMIN)
+@Path("dataset")
+@Secured(UserType.DATA_CURATOR)
 public class DatasetResource extends ContextResource
 {
-	@PathParam("datasetId")
-	private Integer datasetId;
-
-	@PATCH
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchDatasetById(Datasets updatedDataset)
+	public boolean patchDatasetById(Datasets newDataset)
+		throws SQLException, IOException
+	{
+		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			DatasetsRecord dataset = context.newRecord(DATASETS, newDataset);
+			dataset.setCreatedBy(userDetails.getId());
+			return dataset.store() > 0;
+		}
+	}
+
+	@PATCH
+	@Path("/{datasetId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
 		throws SQLException, IOException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
@@ -73,9 +95,10 @@ public class DatasetResource extends ContextResource
 	}
 
 	@DELETE
+	@Path("/{datasetId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteDatasetById()
+	public boolean deleteDatasetById(@PathParam("datasetId") Integer datasetId)
 		throws IOException, SQLException
 	{
 		if (datasetId == null)
