@@ -40,6 +40,25 @@ public class FeedbackResource extends ContextResource
 		}
 	});
 
+	@DELETE
+	@Path("/{id:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public Response deleteFeedback(@PathParam("id") Integer id)
+		throws SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return Response.ok(context.deleteFrom(USERFEEDBACK)
+									  .where(USERFEEDBACK.ID.eq(id))
+									  .execute() > 0)
+						   .build();
+		}
+	}
+
 	@GET
 	@Path("/{id:\\d+}/mark")
 	@Consumes(MediaType.APPLICATION_JSON)
