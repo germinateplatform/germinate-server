@@ -58,7 +58,7 @@ public class CommentResource
 	}
 
 	@DELETE
-	@Path("/{commentId}")
+	@Path("/{commentId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteComment(@PathParam("commentId") Integer commentId)

@@ -98,7 +98,7 @@ public class NewsResource extends ContextResource
 
 
 	@DELETE
-	@Path("/{newsId}")
+	@Path("/{newsId:\\d+}")
 	public boolean deleteNews(@PathParam("newsId") Integer newsId)
 		throws IOException, SQLException
 	{

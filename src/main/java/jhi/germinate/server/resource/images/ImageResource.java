@@ -25,7 +25,7 @@ public class ImageResource
 	protected HttpServletResponse resp;
 
 	@PATCH
-	@Path("/{imageId}")
+	@Path("/{imageId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
@@ -58,7 +58,7 @@ public class ImageResource
 	}
 
 	@DELETE
-	@Path("/{imageId}")
+	@Path("/{imageId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})

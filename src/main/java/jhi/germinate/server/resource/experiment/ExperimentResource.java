@@ -112,7 +112,7 @@ public class ExperimentResource extends ContextResource
 	}
 
 	@PATCH
-	@Path("/{experimentId}")
+	@Path("/{experimentId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)

@@ -59,7 +59,7 @@ public class MapResource extends BaseResource implements IFilteredResource
 	}
 
 	@GET
-	@Path("/{mapId}")
+	@Path("/{mapId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Maps>> getMaps(@QueryParam("mapId") Integer mapId)

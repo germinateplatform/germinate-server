@@ -44,7 +44,7 @@ public class ImageTagResource extends BaseResource
 	}
 
 	@GET
-	@Path("/{referenceTable}/{foreignId}")
+	@Path("/{referenceTable}/{foreignId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)

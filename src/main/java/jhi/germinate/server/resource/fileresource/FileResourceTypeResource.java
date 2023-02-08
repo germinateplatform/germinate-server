@@ -71,7 +71,7 @@ public class FileResourceTypeResource extends ContextResource
 	}
 
 	@DELETE
-	@Path("/{fileResourceTypeId}")
+	@Path("/{fileResourceTypeId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})

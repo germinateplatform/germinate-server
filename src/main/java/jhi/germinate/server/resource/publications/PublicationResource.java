@@ -136,7 +136,7 @@ public class PublicationResource extends ContextResource
 		}
 	}
 
-	@Path("/{publicationId}/reference/{referenceType}/{referenceId}")
+	@Path("/{publicationId:\\d+}/reference/{referenceType}/{referenceId:\\d+}")
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

@@ -26,7 +26,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
-@Path("image/upload/{referenceTable}/{foreignId}")
+@Path("image/upload/{referenceTable}/{foreignId:\\d+}")
 @Secured({UserType.DATA_CURATOR})
 @MultipartConfig
 public class ImageUploadResource

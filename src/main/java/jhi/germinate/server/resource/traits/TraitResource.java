@@ -19,7 +19,7 @@ import java.util.List;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
-@Path("trait/{traitId}")
+@Path("trait/{traitId:\\d+}")
 public class TraitResource extends ContextResource
 {
 	@PathParam("traitId")

@@ -56,7 +56,7 @@ public class GroupResource extends BaseResource
 	}
 
 	@GET
-	@Path("/{groupId}")
+	@Path("/{groupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
@@ -124,7 +124,7 @@ public class GroupResource extends BaseResource
 	}
 
 	@PATCH
-	@Path("/{groupId}")
+	@Path("/{groupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})
@@ -171,7 +171,7 @@ public class GroupResource extends BaseResource
 	}
 
 	@DELETE
-	@Path("/{groupId}")
+	@Path("/{groupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})

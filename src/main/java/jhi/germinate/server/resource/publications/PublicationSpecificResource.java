@@ -35,7 +35,7 @@ public class PublicationSpecificResource extends ContextResource
 	}
 
 	@GET
-	@Path("/{referenceType}/{referenceId}")
+	@Path("/{referenceType}/{referenceId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTablePublications> getPublicationsForTypeAndId(@PathParam("referenceType") PublicationdataReferenceType referenceType, @PathParam("referenceId") Integer referenceId)

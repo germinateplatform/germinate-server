@@ -50,7 +50,7 @@ public class UsergroupResource extends ContextResource
 	}
 
 	@PATCH
-	@Path("/{usergroupId}")
+	@Path("/{usergroupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean patchJson(Usergroups group, @PathParam("usergroupId") Integer usergroupId)
@@ -90,7 +90,7 @@ public class UsergroupResource extends ContextResource
 	}
 
 	@DELETE
-	@Path("/{usergroupId}")
+	@Path("/{usergroupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteUsergroup(@PathParam("usergroupId") Integer usergroupId)

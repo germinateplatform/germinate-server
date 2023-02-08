@@ -102,7 +102,7 @@ public class LicenseResource extends BaseResource
 	}
 
 	@PATCH
-	@Path("/{licenseId}")
+	@Path("/{licenseId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
