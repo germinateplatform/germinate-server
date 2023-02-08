@@ -54,9 +54,6 @@ public class FileResourceTableResource extends BaseResource
 																				 .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
 																															.and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
 
-			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
-				from.and(VIEW_TABLE_FILERESOURCES.PUBLIC_VISIBILITY.eq(true));
-
 			// Filter here!
 			filter(from, filters);
 

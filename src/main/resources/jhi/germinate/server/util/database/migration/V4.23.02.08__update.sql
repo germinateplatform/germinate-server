@@ -1,0 +1,1 @@
+ALTER TABLE `fileresourcetypes` DROP COLUMN `public_visibility`;

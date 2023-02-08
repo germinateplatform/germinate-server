@@ -42,9 +42,6 @@ public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 											 .where(DATASETFILERESOURCES.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
 											 .and(DATASETFILERESOURCES.FILERESOURCE_ID.eq(fileresourceId));
 
-			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
-				step.and(FILERESOURCETYPES.PUBLIC_VISIBILITY.eq(true));
-
 			query.where(DSL.exists(step));
 		});
 	}

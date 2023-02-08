@@ -271,7 +271,7 @@ public class Database
 	public static void main(String[] args)
 		throws IOException, URISyntaxException
 	{
-		Database.init("localhost", "germinate_template_4_23_01_09", null, "root", null, true);
+		Database.init("localhost", "germinate_template_4_23_02_08", null, "root", null, true);
 
 		URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
 

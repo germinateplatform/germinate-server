@@ -116,9 +116,6 @@ public class StatsResource
 																	  .orExists(DSL.selectOne().from(DATASETFILERESOURCES)
 																				   .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 
-			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
-				step.and(FILERESOURCETYPES.PUBLIC_VISIBILITY.eq(true));
-
 			DSLContext context = Database.getContext(conn);
 			OverviewStats stats = context.select(
 				DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),

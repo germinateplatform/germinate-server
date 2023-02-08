@@ -38,9 +38,6 @@ public class FileResourceTypeResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 			SelectWhereStep<?> step = context.selectFrom(VIEW_TABLE_FILERESOURCETYPES);
 
-			if (!userDetails.isAtLeast(UserType.DATA_CURATOR))
-				step.where(VIEW_TABLE_FILERESOURCETYPES.PUBLIC_VISIBILITY.eq(true));
-
 			return step.fetchInto(ViewTableFileresourcetypes.class);
 		}
 	}
