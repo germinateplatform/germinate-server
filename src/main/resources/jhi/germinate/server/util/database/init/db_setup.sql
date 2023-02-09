@@ -882,7 +882,6 @@ CREATE TABLE `fileresourcetypes`  (
                                       `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
                                       `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'The name of the file type.',
                                       `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'The description of the file type.',
-                                      `public_visibility` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Determines whether this type is visible to non-admins.',
                                       `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When this record was created.',
                                       `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When this record was last updated.',
                                       PRIMARY KEY (`id`) USING BTREE,
@@ -892,8 +891,8 @@ CREATE TABLE `fileresourcetypes`  (
 -- ----------------------------
 -- Records of fileresourcetypes
 -- ----------------------------
-INSERT INTO `fileresourcetypes` VALUES (1, 'Trials Shapefile', 'Shape file associated with a phenotypic trial. Fields within the shape file have to match the database entries.', 0, '2022-10-24 10:55:05', '2022-10-24 10:55:05');
-INSERT INTO `fileresourcetypes` VALUES (2, 'Trials GeoTIFF', 'GeoTIFF file associated with a phenotypic trial. The \"created_on\" date of this fileresource determines the time point at which it was recorded.', 0, '2022-10-24 10:55:05', '2022-10-24 10:55:05');
+INSERT INTO `fileresourcetypes` VALUES (1, 'Trials Shapefile', 'Shape file associated with a phenotypic trial. Fields within the shape file have to match the database entries.', '2022-10-24 10:55:05', '2022-10-24 10:55:05');
+INSERT INTO `fileresourcetypes` VALUES (2, 'Trials GeoTIFF', 'GeoTIFF file associated with a phenotypic trial. The \"created_on\" date of this fileresource determines the time point at which it was recorded.', '2022-10-24 10:55:05', '2022-10-24 10:55:05');
 
 -- ----------------------------
 -- Table structure for germinatebase
@@ -1809,6 +1808,7 @@ INSERT INTO `schema_version` VALUES (28, '4.22.10.12', 'update', 'SQL', 'V4.22.1
 INSERT INTO `schema_version` VALUES (29, '4.22.10.31', 'update', 'SQL', 'V4.22.10.31__update.sql', 1643716658, 'root', '2022-11-01 09:33:47', 22, 1);
 INSERT INTO `schema_version` VALUES (30, '4.22.11.18', 'update', 'SQL', 'V4.22.11.18__update.sql', -606967356, 'root', '2022-11-21 08:18:43', 45, 1);
 INSERT INTO `schema_version` VALUES (31, '4.23.01.09', 'update', 'SQL', 'V4.23.01.09__update.sql', -1410254264, 'root', '2023-01-09 14:11:44', 104, 1);
+INSERT INTO `schema_version` VALUES (32, '4.23.02.08', 'update', 'SQL', 'V4.23.02.08__update.sql', -892456639, 'root', '2023-02-08 15:32:07', 121, 1);
 
 -- ----------------------------
 -- Table structure for synonyms
