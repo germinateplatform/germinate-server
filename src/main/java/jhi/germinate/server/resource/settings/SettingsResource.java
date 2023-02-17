@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource.settings;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -10,9 +12,12 @@ import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Path("settings")
 public class SettingsResource
@@ -222,28 +227,56 @@ public class SettingsResource
 		return PropertyWatcher.storeProperties();
 	}
 
-	@GET
-	@Path("/file")
+	@POST
+	@Path("/carousel")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getSettingsFile(@QueryParam("file-type") String type)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public boolean postTemplateCarouselConfig(CarouselConfig config)
 		throws IOException
 	{
-		try
+		Gson gson = new Gson();
+		Type type = new TypeToken<CarouselConfig>()
 		{
-			switch (type)
-			{
-				case "carousel":
-					return getFile("carousel.json");
-				default:
-					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-					return null;
-			}
+		}.getType();
+
+		// Read the carousel.json file
+		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		configFile.getParentFile().mkdirs();
+
+		// Write the file back
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+		{
+			gson.toJson(config, type, writer);
 		}
-		catch (GerminateException e)
+
+		return true;
+	}
+
+	@GET
+	@Path("/carousel")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public CarouselConfig getCarouselConfig()
+		throws IOException
+	{
+		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		Gson gson = new Gson();
+		Type type = new TypeToken<CarouselConfig>()
 		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
+		}.getType();
+
+		if (configFile == null || !configFile.exists())
+		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
 			return null;
+		}
+		else
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+			{
+				return gson.fromJson(br, type);
+			}
 		}
 	}
 

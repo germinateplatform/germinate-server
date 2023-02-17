@@ -1,13 +1,20 @@
 package jhi.germinate.server.util;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebListener;
+import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.tasks.*;
 import jhi.oddjob.*;
 
 import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.*;
 
@@ -45,6 +52,9 @@ public class ApplicationListener implements ServletContextListener
 
 		PropertyWatcher.initialize();
 
+		List<LocaleConfig> locales = ensureClientLocaleFileExists();
+		ensureCarouselFileExists(locales);
+
 		Long asyncDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 		Long tempDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);
 
@@ -72,6 +82,126 @@ public class ApplicationListener implements ServletContextListener
 		// Every 4 hours, update the PDCI
 		if (PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED))
 			backgroundScheduler.scheduleAtFixedRate(new PDCITask(), 0, 4, TimeUnit.HOURS);
+	}
+
+	private void ensureCarouselFileExists(List<LocaleConfig> locales)
+	{
+		Gson gson = new Gson();
+		try
+		{
+			File configFile = ResourceUtils.getFromExternal(null, "caarousel.json", "template");
+			Type type = new TypeToken<CarouselConfig>()
+			{
+			}.getType();
+
+			if (configFile == null || !configFile.exists())
+			{
+				// Write a default file
+				configFile.getParentFile().mkdirs();
+				CarouselConfig config = new CarouselConfig();
+
+				if (!CollectionUtils.isEmpty(locales))
+					locales.forEach(l -> config.put(l.getLocale(), new ArrayList<>()));
+
+				// Write the file back
+				try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+				{
+					gson.toJson(config, type, writer);
+				}
+			}
+			else
+			{
+				try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+				{
+					CarouselConfig config = gson.fromJson(br, type);
+
+					if (config == null)
+					{
+						config = new CarouselConfig();
+
+						if (!CollectionUtils.isEmpty(locales))
+						{
+							for (LocaleConfig l : locales)
+							{
+								config.put(l.getLocale(), new ArrayList<>());
+							}
+						}
+
+						// Write the file back
+						try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+						{
+							gson.toJson(config, type, writer);
+						}
+					}
+				}
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			Logger.getLogger("").severe(e.getLocalizedMessage());
+		}
+	}
+
+	private List<LocaleConfig> ensureClientLocaleFileExists()
+	{
+		Gson gson = new Gson();
+		try
+		{
+			File configFile = ResourceUtils.getFromExternal(null, "locales.json", "template");
+			Type type = new TypeToken<ArrayList<LocaleConfig>>()
+			{
+			}.getType();
+
+			if (configFile == null || !configFile.exists())
+			{
+				// Write a default file
+				configFile.getParentFile().mkdirs();
+				ArrayList<LocaleConfig> config = new ArrayList<>();
+				config.add(new LocaleConfig()
+					.setLocale("en_GB")
+					.setName("British English")
+					.setFlag("gb"));
+
+				// Write the file back
+				try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+				{
+					gson.toJson(config, type, writer);
+				}
+
+				return config;
+			}
+			else
+			{
+				try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+				{
+					ArrayList<LocaleConfig> config = gson.fromJson(br, type);
+
+					if (CollectionUtils.isEmpty(config))
+					{
+						config.add(new LocaleConfig()
+							.setLocale("en_GB")
+							.setName("British English")
+							.setFlag("gb"));
+
+						// Write the file back
+						try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+						{
+							gson.toJson(config, type, writer);
+						}
+					}
+
+					return config;
+				}
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			Logger.getLogger("").severe(e.getLocalizedMessage());
+		}
+
+		return null;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.news;
 
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.enums.NewsImageFit;
 import jhi.germinate.server.database.codegen.tables.pojos.News;
 import jhi.germinate.server.database.codegen.tables.records.NewsRecord;
 import jhi.germinate.server.resource.ContextResource;
@@ -81,6 +82,8 @@ public class NewsResource extends ContextResource
 			}
 
 			newsItem.setUserId(userDetails.getId() != -1000 ? userDetails.getId() : null);
+			if (newsItem.getImageFit() == null)
+				newsItem.setImageFit(NewsImageFit.cover);
 			if (newsItem.getCreatedOn() == null)
 				newsItem.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			if (newsItem.getUpdatedOn() == null)

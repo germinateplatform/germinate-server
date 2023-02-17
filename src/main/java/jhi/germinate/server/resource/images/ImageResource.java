@@ -1,20 +1,31 @@
 package jhi.germinate.server.resource.images;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.*;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
+import jhi.germinate.resource.CarouselConfig;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
+import org.glassfish.jersey.media.multipart.*;
 import org.jooq.DSLContext;
 
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.sql.*;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 
@@ -55,6 +66,139 @@ public class ImageResource
 			image.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			return image.store() > 0;
 		}
+	}
+
+	@POST
+	@Path("/template")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public boolean postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
+		throws IOException
+	{
+		if (CollectionUtils.isEmpty(locales))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.template.name());
+		folder.mkdirs();
+
+		String itemName = fileDetails.getFileName();
+		String uuid = UUID.randomUUID().toString();
+		String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
+		File targetFile = new File(folder, uuid + "." + extension);
+
+		if (!FileUtils.isSubDirectory(folder, targetFile))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+		// Read the carousel.json file
+		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+
+		CarouselConfig config;
+		Gson gson = new Gson();
+		Type type = new TypeToken<CarouselConfig>()
+		{
+		}.getType();
+		if (configFile.exists())
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+			{
+				config = gson.fromJson(br, type);
+			}
+		}
+		else
+		{
+			config = new CarouselConfig();
+
+			locales.forEach(l -> config.put(l, new ArrayList<>()));
+		}
+
+		locales.forEach(l -> config.get(l).add(new CarouselConfig.ImageConfig().setName(targetFile.getName()).setText("")));
+
+		// Write the file back
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+		{
+			gson.toJson(config, type, writer);
+		}
+
+		return true;
+	}
+
+	@DELETE
+	@Path("/{name:[a-zA-Z0-9\\-]+\\.[a-zA-Z]{3}}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public boolean deleteImageByName(@PathParam("name") String name)
+		throws IOException
+	{
+		if (StringUtils.isEmpty(name))
+		{
+			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
+			return false;
+		}
+
+		// Get the template images folder
+		File parent = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images");
+		// Get the file within it
+		File large = new File(new File(parent, ImageType.template.name()), name);
+
+		// Check it's actually a child of the template images folder
+		if (!FileUtils.isSubDirectory(parent, large))
+		{
+			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
+			return false;
+		}
+		// Then check it exists
+		if (!large.exists())
+		{
+			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
+			return false;
+		}
+
+		// Get the thumbnail
+		File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
+		// Read the carousel.json file
+		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		CarouselConfig config;
+		Gson gson = new Gson();
+		Type type = new TypeToken<CarouselConfig>()
+		{
+		}.getType();
+
+		try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+		{
+			config = gson.fromJson(br, type);
+
+			for (Map.Entry<String, List<CarouselConfig.ImageConfig>> entry : config.entrySet())
+			{
+				if (!CollectionUtils.isEmpty(entry.getValue()))
+				{
+					// Remove those entries that match based on the filename
+					entry.setValue(entry.getValue().stream().filter(i -> !Objects.equals(i.getName(), large.getName())).collect(Collectors.toList()));
+				}
+			}
+		}
+
+		// Write the file back
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+		{
+			gson.toJson(config, type, writer);
+		}
+
+		// Delete original and optionally the thumbnail
+		large.delete();
+		if (small.exists())
+			small.delete();
+
+		return true;
 	}
 
 	@DELETE
@@ -177,7 +321,7 @@ public class ImageResource
 
 			if (large.exists() && large.isFile())
 			{
-				if (!small.exists() && type != ImageType.template)
+				if (!small.exists())
 				{
 					try
 					{
