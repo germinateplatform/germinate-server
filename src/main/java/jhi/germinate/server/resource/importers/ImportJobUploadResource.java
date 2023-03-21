@@ -8,6 +8,7 @@ import jhi.germinate.resource.AsyncExportResult;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.AuthenticationFilter;
 import jhi.germinate.server.database.codegen.enums.DataImportJobsDatatype;
+import jhi.germinate.server.database.pojo.DataOrientation;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.glassfish.jersey.media.multipart.*;
@@ -25,7 +26,7 @@ public class ImportJobUploadResource extends ContextResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("type") String type, @QueryParam("datasetId") Integer datasetId, @QueryParam("datasetStateId") Integer datasetStateId, @FormDataParam("fileToUpload") InputStream fileIs, @FormDataParam("fileToUpload") FormDataContentDisposition fileDetails)
+	public List<AsyncExportResult> accept(@QueryParam("update") Boolean isUpdate, @QueryParam("dataOrientation") @DefaultValue("GENOTYPE_GERMPLASM_BY_MARKER") DataOrientation dataOrientation, @QueryParam("type") String type, @QueryParam("datasetId") Integer datasetId, @QueryParam("datasetStateId") Integer datasetStateId, @FormDataParam("fileToUpload") InputStream fileIs, @FormDataParam("fileToUpload") FormDataContentDisposition fileDetails)
 		throws IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -58,7 +59,7 @@ public class ImportJobUploadResource extends ContextResource
 
 			Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-			return DataImportRunner.checkData(dataType, userDetails, uuid, targetFile, itemName, isUpdate, datasetId, datasetStateId);
+			return DataImportRunner.checkData(dataType, userDetails, uuid, targetFile, itemName, isUpdate, dataOrientation, datasetId, datasetStateId);
 		}
 		catch (GerminateException e)
 		{

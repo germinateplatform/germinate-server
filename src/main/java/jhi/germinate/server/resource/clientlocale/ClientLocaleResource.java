@@ -49,7 +49,7 @@ public class ClientLocaleResource extends ContextResource
 	@Path("/{locale}")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response getLocale(@PathParam("locale") String locale)
 		throws IOException
 	{

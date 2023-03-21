@@ -49,20 +49,21 @@ public class DataImportRunner
 			if (record == null)
 				throw new GerminateException(Response.Status.NOT_FOUND);
 
-			String originalFileName = record.getOriginalFilename();
-			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-			String importerClass = getImporterClass(record.getDatatype(), extension);
-
-			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
-
 			// Replace the whole job details, because jOOQ will only execute the update if the job_config field changed, not fields within the JSON.
 			record.setJobConfig(new ImportJobDetails()
 				.setBaseFolder(record.getJobConfig().getBaseFolder())
 				.setDataFilename(record.getJobConfig().getDataFilename())
 				.setTargetDatasetId(record.getJobConfig().getTargetDatasetId())
+				.setDataOrientation(record.getJobConfig().getDataOrientation())
 				.setDeleteOnFail(record.getJobConfig().getDeleteOnFail())
 				.setRunType(RunType.IMPORT));
 			record.store();
+
+			String originalFileName = record.getOriginalFilename();
+			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+			String importerClass = getImporterClass(record.getDatatype(), extension, record.getJobConfig().getDataOrientation());
+
+			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
 
 			List<String> args = getArgs(importerClass, record.getId());
 			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
@@ -87,7 +88,7 @@ public class DataImportRunner
 		return null;
 	}
 
-	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, String originalFileName, boolean isUpdate, Integer datasetId, Integer datasetStateId)
+	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, String originalFileName, boolean isUpdate, DataOrientation orientation, Integer datasetId, Integer datasetStateId)
 		throws GerminateException
 	{
 		if (dataType == null)
@@ -104,13 +105,14 @@ public class DataImportRunner
 
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 
-			String importerClass = getImporterClass(dataType, extension);
+			String importerClass = getImporterClass(dataType, extension, orientation);
 
 			ImportJobDetails details = new ImportJobDetails()
 				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
 				.setDataFilename(templateFile.getName())
 				.setDeleteOnFail(true)
 				.setTargetDatasetId(datasetId)
+				.setDataOrientation(orientation)
 				.setRunType(RunType.CHECK);
 
 			// Store the job information in the database
@@ -150,7 +152,7 @@ public class DataImportRunner
 		}
 	}
 
-	private static String getImporterClass(DataImportJobsDatatype dataType, String extension)
+	private static String getImporterClass(DataImportJobsDatatype dataType, String extension, DataOrientation orientation)
 		throws GerminateException
 	{
 		switch (dataType)
@@ -161,7 +163,12 @@ public class DataImportRunner
 				return TraitDataImporter.class.getCanonicalName();
 			case genotype:
 				if (Objects.equals(extension, "xlsx"))
-					return GenotypeExcelImporter.class.getCanonicalName();
+				{
+					if (orientation == DataOrientation.GENOTYPE_MARKER_BY_GERMPLASM)
+						return GenotypeExcelTransposedImporter.class.getCanonicalName();
+					else
+						return GenotypeExcelImporter.class.getCanonicalName();
+				}
 				else if (Objects.equals(extension, "txt"))
 					return GenotypeFlatFileImporter.class.getCanonicalName();
 				else if (Objects.equals(extension, "hapmap"))

@@ -89,7 +89,7 @@ public class ApplicationListener implements ServletContextListener
 		Gson gson = new Gson();
 		try
 		{
-			File configFile = ResourceUtils.getFromExternal(null, "caarousel.json", "template");
+			File configFile = ResourceUtils.getFromExternal(null, "carousel.json", "template");
 			Type type = new TypeToken<CarouselConfig>()
 			{
 			}.getType();

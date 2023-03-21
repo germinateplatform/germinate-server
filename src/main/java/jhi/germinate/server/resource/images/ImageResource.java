@@ -321,7 +321,7 @@ public class ImageResource
 
 			if (large.exists() && large.isFile())
 			{
-				if (!small.exists())
+				if (!small.exists() && !Objects.equals(extension, "svg"))
 				{
 					try
 					{
