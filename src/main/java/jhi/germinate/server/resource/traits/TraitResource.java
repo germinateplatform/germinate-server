@@ -51,11 +51,13 @@ public class TraitResource extends ContextResource
 			}
 
 			trait.setName(updatedTrait.getName());
+			trait.setShortName(updatedTrait.getShortName());
 			trait.setDescription(updatedTrait.getDescription());
 			trait.setDatatype(updatedTrait.getDatatype());
-			trait.setRestrictions(updatedTrait.getRestrictions());
-			trait.setShortName(updatedTrait.getShortName());
-			trait.setUnitId(updatedTrait.getUnitId());
+			if (updatedTrait.getRestrictions() != null)
+				trait.setRestrictions(updatedTrait.getRestrictions());
+			if (updatedTrait.getUnitId() != null)
+				trait.setUnitId(updatedTrait.getUnitId());
 			return trait.store() > 0;
 		}
 	}
