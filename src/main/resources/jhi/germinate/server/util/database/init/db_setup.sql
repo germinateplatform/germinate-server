@@ -1521,6 +1521,7 @@ CREATE TABLE `news`  (
                          `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'A title which is used to name this news item. This appears in the Germinate user interface if used.',
                          `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'The textual content of this news item.',
                          `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Image to use with this news item.',
+                         `image_fit` enum('contain','cover') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cover' COMMENT 'Determines the css property of the news item image.',
                          `hyperlink` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.',
                          `user_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key users (users.id).',
                          `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
@@ -1809,6 +1810,7 @@ INSERT INTO `schema_version` VALUES (29, '4.22.10.31', 'update', 'SQL', 'V4.22.1
 INSERT INTO `schema_version` VALUES (30, '4.22.11.18', 'update', 'SQL', 'V4.22.11.18__update.sql', -606967356, 'root', '2022-11-21 08:18:43', 45, 1);
 INSERT INTO `schema_version` VALUES (31, '4.23.01.09', 'update', 'SQL', 'V4.23.01.09__update.sql', -1410254264, 'root', '2023-01-09 14:11:44', 104, 1);
 INSERT INTO `schema_version` VALUES (32, '4.23.02.08', 'update', 'SQL', 'V4.23.02.08__update.sql', -892456639, 'root', '2023-02-08 15:32:07', 121, 1);
+INSERT INTO `schema_version` VALUES (33, '4.23.02.16', 'update', 'SQL', 'V4.23.02.16__update.sql', 1048526513, 'root', '2023-02-16 09:07:11', 93, 1);
 
 -- ----------------------------
 -- Table structure for synonyms
