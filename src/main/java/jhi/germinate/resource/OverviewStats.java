@@ -19,6 +19,7 @@ public class OverviewStats
 	private long images             = 0;
 	private long fileresources      = 0;
 	private long publications       = 0;
+	private long dataStories        = 0;
 
 	public long getGermplasm()
 	{
@@ -189,6 +190,17 @@ public class OverviewStats
 	public OverviewStats setPublications(long publications)
 	{
 		this.publications = publications;
+		return this;
+	}
+
+	public long getDataStories()
+	{
+		return dataStories;
+	}
+
+	public OverviewStats setDataStories(long dataStories)
+	{
+		this.dataStories = dataStories;
 		return this;
 	}
 }

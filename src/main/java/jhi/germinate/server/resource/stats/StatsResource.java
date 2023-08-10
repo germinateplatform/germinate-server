@@ -37,6 +37,7 @@ import static jhi.germinate.server.database.codegen.tables.Maps.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 import static jhi.germinate.server.database.codegen.tables.Publications.*;
+import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsBiologicalstatus.*;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsCountry.*;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsPdci.*;
@@ -128,7 +129,8 @@ public class StatsResource
 				DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
 				DSL.selectCount().from(IMAGES).asField("images"),
 				step.asField("fileresources"),
-				DSL.selectCount().from(PUBLICATIONS).asField("publications")
+				DSL.selectCount().from(PUBLICATIONS).asField("publications"),
+				DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true)).or(STORIES.USER_ID.eq(userDetails.getId())).asField("dataStories")
 			).fetchSingleInto(OverviewStats.class);
 
 			stats.setDatasets(datasets.size());

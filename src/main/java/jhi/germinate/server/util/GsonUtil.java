@@ -63,7 +63,7 @@ public class GsonUtil
 //		return sdf;
 //	}
 
-	private static synchronized Date parseDate(String date)
+	public static synchronized Date parseDate(String date)
 		throws ParseException
 	{
 		if (sdfDate == null)

@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.publications;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PublicationdataReferenceType;
@@ -12,15 +15,14 @@ import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 
-import static jhi.germinate.server.database.codegen.tables.Experiments.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
-import static jhi.germinate.server.database.codegen.tables.Publications.*;
+import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Publicationdata.PUBLICATIONDATA;
+import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.VIEW_TABLE_PUBLICATIONS;
 
 @Path("publication")
 @Secured(UserType.DATA_CURATOR)
@@ -30,7 +32,7 @@ public class PublicationResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Integer putPublication(Publications publication)
-		throws SQLException, IOException
+			throws SQLException, IOException
 	{
 		if (publication == null || StringUtils.isEmpty(publication.getDoi()) || publication.getId() != null)
 		{
@@ -56,12 +58,12 @@ public class PublicationResource extends ContextResource
 		}
 	}
 
-	@Path("/{publicationId}/reference")
 	@PUT
+	@Path("/{publicationId}/reference")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean putPublicationReference(@PathParam("publicationId") Integer publicationId, Publicationdata data)
-		throws SQLException, IOException
+			throws SQLException, IOException
 	{
 		if (data == null || data.getPublicationId() == null || data.getReferenceType() == null || (data.getReferenceType() != PublicationdataReferenceType.database && data.getForeignId() == null) || publicationId == null || publicationId != data.getPublicationId())
 		{
@@ -136,12 +138,23 @@ public class PublicationResource extends ContextResource
 		}
 	}
 
-	@Path("/{publicationId:\\d+}/reference/{referenceType}/{referenceId:\\d+}")
+
 	@DELETE
+	@Path("/{publicationId}/reference/database")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deletePublicationReferenceDatabase(@PathParam("publicationId") Integer publicationId)
+			throws SQLException, IOException
+	{
+		return delete(publicationId, PublicationdataReferenceType.database, null);
+	}
+
+	@DELETE
+	@Path("/{publicationId:\\d+}/reference/{referenceType}/{referenceId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deletePublicationReferenceById(@PathParam("publicationId") Integer publicationId, @PathParam("referenceType") String referenceType, @PathParam("referenceId") Integer referenceId)
-		throws SQLException, IOException
+			throws SQLException, IOException
 	{
 		PublicationdataReferenceType type = null;
 		try
@@ -155,18 +168,8 @@ public class PublicationResource extends ContextResource
 		return delete(publicationId, type, referenceId);
 	}
 
-	@Path("/{publicationId}/reference/database")
-	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deletePublicationReferenceDatabase(@PathParam("publicationId") Integer publicationId)
-		throws SQLException, IOException
-	{
-		return delete(publicationId, PublicationdataReferenceType.database, null);
-	}
-
 	private boolean delete(Integer publicationId, PublicationdataReferenceType referenceType, Integer referenceId)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (publicationId == null || (referenceType != PublicationdataReferenceType.database && referenceId == null))
 		{

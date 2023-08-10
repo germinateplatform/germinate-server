@@ -59,6 +59,7 @@ public enum ServerProperty
 	HELIUM_URL("helium.url", null, false),
 	GRPD_NOTIFICATION_ENABLED("gdpr.notification.enabled", "false", false),
 	HIDDEN_PAGES("hidden.pages", null, false),
+	HIDDEN_PAGES_AUTODISCOVER("hidden.pages.autodiscover", "false", true),
 	PDCI_ENABLED("pdci.enabled", "true", false),
 	FILES_DELETE_AFTER_HOURS_ASYNC("files.delete.after.hours.async", "12", false),
 	FILES_DELETE_AFTER_HOURS_TEMP("files.delete.after.hours.temp", "12", false),

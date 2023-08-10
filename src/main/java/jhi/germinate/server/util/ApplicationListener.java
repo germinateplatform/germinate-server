@@ -82,6 +82,9 @@ public class ApplicationListener implements ServletContextListener
 		// Every 4 hours, update the PDCI
 		if (PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED))
 			backgroundScheduler.scheduleAtFixedRate(new PDCITask(), 0, 4, TimeUnit.HOURS);
+
+		if (PropertyWatcher.getBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER))
+			backgroundScheduler.scheduleAtFixedRate(new HiddenPagesAutodiscoverTask(), 0, 1, TimeUnit.HOURS);
 	}
 
 	private void ensureCarouselFileExists(List<LocaleConfig> locales)

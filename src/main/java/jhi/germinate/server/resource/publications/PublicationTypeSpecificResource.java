@@ -22,7 +22,7 @@ import static jhi.germinate.server.database.codegen.tables.Publications.*;
 @Path("publicationtype")
 @Secured
 @PermitAll
-public class PublicationSpecificResource extends ContextResource
+public class PublicationTypeSpecificResource extends ContextResource
 {
 	@GET
 	@Path("/{referenceType}")

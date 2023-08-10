@@ -2,7 +2,6 @@ package jhi.germinate.server.resource.images;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
@@ -10,7 +9,7 @@ import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.CarouselConfig;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
@@ -27,7 +26,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Images.*;
+import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 
 @Path("image")
 public class ImageResource
@@ -41,7 +40,7 @@ public class ImageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean patchImage(ViewTableImages imageToPatch, @PathParam("imageId") Integer imageId)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (imageId == null || imageToPatch == null || !Objects.equals(imageId, imageToPatch.getImageId()))
 		{
@@ -74,7 +73,7 @@ public class ImageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
 	public boolean postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
-		throws IOException
+			throws IOException
 	{
 		if (CollectionUtils.isEmpty(locales))
 		{
@@ -137,7 +136,7 @@ public class ImageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
 	public boolean deleteImageByName(@PathParam("name") String name)
-		throws IOException
+			throws IOException
 	{
 		if (StringUtils.isEmpty(name))
 		{
@@ -207,7 +206,7 @@ public class ImageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean deleteImage(@PathParam("imageId") Integer imageId)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (imageId == null)
 		{
@@ -245,9 +244,30 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-		throws IOException
+			throws IOException
 	{
 		return this.getImage(imageType, name, size, token);
+	}
+
+	@GET
+	@Path("/{imageId:\\d+}/src")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
+	public Response getImageByID(@PathParam("imageId") Integer imageId, @QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
+			throws IOException, SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			Images image = context.selectFrom(IMAGES)
+										.where(IMAGES.ID.eq(imageId))
+										.fetchAnyInto(Images.class);
+
+			if (image == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+			else
+				return getImage(imageType, image.getPath(), size, token);
+		}
 	}
 
 	@GET
@@ -255,7 +275,7 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImage(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-		throws IOException
+			throws IOException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -378,6 +398,7 @@ public class ImageResource
 		database,
 		news,
 		template,
-		mapoverlay
+		mapoverlay,
+		storysteps
 	}
 }
