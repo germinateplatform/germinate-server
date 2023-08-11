@@ -6,7 +6,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableStories;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.database.pojo.*;
 import jhi.germinate.server.resource.ContextResource;
@@ -34,6 +34,51 @@ import static jhi.germinate.server.database.codegen.tables.Storysteps.STORYSTEPS
 @Secured(UserType.DATA_CURATOR)
 public class StoryIndividualResource extends ContextResource
 {
+	@DELETE
+	@Path("/{storyId:\\d+}/step/{storyStepId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteStoryStep(@PathParam("storyId") Integer storyId, @PathParam("storyStepId") Integer storyStepId)
+			throws SQLException
+	{
+		if (storyId == null || storyStepId == null)
+			return Response.status(Response.Status.NOT_FOUND).build();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			StoriesRecord story = context.selectFrom(STORIES).where(STORIES.ID.eq(storyId)).fetchAny();
+
+			if (story == null)
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			Result<StorystepsRecord> steps = context.selectFrom(STORYSTEPS).where(STORYSTEPS.STORY_ID.eq(storyId)).orderBy(STORYSTEPS.STORY_INDEX).fetch();
+
+			Optional<StorystepsRecord> stepToDelete = steps.stream().filter(s -> Objects.equals(s.getId(), storyStepId)).findFirst();
+
+			if (stepToDelete.isEmpty())
+				return Response.status(Response.Status.NOT_FOUND).build();
+
+			int index = stepToDelete.get().getStoryIndex();
+
+			for (StorystepsRecord record : steps)
+			{
+				if (Objects.equals(record.getId(), storyStepId))
+				{
+					record.delete();
+				}
+				else if (record.getStoryIndex() > index)
+				{
+					record.setStoryIndex(record.getStoryIndex() - 1);
+					record.store(STORYSTEPS.STORY_INDEX);
+				}
+			}
+
+			return Response.ok().build();
+		}
+	}
+
 	@POST
 	@Path("/{storyId:\\d+}/step")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -192,7 +237,8 @@ public class StoryIndividualResource extends ContextResource
 							  @FormDataParam("image") FormDataContentDisposition fileDetails,
 							  @FormDataParam("storyCreatedOn") String storyCreatedOn,
 							  @FormDataParam("publicationId") Integer publicationId,
-							  @FormDataParam("storyVisibility") Boolean storyVisibility)
+							  @FormDataParam("storyVisibility") Boolean storyVisibility,
+							  @FormDataParam("storyFeatured") Boolean storyFeatured)
 			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(storyName) || StringUtils.isEmpty(storyDescription))
@@ -211,6 +257,8 @@ public class StoryIndividualResource extends ContextResource
 
 		if (storyVisibility == null)
 			storyVisibility = false;
+		if (storyFeatured == null)
+			storyFeatured = false;
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -231,6 +279,7 @@ public class StoryIndividualResource extends ContextResource
 			story.setDescription(storyDescription);
 			story.setCreatedOn(new Timestamp(d.getTime()));
 			story.setVisibility(storyVisibility);
+			story.setFeatured(storyFeatured);
 			story.setPublicationId(publicationId);
 			story.setUserId(userDetails.getId());
 			boolean successful = story.store() > 0;
@@ -308,6 +357,7 @@ public class StoryIndividualResource extends ContextResource
 			story.setName(update.getStoryName());
 			story.setDescription(update.getStoryDescription());
 			story.setVisibility(update.getStoryVisibility());
+			story.setFeatured(update.getStoryFeatured());
 			story.setPublicationId(update.getPublicationId());
 			story.setCreatedOn(update.getStoryCreatedOn());
 

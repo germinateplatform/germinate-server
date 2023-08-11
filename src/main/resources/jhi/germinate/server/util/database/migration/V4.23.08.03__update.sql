@@ -8,6 +8,7 @@ CREATE TABLE `stories` (
     `image_id` int(11) NULL,
     `requirements` json NULL,
     `publication_id` int(11) NULL,
+    `featured` tinyint(1) NOT NULL DEFAULT 0,
     `visibility` tinyint(1) NOT NULL DEFAULT 1,
     `user_id` int(11) NOT NULL,
     `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
