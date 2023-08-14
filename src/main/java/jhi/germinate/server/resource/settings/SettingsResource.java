@@ -38,13 +38,23 @@ public class SettingsResource
 		if (!dbConValid || (authMode != AuthenticationMode.NONE && !GatekeeperClient.connectionValid()))
 			return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
 		else
+		{
+			List<String> hiddenPages = new ArrayList<>();
+
+			// Add any auto-discovered pages
+			if (AUTO_DISCOVERY_HIDDEN_PAGES != null)
+				hiddenPages = new ArrayList<>(AUTO_DISCOVERY_HIDDEN_PAGES);
+
+			// Then add any that the user specifically requested
+			hiddenPages.addAll(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class));
+
 			return Response.ok(new ClientConfiguration()
 									   .setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
 									   .setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
 									   .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 									   .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
 									   .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
-									   .setHiddenPages(AUTO_DISCOVERY_HIDDEN_PAGES == null ? PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class) : new ArrayList<>(AUTO_DISCOVERY_HIDDEN_PAGES))
+									   .setHiddenPages(hiddenPages)
 									   .setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
 									   .setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
 									   .setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
@@ -84,6 +94,7 @@ public class SettingsResource
 									   .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
 									   .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
 			).build();
+		}
 	}
 
 	@GET
@@ -103,7 +114,8 @@ public class SettingsResource
 				.setGatekeeperUsername(PropertyWatcher.get(ServerProperty.GATEKEEPER_USERNAME))
 				.setGatekeeperPassword(PropertyWatcher.get(ServerProperty.GATEKEEPER_PASSWORD))
 				.setGatekeeperRegistrationRequiresApproval(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL))
-				.setPdciEnabled(PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED));
+				.setPdciEnabled(PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED))
+				.setHiddenPagesAutodiscover(PropertyWatcher.getBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER));
 
 		// Get all the base settings as well
 		result.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
@@ -186,6 +198,7 @@ public class SettingsResource
 		PropertyWatcher.set(ServerProperty.COLOR_PRIMARY, config.getColorPrimary());
 		PropertyWatcher.setPropertyList(ServerProperty.DASHBOARD_CATEGORIES, config.getDashboardCategories());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_PAGES, config.getHiddenPages());
+		PropertyWatcher.setBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER, config.getHiddenPagesAutodiscover());
 		PropertyWatcher.set(ServerProperty.AUTHENTICATION_MODE, config.getAuthMode().name());
 		PropertyWatcher.setBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED, config.getRegistrationEnabled());
 		PropertyWatcher.set(ServerProperty.EXTERNAL_LINK_IDENTIFIER, config.getExternalLinkIdentifier());

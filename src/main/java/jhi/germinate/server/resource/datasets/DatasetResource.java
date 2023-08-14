@@ -1,22 +1,25 @@
 package jhi.germinate.server.resource.datasets;
 
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.database.codegen.tables.records.DatasetsRecord;
+import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.database.pojo.StoryRequirements;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
-import org.jooq.DSLContext;
+import org.jooq.*;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import java.io.File;
 import java.io.*;
 import java.sql.*;
 
-import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Datasets.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.DATASETMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 
 @Path("dataset")
 @Secured(UserType.DATA_CURATOR)
@@ -26,7 +29,7 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean patchDatasetById(Datasets newDataset)
-		throws SQLException, IOException
+			throws SQLException, IOException
 	{
 		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
 		{
@@ -51,7 +54,7 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
-		throws SQLException, IOException
+			throws SQLException, IOException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
 		{
@@ -99,7 +102,7 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteDatasetById(@PathParam("datasetId") Integer datasetId)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (datasetId == null)
 		{
@@ -157,6 +160,24 @@ public class DatasetResource extends ContextResource
 
 				if (sourceFile != null && sourceFile.exists() && sourceFile.isFile())
 					sourceFile.delete();
+
+				// Update data stories if required
+				Result<StoriesRecord> stories = context.selectFrom(STORIES).where(STORIES.REQUIREMENTS.isNotNull()).fetch();
+				for (StoriesRecord story : stories)
+				{
+					StoryRequirements requirements = story.getRequirements();
+					// Check if the story requires any datasets
+					if (!CollectionUtils.isEmpty(requirements.getDatasetIds()))
+					{
+						// Check if this dataset is required
+						if (requirements.getDatasetIds().remove(datasetId))
+						{
+							// We have to set the requirements again here, for jOOQ to notice a change in the data.
+							story.setRequirements(requirements);
+							story.store(STORIES.REQUIREMENTS);
+						}
+					}
+				}
 
 				return true;
 			}

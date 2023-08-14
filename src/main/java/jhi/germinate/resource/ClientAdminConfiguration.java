@@ -14,6 +14,7 @@ public class ClientAdminConfiguration extends ClientConfiguration
 	private Boolean pdciEnabled;
 	private Integer filesDeleteAfterHoursAsync;
 	private Integer filesDeleteAfterHoursTemp;
+	private Boolean hiddenPagesAutodiscover;
 
 	public Integer getBcryptSalt()
 	{
@@ -111,6 +112,17 @@ public class ClientAdminConfiguration extends ClientConfiguration
 	public ClientAdminConfiguration setFilesDeleteAfterHoursTemp(Integer filesDeleteAfterHoursTemp)
 	{
 		this.filesDeleteAfterHoursTemp = filesDeleteAfterHoursTemp;
+		return this;
+	}
+
+	public Boolean getHiddenPagesAutodiscover()
+	{
+		return hiddenPagesAutodiscover;
+	}
+
+	public ClientAdminConfiguration setHiddenPagesAutodiscover(Boolean hiddenPagesAutodiscover)
+	{
+		this.hiddenPagesAutodiscover = hiddenPagesAutodiscover;
 		return this;
 	}
 }
