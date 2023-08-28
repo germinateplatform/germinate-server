@@ -65,7 +65,7 @@ public class PublicationGroupTableResource extends GermplasmBaseResource
 													   .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
 				.fetch()

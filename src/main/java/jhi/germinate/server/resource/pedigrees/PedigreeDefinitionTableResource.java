@@ -48,7 +48,7 @@ public class PedigreeDefinitionTableResource extends ExportResource
 													 .where(VIEW_TABLE_PEDIGREEDEFINITIONS.DATASET_ID.in(datasets));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTablePedigreedefinitions> result = setPaginationAndOrderBy(from)
 				.fetch()

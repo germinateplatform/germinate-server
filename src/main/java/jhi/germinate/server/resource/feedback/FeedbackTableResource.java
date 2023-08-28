@@ -40,7 +40,7 @@ public class FeedbackTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(USERFEEDBACK);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Userfeedback> result = setPaginationAndOrderBy(from)
 				.fetch()

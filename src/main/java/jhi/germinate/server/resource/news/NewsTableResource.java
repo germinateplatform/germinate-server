@@ -39,7 +39,7 @@ public class NewsTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_NEWS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableNews> result = setPaginationAndOrderBy(from)
 				.fetch()

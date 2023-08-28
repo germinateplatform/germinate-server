@@ -40,7 +40,7 @@ public class LocationTableResource extends ExportResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_LOCATIONS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableLocations> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -69,7 +69,7 @@ public class LocationTableResource extends ExportResource
 														   .from(VIEW_TABLE_LOCATIONS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

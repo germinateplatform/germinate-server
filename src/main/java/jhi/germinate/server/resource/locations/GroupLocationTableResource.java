@@ -73,7 +73,7 @@ public class GroupLocationTableResource extends BaseResource
 				from.where(GROUPS.ID.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableGroupLocations> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -116,7 +116,7 @@ public class GroupLocationTableResource extends BaseResource
 				from.where(GROUPS.ID.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch(VIEW_TABLE_LOCATIONS.LOCATION_ID);
@@ -164,7 +164,7 @@ public class GroupLocationTableResource extends BaseResource
 				from.where(GROUPS.ID.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			Result<Record> result = setPaginationAndOrderBy(from)
 				.fetch();

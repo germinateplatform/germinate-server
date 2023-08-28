@@ -54,10 +54,10 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 			Integer[] ids = pub.getGermplasmIds();
 
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
-			from.where(DSL.field(GERMPLASM_ID, Integer.class).in(ids));
+			from.having(DSL.field(GERMPLASM_ID, Integer.class).in(ids));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			List<ViewTablePublicationGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()

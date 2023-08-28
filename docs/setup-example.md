@@ -130,6 +130,9 @@ gatekeeper.password=gatekeeper-password
 # If you want the setup to be available from the outside world, use whatever your Proxy setup is configured as.
 germinate.client.url=http://localhost:9080
 
+# This just tells Germinate where to find this config file from inside the Docker container
+data.directory.external=/data/germinate
+
 authentication.mode=SELECTIVE
 ```
 

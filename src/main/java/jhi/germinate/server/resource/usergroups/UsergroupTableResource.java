@@ -38,7 +38,7 @@ public class UsergroupTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_USERGROUPS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableUsergroups> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -67,7 +67,7 @@ public class UsergroupTableResource extends BaseResource
 														   .from(VIEW_TABLE_USERGROUPS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

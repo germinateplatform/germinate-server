@@ -1,6 +1,5 @@
 package jhi.germinate.server.resource.licenses;
 
-import com.google.gson.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.*;
@@ -43,7 +42,7 @@ public class LicenseTableResource extends BaseResource
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_LICENSES);
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableLicenses> result = setPaginationAndOrderBy(from)
 				.fetch()

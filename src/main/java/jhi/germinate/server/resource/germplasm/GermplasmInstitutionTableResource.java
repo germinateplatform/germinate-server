@@ -66,7 +66,7 @@ public class GermplasmInstitutionTableResource extends BaseResource
 				.where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(germplasmId));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableInstitutions> result = setPaginationAndOrderBy(from)
 				.fetch()

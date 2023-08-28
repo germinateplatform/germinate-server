@@ -286,12 +286,12 @@ public class GermplasmBaseResource extends ExportResource
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
 
-		SelectSelectStep<?> select = context.select(DSL.asterisk());
+		SelectSelectStep<?> select = context.select(fields);
 
 		if (previousCount == -1)
 			select.hint("SQL_CALC_FOUND_ROWS");
 
-		SelectJoinStep<?> inner = context.select(fields).from(GERMINATEBASE)
+		SelectJoinStep<?> inner = select.from(GERMINATEBASE)
 										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
 										 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
@@ -307,14 +307,14 @@ public class GermplasmBaseResource extends ExportResource
 				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
 		}
 
-		return select.from(inner);
+		return inner;
 	}
 
 	public static class Join<A>
 	{
-		private final TableImpl<?>     table;
-		private final TableField<?, A> left;
-		private final TableField<?, A> right;
+		public final TableImpl<?>     table;
+		public final TableField<?, A> left;
+		public final TableField<?, A> right;
 
 		public Join(TableImpl<?> table, TableField<?, A> left, TableField<?, A> right)
 		{

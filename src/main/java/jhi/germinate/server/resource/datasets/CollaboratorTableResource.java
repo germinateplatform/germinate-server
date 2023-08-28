@@ -49,7 +49,7 @@ public class CollaboratorTableResource extends BaseResource
 				SelectJoinStep<Record> from = select.from(VIEW_TABLE_COLLABORATORS);
 
 				// Filter here!
-				filter(from, filters);
+				where(from, filters);
 
 				from.where(VIEW_TABLE_COLLABORATORS.DATASET_ID.eq(datasetId));
 

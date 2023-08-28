@@ -40,7 +40,7 @@ public class CommentTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_COMMENTS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableComments> result = setPaginationAndOrderBy(from)
 				.fetch()

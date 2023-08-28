@@ -26,7 +26,7 @@ public class GroupTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGroups>> getJson(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -45,11 +45,11 @@ public class GroupTableResource extends BaseResource
 														 .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableGroups.class);
+					.fetch()
+					.into(ViewTableGroups.class);
 
 
 			result.forEach(g -> {

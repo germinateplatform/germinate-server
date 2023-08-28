@@ -59,7 +59,7 @@ public class ExportResource extends BaseResource
 				}
 
 				// Filter here!
-				filter(from, filters);
+				where(from, filters);
 
 				ResourceUtils.exportToFileStreamed(bw, setPaginationAndOrderBy(from).fetchLazy(), true, settings != null ? settings.fieldsToNull : null);
 			}

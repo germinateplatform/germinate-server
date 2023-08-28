@@ -47,7 +47,7 @@ public class ImportJobStatsResource extends BaseResource
 			SelectConditionStep<Record> step = from.where(datasetIdField.isNull().or(datasetIdField.cast(String.class).in(datasetIds)));
 
 			// Filter here!
-			filter(step, filters);
+			where(step, filters);
 
 			List<ViewTableImportJobs> result = setPaginationAndOrderBy(step)
 				.fetch()

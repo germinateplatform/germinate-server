@@ -51,12 +51,12 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
 
-			from.where(fieldGroupTypeId.eq(3));
+			from.having(fieldGroupTypeId.eq(3));
 			if (groupId != null)
-				from.where(fieldGroupId.eq(groupId));
+				from.having(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			List<ViewTableGroupGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -115,14 +115,14 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
-			SelectJoinStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, datasetIds, joins, fieldGroupId, fieldGroupTypeId);
+			SelectJoinStep<?> from = getGermplasmIdQueryWrapped(context, datasetIds, joins, fieldGroupId, fieldGroupTypeId);
 
 			from.where(fieldGroupTypeId.eq(3));
 			if (groupId != null)
 				from.where(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -164,12 +164,12 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
 
-			from.where(fieldGroupTypeId.eq(3));
+			from.having(fieldGroupTypeId.eq(3));
 			if (groupId != null)
-				from.where(fieldGroupId.eq(groupId));
+				from.having(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-group-table-");
 		}

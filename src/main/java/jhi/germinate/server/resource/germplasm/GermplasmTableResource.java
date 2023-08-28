@@ -50,7 +50,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 					List<String> names = Files.readAllLines(ResourceUtils.getTempDir(namesFromFile).toPath());
 
 					if (!CollectionUtils.isEmpty(names))
-						from.where(fieldId.in(names));
+						from.having(fieldId.in(names));
 				}
 				catch (IOException e)
 				{
@@ -59,7 +59,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			filter(from, filters, true);
+			having(from, filters, true);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -107,7 +107,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -135,7 +135,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
 		}

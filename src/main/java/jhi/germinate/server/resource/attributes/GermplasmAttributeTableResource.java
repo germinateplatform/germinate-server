@@ -40,7 +40,7 @@ public class GermplasmAttributeTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GERMPLASM_ATTRIBUTES);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableGermplasmAttributes> result = setPaginationAndOrderBy(from)
 				.fetch()

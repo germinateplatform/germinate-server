@@ -86,7 +86,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 				from.where(DSL.field(TrialsDataBaseResource.TRAIT_ID, Integer.class).in(request.getxIds()));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -144,7 +144,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -188,7 +188,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			return ResourceUtils.exportToZip(from.fetch(), resp, "trials-data-table-");
 		}

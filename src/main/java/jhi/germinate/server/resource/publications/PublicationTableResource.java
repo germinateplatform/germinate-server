@@ -39,7 +39,7 @@ public class PublicationTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_PUBLICATIONS);
 
 			// Filter here!
-			filter(from, filters, true);
+			where(from, filters, true);
 
 			List<ViewTablePublications> result = setPaginationAndOrderBy(from)
 				.fetch()

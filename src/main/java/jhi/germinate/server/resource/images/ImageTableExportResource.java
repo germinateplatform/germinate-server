@@ -7,7 +7,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.database.pojo.ExportJobDetails;
 import jhi.germinate.server.resource.*;
@@ -18,14 +17,7 @@ import org.jooq.*;
 
 import java.io.File;
 import java.io.*;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.*;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
@@ -52,7 +44,7 @@ public class ImageTableExportResource extends BaseResource
 
 			SelectJoinStep<Record> from = context.select().from(VIEW_TABLE_IMAGES);
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 			List<Integer> imageIds = new ArrayList<>();
 
 			setPaginationAndOrderBy(from)

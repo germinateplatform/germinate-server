@@ -1,6 +1,5 @@
 package jhi.germinate.server.resource.datasets;
 
-import com.google.gson.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.*;
@@ -54,7 +53,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 				optionalAdjuster.adjustQuery(from);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableDatasets> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -177,7 +176,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			}
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

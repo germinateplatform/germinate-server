@@ -57,7 +57,7 @@ public class DatasetFileResourceTableResource extends BaseResource
 																													 .and(DATASETFILERESOURCES.DATASET_ID.in(requestedIds)))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableFileresources> result = setPaginationAndOrderBy(from)
 				.fetch()

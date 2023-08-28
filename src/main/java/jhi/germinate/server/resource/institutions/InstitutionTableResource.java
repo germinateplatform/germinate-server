@@ -39,7 +39,7 @@ public class InstitutionTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_INSTITUTIONS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableInstitutions> result = setPaginationAndOrderBy(from)
 				.fetch()

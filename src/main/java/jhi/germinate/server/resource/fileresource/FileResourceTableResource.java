@@ -5,7 +5,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.resource.BaseResource;
@@ -55,7 +54,7 @@ public class FileResourceTableResource extends BaseResource
 																															.and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableFileresources> result = setPaginationAndOrderBy(from)
 				.fetch()

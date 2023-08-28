@@ -1,6 +1,6 @@
 package jhi.germinate.resource;
 
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMarkers;
+import jhi.germinate.server.database.pojo.ViewTableMarkers;
 
 /**
  * @author Sebastian Raubach

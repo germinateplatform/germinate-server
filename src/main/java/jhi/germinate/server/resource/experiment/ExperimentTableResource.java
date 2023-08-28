@@ -56,7 +56,7 @@ public class ExperimentTableResource extends BaseResource
 			SelectJoinStep<? extends Record> from = select.from(inner);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableExperiments> result = setPaginationAndOrderBy(from)
 				.fetch()

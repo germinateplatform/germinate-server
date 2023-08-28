@@ -53,7 +53,7 @@ public class LocationPolygonTableResource extends BaseResource
 															 .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `view_table_locations`.`location_longitude`, ' ', `view_table_locations`.`location_latitude`, ')')))", buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableLocations> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -92,7 +92,7 @@ public class LocationPolygonTableResource extends BaseResource
 															 .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `view_table_locations`.`location_longitude`, ' ', `view_table_locations`.`location_latitude`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

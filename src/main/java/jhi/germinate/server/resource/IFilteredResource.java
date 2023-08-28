@@ -13,17 +13,17 @@ import java.util.stream.Collectors;
  */
 public interface IFilteredResource
 {
-	default <T extends Record> void filter(SelectConditionStep<T> step, Filter[] filters)
+	default <T extends Record> void having(SelectHavingConditionStep<T> step, Filter[] filters)
 	{
-		filter(step, filters, false);
+		having(step, filters, false);
 	}
 
-	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters)
+	default <T extends Record> void having(SelectJoinStep<T> step, Filter[] filters)
 	{
-		filter(step, filters, false);
+		having(step, filters, false);
 	}
 
-	default <T extends Record> void filter(SelectConditionStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	default <T extends Record> void having(SelectHavingConditionStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
 	{
 		if (filters != null && filters.length > 0)
 		{
@@ -51,7 +51,73 @@ public interface IFilteredResource
 		}
 	}
 
-	default <T extends Record> void filter(SelectJoinStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	default <T extends Record> void having(SelectJoinStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	{
+		if (filters != null && filters.length > 0)
+		{
+			Condition overall = filterIndividual(filters[0], jsonOperationAllowed);
+
+			for (int i = 1; i < filters.length; i++)
+			{
+				Condition condition = filterIndividual(filters[i], jsonOperationAllowed);
+
+				if (condition != null)
+				{
+					switch (filters[i - 1].getOperator())
+					{
+						case "and":
+							overall = overall.and(condition);
+							break;
+						case "or":
+							overall = overall.or(condition);
+							break;
+					}
+				}
+			}
+
+			step.having(overall);
+		}
+	}
+
+	default <T extends Record> void where(SelectConditionStep<T> step, Filter[] filters)
+	{
+		where(step, filters, false);
+	}
+
+	default <T extends Record> void where(SelectJoinStep<T> step, Filter[] filters)
+	{
+		where(step, filters, false);
+	}
+
+	default <T extends Record> void where(SelectConditionStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
+	{
+		if (filters != null && filters.length > 0)
+		{
+			Condition overall = filterIndividual(filters[0], jsonOperationAllowed);
+
+			for (int i = 1; i < filters.length; i++)
+			{
+				Condition condition = filterIndividual(filters[i], jsonOperationAllowed);
+
+				if (condition != null)
+				{
+					switch (filters[i - 1].getOperator())
+					{
+						case "and":
+							overall = overall.and(condition);
+							break;
+						case "or":
+							overall = overall.or(condition);
+							break;
+					}
+				}
+			}
+
+			step.and(overall);
+		}
+	}
+
+	default <T extends Record> void where(SelectJoinStep<T> step, Filter[] filters, boolean jsonOperationAllowed)
 	{
 		if (filters != null && filters.length > 0)
 		{

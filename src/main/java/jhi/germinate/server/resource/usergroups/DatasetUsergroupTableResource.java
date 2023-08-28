@@ -93,7 +93,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 									 .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableUsergroups> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -126,7 +126,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 									 .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

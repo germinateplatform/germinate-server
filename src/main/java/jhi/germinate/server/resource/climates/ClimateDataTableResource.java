@@ -6,7 +6,6 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.resource.traits.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
@@ -93,7 +92,7 @@ public class ClimateDataTableResource extends ExportResource
 				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getxIds()));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableClimateDataWithGroups> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -151,7 +150,7 @@ public class ClimateDataTableResource extends ExportResource
 			from.where(VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

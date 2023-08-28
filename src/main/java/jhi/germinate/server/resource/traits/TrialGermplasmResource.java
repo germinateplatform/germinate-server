@@ -49,7 +49,7 @@ public class TrialGermplasmResource extends TrialsDataBaseResource
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
 				.fetch()

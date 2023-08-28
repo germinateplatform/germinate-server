@@ -71,7 +71,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 
 						// Filter here!
-						filter(from, filters);
+						having(from, filters);
 
 						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
 					}
@@ -83,7 +83,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
 						joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, fieldGroupId);
-						from.where(fieldGroupId.in(request.getGroupIds()));
+						from.having(fieldGroupId.in(request.getGroupIds()));
 
 						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
 					}

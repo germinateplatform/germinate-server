@@ -46,7 +46,7 @@ public class MapResource extends BaseResource implements IFilteredResource
 												 .or(VIEW_TABLE_MAPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<ViewTableMaps> result = setPaginationAndOrderBy(from)
 				.fetch()

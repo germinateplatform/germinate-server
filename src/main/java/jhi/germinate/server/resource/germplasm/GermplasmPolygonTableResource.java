@@ -43,13 +43,13 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null)
-				.where(DSL.field(LATITUDE).isNotNull()
+			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null)
+				.having(DSL.field(LATITUDE).isNotNull()
 						  .and(DSL.field(LONGITUDE).isNotNull())
 						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -89,7 +89,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

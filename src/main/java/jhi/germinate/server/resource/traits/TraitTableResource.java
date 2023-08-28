@@ -15,7 +15,6 @@ import jakarta.ws.rs.core.MediaType;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
 
 @Path("trait/table")
@@ -41,7 +40,7 @@ public class TraitTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRAITS);
 
 			// Filter here!
-			filter(from, filters, true);
+			where(from, filters, true);
 
 			List<ViewTableTraits> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -70,7 +69,7 @@ public class TraitTableResource extends BaseResource
 														   .from(VIEW_TABLE_TRAITS);
 
 			// Filter here!
-			filter(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

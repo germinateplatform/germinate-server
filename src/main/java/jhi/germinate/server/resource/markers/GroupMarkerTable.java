@@ -3,7 +3,9 @@ package jhi.germinate.server.resource.markers;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.pojo.ViewTableMarkers;
 import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.germplasm.GermplasmBaseResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
@@ -11,18 +13,21 @@ import org.jooq.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import org.jooq.impl.DSL;
+
 import java.io.IOException;
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableMarkers.*;
+import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 
 @Path("group/{groupId}/marker")
 @Secured
 @PermitAll
-public class GroupMarkerTable extends BaseResource
+public class GroupMarkerTable extends MarkerBaseResource
 {
 	@PathParam("groupId")
 	private Integer groupId;
@@ -40,26 +45,22 @@ public class GroupMarkerTable extends BaseResource
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 			GroupResource.checkGroupVisibility(context, userDetails, groupId);
 
-			SelectSelectStep<Record> select = context.select(VIEW_TABLE_MARKERS.fields())
-													 .select(GROUPS.ID.as("group_id"));
+			List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
+			joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, MARKERS.ID));
+			joins.add(new GermplasmBaseResource.Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
 
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
+			SelectHavingConditionStep<?> from = getMarkerQuery(context, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"))
+					.having(DSL.field("grouptype_id", Integer.class).eq(2));
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MARKERS)
-												.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_MARKERS.MARKER_ID))
-												.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
-
-			from.where(GROUPS.GROUPTYPE_ID.eq(2));
 			if (groupId != null)
-				from.where(GROUPS.ID.eq(groupId));
+				from.and(DSL.field("group_id", Integer.class).eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			List<ViewTableGroupMarkers> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableGroupMarkers.class);
+					.fetch()
+					.into(ViewTableGroupMarkers.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -106,20 +107,22 @@ public class GroupMarkerTable extends BaseResource
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 			GroupResource.checkGroupVisibility(context, userDetails, groupId);
 
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_MARKERS.MARKER_ID)
-														   .from(VIEW_TABLE_MARKERS)
-														   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_MARKERS.MARKER_ID))
-														   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
+			List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
+			joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, MARKERS.ID));
+			joins.add(new GermplasmBaseResource.Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
 
-			from.where(GROUPS.GROUPTYPE_ID.eq(2));
+			SelectHavingConditionStep<?> from = getMarkerIdQuery(context, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"))
+					.having(DSL.field("grouptype_id", Integer.class).eq(2));
+
 			if (groupId != null)
-				from.where(GROUPS.ID.eq(groupId));
+				from.and(DSL.field("group_id", Integer.class).eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch(VIEW_TABLE_MARKERS.MARKER_ID);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}
@@ -148,28 +151,20 @@ public class GroupMarkerTable extends BaseResource
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 			GroupResource.checkGroupVisibility(context, userDetails, groupId);
 
-			SelectSelectStep<Record> select = context.select(VIEW_TABLE_MARKERS.fields())
-													 .select(GROUPS.NAME.as("group_name"))
-													 .select(GROUPS.ID.as("group_id"));
+			List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
+			joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, MARKERS.ID));
+			joins.add(new GermplasmBaseResource.Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
 
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
+			SelectHavingConditionStep<?> from = getMarkerQuery(context, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"), GROUPS.NAME.as("group_name"))
+					.having(DSL.field("grouptype_id", Integer.class).eq(2));
 
-			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MARKERS)
-												.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_MARKERS.MARKER_ID))
-												.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
-
-			from.where(GROUPS.GROUPTYPE_ID.eq(2));
 			if (groupId != null)
-				from.where(GROUPS.ID.eq(groupId));
+				from.and(DSL.field("group_id", Integer.class).eq(groupId));
 
 			// Filter here!
-			filter(from, filters);
+			having(from, filters);
 
-			Result<Record> result = setPaginationAndOrderBy(from)
-				.fetch();
-
-			return ResourceUtils.exportToZip(result, resp, "marker-group-table-");
+			return ResourceUtils.exportToZip(from.fetch(), resp, "marker-group-table-");
 		}
 		catch (GerminateException e)
 		{
