@@ -152,7 +152,7 @@ plausible.api.host  = <plausible's api host to use. Change this if you are self-
 # The colored boxes at the top of the dashboard/home page can be changed here.
 dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'maps', 'traits', 'climates', 'compounds', 'locations', 'datasets', 'datasetsGenotype', 'datasetsTrials', 'datasetsAllelefreq', 'datasetsClimate', 'datasetsCompound', 'experiments', 'groups', 'images', 'fileresources'; don't include the quotes>
 # Pages can be hidden for example if you don't have that kind of data.
-hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/router/index.js)>
+hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/mixins/pages.js)>
 hidden.pages.autodiscover = <set to true to make Germinate auto-discover which pages to show on the client based on what data is available in the database>
 # Columns of each table can be hidden. Note that this only takes effect the first time Germinate is loaded.
 # Afterwards we cannot overwrite the client configuration as the user may have chosen to show/hide different columns.

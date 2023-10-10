@@ -6,6 +6,7 @@ import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Storysteps;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
@@ -13,6 +14,7 @@ import org.jooq.*;
 
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableStories.VIEW_TABLE_STORIES;
 
@@ -56,6 +58,18 @@ public class StoryTableResource extends BaseResource
 					s.setCanAccess(datasetsForUser.containsAll(s.getStoryRequirements().getDatasetIds()));
 				else
 					s.setCanAccess(true);
+
+				if (!CollectionUtils.isEmpty(s.getStorySteps()))
+				{
+					for (Storysteps st : s.getStorySteps())
+					{
+						if (!StringUtils.isEmpty(st.getDescription())) {
+							String[] parts = st.getDescription().split("\n");
+
+							st.setDescription(Arrays.stream(parts).filter(str -> !str.trim().isEmpty()).map(str -> "<p>" + str + "</p>").collect(Collectors.joining()));
+						}
+					}
+				}
 			});
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
