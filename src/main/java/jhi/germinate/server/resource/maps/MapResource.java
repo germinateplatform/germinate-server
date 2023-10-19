@@ -62,7 +62,7 @@ public class MapResource extends BaseResource implements IFilteredResource
 	@Path("/{mapId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<Maps>> getMaps(@QueryParam("mapId") Integer mapId)
+	public PaginatedResult<List<Maps>> getMaps(@PathParam("mapId") Integer mapId)
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
