@@ -23,6 +23,7 @@ import java.nio.file.*;
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
@@ -93,7 +94,10 @@ public class StoryIndividualResource extends ContextResource
 			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(pageConfig))
+		{
+			Logger.getLogger("").warning("Empty pageConfig parameter");
 			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
 
 		StoryStepConfig config;
 		try
@@ -102,11 +106,15 @@ public class StoryIndividualResource extends ContextResource
 		}
 		catch (Exception e)
 		{
+			Logger.getLogger("").warning("Invalid StoryStepConfig: " + pageConfig);
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 
-		if (storyId == null || pageConfig == null || config.getRouter() == null || StringUtils.isEmpty(config.getRouter().getName()) || StringUtils.isEmpty(stepName) || StringUtils.isEmpty(stepDescription))
+		if (storyId == null || config == null || config.getRouter() == null || StringUtils.isEmpty(config.getRouter().getName()) || StringUtils.isEmpty(stepName) || StringUtils.isEmpty(stepDescription))
+		{
+			Logger.getLogger("").warning("Invalid required parameter.");
 			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
 
 		if (storyIndex == null)
 			storyIndex = 0;
