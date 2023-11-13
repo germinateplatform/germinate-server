@@ -190,7 +190,10 @@ public class PropertyWatcher
 	{
 		String value = properties.get(property.getKey());
 
-		return StringUtils.isEmpty(value) ? property.getDefaultValue() : value.strip();
+		if (value == null)
+			return property.getDefaultValue();
+		else
+			return StringUtils.isEmpty(value) ? null : value.strip();
 	}
 
 	/**

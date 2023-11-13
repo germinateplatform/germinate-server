@@ -54,6 +54,7 @@ public class SettingsResource
 									   .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 									   .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
 									   .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
+									   .setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
 									   .setHiddenPages(hiddenPages)
 									   .setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
 									   .setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
@@ -123,6 +124,7 @@ public class SettingsResource
 			  .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 			  .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
 			  .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
+			  .setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
 			  .setHiddenPages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class))
 			  .setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
 			  .setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
@@ -197,6 +199,7 @@ public class SettingsResource
 		PropertyWatcher.setPropertyList(ServerProperty.COLORS_GRADIENT, config.getColorsGradient());
 		PropertyWatcher.set(ServerProperty.COLOR_PRIMARY, config.getColorPrimary());
 		PropertyWatcher.setPropertyList(ServerProperty.DASHBOARD_CATEGORIES, config.getDashboardCategories());
+		PropertyWatcher.setPropertyList(ServerProperty.DASHBOARD_SECTIONS, config.getDashboardSections());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_PAGES, config.getHiddenPages());
 		PropertyWatcher.setBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER, config.getHiddenPagesAutodiscover());
 		PropertyWatcher.set(ServerProperty.AUTHENTICATION_MODE, config.getAuthMode().name());

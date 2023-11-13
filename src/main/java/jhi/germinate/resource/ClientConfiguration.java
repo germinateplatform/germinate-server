@@ -16,6 +16,7 @@ public class ClientConfiguration
 	private String             colorPrimary;
 	private Boolean            commentsEnabled;
 	private List<String>       dashboardCategories;
+	private List<String>       dashboardSections;
 	private DataImportMode     dataImportMode;
 	private String             externalLinkIdentifier;
 	private String             externalLinkTemplate;
@@ -219,6 +220,17 @@ public class ClientConfiguration
 	public ClientConfiguration setDashboardCategories(List<String> dashboardCategories)
 	{
 		this.dashboardCategories = dashboardCategories;
+		return this;
+	}
+
+	public List<String> getDashboardSections()
+	{
+		return dashboardSections;
+	}
+
+	public ClientConfiguration setDashboardSections(List<String> dashboardSections)
+	{
+		this.dashboardSections = dashboardSections;
 		return this;
 	}
 
