@@ -5,17 +5,17 @@
                              http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 		 metadata-complete="false"
 		 version="3.1">
-<!--	<servlet>-->
-<!--		<servlet-name>swagger</servlet-name>-->
-<!--		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>-->
-<!--		<init-param>-->
-<!--			<param-name>jersey.config.server.provider.packages</param-name>-->
-<!--			<param-value>io.swagger.v3.jaxrs2.integration.resources,jhi.germinate.server</param-value>-->
-<!--		</init-param>-->
-<!--		<load-on-startup>1</load-on-startup>-->
-<!--	</servlet>-->
-<!--	<servlet-mapping>-->
-<!--		<servlet-name>swagger</servlet-name>-->
-<!--		<url-pattern>/swagger/*</url-pattern>-->
-<!--	</servlet-mapping>-->
+	<servlet>
+		<servlet-name>swagger</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>io.swagger.v3.jaxrs2.integration.resources,jhi.germinate.server</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>swagger</servlet-name>
+		<url-pattern>/swagger/*</url-pattern>
+	</servlet-mapping>
 </web-app>

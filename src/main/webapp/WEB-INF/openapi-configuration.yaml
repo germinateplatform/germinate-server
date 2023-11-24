@@ -1,0 +1,14 @@
+resourcePackages:
+  - jhi.germinate.server
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: '1.0'
+    title: Swagger Germinate API implementation documentation
+    description: 'This is the Swagger API implementation documentation for Germinate.'
+    contact:
+      email: germinate@hutton.ac.uk
+    license:
+      name: Apache 2.0
+      url: http://www.apache.org/licenses/LICENSE-2.0.html
