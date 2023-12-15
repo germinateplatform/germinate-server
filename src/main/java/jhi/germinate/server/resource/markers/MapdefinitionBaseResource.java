@@ -70,9 +70,6 @@ public class MapdefinitionBaseResource extends ExportResource
 
 		SelectSelectStep<?> select = context.select(fields);
 
-		if (previousCount == -1)
-			select.hint("SQL_CALC_FOUND_ROWS");
-
 		SelectJoinStep<?> inner = select.from(MARKERS)
 										.leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
 										.leftJoin(MAPFEATURETYPES).on(MAPFEATURETYPES.ID.eq(MAPDEFINITIONS.MAPFEATURETYPE_ID))

@@ -95,7 +95,6 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		final SecurityContext currentSecurityContext = requestContext.getSecurityContext();
 		requestContext.setSecurityContext(new SecurityContext()
 		{
-
 			@Override
 			public Principal getUserPrincipal()
 			{

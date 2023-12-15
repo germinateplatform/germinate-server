@@ -66,12 +66,12 @@ public class MapMarkerDefinitionTableResource extends MapdefinitionBaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectHavingConditionStep<?> from = getMapDefinitionIdQuery(context)
-					.having(DSL.field(VISIBILITY, Boolean.class).eq(true)
+			SelectConditionStep<?> from = getMapDefinitionIdQuery(context)
+					.where(DSL.field(VISIBILITY, Boolean.class).eq(true)
 							   .or(DSL.field(USER_ID, Integer.class).eq(userDetails.getId())));
 
 			// Filter here!
-			having(from, filters);
+			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
