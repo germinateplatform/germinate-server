@@ -1,22 +1,23 @@
 package jhi.germinate.server.resource;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.core.*;
+import jhi.germinate.resource.Filter;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.jooq.*;
 import org.jooq.impl.*;
 
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.core.*;
-import java.io.*;
 import java.io.File;
+import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
-import java.nio.file.*;
 import java.nio.file.Files;
+import java.nio.file.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ResourceUtils
@@ -30,7 +31,7 @@ public class ResourceUtils
 	 * @throws URISyntaxException Thrown if the URI of the folder location is invalid
 	 */
 	public static File getLibFolder()
-		throws URISyntaxException
+			throws URISyntaxException
 	{
 		URL resource = PropertyWatcher.class.getClassLoader().getResource("logging.properties");
 		if (resource != null)
@@ -42,8 +43,8 @@ public class ResourceUtils
 		return null;
 	}
 
-	public static Response exportToZip(Result<? extends Record> results, HttpServletResponse resp, String name)
-		throws IOException
+	public static Response exportToZip(Result<? extends Record> results, HttpServletResponse resp, String name, Map<String, String> columnMapping)
+			throws IOException
 	{
 		try
 		{
@@ -65,7 +66,7 @@ public class ResourceUtils
 			try (FileSystem fs = FileSystems.newFileSystem(uri, env, null);
 				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + DateTimeUtils.getFormattedDateTime(new Date()) + ".txt"), StandardCharsets.UTF_8)))
 			{
-				exportToFile(bw, results, true, null);
+				exportToFile(bw, results, true, columnMapping, null);
 			}
 
 			Path zipFilePath = zipFile.toPath();
@@ -86,6 +87,12 @@ public class ResourceUtils
 		}
 	}
 
+	public static Response exportToZip(Result<? extends Record> results, HttpServletResponse resp, String name)
+			throws IOException
+	{
+		return exportToZip(results, resp, name, null);
+	}
+
 	/**
 	 * Exports the given database result into the writer using the given parameters
 	 *
@@ -95,14 +102,23 @@ public class ResourceUtils
 	 * @param fieldsToIgnore Array containing the fields to ignore from the data. They will not appear in the output.
 	 * @throws IOException Thrown if any IO operation fails
 	 */
-	public static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore, String... headers)
-		throws IOException
+	public static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Map<String, String> columnMapping, Field<?>[] fieldsToIgnore, String... headers)
+			throws IOException
 	{
 		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).collect(Collectors.toList());
 		List<String> columnsToInclude = Arrays.stream(results.fields())
 											  .map(Field::getName)
 											  .filter(name -> !columnsToIgnore.contains(name))
 											  .collect(Collectors.toList());
+
+		if (columnMapping != null && !columnMapping.isEmpty())
+		{
+			for (String key : columnMapping.keySet())
+				columnMapping.put(Filter.getSafeColumn(key), columnMapping.get(key));
+
+			// Reduce to those columns specified in the mapping
+			columnsToInclude = columnsToInclude.stream().filter(columnMapping::containsKey).collect(Collectors.toList());
+		}
 
 		if (!CollectionUtils.isEmpty(headers))
 		{
@@ -113,10 +129,11 @@ public class ResourceUtils
 		}
 
 		if (includeHeaders)
-			bw.write(columnsToInclude.stream().collect(Collectors.joining("\t", "", CRLF)));
+			bw.write(columnsToInclude.stream().map(c -> (columnMapping != null && !columnMapping.isEmpty()) ? columnMapping.get(c) : c).collect(Collectors.joining("\t", "", CRLF)));
 
 		Gson gson = new Gson();
-		results.forEach(r -> {
+		for (Record r : results)
+		{
 			try
 			{
 				bw.write(columnsToInclude.stream()
@@ -133,7 +150,22 @@ public class ResourceUtils
 			{
 				e.printStackTrace();
 			}
-		});
+		}
+	}
+
+	/**
+	 * Exports the given database result into the writer using the given parameters
+	 *
+	 * @param bw             The {@link Writer} to export to
+	 * @param results        The {@link Result} containing the data
+	 * @param includeHeaders Should the column headers of the database result be included?
+	 * @param fieldsToIgnore Array containing the fields to ignore from the data. They will not appear in the output.
+	 * @throws IOException Thrown if any IO operation fails
+	 */
+	public static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore, String... headers)
+			throws IOException
+	{
+		exportToFile(bw, results, includeHeaders, null, fieldsToIgnore, headers);
 	}
 
 	/**
@@ -146,7 +178,7 @@ public class ResourceUtils
 	 * @throws IOException Thrown if any IO operation fails
 	 */
 	public static void exportToFileStreamed(Writer bw, Cursor<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore)
-		throws IOException
+			throws IOException
 	{
 		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).collect(Collectors.toList());
 		List<String> columnsToInclude = Arrays.stream(results.fields())
@@ -213,13 +245,13 @@ public class ResourceUtils
 	}
 
 	public static File createTempFile(String filename, String extension)
-		throws IOException
+			throws IOException
 	{
 		return createTempFile(null, filename, extension, true);
 	}
 
 	public static File createTempFile(String parentFolder, String filename, String extension, boolean create)
-		throws IOException
+			throws IOException
 	{
 		extension = extension.replace(".", "");
 
@@ -254,7 +286,7 @@ public class ResourceUtils
 	 * @return The {@link File} representing the request
 	 */
 	public static File getFromExternal(HttpServletResponse resp, String filename, String... subdirs)
-		throws IOException
+			throws IOException
 	{
 		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
 
@@ -268,7 +300,8 @@ public class ResourceUtils
 
 		File target = new File(folder, filename);
 
-		if (resp != null && !FileUtils.isSubDirectory(folder, target)) {
+		if (resp != null && !FileUtils.isSubDirectory(folder, target))
+		{
 			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
 			return null;
 		}

@@ -4,7 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.pojo.ViewTableMapdefinitions;
 import jhi.germinate.server.resource.ResourceUtils;
@@ -85,7 +85,7 @@ public class MapMarkerDefinitionTableResource extends MapdefinitionBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postMapMarkerDefinitionTableExport(PaginatedRequest request)
+	public Response postMapMarkerDefinitionTableExport(ExportRequest request)
 			throws SQLException, IOException
 	{
 		processRequest(request);

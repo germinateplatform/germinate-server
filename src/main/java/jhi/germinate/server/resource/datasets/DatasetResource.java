@@ -28,13 +28,13 @@ public class DatasetResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchDatasetById(Datasets newDataset)
+	public Integer postDataset(Datasets newDataset)
 			throws SQLException, IOException
 	{
 		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
+			return null;
 		}
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -45,7 +45,9 @@ public class DatasetResource extends ContextResource
 
 			DatasetsRecord dataset = context.newRecord(DATASETS, newDataset);
 			dataset.setCreatedBy(userDetails.getId());
-			return dataset.store() > 0;
+			dataset.store();
+
+			return dataset.getId();
 		}
 	}
 

@@ -141,7 +141,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postGroupGermplasmTableExport(PaginatedRequest request)
+	public Response postGroupGermplasmTableExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();

@@ -34,6 +34,12 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 
 	protected Filter[] filters;
 
+	protected void processRequest(ExportRequest request)
+	{
+		if (request != null)
+			this.filters = request.getFilter();
+	}
+
 	protected void processRequest(PaginatedRequest request)
 	{
 		if (request != null)

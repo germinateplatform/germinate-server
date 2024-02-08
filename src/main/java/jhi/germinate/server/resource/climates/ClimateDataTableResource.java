@@ -164,7 +164,7 @@ public class ClimateDataTableResource extends ExportResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postClimateDataTableExport(PaginatedDatasetRequest request)
+	public Response postClimateDataTableExport(DatasetExportRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();

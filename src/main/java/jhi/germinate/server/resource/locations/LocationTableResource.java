@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.locations;
 
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations;
 import jhi.germinate.server.resource.ExportResource;
@@ -83,7 +83,7 @@ public class LocationTableResource extends ExportResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postLocationTableExport(PaginatedRequest request)
+	public Response postLocationTableExport(ExportRequest request)
 		throws SQLException, IOException
 	{
 		processRequest(request);

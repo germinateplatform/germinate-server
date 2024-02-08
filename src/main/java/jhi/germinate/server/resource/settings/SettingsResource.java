@@ -93,6 +93,7 @@ public class SettingsResource
 									   .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 									   .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
 									   .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
+									   .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
 									   .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
 			).build();
 		}
@@ -163,6 +164,7 @@ public class SettingsResource
 			  .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
 			  .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
+			  .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
 			  .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured());
 
 		return result;
@@ -215,6 +217,7 @@ public class SettingsResource
 		PropertyWatcher.setBoolean(ServerProperty.COMMENTS_ENABLED, config.getCommentsEnabled());
 		PropertyWatcher.set(ServerProperty.DATA_IMPORT_MODE, config.getDataImportMode().name());
 		PropertyWatcher.set(ServerProperty.HELIUM_URL, config.getHeliumUrl());
+		PropertyWatcher.set(ServerProperty.FIELDHUB_URL, config.getFieldhubUrl());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, config.getHiddenColumns().getGermplasm());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, config.getHiddenColumns().getGermplasmAttributes());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, config.getHiddenColumns().getImages());

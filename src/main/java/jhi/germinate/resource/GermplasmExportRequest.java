@@ -3,7 +3,7 @@ package jhi.germinate.resource;
 /**
  * @author Sebastian Raubach
  */
-public class GermplasmExportRequest extends PaginatedRequest
+public class GermplasmExportRequest extends ExportRequest
 {
 	private Integer[] individualIds;
 	private Integer[] groupIds;

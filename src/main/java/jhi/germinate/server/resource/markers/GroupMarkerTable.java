@@ -137,7 +137,7 @@ public class GroupMarkerTable extends MarkerBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response getJson(PaginatedRequest request)
+	public Response getJson(ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);

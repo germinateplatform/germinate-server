@@ -31,7 +31,7 @@ public class ImageTableExportResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<AsyncExportResult> postImageTableExport(PaginatedRequest request)
+	public List<AsyncExportResult> postImageTableExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);

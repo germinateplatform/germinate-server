@@ -25,7 +25,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 	@Path("/attribute/table/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(PaginatedRequest request)
+	public Response postDatasetAttributeExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		return export(null, request);
@@ -41,7 +41,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 		return export(datasetId, null);
 	}
 
-	private Response export(Integer datasetId, PaginatedRequest request)
+	private Response export(Integer datasetId, ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);
@@ -90,7 +90,6 @@ public class DatasetAttributeTableExportResource extends ExportResource
 			return null;
 		}
 
-		processRequest(request);
 		ExportSettings settings = new ExportSettings();
 		settings.conditions = new Condition[]{VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds)};
 		return export(VIEW_TABLE_DATASET_ATTRIBUTES, "dataset-attributes-table-", settings);

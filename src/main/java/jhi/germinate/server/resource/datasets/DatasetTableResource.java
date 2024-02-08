@@ -270,7 +270,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetTableExport(PaginatedRequest request)
+	public Response postDatasetTableExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);

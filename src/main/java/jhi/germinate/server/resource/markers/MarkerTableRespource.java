@@ -4,7 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.pojo.ViewTableMarkers;
 import jhi.germinate.server.resource.ResourceUtils;
@@ -76,7 +76,7 @@ public class MarkerTableRespource extends MarkerBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postMarkerTableExport(PaginatedRequest request)
+	public Response postMarkerTableExport(ExportRequest request)
 			throws SQLException, IOException
 	{
 		processRequest(request);

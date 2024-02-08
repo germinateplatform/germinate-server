@@ -26,6 +26,7 @@ import java.util.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.VIEW_TABLE_LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
 
 @Path("pedigree")
@@ -69,6 +70,18 @@ public class PedigreeResource extends ExportResource
 
 			return new PaginatedResult<>(result, count);
 		}
+	}
+
+	@POST
+	@Path("/export")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("application/zip")
+	public Response postPedigreeTableExport(ExportRequest request)
+			throws SQLException, IOException
+	{
+		processRequest(request);
+
+		return export(VIEW_TABLE_PEDIGREES, "pedigree-table-", null);
 	}
 
 	public static Response exportFlatFile(PedigreeRequest request, HttpServletRequest req, HttpServletResponse resp, SecurityContext securityContext)

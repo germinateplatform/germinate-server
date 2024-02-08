@@ -134,7 +134,7 @@ public class GroupLocationTableResource extends BaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response getJson(PaginatedRequest request)
+	public Response getJson(ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);
@@ -152,9 +152,6 @@ public class GroupLocationTableResource extends BaseResource
 													 .select(GROUPS.NAME.as("group_name"))
 													 .select(GROUPS.ID.as("group_id"));
 
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
-
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_LOCATIONS)
 												.leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(VIEW_TABLE_LOCATIONS.LOCATION_ID))
 												.leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID));
@@ -166,10 +163,7 @@ public class GroupLocationTableResource extends BaseResource
 			// Filter here!
 			where(from, filters);
 
-			Result<Record> result = setPaginationAndOrderBy(from)
-				.fetch();
-
-			return ResourceUtils.exportToZip(result, resp, "marker-group-table-");
+			return ResourceUtils.exportToZip(from.fetch(), resp, "marker-group-table-");
 		}
 		catch (GerminateException e)
 		{

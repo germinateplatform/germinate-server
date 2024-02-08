@@ -121,13 +121,11 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postGermplasmTableExport(PaginatedRequest request)
+	public Response postGermplasmTableExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
-
-		processRequest(request);
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -135,9 +133,9 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
 
 			// Filter here!
-			having(from, filters);
+			having(from, request.getFilter());
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
+			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-", request.getColumnNameMapping());
 		}
 	}
 

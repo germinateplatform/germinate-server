@@ -29,6 +29,7 @@ public class ClientConfiguration
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
 	private String             heliumUrl;
+	private String             fieldhubUrl;
 	private HiddenColumns      hiddenColumns;
 	private Boolean            supportsFeedback;
 
@@ -253,6 +254,17 @@ public class ClientConfiguration
 	public ClientConfiguration setHeliumUrl(String heliumUrl)
 	{
 		this.heliumUrl = heliumUrl;
+		return this;
+	}
+
+	public String getFieldhubUrl()
+	{
+		return fieldhubUrl;
+	}
+
+	public ClientConfiguration setFieldhubUrl(String fieldhubUrl)
+	{
+		this.fieldhubUrl = fieldhubUrl;
 		return this;
 	}
 

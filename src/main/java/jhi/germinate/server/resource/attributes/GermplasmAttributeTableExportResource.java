@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource.attributes;
 
-import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.Secured;
 
@@ -20,7 +20,7 @@ public class GermplasmAttributeTableExportResource extends ExportResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(PaginatedRequest request)
+	public Response postDatasetAttributeExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);

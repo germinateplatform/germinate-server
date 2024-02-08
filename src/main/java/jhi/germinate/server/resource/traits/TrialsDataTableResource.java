@@ -158,7 +158,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postTrialsDataTableExport(PaginatedDatasetRequest request)
+	public Response postTrialsDataTableExport(DatasetExportRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
