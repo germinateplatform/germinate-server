@@ -19,6 +19,7 @@ import java.util.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 import static jhi.germinate.server.database.codegen.tables.Units.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
 
@@ -78,7 +79,8 @@ public class DatasetTraitResource extends ContextResource
 										  .leftJoin(SYNONYMS).on(SYNONYMS.FOREIGN_ID.eq(PHENOTYPES.ID)
 																					.and(SYNONYMS.SYNONYMTYPE_ID.eq(4))))
 						  .where(DSL.exists(DSL.selectOne().from(PHENOTYPEDATA)
-											   .where(PHENOTYPEDATA.DATASET_ID.in(requestedIds))
+											   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+											   .where(TRIALSETUP.DATASET_ID.in(requestedIds))
 											   .and(PHENOTYPEDATA.PHENOTYPE_ID.eq(PHENOTYPES.ID))
 											   .limit(1)))
 						  .orderBy(PHENOTYPES.NAME)

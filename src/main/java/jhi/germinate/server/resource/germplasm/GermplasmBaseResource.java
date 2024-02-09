@@ -8,23 +8,24 @@ import org.jooq.impl.*;
 
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.*;
-import static jhi.germinate.server.database.codegen.tables.Countries.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Datasets.*;
-import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Germplasminstitutions.*;
-import static jhi.germinate.server.database.codegen.tables.Images.*;
-import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Institutions.*;
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
-import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
-import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
-import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
+import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.BIOLOGICALSTATUS;
+import static jhi.germinate.server.database.codegen.tables.Countries.COUNTRIES;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.DATASETMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
+import static jhi.germinate.server.database.codegen.tables.Entitytypes.ENTITYTYPES;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Germplasminstitutions.GERMPLASMINSTITUTIONS;
+import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
+import static jhi.germinate.server.database.codegen.tables.Institutions.INSTITUTIONS;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.PEDIGREES;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.SYNONYMS;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 
 public class GermplasmBaseResource extends ExportResource
 {
@@ -114,73 +115,74 @@ public class GermplasmBaseResource extends ExportResource
 								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
-			GERMINATEBASE.ID.as(GERMPLASM_ID),
-			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
-			GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
-			MCPD.PUID.as(GERMPLASM_PUID),
-			ENTITYTYPES.ID.as(ENTITY_TYPE_ID),
-			ENTITYTYPES.NAME.as(ENTITY_TYPE_NAME),
-			GERMINATEBASE.ENTITYPARENT_ID.as(ENTITY_PARENT_ID),
-			g.NAME.as(ENTITY_PARENT_NAME),
-			g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
-			BIOLOGICALSTATUS.ID.as(BIOLOGICAL_STATUS_ID),
-			BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
-			SYNONYMS.SYNONYMS_.as(SSYNONYMS),
-			MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
-			TAXONOMIES.GENUS.as(GENUS),
-			TAXONOMIES.SPECIES.as(SPECIES),
-			TAXONOMIES.SUBTAXA.as(SUBTAXA),
-			institutions.as(INSTITUTIONS_FIELD),
-			LOCATIONS.ID.as(LOCATION_ID),
-			LOCATIONS.SITE_NAME.as(LOCATION),
-			LOCATIONS.LATITUDE.as(LATITUDE),
-			LOCATIONS.LONGITUDE.as(LONGITUDE),
-			LOCATIONS.ELEVATION.as(ELEVATION),
-			COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
-			COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE),
-			MCPD.COLLDATE.as(COLL_DATE),
-			GERMINATEBASE.PDCI.as(PDCI),
-			DSL.selectCount()
-			   .from(IMAGES)
-			   .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
-			   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
-			   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .asField(IMAGE_COUNT),
-			DSL.select(IMAGES.PATH)
-			   .from(IMAGES)
-			   .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
-			   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
-			   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .limit(1)
-			   .asField(FIRST_IMAGE_PATH),
-			DSL.selectOne()
-			   .from(PHENOTYPEDATA)
-			   .where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-			   .and(PHENOTYPEDATA.DATASET_ID.in(datasetIds))
-			   .limit(1)
-			   .asField(HAS_TRIALS_DATA),
-			DSL.selectOne()
-			   .from(DATASETMEMBERS)
-			   .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-			   .where(DATASETS.ID.in(datasetIds))
-			   .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-			   .and(DATASETS.DATASETTYPE_ID.eq(1))
-			   .limit(1)
-			   .asField(HAS_GENOTYPIC_DATA),
-			DSL.selectOne()
-			   .from(DATASETMEMBERS)
-			   .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-			   .where(DATASETS.ID.in(datasetIds))
-			   .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-			   .and(DATASETS.DATASETTYPE_ID.eq(4))
-			   .limit(1)
-			   .asField(HAS_ALLELEFREQ_DATA),
-			DSL.coalesce(
-				DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
-				DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
-			).as(HAS_PEDIGREE_DATA)));
+															  GERMINATEBASE.ID.as(GERMPLASM_ID),
+															  GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
+															  GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
+															  MCPD.PUID.as(GERMPLASM_PUID),
+															  ENTITYTYPES.ID.as(ENTITY_TYPE_ID),
+															  ENTITYTYPES.NAME.as(ENTITY_TYPE_NAME),
+															  GERMINATEBASE.ENTITYPARENT_ID.as(ENTITY_PARENT_ID),
+															  g.NAME.as(ENTITY_PARENT_NAME),
+															  g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
+															  BIOLOGICALSTATUS.ID.as(BIOLOGICAL_STATUS_ID),
+															  BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
+															  SYNONYMS.SYNONYMS_.as(SSYNONYMS),
+															  MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
+															  TAXONOMIES.GENUS.as(GENUS),
+															  TAXONOMIES.SPECIES.as(SPECIES),
+															  TAXONOMIES.SUBTAXA.as(SUBTAXA),
+															  institutions.as(INSTITUTIONS_FIELD),
+															  LOCATIONS.ID.as(LOCATION_ID),
+															  LOCATIONS.SITE_NAME.as(LOCATION),
+															  LOCATIONS.LATITUDE.as(LATITUDE),
+															  LOCATIONS.LONGITUDE.as(LONGITUDE),
+															  LOCATIONS.ELEVATION.as(ELEVATION),
+															  COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
+															  COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE),
+															  MCPD.COLLDATE.as(COLL_DATE),
+															  GERMINATEBASE.PDCI.as(PDCI),
+															  DSL.selectCount()
+																 .from(IMAGES)
+																 .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
+																 .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
+																 .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .asField(IMAGE_COUNT),
+															  DSL.select(IMAGES.PATH)
+																 .from(IMAGES)
+																 .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
+																 .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
+																 .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .limit(1)
+																 .asField(FIRST_IMAGE_PATH),
+															  DSL.selectOne()
+																 .from(PHENOTYPEDATA)
+																 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+																 .where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+																 .and(TRIALSETUP.DATASET_ID.in(datasetIds))
+																 .limit(1)
+																 .asField(HAS_TRIALS_DATA),
+															  DSL.selectOne()
+																 .from(DATASETMEMBERS)
+																 .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+																 .where(DATASETS.ID.in(datasetIds))
+																 .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+																 .and(DATASETS.DATASETTYPE_ID.eq(1))
+																 .limit(1)
+																 .asField(HAS_GENOTYPIC_DATA),
+															  DSL.selectOne()
+																 .from(DATASETMEMBERS)
+																 .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+																 .where(DATASETS.ID.in(datasetIds))
+																 .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+																 .and(DATASETS.DATASETTYPE_ID.eq(4))
+																 .limit(1)
+																 .asField(HAS_ALLELEFREQ_DATA),
+															  DSL.coalesce(
+																	  DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
+																	  DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
+															  ).as(HAS_PEDIGREE_DATA)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
@@ -215,73 +217,74 @@ public class GermplasmBaseResource extends ExportResource
 								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
-			GERMINATEBASE.ID.as(GERMPLASM_ID),
-			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
-			GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
-			MCPD.PUID.as(GERMPLASM_PUID),
-			ENTITYTYPES.ID.as(ENTITY_TYPE_ID),
-			ENTITYTYPES.NAME.as(ENTITY_TYPE_NAME),
-			GERMINATEBASE.ENTITYPARENT_ID.as(ENTITY_PARENT_ID),
-			g.NAME.as(ENTITY_PARENT_NAME),
-			g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
-			BIOLOGICALSTATUS.ID.as(BIOLOGICAL_STATUS_ID),
-			BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
-			SYNONYMS.SYNONYMS_.as(SSYNONYMS),
-			MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
-			TAXONOMIES.GENUS.as(GENUS),
-			TAXONOMIES.SPECIES.as(SPECIES),
-			TAXONOMIES.SUBTAXA.as(SUBTAXA),
-			institutions.as(INSTITUTIONS_FIELD),
-			LOCATIONS.ID.as(LOCATION_ID),
-			LOCATIONS.SITE_NAME.as(LOCATION),
-			LOCATIONS.LATITUDE.as(LATITUDE),
-			LOCATIONS.LONGITUDE.as(LONGITUDE),
-			LOCATIONS.ELEVATION.as(ELEVATION),
-			COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
-			COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE),
-			MCPD.COLLDATE.as(COLL_DATE),
-			GERMINATEBASE.PDCI.as(PDCI),
-			DSL.selectCount()
-			   .from(IMAGES)
-			   .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
-			   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
-			   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .asField(IMAGE_COUNT),
-			DSL.select(IMAGES.PATH)
-			   .from(IMAGES)
-			   .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
-			   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
-			   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .limit(1)
-			   .asField(FIRST_IMAGE_PATH),
-			DSL.selectOne()
-			   .from(PHENOTYPEDATA)
-			   .where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-			   .and(PHENOTYPEDATA.DATASET_ID.in(datasetIds))
-			   .limit(1)
-			   .asField(HAS_TRIALS_DATA),
-			DSL.selectOne()
-			   .from(DATASETMEMBERS)
-			   .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-			   .where(DATASETS.ID.in(datasetIds))
-			   .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-			   .and(DATASETS.DATASETTYPE_ID.eq(1))
-			   .limit(1)
-			   .asField(HAS_GENOTYPIC_DATA),
-			DSL.selectOne()
-			   .from(DATASETMEMBERS)
-			   .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-			   .where(DATASETS.ID.in(datasetIds))
-			   .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-			   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-			   .and(DATASETS.DATASETTYPE_ID.eq(4))
-			   .limit(1)
-			   .asField(HAS_ALLELEFREQ_DATA),
-			DSL.coalesce(
-				DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
-				DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
-			).as(HAS_PEDIGREE_DATA)));
+															  GERMINATEBASE.ID.as(GERMPLASM_ID),
+															  GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
+															  GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
+															  MCPD.PUID.as(GERMPLASM_PUID),
+															  ENTITYTYPES.ID.as(ENTITY_TYPE_ID),
+															  ENTITYTYPES.NAME.as(ENTITY_TYPE_NAME),
+															  GERMINATEBASE.ENTITYPARENT_ID.as(ENTITY_PARENT_ID),
+															  g.NAME.as(ENTITY_PARENT_NAME),
+															  g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
+															  BIOLOGICALSTATUS.ID.as(BIOLOGICAL_STATUS_ID),
+															  BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
+															  SYNONYMS.SYNONYMS_.as(SSYNONYMS),
+															  MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
+															  TAXONOMIES.GENUS.as(GENUS),
+															  TAXONOMIES.SPECIES.as(SPECIES),
+															  TAXONOMIES.SUBTAXA.as(SUBTAXA),
+															  institutions.as(INSTITUTIONS_FIELD),
+															  LOCATIONS.ID.as(LOCATION_ID),
+															  LOCATIONS.SITE_NAME.as(LOCATION),
+															  LOCATIONS.LATITUDE.as(LATITUDE),
+															  LOCATIONS.LONGITUDE.as(LONGITUDE),
+															  LOCATIONS.ELEVATION.as(ELEVATION),
+															  COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
+															  COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE),
+															  MCPD.COLLDATE.as(COLL_DATE),
+															  GERMINATEBASE.PDCI.as(PDCI),
+															  DSL.selectCount()
+																 .from(IMAGES)
+																 .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
+																 .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
+																 .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .asField(IMAGE_COUNT),
+															  DSL.select(IMAGES.PATH)
+																 .from(IMAGES)
+																 .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
+																 .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
+																 .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .limit(1)
+																 .asField(FIRST_IMAGE_PATH),
+															  DSL.selectOne()
+																 .from(PHENOTYPEDATA)
+																 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+																 .where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+																 .and(TRIALSETUP.DATASET_ID.in(datasetIds))
+																 .limit(1)
+																 .asField(HAS_TRIALS_DATA),
+															  DSL.selectOne()
+																 .from(DATASETMEMBERS)
+																 .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+																 .where(DATASETS.ID.in(datasetIds))
+																 .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+																 .and(DATASETS.DATASETTYPE_ID.eq(1))
+																 .limit(1)
+																 .asField(HAS_GENOTYPIC_DATA),
+															  DSL.selectOne()
+																 .from(DATASETMEMBERS)
+																 .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+																 .where(DATASETS.ID.in(datasetIds))
+																 .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+																 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+																 .and(DATASETS.DATASETTYPE_ID.eq(4))
+																 .limit(1)
+																 .asField(HAS_ALLELEFREQ_DATA),
+															  DSL.coalesce(
+																	  DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
+																	  DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1)
+															  ).as(HAS_PEDIGREE_DATA)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
@@ -292,14 +295,14 @@ public class GermplasmBaseResource extends ExportResource
 			select.hint("SQL_CALC_FOUND_ROWS");
 
 		SelectJoinStep<?> inner = select.from(GERMINATEBASE)
-										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
-										 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
-										 .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
-										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
-										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
+										.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
+										.leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+										.leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
+										.leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+										.leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
+										.leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
+										.leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+										.leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins))
 		{

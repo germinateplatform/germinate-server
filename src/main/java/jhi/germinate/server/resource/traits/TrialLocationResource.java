@@ -16,6 +16,7 @@ import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 
 @Path("dataset/data/trial/location")
 @Secured
@@ -57,11 +58,11 @@ public class TrialLocationResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			return context.selectCount()
-						  .from(DSL.selectDistinct(PHENOTYPEDATA.LATITUDE, PHENOTYPEDATA.LONGITUDE)
-								   .from(PHENOTYPEDATA)
-								   .where(PHENOTYPEDATA.DATASET_ID.in(requestedIds))
-								   .and(PHENOTYPEDATA.LATITUDE.isNotNull())
-								   .and(PHENOTYPEDATA.LONGITUDE.isNotNull())
+						  .from(DSL.selectDistinct(TRIALSETUP.LATITUDE, TRIALSETUP.LONGITUDE)
+								   .from(TRIALSETUP)
+								   .where(TRIALSETUP.DATASET_ID.in(requestedIds))
+								   .and(TRIALSETUP.LATITUDE.isNotNull())
+								   .and(TRIALSETUP.LONGITUDE.isNotNull())
 								   .asTable())
 						  .fetchOneInto(Long.class);
 		}

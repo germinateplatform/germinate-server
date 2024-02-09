@@ -37,6 +37,7 @@ import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 
 @Path("germplasm/unify")
@@ -137,7 +138,7 @@ public class GermplasmUnifierResource extends ContextResource
 			// Update all references to the old ids
 			context.update(DATASETMEMBERS).set(DATASETMEMBERS.FOREIGN_ID, preferredId).where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2).and(DATASETMEMBERS.FOREIGN_ID.in(otherIds))).execute();
 			context.update(SYNONYMS).set(SYNONYMS.FOREIGN_ID, preferredId).where(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.in(otherIds))).execute();
-			context.update(PHENOTYPEDATA).set(PHENOTYPEDATA.GERMINATEBASE_ID, preferredId).where(PHENOTYPEDATA.GERMINATEBASE_ID.in(otherIds)).execute();
+			context.update(TRIALSETUP).set(TRIALSETUP.GERMINATEBASE_ID, preferredId).where(TRIALSETUP.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREEDEFINITIONS).set(PEDIGREEDEFINITIONS.GERMINATEBASE_ID, preferredId).where(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREES).set(PEDIGREES.GERMINATEBASE_ID, preferredId).where(PEDIGREES.GERMINATEBASE_ID.in(otherIds)).execute();
 			context.update(PEDIGREES).set(PEDIGREES.PARENT_ID, preferredId).where(PEDIGREES.PARENT_ID.in(otherIds)).execute();

@@ -20,6 +20,7 @@ import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.Treatments.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 import static jhi.germinate.server.database.codegen.tables.Units.*;
 
 public class TrialsDataBaseResource extends ExportResource
@@ -93,13 +94,13 @@ public class TrialsDataBaseResource extends ExportResource
 				PHENOTYPES.RESTRICTIONS.as(TRAIT_RESTRICTIONS),
 				UNITS.UNIT_NAME.as(UNIT_NAME),
 				TREATMENTS.NAME.as(TREATMENT),
-				PHENOTYPEDATA.REP.as(REP),
-				PHENOTYPEDATA.BLOCK.as(BLOCK),
-				PHENOTYPEDATA.TRIAL_ROW.as(TRIAL_ROW),
-				PHENOTYPEDATA.TRIAL_COLUMN.as(TRIAL_COLUMN),
-				PHENOTYPEDATA.LATITUDE.as(LATITUDE),
-				PHENOTYPEDATA.LONGITUDE.as(LONGITUDE),
-				PHENOTYPEDATA.ELEVATION.as(ELEVATION),
+				TRIALSETUP.REP.as(REP),
+				TRIALSETUP.BLOCK.as(BLOCK),
+				TRIALSETUP.TRIAL_ROW.as(TRIAL_ROW),
+				TRIALSETUP.TRIAL_COLUMN.as(TRIAL_COLUMN),
+				TRIALSETUP.LATITUDE.as(LATITUDE),
+				TRIALSETUP.LONGITUDE.as(LONGITUDE),
+				TRIALSETUP.ELEVATION.as(ELEVATION),
 				PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE),
 				PHENOTYPEDATA.PHENOTYPE_VALUE.as(TRAIT_VALUE));
 		}
@@ -116,16 +117,17 @@ public class TrialsDataBaseResource extends ExportResource
 
 		SelectJoinStep<?> inner = context.select(fields)
 										 .from(PHENOTYPEDATA)
-										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
+										 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
 										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
 										 .leftJoin(SYNONYMS).on(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID).and(SYNONYMS.SYNONYMTYPE_ID.eq(1)))
 										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
 										 .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 										 .leftJoin(UNITS).on(UNITS.ID.eq(PHENOTYPES.UNIT_ID))
-										 .leftJoin(DATASETS).on(DATASETS.ID.eq(PHENOTYPEDATA.DATASET_ID))
-										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(PHENOTYPEDATA.LOCATION_ID))
+										 .leftJoin(DATASETS).on(DATASETS.ID.eq(TRIALSETUP.DATASET_ID))
+										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(TRIALSETUP.LOCATION_ID))
 										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(PHENOTYPEDATA.TREATMENT_ID));
+										 .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(TRIALSETUP.TREATMENT_ID));
 
 		if (!CollectionUtils.isEmpty(joins))
 		{
@@ -143,10 +145,10 @@ public class TrialsDataBaseResource extends ExportResource
 			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 			GERMINATEBASE.NAME.as(GERMPLASM_NAME),
 			DATASETS.ID.as(DATASET_ID),
-			PHENOTYPEDATA.REP.as(REP),
-			PHENOTYPEDATA.BLOCK.as(BLOCK),
-			PHENOTYPEDATA.TRIAL_ROW.as(TRIAL_ROW),
-			PHENOTYPEDATA.TRIAL_COLUMN.as(TRIAL_COLUMN)));
+			TRIALSETUP.REP.as(REP),
+			TRIALSETUP.BLOCK.as(BLOCK),
+			TRIALSETUP.TRIAL_ROW.as(TRIAL_ROW),
+			TRIALSETUP.TRIAL_COLUMN.as(TRIAL_COLUMN)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
@@ -158,8 +160,9 @@ public class TrialsDataBaseResource extends ExportResource
 
 		SelectJoinStep<?> inner = context.selectDistinct(fields)
 										 .from(PHENOTYPEDATA)
-										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
-										 .leftJoin(DATASETS).on(DATASETS.ID.eq(PHENOTYPEDATA.DATASET_ID));
+										 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
+										 .leftJoin(DATASETS).on(DATASETS.ID.eq(TRIALSETUP.DATASET_ID));
 
 		if (!CollectionUtils.isEmpty(joins))
 		{
@@ -187,16 +190,17 @@ public class TrialsDataBaseResource extends ExportResource
 
 		SelectJoinStep<?> inner = context.select(fields)
 										 .from(PHENOTYPEDATA)
-										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))
+										 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
 										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
 										 .leftJoin(SYNONYMS).on(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID).and(SYNONYMS.SYNONYMTYPE_ID.eq(1)))
 										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
 										 .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 										 .leftJoin(UNITS).on(UNITS.ID.eq(PHENOTYPES.UNIT_ID))
-										 .leftJoin(DATASETS).on(DATASETS.ID.eq(PHENOTYPEDATA.DATASET_ID))
-										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(PHENOTYPEDATA.LOCATION_ID))
+										 .leftJoin(DATASETS).on(DATASETS.ID.eq(TRIALSETUP.DATASET_ID))
+										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(TRIALSETUP.LOCATION_ID))
 										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(PHENOTYPEDATA.TREATMENT_ID));
+										 .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(TRIALSETUP.TREATMENT_ID));
 
 		if (!CollectionUtils.isEmpty(joins))
 		{

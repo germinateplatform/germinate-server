@@ -211,7 +211,7 @@ public class Database
 			try (Connection conn = getConnection())
 			{
 				DSLContext context = Database.getContext(conn);
-				context.execute("ALTER DATABASE `" + databaseName + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+				context.execute("ALTER DATABASE `" + databaseName + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
 			}
 			catch (SQLException | DataAccessException e)
 			{

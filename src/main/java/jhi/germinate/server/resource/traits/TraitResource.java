@@ -18,6 +18,7 @@ import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 
 @Path("trait/{traitId:\\d+}")
 public class TraitResource extends ContextResource
@@ -85,7 +86,8 @@ public class TraitResource extends ContextResource
 			List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
 
 			return context.selectDistinct(PHENOTYPEDATA.PHENOTYPE_VALUE).from(PHENOTYPEDATA)
-						  .where(PHENOTYPEDATA.DATASET_ID.in(datasets))
+						  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+						  .where(TRIALSETUP.DATASET_ID.in(datasets))
 						  .and(PHENOTYPEDATA.PHENOTYPE_ID.eq(traitId))
 						  .orderBy(PHENOTYPEDATA.PHENOTYPE_VALUE)
 						  .fetchInto(String.class);

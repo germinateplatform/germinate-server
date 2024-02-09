@@ -22,6 +22,7 @@ import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.Grouptypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 
 @Path("dataset/group")
 @Secured
@@ -128,10 +129,10 @@ public class DatasetGroupResource extends ContextResource
 				   .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
 				   .where(GROUPS.GROUPTYPE_ID.eq(3))
 				   .and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userId)))
-				   .andExists(DSL.selectOne().from(PHENOTYPEDATA)
-								 .where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
+				   .andExists(DSL.selectOne().from(TRIALSETUP)
+								 .where(TRIALSETUP.GERMINATEBASE_ID.eq(GROUPMEMBERS.FOREIGN_ID))
 								 .and(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID))
-								 .and(PHENOTYPEDATA.DATASET_ID.in(requestedIds)));
+								 .and(TRIALSETUP.DATASET_ID.in(requestedIds)));
 	}
 
 	private SelectConditionStep<? extends Record> getGenotypeAllelefreqMarkerGroups(SelectSelectStep<? extends Record> step, List<Integer> requestedIds, Integer userId)

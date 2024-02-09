@@ -21,12 +21,13 @@ import java.util.function.Function;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
-import static jhi.germinate.server.database.codegen.tables.Treatments.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Treatments.TREATMENTS;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("dataset/stats/trial")
 @Secured
@@ -37,7 +38,7 @@ public class TraitStatsResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public TraitDatasetStats postTraitStats(SubsettedDatasetRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null)
 		{
@@ -70,7 +71,8 @@ public class TraitStatsResource extends ContextResource
 			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_TRAITS)
 																.whereExists(DSL.selectOne()
 																				.from(PHENOTYPEDATA)
-																				.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+																				.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+																				.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
 																				.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)));
 
 			if (!CollectionUtils.isEmpty(request.getxIds()))
@@ -88,28 +90,29 @@ public class TraitStatsResource extends ContextResource
 			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
 
 			Field<String> groupIds = CollectionUtils.isEmpty(request.getyGroupIds())
-				? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
-				: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-					 .from(GROUPMEMBERS)
-					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-					 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-					 .and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID)).asField("groupIds");
+					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
+					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+						 .from(GROUPMEMBERS)
+						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+						 .and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID)).asField("groupIds");
 
 			// Run the query
 			SelectOnConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> dataStep = context.select(
-																									   PHENOTYPEDATA.DATASET_ID,
-																									   PHENOTYPEDATA.PHENOTYPE_ID,
-																									   PHENOTYPEDATA.TREATMENT_ID,
-																									   // Now, get the concatenated group names for the requested selection.
-																									   groupIds,
-																									   DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
-																								   )
-																								   .from(PHENOTYPEDATA)
-																								   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
+																													TRIALSETUP.DATASET_ID,
+																													PHENOTYPEDATA.PHENOTYPE_ID,
+																													TRIALSETUP.TREATMENT_ID,
+																													// Now, get the concatenated group names for the requested selection.
+																													groupIds,
+																													DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
+																											)
+																											.from(PHENOTYPEDATA)
+																											.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+																											.leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
 
 			// Restrict to dataset ids and phenotype ids
-			SelectConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> condStep = dataStep.where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
-																								  .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
+			SelectConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> condStep = dataStep.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
+																										   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
 
 			SelectLimitStep<Record5<Integer, Integer, Integer, String, BigDecimal>> orderByStep;
 
@@ -117,26 +120,26 @@ public class TraitStatsResource extends ContextResource
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
 			{
 				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
-				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(PHENOTYPEDATA.GERMINATEBASE_ID))));
+				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID))));
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(PHENOTYPEDATA.ID)
 									  .having(groupIds.isNotNull())
-									  .orderBy(groupIds, PHENOTYPEDATA.PHENOTYPE_ID, PHENOTYPEDATA.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
+									  .orderBy(groupIds, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 			else
 			{
 				// If nothing specific was requested, order by dataset instead
-				orderByStep = dataStep.orderBy(PHENOTYPEDATA.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, PHENOTYPEDATA.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
+				orderByStep = dataStep.orderBy(TRIALSETUP.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 
 			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getyGroupIds());
 
 			// This consumes the database result and generates the stats
 			Consumer<Record5<Integer, Integer, Integer, String, BigDecimal>> consumer = pd -> {
-				Integer datasetId = pd.get(PHENOTYPEDATA.DATASET_ID);
+				Integer datasetId = pd.get(TRIALSETUP.DATASET_ID);
 				Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
-				Integer treatmentId = pd.get(PHENOTYPEDATA.TREATMENT_ID);
+				Integer treatmentId = pd.get(TRIALSETUP.TREATMENT_ID);
 				String groupId = pd.get(groupIds);
 
 				String key;
@@ -179,17 +182,18 @@ public class TraitStatsResource extends ContextResource
 			if (!CollectionUtils.isEmpty(request.getyIds()))
 			{
 				context.select(
-						   PHENOTYPEDATA.DATASET_ID,
-						   PHENOTYPEDATA.PHENOTYPE_ID,
-						   PHENOTYPEDATA.TREATMENT_ID,
-						   DSL.inline("Marked items").as("groupIds"),
-						   DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
+							   TRIALSETUP.DATASET_ID,
+							   PHENOTYPEDATA.PHENOTYPE_ID,
+							   TRIALSETUP.TREATMENT_ID,
+							   DSL.inline("Marked items").as("groupIds"),
+							   DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 					   )
 					   .from(PHENOTYPEDATA)
+					   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-					   .where(PHENOTYPEDATA.DATASET_ID.in(requestedDatasetIds))
+					   .where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
 					   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
-					   .and(PHENOTYPEDATA.GERMINATEBASE_ID.in(request.getyIds()))
+					   .and(TRIALSETUP.GERMINATEBASE_ID.in(request.getyIds()))
 					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
 					   .forEach(consumer);
 			}

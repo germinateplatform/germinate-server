@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.datasets;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.*;
@@ -8,25 +11,22 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-import java.io.*;
 import java.io.File;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Climates.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetlocations.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
-import static jhi.germinate.server.database.codegen.tables.Units.*;
+import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
+import static jhi.germinate.server.database.codegen.tables.Datasetlocations.DATASETLOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Units.UNITS;
 
 @Path("dataset/crosscomparison")
 @Secured
@@ -37,7 +37,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postDatasetCrossDataType(DatasetCrossDataTypeRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null || request.getFirst() == null || request.getSecond() == null || request.getFirst().getType() == null || request.getSecond().getType() == null)
 		{
@@ -108,9 +108,9 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				ViewTableGermplasmDeprecated y = ViewTableGermplasmDeprecated.VIEW_TABLE_GERMPLASM_DEPRECATED.as("y");
 
 				Optional<Field<?>> firstField = x.fieldStream().filter(tf -> Objects.equals(tf.getName(), firstColumnName))
-												  .findAny();
+												 .findAny();
 				Optional<Field<?>> secondField = y.fieldStream().filter(tf -> Objects.equals(tf.getName(), secondColumnName))
-											.findAny();
+												  .findAny();
 
 				if (firstField.isEmpty() || secondField.isEmpty())
 				{
@@ -124,20 +124,20 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				secondDisplayName = secondDisplayName.substring(0, 1).toUpperCase() + secondDisplayName.substring(1);
 
 				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					firstField.get().as(firstDisplayName),
-					secondField.get().as(secondDisplayName)
-				).from(GERMINATEBASE)
+									  GERMINATEBASE.NAME.as("name"),
+									  GERMINATEBASE.ID.as("dbId"),
+									  GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
+									  firstField.get().as(firstDisplayName),
+									  secondField.get().as(secondDisplayName)
+							  ).from(GERMINATEBASE)
 							  .leftJoin(x).on(x.GERMPLASM_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(y).on(y.GERMPLASM_ID.eq(GERMINATEBASE.ID))
-				.where(DSL.val(1).eq(1));
+							  .where(DSL.val(1).eq(1));
 
 				addFiltering(step, userDetails, first, second, x.GERMPLASM_ID, y.GERMPLASM_ID, null, null);
 			}
 			else if ((f == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
-				|| (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN))
+					|| (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN))
 			{
 				DatasetCrossDataTypeRequest.Config climate = first.getType() == DatasetCrossDataTypeRequest.DataType.CLIMATE ? first : second;
 				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
@@ -168,12 +168,12 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
 
 				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.CLIMATE_VALUE.as(climates.get(climate.getId())),
-					field.get().as(displayName)
-				).from(GERMINATEBASE)
+									  GERMINATEBASE.NAME.as("name"),
+									  GERMINATEBASE.ID.as("dbId"),
+									  GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
+									  x.CLIMATE_VALUE.as(climates.get(climate.getId())),
+									  field.get().as(displayName)
+							  ).from(GERMINATEBASE)
 							  .leftJoin(x).on(x.LOCATION_ID.eq(GERMINATEBASE.LOCATION_ID))
 							  .leftJoin(y).on(y.GERMPLASM_ID.eq(GERMINATEBASE.ID))
 							  .where(x.CLIMATE_ID.eq(climate.getId()));
@@ -181,7 +181,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				addFiltering(step, userDetails, climate, germplasm, x.LOCATION_ID, y.GERMPLASM_ID, x.DATASET_ID, x.DATASET_ID);
 			}
 			else if ((f == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN && s == DatasetCrossDataTypeRequest.DataType.TRAIT)
-				|| (f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN))
+					|| (f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN))
 			{
 				DatasetCrossDataTypeRequest.Config trait = first.getType() == DatasetCrossDataTypeRequest.DataType.TRAIT ? first : second;
 				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
@@ -197,6 +197,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				Map<Integer, String> traits = getTraitMapping(context, trait.getId());
 
 				Phenotypedata x = Phenotypedata.PHENOTYPEDATA.as("x");
+				Trialsetup xs = Trialsetup.TRIALSETUP.as("xs");
 				ViewTableGermplasmDeprecated y = ViewTableGermplasmDeprecated.VIEW_TABLE_GERMPLASM_DEPRECATED.as("y");
 
 				Optional<Field<?>> field = y.fieldStream().filter(tf -> Objects.equals(tf.getName(), germplasmColumn))
@@ -212,17 +213,18 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
 
 				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.PHENOTYPE_VALUE.as(traits.get(trait.getId())),
-					field.get().as(displayName)
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+									  GERMINATEBASE.NAME.as("name"),
+									  GERMINATEBASE.ID.as("dbId"),
+									  GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
+									  x.PHENOTYPE_VALUE.as(traits.get(trait.getId())),
+									  field.get().as(displayName)
+							  ).from(GERMINATEBASE)
+							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(y).on(y.GERMPLASM_ID.eq(GERMINATEBASE.ID))
 							  .where(x.PHENOTYPE_ID.eq(trait.getId()));
 
-				addFiltering(step, userDetails, trait, germplasm, x.GERMINATEBASE_ID, y.GERMPLASM_ID, x.DATASET_ID, x.DATASET_ID);
+				addFiltering(step, userDetails, trait, germplasm, xs.GERMINATEBASE_ID, y.GERMPLASM_ID, xs.DATASET_ID, xs.DATASET_ID);
 			}
 			else if (f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.TRAIT)
 			{
@@ -236,23 +238,27 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 				// Get the actual data.
 				Phenotypedata x = Phenotypedata.PHENOTYPEDATA.as("x");
+				Trialsetup xs = Trialsetup.TRIALSETUP.as("xs");
 				Phenotypedata y = Phenotypedata.PHENOTYPEDATA.as("y");
+				Trialsetup ys = Trialsetup.TRIALSETUP.as("ys");
 				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.PHENOTYPE_VALUE.as(traits.get(first.getId())),
-					y.PHENOTYPE_VALUE.as(traits.get(second.getId()))
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-							  .leftJoin(y).on(y.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+									  GERMINATEBASE.NAME.as("name"),
+									  GERMINATEBASE.ID.as("dbId"),
+									  GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
+									  x.PHENOTYPE_VALUE.as(traits.get(first.getId())),
+									  y.PHENOTYPE_VALUE.as(traits.get(second.getId()))
+							  ).from(GERMINATEBASE)
+							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
+							  .leftJoin(ys).on(ys.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+							  .leftJoin(y).on(y.TRIALSETUP_ID.eq(ys.ID))
 							  .where(x.PHENOTYPE_ID.eq(first.getId()))
 							  .and(y.PHENOTYPE_ID.eq(second.getId()));
 
-				addFiltering(step, userDetails, first, second, x.GERMINATEBASE_ID, y.GERMINATEBASE_ID, x.DATASET_ID, y.DATASET_ID);
+				addFiltering(step, userDetails, first, second, xs.GERMINATEBASE_ID, ys.GERMINATEBASE_ID, xs.DATASET_ID, ys.DATASET_ID);
 			}
 			else if ((f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
-				|| (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.TRAIT))
+					|| (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.TRAIT))
 			{
 				DatasetCrossDataTypeRequest.Config trait = first.getType() == DatasetCrossDataTypeRequest.DataType.TRAIT ? first : second;
 				DatasetCrossDataTypeRequest.Config climate = first.getType() == DatasetCrossDataTypeRequest.DataType.CLIMATE ? first : second;
@@ -268,20 +274,22 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 				// Get the actual data.
 				Phenotypedata x = Phenotypedata.PHENOTYPEDATA.as("x");
+				Trialsetup xs = Trialsetup.TRIALSETUP.as("xs");
 				Climatedata y = Climatedata.CLIMATEDATA.as("y");
 				step = context.select(
-					GERMINATEBASE.NAME.as("name"),
-					GERMINATEBASE.ID.as("dbId"),
-					GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
-					x.PHENOTYPE_VALUE.as(traits.get(trait.getId())),
-					y.CLIMATE_VALUE.as(climates.get(climate.getId()))
-				).from(GERMINATEBASE)
-							  .leftJoin(x).on(x.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+									  GERMINATEBASE.NAME.as("name"),
+									  GERMINATEBASE.ID.as("dbId"),
+									  GERMINATEBASE.GENERAL_IDENTIFIER.as("general_identifier"),
+									  x.PHENOTYPE_VALUE.as(traits.get(trait.getId())),
+									  y.CLIMATE_VALUE.as(climates.get(climate.getId()))
+							  ).from(GERMINATEBASE)
+							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(y).on(y.LOCATION_ID.in(DSL.select(DATASETLOCATIONS.LOCATION_ID).from(DATASETLOCATIONS).where(DATASETLOCATIONS.DATASET_ID.in(trait.getDatasetIds()))))
 							  .where(x.PHENOTYPE_ID.eq(trait.getId()))
 							  .and(y.CLIMATE_ID.eq(climate.getId()));
 
-				addFiltering(step, userDetails, trait, climate, x.GERMINATEBASE_ID, y.LOCATION_ID, x.DATASET_ID, y.DATASET_ID);
+				addFiltering(step, userDetails, trait, climate, xs.GERMINATEBASE_ID, y.LOCATION_ID, xs.DATASET_ID, y.DATASET_ID);
 			}
 			else if (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
 			{
@@ -297,12 +305,12 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				Climatedata x = Climatedata.CLIMATEDATA.as("x");
 				Climatedata y = Climatedata.CLIMATEDATA.as("y");
 				step = context.select(
-					LOCATIONS.SITE_NAME.as("name"),
-					LOCATIONS.ID.as("dbId"),
-					DSL.val("").as("general_identifier"),
-					x.CLIMATE_VALUE.as(climates.get(first.getId())),
-					y.CLIMATE_VALUE.as(climates.get(second.getId()))
-				).from(LOCATIONS)
+									  LOCATIONS.SITE_NAME.as("name"),
+									  LOCATIONS.ID.as("dbId"),
+									  DSL.val("").as("general_identifier"),
+									  x.CLIMATE_VALUE.as(climates.get(first.getId())),
+									  y.CLIMATE_VALUE.as(climates.get(second.getId()))
+							  ).from(LOCATIONS)
 							  .leftJoin(x).on(x.LOCATION_ID.eq(LOCATIONS.ID))
 							  .leftJoin(y).on(y.LOCATION_ID.eq(LOCATIONS.ID))
 							  .where(x.CLIMATE_ID.eq(first.getId()))
@@ -327,9 +335,9 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 		java.nio.file.Path target = resultFile.toPath();
 		return Response.ok((StreamingOutput) output -> {
-			Files.copy(target, output);
-			Files.deleteIfExists(target);
-		})
+						   Files.copy(target, output);
+						   Files.deleteIfExists(target);
+					   })
 					   .type(MediaType.TEXT_PLAIN)
 					   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")
 					   .header("content-length", resultFile.length())

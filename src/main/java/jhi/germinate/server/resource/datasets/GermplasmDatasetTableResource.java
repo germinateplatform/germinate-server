@@ -16,6 +16,7 @@ import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 
 @Path("germplasm/{germplasmId}/dataset")
@@ -34,8 +35,8 @@ public class GermplasmDatasetTableResource extends BaseDatasetTableResource
 																				 .and(PEDIGREES.GERMINATEBASE_ID.eq(germplasmId))))
 			   .orExists(DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
 																									   .and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(germplasmId))))
-			   .orExists(DSL.selectOne().from(PHENOTYPEDATA).where(PHENOTYPEDATA.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
-																						   .and(PHENOTYPEDATA.GERMINATEBASE_ID.eq(germplasmId))))
+			   .orExists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(TRIALSETUP.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
+																						   .and(TRIALSETUP.GERMINATEBASE_ID.eq(germplasmId))))
 			   .orExists(DSL.selectOne().from(DATASETMEMBERS).where(DATASETMEMBERS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
 																							 .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
 																							 .and(DATASETMEMBERS.FOREIGN_ID.eq(germplasmId))))));

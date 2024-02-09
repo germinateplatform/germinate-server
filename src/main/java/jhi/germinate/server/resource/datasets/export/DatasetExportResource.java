@@ -34,21 +34,22 @@ import java.util.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
-import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
-import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
-import static jhi.germinate.server.database.codegen.tables.Treatments.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
+import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
+import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.DATASETACCESSLOGS;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES;
+import static jhi.germinate.server.database.codegen.tables.Treatments.TREATMENTS;
+import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.VIEW_TABLE_CLIMATES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.VIEW_TABLE_LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("dataset/export")
 @Secured
@@ -60,7 +61,7 @@ public class DatasetExportResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public AsyncExportResult postJson(AlleleFrequencyDatasetRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 		{
@@ -105,15 +106,15 @@ public class DatasetExportResource extends ContextResource
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setDatatype(DataExportJobsDatatype.allelefreq);
 			dbJob.setJobConfig(new ExportJobDetails()
-				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-				.setxIds(request.getxIds())
-				.setxGroupIds(request.getxGroupIds())
-				.setyIds(request.getyIds())
-				.setyGroupIds(request.getyGroupIds())
-				.setSubsetId(request.getMapId())
-				.setBinningConfig(request.getConfig())
-				.setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
-				.setFileTypes(request.getFileTypes()));
+									   .setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+									   .setxIds(request.getxIds())
+									   .setxGroupIds(request.getxGroupIds())
+									   .setyIds(request.getyIds())
+									   .setyGroupIds(request.getyGroupIds())
+									   .setSubsetId(request.getMapId())
+									   .setBinningConfig(request.getConfig())
+									   .setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
+									   .setFileTypes(request.getFileTypes()));
 			dbJob.setStatus(DataExportJobsStatus.waiting);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
@@ -162,7 +163,7 @@ public class DatasetExportResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postJson(SubsettedGenotypeDatasetRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 		{
@@ -237,7 +238,7 @@ public class DatasetExportResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postDatasetExportClimate(SubsettedDatasetRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null)
 		{
@@ -332,7 +333,7 @@ public class DatasetExportResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	public Response postDatasetExportTrial(SubsettedDatasetRequest request, @QueryParam("format") String formatString)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null)
 		{
@@ -424,14 +425,14 @@ public class DatasetExportResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	public Response postDatasetExportPedigree(PedigreeRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		return PedigreeResource.exportFlatFile(request, req, resp, securityContext);
 	}
 
 
 	private File exportIsaTab(SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		File zipFile = ResourceUtils.createTempFile(null, "trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), ".zip", false);
 		List<File> resultFiles = new ArrayList<>();
@@ -489,7 +490,7 @@ public class DatasetExportResource extends ContextResource
 	}
 
 	private File exportTabFast(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
-		throws GerminateException, IOException
+			throws GerminateException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
 
@@ -516,7 +517,7 @@ public class DatasetExportResource extends ContextResource
 			// Get the requested traits
 			Map<Integer, String> traits = new LinkedHashMap<>();
 			SelectConditionStep<ViewTableTraitsRecord> step = context.selectFrom(VIEW_TABLE_TRAITS)
-																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).where(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)).and(PHENOTYPEDATA.DATASET_ID.in(datasetIds)).limit(1));
+																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)).and(TRIALSETUP.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Limit to requested traits
 			if (!CollectionUtils.isEmpty(request.getxIds()))
@@ -542,15 +543,15 @@ public class DatasetExportResource extends ContextResource
 			// Select the germplasm
 			jhi.germinate.server.database.codegen.tables.Germinatebase g = GERMINATEBASE.as("g");
 			List<Field<?>> fields = new ArrayList<>(Arrays.asList(
-				GERMINATEBASE.ID.as("germplasmId"),
-				GERMINATEBASE.NAME.as("germplasmName"),
-				GERMINATEBASE.GENERAL_IDENTIFIER.as("germplasmGid"),
-				TAXONOMIES.GENUS.as("genus"),
-				TAXONOMIES.SPECIES.as("species"),
-				TAXONOMIES.SUBTAXA.as("subtaxa"),
-				MCPD.PUID.as("puid"),
-				g.NAME.as("entityParentName"),
-				g.GENERAL_IDENTIFIER.as("entityParentGeneralIdentifier")
+					GERMINATEBASE.ID.as("germplasmId"),
+					GERMINATEBASE.NAME.as("germplasmName"),
+					GERMINATEBASE.GENERAL_IDENTIFIER.as("germplasmGid"),
+					TAXONOMIES.GENUS.as("genus"),
+					TAXONOMIES.SPECIES.as("species"),
+					TAXONOMIES.SUBTAXA.as("subtaxa"),
+					MCPD.PUID.as("puid"),
+					g.NAME.as("entityParentName"),
+					g.GENERAL_IDENTIFIER.as("entityParentGeneralIdentifier")
 			));
 
 			if (hasGroupIds != null)
@@ -575,7 +576,7 @@ public class DatasetExportResource extends ContextResource
 					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID).and(GROUPS.GROUPTYPE_ID.eq(3)));
 
 			// The overall condition, by default only limiting to the germplasm that has phenotypic data in those datasets
-			Condition condition = DSL.exists(DSL.selectOne().from(PHENOTYPEDATA).where(PHENOTYPEDATA.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).and(PHENOTYPEDATA.DATASET_ID.in(datasetIds)).limit(1));
+			Condition condition = DSL.exists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).and(TRIALSETUP.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Add the optional conditions
 			if (hasMarkedIds != null && hasGroupIds != null)
@@ -610,30 +611,33 @@ public class DatasetExportResource extends ContextResource
 			final Calendar calendar = Calendar.getInstance();
 
 			// Iterate all phenotypic data based on request
-			context.selectFrom(PHENOTYPEDATA)
-				   .where(PHENOTYPEDATA.DATASET_ID.in(datasetIds))
-				   .and(PHENOTYPEDATA.GERMINATEBASE_ID.in(germplasm.keySet()))
+			context.select().from(PHENOTYPEDATA)
+				   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+				   .where(TRIALSETUP.DATASET_ID.in(datasetIds))
+				   .and(TRIALSETUP.GERMINATEBASE_ID.in(germplasm.keySet()))
 				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traits.keySet()))
 //				   .orderBy(PHENOTYPEDATA.GERMINATEBASE_ID, PHENOTYPEDATA.REP, PHENOTYPEDATA.TRIAL_ROW, PHENOTYPEDATA.TRIAL_COLUMN, PHENOTYPEDATA.TREATMENT_ID)
 				   .stream()
 				   .forEach(pd -> {
-					   ViewTableTrialGermplasm gp = germplasm.get(pd.getGerminatebaseId());
-					   String rep = pd.getRep();
-					   Short trialRow = pd.getTrialRow();
-					   Short trialColumn = pd.getTrialColumn();
-					   String traitHeader = traits.get(pd.getPhenotypeId());
+					   ViewTableTrialGermplasm gp = germplasm.get(pd.get(TRIALSETUP.GERMINATEBASE_ID));
+					   String rep = pd.get(TRIALSETUP.REP);
+					   Short trialRow = pd.get(TRIALSETUP.TRIAL_ROW);
+					   Short trialColumn = pd.get(TRIALSETUP.TRIAL_COLUMN);
+					   String traitHeader = traits.get(pd.get(PHENOTYPEDATA.PHENOTYPE_ID));
 					   int traitIndex = traitsOrdered.indexOf(traitHeader);
-					   String treatment = treatments.get(pd.getTreatmentId());
+					   String treatment = treatments.get(pd.get(TRIALSETUP.TREATMENT_ID));
 					   Integer year = null;
 
-					   if (pd.getRecordingDate() != null) {
-						   calendar.setTime(pd.getRecordingDate());
+					   Timestamp timestamp = pd.get(PHENOTYPEDATA.RECORDING_DATE);
+					   if (timestamp != null)
+					   {
+						   calendar.setTime(timestamp);
 						   year = calendar.get(Calendar.YEAR);
 					   }
 
 					   // Create a record
-					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmName(), rep, year, trialRow, trialColumn, treatment, pd.getDatasetId(), pd.getLocationId(), pd.get(PHENOTYPEDATA.LATITUDE, Double.class), pd.get(PHENOTYPEDATA.LONGITUDE, Double.class), pd.get(PHENOTYPEDATA.ELEVATION, Double.class));
-					   String value = pd.getPhenotypeValue();
+					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmName(), rep, year, trialRow, trialColumn, treatment, pd.get(TRIALSETUP.DATASET_ID), pd.get(TRIALSETUP.LOCATION_ID), pd.get(TRIALSETUP.LATITUDE, Double.class), pd.get(TRIALSETUP.LONGITUDE, Double.class), pd.get(TRIALSETUP.ELEVATION, Double.class));
+					   String value = pd.get(PHENOTYPEDATA.PHENOTYPE_VALUE);
 
 					   // Get or create the data
 					   String[] data = dataMap.computeIfAbsent(record, k -> new String[traits.size()]);
@@ -669,7 +673,8 @@ public class DatasetExportResource extends ContextResource
 					   String elevation = gp.elevation == null ? "" : String.valueOf(gp.elevation);
 					   String groupString = "";
 
-					   if (!CollectionUtils.isEmpty(gpdb.getGroupIds())) {
+					   if (!CollectionUtils.isEmpty(gpdb.getGroupIds()))
+					   {
 						   List<String> germplasmGroups = gpdb.getGroupIds().stream().map(gr -> {
 							   GroupsRecord group = groups.get(gr);
 							   return StringUtils.truncate(group.getName(), 10);
@@ -700,7 +705,7 @@ public class DatasetExportResource extends ContextResource
 	}
 
 	private File exportTabFastClimate(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
-		throws GerminateException, IOException
+			throws GerminateException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
 
