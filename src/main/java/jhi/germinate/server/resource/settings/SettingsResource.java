@@ -92,6 +92,7 @@ public class SettingsResource
 									   .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 									   .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 									   .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
+									   .setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
 									   .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
 									   .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
 									   .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
@@ -163,6 +164,7 @@ public class SettingsResource
 			  .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
 			  .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
 			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
+			  .setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
 			  .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
 			  .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
 			  .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured());
@@ -216,6 +218,7 @@ public class SettingsResource
 		PropertyWatcher.set(ServerProperty.GATEKEEPER_URL, config.getGatekeeperUrl());
 		PropertyWatcher.setBoolean(ServerProperty.COMMENTS_ENABLED, config.getCommentsEnabled());
 		PropertyWatcher.set(ServerProperty.DATA_IMPORT_MODE, config.getDataImportMode().name());
+		PropertyWatcher.set(ServerProperty.GRIDSCORE_URL, config.getGridscoreUrl());
 		PropertyWatcher.set(ServerProperty.HELIUM_URL, config.getHeliumUrl());
 		PropertyWatcher.set(ServerProperty.FIELDHUB_URL, config.getFieldhubUrl());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, config.getHiddenColumns().getGermplasm());

@@ -28,6 +28,7 @@ public class ClientConfiguration
 	private List<String>       hiddenPages;
 	private Boolean            registrationEnabled;
 	private Boolean            showGdprNotification;
+	private String             gridscoreUrl;
 	private String             heliumUrl;
 	private String             fieldhubUrl;
 	private HiddenColumns      hiddenColumns;
@@ -243,6 +244,17 @@ public class ClientConfiguration
 	public ClientConfiguration setDataImportMode(DataImportMode dataImportMode)
 	{
 		this.dataImportMode = dataImportMode;
+		return this;
+	}
+
+	public String getGridscoreUrl()
+	{
+		return gridscoreUrl;
+	}
+
+	public ClientConfiguration setGridscoreUrl(String gridscoreUrl)
+	{
+		this.gridscoreUrl = gridscoreUrl;
 		return this;
 	}
 

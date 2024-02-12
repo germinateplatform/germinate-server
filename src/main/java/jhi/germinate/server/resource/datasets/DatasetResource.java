@@ -28,7 +28,7 @@ public class DatasetResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Integer postDataset(Datasets newDataset)
+	public ViewTableDatasets postDataset(Datasets newDataset)
 			throws SQLException, IOException
 	{
 		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
@@ -47,7 +47,7 @@ public class DatasetResource extends ContextResource
 			dataset.setCreatedBy(userDetails.getId());
 			dataset.store();
 
-			return dataset.getId();
+			return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
 		}
 	}
 
