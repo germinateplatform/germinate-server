@@ -6,6 +6,7 @@ public class ExportRequest
 {
 	private Filter[]            filter;
 	private Map<String, String> columnNameMapping = new HashMap<>();
+	private String              forcedFileExtension;
 
 	public Filter[] getFilter()
 	{
@@ -26,6 +27,17 @@ public class ExportRequest
 	public ExportRequest setColumnNameMapping(Map<String, String> columnNameMapping)
 	{
 		this.columnNameMapping = columnNameMapping;
+		return this;
+	}
+
+	public String getForcedFileExtension()
+	{
+		return forcedFileExtension;
+	}
+
+	public ExportRequest setForcedFileExtension(String forcedFileExtension)
+	{
+		this.forcedFileExtension = forcedFileExtension;
 		return this;
 	}
 }

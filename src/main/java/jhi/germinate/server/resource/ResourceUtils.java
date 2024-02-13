@@ -46,6 +46,12 @@ public class ResourceUtils
 	public static Response exportToZip(Result<? extends Record> results, HttpServletResponse resp, String name, Map<String, String> columnMapping)
 			throws IOException
 	{
+		return exportToZip(results, resp, name, columnMapping, null);
+	}
+
+	public static Response exportToZip(Result<? extends Record> results, HttpServletResponse resp, String name, Map<String, String> columnMapping, String forcedFileExtension)
+			throws IOException
+	{
 		try
 		{
 			File zipFile = createTempFile(null, name + "-" + DateTimeUtils.getFormattedDateTime(new Date()), ".zip", false);
@@ -63,8 +69,13 @@ public class ResourceUtils
 			if (name.endsWith("-"))
 				name = name.substring(0, name.length() - 1);
 
+			String extension = forcedFileExtension;
+
+			if (StringUtils.isEmpty(extension) || StringUtils.isEmpty(extension.replace(".", "")))
+				extension = "txt";
+
 			try (FileSystem fs = FileSystems.newFileSystem(uri, env, null);
-				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + DateTimeUtils.getFormattedDateTime(new Date()) + ".txt"), StandardCharsets.UTF_8)))
+				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + DateTimeUtils.getFormattedDateTime(new Date()) + "." + extension), StandardCharsets.UTF_8)))
 			{
 				exportToFile(bw, results, true, columnMapping, null);
 			}
@@ -90,7 +101,7 @@ public class ResourceUtils
 	public static Response exportToZip(Result<? extends Record> results, HttpServletResponse resp, String name)
 			throws IOException
 	{
-		return exportToZip(results, resp, name, null);
+		return exportToZip(results, resp, name, null, null);
 	}
 
 	/**

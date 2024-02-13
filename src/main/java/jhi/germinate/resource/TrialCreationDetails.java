@@ -30,28 +30,28 @@ public class TrialCreationDetails
 	}
 
 	public class PlotDetails {
-		private Integer row;
-		private Integer column;
+		private Short row;
+		private Short column;
 		private String germplasm;
 		private String rep;
 
-		public Integer getRow()
+		public Short getRow()
 		{
 			return row;
 		}
 
-		public PlotDetails setRow(Integer row)
+		public PlotDetails setRow(Short row)
 		{
 			this.row = row;
 			return this;
 		}
 
-		public Integer getColumn()
+		public Short getColumn()
 		{
 			return column;
 		}
 
-		public PlotDetails setColumn(Integer column)
+		public PlotDetails setColumn(Short column)
 		{
 			this.column = column;
 			return this;

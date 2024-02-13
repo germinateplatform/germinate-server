@@ -135,7 +135,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			// Filter here!
 			having(from, request.getFilter());
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-", request.getColumnNameMapping());
+			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-", request.getColumnNameMapping(), request.getForcedFileExtension());
 		}
 	}
 
