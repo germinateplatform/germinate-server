@@ -58,7 +58,7 @@ public enum ServerProperty
 	PLAUSIBLE_HASH_MODE("plausible.hash.mode", "true", false),
 	PLAUSIBLE_API_HOST("plausible.api.host", "https://plausible.io", false),
 	GRIDSCORE_URL("gridscore.url", "https://gridscore.hutton.ac.uk", false),
-	HELIUM_URL("helium.url", "https://helium.hutton.ac.uk", false),
+	HELIUM_URL("helium.url", "https://helium.hutton.ac.uk/", false),
 	FIELDHUB_URL("fieldhub.url", "https://ics.hutton.ac.uk/fieldhub/", false),
 	GRPD_NOTIFICATION_ENABLED("gdpr.notification.enabled", "false", false),
 	HIDDEN_PAGES("hidden.pages", null, false),
