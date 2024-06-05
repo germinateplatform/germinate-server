@@ -123,7 +123,7 @@ database.port=3306
 
 # We're using the Docker container name of Gatekeeper here.
 gatekeeper.url=http://gatekeeper:8080
-gatekeeper.username=gatekeeper-username
+gatekeeper.username=gatekeeper-username@email.com
 gatekeeper.password=gatekeeper-password
 
 # This is only true if trying to access it from the machine running Docker.
@@ -147,11 +147,12 @@ database.password=gatekeeper-password
 # Note, we're not using the 9307 port here. That's only for remote access.
 database.port=3306
 
-email.address=
-email.username=
-email.password=
-email.server=
-email.port=
+# Replace these with actual email properties
+email.address=dummyemail@gmail.com
+email.username=dummyemail@gmail.com
+email.password=mysimplepassword
+email.server=smtp.gmail.com
+email.port=587
 
 # This is only true if trying to access it from the machine running Docker.
 # If you want the setup to be available from the outside world, use whatever your Proxy setup is configured as. 
