@@ -3,19 +3,22 @@ package jhi.germinate.server.resource.settings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
+import org.glassfish.jersey.media.multipart.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.nio.file.*;
 import java.util.*;
 
 @Path("settings")
@@ -280,12 +283,143 @@ public class SettingsResource
 	@Path("/carousel")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public CarouselConfig getCarouselConfig()
+	public Response getCarouselConfig()
 			throws IOException
 	{
 		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
 		Gson gson = new Gson();
 		Type type = new TypeToken<CarouselConfig>()
+		{
+		}.getType();
+
+		if (configFile == null || !configFile.exists())
+		{
+			return Response.ok(Response.Status.NOT_FOUND).build();
+		}
+		else
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+			{
+				return Response.ok(gson.fromJson(br, type)).build();
+			}
+		}
+	}
+
+	@POST
+	@Path("/about")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public Response postTemplateAboutConfig(@FormDataParam("name") String name, @FormDataParam("description") String description, @FormDataParam("group") String group, @FormDataParam("url") String url, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
+			throws IOException
+	{
+		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(url) || fileIs == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		AboutConfig.AboutInfo newInfo = new AboutConfig.AboutInfo()
+				.setName(name)
+				.setDescription(description)
+				.setGroup(group)
+				.setUrl(url);
+
+		// Get the image template folder
+		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.template.name());
+		folder.mkdirs();
+
+		// Extract extension from original file
+		String itemName = fileDetails.getFileName();
+		String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
+		// Create random uuid filename
+		String uuid = UUID.randomUUID().toString();
+		// Concatenate target
+		File targetFile = new File(folder, uuid + "." + extension);
+
+		if (!FileUtils.isSubDirectory(folder, targetFile))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+		// Store the name
+		newInfo.setImage(targetFile.getName());
+
+		Gson gson = new Gson();
+		Type type = new TypeToken<AboutConfig>()
+		{
+		}.getType();
+
+		// Read the carousel.json file
+		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
+
+		if (configFile == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		configFile.getParentFile().mkdirs();
+
+		if (!configFile.exists())
+		{
+			// Write the file back
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+			{
+				AboutConfig c = new AboutConfig();
+				c.add(newInfo);
+				gson.toJson(c, type, writer);
+			}
+		}
+		else
+		{
+			AboutConfig c;
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+			{
+				c = gson.fromJson(br, type);
+				c.add(newInfo);
+			}
+
+			// Write the file back
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+			{
+				gson.toJson(c, type, writer);
+			}
+		}
+
+		return Response.ok(true).build();
+	}
+
+	@PATCH
+	@Path("/about")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public boolean patchTemplateAboutConfig(AboutConfig config)
+			throws IOException
+	{
+		Gson gson = new Gson();
+		Type type = new TypeToken<AboutConfig>()
+		{
+		}.getType();
+
+		// Read the carousel.json file
+		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
+		configFile.getParentFile().mkdirs();
+
+		// Write the file back
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+		{
+			gson.toJson(config, type, writer);
+		}
+
+		return true;
+	}
+
+	@GET
+	@Path("/about")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public AboutConfig getAboutConfig()
+			throws IOException
+	{
+		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
+		Gson gson = new Gson();
+		Type type = new TypeToken<AboutConfig>()
 		{
 		}.getType();
 

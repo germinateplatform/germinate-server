@@ -68,7 +68,7 @@ public class ImageResource
 	}
 
 	@POST
-	@Path("/template")
+	@Path("/carousel")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
@@ -260,8 +260,8 @@ public class ImageResource
 		{
 			DSLContext context = Database.getContext(conn);
 			Images image = context.selectFrom(IMAGES)
-										.where(IMAGES.ID.eq(imageId))
-										.fetchAnyInto(Images.class);
+								  .where(IMAGES.ID.eq(imageId))
+								  .fetchAnyInto(Images.class);
 
 			if (image == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
@@ -319,7 +319,7 @@ public class ImageResource
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 
 			name = large.getName();
-			String extension = name.substring(name.lastIndexOf(".") + 1, name.length() - 1).toLowerCase();
+			String extension = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
 
 			String mediaType;
 
