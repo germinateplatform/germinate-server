@@ -152,7 +152,7 @@ public class DataImportRunner
 		}
 	}
 
-	private static String getImporterClass(DataImportJobsDatatype dataType, String extension, DataOrientation orientation)
+	public static String getImporterClass(DataImportJobsDatatype dataType, String extension, DataOrientation orientation)
 		throws GerminateException
 	{
 		switch (dataType)
@@ -191,7 +191,7 @@ public class DataImportRunner
 		}
 	}
 
-	private static List<String> getArgs(String importerClass, Integer jobDbId)
+	public static List<String> getArgs(String importerClass, Integer jobDbId)
 		throws URISyntaxException
 	{
 		File libFolder = ResourceUtils.getLibFolder();
