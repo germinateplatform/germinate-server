@@ -3,12 +3,11 @@ package jhi.germinate.server.resource.importers;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.DataImportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.export.AsyncResource;
@@ -22,7 +21,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataImportJobs.DATA_IMPORT_JOBS;
 
 @Path("import/template")
 @Secured
@@ -34,7 +33,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Secured
 	@PermitAll
 	public List<DataImportJobs> postImportJob(UuidRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -63,7 +62,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public boolean deleteImportJob(@PathParam("jobUuid") String jobUuid)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -118,7 +117,8 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 
 			// Delete the async folder corresponding to the job uuid.
 			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
-			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory()) {
+			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory())
+			{
 				org.apache.commons.io.FileUtils.deleteDirectory(asyncFolder);
 			}
 		}
@@ -132,7 +132,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public List<AsyncExportResult> getImportJob(@PathParam("jobUuid") String jobUuid)
-		throws SQLException, IOException
+			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(jobUuid))
 			return new ArrayList<>();
@@ -155,7 +155,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	@Secured(UserType.DATA_CURATOR)
 	public Response getImportJobLog(@PathParam("jobUuid") String jobUuid)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{

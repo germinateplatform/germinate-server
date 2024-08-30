@@ -1,5 +1,6 @@
 package jhi.germinate.server.util.tasks;
 
+import com.google.gson.Gson;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.*;
@@ -12,11 +13,13 @@ import jhi.germinate.server.util.importer.*;
 import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.DATA_IMPORT_JOBS;
 
@@ -37,78 +40,157 @@ public class DataAutoImportTask implements Runnable
 
 		int counter = 0;
 
-		try (Connection conn = Database.getConnection())
+		File[] folders = baseFolder.listFiles(File::isDirectory);
+
+		if (!CollectionUtils.isEmpty(folders))
 		{
-			DSLContext context = Database.getContext(conn);
-
-			for (ImportType type : ImportType.values())
+			Gson gson = new Gson();
+			outer:
+			for (File folder : folders)
 			{
-				File typeFolder = new File(baseFolder, type.name());
+				File configFile = new File(folder, "config.json");
 
-				if (typeFolder.exists() && typeFolder.isDirectory())
+				if (!configFile.exists() || !configFile.isFile())
 				{
-					File[] files = typeFolder.listFiles();
+					Logger.getLogger("").warning("NO CONFIG FILE FOUND FOR: " + folder.getAbsolutePath());
+					continue;
+				}
 
-					if (!CollectionUtils.isEmpty(files))
+				AutoImportJsonConfig config = null;
+
+				try (BufferedReader br = Files.newBufferedReader(configFile.toPath(), StandardCharsets.UTF_8))
+				{
+					config = gson.fromJson(br, AutoImportJsonConfig.class);
+
+					if (config == null || config.userId == null || CollectionUtils.isEmpty(config.templates))
 					{
-						for (File f : files)
+						Logger.getLogger("").warning("INVALID CONFIG FILE FOUND: " + configFile.getAbsolutePath());
+						continue;
+					}
+
+					for (TemplateConfig template : config.templates)
+					{
+						if (template.type == null)
 						{
-							String uuid = UUID.randomUUID().toString();
-							// Get the target folder for all generated files
-							File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
-							asyncFolder.mkdirs();
-							String itemName = f.getName();
-							String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
-							File targetFile = new File(asyncFolder, uuid + "." + extension);
+							Logger.getLogger("").warning("INVALID TEMPLATE TYPE FOUND: '" + template.type + "' IN " + configFile.getAbsolutePath());
+							continue outer;
+						}
+						if (template.type == DataImportJobsDatatype.genotype && template.orientation == null)
+						{
+							Logger.getLogger("").warning("INVALID GENOTYPE DATA ORIENTATION FOUND: '" + template.orientation + "' IN " + configFile.getAbsolutePath());
+							continue outer;
+						}
+						File f = new File(folder, template.file);
 
-							Files.copy(f.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						if (!f.exists() || !f.isFile())
+						{
+							Logger.getLogger("").warning("TEMPLATE FILE NOT FOUND: " + f.getAbsolutePath());
+							continue outer;
+						}
+					}
 
-							ImportJobDetails details = new ImportJobDetails()
-									.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-									.setDataFilename(targetFile.getName())
-									.setDeleteOnFail(true)
-									.setTargetDatasetId(null)
-									.setDataOrientation(DataOrientation.GENOTYPE_GERMPLASM_BY_MARKER)// TODO
-									.setRunType(RunType.CHECK_AND_IMPORT);
+					// All is good if we get here
 
-							// Store the job information in the database
-							DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);
-							dbJob.setUuid(uuid);
-							dbJob.setJobId("N/A");
-							dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-							dbJob.setDatatype(type.type);
-							dbJob.setOriginalFilename(f.getName());
-							dbJob.setIsUpdate(false); // TODO
-							dbJob.setDatasetstateId(2);
-							dbJob.setStatus(DataImportJobsStatus.waiting);
-							dbJob.setJobConfig(details);
-							dbJob.store();
+					try (Connection conn = Database.getConnection())
+					{
+						DSLContext context = Database.getContext(conn);
 
-							String importerClass = type.importerClassName;
+						List<TemplateConfig> germplasm = config.templates.stream().filter(t -> t.type == DataImportJobsDatatype.mcpd).sorted((a, b) -> Boolean.compare(a.isUpdate, b.isUpdate)).collect(Collectors.toList());
 
-							List<String> args = DataImportRunner.getArgs(importerClass, dbJob.getId());
-							JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
+						for (TemplateConfig mcpdFile : germplasm)
+						{
+							SyncImportInfo info = processFile(context, folder, config.userId, mcpdFile);
 
-							dbJob.setJobId(info.getId());
-							dbJob.setStatus(DataImportJobsStatus.waiting);
-							dbJob.setImported(true);
-							dbJob.store();
+							if (info != null && info.jobInfo != null)
+							{
+								while (!ApplicationListener.SCHEDULER.isJobFinished(info.jobInfo.getId()))
+									Thread.sleep(1000);
+
+								DataImportJobsRecord dataImportJobsRecord = context.selectFrom(DATA_IMPORT_JOBS).where(DATA_IMPORT_JOBS.ID.eq(info.dbJobId)).fetchAny();
+
+								if (dataImportJobsRecord == null || dataImportJobsRecord.getStatus() != DataImportJobsStatus.completed)
+								{
+									Logger.getLogger("").warning("FAILED TO IMPORT TEMPLATE: " + mcpdFile);
+									// TODO: Really return here?
+									return;
+								}
+							}
 						}
 					}
 				}
+				catch (IOException | SQLException e)
+				{
+					e.printStackTrace();
+					Logger.getLogger("").warning(e.getLocalizedMessage());
+				}
+				catch (Exception e)
+				{
+					// From job scheduler
+					e.printStackTrace();
+					Logger.getLogger("").warning(e.getLocalizedMessage());
+				}
 			}
 		}
-		catch (Exception e)
+	}
+
+	private static SyncImportInfo processFile(DSLContext context, File sourceFolder, Integer userId, TemplateConfig template)
+			throws Exception
+	{
+		ImportType importType = ImportType.getFrom(template.type, template.orientation);
+		if (importType != null)
 		{
-			e.printStackTrace();
-			Logger.getLogger("").severe(e.getLocalizedMessage());
+			String uuid = UUID.randomUUID().toString();
+			// Get the target folder for all generated files
+			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
+			asyncFolder.mkdirs();
+			String extension = template.file.substring(template.file.lastIndexOf(".") + 1);
+
+			File source = new File(sourceFolder, template.file);
+			File target = new File(asyncFolder, uuid + "." + extension);
+
+			Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+			ImportJobDetails details = new ImportJobDetails()
+					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+					.setDataFilename(target.getName())
+					.setDeleteOnFail(true)
+					.setTargetDatasetId(null)
+					.setDataOrientation(template.orientation)
+					.setRunType(RunType.CHECK_AND_IMPORT);
+
+			// Store the job information in the database
+			DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);
+			dbJob.setUuid(uuid);
+			dbJob.setJobId("N/A");
+			dbJob.setUserId(userId);
+			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+			dbJob.setDatatype(DataImportJobsDatatype.mcpd);
+			dbJob.setOriginalFilename(source.getName());
+			dbJob.setIsUpdate(template.isUpdate);
+			dbJob.setDatasetstateId(2);
+			dbJob.setStatus(DataImportJobsStatus.waiting);
+			dbJob.setJobConfig(details);
+			dbJob.store();
+
+			String importerClass = importType.importerClassName;
+
+			List<String> args = DataImportRunner.getArgs(importerClass, dbJob.getId());
+			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
+
+			dbJob.setJobId(info.getId());
+			dbJob.setStatus(DataImportJobsStatus.waiting);
+			dbJob.setImported(true);
+			dbJob.store();
+
+			return new SyncImportInfo(info, dbJob.getId());
 		}
 
-		Logger.getLogger("").info("DATA AUTO IMPORT TASK FINISHED WITH " + counter + " TASKS.");
+		return null;
 	}
 
 	private static enum ImportType
 	{
+		MCPD(DataImportJobsDatatype.mcpd, McpdImporter.class.getCanonicalName()),
 		TRIAL(DataImportJobsDatatype.trial, TraitDataImporter.class.getCanonicalName()),
 		PEDIGREE(DataImportJobsDatatype.pedigree, PedigreeImporter.class.getCanonicalName()),
 		GROUPS(DataImportJobsDatatype.groups, GroupImporter.class.getCanonicalName()),
@@ -119,11 +201,69 @@ public class DataAutoImportTask implements Runnable
 
 		private DataImportJobsDatatype type;
 		private String                 importerClassName;
+		private DataOrientation        orientation = null;
 
 		ImportType(DataImportJobsDatatype type, String importerClassName)
 		{
 			this.type = type;
 			this.importerClassName = importerClassName;
+		}
+
+		ImportType(DataImportJobsDatatype type, String importerClassName, DataOrientation orientation)
+		{
+			this.type = type;
+			this.importerClassName = importerClassName;
+			this.orientation = orientation;
+		}
+
+		static ImportType getFrom(DataImportJobsDatatype dType, DataOrientation orientation)
+		{
+			for (ImportType type : ImportType.values())
+			{
+				if (type.type == dType && type.orientation == orientation)
+				{
+					return type;
+				}
+			}
+
+			return null;
+		}
+	}
+
+	private static class AutoImportJsonConfig
+	{
+		private Integer              userId;
+		private List<TemplateConfig> templates;
+	}
+
+	private static class TemplateConfig
+	{
+		private String                 file;
+		private DataImportJobsDatatype type;
+		private Boolean                isUpdate = false;
+		private DataOrientation        orientation;
+
+		@Override
+		public String toString()
+		{
+			return "TemplateConfig{" +
+					"file='" + file + '\'' +
+					", type=" + type +
+					", isUpdate=" + isUpdate +
+					", orientation=" + orientation +
+					'}';
+		}
+	}
+
+	private static class SyncImportInfo
+	{
+		private JobInfo jobInfo;
+		private Integer dbJobId;
+
+		public SyncImportInfo(JobInfo jobInfo, Integer dbJobId)
+		{
+			this.jobInfo = jobInfo;
+			this.dbJobId = dbJobId;
 		}
 	}
 }

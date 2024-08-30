@@ -18,6 +18,7 @@ import java.sql.*;
 import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.DATASETMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
+import static jhi.germinate.server.database.codegen.tables.Licenselogs.LICENSELOGS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 
@@ -46,6 +47,15 @@ public class DatasetResource extends ContextResource
 			DatasetsRecord dataset = context.newRecord(DATASETS, newDataset);
 			dataset.setCreatedBy(userDetails.getId());
 			dataset.store();
+
+			if (newDataset.getLicenseId() != null)
+			{
+				LicenselogsRecord license = context.newRecord(LICENSELOGS);
+				license.setLicenseId(newDataset.getLicenseId());
+				license.setUserId(userDetails.getId());
+				license.setAcceptedOn(new Timestamp(System.currentTimeMillis()));
+				license.store();
+			}
 
 			return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
 		}
