@@ -31,6 +31,7 @@ public class GermplasmBaseResource extends ExportResource
 {
 	public static String GERMPLASM_ID                     = "germplasm_id";
 	public static String GERMPLASM_NAME                   = "germplasm_name";
+	public static String GERMPLASM_DISPLAY_NAME           = "germplasm_display_name";
 	public static String GERMPLASM_GID                    = "germplasm_gid";
 	public static String GERMPLASM_NUMBER                 = "germplasm_number";
 	public static String GERMPLASM_PUID                   = "germplasm_puid";
@@ -69,6 +70,7 @@ public class GermplasmBaseResource extends ExportResource
 	{
 		COLUMNS.add(GERMPLASM_ID);
 		COLUMNS.add(GERMPLASM_NAME);
+		COLUMNS.add(GERMPLASM_DISPLAY_NAME);
 		COLUMNS.add(GERMPLASM_GID);
 		COLUMNS.add(GERMPLASM_NUMBER);
 		COLUMNS.add(GERMPLASM_PUID);
@@ -116,6 +118,7 @@ public class GermplasmBaseResource extends ExportResource
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
 															  GERMINATEBASE.ID.as(GERMPLASM_ID),
+															  GERMINATEBASE.DISPLAY_NAME.as(GERMPLASM_DISPLAY_NAME),
 															  GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 															  GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),
 															  MCPD.PUID.as(GERMPLASM_PUID),
@@ -217,6 +220,7 @@ public class GermplasmBaseResource extends ExportResource
 								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+															  GERMINATEBASE.DISPLAY_NAME.as(GERMPLASM_DISPLAY_NAME),
 															  GERMINATEBASE.ID.as(GERMPLASM_ID),
 															  GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 															  GERMINATEBASE.NUMBER.as(GERMPLASM_NUMBER),

@@ -5,49 +5,40 @@ import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
-import jhi.germinate.server.database.pojo.AdditionalExportFormat;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.resource.pedigrees.PedigreeResource;
 import jhi.germinate.server.util.CollectionUtils;
-import org.jooq.*;
+import org.jooq.DSLContext;
 import org.jooq.exception.DataAccessException;
-import org.jooq.impl.DSL;
 
 import java.io.*;
-import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
-import java.nio.file.Files;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Datasets.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Markers.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
+import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.VIEW_TABLE_PEDIGREES;
 
 public class PedigreeExporter
 {
-	private static final String            CRLF              = "\r\n";
-	private static final SimpleDateFormat  SDF               = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-	private              File              folder;
-	private              Boolean           includeAttributes = false;
-	private              File              zipFile;
-	private              Set<String>       germplasm;
-	private              DataExportJobs exportJob;
-	private              Datasets          dataset;
+	private static final String           CRLF              = "\r\n";
+	private static final SimpleDateFormat SDF               = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+	private              File             folder;
+	private              Boolean          includeAttributes = false;
+	private              File             zipFile;
+	private              Set<String>      germplasm;
+	private              DataExportJobs   exportJob;
+	private              Datasets         dataset;
 
 	private final Instant start;
 
@@ -57,7 +48,7 @@ public class PedigreeExporter
 	}
 
 	public static void main(String[] args)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		PedigreeExporter exporter = new PedigreeExporter();
 		Database.init(args[0], args[1], args[2], args[3], args[4], false);
@@ -106,7 +97,7 @@ public class PedigreeExporter
 	}
 
 	private void init()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -139,7 +130,7 @@ public class PedigreeExporter
 	}
 
 	private void run()
-		throws IOException, DataAccessException, SQLException
+			throws IOException, DataAccessException, SQLException
 	{
 		init();
 

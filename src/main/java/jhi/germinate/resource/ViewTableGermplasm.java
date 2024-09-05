@@ -11,6 +11,7 @@ import java.sql.Date;
 public class ViewTableGermplasm
 {
 	private String                 germplasmName;
+	private String                 germplasmDisplayName;
 	private Integer                germplasmId;
 	private String                 germplasmGid;
 	private String                 germplasmNumber;
@@ -57,6 +58,17 @@ public class ViewTableGermplasm
 	public ViewTableGermplasm setGermplasmName(String germplasmName)
 	{
 		this.germplasmName = germplasmName;
+		return this;
+	}
+
+	public String getGermplasmDisplayName()
+	{
+		return germplasmDisplayName;
+	}
+
+	public ViewTableGermplasm setGermplasmDisplayName(String germplasmDisplayName)
+	{
+		this.germplasmDisplayName = germplasmDisplayName;
 		return this;
 	}
 
