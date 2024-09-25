@@ -36,6 +36,7 @@ import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 
@@ -59,6 +60,7 @@ public class HiddenPagesAutodiscoverTask implements Runnable
 			int images = context.selectCount().from(IMAGES).fetchOne(0, int.class);
 			int publications = context.selectCount().from(PUBLICATIONS).fetchOne(0, int.class);
 			int stories = context.selectCount().from(STORIES).fetchOne(0, int.class);
+			int projects = context.selectCount().from(PROJECTS).fetchOne(0, int.class);
 
 			Set<String> hiddenPages = new HashSet<>();
 			if (germplasm < 1)
@@ -119,6 +121,11 @@ public class HiddenPagesAutodiscoverTask implements Runnable
 			if (stories < 1)
 			{
 				hiddenPages.add("stories");
+			}
+			if (projects < 1)
+			{
+				hiddenPages.add("projects");
+				hiddenPages.add("projectDetails");
 			}
 
 			List<Datasets> datasets = context.selectFrom(DATASETS).fetchInto(Datasets.class);

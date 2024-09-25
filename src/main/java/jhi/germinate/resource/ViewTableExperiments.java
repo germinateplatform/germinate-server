@@ -8,6 +8,7 @@ import java.sql.*;
 
 public class ViewTableExperiments
 {
+	private Integer   projectId;
 	private Integer   experimentId;
 	private String    experimentName;
 	private String    experimentDescription;
@@ -22,6 +23,17 @@ public class ViewTableExperiments
 
 	public ViewTableExperiments()
 	{
+	}
+
+	public Integer getProjectId()
+	{
+		return projectId;
+	}
+
+	public ViewTableExperiments setProjectId(Integer projectId)
+	{
+		this.projectId = projectId;
+		return this;
 	}
 
 	public Integer getExperimentId()

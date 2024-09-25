@@ -12,8 +12,11 @@ import org.jooq.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.jooq.conf.ParamType;
+
 import java.sql.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.*;
 
@@ -45,7 +48,7 @@ public class GroupTableResource extends BaseResource
 														 .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
 					.fetch()
