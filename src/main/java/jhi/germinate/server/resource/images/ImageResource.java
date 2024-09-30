@@ -399,6 +399,7 @@ public class ImageResource
 		news,
 		template,
 		mapoverlay,
-		storysteps
+		storysteps,
+		projects
 	}
 }

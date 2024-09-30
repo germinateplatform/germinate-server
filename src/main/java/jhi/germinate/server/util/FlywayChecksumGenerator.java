@@ -1,8 +1,11 @@
 package jhi.germinate.server.util;
 
+import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.internal.util.StringUtils;
+import org.flywaydb.core.internal.util.*;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.zip.CRC32;
 
 /**
@@ -11,9 +14,9 @@ import java.util.zip.CRC32;
 public class FlywayChecksumGenerator
 {
 	public static void main(String[] args)
-		throws IOException
+			throws IOException
 	{
-		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.24.09.04__update.sql")));
+		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.24.09.27__update.sql")));
 	}
 
 	/**
@@ -24,20 +27,37 @@ public class FlywayChecksumGenerator
 	 * @throws IOException Thrown if the interaction with the file fails
 	 */
 	public static int getChecksum(File file)
-		throws IOException
+			throws IOException
 	{
-		// Read the file as UTF8
-		try (BufferedReader br = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8))
+		final CRC32 crc32 = new CRC32();
+
+		BufferedReader bufferedReader = null;
+		try
 		{
-			// Create a new checksum
-			CRC32 crc32 = new CRC32();
+			bufferedReader = new BufferedReader(new FileReader(file), 4096);
 
-			// Add each line trimmed
-			for (String line; ((line = br.readLine()) != null); )
-				crc32.update(line.trim().getBytes(StandardCharsets.UTF_8));
+			String line = bufferedReader.readLine();
 
-			// Return value
-			return (int) crc32.getValue();
+			if (line != null)
+			{
+				line = BomFilter.FilterBomFromString(line);
+
+				do
+				{
+					//noinspection Since15
+					crc32.update(StringUtils.trimLineBreak(line).getBytes(StandardCharsets.UTF_8));
+				} while ((line = bufferedReader.readLine()) != null);
+			}
 		}
+		catch (IOException e)
+		{
+			throw new FlywayException("Unable to calculate checksum of " + file.getName() + "\r\n" + e.getMessage(), e);
+		}
+		finally
+		{
+			IOUtils.close(bufferedReader);
+		}
+
+		return (int) crc32.getValue();
 	}
 }

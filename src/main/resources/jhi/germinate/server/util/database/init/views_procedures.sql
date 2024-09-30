@@ -17,7 +17,25 @@ DROP VIEW IF EXISTS `view_table_datasets`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_datasets` AS SELECT `datasets`.`id` AS `dataset_id`, `datasets`.`name` AS `dataset_name`, `datasets`.`description` AS `dataset_description`, `datasets`.`hyperlink` AS `hyperlink`, `datasets`.`source_file` AS `source_file`, `datasets`.`version` AS `version`, `datasettypes`.`description` AS `dataset_type`, `experiments`.`id` AS `experiment_id`, `experiments`.`experiment_name` AS `experiment_name`, `experiments`.`description` AS `experiment_description`, `projects`.`id` AS `project_id`, `projects`.`name` AS `project_name`, `projects`.`description` AS `project_description`, `datasets`.`datatype` AS `datatype`, `datasetstates`.`name` AS `dataset_state`,( SELECT json_arrayagg( json_object( 'locationId', `locations`.`id`, 'locationName', `locations`.`site_name`, 'locationLatitude', `locations`.`latitude`, 'locationLongitude', `locations`.`longitude`, 'countryId', `countries`.`id`, 'countryName', `countries`.`country_code2` )) FROM `datasetlocations` LEFT JOIN `locations` ON `locations`.`id` = `datasetlocations`.`location_id` LEFT JOIN `countries` ON `countries`.`id` = `locations`.`country_id` WHERE `datasetlocations`.`dataset_id` = `datasets`.`id` AND `locations`.`id` IS NOT NULL GROUP BY `datasets`.`id` ) AS `locations`, `licenses`.`id` AS `license_id`, `licenses`.`name` AS `license_name`, `datasets`.`contact` AS `contact`, `datasets`.`date_start` AS `start_date`, `datasets`.`date_end` AS `end_date`, `datasets`.`dublin_core` AS `dublin_core`, `datasets`.`created_on` AS `created_on`, `datasets`.`updated_on` AS `updated_on`, `datasetmeta`.`nr_of_data_objects` AS `data_object_count`, `datasetmeta`.`nr_of_data_points` AS `data_point_count`, `datasets`.`is_external` AS `is_external`,( SELECT count( 1 ) FROM `publicationdata` WHERE `publicationdata`.`foreign_id` = `datasets`.`id` AND `publicationdata`.`reference_type` = 'dataset' ) AS `publications`,( SELECT json_arrayagg( `datasetfileresources`.`fileresource_id` ) FROM `datasetfileresources` WHERE `datasetfileresources`.`dataset_id` = `datasets`.`id` ) AS `fileresource_ids`,( SELECT count( 1 ) FROM `collaborators` LEFT JOIN `datasetcollaborators` ON `collaborators`.`id` = `datasetcollaborators`.`collaborator_id` WHERE `datasetcollaborators`.`dataset_id` = `datasets`.`id` ) AS `collaborators`,( SELECT count( 1 ) FROM `attributes` LEFT JOIN `attributedata` ON `attributedata`.`attribute_id` = `attributes`.`id` WHERE `attributes`.`target_table` = 'datasets' AND `attributedata`.`foreign_id` = `datasets`.`id` ) AS `attributes`, json_arrayagg( `licenselogs`.`user_id` ) AS `accepted_by` FROM `datasets` LEFT JOIN `experiments` ON `experiments`.`id` = `datasets`.`experiment_id` LEFT JOIN `projects` ON `projects`.`id` = `experiments`.`project_id` LEFT JOIN `datasettypes` ON `datasettypes`.`id` = `datasets`.`datasettype_id` LEFT JOIN `licenses` ON `licenses`.`id` = `datasets`.`license_id` LEFT JOIN `datasetmeta` ON `datasetmeta`.`dataset_id` = `datasets`.`id` LEFT JOIN `datasetstates` ON `datasetstates`.`id` = `datasets`.`dataset_state_id` LEFT JOIN `licenselogs` ON `licenselogs`.`license_id` = `licenses`.`id` LEFT JOIN `datasetfileresources` ON `datasetfileresources`.`dataset_id` = `datasets`.`id` GROUP BY `datasets`.`id`, `datasetmeta`.`id`;
 
 DROP VIEW IF EXISTS `view_table_projects`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_projects` AS SELECT `projects`.`id` AS `project_id`, `projects`.`name` AS `project_name`, `projects`.`description` AS `project_description`, `projects`.`page_content` AS `project_page_content`, `projects`.`external_url` AS `project_external_url`, `projects`.`start_date` AS `project_start_date`, `projects`.`end_date` AS `project_end_date`, `projects`.`created_on` AS `project_created_on`, `projects`.`updated_on` AS `project_updated_on`, json_arrayagg( json_object( 'datasetId', `datasets`.`id`, 'datasetName', `datasets`.`name`, 'datasetType', `datasettypes`.`description`, 'datasetIsExternal', `datasets`.`is_external` )) AS `datasets` FROM `projects` LEFT JOIN `experiments` ON `experiments`.`project_id` = `projects`.`id` LEFT JOIN `datasets` ON `datasets`.`experiment_id` = `experiments`.`id` LEFT JOIN `datasettypes` ON `datasettypes`.`id` = `datasets`.`datasettype_id` GROUP BY `projects`.`id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_projects` AS
+SELECT `projects`.`id`                                                                                         AS `project_id`,
+       `projects`.`name`                                                                                       AS `project_name`,
+       `projects`.`description`                                                                                AS `project_description`,
+       `projects`.`page_content`                                                                               AS `project_page_content`,
+       `projects`.`external_url`                                                                               AS `project_external_url`,
+       `projects`.`image_id`                                                                                   AS `project_image_id`,
+       `projects`.`start_date`                                                                                 AS `project_start_date`,
+       `projects`.`end_date`                                                                                   AS `project_end_date`,
+       `projects`.`created_on`                                                                                 AS `project_created_on`,
+       `projects`.`updated_on`                                                                                 AS `project_updated_on`,
+       json_arrayagg(json_object('datasetId', `datasets`.`id`, 'datasetName', `datasets`.`name`, 'datasetType',
+                                 `datasettypes`.`description`, 'datasetIsExternal',
+                                 `datasets`.`is_external`))                                                    AS `datasets`
+FROM `projects`
+         LEFT JOIN `experiments` ON `experiments`.`project_id` = `projects`.`id`
+         LEFT JOIN `datasets` ON `datasets`.`experiment_id` = `experiments`.`id`
+         LEFT JOIN `datasettypes` ON `datasettypes`.`id` = `datasets`.`datasettype_id`
+GROUP BY `projects`.`id`;
 
 DROP VIEW IF EXISTS `view_table_experiments`;
 # CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_experiments` AS SELECT `experiments`.`id` AS `experiment_id`, `experiments`.`experiment_name` AS `experiment_name`, `experiments`.`description` AS `experiment_description`, `experiments`.`experiment_date` AS `experiment_date`, `experiments`.`created_on` AS `created_on`, (SELECT count( 1 ) FROM `datasets` WHERE `datasets`.`experiment_id` = `experiments`.`id` AND `datasets`.`datasettype_id` = 1 AND `datasets`.`is_external` = 0) AS `genotype_count`, (SELECT count( 1 ) FROM `datasets` WHERE `datasets`.`experiment_id` = `experiments`.`id` AND `datasets`.`datasettype_id` = 3 AND `datasets`.`is_external` = 0) AS `trials_count`, (SELECT count( 1 ) FROM `datasets` WHERE `datasets`.`experiment_id` = `experiments`.`id` AND `datasets`.`datasettype_id` = 4 AND `datasets`.`is_external` = 0) AS `allele_freq_count`, (SELECT count( 1 ) FROM `datasets` WHERE `datasets`.`experiment_id` = `experiments`.`id` AND `datasets`.`datasettype_id` = 5 AND `datasets`.`is_external` = 0) AS `climate_count`, (SELECT count( 1 ) FROM `datasets` WHERE `datasets`.`experiment_id` = `experiments`.`id` AND `datasets`.`datasettype_id` = 7 AND `datasets`.`is_external` = 0) AS `pedigree_count` FROM `experiments`;
@@ -119,7 +137,41 @@ DROP VIEW IF EXISTS `view_table_fileresourcetypes`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_fileresourcetypes` AS select `fileresourcetypes`.`id` AS `id`,`fileresourcetypes`.`name` AS `name`,`fileresourcetypes`.`description` AS `description`,`fileresourcetypes`.`created_on` AS `created_on`,`fileresourcetypes`.`updated_on` AS `updated_on`,(select count(1) from `fileresources` where (`fileresources`.`fileresourcetype_id` = `fileresourcetypes`.`id`)) AS `count` from `fileresourcetypes`;
 
 DROP VIEW IF EXISTS `view_table_publications`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_publications` AS select `publications`.`id` as `publication_id`, `publications`.`doi` as `publication_doi`, `publications`.`fallback_cache` as `publication_fallback_cache`, (select true from `publicationdata` where `publicationdata`.`reference_type` = 'database' and `publicationdata`.`publication_id` = `publications`.`id`) as 'is_database_pub', (select JSON_ARRAYAGG(`publicationdata`.`foreign_id`) from `publicationdata` where `publicationdata`.`reference_type` = 'dataset' and `publicationdata`.`publication_id` = `publications`.`id` group by `publicationdata`.`publication_id`) as 'dataset_ids', (select JSON_ARRAYAGG(`publicationdata`.`foreign_id`) from `publicationdata` where `publicationdata`.`reference_type` = 'germplasm' and `publicationdata`.`publication_id` = `publications`.`id` group by `publicationdata`.`publication_id`) as 'germplasm_ids', (select JSON_ARRAYAGG(`publicationdata`.`foreign_id`) from `publicationdata` where `publicationdata`.`reference_type` = 'group' and `publicationdata`.`publication_id` = `publications`.`id` group by `publicationdata`.`publication_id`) as 'group_ids', (select JSON_ARRAYAGG(`publicationdata`.`foreign_id`) from `publicationdata` where `publicationdata`.`reference_type` = 'experiment' and `publicationdata`.`publication_id` = `publications`.`id` group by `publicationdata`.`publication_id`) as 'experiment_ids', `publications`.`created_on` as `created_on`, `publications`.`updated_on` as `updated_on` from `publications`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_publications` AS
+select `publications`.`id`                                                  AS `publication_id`,
+       `publications`.`doi`                                                 AS `publication_doi`,
+       `publications`.`fallback_cache`                                      AS `publication_fallback_cache`,
+       (select TRUE
+        from `publicationdata`
+        where ((`publicationdata`.`reference_type` = 'database') and
+               (`publicationdata`.`publication_id` = `publications`.`id`))) AS `is_database_pub`,
+       (select json_arrayagg(`publicationdata`.`foreign_id`)
+        from `publicationdata`
+        where ((`publicationdata`.`reference_type` = 'dataset') and
+               (`publicationdata`.`publication_id` = `publications`.`id`))
+        group by `publicationdata`.`publication_id`)                        AS `dataset_ids`,
+       (select json_arrayagg(`publicationdata`.`foreign_id`)
+        from `publicationdata`
+        where ((`publicationdata`.`reference_type` = 'germplasm') and
+               (`publicationdata`.`publication_id` = `publications`.`id`))
+        group by `publicationdata`.`publication_id`)                        AS `germplasm_ids`,
+       (select json_arrayagg(`publicationdata`.`foreign_id`)
+        from `publicationdata`
+        where ((`publicationdata`.`reference_type` = 'group') and
+               (`publicationdata`.`publication_id` = `publications`.`id`))
+        group by `publicationdata`.`publication_id`)                        AS `group_ids`,
+       (select json_arrayagg(`publicationdata`.`foreign_id`)
+        from `publicationdata`
+        where ((`publicationdata`.`reference_type` = 'experiment') and
+               (`publicationdata`.`publication_id` = `publications`.`id`))
+        group by `publicationdata`.`publication_id`)                        AS `experiment_ids`,
+       (select json_arrayagg(`projectpublications`.`project_id`)
+        from `projectpublications`
+        where (`projectpublications`.`publication_id` = `publications`.`id`)
+        group by `projectpublications`.`publication_id`)                    AS `project_ids`,
+       `publications`.`created_on`                                          AS `created_on`,
+       `publications`.`updated_on`                                          AS `updated_on`
+from `publications`;
 
 DROP VIEW IF EXISTS `view_table_mapoverlays`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_mapoverlays` AS select `mapoverlays`.`id` as mapoverlay_id, `mapoverlays`.`name` as mapoverlay_name, `mapoverlays`.`description` as mapoverlay_description, `mapoverlays`.`bottom_left_lat` as mapoverlay_bottom_left_lat, `mapoverlays`.`bottom_left_lng` as mapoverlay_bottom_left_lng, `mapoverlays`.`top_right_lat` as mapoverlay_top_right_lat, `mapoverlays`.`top_right_lng` as mapoverlay_top_right_lng, `mapoverlays`.`is_legend` as mapoverlays_is_legend, `mapoverlays`.`reference_table` as reference_table, `mapoverlays`.`foreign_id` as foreign_id, `datasets`.`id` as dataset_id, `datasets`.`name` as dataset_name, `datasets`.`description` as dataset_description, `datasettypes`.`description` as dataset_type, `mapoverlays`.`recording_date` as recording_date, `mapoverlays`.`created_on` as created_on, `mapoverlays`.`updated_on` as updated_on from `mapoverlays` left join `datasets` on `datasets`.`id` = `mapoverlays`.`dataset_id` left join `datasettypes` on `datasettypes`.`id` = `datasets`.`datasettype_id`;
