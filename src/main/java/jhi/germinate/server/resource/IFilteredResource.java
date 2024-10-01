@@ -4,6 +4,7 @@ import jhi.germinate.resource.Filter;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
+import org.yaml.snakeyaml.internal.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -201,6 +202,7 @@ public interface IFilteredResource
 				}
 				else
 				{
+					Logger.getLogger("").warn("Trying to use a json operation, but not allowed: " + filter);
 					return null;
 				}
 			case "arrayContains":
@@ -222,6 +224,7 @@ public interface IFilteredResource
 				}
 				else
 				{
+					Logger.getLogger("").warn("Trying to use a json operation, but not allowed: " + filter);
 					return null;
 				}
 			case "inSet":

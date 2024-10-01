@@ -80,7 +80,31 @@ DROP VIEW IF EXISTS `view_table_traits`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_traits` AS select distinct `phenotypes`.`id` AS `trait_id`,`phenotypes`.`name` AS `trait_name`,`phenotypes`.`short_name` AS `trait_name_short`,`phenotypes`.`description` AS `trait_description`,`phenotypes`.`datatype` AS `data_type`,`phenotypes`.`restrictions` AS `trait_restrictions`,`units`.`id` AS `unit_id`,`units`.`unit_name` AS `unit_name`,`units`.`unit_description` AS `unit_description`,`units`.`unit_abbreviation` AS `unit_abbreviation`,`synonyms`.`synonyms` AS `synonyms`, (SELECT CAST(CONCAT('[', (SELECT GROUP_CONCAT(DISTINCT `dataset_id`) FROM `phenotypedata` LEFT JOIN `trialsetup` ON `trialsetup`.`id` = `phenotypedata`.`trialsetup_id` WHERE `phenotypedata`.`phenotype_id` = `phenotypes`.`id`) ,']') as json)) AS `dataset_ids`, (select count(1) from `phenotypedata` where (`phenotypedata`.`phenotype_id` = `phenotypes`.`id`)) AS `count` from ((`phenotypes` left join `units` on((`units`.`id` = `phenotypes`.`unit_id`))) left join `synonyms` on(((`synonyms`.`foreign_id` = `phenotypes`.`id`) and (`synonyms`.`synonymtype_id` = 4)))) group by `phenotypes`.`id`,`synonyms`.`id`;
 
 DROP VIEW IF EXISTS `view_table_collaborators`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_collaborators` AS SELECT `collaborators`.`id` AS `collaborator_id`, `collaborators`.`first_name` AS `collaborator_first_name`, `collaborators`.`last_name` AS `collaborator_last_name`, `collaborators`.`external_id` AS `collaborator_external_id`, `collaborators`.`email` AS `collaborator_email`, `collaborators`.`phone` AS `collaborator_phone`, `datasetcollaborators`.`collaborator_roles` AS `collaborator_roles`, `institutions`.`id` AS `institution_id`, `institutions`.`name` AS `institution_name`, `institutions`.`address` AS `institution_address`, `datasets`.`id` AS `dataset_id`, `countries`.`id` AS `country_id`, `countries`.`country_name` AS `country_name`, `countries`.`country_code2` AS `country_code2`, `countries`.`country_code3` AS `country_code3` FROM `collaborators` LEFT JOIN `institutions` ON `institutions`.`id` = `collaborators`.`institution_id` LEFT JOIN `countries` ON `countries`.`id` = `institutions`.`country_id` LEFT JOIN `datasetcollaborators` ON `datasetcollaborators`.`collaborator_id` = `collaborators`.`id` LEFT JOIN `datasets` ON `datasets`.`id` = `datasetcollaborators`.`dataset_id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_collaborators` AS
+SELECT `collaborators`.`id`                                AS `collaborator_id`,
+       `collaborators`.`first_name`                        AS `collaborator_first_name`,
+       `collaborators`.`last_name`                         AS `collaborator_last_name`,
+       `collaborators`.`external_id`                       AS `collaborator_external_id`,
+       `collaborators`.`email`                             AS `collaborator_email`,
+       `collaborators`.`phone`                             AS `collaborator_phone`,
+       `datasetcollaborators`.`collaborator_roles`         AS `collaborator_roles`,
+       `institutions`.`id`                                 AS `institution_id`,
+       `institutions`.`name`                               AS `institution_name`,
+       `institutions`.`address`                            AS `institution_address`,
+       `datasets`.`id`                                     AS `dataset_id`,
+       `countries`.`id`                                    AS `country_id`,
+       `countries`.`country_name`                          AS `country_name`,
+       `countries`.`country_code2`                         AS `country_code2`,
+       `countries`.`country_code3`                         AS `country_code3`,
+       (SELECT json_arrayagg(`projectcollaborators`.`project_id`)
+        FROM `projectcollaborators`
+        WHERE `projectcollaborators`.`collaborator_id` = `collaborators`.`id`
+        GROUP BY `projectcollaborators`.`collaborator_id`) AS `project_ids`
+FROM `collaborators`
+         LEFT JOIN `institutions` ON `institutions`.`id` = `collaborators`.`institution_id`
+         LEFT JOIN `countries` ON `countries`.`id` = `institutions`.`country_id`
+         LEFT JOIN `datasetcollaborators` ON `datasetcollaborators`.`collaborator_id` = `collaborators`.`id`
+         LEFT JOIN `datasets` ON `datasets`.`id` = `datasetcollaborators`.`dataset_id`;
 
 DROP VIEW IF EXISTS `view_table_trials_data`;
 # CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_table_trials_data` AS select `germinatebase`.`id` AS `germplasm_id`,`germinatebase`.`general_identifier` AS `germplasm_gid`,`germinatebase`.`name` AS `germplasm_name`,`synonyms`.`synonyms` AS `germplasm_synonyms`,`g`.`name` AS `entity_parent_name`,`g`.`general_identifier` AS `entity_parent_general_identifier`,`entitytypes`.`name` AS `entity_type`,`datasets`.`id` AS `dataset_id`,`datasets`.`name` AS `dataset_name`,`datasets`.`description` AS `dataset_description`,`locations`.`site_name` AS `location_name`,`countries`.`country_name` AS `country_name`,`countries`.`country_code2` AS `country_code2`,`phenotypes`.`id` AS `trait_id`,`phenotypes`.`name` AS `trait_name`,`phenotypes`.`short_name` AS `trait_name_short`,`phenotypes`.`restrictions` AS `trait_restrictions`,`units`.`unit_name` AS `unit_name`,`treatments`.`name` AS `treatment`,`phenotypedata`.`rep` AS `rep`, `phenotypedata`.`recording_date` AS `recording_date`,`phenotypedata`.`phenotype_value` AS `trait_value` from `phenotypedata` left join `germinatebase` on `germinatebase`.`id` = `phenotypedata`.`germinatebase_id` left join `germinatebase` `g` on `germinatebase`.`entityparent_id` = `g`.`id` left join `synonyms` on (`synonyms`.`synonymtype_id` = 1 AND `synonyms`.`foreign_id` = `germinatebase`.`id`) left join `entitytypes` on `entitytypes`.`id` = `germinatebase`.`entitytype_id` left join `phenotypes` on `phenotypes`.`id` = `phenotypedata`.`phenotype_id` left join `units` on `units`.`id` = `phenotypes`.`unit_id` left join `datasets` on `datasets`.`id` = `phenotypedata`.`dataset_id` left join `locations` on `phenotypedata`.`location_id` = `locations`.`id` left join `countries` on `countries`.`id` = `locations`.`country_id` left join `treatments` on `phenotypedata`.`treatment_id` = `treatments`.`id`;

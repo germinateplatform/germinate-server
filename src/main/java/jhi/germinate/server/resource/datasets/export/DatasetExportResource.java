@@ -461,7 +461,7 @@ public class DatasetExportResource extends ContextResource
 				resultFiles.add(datasetFile);
 				inv.addStudy(study);
 
-				List<ViewTableCollaborators> collaborators = CollaboratorTableResource.getCollaboratorsForDataset(dataset.getDatasetId(), req, resp, userDetails);
+				List<ViewTableCollaborators> collaborators = DatasetCollaboratorTableResource.getCollaboratorsForDataset(dataset.getDatasetId(), req, resp, userDetails);
 
 				if (!CollectionUtils.isEmpty(collaborators))
 					collaborators.forEach(c -> study.addContact(new Person(c.getCollaboratorLastName(), c.getCollaboratorFirstName(), c.getCollaboratorEmail(), c.getInstitutionName(), c.getInstitutionAddress())));

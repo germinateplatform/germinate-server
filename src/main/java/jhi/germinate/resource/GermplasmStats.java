@@ -8,6 +8,7 @@ public class GermplasmStats
 	private String     germplasmName;
 	private Integer    traitId;
 	private String     traitName;
+	private String traitNameShort;
 	private BigDecimal min;
 	private BigDecimal avg;
 	private BigDecimal max;
@@ -91,5 +92,16 @@ public class GermplasmStats
 	public void setCount(Integer count)
 	{
 		this.count = count;
+	}
+
+	public String getTraitNameShort()
+	{
+		return traitNameShort;
+	}
+
+	public GermplasmStats setTraitNameShort(String traitNameShort)
+	{
+		this.traitNameShort = traitNameShort;
+		return this;
 	}
 }

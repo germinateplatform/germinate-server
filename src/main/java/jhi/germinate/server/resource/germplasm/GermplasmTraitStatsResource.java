@@ -73,6 +73,7 @@ public class GermplasmTraitStatsResource
 								  GERMINATEBASE.NAME.as("germplasm_name"),
 								  PHENOTYPES.ID.as("trait_id"),
 								  PHENOTYPES.NAME.as("trait_name"),
+								  PHENOTYPES.SHORT_NAME.as("trait_name_short"),
 								  min.asField("min"),
 								  DSL.avg(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))).as("avg"),
 								  max.asField("max"),

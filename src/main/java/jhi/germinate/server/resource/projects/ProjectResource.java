@@ -21,6 +21,7 @@ import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
 import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
 import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
+import static jhi.germinate.server.database.codegen.tables.Projectcollaborators.PROJECTCOLLABORATORS;
 import static jhi.germinate.server.database.codegen.tables.Projectgroups.PROJECTGROUPS;
 import static jhi.germinate.server.database.codegen.tables.Projectpublications.PROJECTPUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
@@ -52,6 +53,7 @@ public class ProjectResource
 			result.setGroupCount(context.selectCount().from(PROJECTGROUPS).where(PROJECTGROUPS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 			result.setDatasetCount(context.selectCount().from(DATASETS).leftJoin(EXPERIMENTS).on(EXPERIMENTS.ID.eq(DATASETS.EXPERIMENT_ID)).where(EXPERIMENTS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 			result.setPublicationCount(context.selectCount().from(PROJECTPUBLICATIONS).where(PROJECTPUBLICATIONS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
+			result.setCollaboratorCount(context.selectCount().from(PROJECTCOLLABORATORS).where(PROJECTCOLLABORATORS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 
 			return Response.ok(result).build();
 		}
