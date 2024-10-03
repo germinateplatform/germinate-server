@@ -28,6 +28,7 @@ public class ViewTableTrialsData
 	private TraitRestrictions traitRestrictions;
 	private String            unitName;
 	private String            treatment;
+	private Integer           trialsetupId;
 	private String            rep;
 	private String            block;
 	private Short             trialRow;
@@ -355,6 +356,17 @@ public class ViewTableTrialsData
 	public ViewTableTrialsData setElevation(BigDecimal elevation)
 	{
 		this.elevation = elevation;
+		return this;
+	}
+
+	public Integer getTrialsetupId()
+	{
+		return trialsetupId;
+	}
+
+	public ViewTableTrialsData setTrialsetupId(Integer trialsetupId)
+	{
+		this.trialsetupId = trialsetupId;
 		return this;
 	}
 }

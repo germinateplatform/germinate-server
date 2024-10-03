@@ -8,7 +8,7 @@ public class GermplasmStats
 	private String     germplasmName;
 	private Integer    traitId;
 	private String     traitName;
-	private String traitNameShort;
+	private String     traitNameShort;
 	private BigDecimal min;
 	private BigDecimal avg;
 	private BigDecimal max;

@@ -1,5 +1,8 @@
 package jhi.germinate.server.resource.traits;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits;
@@ -9,19 +12,16 @@ import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.SYNONYMS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
-import static jhi.germinate.server.database.codegen.tables.Units.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
+import static jhi.germinate.server.database.codegen.tables.Units.UNITS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("dataset/trait")
 @Secured
@@ -31,7 +31,7 @@ public class DatasetTraitResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ViewTableTraits> getJson(DatasetRequest request)
+	public List<ViewTableTraits> postDatasetTraits(DatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -68,6 +68,7 @@ public class DatasetTraitResource extends ContextResource
 				PHENOTYPES.SHORT_NAME.as(VIEW_TABLE_TRAITS.TRAIT_NAME_SHORT.getName()),
 				PHENOTYPES.DESCRIPTION.as(VIEW_TABLE_TRAITS.TRAIT_DESCRIPTION.getName()),
 				PHENOTYPES.DATATYPE.as(VIEW_TABLE_TRAITS.DATA_TYPE.getName()),
+				PHENOTYPES.RESTRICTIONS.as(VIEW_TABLE_TRAITS.TRAIT_RESTRICTIONS.getName()),
 				UNITS.ID.as(VIEW_TABLE_TRAITS.UNIT_ID.getName()),
 				UNITS.UNIT_NAME.as(VIEW_TABLE_TRAITS.UNIT_NAME.getName()),
 				UNITS.UNIT_DESCRIPTION.as(VIEW_TABLE_TRAITS.UNIT_DESCRIPTION.getName()),

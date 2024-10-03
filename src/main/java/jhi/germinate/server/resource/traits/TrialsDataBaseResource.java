@@ -9,19 +9,17 @@ import org.jooq.impl.*;
 
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Countries.*;
-import static jhi.germinate.server.database.codegen.tables.Datasets.*;
-import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
-import static jhi.germinate.server.database.codegen.tables.Treatments.*;
+import static jhi.germinate.server.database.codegen.tables.Countries.COUNTRIES;
+import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
+import static jhi.germinate.server.database.codegen.tables.Entitytypes.ENTITYTYPES;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.SYNONYMS;
+import static jhi.germinate.server.database.codegen.tables.Treatments.TREATMENTS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
-import static jhi.germinate.server.database.codegen.tables.Units.*;
+import static jhi.germinate.server.database.codegen.tables.Units.UNITS;
 
 public class TrialsDataBaseResource extends ExportResource
 {
@@ -44,6 +42,7 @@ public class TrialsDataBaseResource extends ExportResource
 	public static String TRAIT_RESTRICTIONS               = "trait_restrictions";
 	public static String UNIT_NAME                        = "unit_name";
 	public static String TREATMENT                        = "treatment";
+	public static String TRIALSETUP_ID                    = "trialsetup_id";
 	public static String REP                              = "rep";
 	public static String BLOCK                            = "block";
 	public static String TRIAL_ROW                        = "trial_row";
@@ -62,47 +61,48 @@ public class TrialsDataBaseResource extends ExportResource
 		if (minimal)
 		{
 			return Arrays.asList(
-				GERMINATEBASE.ID.as(GERMPLASM_ID),
-				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
-				DATASETS.ID.as(DATASET_ID),
-				DATASETS.NAME.as(DATASET_NAME),
-				PHENOTYPES.ID.as(TRAIT_ID),
-				PHENOTYPES.NAME.as(TRAIT_NAME),
-				TREATMENTS.NAME.as(TREATMENT),
-				PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE),
-				PHENOTYPEDATA.PHENOTYPE_VALUE.as(TRAIT_VALUE));
+					GERMINATEBASE.ID.as(GERMPLASM_ID),
+					GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+					DATASETS.ID.as(DATASET_ID),
+					DATASETS.NAME.as(DATASET_NAME),
+					PHENOTYPES.ID.as(TRAIT_ID),
+					PHENOTYPES.NAME.as(TRAIT_NAME),
+					TREATMENTS.NAME.as(TREATMENT),
+					PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE),
+					PHENOTYPEDATA.PHENOTYPE_VALUE.as(TRAIT_VALUE));
 		}
 		else
 		{
 			return Arrays.asList(
-				GERMINATEBASE.ID.as(GERMPLASM_ID),
-				GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
-				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
-				SYNONYMS.SYNONYMS_.as(GERMPLASM_SYNONYMS),
-				g.NAME.as(ENTITY_PARENT_NAME),
-				g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
-				ENTITYTYPES.NAME.as(ENTITY_TYPE),
-				DATASETS.ID.as(DATASET_ID),
-				DATASETS.NAME.as(DATASET_NAME),
-				DATASETS.DESCRIPTION.as(DATASET_DESCRIPTION),
-				LOCATIONS.SITE_NAME.as(LOCATION_NAME),
-				COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
-				COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE2),
-				PHENOTYPES.ID.as(TRAIT_ID),
-				PHENOTYPES.NAME.as(TRAIT_NAME),
-				PHENOTYPES.SHORT_NAME.as(TRAIT_NAME_SHORT),
-				PHENOTYPES.RESTRICTIONS.as(TRAIT_RESTRICTIONS),
-				UNITS.UNIT_NAME.as(UNIT_NAME),
-				TREATMENTS.NAME.as(TREATMENT),
-				TRIALSETUP.REP.as(REP),
-				TRIALSETUP.BLOCK.as(BLOCK),
-				TRIALSETUP.TRIAL_ROW.as(TRIAL_ROW),
-				TRIALSETUP.TRIAL_COLUMN.as(TRIAL_COLUMN),
-				TRIALSETUP.LATITUDE.as(LATITUDE),
-				TRIALSETUP.LONGITUDE.as(LONGITUDE),
-				TRIALSETUP.ELEVATION.as(ELEVATION),
-				PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE),
-				PHENOTYPEDATA.PHENOTYPE_VALUE.as(TRAIT_VALUE));
+					GERMINATEBASE.ID.as(GERMPLASM_ID),
+					GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
+					GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+					SYNONYMS.SYNONYMS_.as(GERMPLASM_SYNONYMS),
+					g.NAME.as(ENTITY_PARENT_NAME),
+					g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
+					ENTITYTYPES.NAME.as(ENTITY_TYPE),
+					DATASETS.ID.as(DATASET_ID),
+					DATASETS.NAME.as(DATASET_NAME),
+					DATASETS.DESCRIPTION.as(DATASET_DESCRIPTION),
+					LOCATIONS.SITE_NAME.as(LOCATION_NAME),
+					COUNTRIES.COUNTRY_NAME.as(COUNTRY_NAME),
+					COUNTRIES.COUNTRY_CODE2.as(COUNTRY_CODE2),
+					PHENOTYPES.ID.as(TRAIT_ID),
+					PHENOTYPES.NAME.as(TRAIT_NAME),
+					PHENOTYPES.SHORT_NAME.as(TRAIT_NAME_SHORT),
+					PHENOTYPES.RESTRICTIONS.as(TRAIT_RESTRICTIONS),
+					UNITS.UNIT_NAME.as(UNIT_NAME),
+					TREATMENTS.NAME.as(TREATMENT),
+					TRIALSETUP.ID.as(TRIALSETUP_ID),
+					TRIALSETUP.REP.as(REP),
+					TRIALSETUP.BLOCK.as(BLOCK),
+					TRIALSETUP.TRIAL_ROW.as(TRIAL_ROW),
+					TRIALSETUP.TRIAL_COLUMN.as(TRIAL_COLUMN),
+					TRIALSETUP.LATITUDE.as(LATITUDE),
+					TRIALSETUP.LONGITUDE.as(LONGITUDE),
+					TRIALSETUP.ELEVATION.as(ELEVATION),
+					PHENOTYPEDATA.RECORDING_DATE.as(RECORDING_DATE),
+					PHENOTYPEDATA.PHENOTYPE_VALUE.as(TRAIT_VALUE));
 		}
 	}
 
@@ -141,14 +141,15 @@ public class TrialsDataBaseResource extends ExportResource
 	protected <A> SelectJoinStep<?> getTrialsGermplasmQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
 	{
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(
-			GERMINATEBASE.ID.as(GERMPLASM_ID),
-			GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
-			GERMINATEBASE.NAME.as(GERMPLASM_NAME),
-			DATASETS.ID.as(DATASET_ID),
-			TRIALSETUP.REP.as(REP),
-			TRIALSETUP.BLOCK.as(BLOCK),
-			TRIALSETUP.TRIAL_ROW.as(TRIAL_ROW),
-			TRIALSETUP.TRIAL_COLUMN.as(TRIAL_COLUMN)));
+				GERMINATEBASE.ID.as(GERMPLASM_ID),
+				GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
+				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+				DATASETS.ID.as(DATASET_ID),
+				TRIALSETUP.ID.as(TRIALSETUP_ID),
+				TRIALSETUP.REP.as(REP),
+				TRIALSETUP.BLOCK.as(BLOCK),
+				TRIALSETUP.TRIAL_ROW.as(TRIAL_ROW),
+				TRIALSETUP.TRIAL_COLUMN.as(TRIAL_COLUMN)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));

@@ -599,7 +599,7 @@ public class DatasetExportResource extends ContextResource
 
 			// Add header rows
 			bw.write("#input=PHENOTYPE" + ResourceUtils.CRLF);
-			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_name\tdataset_version\tlicense_name\tyear\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\ttrial_row\ttrial_column\t");
+			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_name\tdataset_version\tlicense_name\tyear\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\tblock\ttrial_row\ttrial_column\t");
 			bw.write(String.join("\t", traits.values()));
 
 			// Keep track of the data for each germplasm record (name, rep, row, column, treatment)-tuple
@@ -621,6 +621,7 @@ public class DatasetExportResource extends ContextResource
 				   .forEach(pd -> {
 					   ViewTableTrialGermplasm gp = germplasm.get(pd.get(TRIALSETUP.GERMINATEBASE_ID));
 					   String rep = pd.get(TRIALSETUP.REP);
+					   String block = pd.get(TRIALSETUP.BLOCK);
 					   Short trialRow = pd.get(TRIALSETUP.TRIAL_ROW);
 					   Short trialColumn = pd.get(TRIALSETUP.TRIAL_COLUMN);
 					   String traitHeader = traits.get(pd.get(PHENOTYPEDATA.PHENOTYPE_ID));
@@ -636,7 +637,7 @@ public class DatasetExportResource extends ContextResource
 					   }
 
 					   // Create a record
-					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmName(), rep, year, trialRow, trialColumn, treatment, pd.get(TRIALSETUP.DATASET_ID), pd.get(TRIALSETUP.LOCATION_ID), pd.get(TRIALSETUP.LATITUDE, Double.class), pd.get(TRIALSETUP.LONGITUDE, Double.class), pd.get(TRIALSETUP.ELEVATION, Double.class));
+					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmName(), rep, block, year, trialRow, trialColumn, treatment, pd.get(TRIALSETUP.DATASET_ID), pd.get(TRIALSETUP.LOCATION_ID), pd.get(TRIALSETUP.LATITUDE, Double.class), pd.get(TRIALSETUP.LONGITUDE, Double.class), pd.get(TRIALSETUP.ELEVATION, Double.class));
 					   String value = pd.get(PHENOTYPEDATA.PHENOTYPE_VALUE);
 
 					   // Get or create the data
@@ -660,6 +661,7 @@ public class DatasetExportResource extends ContextResource
 					   String taxonomy = gpdb.getSubtaxa();
 					   String tax = StringUtils.join(" ", genus, species, taxonomy);
 					   String rep = StringUtils.orEmpty(gp.rep);
+					   String block = StringUtils.orEmpty(gp.block);
 					   String year = gp.year == null ? "" : String.valueOf(gp.year);
 					   String row = gp.trialRow == null ? "" : String.valueOf(gp.trialRow);
 					   String col = gp.trialColumn == null ? "" : String.valueOf(gp.trialColumn);
@@ -684,7 +686,7 @@ public class DatasetExportResource extends ContextResource
 					   }
 
 					   bw.write(ResourceUtils.CRLF);
-					   bw.write(String.join("\t", gp.germplasmName, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, dataset, year, groupString, location, latitude, longitude, elevation, treatment, rep, row, col));
+					   bw.write(String.join("\t", gp.germplasmName, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, dataset, year, groupString, location, latitude, longitude, elevation, treatment, rep, block, row, col));
 
 					   // Print trait data
 					   traits.values().forEach(traitHeader -> {
@@ -946,6 +948,7 @@ public class DatasetExportResource extends ContextResource
 		private Integer germplasmId;
 		private String  germplasmName;
 		private String  rep;
+		private String  block;
 		private Integer year;
 		private Short   trialRow;
 		private Short   trialColumn;
@@ -956,11 +959,12 @@ public class DatasetExportResource extends ContextResource
 		private Double  longitude;
 		private Double  elevation;
 
-		public GermplasmRecord(Integer germplasmId, String germplasmName, String rep, Integer year, Short trialRow, Short trialColumn, String treatment, Integer datasetId, Integer locationId, Double latitude, Double longitude, Double elevation)
+		public GermplasmRecord(Integer germplasmId, String germplasmName, String rep, String block, Integer year, Short trialRow, Short trialColumn, String treatment, Integer datasetId, Integer locationId, Double latitude, Double longitude, Double elevation)
 		{
 			this.germplasmId = germplasmId;
 			this.germplasmName = germplasmName;
 			this.rep = rep;
+			this.block = block;
 			this.year = year;
 			this.trialRow = trialRow;
 			this.trialColumn = trialColumn;
@@ -978,13 +982,13 @@ public class DatasetExportResource extends ContextResource
 			if (this == o) return true;
 			if (o == null || getClass() != o.getClass()) return false;
 			GermplasmRecord that = (GermplasmRecord) o;
-			return germplasmId.equals(that.germplasmId) && germplasmName.equals(that.germplasmName) && datasetId.equals(that.datasetId) && Objects.equals(locationId, that.locationId) && Objects.equals(rep, that.rep) && Objects.equals(year, that.year) && Objects.equals(trialRow, that.trialRow) && Objects.equals(trialColumn, that.trialColumn) && Objects.equals(treatment, that.treatment);
+			return germplasmId.equals(that.germplasmId) && germplasmName.equals(that.germplasmName) && datasetId.equals(that.datasetId) && Objects.equals(locationId, that.locationId) && Objects.equals(rep, that.rep) && Objects.equals(block, that.block) && Objects.equals(year, that.year) && Objects.equals(trialRow, that.trialRow) && Objects.equals(trialColumn, that.trialColumn) && Objects.equals(treatment, that.treatment);
 		}
 
 		@Override
 		public int hashCode()
 		{
-			return Objects.hash(germplasmId, germplasmName, rep, year, trialRow, trialColumn, treatment, datasetId, locationId);
+			return Objects.hash(germplasmId, germplasmName, rep, block, year, trialRow, trialColumn, treatment, datasetId, locationId);
 		}
 
 		@Override
@@ -1001,6 +1005,8 @@ public class DatasetExportResource extends ContextResource
 				result = ObjectUtils.compare(locationId, o.locationId);
 			if (result == 0)
 				result = ObjectUtils.compare(rep, o.rep);
+			if (result == 0)
+				result = ObjectUtils.compare(block, o.block);
 			if (result == 0)
 				result = ObjectUtils.compare(year, o.year);
 			if (result == 0)
