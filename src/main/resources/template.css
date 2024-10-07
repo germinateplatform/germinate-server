@@ -41,6 +41,11 @@ border-color: {{PRIMARY_DARKER_SHADOW}};
 box-shadow: 0 0 0 0.2rem {{PRIMARY_DARKER_SHADOW}};
 }
 
+.btn-primary:focus, .btn-primary.focus {
+	background-color: {{PRIMARY_DARKER}};
+	border-color: {{PRIMARY_DARKER}};
+}
+
 .btn-outline-primary {
 color: {{PRIMARY}};
 border-color: {{PRIMARY}};
