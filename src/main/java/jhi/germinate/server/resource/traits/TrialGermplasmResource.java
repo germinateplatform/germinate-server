@@ -23,7 +23,7 @@ public class TrialGermplasmResource extends TrialsDataBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableTrialsData>> postTrialGermplasm(PaginatedDatasetRequest request)
+	public PaginatedResult<List<ViewTableTrialsData>> postTrialGermplasm(PaginatedDatasetRequest request, @QueryParam("isGermplasm") @DefaultValue("false") Boolean isGermplasm)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -44,7 +44,12 @@ public class TrialGermplasmResource extends TrialsDataBaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<?> from = getTrialsGermplasmQueryWrapped(context, null);
+			SelectJoinStep<?> from;
+
+			if (isGermplasm)
+				from = getTrialsGermplasmDistinctNameQueryWrapped(context, null);
+			else
+				from = getTrialsGermplasmQueryWrapped(context, null);
 
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 

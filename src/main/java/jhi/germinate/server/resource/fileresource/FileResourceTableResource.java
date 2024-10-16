@@ -16,8 +16,8 @@ import org.jooq.impl.DSL;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableFileresources.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.DATASETFILERESOURCES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableFileresources.VIEW_TABLE_FILERESOURCES;
 
 @Path("fileresource/table")
 @Secured
@@ -28,7 +28,7 @@ public class FileResourceTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableFileresources>> getJson(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
@@ -44,21 +44,19 @@ public class FileResourceTableResource extends BaseResource
 
 			SelectConditionStep<Record> from = select.from(VIEW_TABLE_FILERESOURCES)
 													 // Check whether this resource either isn't linked to any dataset
-													 .where(DSL.notExists(DSL.selectOne()
-																			 .from(DATASETFILERESOURCES)
-																			 .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)))
-															   // Or whether the user has access to the dataset
-															   .or(DSL.exists(DSL.selectOne()
-																				 .from(DATASETFILERESOURCES)
-																				 .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
-																															.and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
+													 .where(VIEW_TABLE_FILERESOURCES.DATASET_IDS.isNull()
+																								// Or whether the user has access to the dataset
+																								.or(DSL.exists(DSL.selectOne()
+																												  .from(DATASETFILERESOURCES)
+																												  .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
+																																							 .and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
 
 			// Filter here!
 			where(from, filters);
 
 			List<ViewTableFileresources> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableFileresources.class);
+					.fetch()
+					.into(ViewTableFileresources.class);
 
 			result.forEach(r -> {
 				if (!CollectionUtils.isEmpty(r.getDatasetIds()))

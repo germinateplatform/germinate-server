@@ -138,6 +138,37 @@ public class TrialsDataBaseResource extends ExportResource
 		return context.selectDistinct(DSL.field(GERMPLASM_ID, Integer.class)).from(inner);
 	}
 
+	protected <A> SelectJoinStep<?> getTrialsGermplasmDistinctNameQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
+	{
+		List<Field<?>> fields = new ArrayList<>(Arrays.asList(
+				GERMINATEBASE.ID.as(GERMPLASM_ID),
+				GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
+				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+				DATASETS.ID.as(DATASET_ID)));
+
+		if (additionalFields != null)
+			fields.addAll(Arrays.asList(additionalFields));
+
+		SelectSelectStep<?> select = context.select(DSL.asterisk());
+
+		if (previousCount == -1)
+			select.hint("SQL_CALC_FOUND_ROWS");
+
+		SelectJoinStep<?> inner = context.selectDistinct(fields)
+										 .from(PHENOTYPEDATA)
+										 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
+										 .leftJoin(DATASETS).on(DATASETS.ID.eq(TRIALSETUP.DATASET_ID));
+
+		if (!CollectionUtils.isEmpty(joins))
+		{
+			for (Join<A> join : joins)
+				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
+		}
+
+		return select.from(inner);
+	}
+
 	protected <A> SelectJoinStep<?> getTrialsGermplasmQueryWrapped(DSLContext context, List<Join<A>> joins, Field<?>... additionalFields)
 	{
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(
