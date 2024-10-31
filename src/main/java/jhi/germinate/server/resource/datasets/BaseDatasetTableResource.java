@@ -12,10 +12,10 @@ import org.jooq.*;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
-import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.DATASETPERMISSIONS;
+import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.USERGROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Usergroups.USERGROUPS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
 
 public class BaseDatasetTableResource extends ExportResource implements IFilteredResource
 {
@@ -53,7 +53,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 				optionalAdjuster.adjustQuery(from);
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<ViewTableDatasets> result = setPaginationAndOrderBy(from)
 				.fetch()

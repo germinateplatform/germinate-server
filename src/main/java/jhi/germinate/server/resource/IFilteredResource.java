@@ -187,6 +187,7 @@ public interface IFilteredResource
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
+													   .filter(v -> !StringUtils.isEmpty(v))
 													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
 													   .map(v -> DSL.condition("JSON_SEARCH(LOWER(" + field.getName() + "), 'one', LOWER('%" + v + "%')) IS NOT NULL"))
 													   .collect(Collectors.toList());
