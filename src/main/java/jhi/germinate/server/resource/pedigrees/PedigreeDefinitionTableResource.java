@@ -12,6 +12,8 @@ import org.jooq.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import org.jooq.Record;
+
 import java.sql.*;
 import java.util.*;
 

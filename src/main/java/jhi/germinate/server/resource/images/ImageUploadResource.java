@@ -12,6 +12,7 @@ import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.util.*;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.io.File;
 import java.io.*;

@@ -13,6 +13,7 @@ import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.*;
 
 import java.io.File;

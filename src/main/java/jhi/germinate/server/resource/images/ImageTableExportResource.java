@@ -14,6 +14,7 @@ import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.ImageZipExporter;
 import jhi.oddjob.JobInfo;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.io.File;
 import java.io.*;

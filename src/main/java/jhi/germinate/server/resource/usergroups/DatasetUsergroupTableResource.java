@@ -9,6 +9,7 @@ import jhi.germinate.server.database.codegen.tables.records.DatasetpermissionsRe
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import jakarta.ws.rs.*;

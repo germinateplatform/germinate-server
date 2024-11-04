@@ -10,6 +10,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraitAttribut
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.io.IOException;
 import java.sql.*;

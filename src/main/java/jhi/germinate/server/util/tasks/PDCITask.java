@@ -102,58 +102,55 @@ public class PDCITask implements Runnable
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation pedigree cache: " + hasPedigree.size());
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation storage cache: " + hasStorage.size());
 
-			context.selectFrom(GERMINATEBASE)
-				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1)) // Just the accessions
-				   .forEach(g -> {
-					   boolean gLink = false;
-					   boolean gPedigree = false;
-					   boolean gStorage = false;
-					   if (hasGenericLink || hasLink.contains(g.getId()))
-					   {
-						   hasLink.remove((g.getId()));
-						   gLink = true;
-					   }
-					   if (hasPedigree.contains(g.getId()))
-					   {
-						   hasPedigree.remove(g.getId());
-						   gPedigree = true;
-					   }
-					   if (hasStorage.contains(g.getId()))
-					   {
-						   hasStorage.remove(g.getId());
-						   gStorage = true;
-					   }
+			List<Germinatebase> accessions = context.selectFrom(GERMINATEBASE)
+					.where(GERMINATEBASE.ENTITYTYPE_ID.eq(1)) // Just the accessions
+					.fetchInto(Germinatebase.class);
 
-					   McpdRecord mcpd = mcpds.get(g.getId());
+			for (Germinatebase g : accessions) {
+				boolean gLink = false;
+				boolean gPedigree = false;
+				boolean gStorage = false;
+				if (hasGenericLink || hasLink.contains(g.getId())) {
+					hasLink.remove((g.getId()));
+					gLink = true;
+				}
+				if (hasPedigree.contains(g.getId())) {
+					hasPedigree.remove(g.getId());
+					gPedigree = true;
+				}
+				if (hasStorage.contains(g.getId())) {
+					hasStorage.remove(g.getId());
+					gStorage = true;
+				}
 
-					   double value = calculateGenericPart(g, mcpd, gLink, gStorage);
+				McpdRecord mcpd = mcpds.get(g.getId());
 
-					   switch ((mcpd != null && mcpd.getSampstat() != null) ? (mcpd.getSampstat() / 100) : -1)
-					   {
-						   case 1:
-						   case 2:
-							   value += calculateWildWeedy(g, mcpd);
-							   break;
-						   case 3:
-							   value += calculateLandrace(g, mcpd, gPedigree);
-							   break;
-						   case 4:
-							   value += calculateBreedingMaterial(g, mcpd, gPedigree);
-							   break;
-						   case 5:
-							   value += calculateCultivar(g, mcpd, gPedigree);
-							   break;
-						   default:
-							   value += calculateOther(g, mcpd, gPedigree);
-							   break;
-					   }
+				double value = calculateGenericPart(g, mcpd, gLink, gStorage);
 
-					   // Divide by 100 to get a value between 0 and 10.
-					   value /= 100d;
+				switch ((mcpd != null && mcpd.getSampstat() != null) ? (mcpd.getSampstat() / 100) : -1) {
+					case 1:
+					case 2:
+						value += calculateWildWeedy(g, mcpd);
+						break;
+					case 3:
+						value += calculateLandrace(g, mcpd, gPedigree);
+						break;
+					case 4:
+						value += calculateBreedingMaterial(g, mcpd, gPedigree);
+						break;
+					case 5:
+						value += calculateCultivar(g, mcpd, gPedigree);
+						break;
+					default:
+						value += calculateOther(g, mcpd, gPedigree);
+						break;
+				}
 
-					   g.setPdci(value);
-					   g.store(GERMINATEBASE.PDCI);
-				   });
+				// Divide by 100 to get a value between 0 and 10.
+				value /= 100d;
+
+				context.update(GERMINATEBASE).set(GERMINATEBASE.PDCI, value).where(GERMINATEBASE.ID.eq(g.getId())).execute();
+			}
 
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation complete in " + (System.currentTimeMillis() - start) + "ms");
 		}
@@ -163,7 +160,7 @@ public class PDCITask implements Runnable
 		}
 	}
 
-	private int calculateGenericPart(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasLink, boolean hasStorage)
+	private int calculateGenericPart(Germinatebase acc, McpdRecord mcpd, boolean hasLink, boolean hasStorage)
 	{
 		int value = 0;
 
@@ -224,7 +221,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateOther(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
+	private int calculateOther(Germinatebase acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -277,7 +274,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateCultivar(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
+	private int calculateCultivar(Germinatebase acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -306,7 +303,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateBreedingMaterial(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
+	private int calculateBreedingMaterial(Germinatebase acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -335,7 +332,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateLandrace(GerminatebaseRecord acc, McpdRecord mcpd, boolean hasPedigree)
+	private int calculateLandrace(Germinatebase acc, McpdRecord mcpd, boolean hasPedigree)
 	{
 		int value = 0;
 
@@ -383,7 +380,7 @@ public class PDCITask implements Runnable
 		return value;
 	}
 
-	private int calculateWildWeedy(GerminatebaseRecord acc, McpdRecord mcpd)
+	private int calculateWildWeedy(Germinatebase acc, McpdRecord mcpd)
 	{
 		int value = 0;
 

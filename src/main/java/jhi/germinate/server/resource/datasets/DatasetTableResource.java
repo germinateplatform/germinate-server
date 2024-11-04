@@ -8,6 +8,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;

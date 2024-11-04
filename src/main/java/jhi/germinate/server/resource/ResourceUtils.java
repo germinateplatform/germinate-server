@@ -7,6 +7,7 @@ import jhi.germinate.resource.Filter;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.*;
 
 import java.io.File;

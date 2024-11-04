@@ -10,6 +10,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableInstitutionDa
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.sql.*;
 import java.util.List;

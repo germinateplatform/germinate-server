@@ -12,6 +12,7 @@ import org.jooq.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;

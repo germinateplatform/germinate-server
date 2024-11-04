@@ -3,6 +3,7 @@ package jhi.germinate.server.resource;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.DateTimeUtils;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.TableImpl;
 
 import jakarta.ws.rs.core.*;
@@ -49,7 +50,7 @@ public class ExportResource extends BaseResource
 				 PrintWriter bw = new PrintWriter(Files.newBufferedWriter(fs.getPath("/" + name + "-" + DateTimeUtils.getFormattedDateTime(new Date()) + ".txt"), StandardCharsets.UTF_8)))
 			{
 				DSLContext context = Database.getContext(conn);
-				SelectJoinStep<Record> from = context.select()
+				SelectJoinStep<org.jooq.Record> from = context.select()
 													 .from(table);
 
 				if (settings != null && settings.conditions != null)

@@ -11,6 +11,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.germplasm.GermplasmBaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
+import org.jooq.Record;
 
 import java.io.IOException;
 import java.sql.*;

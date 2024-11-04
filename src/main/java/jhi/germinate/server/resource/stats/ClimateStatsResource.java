@@ -7,6 +7,7 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.*;
 
 import jakarta.annotation.security.PermitAll;

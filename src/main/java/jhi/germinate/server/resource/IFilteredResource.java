@@ -3,6 +3,7 @@ package jhi.germinate.server.resource;
 import jhi.germinate.resource.Filter;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 import org.yaml.snakeyaml.internal.Logger;
 

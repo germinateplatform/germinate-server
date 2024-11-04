@@ -12,6 +12,7 @@ import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.hdf5.Hdf5ToFJTabbedConverter;
 import jhi.germinate.server.util.hdf5.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.io.File;

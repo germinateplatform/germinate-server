@@ -4,6 +4,7 @@ import jakarta.ws.rs.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.util.StringUtils;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 public abstract class BaseResource extends ContextResource implements IFilteredResource

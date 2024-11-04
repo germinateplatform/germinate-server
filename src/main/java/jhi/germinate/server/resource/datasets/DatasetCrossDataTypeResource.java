@@ -9,6 +9,7 @@ import jhi.germinate.server.database.codegen.tables.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.io.File;
