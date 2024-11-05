@@ -254,6 +254,23 @@ public class PropertyWatcher
 	}
 
 	/**
+	 * Reads a {@link Boolean} property from the .properties file
+	 *
+	 * @param property The property to readAll
+	 * @param fallback The fallback value in case no value is defined
+	 * @return The {@link Boolean} property
+	 */
+	public static Boolean getBoolean(ServerProperty property, boolean fallback)
+	{
+		String value = get(property);
+
+		if (StringUtils.isEmpty(value))
+			return fallback;
+		else
+			return Boolean.parseBoolean(value);
+	}
+
+	/**
 	 * Writes a {@link Boolean} property to the .properties file
 	 *
 	 * @param property The property to write

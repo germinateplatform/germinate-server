@@ -1,5 +1,6 @@
 package jhi.germinate.server;
 
+import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.database.codegen.GerminateDb;
 import jhi.germinate.server.util.*;
 import org.flywaydb.core.Flyway;
@@ -127,8 +128,10 @@ public class Database
 //		Database.datasource.addDataSourceProperty("maintainTimeStats", "false");
 
 		// Get an initial connection to try if it works. Attempt a connection 10 times before failing
+		boolean isDev = PropertyWatcher.getBoolean(ServerProperty.DEBUG_IS_DEVELOPMENT, false);
+		int attemptCount = isDev ? 1 : 6;
 		boolean connectionSuccessful = false;
-		for (int attempt = 0; attempt < 6; attempt++)
+		for (int attempt = 0; attempt < attemptCount; attempt++)
 		{
 			try (Connection conn = getConnection())
 			{
@@ -141,14 +144,17 @@ public class Database
 				e.printStackTrace();
 				Logger.getLogger("").severe(e.getLocalizedMessage());
 
-				// If the attempt fails, wait 5 seconds before the next one
-				try
+				if (!isDev)
 				{
-					Thread.sleep(5000);
-				}
-				catch (InterruptedException ex)
-				{
-					ex.printStackTrace();
+					// If the attempt fails, wait 5 seconds before the next one
+					try
+					{
+						Thread.sleep(5000);
+					}
+					catch (InterruptedException ex)
+					{
+						ex.printStackTrace();
+					}
 				}
 			}
 		}
@@ -269,7 +275,7 @@ public class Database
 	}
 
 	public static void main(String[] args)
-		throws IOException, URISyntaxException
+			throws IOException, URISyntaxException
 	{
 		Database.init("localhost", "germinate_template_4_23_02_16", null, "root", null, true);
 
@@ -314,14 +320,14 @@ public class Database
 	private static String getDatabaseUrl(boolean allowStreaming)
 	{
 		return "jdbc:mysql://"
-			+ databaseServer
-			+ ":"
-			+ (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort)
-			+ "/"
-			+ databaseName
-			+ "?allowMultiQueries=true&useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&serverTimezone="
-			+ utc
-			+ (allowStreaming ? "&useCursorFetch=true" : "");
+				+ databaseServer
+				+ ":"
+				+ (StringUtils.isEmptyOrQuotes(databasePort) ? "3306" : databasePort)
+				+ "/"
+				+ databaseName
+				+ "?allowMultiQueries=true&useUnicode=yes&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&serverTimezone="
+				+ utc
+				+ (allowStreaming ? "&useCursorFetch=true" : "");
 	}
 
 	/**
@@ -331,7 +337,7 @@ public class Database
 	 * @throws SQLException thrown if the database interaction fails
 	 */
 	public static Connection getConnection()
-		throws SQLException
+			throws SQLException
 	{
 		return getConnection(false);
 	}
@@ -344,7 +350,7 @@ public class Database
 	 * @throws SQLException thrown if the database interaction fails
 	 */
 	public static Connection getConnection(boolean allowStreaming)
-		throws SQLException
+			throws SQLException
 	{
 		return DriverManager.getConnection(getDatabaseUrl(allowStreaming), username, password);
 	}
@@ -369,10 +375,10 @@ public class Database
 	public static DSLContext getContext(Connection connection)
 	{
 		Settings settings = new Settings()
-			.withRenderMapping(new RenderMapping()
-				.withSchemata(
-					new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
-									  .withOutput(databaseName)));
+				.withRenderMapping(new RenderMapping()
+						.withSchemata(
+								new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
+												  .withOutput(databaseName)));
 
 		return DSL.using(connection, SQLDialect.MYSQL, settings);
 	}
