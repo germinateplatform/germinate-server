@@ -47,22 +47,22 @@ public class GenotypeExporter
 {
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
-	private File              folder;
-	private File              hdf5File;
-	private File              hdf5TransposedFile;
-	private File              mapFile;
-	private File              tabbedFile;
-	private File              flapjackProjectFile;
-	private File              hapmapFile;
-	private File              identifierFile;
-	private File              zipFile;
-	private Set<String>       germplasm;
-	private Set<String>       markers;
-	private String            headers         = "";
-	private String            projectName;
-	private boolean           includeFlatText = true;
+	private File           folder;
+	private File           hdf5File;
+	private File           hdf5TransposedFile;
+	private File           mapFile;
+	private File           tabbedFile;
+	private File           flapjackProjectFile;
+	private File           hapmapFile;
+	private File           identifierFile;
+	private File           zipFile;
+	private Set<String>    germplasm;
+	private Set<String>    markers;
+	private String         headers         = "";
+	private String         projectName;
+	private boolean        includeFlatText = true;
 	private DataExportJobs exportJob;
-	private Datasets          dataset;
+	private Datasets       dataset;
 
 	private final CountDownLatch latch;
 
@@ -80,7 +80,7 @@ public class GenotypeExporter
 	}
 
 	public static void main(String[] args)
-		throws IOException
+			throws IOException
 	{
 		GenotypeExporter exporter = new GenotypeExporter();
 		Database.init(args[0], args[1], args[2], args[3], args[4], false);
@@ -100,7 +100,8 @@ public class GenotypeExporter
 
 			File potential = new File(exporter.hdf5File.getParentFile(), "transposed-" + exporter.hdf5File.getName());
 
-			if (potential.exists() && potential.isFile()) exporter.hdf5TransposedFile = potential;
+			if (potential.exists() && potential.isFile())
+				exporter.hdf5TransposedFile = potential;
 
 			exporter.folder = new File(new File(exporter.exportJob.getJobConfig().getBaseFolder(), "async"), exporter.exportJob.getUuid());
 			exporter.projectName = "dataset-" + exporter.dataset.getId();
@@ -154,7 +155,7 @@ public class GenotypeExporter
 	}
 
 	private void init()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -254,11 +255,11 @@ public class GenotypeExporter
 				Field<String[]> synonyms = SYNONYMS.SYNONYMS_.as("synonyms");
 
 				SelectJoinStep<Record5<String, String, String, String, String[]>> step = context.select(
-					childName,
-					childPuid,
-					parentName,
-					parentPuid,
-					synonyms
+						childName,
+						childPuid,
+						parentName,
+						parentPuid,
+						synonyms
 				).from(GERMINATEBASE.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
 									.leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 									.leftJoin(m).on(m.GERMINATEBASE_ID.eq(g.ID))
@@ -305,14 +306,14 @@ public class GenotypeExporter
 	}
 
 	private void zip(FileSystem fs, File f, boolean delete)
-		throws IOException
+			throws IOException
 	{
 		Files.copy(f.toPath(), fs.getPath("/" + f.getName()), StandardCopyOption.REPLACE_EXISTING);
 		if (delete) f.delete();
 	}
 
 	private List<String> run()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		init();
 
@@ -509,7 +510,8 @@ public class GenotypeExporter
 
 				if (hdf5TransposedFile != null)
 					converter = new Hdf5TransposedToHapmapConverter(hdf5TransposedFile.toPath(), germplasm, markers, map, hapmapPath);
-				else converter = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+				else
+					converter = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
 
 				converter.extractData(null);
 			}

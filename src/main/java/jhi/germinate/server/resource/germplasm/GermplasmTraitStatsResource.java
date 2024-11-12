@@ -9,13 +9,15 @@ import jhi.germinate.resource.GermplasmStats;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.codegen.tables.*;
+import jhi.germinate.server.database.pojo.TraitRestrictions;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jooq.*;
 import org.jooq.impl.*;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
@@ -68,6 +70,35 @@ public class GermplasmTraitStatsResource
 												  .where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 												  .and(ts.DATASET_ID.in(datasetIds));
 
+			List<Integer> traitIds = new ArrayList<>();
+
+			context.selectFrom(PHENOTYPES)
+				   .where(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.numeric))
+				   .or(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.categorical))
+				   .forEach(t -> {
+					   if (t.get(PHENOTYPES.DATATYPE) == PhenotypesDatatype.numeric)
+						   traitIds.add(t.get(PHENOTYPES.ID));
+					   else if (t.get(PHENOTYPES.DATATYPE) == PhenotypesDatatype.categorical)
+					   {
+						   TraitRestrictions traitRestrictions = t.get(PHENOTYPES.RESTRICTIONS);
+
+						   if (traitRestrictions != null && !CollectionUtils.isEmpty(traitRestrictions.getCategories()))
+						   {
+							   for (String[] scales : traitRestrictions.getCategories())
+							   {
+								   boolean allNumeric = true;
+
+								   for (String value : scales)
+									   allNumeric &= NumberUtils.isParsable(value);
+
+								   if (allNumeric)
+									   traitIds.add(t.get(PHENOTYPES.ID));
+							   }
+
+						   }
+					   }
+				   });
+
 			return context.select(
 								  GERMINATEBASE.ID.as("germplasm_id"),
 								  GERMINATEBASE.NAME.as("germplasm_name"),
@@ -84,7 +115,7 @@ public class GermplasmTraitStatsResource
 						  .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
 						  .where(GERMINATEBASE.ID.eq(germplasmId))
 						  .and(TRIALSETUP.DATASET_ID.in(datasetIds))
-						  .and(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.numeric))
+						  .and(PHENOTYPES.ID.in(traitIds))
 						  .groupBy(PHENOTYPES.ID)
 						  .orderBy(PHENOTYPES.NAME)
 						  .fetchInto(GermplasmStats.class);
