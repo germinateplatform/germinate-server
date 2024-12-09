@@ -51,7 +51,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		Set<Integer> ids = getAcceptedLicenses(req);
 		ids.add(licenseId);
 
-		Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, ","));
+		Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, "|"));
 		cookie.setPath(getContextPath(req));
 		cookie.setMaxAge((int) (AGE / 1000));
 		cookie.setHttpOnly(true);
@@ -319,7 +319,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		Set<Integer> ids = getAcceptedLicenses(request);
 		if (!CollectionUtils.isEmpty(ids))
 		{
-			Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, ","));
+			Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, "|"));
 			cookie.setPath(getContextPath(request));
 			cookie.setMaxAge(delete ? 0 : (int) (AGE / 1000));
 			cookie.setHttpOnly(true);
@@ -337,7 +337,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			return Arrays.stream(cookies)
 						 .filter(c -> c.getName().equals("accepted-licenses"))
 						 .map(c -> {
-							 String[] values = c.getValue().split(",");
+							 String[] values = c.getValue().split("|");
 							 Set<Integer> result = new HashSet<>();
 							 for (String value : values)
 							 {

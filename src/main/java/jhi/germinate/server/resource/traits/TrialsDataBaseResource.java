@@ -176,6 +176,7 @@ public class TrialsDataBaseResource extends ExportResource
 				GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
 				DATASETS.ID.as(DATASET_ID),
+				TREATMENTS.NAME.as(TREATMENT),
 				TRIALSETUP.ID.as(TRIALSETUP_ID),
 				TRIALSETUP.REP.as(REP),
 				TRIALSETUP.BLOCK.as(BLOCK),
@@ -193,6 +194,7 @@ public class TrialsDataBaseResource extends ExportResource
 		SelectJoinStep<?> inner = context.selectDistinct(fields)
 										 .from(PHENOTYPEDATA)
 										 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+										 .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(TRIALSETUP.TREATMENT_ID))
 										 .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
 										 .leftJoin(DATASETS).on(DATASETS.ID.eq(TRIALSETUP.DATASET_ID));
 
