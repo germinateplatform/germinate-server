@@ -27,8 +27,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 
-@Path("image/upload/{referenceTable}/{foreignId:\\d+}")
-@Secured({UserType.DATA_CURATOR})
+@Path("image/upload")
 @MultipartConfig
 public class ImageUploadResource
 {
@@ -38,10 +37,39 @@ public class ImageUploadResource
 	protected HttpServletResponse resp;
 
 	@POST
+	@Path("/template")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured({UserType.ADMIN})
+	public Response postTemplateImage(@FormDataParam("image") InputStream fileIs, @FormDataParam("image") FormDataContentDisposition fileDetails)
+			throws IOException
+	{
+		if (req == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.template.name());
+		folder.mkdirs();
+
+		String itemName = fileDetails.getFileName();
+		String uuid = UUID.randomUUID().toString();
+		String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
+		File targetFile = new File(folder, uuid + "." + extension);
+
+		if (!FileUtils.isSubDirectory(folder, targetFile))
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+		return Response.ok(targetFile.getName()).build();
+	}
+
+	@POST
+	@Path("/{referenceTable}/{foreignId:\\d+}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured({UserType.DATA_CURATOR})
 	public boolean postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId, @FormDataParam("imageFiles") InputStream fileIs, @FormDataParam("imageFiles") FormDataContentDisposition fileDetails)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (foreignId == null || referenceTable == null || req == null)
 		{

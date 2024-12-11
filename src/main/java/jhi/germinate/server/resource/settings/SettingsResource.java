@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource.settings;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.Path;
@@ -52,53 +52,53 @@ public class SettingsResource
 			hiddenPages.addAll(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class));
 
 			return Response.ok(new ClientConfiguration()
-									   .setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
-									   .setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
-									   .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
-									   .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
-									   .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
-									   .setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
-									   .setHiddenPages(hiddenPages)
-									   .setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
-									   .setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
-									   .setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
-									   .setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
-									   .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
-									   .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
-									   .setHiddenColumns(new HiddenColumns()
-																 .setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
-																 .setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
-																 .setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
-																 .setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
-																 .setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
-																 .setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
-																 .setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
-																 .setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
-																 .setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
-																 .setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
-																 .setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
-																 .setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
-																 .setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
-																 .setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
-																 .setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
-																 .setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
-																 .setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
-																 .setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
-																 .setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
-																 .setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
-																 .setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
-																 .setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
-									   )
-									   .setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
-									   .setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
-									   .setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
-									   .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
-									   .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
-									   .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
-									   .setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
-									   .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
-									   .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
-									   .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
+					.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
+					.setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
+					.setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
+					.setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
+					.setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
+					.setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
+					.setHiddenPages(hiddenPages)
+					.setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
+					.setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
+					.setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
+					.setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
+					.setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
+					.setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+					.setHiddenColumns(new HiddenColumns()
+							.setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
+							.setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
+							.setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
+							.setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
+							.setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
+							.setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
+							.setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
+							.setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
+							.setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
+							.setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
+							.setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
+							.setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
+							.setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
+							.setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
+							.setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
+							.setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
+							.setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
+							.setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
+							.setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
+							.setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
+							.setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
+							.setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
+					)
+					.setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
+					.setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
+					.setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
+					.setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
+					.setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
+					.setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
+					.setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
+					.setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
+					.setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
+					.setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
 			).build();
 		}
 	}
@@ -138,28 +138,28 @@ public class SettingsResource
 			  .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
 			  .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
 			  .setHiddenColumns(new HiddenColumns()
-										.setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
-										.setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
-										.setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
-										.setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
-										.setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
-										.setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
-										.setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
-										.setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
-										.setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
-										.setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
-										.setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
-										.setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
-										.setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
-										.setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
-										.setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
-										.setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
-										.setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
-										.setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
-										.setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
-										.setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
-										.setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
-										.setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
+					  .setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
+					  .setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
+					  .setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
+					  .setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
+					  .setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
+					  .setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
+					  .setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
+					  .setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
+					  .setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
+					  .setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
+					  .setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
+					  .setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
+					  .setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
+					  .setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
+					  .setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
+					  .setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
+					  .setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
+					  .setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
+					  .setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
+					  .setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
+					  .setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
+					  .setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
 			  )
 			  .setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
 			  .setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
@@ -435,6 +435,50 @@ public class SettingsResource
 				return gson.fromJson(br, type);
 			}
 		}
+	}
+
+	@PATCH
+	@Path("/template/i18n/{lang}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public Response patchTemplateI18n(@PathParam("lang") String lang, Map<String, String> i18n)
+			throws IOException
+	{
+		if (StringUtils.isEmpty(lang) || i18n == null)
+			return Response.status(Response.Status.BAD_REQUEST).build();
+
+		File langFile = ResourceUtils.getFromExternal(resp, lang + ".json", "template");
+
+		if (langFile == null || !langFile.exists())
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		Map<String, String> content = null;
+
+		// Read the file
+		try (Reader br = new InputStreamReader(new FileInputStream(langFile), StandardCharsets.UTF_8))
+		{
+			content = gson.fromJson(br, new TypeToken<Map<String, String>>()
+			{
+			}.getType());
+		}
+
+		// Write the new content
+		final Map<String, String> finalMap = content;
+		if (content != null)
+		{
+			i18n.forEach((key, value) -> finalMap.put(key, value));
+
+			// Write the file
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(langFile), StandardCharsets.UTF_8))
+			{
+				gson.toJson(finalMap, writer);
+			}
+		}
+
+		return Response.ok().build();
 	}
 
 	@GET
