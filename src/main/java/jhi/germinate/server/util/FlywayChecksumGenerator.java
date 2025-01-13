@@ -16,7 +16,7 @@ public class FlywayChecksumGenerator
 	public static void main(String[] args)
 			throws IOException
 	{
-		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.24.09.27__update.sql")));
+		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.25.01.08__update.sql")));
 	}
 
 	/**

@@ -1,19 +1,19 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
@@ -27,7 +27,7 @@ public class GermplasmResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Germinatebase>> getGermplasm()
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -40,8 +40,8 @@ public class GermplasmResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(GERMINATEBASE);
 
 			List<Germinatebase> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Germinatebase.class);
+					.fetch()
+					.into(Germinatebase.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -54,7 +54,7 @@ public class GermplasmResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Pedigreedefinitions> getGermplasmPedigreeStrings(@PathParam("germplasmId") Integer germplasmId)
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{

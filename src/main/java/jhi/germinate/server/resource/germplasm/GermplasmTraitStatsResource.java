@@ -116,7 +116,7 @@ public class GermplasmTraitStatsResource
 						  .where(GERMINATEBASE.ID.eq(germplasmId))
 						  .and(TRIALSETUP.DATASET_ID.in(datasetIds))
 						  .and(PHENOTYPES.ID.in(traitIds))
-						  .groupBy(PHENOTYPES.ID)
+						  .groupBy(PHENOTYPES.ID, GERMINATEBASE.ID)
 						  .orderBy(PHENOTYPES.NAME)
 						  .fetchInto(GermplasmStats.class);
 		}

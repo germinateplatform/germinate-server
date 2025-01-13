@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTY
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
 
-@Path("trait/{traitId}/dataset")
+@Path("trait/{traitId:\\d+}/dataset")
 @Secured
 @PermitAll
 public class TraitDatasetTableResource extends BaseDatasetTableResource
