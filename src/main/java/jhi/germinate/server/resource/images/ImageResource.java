@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableImages.VIEW_TABLE_IMAGES;
 
 @Path("image")
 public class ImageResource
@@ -246,7 +247,7 @@ public class ImageResource
 	public Response getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
 			throws IOException
 	{
-		return this.getImage(imageType, name, size, token);
+		return this.getImageLocal(imageType, name, size, token, true);
 	}
 
 	@GET
@@ -259,14 +260,20 @@ public class ImageResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			Images image = context.selectFrom(IMAGES)
-								  .where(IMAGES.ID.eq(imageId))
-								  .fetchAnyInto(Images.class);
+			ViewTableImages image = context.selectFrom(VIEW_TABLE_IMAGES)
+										   .where(VIEW_TABLE_IMAGES.IMAGE_ID.eq(imageId))
+										   .fetchAnyInto(ViewTableImages.class);
 
 			if (image == null)
+			{
 				return Response.status(Response.Status.NOT_FOUND).build();
+			}
 			else
-				return getImage(imageType, image.getPath(), size, token);
+			{
+				// Trait reference images are free to view so GridScore can get to them without a token
+				boolean checkToken = !image.getImageRefTable().equals("phenotypes") || !image.getImageIsReference();
+				return getImageLocal(imageType, image.getImagePath(), size, token, checkToken);
+			}
 		}
 	}
 
@@ -275,6 +282,12 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImage(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
+			throws IOException
+	{
+		return getImageLocal(imageType, name, size, token, true);
+	}
+
+	private Response getImageLocal(String imageType, String name, String size, String token, boolean checkToken)
 			throws IOException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
@@ -298,7 +311,7 @@ public class ImageResource
 		// If it's not a template image, check the image token
 		if (mode == AuthenticationMode.FULL && type != ImageType.template)
 		{
-			if (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token))
+			if (checkToken && (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token)))
 			{
 				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
 				return null;
