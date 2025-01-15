@@ -337,7 +337,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			return Arrays.stream(cookies)
 						 .filter(c -> c.getName().equals("accepted-licenses"))
 						 .map(c -> {
-							 String[] values = c.getValue().split("|");
+							 String[] values = c.getValue().split("\\|");
 							 Set<Integer> result = new HashSet<>();
 							 for (String value : values)
 							 {
