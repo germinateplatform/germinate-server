@@ -63,6 +63,7 @@ public class ImageResource
 			}
 
 			image.setDescription(imageToPatch.getImageDescription());
+			image.setIsReference(imageToPatch.getImageIsReference());
 			image.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			return image.store() > 0;
 		}
