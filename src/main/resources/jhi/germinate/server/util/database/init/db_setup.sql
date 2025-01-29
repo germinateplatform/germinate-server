@@ -6,17 +6,17 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `attributedata`;
 CREATE TABLE `attributedata`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `attribute_id` int(11) NOT NULL COMMENT 'Foreign key to attributes (attributes.id).',
-  `foreign_id` int(11) NOT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
-  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The value of the attribute.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `germinatebase_id`(`foreign_id`) USING BTREE,
-  INDEX `attribute_id`(`attribute_id`) USING BTREE,
-  CONSTRAINT `attributedata_ibfk_1` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines attributes data. Attributes which are defined in attributes can have values associated with them. Data which does not warrant new column in the germinatebase table can be added here. Examples include small amounts of data defining germplasm which only exists for a small sub-group of the total database.' ROW_FORMAT = Dynamic;
+                                  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                  `attribute_id` int NOT NULL COMMENT 'Foreign key to attributes (attributes.id).',
+                                  `foreign_id` int NOT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
+                                  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The value of the attribute.',
+                                  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                  PRIMARY KEY (`id`) USING BTREE,
+                                  INDEX `germinatebase_id`(`foreign_id` ASC) USING BTREE,
+                                  INDEX `attribute_id`(`attribute_id` ASC) USING BTREE,
+                                  CONSTRAINT `attributedata_ibfk_1` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines attributes data. Attributes which are defined in attributes can have values associated with them. Data which does not warrant new column in the germinatebase table can be added here. Examples include small amounts of data defining germplasm which only exists for a small sub-group of the total database.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attributedata
@@ -27,14 +27,14 @@ CREATE TABLE `attributedata`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `attributes`;
 CREATE TABLE `attributes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Defines the name of the attribute.',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Describes the attribute. This should expand on the name to make it clear what the attribute actually is.',
-  `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the attribute. This can be of numeric, text, date or categorical types.',
-  `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'germinatebase',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                               `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Defines the name of the attribute.',
+                               `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Describes the attribute. This should expand on the name to make it clear what the attribute actually is.',
+                               `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the attribute. This can be of numeric, text, date or categorical types.',
+                               `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'germinatebase',
+                               `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                               `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes attributes. Attributes are bits of information that can be joined to, for example, a germinatebase entry. These are bits of data that while important do not warrant adding additional columns in the other tables. Examples would be using this to define ecotypes for germinatebase entries.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -50,11 +50,11 @@ INSERT INTO `attributes` VALUES (4, 'Compound class', 'Description of the class 
 -- ----------------------------
 DROP TABLE IF EXISTS `biologicalstatus`;
 CREATE TABLE `biologicalstatus`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `sampstat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Previoulsy known as sampstat.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                     `sampstat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Previoulsy known as sampstat.',
+                                     `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                     `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Based on Multi Crop Passport Descriptors (MCPD V2 2012) - The coding scheme proposed can be used at 3 different levels of detail: either by using the\ngeneral codes (in boldface) such as 100, 200, 300, 400, or by using the more specific codes\nsuch as 110, 120, etc.\n100) Wild\n110) Natural\n120) Semi-natural/wild\n130) Semi-natural/sown\n200) Weedy\n300) Traditional cultivar/landrace\n400) Breeding/research material\n 410) Breeder\'s line\n 411) Synthetic population\n 412) Hybrid\n 413) Founder stock/base population\n 414) Inbred line (parent of hybrid cultivar)\n 415) Segregating population\n 416) Clonal selection\n 420) Genetic stock\n 421) Mutant (e.g. induced/insertion mutants, tilling populations)\n 422) Cytogenetic stocks (e.g. chromosome addition/substitution, aneuploids,\namphiploids)\n 423) Other genetic stocks (e.g. mapping populations)\n500) Advanced or improved cultivar (conventional breeding methods)\n600) GMO (by genetic engineering)\n 999) Other ' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -87,26 +87,26 @@ INSERT INTO `biologicalstatus` VALUES (999, 'Other', NULL, '2015-08-20 09:42:52'
 -- ----------------------------
 DROP TABLE IF EXISTS `climatedata`;
 CREATE TABLE `climatedata`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `climate_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key to climates (climates.id).',
-  `location_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key to locations (locations.id).',
-  `climate_value` double(64, 10) NULL DEFAULT NULL COMMENT 'Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.',
-  `dataset_id` int(11) NOT NULL COMMENT 'Foreign key to datasets (datasets.id).',
-  `recording_date` datetime NULL DEFAULT NULL COMMENT 'The date at which this data point was recorded.',
-  `old_recording_date` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The month that the data was recorded. This uses an integer to represent the month (1-12).',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
-  INDEX `climate_id`(`climate_id`) USING BTREE,
-  INDEX `location_id`(`location_id`) USING BTREE,
-  INDEX `climate_location_id`(`climate_id`, `location_id`) USING BTREE,
-  INDEX `recording_date_climate_calue`(`old_recording_date`, `climate_value`) USING BTREE,
-  INDEX `climate_query_index`(`climate_id`, `location_id`, `recording_date`, `dataset_id`, `climate_value`) USING BTREE,
-  CONSTRAINT `climatedata_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `climatedata_ibfk_2` FOREIGN KEY (`climate_id`) REFERENCES `climates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `climatedata_ibfk_3` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds montly average climate data such as rainfall, temperature or cloud cover. This is based on locations rather than accessions like most of the other tables in Germinate.' ROW_FORMAT = Dynamic;
+                                `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                `climate_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key to climates (climates.id).',
+                                `location_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key to locations (locations.id).',
+                                `climate_value` double(64, 10) NULL DEFAULT NULL COMMENT 'Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.',
+                                `dataset_id` int NOT NULL COMMENT 'Foreign key to datasets (datasets.id).',
+                                `recording_date` datetime NULL DEFAULT NULL COMMENT 'The date at which this data point was recorded.',
+                                `old_recording_date` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The month that the data was recorded. This uses an integer to represent the month (1-12).',
+                                `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
+                                INDEX `climate_id`(`climate_id` ASC) USING BTREE,
+                                INDEX `location_id`(`location_id` ASC) USING BTREE,
+                                INDEX `climate_location_id`(`climate_id` ASC, `location_id` ASC) USING BTREE,
+                                INDEX `recording_date_climate_calue`(`old_recording_date` ASC, `climate_value` ASC) USING BTREE,
+                                INDEX `climate_query_index`(`climate_id` ASC, `location_id` ASC, `recording_date` ASC, `dataset_id` ASC, `climate_value` ASC) USING BTREE,
+                                CONSTRAINT `climatedata_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `climatedata_ibfk_2` FOREIGN KEY (`climate_id`) REFERENCES `climates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `climatedata_ibfk_3` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds montly average climate data such as rainfall, temperature or cloud cover. This is based on locations rather than accessions like most of the other tables in Germinate.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of climatedata
@@ -117,18 +117,18 @@ CREATE TABLE `climatedata`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `climates`;
 CREATE TABLE `climates`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Describes the climate.',
-  `short_name` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Shortened version of the climate name which is used in some table headers.',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A longer description of the climate.',
-  `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the climate. This can be of numeric, text, date or categorical types.',
-  `unit_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to units (units.id).\n',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `unit_id`(`unit_id`) USING BTREE,
-  CONSTRAINT `climates_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines climates. Climates are measureable weather type characteristics such as temperature or cloud cover.' ROW_FORMAT = Dynamic;
+                             `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                             `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Describes the climate.',
+                             `short_name` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Shortened version of the climate name which is used in some table headers.',
+                             `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A longer description of the climate.',
+                             `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the climate. This can be of numeric, text, date or categorical types.',
+                             `unit_id` int NULL DEFAULT NULL COMMENT 'Foreign key to units (units.id).\n',
+                             `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                             `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                             PRIMARY KEY (`id`) USING BTREE,
+                             INDEX `unit_id`(`unit_id` ASC) USING BTREE,
+                             CONSTRAINT `climates_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines climates. Climates are measureable weather type characteristics such as temperature or cloud cover.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of climates
@@ -139,19 +139,19 @@ CREATE TABLE `climates`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `collaborators`;
 CREATE TABLE `collaborators`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
-  `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
-  `external_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.',
-  `institution_id` int(11) NULL DEFAULT NULL COMMENT 'Author\'s affiliation when the resource was created. Foreign key to \'institutions\'',
+                                  `id` int NOT NULL AUTO_INCREMENT,
+                                  `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Last name (surname) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
+                                  `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'First name (and middle name if available) of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
+                                  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'E-mail address of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
+                                  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Phone number of the author(s), researcher(s), scientist(s), student(s) responsible for producing the information product.',
+                                  `external_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'An identifier for the data submitter. If that submitter is an individual, ORCID identifiers are recommended.',
+                                  `institution_id` int NULL DEFAULT NULL COMMENT 'Author\'s affiliation when the resource was created. Foreign key to \'institutions\'',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `institution_id`(`institution_id`) USING BTREE,
+  INDEX `institution_id`(`institution_id` ASC) USING BTREE,
   CONSTRAINT `collaborators_ibfk_1` FOREIGN KEY (`institution_id`) REFERENCES `institutions` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of collaborators
@@ -162,7 +162,7 @@ CREATE TABLE `collaborators`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `collectingsources`;
 CREATE TABLE `collectingsources`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `collsrc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'collsrc in the Multi Crop Passport Descriptors (MCPD V2 2012)\n',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
@@ -200,19 +200,19 @@ INSERT INTO `collectingsources` VALUES (99, 'Other (Elaborate in REMARKS field)'
 -- ----------------------------
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `commenttype_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key to commentypes (commenttypes.id).',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper users.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `commenttype_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key to commentypes (commenttypes.id).',
+  `user_id` int NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper users.id).',
   `visibility` tinyint(1) NULL DEFAULT NULL COMMENT 'Defines if the comment is available or masked (hidden) from the interface.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The comment content.',
-  `reference_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Relates to the UID of the table to which the comment relates',
+  `reference_id` int NOT NULL DEFAULT 0 COMMENT 'Relates to the UID of the table to which the comment relates',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE,
-  INDEX `commenttype_id`(`commenttype_id`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
+  INDEX `commenttype_id`(`commenttype_id` ASC) USING BTREE,
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`commenttype_id`) REFERENCES `commenttypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Comments can be added to different entries in Germinate such as entries from germinatebase or markers from the markers table.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Comments can be added to different entries in Germinate such as entries from germinatebase or markers from the markers table.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comments
@@ -223,7 +223,7 @@ CREATE TABLE `comments`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `commenttypes`;
 CREATE TABLE `commenttypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Describes the comment type.',
   `reference_table` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'This could include \'germinatebase\' or \'markers\' to define the table that the comment relates to.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
@@ -243,7 +243,7 @@ INSERT INTO `commenttypes` VALUES (3, 'location annotations', 'locations', '2013
 -- ----------------------------
 DROP TABLE IF EXISTS `countries`;
 CREATE TABLE `countries`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `country_code2` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'ISO 2 Code for country.',
   `country_code3` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'ISO 3 Code for country.',
   `country_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Country name.',
@@ -511,20 +511,20 @@ INSERT INTO `countries` VALUES (249, 'ZW', 'ZWE', 'Zimbabwe', NULL, NULL);
 -- ----------------------------
 DROP TABLE IF EXISTS `data_export_jobs`;
 CREATE TABLE `data_export_jobs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `job_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `job_config` json NULL,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'waiting',
-  `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `datatype` enum('genotype','trials','allelefreq','climate','compound','pedigree','unknown','images') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'unknown',
-  `dataset_ids` json NULL,
-  `result_size` bigint(20) NULL DEFAULT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                                     `id` int NOT NULL AUTO_INCREMENT,
+                                     `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                     `job_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                     `job_config` json NULL,
+                                     `user_id` int NULL DEFAULT NULL,
+                                     `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'waiting',
+                                     `visibility` tinyint(1) NOT NULL DEFAULT 1,
+                                     `datatype` enum('genotype','trials','allelefreq','climate','compound','pedigree','unknown','images') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'unknown',
+                                     `dataset_ids` json NULL,
+                                     `result_size` bigint NULL DEFAULT NULL,
+                                     `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                                     `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                     PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of data_export_jobs
@@ -535,27 +535,27 @@ CREATE TABLE `data_export_jobs`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `data_import_jobs`;
 CREATE TABLE `data_import_jobs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `job_id` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `job_config` json NULL,
-  `user_id` int(11) NULL DEFAULT NULL,
-  `original_filename` varchar(266) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `is_update` tinyint(1) NOT NULL DEFAULT 0,
-  `datasetstate_id` int(11) NOT NULL DEFAULT 1,
-  `datatype` enum('mcpd','trial','compound','genotype','pedigree','groups','climate','images','shapefile','geotiff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'mcpd',
-  `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'waiting',
-  `imported` tinyint(1) NOT NULL DEFAULT 0,
-  `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `feedback` json NULL,
-  `stats` json NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `data_import_jobs_uuid`(`uuid`) USING BTREE,
-  INDEX `data_import_jobs_status`(`status`) USING BTREE,
-  INDEX `data_import_jobs_visibility`(`visibility`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                                     `id` int NOT NULL AUTO_INCREMENT,
+                                     `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                     `job_id` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                     `job_config` json NULL,
+                                     `user_id` int NULL DEFAULT NULL,
+                                     `original_filename` varchar(266) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                     `is_update` tinyint(1) NOT NULL DEFAULT 0,
+                                     `datasetstate_id` int NOT NULL DEFAULT 1,
+                                     `datatype` enum('mcpd','trial','compound','genotype','pedigree','groups','climate','images','shapefile','geotiff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'mcpd',
+                                     `status` enum('waiting','running','failed','completed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'waiting',
+                                     `imported` tinyint(1) NOT NULL DEFAULT 0,
+                                     `visibility` tinyint(1) NOT NULL DEFAULT 1,
+                                     `feedback` json NULL,
+                                     `stats` json NULL,
+                                     `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                                     `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                     PRIMARY KEY (`id`) USING BTREE,
+                                     INDEX `data_import_jobs_uuid`(`uuid` ASC) USING BTREE,
+                                     INDEX `data_import_jobs_status`(`status` ASC) USING BTREE,
+                                     INDEX `data_import_jobs_visibility`(`visibility` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of data_import_jobs
@@ -566,19 +566,19 @@ CREATE TABLE `data_import_jobs`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetaccesslogs`;
 CREATE TABLE `datasetaccesslogs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `user_id` int(11) NULL DEFAULT NULL,
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `user_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `user_institution` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `dataset_id` int(11) NOT NULL,
-  `reason` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
-  CONSTRAINT `datasetaccesslogs_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'If enabled, tracks which user accessed which datasets.' ROW_FORMAT = Dynamic;
+                                      `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                      `user_id` int NULL DEFAULT NULL,
+                                      `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                      `user_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                      `user_institution` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                      `dataset_id` int NOT NULL,
+                                      `reason` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+                                      `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                      `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                      PRIMARY KEY (`id`) USING BTREE,
+                                      INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
+                                      CONSTRAINT `datasetaccesslogs_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'If enabled, tracks which user accessed which datasets.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasetaccesslogs
@@ -589,18 +589,18 @@ CREATE TABLE `datasetaccesslogs`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetcollaborators`;
 CREATE TABLE `datasetcollaborators`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dataset_id` int(11) NOT NULL,
-  `collaborator_id` int(11) NOT NULL,
-  `collaborator_roles` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Type of contribution of the person to the investigation (e.g. data submitter; author; corresponding author)',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
-  INDEX `collaborator_id`(`collaborator_id`) USING BTREE,
-  CONSTRAINT `datasetcollaborators_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasetcollaborators_ibfk_2` FOREIGN KEY (`collaborator_id`) REFERENCES `collaborators` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                                         `id` int NOT NULL AUTO_INCREMENT,
+                                         `dataset_id` int NOT NULL,
+                                         `collaborator_id` int NOT NULL,
+                                         `collaborator_roles` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Type of contribution of the person to the investigation (e.g. data submitter; author; corresponding author)',
+                                         `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                         `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                         PRIMARY KEY (`id`) USING BTREE,
+                                         INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
+                                         INDEX `collaborator_id`(`collaborator_id` ASC) USING BTREE,
+                                         CONSTRAINT `datasetcollaborators_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                         CONSTRAINT `datasetcollaborators_ibfk_2` FOREIGN KEY (`collaborator_id`) REFERENCES `collaborators` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasetcollaborators
@@ -611,14 +611,14 @@ CREATE TABLE `datasetcollaborators`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetfileresources`;
 CREATE TABLE `datasetfileresources`  (
-  `dataset_id` int(11) NOT NULL,
-  `fileresource_id` int(11) NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`dataset_id`, `fileresource_id`) USING BTREE,
-  INDEX `fileresource_id`(`fileresource_id`) USING BTREE,
-  CONSTRAINT `datasetfileresources_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasetfileresources_ibfk_2` FOREIGN KEY (`fileresource_id`) REFERENCES `fileresources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                         `dataset_id` int NOT NULL,
+                                         `fileresource_id` int NOT NULL,
+                                         `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                                         `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                         PRIMARY KEY (`dataset_id`, `fileresource_id`) USING BTREE,
+                                         INDEX `fileresource_id`(`fileresource_id` ASC) USING BTREE,
+                                         CONSTRAINT `datasetfileresources_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                         CONSTRAINT `datasetfileresources_ibfk_2` FOREIGN KEY (`fileresource_id`) REFERENCES `fileresources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -630,14 +630,14 @@ CREATE TABLE `datasetfileresources`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetlocations`;
 CREATE TABLE `datasetlocations`  (
-  `dataset_id` int(11) NOT NULL,
-  `location_id` int(11) NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`dataset_id`, `location_id`) USING BTREE,
-  INDEX `location_id`(`location_id`) USING BTREE,
-  CONSTRAINT `datasetlocations_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasetlocations_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                     `dataset_id` int NOT NULL,
+                                     `location_id` int NOT NULL,
+                                     `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                                     `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                                     PRIMARY KEY (`dataset_id`, `location_id`) USING BTREE,
+                                     INDEX `location_id`(`location_id` ASC) USING BTREE,
+                                     CONSTRAINT `datasetlocations_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                     CONSTRAINT `datasetlocations_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -649,20 +649,20 @@ CREATE TABLE `datasetlocations`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetmembers`;
 CREATE TABLE `datasetmembers`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dataset_id` int(11) NOT NULL,
-  `foreign_id` int(11) NOT NULL,
-  `datasetmembertype_id` int(11) NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
-  INDEX `datasetmembertype_id`(`datasetmembertype_id`) USING BTREE,
-  INDEX `dataset_id_2`(`dataset_id`, `datasetmembertype_id`) USING BTREE,
-  INDEX `foreign_id`(`foreign_id`) USING BTREE,
-  CONSTRAINT `datasetmembers_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasetmembers_ibfk_2` FOREIGN KEY (`datasetmembertype_id`) REFERENCES `datasetmembertypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                                   `id` int NOT NULL AUTO_INCREMENT,
+                                   `dataset_id` int NOT NULL,
+                                   `foreign_id` int NOT NULL,
+                                   `datasetmembertype_id` int NOT NULL,
+                                   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                   PRIMARY KEY (`id`) USING BTREE,
+                                   INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
+                                   INDEX `datasetmembertype_id`(`datasetmembertype_id` ASC) USING BTREE,
+                                   INDEX `dataset_id_2`(`dataset_id` ASC, `datasetmembertype_id` ASC) USING BTREE,
+                                   INDEX `foreign_id`(`foreign_id` ASC) USING BTREE,
+                                   CONSTRAINT `datasetmembers_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                   CONSTRAINT `datasetmembers_ibfk_2` FOREIGN KEY (`datasetmembertype_id`) REFERENCES `datasetmembertypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasetmembers
@@ -673,11 +673,11 @@ CREATE TABLE `datasetmembers`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetmembertypes`;
 CREATE TABLE `datasetmembertypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
+                                       `id` int NOT NULL AUTO_INCREMENT,
+                                       `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                       `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                       `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -691,16 +691,16 @@ INSERT INTO `datasetmembertypes` VALUES (2, 'germinatebase', '2018-03-27 14:26:1
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetmeta`;
 CREATE TABLE `datasetmeta`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `dataset_id` int(11) NOT NULL COMMENT 'Foreign key to [datasets] ([datasets].id).',
-  `nr_of_data_objects` bigint(20) UNSIGNED NOT NULL COMMENT 'The number of data objects contained in this dataset.',
-  `nr_of_data_points` bigint(20) UNSIGNED NOT NULL COMMENT 'The number of individual data points contained in this dataset.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `datasetmeta_ibfk_datasets`(`dataset_id`) USING BTREE,
-  CONSTRAINT `datasetmeta_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines dataset sizes for the items in the datasets table. This table is automatically updated every hour.' ROW_FORMAT = Dynamic;
+                                `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                `dataset_id` int NOT NULL COMMENT 'Foreign key to [datasets] ([datasets].id).',
+                                `nr_of_data_objects` bigint UNSIGNED NOT NULL COMMENT 'The number of data objects contained in this dataset.',
+                                `nr_of_data_points` bigint UNSIGNED NOT NULL COMMENT 'The number of individual data points contained in this dataset.',
+                                `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                INDEX `datasetmeta_ibfk_datasets`(`dataset_id` ASC) USING BTREE,
+                                CONSTRAINT `datasetmeta_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines dataset sizes for the items in the datasets table. This table is automatically updated every hour.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasetmeta
@@ -711,18 +711,18 @@ CREATE TABLE `datasetmeta`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetpermissions`;
 CREATE TABLE `datasetpermissions`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `dataset_id` int(11) NOT NULL COMMENT 'Foreign key to datasets (datasets.id).',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper usersid).',
-  `group_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to usergroups table.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `datasetpermissions_ibfk1`(`dataset_id`) USING BTREE,
-  INDEX `group_id`(`group_id`) USING BTREE,
-  CONSTRAINT `datasetpermissions_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasetpermissions_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `usergroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'This defines which users can view which datasets. Requires Germinate Gatekeeper. This overrides the datasets state.' ROW_FORMAT = Dynamic;
+                                       `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                       `dataset_id` int NOT NULL COMMENT 'Foreign key to datasets (datasets.id).',
+                                       `user_id` int NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper usersid).',
+                                       `group_id` int NULL DEFAULT NULL COMMENT 'Foreign key to usergroups table.',
+                                       `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                       `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                       PRIMARY KEY (`id`) USING BTREE,
+                                       INDEX `datasetpermissions_ibfk1`(`dataset_id` ASC) USING BTREE,
+                                       INDEX `group_id`(`group_id` ASC) USING BTREE,
+                                       CONSTRAINT `datasetpermissions_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                       CONSTRAINT `datasetpermissions_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `usergroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'This defines which users can view which datasets. Requires Germinate Gatekeeper. This overrides the datasets state.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasetpermissions
@@ -733,36 +733,36 @@ CREATE TABLE `datasetpermissions`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasets`;
 CREATE TABLE `datasets`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `experiment_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key to experiments (experiments.id).',
-  `datasettype_id` int(11) NOT NULL DEFAULT -1 COMMENT 'Foreign key to datasettypes (datasettypes.id).',
-  `name` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Describes the dataset.',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The name of this dataset.',
-  `date_start` date NULL DEFAULT NULL COMMENT 'Date that the dataset was generated.',
-  `date_end` date NULL DEFAULT NULL COMMENT 'Date at which the dataset recording ended.',
-  `source_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `datatype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A description of the data type of the contained data. Examples might be: \"raw data\", \"BLUPs\", etc.',
-  `dublin_core` json NULL,
-  `version` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Dataset version if this exists.',
-  `created_by` int(11) NULL DEFAULT NULL COMMENT 'Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).',
-  `dataset_state_id` int(11) NOT NULL DEFAULT 1 COMMENT 'Foreign key to datasetstates (datasetstates.id).',
-  `license_id` int(11) NULL DEFAULT NULL,
-  `is_external` tinyint(1) NULL DEFAULT 0 COMMENT 'Defines if the dataset is contained within Germinate or from an external source and not stored in the database.',
-  `hyperlink` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Link to access the external dasets.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.\n',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  `contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The contact to get more information about this dataset.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `experiment`(`experiment_id`) USING BTREE,
-  INDEX `id`(`id`) USING BTREE,
-  INDEX `datasets_ibfk_2`(`dataset_state_id`) USING BTREE,
-  INDEX `license_id`(`license_id`) USING BTREE,
-  INDEX `datasets_ibfk_datasettypes`(`datasettype_id`) USING BTREE,
-  CONSTRAINT `datasets_ibfk_dataset_state` FOREIGN KEY (`dataset_state_id`) REFERENCES `datasetstates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasets_ibfk_datasettypes` FOREIGN KEY (`datasettype_id`) REFERENCES `datasettypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasets_ibfk_experiment` FOREIGN KEY (`experiment_id`) REFERENCES `experiments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `datasets_ibfk_license` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Datasets which are defined within Germinate although there can be external datasets which are links out to external data sources most will be held within Germinate.' ROW_FORMAT = Dynamic;
+                             `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                             `experiment_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key to experiments (experiments.id).',
+                             `datasettype_id` int NOT NULL DEFAULT -1 COMMENT 'Foreign key to datasettypes (datasettypes.id).',
+                             `name` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Describes the dataset.',
+                             `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The name of this dataset.',
+                             `date_start` date NULL DEFAULT NULL COMMENT 'Date that the dataset was generated.',
+                             `date_end` date NULL DEFAULT NULL COMMENT 'Date at which the dataset recording ended.',
+                             `source_file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                             `datatype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A description of the data type of the contained data. Examples might be: \"raw data\", \"BLUPs\", etc.',
+                             `dublin_core` json NULL,
+                             `version` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Dataset version if this exists.',
+                             `created_by` int NULL DEFAULT NULL COMMENT 'Defines who created the dataset. This is a FK in Gatekeeper users table. Foreign key to Gatekeeper users (users.id).',
+                             `dataset_state_id` int NOT NULL DEFAULT 1 COMMENT 'Foreign key to datasetstates (datasetstates.id).',
+                             `license_id` int NULL DEFAULT NULL,
+                             `is_external` tinyint(1) NULL DEFAULT 0 COMMENT 'Defines if the dataset is contained within Germinate or from an external source and not stored in the database.',
+                             `hyperlink` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Link to access the external dasets.',
+                             `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.\n',
+                             `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                             `contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The contact to get more information about this dataset.',
+                             PRIMARY KEY (`id`) USING BTREE,
+                             INDEX `experiment`(`experiment_id` ASC) USING BTREE,
+                             INDEX `id`(`id` ASC) USING BTREE,
+                             INDEX `datasets_ibfk_2`(`dataset_state_id` ASC) USING BTREE,
+                             INDEX `license_id`(`license_id` ASC) USING BTREE,
+                             INDEX `datasets_ibfk_datasettypes`(`datasettype_id` ASC) USING BTREE,
+                             CONSTRAINT `datasets_ibfk_dataset_state` FOREIGN KEY (`dataset_state_id`) REFERENCES `datasetstates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                             CONSTRAINT `datasets_ibfk_datasettypes` FOREIGN KEY (`datasettype_id`) REFERENCES `datasettypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                             CONSTRAINT `datasets_ibfk_experiment` FOREIGN KEY (`experiment_id`) REFERENCES `experiments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                             CONSTRAINT `datasets_ibfk_license` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Datasets which are defined within Germinate although there can be external datasets which are links out to external data sources most will be held within Germinate.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of datasets
@@ -773,12 +773,12 @@ CREATE TABLE `datasets`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `datasetstates`;
 CREATE TABLE `datasetstates`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Defines the datasetstate.',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Describes the datasetstate.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Defines the datasetstate.',
+                                  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Describes the datasetstate.',
+                                  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -793,12 +793,12 @@ INSERT INTO `datasetstates` VALUES (3, 'hidden', 'Hidden datasets are only visib
 -- ----------------------------
 DROP TABLE IF EXISTS `datasettypes`;
 CREATE TABLE `datasettypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Describes the experiment type.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `id`(`id`) USING BTREE
+                                 `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                 `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Describes the experiment type.',
+                                 `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                 `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 INDEX `id`(`id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -813,16 +813,33 @@ INSERT INTO `datasettypes` VALUES (6, 'compound', '2018-11-07 11:49:53', '2018-1
 INSERT INTO `datasettypes` VALUES (7, 'pedigree', '2022-03-08 08:43:32', '2022-03-08 08:43:32');
 
 -- ----------------------------
+-- Table structure for datawarnings
+-- ----------------------------
+DROP TABLE IF EXISTS `datawarnings`;
+CREATE TABLE `datawarnings`  (
+                                 `id` int NOT NULL AUTO_INCREMENT,
+                                 `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+                                 `category` enum('generic','quality','source','deprecated','missing','inaccuracy') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'generic',
+                                 `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                 `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                 PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of datawarnings
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for entitytypes
 -- ----------------------------
 DROP TABLE IF EXISTS `entitytypes`;
 CREATE TABLE `entitytypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the entity type.',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Describes the entity type.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the entity type.',
+                                `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Describes the entity type.',
+                                `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -837,15 +854,18 @@ INSERT INTO `entitytypes` VALUES (3, 'Sample', 'A sample from a plant. An exampl
 -- ----------------------------
 DROP TABLE IF EXISTS `experiments`;
 CREATE TABLE `experiments`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `experiment_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the experiment.',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper users.id).\n',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Describes the experiment.',
-  `experiment_date` date NULL DEFAULT NULL COMMENT 'The date that the experiment was carried out.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines ecperiments that are held in Germinate.' ROW_FORMAT = Dynamic;
+                                `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                `experiment_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the experiment.',
+                                `user_id` int NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper users.id).\n',
+                                `project_id` int NULL DEFAULT NULL,
+                                `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Describes the experiment.',
+                                `experiment_date` date NULL DEFAULT NULL COMMENT 'The date that the experiment was carried out.',
+                                `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                INDEX `project_id`(`project_id` ASC) USING BTREE,
+                                CONSTRAINT `experiments_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines ecperiments that are held in Germinate.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of experiments
@@ -856,19 +876,22 @@ CREATE TABLE `experiments`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `fileresources`;
 CREATE TABLE `fileresources`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the file resource.',
-  `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The file name of the actual data file.',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A description of the file contents.',
-  `filesize` bigint(20) NULL DEFAULT NULL COMMENT 'The file size in bytes.',
-  `fileresourcetype_id` int(11) NOT NULL COMMENT 'Foreign key to fileresourcetypes.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When this record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When this record was last updated.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fileresource_name`(`name`) USING BTREE,
-  INDEX `fileresourcetype_id`(`fileresourcetype_id`) USING BTREE,
-  CONSTRAINT `fileresources_ibfk_1` FOREIGN KEY (`fileresourcetype_id`) REFERENCES `fileresourcetypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                                  `id` int NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
+                                  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the file resource.',
+                                  `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The file name of the actual data file.',
+                                  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A description of the file contents.',
+                                  `filesize` bigint NULL DEFAULT NULL COMMENT 'The file size in bytes.',
+                                  `fileresourcetype_id` int NOT NULL COMMENT 'Foreign key to fileresourcetypes.',
+                                  `project_id` int NULL DEFAULT NULL,
+                                  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When this record was created.',
+                                  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When this record was last updated.',
+                                  PRIMARY KEY (`id`) USING BTREE,
+                                  INDEX `fileresource_name`(`name` ASC) USING BTREE,
+                                  INDEX `fileresourcetype_id`(`fileresourcetype_id` ASC) USING BTREE,
+                                  INDEX `project_id`(`project_id` ASC) USING BTREE,
+                                  CONSTRAINT `fileresources_ibfk_1` FOREIGN KEY (`fileresourcetype_id`) REFERENCES `fileresourcetypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                  CONSTRAINT `fileresources_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fileresources
@@ -879,13 +902,13 @@ CREATE TABLE `fileresources`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `fileresourcetypes`;
 CREATE TABLE `fileresourcetypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the file type.',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The description of the file type.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When this record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When this record was last updated.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `fileresourcetype_name`(`name`) USING BTREE
+                                      `id` int NOT NULL AUTO_INCREMENT COMMENT 'The primary id.',
+                                      `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the file type.',
+                                      `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The description of the file type.',
+                                      `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When this record was created.',
+                                      `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When this record was last updated.',
+                                      PRIMARY KEY (`id`) USING BTREE,
+                                      INDEX `fileresourcetype_name`(`name` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -899,37 +922,56 @@ INSERT INTO `fileresourcetypes` VALUES (2, 'Trials GeoTIFF', 'GeoTIFF file assoc
 -- ----------------------------
 DROP TABLE IF EXISTS `germinatebase`;
 CREATE TABLE `germinatebase`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `general_identifier` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A unique identifier.',
-  `number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A unique name which defines an entry in the germinatbase table.',
-  `display_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name to be displayed on user interfaces and to be exported to external tools like Flapjack and Helium.',
-  `bank_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Alternative genebank number.',
-  `taxonomy_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to taxonomies (taxonomies.id).',
-  `plant_passport` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Record if the entry has a plant passport.',
-  `location_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to locations (locations.id).',
-  `entitytype_id` int(11) NULL DEFAULT 1 COMMENT 'Foreign key to entitytypes (entitytypes.id).',
-  `entityparent_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
-  `pdci` float(64, 10) NULL DEFAULT NULL COMMENT 'Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.',
+                                  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                  `general_identifier` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A unique identifier.',
+                                  `number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'This is the unique identifier for accessions within a genebank, and is assigned when a sample is\nentered into the genebank collection (e.g. ‘PI 113869’).',
+                                  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A unique name which defines an entry in the germinatbase table.',
+                                  `display_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name to be displayed on user interfaces and to be exported to external tools like Flapjack and Helium.',
+                                  `bank_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Alternative genebank number.',
+                                  `taxonomy_id` int NULL DEFAULT NULL COMMENT 'Foreign key to taxonomies (taxonomies.id).',
+                                  `plant_passport` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Record if the entry has a plant passport.',
+                                  `location_id` int NULL DEFAULT NULL COMMENT 'Foreign key to locations (locations.id).',
+                                  `entitytype_id` int NULL DEFAULT 1 COMMENT 'Foreign key to entitytypes (entitytypes.id).',
+                                  `entityparent_id` int NULL DEFAULT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
+                                  `pdci` float(64, 10) NULL DEFAULT NULL COMMENT 'Passport Data Completeness Index. This is calculated by Germinate. Manual editing of this field will be overwritten.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `taxonomy_id`(`taxonomy_id`) USING BTREE,
-  INDEX `collsite_id`(`location_id`) USING BTREE,
-  INDEX `general_identifier`(`general_identifier`) USING BTREE,
-  INDEX `germinatebase_ibfk_entitytype`(`entitytype_id`) USING BTREE,
-  INDEX `germinatebase_ibfk_entityparent`(`entityparent_id`) USING BTREE,
-  INDEX `germinatebase_name`(`name`) USING BTREE,
-  INDEX `germinatebase_number`(`number`) USING BTREE,
-  INDEX `germinatebase_display_name`(`display_name`) USING BTREE,
+  INDEX `taxonomy_id`(`taxonomy_id` ASC) USING BTREE,
+  INDEX `collsite_id`(`location_id` ASC) USING BTREE,
+  INDEX `general_identifier`(`general_identifier` ASC) USING BTREE,
+  INDEX `germinatebase_ibfk_entitytype`(`entitytype_id` ASC) USING BTREE,
+  INDEX `germinatebase_ibfk_entityparent`(`entityparent_id` ASC) USING BTREE,
+  INDEX `germinatebase_name`(`name` ASC) USING BTREE,
+  INDEX `germinatebase_number`(`number` ASC) USING BTREE,
+  INDEX `germinatebase_display_name`(`display_name` ASC) USING BTREE,
   CONSTRAINT `germinatebase_ibfk_entityparent` FOREIGN KEY (`entityparent_id`) REFERENCES `germinatebase` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_entitytype` FOREIGN KEY (`entitytype_id`) REFERENCES `entitytypes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `germinatebase_ibfk_taxonomy` FOREIGN KEY (`taxonomy_id`) REFERENCES `taxonomies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Germinatebase is the Germinate base table which contains passport and other germplasm definition data.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Germinatebase is the Germinate base table which contains passport and other germplasm definition data.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of germinatebase
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for germplasmdatawarnings
+-- ----------------------------
+DROP TABLE IF EXISTS `germplasmdatawarnings`;
+CREATE TABLE `germplasmdatawarnings`  (
+                                          `germinatebase_id` int NOT NULL,
+                                          `datawarning_id` int NOT NULL,
+                                          `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                          `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                          PRIMARY KEY (`germinatebase_id`, `datawarning_id`) USING BTREE,
+                                          INDEX `datawarning_id`(`datawarning_id` ASC) USING BTREE,
+                                          CONSTRAINT `germplasmdatawarnings_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                          CONSTRAINT `germplasmdatawarnings_ibfk_2` FOREIGN KEY (`datawarning_id`) REFERENCES `datawarnings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of germplasmdatawarnings
 -- ----------------------------
 
 -- ----------------------------
@@ -937,15 +979,15 @@ CREATE TABLE `germinatebase`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `germplasminstitutions`;
 CREATE TABLE `germplasminstitutions`  (
-  `germinatebase_id` int(11) NOT NULL,
-  `institution_id` int(11) NOT NULL,
-  `type` enum('collection','maintenance','breeding','duplicate','donor') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'maintenance',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`germinatebase_id`, `institution_id`, `type`) USING BTREE,
-  INDEX `institution_id`(`institution_id`) USING BTREE,
-  CONSTRAINT `germplasminstitutions_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `germplasminstitutions_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `institutions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                          `germinatebase_id` int NOT NULL,
+                                          `institution_id` int NOT NULL,
+                                          `type` enum('collection','maintenance','breeding','duplicate','donor') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'maintenance',
+                                          `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                                          `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                          PRIMARY KEY (`germinatebase_id`, `institution_id`, `type`) USING BTREE,
+                                          INDEX `institution_id`(`institution_id` ASC) USING BTREE,
+                                          CONSTRAINT `germplasminstitutions_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                          CONSTRAINT `germplasminstitutions_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `institutions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -957,16 +999,16 @@ CREATE TABLE `germplasminstitutions`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `groupmembers`;
 CREATE TABLE `groupmembers`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `foreign_id` int(2) NOT NULL COMMENT 'Foreign key to [table] ([table].id).',
-  `group_id` int(2) NOT NULL COMMENT 'Foreign key to groups (groups.id).',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `group_id`(`group_id`) USING BTREE,
-  INDEX `groupmembers_foreign`(`foreign_id`) USING BTREE,
-  CONSTRAINT `groupmembers_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines which entities are contained within a group. These can be the primary key from any table.' ROW_FORMAT = Dynamic;
+                                 `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                 `foreign_id` int NOT NULL COMMENT 'Foreign key to [table] ([table].id).',
+                                 `group_id` int NOT NULL COMMENT 'Foreign key to groups (groups.id).',
+                                 `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                 `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 INDEX `group_id`(`group_id` ASC) USING BTREE,
+                                 INDEX `groupmembers_foreign`(`foreign_id` ASC) USING BTREE,
+                                 CONSTRAINT `groupmembers_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines which entities are contained within a group. These can be the primary key from any table.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of groupmembers
@@ -977,18 +1019,18 @@ CREATE TABLE `groupmembers`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `grouptype_id` int(11) NOT NULL COMMENT 'Foreign key to grouptypes (grouptypes.id).',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The name of the group which can be used to identify it.',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A free text description of the group. This has no length limitations.',
-  `visibility` tinyint(1) NULL DEFAULT NULL COMMENT 'Defines if the group is visuble or hidden from the Germinate user interface.',
-  `created_by` int(11) NULL DEFAULT NULL COMMENT 'Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Foreign key to locations (locations.id).',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `grouptype_id`(`grouptype_id`) USING BTREE,
-  CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`grouptype_id`) REFERENCES `grouptypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Allows the definition of groups within Germinate. Germinate supports a number of different group types such as germinatebase accesion groups and marker groups.' ROW_FORMAT = Dynamic;
+                           `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                           `grouptype_id` int NOT NULL COMMENT 'Foreign key to grouptypes (grouptypes.id).',
+                           `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The name of the group which can be used to identify it.',
+                           `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A free text description of the group. This has no length limitations.',
+                           `visibility` tinyint(1) NULL DEFAULT NULL COMMENT 'Defines if the group is visuble or hidden from the Germinate user interface.',
+                           `created_by` int NULL DEFAULT NULL COMMENT 'Defines who created the group. Foreign key to Gatekeeper users (Gatekeeper users.id).',
+                           `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Foreign key to locations (locations.id).',
+                           `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           INDEX `grouptype_id`(`grouptype_id` ASC) USING BTREE,
+                           CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`grouptype_id`) REFERENCES `grouptypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Allows the definition of groups within Germinate. Germinate supports a number of different group types such as germinatebase accesion groups and marker groups.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of groups
@@ -999,12 +1041,12 @@ CREATE TABLE `groups`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `grouptypes`;
 CREATE TABLE `grouptypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` int NOT NULL AUTO_INCREMENT,
+                               `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+                               `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+                               `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                               `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1019,14 +1061,14 @@ INSERT INTO `grouptypes` VALUES (3, 'Accessions', 'germinatebase', '2013-07-29 1
 -- ----------------------------
 DROP TABLE IF EXISTS `image_to_tags`;
 CREATE TABLE `image_to_tags`  (
-  `image_id` int(11) NOT NULL,
-  `imagetag_id` int(11) NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`image_id`, `imagetag_id`) USING BTREE,
-  INDEX `image_to_tag_ibfk_imagetag`(`imagetag_id`) USING BTREE,
-  CONSTRAINT `image_to_tag_ibfk_image` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `image_to_tag_ibfk_imagetag` FOREIGN KEY (`imagetag_id`) REFERENCES `imagetags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                  `image_id` int NOT NULL,
+                                  `imagetag_id` int NOT NULL,
+                                  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                                  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                  PRIMARY KEY (`image_id`, `imagetag_id`) USING BTREE,
+                                  INDEX `image_to_tag_ibfk_imagetag`(`imagetag_id` ASC) USING BTREE,
+                                  CONSTRAINT `image_to_tag_ibfk_image` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                  CONSTRAINT `image_to_tag_ibfk_imagetag` FOREIGN KEY (`imagetag_id`) REFERENCES `imagetags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1038,19 +1080,20 @@ CREATE TABLE `image_to_tags`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `imagetype_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key to imagetypes (imagetypes.id).',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A description of what the image shows if required.',
-  `foreign_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Relates to the UID of the table to which the comment relates.',
-  `path` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The file system path to the image.',
-  `exif` json NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `imagetype_id`(`imagetype_id`) USING BTREE,
-  INDEX `imagetype_foreign_id`(`foreign_id`) USING BTREE,
-  CONSTRAINT `images_ibfk_1` FOREIGN KEY (`imagetype_id`) REFERENCES `imagetypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                           `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                           `imagetype_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key to imagetypes (imagetypes.id).',
+                           `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A description of what the image shows if required.',
+                           `foreign_id` int NOT NULL DEFAULT 0 COMMENT 'Relates to the UID of the table to which the comment relates.',
+                           `path` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The file system path to the image.',
+                           `exif` json NULL,
+                           `is_reference` tinyint(1) NOT NULL DEFAULT 0,
+                           `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                           `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           INDEX `imagetype_id`(`imagetype_id` ASC) USING BTREE,
+                           INDEX `imagetype_foreign_id`(`foreign_id` ASC) USING BTREE,
+                           CONSTRAINT `images_ibfk_1` FOREIGN KEY (`imagetype_id`) REFERENCES `imagetypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of images
@@ -1061,13 +1104,13 @@ CREATE TABLE `images`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `imagetags`;
 CREATE TABLE `imagetags`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tag_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `imagetags_tag_name`(`tag_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                              `id` int NOT NULL AUTO_INCREMENT,
+                              `tag_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                              `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+                              `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                              PRIMARY KEY (`id`) USING BTREE,
+                              INDEX `imagetags_tag_name`(`tag_name` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of imagetags
@@ -1078,13 +1121,13 @@ CREATE TABLE `imagetags`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `imagetypes`;
 CREATE TABLE `imagetypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A description of the image type. This would usually be a description of what the image was showing in general terms such as \'field image\' or \'insitu hybridisation images\'.',
-  `reference_table` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'The table which the image type relates to.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+                               `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                               `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A description of the image type. This would usually be a description of what the image was showing in general terms such as \'field image\' or \'insitu hybridisation images\'.',
+                               `reference_table` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'The table which the image type relates to.',
+                               `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                               `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of imagetypes
@@ -1092,27 +1135,28 @@ CREATE TABLE `imagetypes`  (
 INSERT INTO `imagetypes` VALUES (1, 'accession images', 'germinatebase', '2009-03-04 14:13:22', NULL);
 INSERT INTO `imagetypes` VALUES (3, 'phenotype images', 'phenotypes', '2018-11-06 13:46:11', '2018-11-06 13:46:11');
 INSERT INTO `imagetypes` VALUES (4, 'Data story images', 'storysteps', '2023-08-03 08:12:31', '2023-08-03 08:12:31');
+INSERT INTO `imagetypes` VALUES (5, 'Project image', 'projects', '2024-09-27 10:45:25', '2024-09-27 10:45:25');
 
 -- ----------------------------
 -- Table structure for institutions
 -- ----------------------------
 DROP TABLE IF EXISTS `institutions`;
 CREATE TABLE `institutions`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'If there is a defined ISO code for the institute this should be used here.',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'The institute name.',
-  `acronym` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'If there is an acronym for the institute.',
-  `country_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to countries.id.',
-  `contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The contact at the institute which should be used for correspondence.',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The telephone number for the institute.',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The email address to contact the institute.',
-  `address` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The postal address of the institute.',
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `country_id`(`country_id`) USING BTREE,
-  CONSTRAINT `institutions_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines institutions within Germinate. Accessions may be associated with an institute and this can be defined here.' ROW_FORMAT = Dynamic;
+                                 `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+                                 `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'If there is a defined ISO code for the institute this should be used here.',
+                                 `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'The institute name.',
+                                 `acronym` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'If there is an acronym for the institute.',
+                                 `country_id` int NULL DEFAULT NULL COMMENT 'Foreign key to countries.id.',
+                                 `contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The contact at the institute which should be used for correspondence.',
+                                 `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The telephone number for the institute.',
+                                 `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The email address to contact the institute.',
+                                 `address` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The postal address of the institute.',
+                                 `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                 `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 INDEX `country_id`(`country_id` ASC) USING BTREE,
+                                 CONSTRAINT `institutions_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines institutions within Germinate. Accessions may be associated with an institute and this can be defined here.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of institutions
@@ -1123,17 +1167,17 @@ CREATE TABLE `institutions`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `licensedata`;
 CREATE TABLE `licensedata`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `license_id` int(11) NOT NULL,
-  `locale_id` int(11) NOT NULL,
-  `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
-  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `license_id`(`license_id`) USING BTREE,
-  INDEX `locale_id`(`locale_id`) USING BTREE,
-  CONSTRAINT `licensedata_ibfk_1` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `licensedata_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                `id` int NOT NULL AUTO_INCREMENT,
+                                `license_id` int NOT NULL,
+                                `locale_id` int NOT NULL,
+                                `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+                                `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
+                                `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                INDEX `license_id`(`license_id` ASC) USING BTREE,
+                                INDEX `locale_id`(`locale_id` ASC) USING BTREE,
+                                CONSTRAINT `licensedata_ibfk_1` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `licensedata_ibfk_2` FOREIGN KEY (`locale_id`) REFERENCES `locales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1152,14 +1196,14 @@ INSERT INTO `licensedata` VALUES (7, 7, 1, '<h2>Attribution License (ODC-By)</h2
 -- ----------------------------
 DROP TABLE IF EXISTS `licenselogs`;
 CREATE TABLE `licenselogs`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `license_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `license_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `accepted_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `license_id`(`license_id`) USING BTREE,
+  INDEX `license_id`(`license_id` ASC) USING BTREE,
   CONSTRAINT `licenselogs_ibfk_1` FOREIGN KEY (`license_id`) REFERENCES `licenses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of licenselogs
@@ -1170,7 +1214,7 @@ CREATE TABLE `licenselogs`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `licenses`;
 CREATE TABLE `licenses`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
@@ -1194,19 +1238,19 @@ INSERT INTO `licenses` VALUES (7, 'ODC-By', 'Open Data Commons Attribution Licen
 -- ----------------------------
 DROP TABLE IF EXISTS `links`;
 CREATE TABLE `links`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `linktype_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to linktypes (linktypes.id).',
-  `foreign_id` int(11) NULL DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `linktype_id` int NULL DEFAULT NULL COMMENT 'Foreign key to linktypes (linktypes.id).',
+  `foreign_id` int NULL DEFAULT NULL,
   `hyperlink` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The actual hyperlink.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A description of the link.',
   `visibility` tinyint(1) NULL DEFAULT 1 COMMENT 'Determines if the link is visible or not: {0, 1}',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `links_linktype_id`(`linktype_id`) USING BTREE,
-  INDEX `links_id`(`id`) USING BTREE,
+  INDEX `links_linktype_id`(`linktype_id` ASC) USING BTREE,
+  INDEX `links_id`(`id` ASC) USING BTREE,
   CONSTRAINT `links_ibfk_1` FOREIGN KEY (`linktype_id`) REFERENCES `linktypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Germinate allows to define external links for different types of data. With this feature you can\r\ndefine links to external resources.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Germinate allows to define external links for different types of data. With this feature you can\r\ndefine links to external resources.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of links
@@ -1217,7 +1261,7 @@ CREATE TABLE `links`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `linktypes`;
 CREATE TABLE `linktypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A description of the link\r.',
   `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'This is the table that the link links to.',
   `target_column` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'This is the column that is used to generate the link.',
@@ -1225,9 +1269,9 @@ CREATE TABLE `linktypes`  (
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `linktypes_id`(`id`) USING BTREE,
-  INDEX `linktypes_target_table`(`target_table`, `target_column`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'The link type determines which database table and column are used to construct the final\r\nlink. The ”placeholder” in the link (from the links table) will be replaced by the value of the\r\n”target column” in the ”target table”' ROW_FORMAT = Dynamic;
+  INDEX `linktypes_id`(`id` ASC) USING BTREE,
+  INDEX `linktypes_target_table`(`target_table` ASC, `target_column` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'The link type determines which database table and column are used to construct the final\r\nlink. The ”placeholder” in the link (from the links table) will be replaced by the value of the\r\n”target column” in the ”target table”' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of linktypes
@@ -1238,7 +1282,7 @@ CREATE TABLE `linktypes`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `locales`;
 CREATE TABLE `locales`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
@@ -1256,9 +1300,9 @@ INSERT INTO `locales` VALUES (1, 'en_GB', 'British English', '2022-09-26 09:53:3
 -- ----------------------------
 DROP TABLE IF EXISTS `locations`;
 CREATE TABLE `locations`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `locationtype_id` int(11) NOT NULL COMMENT 'Foreign key to locations (locations.id).',
-  `country_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key to countries (countries.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `locationtype_id` int NOT NULL COMMENT 'Foreign key to locations (locations.id).',
+  `country_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key to countries (countries.id).',
   `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The state where the location is if this exists.',
   `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The region where the location is if this exists.',
   `site_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'The site name where the location is.',
@@ -1266,17 +1310,17 @@ CREATE TABLE `locations`  (
   `elevation` decimal(64, 10) NULL DEFAULT NULL COMMENT 'The elevation of the site in metres.',
   `latitude` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Latitude of the location.',
   `longitude` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Longitude of the location.',
-  `coordinate_uncertainty` int(11) NULL DEFAULT NULL COMMENT 'Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ',
+  `coordinate_uncertainty` int NULL DEFAULT NULL COMMENT 'Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown. ',
   `coordinate_datum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.',
   `georeferencing_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `country_id`(`country_id`) USING BTREE,
-  INDEX `locations_ibfk_2`(`locationtype_id`) USING BTREE,
-  CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `locations_ibfk_2` FOREIGN KEY (`locationtype_id`) REFERENCES `locationtypes` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes locations. Locations can be collecting sites or the location of any geographical feature such as research institutes or lab locations.' ROW_FORMAT = Dynamic;
+  INDEX `country_id`(`country_id` ASC) USING BTREE,
+  INDEX `locations_ibfk_2`(`locationtype_id` ASC) USING BTREE,
+  CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `locations_ibfk_2` FOREIGN KEY (`locationtype_id`) REFERENCES `locationtypes` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes locations. Locations can be collecting sites or the location of any geographical feature such as research institutes or lab locations.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of locations
@@ -1287,7 +1331,7 @@ CREATE TABLE `locations`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `locationtypes`;
 CREATE TABLE `locationtypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the location type. ',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A description of the location type.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
@@ -1307,10 +1351,10 @@ INSERT INTO `locationtypes` VALUES (3, 'trialsite', 'Locations associated with a
 -- ----------------------------
 DROP TABLE IF EXISTS `mapdefinitions`;
 CREATE TABLE `mapdefinitions`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `mapfeaturetype_id` int(11) NOT NULL COMMENT 'Foreign key to mapfeaturetypes (mapfeaturetypes.id).',
-  `marker_id` int(11) NOT NULL COMMENT 'Foreign key to markers (markers.id).',
-  `map_id` int(11) NOT NULL COMMENT 'Foreign key to maps (maps.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `mapfeaturetype_id` int NOT NULL COMMENT 'Foreign key to mapfeaturetypes (mapfeaturetypes.id).',
+  `marker_id` int NOT NULL COMMENT 'Foreign key to markers (markers.id).',
+  `map_id` int NOT NULL COMMENT 'Foreign key to maps (maps.id).',
   `definition_start` double(64, 10) NOT NULL COMMENT 'Used if the markers location spans over an area more than a single point on the maps. Determines the marker start location.',
   `definition_end` double(64, 10) NULL DEFAULT NULL COMMENT 'Used if the markers location spans over an area more than a single point on the maps. Determines the marker end location.',
   `chromosome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The chromosome/linkage group that this marker is found on.',
@@ -1318,14 +1362,14 @@ CREATE TABLE `mapdefinitions`  (
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `mapfeaturetype_id`(`mapfeaturetype_id`) USING BTREE,
-  INDEX `marker_id`(`marker_id`) USING BTREE,
-  INDEX `map_id`(`map_id`) USING BTREE,
-  INDEX `marker_id_2`(`marker_id`, `map_id`) USING BTREE,
+  INDEX `mapfeaturetype_id`(`mapfeaturetype_id` ASC) USING BTREE,
+  INDEX `marker_id`(`marker_id` ASC) USING BTREE,
+  INDEX `map_id`(`map_id` ASC) USING BTREE,
+  INDEX `marker_id_2`(`marker_id` ASC, `map_id` ASC) USING BTREE,
   CONSTRAINT `mapdefinitions_ibfk_1` FOREIGN KEY (`mapfeaturetype_id`) REFERENCES `mapfeaturetypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mapdefinitions_ibfk_2` FOREIGN KEY (`marker_id`) REFERENCES `markers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mapdefinitions_ibfk_3` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Relates genetic markers to a map and assigns a position (if known). Maps are made up of lists of markers and positions (genetic or physiscal and chromosome/linkage group assignation). In the case of QTL the definition_start and definition_end columns can be used to specify a range across a linkage group.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Relates genetic markers to a map and assigns a position (if known). Maps are made up of lists of markers and positions (genetic or physiscal and chromosome/linkage group assignation). In the case of QTL the definition_start and definition_end columns can be used to specify a range across a linkage group.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mapdefinitions
@@ -1336,12 +1380,12 @@ CREATE TABLE `mapdefinitions`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `mapfeaturetypes`;
 CREATE TABLE `mapfeaturetypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Description of the feature type. This could include a definition of the marker type such as \'SNP\', \'KASP\' or \'AFLP\'.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines features which can exist on maps. In general this will be the marker type but it can also be used to identify QTL regions.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines features which can exist on maps. In general this will be the marker type but it can also be used to identify QTL regions.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mapfeaturetypes
@@ -1352,7 +1396,7 @@ CREATE TABLE `mapfeaturetypes`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `mapoverlays`;
 CREATE TABLE `mapoverlays`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primary key of this table.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'The primary key of this table.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'A name for the map overlay.',
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'An optional description of what is shown on the overlay.',
   `bottom_left_lat` decimal(64, 10) NULL DEFAULT NULL COMMENT 'The bottom left latitude coordinates in decimal degrees for anchoring on the map.',
@@ -1361,16 +1405,16 @@ CREATE TABLE `mapoverlays`  (
   `top_right_lng` decimal(64, 10) NULL DEFAULT NULL COMMENT 'The top right longitude coordinates in decimal degrees for anchoring on the map.',
   `is_legend` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate whether this is a legend or an actual overlay.',
   `reference_table` enum('phenotypes','climates') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Optionally, other database items can be linked to this. As an example, an overlay can be linked to a climate variable.',
-  `foreign_id` int(11) NULL DEFAULT NULL COMMENT 'The foreign id within the reference_table of the linked database object.',
-  `dataset_id` int(11) NULL DEFAULT NULL COMMENT 'A dataset id this map overlay is linked to. Useful for providing map overlays for trials data that is not specific to a trait within the dataset.',
+  `foreign_id` int NULL DEFAULT NULL COMMENT 'The foreign id within the reference_table of the linked database object.',
+  `dataset_id` int NULL DEFAULT NULL COMMENT 'A dataset id this map overlay is linked to. Useful for providing map overlays for trials data that is not specific to a trait within the dataset.',
   `recording_date` datetime NULL DEFAULT NULL COMMENT 'A date that is associated with the timepoint when this has been recorded.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The datetime when this database record has been created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The timestamp when this database record has last been updated.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `foreign_id`(`foreign_id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
+  INDEX `foreign_id`(`foreign_id` ASC) USING BTREE,
+  INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
   CONSTRAINT `mapoverlays_ibfk_1` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of mapoverlays
@@ -1381,16 +1425,16 @@ CREATE TABLE `mapoverlays`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `maps`;
 CREATE TABLE `maps`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Describes the map.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The name of this map.',
   `visibility` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Determines if the map is visible to the Germinate interface or hidden.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper users.id).',
+  `user_id` int NULL DEFAULT NULL COMMENT 'Foreign key to Gatekeeper users (Gatekeeper users.id).',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes genetic maps that have been defined within Germinate.' ROW_FORMAT = Dynamic;
+  INDEX `user_id`(`user_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes genetic maps that have been defined within Germinate.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of maps
@@ -1401,16 +1445,16 @@ CREATE TABLE `maps`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `markers`;
 CREATE TABLE `markers`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `markertype_id` int(11) NOT NULL COMMENT 'Foreign key to locations (locations.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `markertype_id` int NOT NULL COMMENT 'Foreign key to locations (locations.id).',
   `marker_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the marker. This should be a unique name which identifies the marker.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.\n',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `markertype_id`(`markertype_id`) USING BTREE,
-  INDEX `marker_name`(`marker_name`) USING BTREE,
+  INDEX `markertype_id`(`markertype_id` ASC) USING BTREE,
+  INDEX `marker_name`(`marker_name` ASC) USING BTREE,
   CONSTRAINT `markers_ibfk_1` FOREIGN KEY (`markertype_id`) REFERENCES `markertypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines genetic markers within the database and assigns a type (markertypes).' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines genetic markers within the database and assigns a type (markertypes).' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of markers
@@ -1421,12 +1465,12 @@ CREATE TABLE `markers`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `markertypes`;
 CREATE TABLE `markertypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on. Used to differentiate markers within the markers table and alllows for mixing of marker types on genetic and physical maps.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Describes the marker type. Markers (markers) have a defined type. This could be AFLP, MicroSat, SNP and so on. Used to differentiate markers within the markers table and alllows for mixing of marker types on genetic and physical maps.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of markertypes
@@ -1437,7 +1481,7 @@ CREATE TABLE `markertypes`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `mcpd`;
 CREATE TABLE `mcpd`  (
-  `germinatebase_id` int(11) NOT NULL,
+  `germinatebase_id` int NOT NULL,
   `puid` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Any persistent, unique identifier assigned to the accession so it can be unambiguously referenced at the global level and the information associated with it harvested through automated means. Report one PUID for each accession.',
   `instcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute where the accession is maintained. The codes consist of the 3-letter ISO 3166 country code of the country where the institute is located plus a number (e.g. COL001). The current set of institute codes is available from http://www.fao.org/wiews. For those institutes not yet having an FAO Code, or for those with \'obsolete\' codes, see \'Common formatting rules (v)\'.',
   `accenumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'This is the unique identifier for accessions within a genebank, and is assigned when a sample is entered into the genebank collection (e.g. \'PI 113869\').',
@@ -1460,16 +1504,16 @@ CREATE TABLE `mcpd`  (
   `latitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Degrees (2 digits) minutes (2 digits), and seconds (2 digits) followed by N (North) or S (South) (e.g. 103020S). Every missing digit (minutes or seconds) should be indicated with a hyphen. Leading zeros are required (e.g. 10----S; 011530N; 4531--S).',
   `declongitude` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Longitude expressed in decimal degrees. Positive values are East of the Greenwich Meridian; negative values are West of the Greenwich Meridian (e.g. +120.9123).',
   `longitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Degrees (3 digits), minutes (2 digits), and seconds (2 digits) followed by E (East) or W (West) (e.g. 0762510W). Every missing digit (minutes or seconds) should be indicated with a hyphen. Leading zeros are required (e.g. 076----W).',
-  `coorduncert` int(11) NULL DEFAULT NULL COMMENT 'Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.',
+  `coorduncert` int NULL DEFAULT NULL COMMENT 'Uncertainty associated with the coordinates in metres. Leave the value empty if the uncertainty is unknown.',
   `coorddatum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The geodetic datum or spatial reference system upon which the coordinates given in decimal latitude and decimal longitude are based (e.g. WGS84, ETRS89, NAD83). The GPS uses the WGS84 datum.',
   `georefmeth` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The georeferencing method used (GPS, determined from map, gazetteer, or estimated using software). Leave the value empty if georeferencing method is not known.',
   `elevation` decimal(64, 10) NULL DEFAULT NULL COMMENT 'Elevation of collecting site expressed in metres above sea level. Negative values are allowed.',
   `colldate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Collecting date of the sample, where YYYY is the year, MM is the month and DD is the day. Missing data (MM or DD) should be indicated with hyphens or \'00\' [double zero].',
   `bredcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute that has bred the material. If the holding institute has bred the material, the breeding institute code (BREDCODE) should be the same as the holding institute code (INSTCODE). Follows INSTCODE standard. Multiple values are separated by a semicolon without space.',
   `bredname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Name of the institute (or person) that bred the material. This descriptor should be used only if BREDCODE cannot be filled because the FAO WIEWS code for this institute is not available. Multiple names are separated by a semicolon without space.',
-  `sampstat` int(11) NULL DEFAULT NULL COMMENT 'The coding scheme proposed can be used at 3 different levels of detail: either by using the general codes (in boldface) such as 100, 200, 300, 400, or by using the more specific codes such as 110, 120, etc.',
+  `sampstat` int NULL DEFAULT NULL COMMENT 'The coding scheme proposed can be used at 3 different levels of detail: either by using the general codes (in boldface) such as 100, 200, 300, 400, or by using the more specific codes such as 110, 120, etc.',
   `ancest` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Information about either pedigree or other description of ancestral information (e.g. parent variety in case of mutant or selection). For example a pedigree \'Hanna/7*Atlas//Turk/8*Atlas\' or a description \'mutation found in Hanna\', \'selection from Irene\' or \'cross involving amongst others Hanna and Irene\'.',
-  `collsrc` int(11) NULL DEFAULT NULL COMMENT 'The coding scheme proposed can be used at 2 different levels of detail: either by using the general codes (in boldface) such as 10, 20, 30, 40, etc., or by using the more specific codes, such as 11, 12, etc.',
+  `collsrc` int NULL DEFAULT NULL COMMENT 'The coding scheme proposed can be used at 2 different levels of detail: either by using the general codes (in boldface) such as 10, 20, 30, 40, etc., or by using the more specific codes, such as 11, 12, etc.',
   `donorcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the donor institute. Follows INSTCODE standard.',
   `donorname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Name of the donor institute (or person). This descriptor should be used only if DONORCODE cannot be filled because the FAO WIEWS code for this institute is not available.',
   `donornumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Identifier assigned to an accession by the donor. Follows ACCENUMB standard.',
@@ -1477,14 +1521,14 @@ CREATE TABLE `mcpd`  (
   `duplsite` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'FAO WIEWS code of the institute(s) where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space. Follows INSTCODE standard.',
   `duplinstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Name of the institute where a safety duplicate of the accession is maintained. Multiple values are separated by a semicolon without space.',
   `storage` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'If germplasm is maintained under different types of storage, multiple choices are allowed, separated by a semicolon (e.g. 20;30). (Refer to FAO/IPGRI Genebank Standards 1994 for details on storage type.)',
-  `mlsstat` int(11) NULL DEFAULT NULL COMMENT 'The status of an accession with regards to the Multilateral System (MLS) of the International Treaty on Plant Genetic Resources for Food and Agriculture. Leave the value empty if the status is not known',
+  `mlsstat` int NULL DEFAULT NULL COMMENT 'The status of an accession with regards to the Multilateral System (MLS) of the International Treaty on Plant Genetic Resources for Food and Agriculture. Leave the value empty if the status is not known',
   `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The remarks field is used to add notes or to elaborate on descriptors with value 99 or 999 (= Other). Prefix remarks with the field name they refer to and a colon (:) without space (e.g. COLLSRC:riverside). Distinct remarks referring to different fields are separated by semicolons without space.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date and time when this record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp of the last update to this record.',
   PRIMARY KEY (`germinatebase_id`) USING BTREE,
-  INDEX `sampstat`(`sampstat`) USING BTREE,
-  INDEX `collsrc`(`collsrc`) USING BTREE,
-  INDEX `mlsstat`(`mlsstat`) USING BTREE,
+  INDEX `sampstat`(`sampstat` ASC) USING BTREE,
+  INDEX `collsrc`(`collsrc` ASC) USING BTREE,
+  INDEX `mlsstat`(`mlsstat` ASC) USING BTREE,
   CONSTRAINT `mcpd_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mcpd_ibfk_2` FOREIGN KEY (`sampstat`) REFERENCES `biologicalstatus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `mcpd_ibfk_3` FOREIGN KEY (`collsrc`) REFERENCES `collectingsources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1500,7 +1544,7 @@ CREATE TABLE `mcpd`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `mlsstatus`;
 CREATE TABLE `mlsstatus`  (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
@@ -1519,22 +1563,22 @@ INSERT INTO `mlsstatus` VALUES (99, 'Other (elaborate in REMARKS field, e.g. \'u
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `newstype_id` int(11) NOT NULL COMMENT 'Foreign key newstypes (newstypes.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `newstype_id` int NOT NULL COMMENT 'Foreign key newstypes (newstypes.id).',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A title which is used to name this news item. This appears in the Germinate user interface if used.',
   `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The textual content of this news item.',
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Image to use with this news item.',
   `image_fit` enum('contain','cover') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'cover' COMMENT 'Determines the css property of the news item image.',
   `hyperlink` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'HTML hyperlink to use for this news item. This can be a link to another source which contains more information or a link to the original source.',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign key users (users.id).',
+  `user_id` int NULL DEFAULT NULL COMMENT 'Foreign key users (users.id).',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `news_user_id`(`user_id`) USING BTREE,
-  INDEX `news_updated_on`(`updated_on`) USING BTREE,
-  INDEX `news_type_id`(`newstype_id`) USING BTREE,
+  INDEX `news_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `news_updated_on`(`updated_on` ASC) USING BTREE,
+  INDEX `news_type_id`(`newstype_id` ASC) USING BTREE,
   CONSTRAINT `news_ibfk_1` FOREIGN KEY (`newstype_id`) REFERENCES `newstypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds news items that are displayed within Germinate.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds news items that are displayed within Germinate.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of news
@@ -1545,7 +1589,7 @@ CREATE TABLE `news`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `newstypes`;
 CREATE TABLE `newstypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Name of the news type.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A longer description of the news type.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
@@ -1566,24 +1610,24 @@ INSERT INTO `newstypes` VALUES (4, 'Projects', 'News about new projects', NULL, 
 -- ----------------------------
 DROP TABLE IF EXISTS `pedigreedefinitions`;
 CREATE TABLE `pedigreedefinitions`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `dataset_id` int(11) NOT NULL,
-  `germinatebase_id` int(11) NOT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
-  `pedigreenotation_id` int(11) NOT NULL COMMENT 'Foreign key to pedigreenotations (pedigreenotations.id).',
-  `pedigreedescription_id` int(11) NULL DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `dataset_id` int NOT NULL,
+  `germinatebase_id` int NOT NULL COMMENT 'Foreign key to germinatebase (germinatebase.id).',
+  `pedigreenotation_id` int NOT NULL COMMENT 'Foreign key to pedigreenotations (pedigreenotations.id).',
+  `pedigreedescription_id` int NULL DEFAULT NULL,
   `definition` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The pedigree string which is used to represent the germinatebase entry.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `pedigreedefinitions_ibfk_pedigreenotations`(`pedigreenotation_id`) USING BTREE,
-  INDEX `pedigreedefinitions_ibfk_germinatebase`(`germinatebase_id`) USING BTREE,
-  INDEX `pedigreedefinitions_ibfk_3`(`pedigreedescription_id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
+  INDEX `pedigreedefinitions_ibfk_pedigreenotations`(`pedigreenotation_id` ASC) USING BTREE,
+  INDEX `pedigreedefinitions_ibfk_germinatebase`(`germinatebase_id` ASC) USING BTREE,
+  INDEX `pedigreedefinitions_ibfk_3`(`pedigreedescription_id` ASC) USING BTREE,
+  INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
   CONSTRAINT `pedigreedefinitions_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigreedefinitions_ibfk_2` FOREIGN KEY (`pedigreenotation_id`) REFERENCES `pedigreenotations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigreedefinitions_ibfk_3` FOREIGN KEY (`pedigreedescription_id`) REFERENCES `pedigreedescriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigreedefinitions_ibfk_4` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'This table holds the actual pedigree definition data.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'This table holds the actual pedigree definition data.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedigreedefinitions
@@ -1594,14 +1638,14 @@ CREATE TABLE `pedigreedefinitions`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `pedigreedescriptions`;
 CREATE TABLE `pedigreedescriptions`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the pedigree.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Describes the pedigree in more detail.',
   `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Who is responsible for the creation of the pedigree. Attribution should be included in here for pedigree sources.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Description of pedigrees. Pedigrees can have a description which details additional information about the pedigree, how it was constructed and who the contact is for the pedigree.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Description of pedigrees. Pedigrees can have a description which details additional information about the pedigree, how it was constructed and who the contact is for the pedigree.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedigreedescriptions
@@ -1612,14 +1656,14 @@ CREATE TABLE `pedigreedescriptions`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `pedigreenotations`;
 CREATE TABLE `pedigreenotations`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Name of the reference notation source.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A longer description about the reference notation source.',
   `reference_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Hyperlink to the notation source.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Allows additional supporting data to be associated with a pedigree definition such as the contributing data source.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Allows additional supporting data to be associated with a pedigree definition such as the contributing data source.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedigreenotations
@@ -1630,28 +1674,46 @@ CREATE TABLE `pedigreenotations`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `pedigrees`;
 CREATE TABLE `pedigrees`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `dataset_id` int(11) NOT NULL,
-  `germinatebase_id` int(11) NOT NULL COMMENT 'Foreign key germinatebase (germinatebase.id).',
-  `parent_id` int(11) NOT NULL COMMENT 'Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `dataset_id` int NOT NULL,
+  `germinatebase_id` int NOT NULL COMMENT 'Foreign key germinatebase (germinatebase.id).',
+  `parent_id` int NOT NULL COMMENT 'Foreign key germinatebase (germinatebase.id). This is the parrent of the individual identified in the germinatebase_id column.',
   `relationship_type` enum('M','F','OTHER') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'OTHER' COMMENT 'Male or Female parent. Should be recorded as \'M\' (male) or \'F\' (female).',
-  `pedigreedescription_id` int(11) NOT NULL COMMENT 'Foreign key pedigreedescriptions (pedigreedescriptions.id).',
+  `pedigreedescription_id` int NOT NULL COMMENT 'Foreign key pedigreedescriptions (pedigreedescriptions.id).',
   `relationship_description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Can be used as a meta-data field to describe the relationships if a complex rellationship is required. Examples may include, \'is a complex cross containing\', \'F4 generation\' and so on. This is used by the Helium pedigree visualiztion tool.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `pedigrees_ibfk_germinatebase`(`germinatebase_id`) USING BTREE,
-  INDEX `pedigrees_ibfk_germinatebase_parent`(`parent_id`) USING BTREE,
-  INDEX `pedigrees_ibfk_pedigreedescriptions`(`pedigreedescription_id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
+  INDEX `pedigrees_ibfk_germinatebase`(`germinatebase_id` ASC) USING BTREE,
+  INDEX `pedigrees_ibfk_germinatebase_parent`(`parent_id` ASC) USING BTREE,
+  INDEX `pedigrees_ibfk_pedigreedescriptions`(`pedigreedescription_id` ASC) USING BTREE,
+  INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
   CONSTRAINT `pedigrees_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigrees_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigrees_ibfk_3` FOREIGN KEY (`pedigreedescription_id`) REFERENCES `pedigreedescriptions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pedigrees_ibfk_4` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds pedigree definitions. A pedigree is constructed from a series of individial->parent records. This gives a great deal of flexibility in how pedigree networks can be constructed. This table is required for operation with the Helium pedigree viewer.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds pedigree definitions. A pedigree is constructed from a series of individial->parent records. This gives a great deal of flexibility in how pedigree networks can be constructed. This table is required for operation with the Helium pedigree viewer.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pedigrees
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for phenotypecategories
+-- ----------------------------
+DROP TABLE IF EXISTS `phenotypecategories`;
+CREATE TABLE `phenotypecategories`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of phenotypecategories
 -- ----------------------------
 
 -- ----------------------------
@@ -1659,21 +1721,21 @@ CREATE TABLE `pedigrees`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `phenotypedata`;
 CREATE TABLE `phenotypedata`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
-  `trialsetup_id` int(11) NOT NULL,
-  `phenotype_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Foreign key phenotypes (phenotype.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `trialsetup_id` int NOT NULL,
+  `phenotype_id` int NOT NULL DEFAULT 0 COMMENT 'Foreign key phenotypes (phenotype.id).',
   `phenotype_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The phenotype value for this phenotype_id and germinatebase_id combination.',
   `recording_date` datetime NULL DEFAULT NULL COMMENT 'Date when the phenotypic result was recorded. Should be formatted \'YYYY-MM-DD HH:MM:SS\' or just \'YYYY-MM-DD\' where a timestamp is not available.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `phenotype_id`(`phenotype_id`) USING BTREE,
-  INDEX `trials_query_index`(`phenotype_id`, `recording_date`, `phenotype_value`) USING BTREE,
-  INDEX `phenotypedata_recording_date`(`recording_date`) USING BTREE,
-  INDEX `trialsetup_id`(`trialsetup_id`) USING BTREE,
+  INDEX `phenotype_id`(`phenotype_id` ASC) USING BTREE,
+  INDEX `trials_query_index`(`phenotype_id` ASC, `recording_date` ASC, `phenotype_value` ASC) USING BTREE,
+  INDEX `phenotypedata_recording_date`(`recording_date` ASC) USING BTREE,
+  INDEX `trialsetup_id`(`trialsetup_id` ASC) USING BTREE,
   CONSTRAINT `phenotypedata_ibfk_2` FOREIGN KEY (`phenotype_id`) REFERENCES `phenotypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `phenotypedata_ibfk_7` FOREIGN KEY (`trialsetup_id`) REFERENCES `trialsetup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Contains phenotypic data which has been collected.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Contains phenotypic data which has been collected.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of phenotypedata
@@ -1684,22 +1746,109 @@ CREATE TABLE `phenotypedata`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `phenotypes`;
 CREATE TABLE `phenotypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Phenotype full name.',
   `short_name` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Shortened name for the phenotype. This is used in table columns where space is an issue.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Full description of the phenotype. This should contain enough infomation to accurately identify the phenoytpe and how it was recorded.',
   `datatype` enum('categorical','numeric','text','date') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text' COMMENT 'Defines the data type of the phenotype. This can be of numeric, text, date or categorical types.',
   `restrictions` json NULL COMMENT 'A json object describing the restrictions placed on this trait. It is an object containing a field called \"categories\" which is an array of arrays, each describing a categorical scale. Each scale must have the same length as they describe the same categories just using different terms or numbers. The other fields are \"min\" and \"max\" to specify upper and lower limits for numeric traits.',
-  `unit_id` int(11) NULL DEFAULT NULL COMMENT 'Foreign Key to units (units.id).',
+  `unit_id` int NULL DEFAULT NULL COMMENT 'Foreign Key to units (units.id).',
+  `category_id` int NULL DEFAULT NULL COMMENT 'Foreign key to phenotypecategories (phenotypecategories.id)',
+  `setsize` int NULL DEFAULT NULL COMMENT 'The number of individual measurements that should be taken for this trait.',
+  `is_timeseries` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Determines whether this trait is a time-series trait or not.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `unit_id`(`unit_id`) USING BTREE,
-  CONSTRAINT `phenotypes_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines phenoytpes which are held in Germinate.' ROW_FORMAT = Dynamic;
+  INDEX `unit_id`(`unit_id` ASC) USING BTREE,
+  INDEX `category_id`(`category_id` ASC) USING BTREE,
+  CONSTRAINT `phenotypes_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `phenotypes_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `phenotypecategories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Defines phenoytpes which are held in Germinate.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of phenotypes
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for projectcollaborators
+-- ----------------------------
+DROP TABLE IF EXISTS `projectcollaborators`;
+CREATE TABLE `projectcollaborators`  (
+  `collaborator_id` int NOT NULL,
+  `project_id` int NOT NULL,
+  `role` enum('principal_investigator','data_submitter','data_curator','data_collector','corresponding_author','author') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'author',
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`collaborator_id`, `project_id`) USING BTREE,
+  INDEX `project_id`(`project_id` ASC) USING BTREE,
+  CONSTRAINT `projectcollaborators_ibfk_1` FOREIGN KEY (`collaborator_id`) REFERENCES `collaborators` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `projectcollaborators_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of projectcollaborators
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for projectgroups
+-- ----------------------------
+DROP TABLE IF EXISTS `projectgroups`;
+CREATE TABLE `projectgroups`  (
+  `project_id` int NOT NULL,
+  `group_id` int NOT NULL,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`project_id`, `group_id`) USING BTREE,
+  INDEX `group_id`(`group_id` ASC) USING BTREE,
+  CONSTRAINT `projectgroups_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `projectgroups_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of projectgroups
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for projectpublications
+-- ----------------------------
+DROP TABLE IF EXISTS `projectpublications`;
+CREATE TABLE `projectpublications`  (
+  `project_id` int NOT NULL,
+  `publication_id` int NOT NULL,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`project_id`, `publication_id`) USING BTREE,
+  INDEX `publication_id`(`publication_id` ASC) USING BTREE,
+  CONSTRAINT `projectpublications_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `projectpublications_ibfk_2` FOREIGN KEY (`publication_id`) REFERENCES `publications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of projectpublications
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for projects
+-- ----------------------------
+DROP TABLE IF EXISTS `projects`;
+CREATE TABLE `projects`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `page_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `external_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `image_id` int NULL DEFAULT NULL,
+  `start_date` datetime NULL DEFAULT NULL,
+  `end_date` datetime NULL DEFAULT NULL,
+  `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `image_id`(`image_id` ASC) USING BTREE,
+  CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of projects
 -- ----------------------------
 
 -- ----------------------------
@@ -1707,16 +1856,16 @@ CREATE TABLE `phenotypes`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `publicationdata`;
 CREATE TABLE `publicationdata`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `foreign_id` int(11) NULL DEFAULT NULL,
-  `publication_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `foreign_id` int NULL DEFAULT NULL,
+  `publication_id` int NOT NULL,
   `reference_type` enum('database','dataset','germplasm','group','experiment') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'database',
   `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `publication_id`(`publication_id`) USING BTREE,
+  INDEX `publication_id`(`publication_id` ASC) USING BTREE,
   CONSTRAINT `publicationdata_ibfk_1` FOREIGN KEY (`publication_id`) REFERENCES `publications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of publicationdata
@@ -1727,13 +1876,13 @@ CREATE TABLE `publicationdata`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `publications`;
 CREATE TABLE `publications`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `doi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fallback_cache` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of publications
@@ -1744,18 +1893,18 @@ CREATE TABLE `publications`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `schema_version`;
 CREATE TABLE `schema_version`  (
-  `installed_rank` int(11) NOT NULL,
+  `installed_rank` int NOT NULL,
   `version` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `script` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `checksum` int(11) NULL DEFAULT NULL,
+  `checksum` int NULL DEFAULT NULL,
   `installed_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `execution_time` int(11) NOT NULL,
+  `execution_time` int NOT NULL,
   `success` tinyint(1) NOT NULL,
   PRIMARY KEY (`installed_rank`) USING BTREE,
-  INDEX `schema_version_s_idx`(`success`) USING BTREE
+  INDEX `schema_version_s_idx`(`success` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1796,29 +1945,37 @@ INSERT INTO `schema_version` VALUES (32, '4.23.02.08', 'update', 'SQL', 'V4.23.0
 INSERT INTO `schema_version` VALUES (33, '4.23.02.16', 'update', 'SQL', 'V4.23.02.16__update.sql', 1048526513, 'root', '2023-02-16 09:07:11', 93, 1);
 INSERT INTO `schema_version` VALUES (34, '4.23.08.03', 'update', 'SQL', 'V4.23.08.03__update.sql', -1322793455, 'root', '2024-06-05 15:53:25', 1231, 1);
 INSERT INTO `schema_version` VALUES (35, '4.24.02.09', 'update', 'SQL', 'V4.24.02.09__update.sql', -176246237, 'root', '2024-02-09 14:49:04', 1412, 1);
-INSERT INTO `schema_version` VALUES (36, '4.24.09.04', 'update', 'SQL', 'V4.24.09.04__update.sql', 1625782379, 'root', '2024-09-09 08:18:33', 210, 1);
+INSERT INTO `schema_version` VALUES (36, '4.24.09.04', 'update', 'SQL', 'V4.24.09.04__update.sql', 2002200352, 'root', '2024-09-09 08:18:33', 123, 1);
 INSERT INTO `schema_version` VALUES (37, '4.24.09.11', 'update', 'SQL', 'V4.24.09.11__update.sql', 1975150073, 'root', '2024-09-09 08:18:33', 618, 1);
+INSERT INTO `schema_version` VALUES (38, '4.24.09.27', 'update', 'SQL', 'V4.24.09.27__update.sql', -282326704, 'root', '2024-09-27 10:37:58', 137, 1);
+INSERT INTO `schema_version` VALUES (39, '4.24.10.07', 'update', 'SQL', 'V4.24.10.07__update.sql', -259687493, 'root', '2024-10-07 14:20:08', 141, 1);
+INSERT INTO `schema_version` VALUES (40, '4.25.01.08', 'update', 'SQL', 'V4.25.01.08__update.sql', 939607463, 'root', '2025-01-08 10:18:00', 141, 1);
+INSERT INTO `schema_version` VALUES (41, '4.25.01.14', 'update', 'SQL', 'V4.25.01.14__update.sql', -150130095, 'root', '2025-01-14 09:24:13', 71, 1);
+INSERT INTO `schema_version` VALUES (42, '4.25.01.23', 'update', 'SQL', 'V4.25.01.23__update.sql', 1276134197, 'root', '2025-01-23 13:48:03', 130, 1);
 
 -- ----------------------------
 -- Table structure for stories
 -- ----------------------------
 DROP TABLE IF EXISTS `stories`;
 CREATE TABLE `stories`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `image_id` int(11) NULL DEFAULT NULL,
+  `image_id` int NULL DEFAULT NULL,
   `requirements` json NULL,
-  `publication_id` int(11) NULL DEFAULT NULL,
+  `publication_id` int NULL DEFAULT NULL,
+  `project_id` int NULL DEFAULT NULL,
   `featured` tinyint(1) NOT NULL DEFAULT 0,
   `visibility` tinyint(1) NOT NULL DEFAULT 1,
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `publication_id`(`publication_id`) USING BTREE,
-  CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`publication_id`) REFERENCES `publications` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  INDEX `publication_id`(`publication_id` ASC) USING BTREE,
+  INDEX `project_id`(`project_id` ASC) USING BTREE,
+  CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`publication_id`) REFERENCES `publications` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `stories_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of stories
@@ -1829,21 +1986,21 @@ CREATE TABLE `stories`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `storysteps`;
 CREATE TABLE `storysteps`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `story_id` int(11) NOT NULL,
-  `story_index` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `story_id` int NOT NULL,
+  `story_index` int NOT NULL,
   `page_config` json NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `image_id` int(11) NULL DEFAULT NULL,
+  `image_id` int NULL DEFAULT NULL,
   `created_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `story_id`(`story_id`) USING BTREE,
-  INDEX `image_id`(`image_id`) USING BTREE,
+  INDEX `story_id`(`story_id` ASC) USING BTREE,
+  INDEX `image_id`(`image_id` ASC) USING BTREE,
   CONSTRAINT `storysteps_ibfk_1` FOREIGN KEY (`story_id`) REFERENCES `stories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `storysteps_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of storysteps
@@ -1854,17 +2011,17 @@ CREATE TABLE `storysteps`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `synonyms`;
 CREATE TABLE `synonyms`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.\n',
-  `foreign_id` int(11) NOT NULL COMMENT 'Foreign key to target table (l[targettable].id).',
-  `synonymtype_id` int(11) NOT NULL COMMENT 'Foreign key to synonymtypes (synonymnstypes.id).',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.\n',
+  `foreign_id` int NOT NULL COMMENT 'Foreign key to target table (l[targettable].id).',
+  `synonymtype_id` int NOT NULL COMMENT 'Foreign key to synonymtypes (synonymnstypes.id).',
   `synonyms` json NULL COMMENT 'The synonyms as a json array.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `synonyms_ibfk_synonymtypes`(`synonymtype_id`) USING BTREE,
-  INDEX `foreign_id`(`foreign_id`) USING BTREE,
+  INDEX `synonyms_ibfk_synonymtypes`(`synonymtype_id` ASC) USING BTREE,
+  INDEX `foreign_id`(`foreign_id` ASC) USING BTREE,
   CONSTRAINT `synonyms_ibfk_1` FOREIGN KEY (`synonymtype_id`) REFERENCES `synonymtypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Allows the definition of synonyms for entries such as germinatebase entries or marker names.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Allows the definition of synonyms for entries such as germinatebase entries or marker names.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of synonyms
@@ -1875,7 +2032,7 @@ CREATE TABLE `synonyms`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `synonymtypes`;
 CREATE TABLE `synonymtypes`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `target_table` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The target table.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Name of the synonym type.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Description of the type.',
@@ -1896,18 +2053,18 @@ INSERT INTO `synonymtypes` VALUES (4, 'phenotypes', 'Phenotypes', 'Phenotype syn
 -- ----------------------------
 DROP TABLE IF EXISTS `taxonomies`;
 CREATE TABLE `taxonomies`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `genus` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Genus name for the species.',
   `species` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'Species name in lowercase.',
   `subtaxa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Subtaxa name.',
   `species_author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'also known as spauthor in the Multi Crop Passport Descriptors (MCPD V2 2012). Describes the authority for the species name.',
   `subtaxa_author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'also known as subtauthor in the Multi Crop Passport Descriptors (MCPD V2 2012).',
   `cropname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The name of the crop. This should be the common name. Examples would include barley, maize, wheat, rice and so on.',
-  `ploidy` int(11) NULL DEFAULT NULL COMMENT 'Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.',
+  `ploidy` int NULL DEFAULT NULL COMMENT 'Defines the ploidy level for the species. Use numbers to reference ploidy for example diploid = 2, tetraploid = 4.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if subsequent changes have been made to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'The species table holds information relating to the species that are deinfed within a particular Germinate instance including common names and ploidy levels.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'The species table holds information relating to the species that are deinfed within a particular Germinate instance including common names and ploidy levels.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of taxonomies
@@ -1918,13 +2075,13 @@ CREATE TABLE `taxonomies`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `treatments`;
 CREATE TABLE `treatments`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name which defines the treatment.',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'A longer descripiton of the treatment. This should include enough information to be able to identify what the treatment was and why it was applied.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'For trials data the treatment is used to distinguish between factors. Examples would include whether the trial was treated with fungicides or not.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'For trials data the treatment is used to distinguish between factors. Examples would include whether the trial was treated with fungicides or not.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of treatments
@@ -1935,12 +2092,12 @@ CREATE TABLE `treatments`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `trialseries`;
 CREATE TABLE `trialseries`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `seriesname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'The description of the trial series name.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds the names of trial series. Trial series define the name of the trial to which trials data is associated. Examples would include the overarching project.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Holds the names of trial series. Trial series define the name of the trial to which trials data is associated. Examples would include the overarching project.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of trialseries
@@ -1951,33 +2108,33 @@ CREATE TABLE `trialseries`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `trialsetup`;
 CREATE TABLE `trialsetup`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `germinatebase_id` int(11) NOT NULL,
-  `dataset_id` int(11) NOT NULL,
-  `location_id` int(11) NULL DEFAULT NULL,
-  `treatment_id` int(11) NULL DEFAULT NULL,
-  `trialseries_id` int(11) NULL DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `germinatebase_id` int NOT NULL,
+  `dataset_id` int NOT NULL,
+  `location_id` int NULL DEFAULT NULL,
+  `treatment_id` int NULL DEFAULT NULL,
+  `trialseries_id` int NULL DEFAULT NULL,
   `block` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
   `rep` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
-  `trial_row` smallint(6) NULL DEFAULT NULL,
-  `trial_column` smallint(6) NULL DEFAULT NULL,
+  `trial_row` smallint NULL DEFAULT NULL,
+  `trial_column` smallint NULL DEFAULT NULL,
   `latitude` decimal(64, 10) NULL DEFAULT NULL,
   `longitude` decimal(64, 10) NULL DEFAULT NULL,
   `elevation` decimal(64, 10) NULL DEFAULT NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `germinatebase_id`(`germinatebase_id`) USING BTREE,
-  INDEX `dataset_id`(`dataset_id`) USING BTREE,
-  INDEX `location_id`(`location_id`) USING BTREE,
-  INDEX `treatment_id`(`treatment_id`) USING BTREE,
-  INDEX `trialseries_id`(`trialseries_id`) USING BTREE,
+  INDEX `germinatebase_id`(`germinatebase_id` ASC) USING BTREE,
+  INDEX `dataset_id`(`dataset_id` ASC) USING BTREE,
+  INDEX `location_id`(`location_id` ASC) USING BTREE,
+  INDEX `treatment_id`(`treatment_id` ASC) USING BTREE,
+  INDEX `trialseries_id`(`trialseries_id` ASC) USING BTREE,
   CONSTRAINT `trialsetup_ibfk_1` FOREIGN KEY (`germinatebase_id`) REFERENCES `germinatebase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `trialsetup_ibfk_2` FOREIGN KEY (`dataset_id`) REFERENCES `datasets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `trialsetup_ibfk_3` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `trialsetup_ibfk_4` FOREIGN KEY (`treatment_id`) REFERENCES `treatments` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `trialsetup_ibfk_5` FOREIGN KEY (`trialseries_id`) REFERENCES `trialseries` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of trialsetup
@@ -1988,14 +2145,14 @@ CREATE TABLE `trialsetup`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `units`;
 CREATE TABLE `units`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary id for this table. This uniquely identifies the row.',
   `unit_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'The name of the unit. This should be the name of the unit in full.',
   `unit_abbreviation` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'This should be the unit abbreviation.',
   `unit_description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A description of the unit. If the unit is not a standard SI unit then it is beneficial to have a description which explains what the unit it, how it is derived and any other information which would help identifiy it.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'The \'units\' table holds descriptions of the various units that are used in the Germinate database. Examples of these would include International System of Units (SI) base units: kilogram, meter, second, ampere, kelvin, candela and mole but can include any units that are required.' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'The \'units\' table holds descriptions of the various units that are used in the Germinate database. Examples of these would include International System of Units (SI) base units: kilogram, meter, second, ampere, kelvin, candela and mole but can include any units that are required.' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of units
@@ -2006,11 +2163,11 @@ CREATE TABLE `units`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `userfeedback`;
 CREATE TABLE `userfeedback`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Auto-incremented primary key.',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Auto-incremented primary key.',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Feedback content.',
   `image` mediumblob NULL COMMENT 'Optional interface screenshot.',
   `page_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The URL of the page the user was looking at.',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT 'Optional user id if user was logged in.',
+  `user_id` int NULL DEFAULT NULL COMMENT 'Optional user id if user was logged in.',
   `contact_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Contact email address.',
   `feedback_type` enum('question','data_error','general','bug','feature_request') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'general' COMMENT 'The type of feedback.',
   `severity` enum('low','medium','high') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'medium' COMMENT 'The estimated severity of the issue.',
@@ -2018,8 +2175,8 @@ CREATE TABLE `userfeedback`  (
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When this database record has been created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When this database record has last been updated.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `is_new`(`is_new`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  INDEX `is_new`(`is_new` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of userfeedback
@@ -2030,15 +2187,15 @@ CREATE TABLE `userfeedback`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `usergroupmembers`;
 CREATE TABLE `usergroupmembers`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `usergroup_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `usergroup_id` int NOT NULL,
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `usergroup_id`(`usergroup_id`) USING BTREE,
+  INDEX `usergroup_id`(`usergroup_id` ASC) USING BTREE,
   CONSTRAINT `usergroupmembers_ibfk_1` FOREIGN KEY (`usergroup_id`) REFERENCES `usergroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of usergroupmembers
@@ -2049,13 +2206,13 @@ CREATE TABLE `usergroupmembers`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `usergroups`;
 CREATE TABLE `usergroups`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The name of the user group.',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'A description of the user group.',
   `created_on` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'When the record was created.',
   `updated_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'When the record was updated. This may be different from the created on date if changes have been made subsequently to the underlying record.',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of usergroups
