@@ -133,16 +133,16 @@ Setting up Germinate manually involves a few steps that have to be done for ever
 ### Requirements
 
 Server:
-- Java 11 or above
-- Tomcat 10.0.18 or above
+- Java 21 or above
+- Tomcat 10.1 or above
 - MySQL 5.7.37 or above
 - imagemagick 6.9.10 or above
-- Gradle 5.2 or above
+- Gradle 8.8 or above
 - gdal 3.0.4 or above
 
 Client:
-- Node.js 16.15.1 or above
-- NPM 8.12.2 or above
+- Node.js 22.11.0 or above
+- NPM 10.9.0 or above
 
 We are going to assume that you have a running Tomcat and a running MySQL database that we can link into.
 
