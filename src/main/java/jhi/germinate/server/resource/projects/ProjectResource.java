@@ -27,7 +27,6 @@ import static jhi.germinate.server.database.codegen.tables.Projectpublications.P
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 
 @Path("project")
-@Secured(UserType.DATA_CURATOR)
 public class ProjectResource
 {
 	@GET
@@ -62,6 +61,7 @@ public class ProjectResource
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
 	public Response postProject(@FormDataParam("name") String name,
 								@FormDataParam("description") String description,
 								@FormDataParam("pageContent") String pageContent,
@@ -148,6 +148,7 @@ public class ProjectResource
 	@Path("/{projectId:\\d+}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
 	public Response patchProject(@PathParam("projectId") Integer projectId,
 								 @FormDataParam("name") String name,
 								 @FormDataParam("description") String description,
@@ -252,6 +253,7 @@ public class ProjectResource
 	@Path("/{projectId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
 	public Response deleteProject(@PathParam("projectId") Integer projectId)
 			throws SQLException
 	{
