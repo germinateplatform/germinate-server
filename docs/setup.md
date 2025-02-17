@@ -124,7 +124,7 @@ data.directory.external=/data/germinate
 
 <img src="img/docker-config.svg" alt="Docker setup">
 
-The figure above shows exemplar configuration options for Docker. Option (A) shows Germinate and Gatekeeper in a single Docker compose file each with their own MySQL Docker container. This is the easiest option to set up. See <a href="setup-example.html">the setup example</a> for more information on this configuration. Option (B) shows Germinate (and Gatekeeper) both using their own dockerized MySQL database, whereas option (C) shows Germinate (and Gatekeeper) using an externally provided MySQL server.
+The figure above shows exemplar configuration options for Docker. Option (A) shows Germinate and Gatekeeper in a single Docker compose file each with their own MySQL Docker container. In total, there would be 4 Docker images: Germinate, Gatekeeper, MySQL for Germinate and MySQL for Gatekeeper. This is the easiest option to set up. See <a href="setup-example.html">the setup example</a> for more information on this configuration. Option (B) shows Germinate (and Gatekeeper) using an externally provided MySQL server while they run as two Docker images in a Docker compose.
 
 ## Manual setup
 
