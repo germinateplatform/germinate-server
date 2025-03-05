@@ -1,0 +1,2 @@
+ALTER TABLE `climatedata`
+    MODIFY COLUMN `climate_value` varchar(255) NULL DEFAULT NULL COMMENT 'Value for the specific climate attribute. These are monthly averages and not daily. Monthly data is required for the current Germinate climate viisualizations and interface.' AFTER `location_id`;

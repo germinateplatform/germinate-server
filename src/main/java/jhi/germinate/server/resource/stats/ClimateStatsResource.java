@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.stats;
 
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
@@ -13,6 +14,7 @@ import org.jooq.impl.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
@@ -36,7 +38,7 @@ public class ClimateStatsResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ClimateDatasetStats postClimateStats(SubsettedDatasetRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null)
 		{
@@ -82,31 +84,32 @@ public class ClimateStatsResource extends ContextResource
 			Map<String, Quantiles> stats = new TreeMap<>();
 
 			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
+			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
 
 			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getyGroupIds())
-				? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
-				: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-					 .from(GROUPMEMBERS)
-					 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-					 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
-					 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
+					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
+					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
+						 .from(GROUPMEMBERS)
+						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+						 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
 
 			// Run the query
-			SelectOnConditionStep<Record4<Integer, Integer, String, Double>> dataStep = context.select(
-				CLIMATEDATA.DATASET_ID,
-				CLIMATEDATA.CLIMATE_ID,
-				// Now, get the concatenated group names for the requested selection.
-				groupIdsField,
-				CLIMATEDATA.CLIMATE_VALUE.as("climate_value")
-			)
+			SelectOnConditionStep<Record4<Integer, Integer, String, BigDecimal>> dataStep = context.select(
+																										   CLIMATEDATA.DATASET_ID,
+																										   CLIMATEDATA.CLIMATE_ID,
+																										   // Now, get the concatenated group names for the requested selection.
+																										   groupIdsField,
+																										   DSL.iif(CLIMATES.DATATYPE.ne(ClimatesDatatype.numeric), "0", CLIMATEDATA.CLIMATE_VALUE).cast(dt).as("phenotype_value")
+																								   )
 																								   .from(CLIMATEDATA)
 																								   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID));
 
 			// Restrict to dataset ids and climate ids
-			SelectConditionStep<Record4<Integer, Integer, String, Double>> condStep = dataStep.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
-																							  .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()));
+			SelectConditionStep<Record4<Integer, Integer, String, BigDecimal>> condStep = dataStep.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
+																								  .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()));
 
-			SelectLimitStep<Record4<Integer, Integer, String, Double>> orderByStep;
+			SelectLimitStep<Record4<Integer, Integer, String, BigDecimal>> orderByStep;
 
 			// If a subselection was requested
 			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
@@ -126,12 +129,12 @@ public class ClimateStatsResource extends ContextResource
 			}
 
 			// This consumes the database result and generates the stats
-			Consumer<Record4<Integer, Integer, String, Double>> consumer = pd -> {
+			Consumer<Record4<Integer, Integer, String, BigDecimal>> consumer = pd -> {
 				Integer datasetId = pd.get(CLIMATEDATA.DATASET_ID);
 				Integer climateId = pd.get(CLIMATEDATA.CLIMATE_ID);
 				String groupIds = pd.get(groupIdsField);
 				String key = datasetId + "|" + climateId + "|" + groupIds;
-				Double value = pd.get("climate_value", Double.class);
+				BigDecimal value = pd.get("phenotype_value", BigDecimal.class);
 
 				if (!Objects.equals(key, tempStats.prev))
 				{
@@ -148,8 +151,8 @@ public class ClimateStatsResource extends ContextResource
 
 				// Count in any case
 				tempStats.count++;
-				tempStats.avg += value;
-				tempStats.values.add(value);
+				tempStats.avg += value.doubleValue();
+				tempStats.values.add(value.doubleValue());
 			};
 
 			// Now stream the result and consume it
@@ -160,11 +163,11 @@ public class ClimateStatsResource extends ContextResource
 			if (!CollectionUtils.isEmpty(request.getyIds()))
 			{
 				context.select(
-					CLIMATEDATA.DATASET_ID,
-					CLIMATEDATA.CLIMATE_ID,
-					DSL.inline("Marked items").as("groupIds"),
-					CLIMATEDATA.CLIMATE_VALUE.as("climate_value")
-				)
+							   CLIMATEDATA.DATASET_ID,
+							   CLIMATEDATA.CLIMATE_ID,
+							   DSL.inline("Marked items").as("groupIds"),
+							   DSL.iif(CLIMATES.DATATYPE.ne(ClimatesDatatype.numeric), "0", CLIMATEDATA.CLIMATE_VALUE).cast(dt).as("phenotype_value")
+					   )
 					   .from(CLIMATEDATA)
 					   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
 					   .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))

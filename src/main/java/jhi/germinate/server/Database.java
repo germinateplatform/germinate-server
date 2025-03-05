@@ -33,6 +33,12 @@ public class Database
 
 	private static final String utc = TimeZone.getDefault().getID();
 
+	public static void main(String[] args)
+			throws IOException, URISyntaxException
+	{
+		Database.init("localhost", "germinate_template_4_25_03_05", null, "root", null, true);
+	}
+
 	public static void close()
 	{
 //		Logger.getLogger("").info("CLOSE DATABASE " + (datasource != null && !datasource.isClosed()));
@@ -271,24 +277,6 @@ public class Database
 			{
 				e.printStackTrace();
 			}
-		}
-	}
-
-	public static void main(String[] args)
-			throws IOException, URISyntaxException
-	{
-		Database.init("localhost", "germinate_template_4_23_02_16", null, "root", null, true);
-
-		URL url = Database.class.getClassLoader().getResource("jhi/germinate/server/util/database/init/views_procedures.sql");
-
-		if (url != null)
-		{
-			Logger.getLogger("").log(Level.INFO, "RUNNING VIEW/PROCEDURE CREATION SCRIPT!");
-			executeFile(new File(url.toURI()));
-		}
-		else
-		{
-			throw new IOException("View/procedure SQL file not found!");
 		}
 	}
 
