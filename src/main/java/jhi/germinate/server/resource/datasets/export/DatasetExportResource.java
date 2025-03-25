@@ -668,7 +668,7 @@ public class DatasetExportResource extends ContextResource
 					   String treatment = StringUtils.orEmpty(gp.treatment);
 					   String entityParentName = StringUtils.orEmpty(gpdb.getEntityParentName());
 					   String entityParentGid = StringUtils.orEmpty(gpdb.getEntityParentGeneralIdentifier());
-					   String dataset = datasets.get(gp.datasetId);
+					   String dataset = gp.datasetId + "-" + datasets.get(gp.datasetId);
 					   String location = gp.locationId == null ? "" : locations.get(gp.locationId);
 					   String latitude = gp.latitude == null ? "" : String.valueOf(gp.latitude);
 					   String longitude = gp.longitude == null ? "" : String.valueOf(gp.longitude);
