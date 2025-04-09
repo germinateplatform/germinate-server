@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
+import jhi.germinate.server.database.codegen.routines.DatasetMeta;
 import jhi.germinate.server.database.pojo.ImportResult;
 import jhi.germinate.server.util.ApplicationListener;
 import org.jooq.DSLContext;
@@ -40,6 +41,7 @@ public class DatasetImportJobCheckerTask implements Runnable
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
+			int[] counter = {0};
 			context.selectFrom(DATA_IMPORT_JOBS)
 				   .where(DATA_IMPORT_JOBS.STATUS.notEqual(DataImportJobsStatus.completed))
 				   .forEach(j -> {
@@ -50,6 +52,7 @@ public class DatasetImportJobCheckerTask implements Runnable
 						   if (finished && j.getStatus() == DataImportJobsStatus.running)
 						   {
 							   j.setStatus(DataImportJobsStatus.completed);
+							   counter[0]++;
 
 							   String uuid = j.getUuid();
 							   File jobFolder = ApplicationListener.getFromExternal(uuid, "async");
@@ -87,6 +90,12 @@ public class DatasetImportJobCheckerTask implements Runnable
 						   e.printStackTrace();
 					   }
 				   });
+
+			if (counter[0] > 0) {
+				// Update the dataset counts
+				DatasetMeta procedure = new DatasetMeta();
+				procedure.execute(context.configuration());
+			}
 		}
 		catch (SQLException e)
 		{

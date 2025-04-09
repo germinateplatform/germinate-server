@@ -39,6 +39,7 @@ public class TrialsDataBaseResource extends ExportResource
 	public static String TRAIT_ID                         = "trait_id";
 	public static String TRAIT_NAME                       = "trait_name";
 	public static String TRAIT_NAME_SHORT                 = "trait_name_short";
+	public static String TRAIT_DATA_TYPE                  = "trait_data_type";
 	public static String TRAIT_RESTRICTIONS               = "trait_restrictions";
 	public static String UNIT_NAME                        = "unit_name";
 	public static String TREATMENT                        = "treatment";
@@ -91,6 +92,7 @@ public class TrialsDataBaseResource extends ExportResource
 					PHENOTYPES.NAME.as(TRAIT_NAME),
 					PHENOTYPES.SHORT_NAME.as(TRAIT_NAME_SHORT),
 					PHENOTYPES.RESTRICTIONS.as(TRAIT_RESTRICTIONS),
+					PHENOTYPES.DATATYPE.as(TRAIT_DATA_TYPE),
 					UNITS.UNIT_NAME.as(UNIT_NAME),
 					TREATMENTS.NAME.as(TREATMENT),
 					TRIALSETUP.ID.as(TRIALSETUP_ID),
