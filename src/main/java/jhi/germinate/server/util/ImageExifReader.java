@@ -9,16 +9,13 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.database.pojo.Exif;
 import jhi.germinate.server.resource.images.ImageResource;
-import org.apache.commons.io.IOUtils;
 import org.jooq.DSLContext;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.logging.Logger;
 
 import static com.drew.metadata.exif.ExifDirectoryBase.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
@@ -101,7 +98,7 @@ public class ImageExifReader implements Callable<ImageExifReader.ExifResult>
 	}
 
 	private ExifResult getExif(File image)
-		throws ImageProcessingException, IOException
+			throws ImageProcessingException, IOException
 	{
 		Metadata metadata = ImageMetadataReader.readMetadata(image);
 

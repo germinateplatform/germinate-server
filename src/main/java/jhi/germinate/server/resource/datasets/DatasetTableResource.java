@@ -66,7 +66,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			if (!StringUtils.isEmpty(datasetType))
 				from.where(VIEW_TABLE_DATASETS.DATASET_TYPE.eq(datasetType));
 
-			if (!userDetails.isAtLeast(UserType.ADMIN))
+			if (userDetails != null && !userDetails.isAtLeast(UserType.ADMIN))
 			{
 				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
 				from.where(VIEW_TABLE_DATASETS.DATASET_STATE.eq("public")

@@ -11,8 +11,10 @@ import retrofit2.Response;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.security.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
@@ -34,17 +36,51 @@ public class GatekeeperClient
 	private static       OkHttpClient                                httpClient;
 	private static       ConnectionPool                              connectionPool;
 
+	private static void allowSelfSignedCertificates(OkHttpClient.Builder builder)
+	{
+		try
+		{
+			X509TrustManager TRUST_ALL_CERTS = new X509TrustManager()
+			{
+				@Override
+				public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType)
+				{
+				}
+
+				@Override
+				public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType)
+				{
+				}
+
+				@Override
+				public java.security.cert.X509Certificate[] getAcceptedIssuers()
+				{
+					return new java.security.cert.X509Certificate[]{};
+				}
+			};
+			SSLContext sslContext = SSLContext.getInstance("SSL");
+			sslContext.init(null, new TrustManager[]{TRUST_ALL_CERTS}, new java.security.SecureRandom());
+			builder.sslSocketFactory(sslContext.getSocketFactory(), TRUST_ALL_CERTS);
+			builder.hostnameVerifier((hostname, session) -> true);
+		}
+		catch (KeyManagementException | NoSuchAlgorithmException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * Initialises the Gatekeeper Client using the remote URL, username and password
-	 * @param url The remote API URL of Gatekeeper
+	 *
+	 * @param url      The remote API URL of Gatekeeper
 	 * @param username The username to use. This has to be a user with admin permissions on the Gatekeeper database.
 	 * @param password The user password.
 	 */
 	public static void init(String url, String username, String password)
 	{
 		if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) == AuthenticationMode.NONE
-			|| StringUtils.isEmpty(url)
-			|| StringUtils.isEmpty(username))
+				|| StringUtils.isEmpty(url)
+				|| StringUtils.isEmpty(username))
 		{
 			return;
 		}
@@ -75,10 +111,14 @@ public class GatekeeperClient
 		}
 	}
 
-	public static boolean connectionValid() {
-		if (token != null) {
+	public static boolean connectionValid()
+	{
+		if (token != null)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			reset();
 
 			return token != null;
@@ -92,24 +132,29 @@ public class GatekeeperClient
 		// Close any existing connections
 		close();
 
-		if (url == null) {
+		if (url == null)
+		{
 			return;
 		}
 
-		if (connectionPool == null) {
+		if (connectionPool == null)
+		{
 			// Create a connection pool
 			connectionPool = new ConnectionPool(3, 1, TimeUnit.MINUTES);
 		}
 
 		// Create the HTTP client with the pool and timeouts
-		httpClient = new OkHttpClient.Builder()
-			.readTimeout(20, TimeUnit.SECONDS)
-			.callTimeout(20, TimeUnit.SECONDS)
-			.connectTimeout(20, TimeUnit.SECONDS)
-			.writeTimeout(20, TimeUnit.SECONDS)
-			.connectionPool(connectionPool)
-			.retryOnConnectionFailure(true)
-			.build();
+		OkHttpClient.Builder builder = new OkHttpClient.Builder()
+				.readTimeout(20, TimeUnit.SECONDS)
+				.callTimeout(20, TimeUnit.SECONDS)
+				.connectTimeout(20, TimeUnit.SECONDS)
+				.writeTimeout(20, TimeUnit.SECONDS)
+				.connectionPool(connectionPool)
+				.retryOnConnectionFailure(true);
+
+		allowSelfSignedCertificates(builder);
+
+		httpClient = builder.build();
 		// Create the retrofit instance
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
 										   .addConverterFactory(GsonConverterFactory.create())
@@ -144,35 +189,39 @@ public class GatekeeperClient
 		// Close the current connection again
 		close();
 		// And now create a new one that will use the token for all further requests
-		httpClient = (new OkHttpClient.Builder())
-			.readTimeout(20, TimeUnit.SECONDS)
-			.callTimeout(20, TimeUnit.SECONDS)
-			.connectTimeout(20, TimeUnit.SECONDS)
-			.writeTimeout(20, TimeUnit.SECONDS)
-			.connectionPool(connectionPool)
-			.retryOnConnectionFailure(true)
-			.addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
-														.addHeader("Authorization", "Bearer " + token.getToken())
-														.addHeader("Cookie", "token=" + token.getToken())
-														.build()))
-			.addInterceptor(chain -> {
-				// Add an interceptor that will handle some error codes
-				Request request = chain.request();
-				okhttp3.Response response = chain.proceed(request);
+		builder = new OkHttpClient.Builder()
+				.readTimeout(20, TimeUnit.SECONDS)
+				.callTimeout(20, TimeUnit.SECONDS)
+				.connectTimeout(20, TimeUnit.SECONDS)
+				.writeTimeout(20, TimeUnit.SECONDS)
+				.connectionPool(connectionPool)
+				.retryOnConnectionFailure(true)
+				.addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
+															.addHeader("Authorization", "Bearer " + token.getToken())
+															.addHeader("Cookie", "token=" + token.getToken())
+															.build()))
+				.addInterceptor(chain -> {
+					// Add an interceptor that will handle some error codes
+					Request request = chain.request();
+					okhttp3.Response response = chain.proceed(request);
 
-				// On any 403, reset the client. Gatekeeper may have restarted and the token would then have been removed.
-				if (response.code() == 403)
-				{
-					response.close();
-					// Reset the client
-					GatekeeperClient.reset();
-					// Then send the request again
-					return chain.proceed(request);
-				}
+					// On any 403, reset the client. Gatekeeper may have restarted and the token would then have been removed.
+					if (response.code() == 403)
+					{
+						response.close();
+						// Reset the client
+						GatekeeperClient.reset();
+						// Then send the request again
+						return chain.proceed(request);
+					}
 
-				return response;
-			})
-			.build();
+					return response;
+				});
+
+		allowSelfSignedCertificates(builder);
+
+		httpClient = builder
+				.build();
 
 		// Now recreate the retrofit instance and the service
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
@@ -225,6 +274,7 @@ public class GatekeeperClient
 		}
 		catch (Exception e)
 		{
+			reset();
 			Logger.getLogger("").info(e.getMessage());
 			return new GatekeeperApiError();
 		}
@@ -234,6 +284,7 @@ public class GatekeeperClient
 
 	/**
 	 * Returns the Gatekeeper user with the given id if any. <code>null</code> otherwise
+	 *
 	 * @param id The id of the user
 	 * @return The user or <code>null</code>
 	 */

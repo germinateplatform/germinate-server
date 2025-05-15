@@ -108,6 +108,17 @@ public class FileResourceResource extends ContextResource
 		}
 	}
 
+	@GET
+	@Path("/{fileResourceId:\\d+}/download")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("*/*")
+	public Response getFileResourceDownload(@PathParam("fileResourceId") Integer fileResourceId, @QueryParam("token") String token) throws IOException, SQLException {
+		AuthenticationFilter.UserDetails userDetails = AuthenticationFilter.getDetailsFromUrlToken(token);
+		if (userDetails == null) {
+			userDetails = new AuthenticationFilter.UserDetails(-1000, token, token, UserType.AUTH_USER, System.currentTimeMillis());
+		}
+		return getFileResource(fileResourceId, userDetails);
+	}
 
 	@GET
 	@Path("/{fileResourceId:[0-9]+}{fileExtension:.?[a-zA-Z]*}")
@@ -118,7 +129,12 @@ public class FileResourceResource extends ContextResource
 	public Response getFileResource(@PathParam("fileResourceId") Integer fileResourceId)
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		return getFileResource(fileResourceId, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal());
+	}
+
+	private Response getFileResource(Integer fileResourceId, AuthenticationFilter.UserDetails userDetails)
+			throws IOException, SQLException
+	{
 		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
 
 		if (fileResourceId == null)
@@ -166,6 +182,7 @@ public class FileResourceResource extends ContextResource
 						   .build();
 		}
 	}
+
 
 	@DELETE
 	@Path("/{fileResourceId:\\d+}")

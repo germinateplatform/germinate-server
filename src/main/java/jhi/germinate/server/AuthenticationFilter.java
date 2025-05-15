@@ -63,6 +63,11 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		return imageTokenToUserDetails.get(imageToken);
 	}
 
+	public static UserDetails getDetailsFromUrlToken(String urlToken)
+	{
+		return tokenToUserDetails.get(urlToken);
+	}
+
 	@Override
 	public void filter(ContainerRequestContext requestContext)
 		throws IOException
