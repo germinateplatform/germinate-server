@@ -65,6 +65,7 @@ public class SettingsResource
 					.setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 					.setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
 					.setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+					.setGenesysUrl(PropertyWatcher.get(ServerProperty.GENESYS_URL))
 					.setHiddenColumns(new HiddenColumns()
 							.setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
 							.setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))

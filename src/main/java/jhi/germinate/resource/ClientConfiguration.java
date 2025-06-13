@@ -33,6 +33,7 @@ public class ClientConfiguration
 	private String             fieldhubUrl;
 	private HiddenColumns      hiddenColumns;
 	private Boolean            supportsFeedback;
+	private String             genesysUrl;
 
 	public ClientConfiguration()
 	{
@@ -299,6 +300,17 @@ public class ClientConfiguration
 	public ClientConfiguration setSupportsFeedback(Boolean supportsFeedback)
 	{
 		this.supportsFeedback = supportsFeedback;
+		return this;
+	}
+
+	public String getGenesysUrl()
+	{
+		return genesysUrl;
+	}
+
+	public ClientConfiguration setGenesysUrl(String genesysUrl)
+	{
+		this.genesysUrl = genesysUrl;
 		return this;
 	}
 }

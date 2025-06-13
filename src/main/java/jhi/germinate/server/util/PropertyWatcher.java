@@ -20,6 +20,7 @@ package jhi.germinate.server.util;
 import de.poiu.apron.PropertyFile;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
+import jhi.germinate.server.resource.genesys.GenesysClient;
 import jhi.germinate.server.resource.token.TokenResource;
 import org.apache.commons.io.monitor.*;
 
@@ -136,6 +137,7 @@ public class PropertyWatcher
 
 			Database.init(get(ServerProperty.DATABASE_SERVER), get(ServerProperty.DATABASE_NAME), get(ServerProperty.DATABASE_PORT), get(ServerProperty.DATABASE_USERNAME), get(ServerProperty.DATABASE_PASSWORD), true);
 			GatekeeperClient.init(get(ServerProperty.GATEKEEPER_URL), get(ServerProperty.GATEKEEPER_USERNAME), get(ServerProperty.GATEKEEPER_PASSWORD));
+			GenesysClient.init(get(ServerProperty.GENESYS_URL), get(ServerProperty.GENESYS_CLIENT_ID), get(ServerProperty.GENESYS_CLIENT_SECRET));
 			TokenResource.SALT = getInteger(ServerProperty.BCRYPT_SALT);
 		}
 	}
