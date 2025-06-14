@@ -290,6 +290,4 @@ public class DatasetTableResource extends BaseDatasetTableResource
 	{
 		return runQuery(request);
 	}
-
-
 }
