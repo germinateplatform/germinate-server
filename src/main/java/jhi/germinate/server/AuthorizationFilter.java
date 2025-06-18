@@ -106,7 +106,10 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			result.put(type, new ArrayList<>());
 
 		for (ViewTableDatasets dataset : datasets)
+		{
 			result.get(dataset.getDatasetType()).add(dataset.getDatasetId());
+			result.get(null).add(dataset.getDatasetId());
+		}
 
 		return result;
 	}
