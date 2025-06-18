@@ -10,7 +10,6 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.codegen.tables.*;
 import jhi.germinate.server.database.pojo.TraitRestrictions;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jooq.*;
@@ -37,14 +36,13 @@ public class GermplasmTraitStatsResource
 	protected HttpServletResponse resp;
 
 	@GET
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<GermplasmStats> getGermplasmTraitStats(@PathParam("germplasmId") Integer germplasmId)
 			throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials", true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, "trials", true);
 
 		try (Connection conn = Database.getConnection())
 		{

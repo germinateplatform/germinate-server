@@ -5,7 +5,6 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePedigreedefinitions;
 import jhi.germinate.server.resource.ExportResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
@@ -26,14 +25,13 @@ public class PedigreeDefinitionTableResource extends ExportResource
 {
 	@Path("/table")
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePedigreedefinitions>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "pedigree");
+		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "pedigree", true);
 		if (CollectionUtils.isEmpty(datasets))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 

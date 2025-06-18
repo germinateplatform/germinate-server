@@ -8,7 +8,6 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMapoverlays;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
 import org.apache.commons.io.IOUtils;
@@ -30,6 +29,7 @@ public class MapOverlayResource extends ContextResource
 
 	@GET
 	@Path("/{mapoverlayId:\\d+}/src")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token)
@@ -37,8 +37,6 @@ public class MapOverlayResource extends ContextResource
 	{
 		if (mapoverlayId == null)
 			return Response.status(Response.Status.BAD_REQUEST).build();
-
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -66,7 +64,7 @@ public class MapOverlayResource extends ContextResource
 			// Check they have access to the dataset (if present)
 			if (overlay.getDatasetId() != null)
 			{
-				List<Integer> ids = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, true);
+				List<Integer> ids = AuthorizationFilter.getDatasetIds(req, null, true);
 
 				if (!ids.contains(overlay.getDatasetId()))
 				{

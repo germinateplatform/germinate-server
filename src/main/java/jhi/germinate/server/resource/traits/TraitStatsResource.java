@@ -9,7 +9,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
 import jhi.germinate.server.database.codegen.tables.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.*;
@@ -35,15 +34,13 @@ public class TraitStatsResource
 	protected HttpServletResponse resp;
 
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTraitStats(TraitDatasetRequest request)
 			throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials", true);
-		datasetIds.retainAll(List.of(request.getDatasetIds()));
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
 
 		try (Connection conn = Database.getConnection())
 		{

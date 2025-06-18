@@ -8,8 +8,7 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImportJobs;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -25,13 +24,13 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableImportJobs.*
 public class ImportJobStatsResource extends BaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableImportJobs>> getImportJobStats(PaginatedRequest request)
 		throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, false);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, false);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

@@ -11,7 +11,6 @@ import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePedigrees;
 import jhi.germinate.server.database.codegen.tables.records.ViewTablePedigreesRecord;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -27,7 +26,6 @@ import java.util.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.VIEW_TABLE_LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.ViewTablePedigrees.*;
 
 @Path("pedigree")
@@ -37,14 +35,13 @@ public class PedigreeResource extends ExportResource
 {
 	@Path("/table")
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePedigrees>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "pedigree");
+		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "pedigree", true);
 		if (CollectionUtils.isEmpty(datasets))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
@@ -75,6 +72,7 @@ public class PedigreeResource extends ExportResource
 
 	@POST
 	@Path("/export")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postPedigreeTableExport(ExportRequest request)
@@ -94,9 +92,7 @@ public class PedigreeResource extends ExportResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "pedigree");
+		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "pedigree", true);
 
 		if (CollectionUtils.isEmpty(datasets))
 		{

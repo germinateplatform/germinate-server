@@ -7,7 +7,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.*;
-import jhi.germinate.server.database.codegen.tables.Germinatebase;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.database.pojo.ExportJobDetails;
@@ -17,22 +16,18 @@ import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.GenotypeExporter;
 import jhi.oddjob.JobInfo;
 import org.jooq.*;
-import org.jooq.impl.DSL;
 
 import java.io.File;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
 import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 
 @Path("dataset/export/genotype")
 @Secured
@@ -40,6 +35,7 @@ import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 public class DatasetExportGenotypeResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postJson(SubsettedGenotypeDatasetRequest request)
@@ -53,10 +49,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "genotype");
-
-		List<Integer> datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-		datasetIds.retainAll(availableDatasets);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "genotype", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 			return new ArrayList<>();

@@ -5,7 +5,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ExportResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
@@ -29,6 +28,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableClimateData.
 public class ClimateDataTableResource extends ExportResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableClimateDataWithGroups>> postClimateDataTable(SubsettedDatasetRequest request)
@@ -42,17 +42,8 @@ public class ClimateDataTableResource extends ExportResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-
-		// If nothing specific was requested, just return everything, else restrict to available datasets
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = datasets;
-		else
-			requestedIds.retainAll(datasets);
-
-		if (CollectionUtils.isEmpty(requestedIds))
-			return new PaginatedResult<>(new ArrayList<>(), 0);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", requestedIds, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -114,6 +105,7 @@ public class ClimateDataTableResource extends ExportResource
 
 	@POST
 	@Path("/ids")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postClimateDataTableIds(PaginatedDatasetRequest request)
@@ -125,16 +117,8 @@ public class ClimateDataTableResource extends ExportResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-
-		// If nothing specific was requested, just return everything, else restrict to available datasets
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = datasets;
-		else
-			requestedIds.retainAll(datasets);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", requestedIds, true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
@@ -163,21 +147,14 @@ public class ClimateDataTableResource extends ExportResource
 
 	@POST
 	@Path("/export")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postClimateDataTableExport(DatasetExportRequest request)
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate");
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-
-		// If nothing specific was requested, just return everything, else restrict to available datasets
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = datasets;
-		else
-			requestedIds.retainAll(datasets);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", requestedIds, true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 		{

@@ -5,7 +5,6 @@ import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -30,6 +29,7 @@ import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 public class DatasetExportGenotypeSummaryResource extends BaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postJson(SubsettedDatasetRequest request)
@@ -41,15 +41,11 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "genotype", true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "genotype", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(datasetIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
-
-		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-		requestedIds.retainAll(datasetIds);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -107,7 +103,7 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 															  .leftJoin(DATASETTYPES).on(DATASETTYPES.ID.eq(DATASETS.DATASETTYPE_ID))
 															  .where(DATASETTYPES.DESCRIPTION.eq("genotype"))
 															  .and(DATASETS.IS_EXTERNAL.eq(false))
-															  .and(DATASETS.ID.in(requestedIds))
+															  .and(DATASETS.ID.in(datasetIds))
 															  .groupBy(DATASETS.ID);
 
 			List<ViewTableDatasets> result = setPaginationAndOrderBy(step)

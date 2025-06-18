@@ -9,7 +9,7 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableInstitutionDatasets;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
 
@@ -24,6 +24,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableInstitutionD
 public class InstitutionDatasetTableResource extends BaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postInstitutionTable(PaginatedRequest request)
@@ -35,8 +36,7 @@ public class InstitutionDatasetTableResource extends BaseResource
 			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
-			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-			List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, false);
+			List<Integer> availableDatasets = AuthorizationFilter.getDatasetIds(req, null, false);
 
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");

@@ -7,7 +7,6 @@ import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -22,7 +21,6 @@ import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.Grouptypes.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 
 @Path("dataset/group")
@@ -31,6 +29,7 @@ import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP
 public class DatasetGroupResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableGroups> postDatasetGroups(DatasetGroupRequest request)
@@ -44,19 +43,7 @@ public class DatasetGroupResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
-
-		List<Integer> requestedIds;
-
-		if (CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			requestedIds = datasets;
-		}
-		else
-		{
-			requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-			requestedIds.retainAll(datasets);
-		}
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

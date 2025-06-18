@@ -7,7 +7,6 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ResourceUtils;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
@@ -30,13 +29,14 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	private Integer groupId;
 
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGroupGermplasm>> postGroupGermplasmTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -94,13 +94,14 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/ids")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGroupGermplasmTableIds(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 		currentPage = 0;
@@ -139,13 +140,14 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/export")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postGroupGermplasmTableExport(ExportRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 

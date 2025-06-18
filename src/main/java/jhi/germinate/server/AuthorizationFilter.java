@@ -1,16 +1,22 @@
 package jhi.germinate.server;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.*;
 import jhi.germinate.resource.enums.UserType;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
 import jakarta.annotation.Priority;
-import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
+
 import java.io.IOException;
 import java.lang.reflect.*;
+import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * This filter makes sure that the {@link Secured} resources are only accessible by users with the correct user type.
@@ -20,12 +26,15 @@ import java.util.*;
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter
 {
+	public static final String GERMINATE_DS_ALL              = "germinate.datasets.all";
+	public static final String GERMINATE_DS_LICENSE_ACCEPTED = "germinate.datasets.license.accepted";
+
 	@Context
 	private ResourceInfo resourceInfo;
 
 	@Override
 	public void filter(ContainerRequestContext requestContext)
-		throws IOException
+			throws IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) requestContext.getSecurityContext().getUserPrincipal();
 
@@ -58,6 +67,48 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		{
 			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
 		}
+
+		if (!Objects.equals(requestContext.getMethod(), HttpMethod.OPTIONS))
+		{
+			// Check whether the user requested access to datasets.
+
+			try
+			{
+				Objects.requireNonNullElse(resourceMethod.getAnnotation(NeedsDatasets.class), resourceClass.getAnnotation(NeedsDatasets.class));
+
+				// Get all the datasets for this user
+				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
+				List<ViewTableDatasets> allDatasets = DatasetTableResource.getDatasetsForUser(null, userDetails, null, false);
+				List<ViewTableDatasets> licenseAcceptedDatasets = DatasetTableResource.getDatasetsForUser(null, userDetails, null, true);
+
+				// Store them in a place where they are accessible
+				requestContext.setProperty(GERMINATE_DS_ALL, toMap(dsTypes, allDatasets));
+				requestContext.setProperty(GERMINATE_DS_LICENSE_ACCEPTED, toMap(dsTypes, licenseAcceptedDatasets));
+			}
+			catch (SQLException e)
+			{
+				Logger.getLogger("").severe(e.getMessage());
+				e.printStackTrace();
+			}
+			catch (NullPointerException e)
+			{
+				// Neither class nor method has the annotation -> do nothing
+			}
+		}
+	}
+
+	private Map<String, List<Integer>> toMap(List<String> types, List<ViewTableDatasets> datasets)
+	{
+		// Prepare the map
+		Map<String, List<Integer>> result = new HashMap<>();
+		result.put(null, new ArrayList<>());
+		for (String type : types)
+			result.put(type, new ArrayList<>());
+
+		for (ViewTableDatasets dataset : datasets)
+			result.get(dataset.getDatasetType()).add(dataset.getDatasetId());
+
+		return result;
 	}
 
 	// Extract the roles from the annotated element
@@ -83,7 +134,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 	}
 
 	private void checkPermissions(List<UserType> allowedRoles, AuthenticationFilter.UserDetails userDetails)
-		throws Exception
+			throws Exception
 	{
 		if (userDetails != null)
 		{
@@ -98,6 +149,51 @@ public class AuthorizationFilter implements ContainerRequestFilter
 					throw new IOException();
 				}
 			}
+		}
+	}
+
+	public static List<Integer> getDatasetIds(HttpServletRequest req, String dsType, boolean onlyLicenseAccepted)
+	{
+		Map<String, List<Integer>> map = Objects.requireNonNullElse((HashMap<String, List<Integer>>) req.getAttribute(onlyLicenseAccepted ? GERMINATE_DS_LICENSE_ACCEPTED : GERMINATE_DS_ALL), new HashMap<>());
+
+		return Objects.requireNonNullElse(map.get(dsType), new ArrayList<>());
+	}
+
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, List<Integer> requestedIds, boolean onlyLicenseAccepted)
+	{
+		List<Integer> availableIds = getDatasetIds(req, dsType, onlyLicenseAccepted);
+
+		if (CollectionUtils.isEmpty(requestedIds))
+			requestedIds = availableIds;
+		else
+			requestedIds.retainAll(availableIds);
+
+		return requestedIds;
+	}
+
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, Integer[] requestedIds, boolean onlyLicenseAccepted)
+	{
+		List<Integer> rIds = CollectionUtils.isEmpty(requestedIds) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(requestedIds));
+
+		return restrictDatasetIds(req, dsType, rIds, onlyLicenseAccepted);
+	}
+
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, Integer requestedId, boolean onlyLicenseAccepted)
+	{
+		List<Integer> rIds = requestedId == null ? new ArrayList<>() : new ArrayList<>(List.of(requestedId));
+
+		return restrictDatasetIds(req, dsType, rIds, onlyLicenseAccepted);
+	}
+
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, String requestedId, boolean onlyLicenseAccepted)
+	{
+		try
+		{
+			return restrictDatasetIds(req, dsType, Integer.parseInt(requestedId), onlyLicenseAccepted);
+		}
+		catch (Exception e)
+		{
+			return restrictDatasetIds(req, dsType, (Integer) null, onlyLicenseAccepted);
 		}
 	}
 }

@@ -6,7 +6,6 @@ import jakarta.ws.rs.core.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.records.FileresourcesRecord;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -31,6 +30,7 @@ public class FileResourceStreamerResource extends ContextResource
 	Integer fileResourceId;
 
 	@HEAD
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
@@ -42,6 +42,7 @@ public class FileResourceStreamerResource extends ContextResource
 	}
 
 	@GET
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
@@ -55,8 +56,7 @@ public class FileResourceStreamerResource extends ContextResource
 	private Response stream(String range, boolean isHead)
 		throws SQLException, IOException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		if (fileResourceId == null)
 		{

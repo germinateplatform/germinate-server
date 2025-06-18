@@ -6,9 +6,8 @@ import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.resource.locations.LocationPolygonTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -25,6 +24,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 {
 	@POST
 	@Path("/table")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmPolygonTable(PaginatedPolygonRequest request)
@@ -36,8 +36,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -63,6 +62,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/table/ids")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGermplasmPolgonTableIds(PaginatedPolygonRequest request)
@@ -74,8 +74,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 		currentPage = 0;

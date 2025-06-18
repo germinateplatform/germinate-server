@@ -1,6 +1,5 @@
 package jhi.germinate.server.resource.publications;
 
-import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.UserType;
@@ -9,7 +8,6 @@ import jhi.germinate.server.database.codegen.enums.PublicationdataReferenceType;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
@@ -17,12 +15,12 @@ import org.jooq.impl.DSL;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 import static jhi.germinate.server.database.codegen.tables.Publicationdata.PUBLICATIONDATA;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
-import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.VIEW_TABLE_PUBLICATIONS;
 
 @Path("publication")
 @Secured(UserType.DATA_CURATOR)
@@ -59,6 +57,7 @@ public class PublicationResource extends ContextResource
 	}
 
 	@PUT
+	@NeedsDatasets
 	@Path("/{publicationId}/reference")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -92,8 +91,8 @@ public class PublicationResource extends ContextResource
 					exists = true;
 					break;
 				case dataset:
-					ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(data.getForeignId(), req, userDetails, false);
-					exists = dataset != null;
+					List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, null, false);
+					exists = availableIds.contains(data.getForeignId());
 					break;
 				case group:
 					try

@@ -4,7 +4,6 @@ import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMaps;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -26,6 +25,7 @@ import static jhi.germinate.server.database.codegen.tables.Maps.*;
 public class DatasetMapResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableMaps> postDatasetMaps(DatasetRequest request)
@@ -39,10 +39,7 @@ public class DatasetMapResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
-		List<Integer> requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-
-		requestedIds.retainAll(datasets);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

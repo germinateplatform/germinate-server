@@ -7,8 +7,7 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -27,13 +26,13 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 	private Integer publicationId;
 
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePublicationGermplasm>> postPublicationGermplasmTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

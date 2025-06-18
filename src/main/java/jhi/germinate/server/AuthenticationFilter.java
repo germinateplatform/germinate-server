@@ -334,6 +334,9 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 	public static Set<Integer> getAcceptedLicenses(HttpServletRequest request)
 	{
+		if (request == null) {
+			return new HashSet<>();
+		}
 		Cookie[] cookies = request.getCookies();
 
 		if (CollectionUtils.isEmpty(cookies))

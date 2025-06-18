@@ -6,7 +6,6 @@ import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -21,21 +20,13 @@ import java.util.*;
 public class TrialGermplasmResource extends TrialsDataBaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableTrialsData>> postTrialGermplasm(PaginatedDatasetRequest request, @QueryParam("isGermplasm") @DefaultValue("false") Boolean isGermplasm)
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
-		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-
-		// If nothing specific was requested, just return everything, else restrict to available datasets
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = datasets;
-		else
-			requestedIds.retainAll(datasets);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);

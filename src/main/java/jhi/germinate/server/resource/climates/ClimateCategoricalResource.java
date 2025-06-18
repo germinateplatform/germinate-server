@@ -23,6 +23,7 @@ import java.util.*;
 public class ClimateCategoricalResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postJson(SubsettedDatasetRequest request)
@@ -34,22 +35,7 @@ public class ClimateCategoricalResource extends ContextResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasetsForUser = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "climate", true);
-		List<Integer> datasetIds = new ArrayList<>();
-		// If datasets were requested, add these to list
-		if (!CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			datasetIds.addAll(Arrays.asList(request.getDatasetIds()));
-			// Then restrict to the ones that are available
-			datasetIds.retainAll(datasetsForUser);
-		}
-		else
-		{
-			// Else, use all available ones
-			datasetIds = datasetsForUser;
-		}
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "climate", request.getDatasetIds(), true);
 
 		try
 		{

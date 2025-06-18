@@ -27,6 +27,7 @@ import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 public class FileResourceResource extends ContextResource
 {
 	@PUT
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
@@ -87,11 +88,7 @@ public class FileResourceResource extends ContextResource
 
 			if (!CollectionUtils.isEmpty(fileResource.getDatasetIds()))
 			{
-				AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-				List<Integer> requestedIds = new ArrayList<>(Arrays.asList(fileResource.getDatasetIds()));
-				List<Integer> availableIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
-
-				requestedIds.retainAll(availableIds);
+				List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, fileResource.getDatasetIds(), true);
 
 				for (Integer datasetId : requestedIds)
 				{
@@ -113,11 +110,12 @@ public class FileResourceResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	public Response getFileResourceDownload(@PathParam("fileResourceId") Integer fileResourceId, @QueryParam("token") String token) throws IOException, SQLException {
+		// IMPORTANT: This needs to be here, because we are using a specific URL token to fetch this
 		AuthenticationFilter.UserDetails userDetails = AuthenticationFilter.getDetailsFromUrlToken(token);
 		if (userDetails == null) {
 			userDetails = new AuthenticationFilter.UserDetails(-1000, token, token, UserType.AUTH_USER, System.currentTimeMillis());
 		}
-		return getFileResource(fileResourceId, userDetails);
+		return getFileResourceInternal(fileResourceId, userDetails);
 	}
 
 	@GET
@@ -129,13 +127,13 @@ public class FileResourceResource extends ContextResource
 	public Response getFileResource(@PathParam("fileResourceId") Integer fileResourceId)
 		throws IOException, SQLException
 	{
-		return getFileResource(fileResourceId, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal());
+		return getFileResourceInternal(fileResourceId, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal());
 	}
 
-	private Response getFileResource(Integer fileResourceId, AuthenticationFilter.UserDetails userDetails)
+	private Response getFileResourceInternal(Integer fileResourceId, AuthenticationFilter.UserDetails userDetails)
 			throws IOException, SQLException
 	{
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, true);
 
 		if (fileResourceId == null)
 		{

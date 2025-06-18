@@ -8,7 +8,6 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -26,13 +25,13 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableFileresource
 public class FileResourceTableResource extends BaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableFileresources>> getJson(PaginatedRequest request)
 			throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

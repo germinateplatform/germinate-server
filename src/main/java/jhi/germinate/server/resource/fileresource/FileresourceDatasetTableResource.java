@@ -5,11 +5,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
-import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.AuthenticationFilter;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.datasets.BaseDatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 
@@ -27,6 +26,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)

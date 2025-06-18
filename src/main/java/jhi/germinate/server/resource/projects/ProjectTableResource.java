@@ -9,7 +9,6 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableProjects;
 import jhi.germinate.server.database.pojo.Dataset;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -25,14 +24,13 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableProjects.VIE
 public class ProjectTableResource extends BaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableProjects>> postProjectTable(PaginatedRequest request)
 			throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		HashSet<Integer> datasetsForUser = new HashSet<>(DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, true));
+		HashSet<Integer> datasetsForUser = new HashSet<>(AuthorizationFilter.getDatasetIds(req, null, true));
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

@@ -5,7 +5,6 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Phenotypes;
 import jhi.germinate.server.database.codegen.tables.records.PhenotypesRecord;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
@@ -65,6 +64,7 @@ public class TraitResource extends ContextResource
 
 	@GET
 	@Path("values")
+	@NeedsDatasets
 	@PermitAll
 	@Secured
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -82,8 +82,7 @@ public class TraitResource extends ContextResource
 		{
 			DSLContext context = Database.getContext(conn);
 
-			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-			List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
+			List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "trials", true);
 
 			return context.selectDistinct(PHENOTYPEDATA.PHENOTYPE_VALUE).from(PHENOTYPEDATA)
 						  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))

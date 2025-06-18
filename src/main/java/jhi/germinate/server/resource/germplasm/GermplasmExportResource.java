@@ -7,7 +7,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.resource.ResourceUtils;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -25,6 +24,7 @@ import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 public class GermplasmExportResource extends GermplasmBaseResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postGermplasmExport(GermplasmExportRequest request)
@@ -32,8 +32,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 	{
 		try (Connection conn = Database.getConnection())
 		{
-			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-			List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
+			List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
 
 			DSLContext context = Database.getContext(conn);
 			if (request != null && request.getIncludeAttributes() != null && request.getIncludeAttributes())

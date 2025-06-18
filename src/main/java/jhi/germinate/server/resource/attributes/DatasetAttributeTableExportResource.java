@@ -1,9 +1,8 @@
 package jhi.germinate.server.resource.attributes;
 
 import jhi.germinate.resource.*;
-import jhi.germinate.server.AuthenticationFilter;
+import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ExportResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.Condition;
 
@@ -23,6 +22,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 {
 	@POST
 	@Path("/attribute/table/export")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postDatasetAttributeExport(ExportRequest request)
@@ -33,6 +33,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 
 	@POST
 	@Path("/{datasetId}/attribute/export")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postDatasetAttributeExport(@PathParam("datasetId") Integer datasetId)
@@ -45,7 +46,6 @@ public class DatasetAttributeTableExportResource extends ExportResource
 		throws IOException, SQLException
 	{
 		processRequest(request);
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> requestedIds = new ArrayList<>();
 
@@ -75,16 +75,10 @@ public class DatasetAttributeTableExportResource extends ExportResource
 			}
 		}
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
-
-		// If nothing has been requested, return data for all datasets, else, use the requested ones that the user has access to
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = availableDatasets;
-		else
-			requestedIds.retainAll(availableDatasets);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, requestedIds, true);
 
 		// If either nothing is available or the user has access to nothing, return a 404
-		if (CollectionUtils.isEmpty(availableDatasets) || CollectionUtils.isEmpty(requestedIds))
+		if (CollectionUtils.isEmpty(requestedIds))
 		{
 			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
 			return null;

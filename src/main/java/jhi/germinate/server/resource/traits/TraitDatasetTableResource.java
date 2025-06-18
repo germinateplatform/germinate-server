@@ -7,7 +7,7 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.UnacceptedLicenseRequest;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.datasets.BaseDatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;
@@ -24,6 +24,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIE
 public class TraitDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postTraitDatasetTable(UnacceptedLicenseRequest request, @PathParam("traitId") Integer traitId)

@@ -27,6 +27,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 {
 	@POST
 	@Path("/attribute/table")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(PaginatedRequest request)
@@ -38,6 +39,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 
 	@POST
 	@Path("/{datasetId}/attribute")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(@PathParam("datasetId") Integer datasetId)
@@ -49,8 +51,6 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 	private PaginatedResult<List<ViewTableDatasetAttributes>> export(Integer datasetId, PaginatedRequest request)
 		throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
 		List<Integer> requestedIds = new ArrayList<>();
 
 		if (datasetId != null)
@@ -79,16 +79,10 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 			}
 		}
 
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null);
-
-		// If nothing has been requested, return data for all datasets, else, use the requested ones that the user has access to
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = availableDatasets;
-		else
-			requestedIds.retainAll(availableDatasets);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, requestedIds, true);
 
 		// If either nothing is available or the user has access to nothing, return an empty result
-		if (CollectionUtils.isEmpty(availableDatasets) || CollectionUtils.isEmpty(requestedIds))
+		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		processRequest(request);

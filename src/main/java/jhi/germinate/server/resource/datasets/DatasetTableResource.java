@@ -4,8 +4,7 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.resource.ExportResource;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -15,12 +14,12 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
+import static jhi.germinate.server.database.codegen.tables.Datasettypes.DATASETTYPES;
 import static jhi.germinate.server.database.codegen.tables.Licenselogs.*;
 import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
@@ -34,10 +33,15 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 @PermitAll
 public class DatasetTableResource extends BaseDatasetTableResource
 {
-	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType)
-		throws SQLException
+	public static List<String> getDatasetTypes()
+			throws SQLException
 	{
-		return getDatasetIdsForUser(req, userDetails, datasetType, true);
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.selectFrom(DATASETTYPES).fetchInto(Datasettypes.class).stream().map(Datasettypes::getDescription).collect(Collectors.toList());
+		}
 	}
 
 	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
@@ -239,6 +243,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 
 
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postDatasetsTable(UnacceptedLicenseRequest request)
@@ -268,21 +273,8 @@ public class DatasetTableResource extends BaseDatasetTableResource
 	}
 
 	@POST
-	@Path("/export")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("application/zip")
-	public Response postDatasetTableExport(ExportRequest request)
-		throws IOException, SQLException
-	{
-		processRequest(request);
-
-		ExportResource.ExportSettings settings = new ExportResource.ExportSettings();
-		settings.fieldsToNull = new Field[]{VIEW_TABLE_DATASETS.ACCEPTED_BY};
-		return export(VIEW_TABLE_DATASETS, "dataset-table-", settings);
-	}
-
-	@POST
 	@Path("/ids")
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postDatasetTableIds(PaginatedRequest request)

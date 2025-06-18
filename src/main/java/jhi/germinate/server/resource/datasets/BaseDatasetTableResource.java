@@ -13,9 +13,6 @@ import org.jooq.Record;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.DATASETPERMISSIONS;
-import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.USERGROUPMEMBERS;
-import static jhi.germinate.server.database.codegen.tables.Usergroups.USERGROUPS;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
 
 public class BaseDatasetTableResource extends ExportResource implements IFilteredResource
@@ -39,16 +36,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_DATASETS);
 
 			if (!userDetails.isAtLeast(UserType.ADMIN))
-			{
-				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
-				from.where(VIEW_TABLE_DATASETS.DATASET_STATE.eq("public")
-															.orExists(context.selectOne().from(DATASETPERMISSIONS)
-																			 .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
-																			 .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
-																			 .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
-																			 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
-																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
-			}
+				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, null, false)));
 
 			if (optionalAdjuster != null)
 				optionalAdjuster.adjustQuery(from);
@@ -165,16 +153,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			SelectJoinStep<Record1<Integer>> from = select.from(VIEW_TABLE_DATASETS);
 
 			if (!userDetails.isAtLeast(UserType.ADMIN))
-			{
-				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
-				from.where(VIEW_TABLE_DATASETS.DATASET_STATE.eq("public")
-															.orExists(context.selectOne().from(DATASETPERMISSIONS)
-																			 .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
-																			 .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
-																			 .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
-																			 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
-																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
-			}
+				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, null, false)));
 
 			// Filter here!
 			where(from, filters);

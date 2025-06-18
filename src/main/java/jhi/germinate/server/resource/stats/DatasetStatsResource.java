@@ -2,7 +2,6 @@ package jhi.germinate.server.resource.stats;
 
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.*;
@@ -29,14 +28,13 @@ import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 public class DatasetStatsResource extends ContextResource
 {
 	@GET
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getJson()
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> availableDatasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, false);
+		List<Integer> availableDatasets = AuthorizationFilter.getDatasetIds(req, null, false);
 
 		try
 		{

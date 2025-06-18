@@ -4,7 +4,7 @@ import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.UnacceptedLicenseRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
 import jakarta.annotation.security.PermitAll;
@@ -23,6 +23,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTablePublications
 public class PublicationDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postPublicationDatasetTable(UnacceptedLicenseRequest request, @PathParam("publicationId") Integer publicationId)

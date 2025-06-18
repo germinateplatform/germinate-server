@@ -7,7 +7,6 @@ import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -29,6 +28,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_
 public class DatasetTraitResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableTraits> postDatasetTraits(DatasetRequest request)
@@ -40,21 +40,7 @@ public class DatasetTraitResource extends ContextResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
-
-		List<Integer> requestedIds;
-
-		if (CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			requestedIds = datasets;
-		}
-		else
-		{
-			requestedIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-			requestedIds.retainAll(datasets);
-		}
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

@@ -27,6 +27,7 @@ import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP
 public class TrialsDataTimepointResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> postDatasetTrialTimepoints(TraitTimelineRequest request)
@@ -38,16 +39,7 @@ public class TrialsDataTimepointResource extends ContextResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasets = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials");
-		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(request.getDatasetIds());
-
-		// If nothing specific was requested, just return everything, else restrict to available datasets
-		if (CollectionUtils.isEmpty(requestedIds))
-			requestedIds = datasets;
-		else
-			requestedIds.retainAll(datasets);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

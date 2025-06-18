@@ -9,7 +9,7 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
 
@@ -27,6 +27,7 @@ public class DatasetCollaboratorTableResource extends BaseResource
 	private Integer datasetId;
 
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableCollaborators>> postCollaboratorTable(PaginatedRequest request)
@@ -36,11 +37,10 @@ public class DatasetCollaboratorTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
+			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, null, false);
 
-			if (dataset != null)
+			if (availableIds.contains(datasetId))
 			{
 				SelectSelectStep<Record> select = context.select();
 
@@ -75,9 +75,9 @@ public class DatasetCollaboratorTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
+			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, null, false);
 
-			if (dataset != null)
+			if (availableIds.contains(datasetId))
 			{
 				return context.select()
 							  .from(VIEW_TABLE_COLLABORATORS)

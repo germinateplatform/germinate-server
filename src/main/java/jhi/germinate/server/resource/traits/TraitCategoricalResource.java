@@ -4,7 +4,6 @@ import jhi.germinate.resource.SubsettedDatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportTraitCategorical;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
@@ -23,6 +22,7 @@ import java.util.*;
 public class TraitCategoricalResource extends ContextResource
 {
 	@POST
+	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postJson(SubsettedDatasetRequest request)
@@ -34,22 +34,7 @@ public class TraitCategoricalResource extends ContextResource
 			return null;
 		}
 
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
-		List<Integer> datasetsForUser = DatasetTableResource.getDatasetIdsForUser(req, userDetails, "trials", true);
-		List<Integer> datasetIds = new ArrayList<>();
-		// If datasets were requested, add these to list
-		if (!CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			datasetIds.addAll(Arrays.asList(request.getDatasetIds()));
-			// Then restrict to the ones that are available
-			datasetIds.retainAll(datasetsForUser);
-		}
-		else
-		{
-			// Else, use all available ones
-			datasetIds = datasetsForUser;
-		}
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
 
 		try
 		{
