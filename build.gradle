@@ -29,9 +29,6 @@ java {
 
 repositories {
     maven {
-        url 'https://repo.spring.io/plugins-release/'
-    }
-    maven {
         url 'https://maven.imagej.net/content/repositories/public/'
     }
     maven {
