@@ -29,13 +29,13 @@ java {
 
 repositories {
     maven {
-        url 'https://maven.imagej.net/content/repositories/public/'
-    }
-    maven {
         url 'https://nexus.geomatys.com/repository/geotoolkit/'
     }
     maven {
         url 'https://repo.osgeo.org/repository/release/'
+    }
+    maven {
+        url 'https://maven.scijava.org/content/repositories/public/'
     }
     mavenCentral()
 }
@@ -53,12 +53,11 @@ dependencies {
 
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.xerial:sqlite-jdbc:3.44.0.0'
-    implementation 'cisd:jhdf5:14.12.6'
+    implementation 'cisd:jhdf5:19.04.1'
     implementation 'net.coobird:thumbnailator:0.4.18'
 //    implementation 'com.zaxxer:HikariCP:4.0.3'
     implementation 'org.jooq:jooq:3.16.18'
     implementation 'org.dhatim:fastexcel-reader:0.14.0'
-    implementation 'com.drewnoakes:metadata-extractor:2.18.0'
     implementation 'xerces:xercesImpl:2.12.2'
     implementation 'org.codehaus.castor:castor-core:1.4.1'
     implementation ('org.codehaus.castor:castor-xml:1.4.1') {
