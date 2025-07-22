@@ -47,22 +47,23 @@ public class GenotypeExporter
 {
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
-	private File           folder;
-	private File           hdf5File;
-	private File           hdf5TransposedFile;
-	private File           mapFile;
-	private File           tabbedFile;
-	private File           flapjackProjectFile;
-	private File           hapmapFile;
-	private File           identifierFile;
-	private File           zipFile;
-	private Set<String>    germplasm;
-	private Set<String>    markers;
-	private String         headers         = "";
-	private String         projectName;
-	private boolean        includeFlatText = true;
-	private DataExportJobs exportJob;
-	private Datasets       dataset;
+	private File                folder;
+	private File                hdf5File;
+	private File                hdf5TransposedFile;
+	private File                mapFile;
+	private File                tabbedFile;
+	private File                flapjackProjectFile;
+	private File                hapmapFile;
+	private File                identifierFile;
+	private File                zipFile;
+	private Set<String>         germplasm;
+	private Map<String, String> germplasmNameMapping = new HashMap<>();
+	private Set<String>         markers;
+	private String              headers         = "";
+	private String              projectName;
+	private boolean             includeFlatText = true;
+	private DataExportJobs      exportJob;
+	private Datasets            dataset;
 
 	private final CountDownLatch latch;
 
@@ -180,6 +181,9 @@ public class GenotypeExporter
 					ResourceUtils.exportToFileStreamed(bw, cursor, false, null);
 				}
 			}
+
+			// Get germplasm name mapping
+			context.select(GERMINATEBASE.NAME, GERMINATEBASE.DISPLAY_NAME).from(GERMINATEBASE).forEach(g -> this.germplasmNameMapping.put(g.get(GERMINATEBASE.NAME), StringUtils.orElse(g.get(GERMINATEBASE.DISPLAY_NAME), g.get(GERMINATEBASE.NAME))));
 
 			// Get the germplasm
 			if (exportJob.getJobConfig().getyGroupIds() != null || exportJob.getJobConfig().getyIds() != null)
@@ -348,7 +352,7 @@ public class GenotypeExporter
 						{
 							Path tabbedZipped = fs.getPath("/" + tabbedFile.getName());
 							// Extract from HDF5 to flat file (zipped)
-							Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedZipped, false);
+							Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, germplasmNameMapping, tabbedZipped, false);
 							converter.extractData(headers);
 						}
 						finally
@@ -460,7 +464,7 @@ public class GenotypeExporter
 			{
 				System.out.println("EXTRACTING TO TABBED");
 				// Extract from HDF5 to flat file (not zipped)
-				Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, tabbedFile.toPath(), false);
+				Hdf5ToFJTabbedConverter converter = new Hdf5ToFJTabbedConverter(hdf5File.toPath(), germplasm, markers, germplasmNameMapping, tabbedFile.toPath(), false);
 				converter.extractData(headers);
 
 				System.out.println("CONVERTING TO FLAPJACK");
@@ -509,9 +513,9 @@ public class GenotypeExporter
 				AbstractHdf5Converter converter;
 
 				if (hdf5TransposedFile != null)
-					converter = new Hdf5TransposedToHapmapConverter(hdf5TransposedFile.toPath(), germplasm, markers, map, hapmapPath);
+					converter = new Hdf5TransposedToHapmapConverter(hdf5TransposedFile.toPath(), germplasm, markers, map, germplasmNameMapping, hapmapPath);
 				else
-					converter = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, hapmapPath);
+					converter = new Hdf5ToHapmapConverter(hdf5File.toPath(), germplasm, markers, map, germplasmNameMapping, hapmapPath);
 
 				converter.extractData(null);
 			}

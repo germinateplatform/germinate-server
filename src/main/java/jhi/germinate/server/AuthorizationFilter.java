@@ -17,6 +17,7 @@ import java.lang.reflect.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * This filter makes sure that the {@link Secured} resources are only accessible by users with the correct user type.
@@ -31,6 +32,9 @@ public class AuthorizationFilter implements ContainerRequestFilter
 
 	@Context
 	private ResourceInfo resourceInfo;
+
+	@Context
+	private HttpServletRequest request;
 
 	@Override
 	public void filter(ContainerRequestContext requestContext)
@@ -71,15 +75,14 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		if (!Objects.equals(requestContext.getMethod(), HttpMethod.OPTIONS))
 		{
 			// Check whether the user requested access to datasets.
-
 			try
 			{
 				Objects.requireNonNullElse(resourceMethod.getAnnotation(NeedsDatasets.class), resourceClass.getAnnotation(NeedsDatasets.class));
 
 				// Get all the datasets for this user
 				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
-				List<ViewTableDatasets> allDatasets = DatasetTableResource.getDatasetsForUser(null, userDetails, null, false);
-				List<ViewTableDatasets> licenseAcceptedDatasets = DatasetTableResource.getDatasetsForUser(null, userDetails, null, true);
+				List<ViewTableDatasets> allDatasets = DatasetTableResource.getDatasetsForUser(request, userDetails, null, false);
+				List<ViewTableDatasets> licenseAcceptedDatasets = DatasetTableResource.getDatasetsForUser(request, userDetails, null, true);
 
 				// Store them in a place where they are accessible
 				requestContext.setProperty(GERMINATE_DS_ALL, toMap(dsTypes, allDatasets));

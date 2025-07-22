@@ -104,15 +104,15 @@ public class DatasetExportResource extends ContextResource
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setDatatype(DataExportJobsDatatype.allelefreq);
 			dbJob.setJobConfig(new ExportJobDetails()
-									   .setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-									   .setxIds(request.getxIds())
-									   .setxGroupIds(request.getxGroupIds())
-									   .setyIds(request.getyIds())
-									   .setyGroupIds(request.getyGroupIds())
-									   .setSubsetId(request.getMapId())
-									   .setBinningConfig(request.getConfig())
-									   .setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
-									   .setFileTypes(request.getFileTypes()));
+					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+					.setxIds(request.getxIds())
+					.setxGroupIds(request.getxGroupIds())
+					.setyIds(request.getyIds())
+					.setyGroupIds(request.getyGroupIds())
+					.setSubsetId(request.getMapId())
+					.setBinningConfig(request.getConfig())
+					.setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
+					.setFileTypes(request.getFileTypes()));
 			dbJob.setStatus(DataExportJobsStatus.waiting);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
@@ -538,6 +538,7 @@ public class DatasetExportResource extends ContextResource
 			List<Field<?>> fields = new ArrayList<>(Arrays.asList(
 					GERMINATEBASE.ID.as("germplasmId"),
 					GERMINATEBASE.NAME.as("germplasmName"),
+					GERMINATEBASE.DISPLAY_NAME.as("germplasmDisplayName"),
 					GERMINATEBASE.GENERAL_IDENTIFIER.as("germplasmGid"),
 					TAXONOMIES.GENUS.as("genus"),
 					TAXONOMIES.SPECIES.as("species"),
@@ -630,7 +631,7 @@ public class DatasetExportResource extends ContextResource
 					   }
 
 					   // Create a record
-					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmName(), rep, block, year, trialRow, trialColumn, treatment, pd.get(TRIALSETUP.DATASET_ID), pd.get(TRIALSETUP.LOCATION_ID), pd.get(TRIALSETUP.LATITUDE, Double.class), pd.get(TRIALSETUP.LONGITUDE, Double.class), pd.get(TRIALSETUP.ELEVATION, Double.class));
+					   GermplasmRecord record = new GermplasmRecord(gp.getGermplasmId(), gp.getGermplasmDisplayName(), gp.getGermplasmName(), rep, block, year, trialRow, trialColumn, treatment, pd.get(TRIALSETUP.DATASET_ID), pd.get(TRIALSETUP.LOCATION_ID), pd.get(TRIALSETUP.LATITUDE, Double.class), pd.get(TRIALSETUP.LONGITUDE, Double.class), pd.get(TRIALSETUP.ELEVATION, Double.class));
 					   String value = pd.get(PHENOTYPEDATA.PHENOTYPE_VALUE);
 
 					   // Get or create the data
@@ -678,8 +679,10 @@ public class DatasetExportResource extends ContextResource
 						   groupString = gson.toJson(germplasmGroups);
 					   }
 
+					   String mainIdentifier = StringUtils.isEmpty(gp.germplasmDisplayName) ? gp.germplasmName : gp.germplasmDisplayName;
+
 					   bw.write(ResourceUtils.CRLF);
-					   bw.write(String.join("\t", gp.germplasmName, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, dataset, year, groupString, location, latitude, longitude, elevation, treatment, rep, block, row, col));
+					   bw.write(String.join("\t", mainIdentifier, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, dataset, year, groupString, location, latitude, longitude, elevation, treatment, rep, block, row, col));
 
 					   // Print trait data
 					   traits.values().forEach(traitHeader -> {
@@ -939,6 +942,7 @@ public class DatasetExportResource extends ContextResource
 	private static class GermplasmRecord implements Comparable<GermplasmRecord>
 	{
 		private Integer germplasmId;
+		private String  germplasmDisplayName;
 		private String  germplasmName;
 		private String  rep;
 		private String  block;
@@ -952,9 +956,10 @@ public class DatasetExportResource extends ContextResource
 		private Double  longitude;
 		private Double  elevation;
 
-		public GermplasmRecord(Integer germplasmId, String germplasmName, String rep, String block, Integer year, Short trialRow, Short trialColumn, String treatment, Integer datasetId, Integer locationId, Double latitude, Double longitude, Double elevation)
+		public GermplasmRecord(Integer germplasmId, String germplasmDisplayName, String germplasmName, String rep, String block, Integer year, Short trialRow, Short trialColumn, String treatment, Integer datasetId, Integer locationId, Double latitude, Double longitude, Double elevation)
 		{
 			this.germplasmId = germplasmId;
+			this.germplasmDisplayName = germplasmDisplayName;
 			this.germplasmName = germplasmName;
 			this.rep = rep;
 			this.block = block;
@@ -975,13 +980,13 @@ public class DatasetExportResource extends ContextResource
 			if (this == o) return true;
 			if (o == null || getClass() != o.getClass()) return false;
 			GermplasmRecord that = (GermplasmRecord) o;
-			return germplasmId.equals(that.germplasmId) && germplasmName.equals(that.germplasmName) && datasetId.equals(that.datasetId) && Objects.equals(locationId, that.locationId) && Objects.equals(rep, that.rep) && Objects.equals(block, that.block) && Objects.equals(year, that.year) && Objects.equals(trialRow, that.trialRow) && Objects.equals(trialColumn, that.trialColumn) && Objects.equals(treatment, that.treatment);
+			return germplasmId.equals(that.germplasmId) && Objects.equals(germplasmDisplayName, that.germplasmDisplayName) && germplasmName.equals(that.germplasmName) && datasetId.equals(that.datasetId) && Objects.equals(locationId, that.locationId) && Objects.equals(rep, that.rep) && Objects.equals(block, that.block) && Objects.equals(year, that.year) && Objects.equals(trialRow, that.trialRow) && Objects.equals(trialColumn, that.trialColumn) && Objects.equals(treatment, that.treatment);
 		}
 
 		@Override
 		public int hashCode()
 		{
-			return Objects.hash(germplasmId, germplasmName, rep, block, year, trialRow, trialColumn, treatment, datasetId, locationId);
+			return Objects.hash(germplasmId, germplasmDisplayName, germplasmName, rep, block, year, trialRow, trialColumn, treatment, datasetId, locationId);
 		}
 
 		@Override

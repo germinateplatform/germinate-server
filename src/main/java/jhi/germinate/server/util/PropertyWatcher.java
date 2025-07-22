@@ -80,7 +80,7 @@ public class PropertyWatcher
 				loadProperties(true);
 
 				// Then watch whichever file exists for changes
-				FileAlterationObserver observer = new FileAlterationObserver(config.getParentFile());
+				FileAlterationObserver observer = FileAlterationObserver.builder().setFile(config.getParentFile()).get();
 				monitor = new FileAlterationMonitor(1000L);
 				observer.addListener(new FileAlterationListenerAdaptor()
 				{

@@ -15,9 +15,9 @@ public class Hdf5TransposedToHapmapConverter extends AbstractHdf5Converter
 {
 	private Map<String, Hdf5ToHapmapConverter.MarkerPosition> map;
 
-	public Hdf5TransposedToHapmapConverter(Path hdf5File, Set<String> lines, Set<String> markers, Map<String, Hdf5ToHapmapConverter.MarkerPosition> map, Path outputFilePath)
+	public Hdf5TransposedToHapmapConverter(Path hdf5File, Set<String> lines, Set<String> markers, Map<String, Hdf5ToHapmapConverter.MarkerPosition> map, Map<String, String> germplasmNameMapping, Path outputFilePath)
 	{
-		super(hdf5File, lines, markers, outputFilePath);
+		super(hdf5File, lines, markers, germplasmNameMapping, outputFilePath);
 
 		this.map = map;
 	}
@@ -48,7 +48,7 @@ public class Hdf5TransposedToHapmapConverter extends AbstractHdf5Converter
 			// Write the header line of a Hapmap file
 			bw.write("rs#\talleles\tchrom\tpos\tstrand\tassembly#\tcenter\tprotLSID\tassayLSID\tpanelLSID\tQCcode");
 			for (String line : lines)
-				bw.write("\t" + line);
+				bw.write("\t" + germplasmNameMapping.get(line));
 			bw.newLine();
 
 			s = System.currentTimeMillis();

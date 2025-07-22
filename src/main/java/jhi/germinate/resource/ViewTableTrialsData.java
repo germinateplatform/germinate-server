@@ -13,6 +13,7 @@ public class ViewTableTrialsData
 	private Integer            germplasmId;
 	private String             germplasmGid;
 	private String             germplasmName;
+	private String             germplasmDisplayName;
 	private String[]           germplasmSynonyms;
 	private String             entityParentName;
 	private String             entityParentGeneralIdentifier;
@@ -72,6 +73,17 @@ public class ViewTableTrialsData
 	public ViewTableTrialsData setGermplasmName(String germplasmName)
 	{
 		this.germplasmName = germplasmName;
+		return this;
+	}
+
+	public String getGermplasmDisplayName()
+	{
+		return germplasmDisplayName;
+	}
+
+	public ViewTableTrialsData setGermplasmDisplayName(String germplasmDisplayName)
+	{
+		this.germplasmDisplayName = germplasmDisplayName;
 		return this;
 	}
 

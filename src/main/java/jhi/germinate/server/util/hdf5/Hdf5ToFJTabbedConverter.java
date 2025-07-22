@@ -31,9 +31,9 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 {
 	private boolean transposed;
 
-	public Hdf5ToFJTabbedConverter(Path hdf5File, Set<String> lines, Set<String> markers, Path outputFilePath, boolean transposed)
+	public Hdf5ToFJTabbedConverter(Path hdf5File, Set<String> lines, Set<String> markers, Map<String, String> germplasmNameMapping, Path outputFilePath, boolean transposed)
 	{
-		super(hdf5File, lines, markers, outputFilePath);
+		super(hdf5File, lines, markers, germplasmNameMapping, outputFilePath);
 
 		this.transposed = transposed;
 	}
@@ -69,7 +69,7 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 				for (String line : lines)
 				{
 					lineIndices.add(lineInds.get(line));
-					bw.write("\t" + line);
+					bw.write("\t" + germplasmNameMapping.get(line));
 				}
 				bw.newLine();
 
@@ -107,7 +107,7 @@ public class Hdf5ToFJTabbedConverter extends AbstractHdf5Converter
 					// Get from DATA, 1 row, markerInds.size() columns, start from row lineInds.get(lineName) and column 0.
 					// The resulting 2d array only contains one 1d array. Take that as the lines genotype data.
 					byte[] genotypes = reader.int8().readMatrixBlock(DATA, 1, markerInds.size(), lineInds.get(lineName), 0)[0];
-					writeGenotypeFlatFileString(bw, lineName, genotypes, markerIndices, stateTable);
+					writeGenotypeFlatFileString(bw, germplasmNameMapping.get(lineName), genotypes, markerIndices, stateTable);
 				}
 			}
 			System.out.println("Output lines to genotype file: " + (System.currentTimeMillis() - s) + " (ms)");

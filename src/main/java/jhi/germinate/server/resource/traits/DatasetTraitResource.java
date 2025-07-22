@@ -14,6 +14,7 @@ import org.jooq.impl.DSL;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
 import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;

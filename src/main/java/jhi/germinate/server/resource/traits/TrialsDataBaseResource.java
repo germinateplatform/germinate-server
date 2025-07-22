@@ -26,6 +26,7 @@ public class TrialsDataBaseResource extends ExportResource
 	public static String GERMPLASM_ID                     = "germplasm_id";
 	public static String GERMPLASM_GID                    = "germplasm_gid";
 	public static String GERMPLASM_NAME                   = "germplasm_name";
+	public static String GERMPLASM_DISPLAY_NAME           = "germplasm_display_name";
 	public static String GERMPLASM_SYNONYMS               = "germplasm_synonyms";
 	public static String ENTITY_PARENT_NAME               = "entity_parent_name";
 	public static String ENTITY_PARENT_GENERAL_IDENTIFIER = "entity_parent_general_identifier";
@@ -57,13 +58,12 @@ public class TrialsDataBaseResource extends ExportResource
 
 	private List<Field<?>> getFields(Germinatebase g, boolean minimal)
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-
 		if (minimal)
 		{
 			return Arrays.asList(
 					GERMINATEBASE.ID.as(GERMPLASM_ID),
 					GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+					GERMINATEBASE.DISPLAY_NAME.as(GERMPLASM_DISPLAY_NAME),
 					DATASETS.ID.as(DATASET_ID),
 					DATASETS.NAME.as(DATASET_NAME),
 					PHENOTYPES.ID.as(TRAIT_ID),
@@ -78,6 +78,7 @@ public class TrialsDataBaseResource extends ExportResource
 					GERMINATEBASE.ID.as(GERMPLASM_ID),
 					GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 					GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+					GERMINATEBASE.DISPLAY_NAME.as(GERMPLASM_DISPLAY_NAME),
 					SYNONYMS.SYNONYMS_.as(GERMPLASM_SYNONYMS),
 					g.NAME.as(ENTITY_PARENT_NAME),
 					g.GENERAL_IDENTIFIER.as(ENTITY_PARENT_GENERAL_IDENTIFIER),
@@ -146,6 +147,7 @@ public class TrialsDataBaseResource extends ExportResource
 				GERMINATEBASE.ID.as(GERMPLASM_ID),
 				GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+				GERMINATEBASE.DISPLAY_NAME.as(GERMPLASM_DISPLAY_NAME),
 				DATASETS.ID.as(DATASET_ID)));
 
 		if (additionalFields != null)
@@ -177,6 +179,7 @@ public class TrialsDataBaseResource extends ExportResource
 				GERMINATEBASE.ID.as(GERMPLASM_ID),
 				GERMINATEBASE.GENERAL_IDENTIFIER.as(GERMPLASM_GID),
 				GERMINATEBASE.NAME.as(GERMPLASM_NAME),
+				GERMINATEBASE.DISPLAY_NAME.as(GERMPLASM_DISPLAY_NAME),
 				DATASETS.ID.as(DATASET_ID),
 				TREATMENTS.NAME.as(TREATMENT),
 				TRIALSETUP.ID.as(TRIALSETUP_ID),

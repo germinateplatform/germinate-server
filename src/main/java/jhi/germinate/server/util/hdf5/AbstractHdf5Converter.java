@@ -27,12 +27,14 @@ public abstract class AbstractHdf5Converter
 	protected Map<String, Integer>  markerInds;
 	protected LinkedHashSet<String> hdf5Lines;
 	protected LinkedHashSet<String> hdf5Markers;
+	protected Map<String, String> germplasmNameMapping;
 
-	public AbstractHdf5Converter(Path hdf5File, Set<String> lines, Set<String> markers, Path outputFilePath)
+	public AbstractHdf5Converter(Path hdf5File, Set<String> lines, Set<String> markers, Map<String, String> germplasmNameMapping, Path outputFilePath)
 	{
 		this.hdf5File = hdf5File;
 		this.lines = lines;
 		this.markers = markers;
+		this.germplasmNameMapping = germplasmNameMapping;
 		this.outputFilePath = outputFilePath;
 
 		readInput();
