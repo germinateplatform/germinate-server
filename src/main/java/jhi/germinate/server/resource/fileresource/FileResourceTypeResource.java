@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.fileresource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;

@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.groups;
 
+import jakarta.ws.rs.Path;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;

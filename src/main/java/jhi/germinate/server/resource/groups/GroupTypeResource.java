@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.groups;
 
+import jakarta.ws.rs.Path;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.Grouptypes;

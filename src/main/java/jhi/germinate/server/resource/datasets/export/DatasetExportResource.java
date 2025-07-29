@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import de.ipk_gatersleben.bit.bi.isa4j.components.*;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.flapjack.io.binning.MakeHistogram;
 import jhi.germinate.resource.*;

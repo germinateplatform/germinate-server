@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.groups;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.*;

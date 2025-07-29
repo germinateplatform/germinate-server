@@ -3,6 +3,7 @@ package jhi.germinate.server.resource.germplasm;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.ViewMcpd;

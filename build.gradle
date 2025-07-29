@@ -53,7 +53,7 @@ dependencies {
     implementation 'cisd:jhdf5:19.04.1'
     implementation 'net.coobird:thumbnailator:0.4.18'
 //    implementation 'com.zaxxer:HikariCP:4.0.3'
-    implementation 'org.jooq:jooq:3.16.18'
+    implementation 'org.jooq:jooq:3.20.5'
     implementation 'org.dhatim:fastexcel-reader:0.19.0'
     implementation 'xerces:xercesImpl:2.12.2'
     implementation 'org.codehaus.castor:castor-core:1.4.1'
@@ -66,7 +66,8 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.2'
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
 
-    implementation 'org.flywaydb:flyway-core:6.5.7'
+    implementation 'org.flywaydb:flyway-core:10.22.0'
+    implementation 'org.flywaydb:flyway-mysql:10.22.0'
     implementation 'com.squareup.retrofit2:retrofit:2.12.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'de.poiu.apron:apron:2.1.1'

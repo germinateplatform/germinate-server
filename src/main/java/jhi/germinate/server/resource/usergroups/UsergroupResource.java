@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.usergroups;
 
+import jakarta.ws.rs.Path;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.UserGroupModificationRequest;
 import jhi.germinate.resource.enums.UserType;

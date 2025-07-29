@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.maps;
 
+import jakarta.ws.rs.Path;
 import jhi.germinate.resource.MapExportRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Maps;

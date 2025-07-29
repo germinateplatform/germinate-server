@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.ws.rs.Path;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.*;

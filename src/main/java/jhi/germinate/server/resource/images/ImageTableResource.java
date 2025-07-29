@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.images;
 
+import jakarta.ws.rs.Path;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;

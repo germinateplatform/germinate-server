@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;

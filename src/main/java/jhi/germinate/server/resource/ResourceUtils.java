@@ -10,15 +10,15 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
-import java.nio.file.*;
+import java.nio.file.Path;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ResourceUtils
@@ -282,7 +282,8 @@ public class ResourceUtils
 		do
 		{
 			file = new File(folder, filename + "-" + UUID.randomUUID() + "." + extension);
-		} while (file.exists());
+		}
+		while (file.exists());
 
 		if (create)
 			file.createNewFile();

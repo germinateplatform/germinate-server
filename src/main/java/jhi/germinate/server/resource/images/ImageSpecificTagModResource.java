@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.images;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.ImageTagModificationRequest;

@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.stats;
 
+import jakarta.ws.rs.Path;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
