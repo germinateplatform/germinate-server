@@ -85,6 +85,8 @@ dependencies {
 
     implementation 'net.logicsquad:nanocaptcha:1.3'
 
+    implementation 'info.picocli:picocli:4.7.7'
+
     // Disabled Swagger until we can figure out how to make it work with Jersey3 and Jakarta
     implementation 'io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.31'
     implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer-jakarta:2.2.31'
@@ -106,11 +108,13 @@ task jarForImporter (type: Jar, dependsOn: classes) {
     include '**/AuthenticationFilter**'
     include '**/AuthorizationFilter**'
     include '**/**DatasetTableResource**'
+    include '**/DataOrientation**'
     include '**/ExportResource**'
     include '**/BaseResource**'
     include '**/ContextResource**'
     include '**/IFilteredResource**'
     include '**/PropertyWatcher**'
+    include '**/GerminateCommandVersion**'
 }
 
 // Generate a .jar file that other applications can use to communicate with the API
@@ -124,6 +128,15 @@ task jarClient (type: Jar, dependsOn: classes) {
     include '**/client/**'
 }
 
+jar {
+    // Set the classpath
+    manifest {
+        attributes('Implementation-Version': version)
+        attributes('Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '))
+        attributes('Main-Class': 'jhi.germinate.GerminateCommand')
+    }
+}
+
 // Generate a .war file
 war {
     dependsOn jar, jarForImporter, jarClient
@@ -132,10 +145,11 @@ war {
     rootSpec.includeEmptyDirs = false
 
     // Include external .jar files, but exclude the Germinate client and core.
-    classpath fileTree(dir:'build/libs/', include:'*.jar', excludes: ['germinate-client.jar', 'germinate-core.jar'])
+    classpath fileTree(dir:'build/libs/', include:'*.jar', excludes: ['germinate-client-*.jar', 'germinate-core-*.jar'])
 
     // Set the classpath
     manifest {
+        attributes('Implementation-Version': version)
         attributes('Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '))
     }
 

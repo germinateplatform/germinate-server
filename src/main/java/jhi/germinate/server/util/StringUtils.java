@@ -93,6 +93,20 @@ public class StringUtils
 	}
 
 	/**
+	 * Returns either the original string (if it's not empty) or empty double quotes (if it is)
+	 *
+	 * @param input The input to check
+	 * @return Either the original string (if it's not empty) or empty double quotes (if it is)
+	 */
+	public static String quoteOrEmptyQuotes(String input)
+	{
+		if (isEmpty(input))
+			return "\"\"";
+		else
+			return "\"" + input + "\"";
+	}
+
+	/**
 	 * Null-safe toString method for Objects. Returns <code>null</code> if the input is <code>null</code>.
 	 *
 	 * @param value The input object to check
