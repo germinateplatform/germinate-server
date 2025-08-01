@@ -35,7 +35,7 @@ There are a few sub-pages that contain specific information about Germinate's se
 - <a href="migration.html">View migration information</a>
 - <a href="faq.html">Frequently asked questions</a>
 - <a href="https://ics.hutton.ac.uk/resources/germinate/database-docs/">View database schema documentation</a>
-- <a href="cli/Germinate.html">View CLI documentation</a>
+- <a href="cli.html">View CLI documentation</a>
 
 <img src="img/hutton-black.svg" height="100" alt="Logo">
 <br />
