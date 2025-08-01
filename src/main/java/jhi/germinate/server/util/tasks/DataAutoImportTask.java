@@ -9,7 +9,6 @@ import jhi.germinate.server.database.pojo.*;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.resource.importers.DataImportRunner;
 import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.importer.*;
 import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 
@@ -136,98 +135,59 @@ public class DataAutoImportTask implements Runnable
 	private static SyncImportInfo processFile(DSLContext context, File sourceFolder, Integer userId, TemplateConfig template)
 			throws Exception
 	{
-		ImportType importType = ImportType.getFrom(template.type, template.orientation);
-		if (importType != null)
-		{
-			String uuid = UUID.randomUUID().toString();
-			// Get the target folder for all generated files
-			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
-			asyncFolder.mkdirs();
-			String extension = template.file.substring(template.file.lastIndexOf(".") + 1);
+		String uuid = UUID.randomUUID().toString();
+		// Get the target folder for all generated files
+		File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
+		asyncFolder.mkdirs();
+		String extension = template.file.substring(template.file.lastIndexOf(".") + 1);
 
-			File source = new File(sourceFolder, template.file);
-			File target = new File(asyncFolder, uuid + "." + extension);
-
-			Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-			ImportJobDetails details = new ImportJobDetails()
-					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setDataFilename(target.getName())
-					.setDeleteOnFail(true)
-					.setTargetDatasetId(null)
-					.setDataOrientation(template.orientation)
-					.setRunType(RunType.CHECK_AND_IMPORT);
-
-			// Store the job information in the database
-			DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);
-			dbJob.setUuid(uuid);
-			dbJob.setJobId("N/A");
-			dbJob.setUserId(userId);
-			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-			dbJob.setDatatype(DataImportJobsDatatype.mcpd);
-			dbJob.setOriginalFilename(source.getName());
-			dbJob.setIsUpdate(template.isUpdate);
-			dbJob.setDatasetstateId(2);
-			dbJob.setStatus(DataImportJobsStatus.waiting);
-			dbJob.setJobConfig(details);
-			dbJob.store();
-
-			String importerClass = importType.importerClassName;
-
-			List<String> args = DataImportRunner.getArgs(importerClass, dbJob.getId());
-			JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
-
-			dbJob.setJobId(info.getId());
-			dbJob.setStatus(DataImportJobsStatus.waiting);
-			dbJob.setImported(true);
-			dbJob.store();
-
-			return new SyncImportInfo(info, dbJob.getId());
-		}
-
-		return null;
-	}
-
-	private static enum ImportType
-	{
-		MCPD(DataImportJobsDatatype.mcpd, McpdImporter.class.getCanonicalName()),
-		TRIAL(DataImportJobsDatatype.trial, TraitDataImporter.class.getCanonicalName()),
-		PEDIGREE(DataImportJobsDatatype.pedigree, PedigreeImporter.class.getCanonicalName()),
-		GROUPS(DataImportJobsDatatype.groups, GroupImporter.class.getCanonicalName()),
-		CLIMATE(DataImportJobsDatatype.climate, ClimateDataImporter.class.getCanonicalName()),
-		IMAGES(DataImportJobsDatatype.images, ImageImporter.class.getCanonicalName()),
-		SHAPEFILE(DataImportJobsDatatype.shapefile, ShapefileImporter.class.getCanonicalName()),
-		GEOTIFF(DataImportJobsDatatype.geotiff, GeotiffImporter.class.getCanonicalName());
-
-		private DataImportJobsDatatype type;
-		private String                 importerClassName;
-		private DataOrientation        orientation = null;
-
-		ImportType(DataImportJobsDatatype type, String importerClassName)
-		{
-			this.type = type;
-			this.importerClassName = importerClassName;
-		}
-
-		ImportType(DataImportJobsDatatype type, String importerClassName, DataOrientation orientation)
-		{
-			this.type = type;
-			this.importerClassName = importerClassName;
-			this.orientation = orientation;
-		}
-
-		static ImportType getFrom(DataImportJobsDatatype dType, DataOrientation orientation)
-		{
-			for (ImportType type : ImportType.values())
-			{
-				if (type.type == dType && type.orientation == orientation)
-				{
-					return type;
-				}
-			}
-
+		if (template.type == null)
 			return null;
+
+		File source = new File(sourceFolder, template.file);
+		File target = new File(asyncFolder, uuid + "." + extension);
+
+		Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+		ImportJobDetails details = new ImportJobDetails()
+				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+				.setDataFilename(target.getName())
+				.setDeleteOnFail(true)
+				.setTargetDatasetId(null)
+				.setDataOrientation(template.orientation)
+				.setRunType(RunType.CHECK_AND_IMPORT);
+
+		// Store the job information in the database
+		DataImportJobsRecord dbJob = context.newRecord(DATA_IMPORT_JOBS);
+		dbJob.setUuid(uuid);
+		dbJob.setJobId("N/A");
+		dbJob.setUserId(userId);
+		dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+		dbJob.setDatatype(template.type);
+		dbJob.setOriginalFilename(source.getName());
+		dbJob.setIsUpdate(template.isUpdate);
+		dbJob.setDatasetstateId(2);
+		dbJob.setStatus(DataImportJobsStatus.waiting);
+		dbJob.setJobConfig(details);
+		dbJob.store();
+
+		String[] importerArgs = DataImportRunner.getImporterClassArgs(template.type, extension);
+		List<String> args = DataImportRunner.getArgs(importerArgs, dbJob.getId());
+
+		if (template.orientation != null && template.type == DataImportJobsDatatype.genotype)
+		{
+			args.add("-go");
+			args.add(template.orientation.name());
 		}
+
+		JobInfo info = ApplicationListener.SCHEDULER.submit("GerminateDataImportJob", "java", args, asyncFolder.getAbsolutePath());
+
+		dbJob.setJobId(info.getId());
+		dbJob.setStatus(DataImportJobsStatus.waiting);
+		dbJob.setImported(true);
+		dbJob.store();
+
+		return new SyncImportInfo(info, dbJob.getId());
 	}
 
 	private static class AutoImportJsonConfig

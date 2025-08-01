@@ -14,6 +14,7 @@ buildscript {
 plugins {
     id 'java'
     id 'war'
+    id 'org.asciidoctor.jvm.convert' version '4.0.2'
 }
 
 apply plugin: 'com.bmuschko.cargo-base'
@@ -86,10 +87,31 @@ dependencies {
     implementation 'net.logicsquad:nanocaptcha:1.3'
 
     implementation 'info.picocli:picocli:4.7.7'
+    annotationProcessor 'info.picocli:picocli-codegen:4.7.7'
 
     // Disabled Swagger until we can figure out how to make it work with Jersey3 and Jakarta
     implementation 'io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.31'
     implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer-jakarta:2.2.31'
+}
+
+task generateManpageAsciiDoc(type: JavaExec) {
+    dependsOn(classes)
+    group = "Documentation"
+    description = "Generate AsciiDoc manpage"
+    classpath(configurations.compileClasspath, configurations.annotationProcessor, sourceSets.main.runtimeClasspath)
+    main 'picocli.codegen.docgen.manpage.ManPageGenerator'
+    args "jhi.germinate.GerminateCommand", "--outdir=${project.layout.buildDirectory.get()}/generated-picocli-docs", "-v", "-f"
+}
+
+apply plugin: 'org.asciidoctor.jvm.convert'
+asciidoctor {
+    dependsOn(generateManpageAsciiDoc)
+    sourceDir = file("${project.layout.buildDirectory.get()}/generated-picocli-docs")
+    outputDir = file("${project.projectDir.toString()}/docs/cli")
+    logDocuments = true
+    outputOptions {
+        backends = ['html5']
+    }
 }
 
 // Generate a .jar file for the Germinate importer project

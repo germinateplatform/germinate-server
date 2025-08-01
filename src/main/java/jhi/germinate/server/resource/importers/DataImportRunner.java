@@ -199,45 +199,6 @@ public class DataImportRunner
 		}
 	}
 
-	public static String getImporterClass(DataImportJobsDatatype dataType, String extension, DataOrientation orientation)
-			throws GerminateException
-	{
-		switch (dataType)
-		{
-			case mcpd:
-				return McpdImporter.class.getCanonicalName();
-			case trial:
-				return TraitDataImporter.class.getCanonicalName();
-			case genotype:
-				if (Objects.equals(extension, "xlsx"))
-				{
-					if (orientation == DataOrientation.GENOTYPE_MARKER_BY_GERMPLASM)
-						return GenotypeExcelTransposedImporter.class.getCanonicalName();
-					else
-						return GenotypeExcelImporter.class.getCanonicalName();
-				}
-				else if (Objects.equals(extension, "txt"))
-					return GenotypeFlatFileImporter.class.getCanonicalName();
-				else if (Objects.equals(extension, "hapmap"))
-					return GenotypeHapmapImporter.class.getCanonicalName();
-			case pedigree:
-				return PedigreeImporter.class.getCanonicalName();
-			case groups:
-				return GroupImporter.class.getCanonicalName();
-			case climate:
-				return ClimateDataImporter.class.getCanonicalName();
-			case images:
-				return ImageImporter.class.getCanonicalName();
-			case shapefile:
-				return ShapefileImporter.class.getCanonicalName();
-			case geotiff:
-				return GeotiffImporter.class.getCanonicalName();
-			default:
-				throw new GerminateException(Response.Status.NOT_IMPLEMENTED);
-				// TODO: Others
-		}
-	}
-
 	public static List<String> getArgs(String[] importerClassArgs, Integer jobDbId)
 			throws URISyntaxException
 	{
@@ -268,23 +229,6 @@ public class DataImportRunner
 		// This is an existing db job
 		args.add("--existing-import-job");
 
-		return args;
-	}
-
-	public static List<String> getArgs(String importerClass, Integer jobDbId)
-			throws URISyntaxException
-	{
-		File libFolder = ResourceUtils.getLibFolder();
-		List<String> args = new ArrayList<>();
-		args.add("-cp");
-		args.add(libFolder.getAbsolutePath() + File.separator + "*");
-		args.add(importerClass);
-		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_SERVER)));
-		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_NAME)));
-		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PORT)));
-		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_USERNAME)));
-		args.add(StringUtils.orEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD)));
-		args.add(Integer.toString(jobDbId));
 		return args;
 	}
 }
