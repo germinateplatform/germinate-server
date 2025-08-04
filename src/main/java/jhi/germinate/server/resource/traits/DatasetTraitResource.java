@@ -29,7 +29,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_
 public class DatasetTraitResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableTraits> postDatasetTraits(DatasetRequest request)
@@ -41,7 +40,7 @@ public class DatasetTraitResource extends ContextResource
 			return null;
 		}
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

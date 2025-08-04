@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableStories.VIEW
 public class StoryTableResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableStoriesEnriched>> postStoryTable(PaginatedRequest request)
@@ -33,7 +32,7 @@ public class StoryTableResource extends BaseResource
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		HashSet<Integer> datasetsForUser = new HashSet<>(AuthorizationFilter.getDatasetIds(req, null, true));
+		HashSet<Integer> datasetsForUser = new HashSet<>(AuthorizationFilter.getDatasetIds(req, userDetails, null, true));
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

@@ -118,7 +118,11 @@ public class UsergroupResource extends ContextResource
 			}
 			else
 			{
-				return dbGroup.delete() == 1;
+				int res = dbGroup.delete();
+
+				AuthorizationFilter.refreshUserDatasetInfo();
+
+				return res == 1;
 			}
 		}
 	}
@@ -139,6 +143,7 @@ public class UsergroupResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
+			int res;
 			if (request.getAddOperation())
 			{
 				List<Integer> existingIds = context.selectDistinct(USERGROUPMEMBERS.USER_ID).from(USERGROUPMEMBERS).where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId())).fetchInto(Integer.class);
@@ -150,15 +155,19 @@ public class UsergroupResource extends ContextResource
 
 				toAdd.forEach(id -> step.values(id, request.getUserGroupId()));
 
-				return step.execute() > 0;
+				res = step.execute();
 			}
 			else
 			{
-				return context.deleteFrom(USERGROUPMEMBERS)
+				res = context.deleteFrom(USERGROUPMEMBERS)
 							  .where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId()))
 							  .and(USERGROUPMEMBERS.USER_ID.in(request.getUserIds()))
-							  .execute() > 0;
+							  .execute();
 			}
+
+			AuthorizationFilter.refreshUserDatasetInfo();
+
+			return res > 0;
 		}
 	}
 

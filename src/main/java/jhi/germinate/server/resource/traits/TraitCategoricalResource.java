@@ -22,7 +22,6 @@ import java.util.*;
 public class TraitCategoricalResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postJson(SubsettedDatasetRequest request)
@@ -34,7 +33,7 @@ public class TraitCategoricalResource extends ContextResource
 			return null;
 		}
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
 		try
 		{

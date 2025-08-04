@@ -3,12 +3,13 @@ package jhi.germinate.server;
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
+import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
 import okhttp3.*;
-import retrofit2.Response;
 import retrofit2.*;
+import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.net.ssl.*;
@@ -31,10 +32,10 @@ public class GatekeeperClient
 	private static String password;
 	private static Token  token;
 
-	private static final ConcurrentHashMap<Integer, ViewUserDetails> users = new ConcurrentHashMap<>();
-	private static       Retrofit                                    retrofit;
-	private static       OkHttpClient                                httpClient;
-	private static       ConnectionPool                              connectionPool;
+	private static final ConcurrentHashMap<Integer, ViewUserDetailsType> users = new ConcurrentHashMap<>();
+	private static       Retrofit                                        retrofit;
+	private static       OkHttpClient                                    httpClient;
+	private static       ConnectionPool                                  connectionPool;
 
 	private static void allowSelfSignedCertificates(OkHttpClient.Builder builder)
 	{
@@ -252,7 +253,30 @@ public class GatekeeperClient
 			if (allUsers != null)
 			{
 				GatekeeperClient.users.clear();
-				allUsers.getData().forEach(u -> GatekeeperClient.users.put(u.getId(), u));
+				allUsers.getData().forEach(u -> {
+					ViewUserDetailsType ut = (ViewUserDetailsType) u;
+
+					try
+					{
+						Response<PaginatedResult<List<ViewUserPermissions>>> permissions = service.getUserPermissions(u.getId(), Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
+
+						if (permissions.isSuccessful() && permissions.body() != null)
+						{
+							ut.setUserTypeString(permissions.body().getData().stream()
+															.map(ViewUserPermissions::getUserType)
+															.filter(p -> !Objects.equals(p, "Suspended User"))
+															.findFirst()
+															.orElse(null));
+						}
+					}
+					catch (IOException e)
+					{
+						Logger.getLogger("").info(e.getMessage());
+						e.printStackTrace();
+					}
+
+					GatekeeperClient.users.put(u.getId(), ut);
+				});
 			}
 		}
 		catch (IOException e)
@@ -288,18 +312,18 @@ public class GatekeeperClient
 	 * @param id The id of the user
 	 * @return The user or <code>null</code>
 	 */
-	public static ViewUserDetails getUser(Integer id)
+	public static ViewUserDetailsType getUser(Integer id)
 	{
 		if (id == null)
 		{
 			return null;
 		}
-		else if (users.size() < 1)
+		else if (users.isEmpty())
 		{
 			if (PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class) != AuthenticationMode.NONE)
 			{
 				// Get the user
-				ViewUserDetails result = users.get(id);
+				ViewUserDetailsType result = users.get(id);
 
 				// If it doesn't exist, try to get it again from Gatekeeper
 				if (result == null)
@@ -322,7 +346,7 @@ public class GatekeeperClient
 		}
 	}
 
-	public static List<ViewUserDetails> getUsers()
+	public static List<ViewUserDetailsType> getUsers()
 	{
 		return new ArrayList<>(users.values());
 	}

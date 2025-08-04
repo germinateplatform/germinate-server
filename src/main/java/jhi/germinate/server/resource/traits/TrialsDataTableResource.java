@@ -28,7 +28,6 @@ import static jhi.germinate.server.database.codegen.tables.Groups.*;
 public class TrialsDataTableResource extends TrialsDataBaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableTrialsData>> postTrialsDataTable(SubsettedDatasetRequest request)
@@ -42,7 +41,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
@@ -101,7 +100,6 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 	@POST
 	@Path("/ids")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postTrialsDataTableIds(PaginatedDatasetRequest request)
@@ -113,7 +111,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			return null;
 		}
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
@@ -142,13 +140,12 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 	@POST
 	@Path("/export")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postTrialsDataTableExport(DatasetExportRequest request)
 		throws IOException, SQLException
 	{
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
 		{
 			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());

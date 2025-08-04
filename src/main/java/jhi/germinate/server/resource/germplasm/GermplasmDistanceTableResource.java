@@ -25,7 +25,6 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 {
 	@POST
 	@Path("/table")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<GermplasmDistance>> postGermplasmDistanceTable(PaginatedLocationRequest request)
@@ -37,7 +36,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			return null;
 		}
 
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -72,7 +71,6 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/table/ids")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGermplasmDistanceTableIds(PaginatedLocationRequest request)
@@ -84,7 +82,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			return null;
 		}
 
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		currentPage = 0;

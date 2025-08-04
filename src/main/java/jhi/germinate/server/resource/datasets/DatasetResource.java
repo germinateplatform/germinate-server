@@ -58,6 +58,8 @@ public class DatasetResource extends ContextResource
 				license.store();
 			}
 
+			AuthorizationFilter.refreshUserDatasetInfo();
+
 			return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
 		}
 	}
@@ -107,6 +109,8 @@ public class DatasetResource extends ContextResource
 				dataset.setDatasetStateId(updatedDataset.getDatasetStateId());
 				dataset.setHyperlink(updatedDataset.getHyperlink());
 				dataset.store();
+
+				AuthorizationFilter.refreshUserDatasetInfo();
 
 				return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
 			}
@@ -194,6 +198,8 @@ public class DatasetResource extends ContextResource
 						}
 					}
 				}
+
+				AuthorizationFilter.refreshUserDatasetInfo();
 
 				return true;
 			}

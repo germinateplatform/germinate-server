@@ -2,20 +2,23 @@ package jhi.germinate.server;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.database.codegen.GerminateDb;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.api.*;
 import org.jooq.*;
 import org.jooq.conf.*;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.util.TimeZone;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 import java.util.logging.*;
 
 /**
@@ -29,15 +32,14 @@ public class Database
 	private static String username;
 	private static String password;
 
+	private static boolean mysqlDumpExists = false;
+	private static boolean backupsRanOnce  = false;
+	private static boolean backupIsRunning = false;
+	private static Object  lock            = new Object();
+
 //	private static HikariDataSource datasource;
 
 	private static final String utc = TimeZone.getDefault().getID();
-
-	public static void main(String[] args)
-			throws IOException, URISyntaxException
-	{
-		Database.init("localhost", "germinate_template_4_25_03_05", null, "root", null, true);
-	}
 
 	public static void close()
 	{
@@ -230,6 +232,23 @@ public class Database
 				e.printStackTrace();
 			}
 
+			try
+			{
+				List<String> params = new ArrayList<>();
+				params.add(PropertyWatcher.get(ServerProperty.MYSQLDUMP_PATH, "mysqldump"));
+				Process process = Runtime.getRuntime().exec(params.toArray(new String[0]));
+				process.waitFor();
+				process.destroy();
+
+				mysqlDumpExists = true;
+			}
+			catch (Exception e)
+			{
+				mysqlDumpExists = false;
+				Logger.getLogger("").severe(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+
 			// Run database updates
 			try
 			{
@@ -241,6 +260,14 @@ public class Database
 									  .locations("classpath:jhi/germinate/server/util/database/migration")
 									  .baselineOnMigrate(true)
 									  .load();
+
+				MigrationInfo[] pending = flyway.info().pending();
+				if (!CollectionUtils.isEmpty(pending))
+				{
+					Logger.getLogger("").info("MIGRATIONS PENDING: " + pending.length);
+					// There are pending DB updates/migrations. Run a backup first.
+					attemptDatabaseDump(BackupType.UPDATE);
+				}
 				flyway.migrate();
 				flyway.repair();
 			}
@@ -277,6 +304,84 @@ public class Database
 			{
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public static File attemptDatabaseDump(BackupType type)
+	{
+		synchronized (lock)
+		{
+			if (backupIsRunning)
+				return null;
+
+			if (mysqlDumpExists)
+			{
+				if (backupsRanOnce && type == BackupType.UPDATE)
+					return null;
+
+				backupIsRunning = true;
+
+				try
+				{
+					// Remember we already ran this for an update
+					backupsRanOnce |= type == BackupType.UPDATE;
+
+					String dt = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+					dt += "_" + type.name().toLowerCase() + "_" + Database.class.getPackage().getImplementationVersion();
+					File dbBackupFile = ResourceUtils.getFromExternal(null, dt + ".sql", "backups");
+					dbBackupFile.getParentFile().mkdirs();
+
+					List<String> params = new ArrayList<>();
+					params.add(PropertyWatcher.get(ServerProperty.MYSQLDUMP_PATH, "mysqldump"));
+					// Attempt a database backup
+					params.add("-h");
+					params.add(databaseServer);
+
+					params.add("-u");
+					params.add(username);
+
+					if (!StringUtils.isEmpty(password))
+						params.add("-p" + password);
+
+					if (!StringUtils.isEmpty(databasePort))
+					{
+						params.add("-P");
+						params.add(databasePort);
+					}
+
+					params.add("-r");
+					params.add(dbBackupFile.getAbsolutePath());
+
+					params.add(databaseName);
+
+					ProcessBuilder pb = new ProcessBuilder(params);
+					pb.redirectErrorStream(true);
+					Process process = pb.start();
+					int exitCode = process.waitFor();
+
+					if (exitCode == 0)
+						Logger.getLogger("").info("DATABASE BACKUP SUCCESSFUL: " + dbBackupFile.getAbsolutePath());
+					else
+						Logger.getLogger("").severe("DATABASE BACKUP UNSUCCESSFUL!");
+
+					process.destroy();
+
+					File zip = ResourceUtils.getFromExternal(null, dt + ".zip", "backups");
+					FileUtils.zipUp(zip, List.of(new File(dbBackupFile.getAbsolutePath())), true);
+
+					backupIsRunning = false;
+					return zip;
+				}
+				catch (Exception e)
+				{
+					Logger.getLogger("").severe(e.getLocalizedMessage());
+					e.printStackTrace();
+				}
+			}
+
+			backupIsRunning = false;
+
+			return null;
 		}
 	}
 
@@ -389,5 +494,12 @@ public class Database
 	public static void setDatabaseName(String databaseName)
 	{
 		Database.databaseName = databaseName;
+	}
+
+	public static enum BackupType
+	{
+		UPDATE,
+		PERIODICAL,
+		MANUAL
 	}
 }

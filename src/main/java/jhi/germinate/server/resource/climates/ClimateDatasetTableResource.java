@@ -22,7 +22,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class ClimateDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postClimateDatasetTable(UnacceptedLicenseRequest request, @PathParam("climateId") Integer climateId)

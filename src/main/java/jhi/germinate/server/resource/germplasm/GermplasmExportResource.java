@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 public class GermplasmExportResource extends GermplasmBaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postGermplasmExport(GermplasmExportRequest request)
@@ -33,7 +32,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 	{
 		try (Connection conn = Database.getConnection())
 		{
-			List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+			List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 			DSLContext context = Database.getContext(conn);
 			if (request != null && request.getIncludeAttributes() != null && request.getIncludeAttributes())

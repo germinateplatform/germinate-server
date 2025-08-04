@@ -67,7 +67,7 @@ public class ExperimentTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			List<ViewTableDatasets> datasets = DatasetTableResource.getDatasetsForUser(req, userDetails, null, false);
+			List<ViewTableDatasets> datasets = AuthorizationFilter.getDatasets(req, userDetails, null, false);
 
 			for (ViewTableExperiments experiment : result)
 			{

@@ -30,7 +30,6 @@ import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP
 public class DatasetGroupResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableGroups> postDatasetGroups(DatasetGroupRequest request)
@@ -44,7 +43,7 @@ public class DatasetGroupResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, null, request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

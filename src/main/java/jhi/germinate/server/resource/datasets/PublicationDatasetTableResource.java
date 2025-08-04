@@ -23,7 +23,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTablePublications
 public class PublicationDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postPublicationDatasetTable(UnacceptedLicenseRequest request, @PathParam("publicationId") Integer publicationId)

@@ -29,13 +29,12 @@ import static jhi.germinate.server.database.codegen.tables.Experiments.*;
 public class DatasetStatsResource extends ContextResource
 {
 	@GET
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getJson()
 		throws IOException, SQLException
 	{
-		List<Integer> availableDatasets = AuthorizationFilter.getDatasetIds(req, null, false);
+		List<Integer> availableDatasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, false);
 
 		try
 		{

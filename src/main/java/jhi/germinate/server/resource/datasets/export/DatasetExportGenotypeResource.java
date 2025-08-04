@@ -36,7 +36,6 @@ import static jhi.germinate.server.database.codegen.tables.Markers.*;
 public class DatasetExportGenotypeResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postJson(SubsettedGenotypeDatasetRequest request)
@@ -50,7 +49,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "genotype", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "genotype", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 			return new ArrayList<>();

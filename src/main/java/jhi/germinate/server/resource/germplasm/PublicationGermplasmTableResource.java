@@ -27,13 +27,12 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 	private Integer publicationId;
 
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePublicationGermplasm>> postPublicationGermplasmTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

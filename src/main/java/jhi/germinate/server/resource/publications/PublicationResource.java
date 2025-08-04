@@ -57,7 +57,6 @@ public class PublicationResource extends ContextResource
 	}
 
 	@PUT
-	@NeedsDatasets
 	@Path("/{publicationId}/reference")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -91,7 +90,7 @@ public class PublicationResource extends ContextResource
 					exists = true;
 					break;
 				case dataset:
-					List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, null, false);
+					List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
 					exists = availableIds.contains(data.getForeignId());
 					break;
 				case group:

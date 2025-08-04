@@ -22,7 +22,6 @@ public class DatasetAttributeTableExportResource extends ExportResource
 {
 	@POST
 	@Path("/attribute/table/export")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postDatasetAttributeExport(ExportRequest request)
@@ -33,7 +32,6 @@ public class DatasetAttributeTableExportResource extends ExportResource
 
 	@POST
 	@Path("/{datasetId}/attribute/export")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postDatasetAttributeExport(@PathParam("datasetId") Integer datasetId)
@@ -75,7 +73,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 			}
 		}
 
-		requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, requestedIds, true);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, requestedIds, true);
 
 		// If either nothing is available or the user has access to nothing, return a 404
 		if (CollectionUtils.isEmpty(requestedIds))

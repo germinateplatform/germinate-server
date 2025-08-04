@@ -35,7 +35,6 @@ public class DatasetClimateResource
 	protected HttpServletResponse resp;
 
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableClimates> getJson(DatasetRequest request)
@@ -47,7 +46,7 @@ public class DatasetClimateResource
 			return null;
 		}
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new ArrayList<>();

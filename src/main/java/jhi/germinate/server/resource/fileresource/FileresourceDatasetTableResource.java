@@ -26,7 +26,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)

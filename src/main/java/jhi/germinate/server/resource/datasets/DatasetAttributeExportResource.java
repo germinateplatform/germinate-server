@@ -24,7 +24,6 @@ import static jhi.germinate.server.database.codegen.tables.Datasets.*;
 public class DatasetAttributeExportResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postDatasetAttributeExport(ExperimentRequest request)
@@ -51,7 +50,8 @@ public class DatasetAttributeExportResource extends ContextResource
 		}
 		else if (!CollectionUtils.isEmpty(request.getDatasetIds()))
 			datasetIds = new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-		datasetIds.retainAll(AuthorizationFilter.getDatasetIds(req, null, true));
+
+		datasetIds.retainAll(AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true));
 
 		if (datasetIds.size() < 1)
 		{

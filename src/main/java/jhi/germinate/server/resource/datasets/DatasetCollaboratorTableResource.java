@@ -28,7 +28,6 @@ public class DatasetCollaboratorTableResource extends BaseResource
 	private Integer datasetId;
 
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableCollaborators>> postCollaboratorTable(PaginatedRequest request)
@@ -39,7 +38,7 @@ public class DatasetCollaboratorTableResource extends BaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 
-			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, null, false);
+			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, false);
 
 			if (availableIds.contains(datasetId))
 			{
@@ -76,7 +75,7 @@ public class DatasetCollaboratorTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, null, false);
+			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
 
 			if (availableIds.contains(datasetId))
 			{

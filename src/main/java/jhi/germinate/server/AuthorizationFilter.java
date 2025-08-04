@@ -1,23 +1,23 @@
 package jhi.germinate.server;
 
+import jakarta.annotation.Priority;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Priorities;
+import jakarta.ws.rs.container.*;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.ext.Provider;
+import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
-import jakarta.annotation.Priority;
-import jakarta.ws.rs.container.*;
-import jakarta.ws.rs.core.*;
-import jakarta.ws.rs.ext.Provider;
-
 import java.io.IOException;
 import java.lang.reflect.*;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * This filter makes sure that the {@link Secured} resources are only accessible by users with the correct user type.
@@ -27,14 +27,10 @@ import java.util.stream.Collectors;
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter
 {
-	public static final String GERMINATE_DS_ALL              = "germinate.datasets.all";
-	public static final String GERMINATE_DS_LICENSE_ACCEPTED = "germinate.datasets.license.accepted";
+	private static final ConcurrentHashMap<Integer, Map<String, List<ViewTableDatasets>>> DATASET_ACCESS_INFO = new ConcurrentHashMap<>();
 
 	@Context
 	private ResourceInfo resourceInfo;
-
-	@Context
-	private HttpServletRequest request;
 
 	@Override
 	public void filter(ContainerRequestContext requestContext)
@@ -71,50 +67,6 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		{
 			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
 		}
-
-		if (!Objects.equals(requestContext.getMethod(), HttpMethod.OPTIONS))
-		{
-			// Check whether the user requested access to datasets.
-			try
-			{
-				Objects.requireNonNullElse(resourceMethod.getAnnotation(NeedsDatasets.class), resourceClass.getAnnotation(NeedsDatasets.class));
-
-				// Get all the datasets for this user
-				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
-				List<ViewTableDatasets> allDatasets = DatasetTableResource.getDatasetsForUser(request, userDetails, null, false);
-				List<ViewTableDatasets> licenseAcceptedDatasets = DatasetTableResource.getDatasetsForUser(request, userDetails, null, true);
-
-				// Store them in a place where they are accessible
-				requestContext.setProperty(GERMINATE_DS_ALL, toMap(dsTypes, allDatasets));
-				requestContext.setProperty(GERMINATE_DS_LICENSE_ACCEPTED, toMap(dsTypes, licenseAcceptedDatasets));
-			}
-			catch (SQLException e)
-			{
-				Logger.getLogger("").severe(e.getMessage());
-				e.printStackTrace();
-			}
-			catch (NullPointerException e)
-			{
-				// Neither class nor method has the annotation -> do nothing
-			}
-		}
-	}
-
-	private Map<String, List<Integer>> toMap(List<String> types, List<ViewTableDatasets> datasets)
-	{
-		// Prepare the map
-		Map<String, List<Integer>> result = new HashMap<>();
-		result.put(null, new ArrayList<>());
-		for (String type : types)
-			result.put(type, new ArrayList<>());
-
-		for (ViewTableDatasets dataset : datasets)
-		{
-			result.get(dataset.getDatasetType()).add(dataset.getDatasetId());
-			result.get(null).add(dataset.getDatasetId());
-		}
-
-		return result;
 	}
 
 	// Extract the roles from the annotated element
@@ -158,16 +110,28 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		}
 	}
 
-	public static List<Integer> getDatasetIds(HttpServletRequest req, String dsType, boolean onlyLicenseAccepted)
+	public static List<ViewTableDatasets> getDatasets(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String dsType, boolean onlyLicenseAccepted)
 	{
-		Map<String, List<Integer>> map = Objects.requireNonNullElse((HashMap<String, List<Integer>>) req.getAttribute(onlyLicenseAccepted ? GERMINATE_DS_LICENSE_ACCEPTED : GERMINATE_DS_ALL), new HashMap<>());
+		Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_INFO.get(userDetails.getId()), new HashMap<>());
+		List<ViewTableDatasets> ds = Objects.requireNonNullElse(map.get(dsType), new ArrayList<>());
 
-		return Objects.requireNonNullElse(map.get(dsType), new ArrayList<>());
+		if (onlyLicenseAccepted)
+		{
+			Set<Integer> licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
+			ds = DatasetTableResource.restrictBasedOnLicenseAgreement(ds, licenseIds, userDetails);
+		}
+
+		return ds;
 	}
 
-	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, List<Integer> requestedIds, boolean onlyLicenseAccepted)
+	public static List<Integer> getDatasetIds(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String dsType, boolean onlyLicenseAccepted)
 	{
-		List<Integer> availableIds = getDatasetIds(req, dsType, onlyLicenseAccepted);
+		return new ArrayList<>(getDatasets(req, userDetails, dsType, onlyLicenseAccepted).stream().map(ViewTableDatasets::getDatasetId).toList());
+	}
+
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String dsType, List<Integer> requestedIds, boolean onlyLicenseAccepted)
+	{
+		List<Integer> availableIds = getDatasetIds(req, userDetails, dsType, onlyLicenseAccepted);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			requestedIds = availableIds;
@@ -177,29 +141,77 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		return requestedIds;
 	}
 
-	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, Integer[] requestedIds, boolean onlyLicenseAccepted)
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String dsType, Integer[] requestedIds, boolean onlyLicenseAccepted)
 	{
 		List<Integer> rIds = CollectionUtils.isEmpty(requestedIds) ? new ArrayList<>() : new ArrayList<>(Arrays.asList(requestedIds));
 
-		return restrictDatasetIds(req, dsType, rIds, onlyLicenseAccepted);
+		return restrictDatasetIds(req, userDetails, dsType, rIds, onlyLicenseAccepted);
 	}
 
-	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, Integer requestedId, boolean onlyLicenseAccepted)
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String dsType, Integer requestedId, boolean onlyLicenseAccepted)
 	{
 		List<Integer> rIds = requestedId == null ? new ArrayList<>() : new ArrayList<>(List.of(requestedId));
 
-		return restrictDatasetIds(req, dsType, rIds, onlyLicenseAccepted);
+		return restrictDatasetIds(req, userDetails, dsType, rIds, onlyLicenseAccepted);
 	}
 
-	public static List<Integer> restrictDatasetIds(HttpServletRequest req, String dsType, String requestedId, boolean onlyLicenseAccepted)
+	public static List<Integer> restrictDatasetIds(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String dsType, String requestedId, boolean onlyLicenseAccepted)
 	{
 		try
 		{
-			return restrictDatasetIds(req, dsType, Integer.parseInt(requestedId), onlyLicenseAccepted);
+			return restrictDatasetIds(req, userDetails, dsType, Integer.parseInt(requestedId), onlyLicenseAccepted);
 		}
 		catch (Exception e)
 		{
-			return restrictDatasetIds(req, dsType, (Integer) null, onlyLicenseAccepted);
+			return restrictDatasetIds(req, userDetails, dsType, (Integer) null, onlyLicenseAccepted);
 		}
+	}
+
+	public static void refreshUserDatasetInfo()
+	{
+		synchronized (DATASET_ACCESS_INFO)
+		{
+			DATASET_ACCESS_INFO.clear();
+
+			try
+			{
+				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
+				for (ViewUserDetailsType user : GatekeeperClient.getUsers())
+				{
+					try
+					{
+						DATASET_ACCESS_INFO.put(user.getId(), toMap(dsTypes, DatasetTableResource.getDatasetsForUser(AuthenticationFilter.UserDetails.from(user), null)));
+					}
+					catch (SQLException e)
+					{
+						Logger.getLogger("").info(e.getMessage());
+					}
+				}
+
+				DATASET_ACCESS_INFO.put(-1000, toMap(dsTypes, DatasetTableResource.getDatasetsForUser(new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE), null)));
+			}
+			catch (SQLException e)
+			{
+				Logger.getLogger("").info(e.getMessage());
+			}
+
+		}
+	}
+
+	private static Map<String, List<ViewTableDatasets>> toMap(List<String> types, List<ViewTableDatasets> datasets)
+	{
+		// Prepare the map
+		Map<String, List<ViewTableDatasets>> result = new HashMap<>();
+		result.put(null, new ArrayList<>());
+		for (String type : types)
+			result.put(type, new ArrayList<>());
+
+		for (ViewTableDatasets dataset : datasets)
+		{
+			result.get(dataset.getDatasetType()).add(dataset);
+			result.get(null).add(dataset);
+		}
+
+		return result;
 	}
 }

@@ -35,13 +35,12 @@ public class TraitStatsResource
 	protected HttpServletResponse resp;
 
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTraitStats(TraitDatasetRequest request)
 			throws SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
 		try (Connection conn = Database.getConnection())
 		{

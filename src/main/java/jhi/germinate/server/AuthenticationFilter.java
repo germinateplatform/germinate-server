@@ -3,12 +3,14 @@ package jhi.germinate.server;
 import jakarta.annotation.Priority;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
+import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
+import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
 
@@ -70,7 +72,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 	@Override
 	public void filter(ContainerRequestContext requestContext)
-		throws IOException
+			throws IOException
 	{
 		// Get the Authorization header from the request
 		String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
@@ -334,7 +336,8 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 	public static Set<Integer> getAcceptedLicenses(HttpServletRequest request)
 	{
-		if (request == null) {
+		if (request == null)
+		{
 			return new HashSet<>();
 		}
 		Cookie[] cookies = request.getCookies();
@@ -417,6 +420,13 @@ public class AuthenticationFilter implements ContainerRequestFilter
 			this.timestamp = timestamp;
 		}
 
+		public static UserDetails from(ViewUserDetailsType user)
+		{
+			String token = tokenToUserDetails.entrySet().stream().filter(e -> Objects.equals(e.getValue().getId(), user.getId())).map(Map.Entry::getKey).findAny().orElse(null);
+			String imageToken = imageTokenToUserDetails.entrySet().stream().filter(e -> Objects.equals(e.getValue().getId(), user.getId())).map(Map.Entry::getKey).findAny().orElse(null);
+			return new UserDetails(user.getId(), token, imageToken, user.getUserType(), null);
+		}
+
 		public Integer getId()
 		{
 			return id;
@@ -471,12 +481,12 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		public String toString()
 		{
 			return "UserDetails{" +
-				"id=" + id +
-				", token='" + token + '\'' +
-				", imageToken='" + imageToken + '\'' +
-				", userType=" + userType +
-				", timestamp=" + timestamp +
-				'}';
+					"id=" + id +
+					", token='" + token + '\'' +
+					", imageToken='" + imageToken + '\'' +
+					", userType=" + userType +
+					", timestamp=" + timestamp +
+					'}';
 		}
 
 		@Override

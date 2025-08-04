@@ -26,13 +26,12 @@ public class PedigreeDefinitionTableResource extends ExportResource
 {
 	@Path("/table")
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePedigreedefinitions>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
-		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "pedigree", true);
+		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "pedigree", true);
 		if (CollectionUtils.isEmpty(datasets))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 

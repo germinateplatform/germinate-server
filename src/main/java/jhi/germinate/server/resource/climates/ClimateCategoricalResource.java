@@ -23,7 +23,6 @@ import java.util.*;
 public class ClimateCategoricalResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postJson(SubsettedDatasetRequest request)
@@ -35,7 +34,7 @@ public class ClimateCategoricalResource extends ContextResource
 			return null;
 		}
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "climate", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", request.getDatasetIds(), true);
 
 		try
 		{

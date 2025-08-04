@@ -42,6 +42,7 @@ public class DatasetUserResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
+			int res;
 			if (request.getAddOperation())
 			{
 				List<Integer> existingIds = context.selectDistinct(DATASETPERMISSIONS.USER_ID).from(DATASETPERMISSIONS).where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId())).fetchInto(Integer.class);
@@ -53,15 +54,18 @@ public class DatasetUserResource extends ContextResource
 
 				toAdd.forEach(id -> step.values(id, request.getDatasetId()));
 
-				return step.execute() > 0;
+				res = step.execute();
 			}
 			else
 			{
-				return context.deleteFrom(DATASETPERMISSIONS)
+				res = context.deleteFrom(DATASETPERMISSIONS)
 							  .where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId()))
 							  .and(DATASETPERMISSIONS.USER_ID.in(request.getUserIds()))
-							  .execute() > 0;
+							  .execute();
 			}
+
+			AuthorizationFilter.refreshUserDatasetInfo();
+			return res > 0;
 		}
 	}
 

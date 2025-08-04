@@ -21,7 +21,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class MarkerDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postJson(UnacceptedLicenseRequest request, @PathParam("markerId") Integer markerId)

@@ -25,13 +25,12 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableProjects.VIE
 public class ProjectTableResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableProjects>> postProjectTable(PaginatedRequest request)
 			throws SQLException
 	{
-		HashSet<Integer> datasetsForUser = new HashSet<>(AuthorizationFilter.getDatasetIds(req, null, true));
+		HashSet<Integer> datasetsForUser = new HashSet<>(AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true));
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

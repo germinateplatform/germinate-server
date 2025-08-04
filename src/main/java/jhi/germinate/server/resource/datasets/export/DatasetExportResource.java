@@ -59,7 +59,6 @@ public class DatasetExportResource extends ContextResource
 {
 	@POST
 	@Path("/allelefreq")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public AsyncExportResult postJson(AlleleFrequencyDatasetRequest request)
@@ -73,7 +72,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "allelefreq", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "allelefreq", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 		{
@@ -159,7 +158,6 @@ public class DatasetExportResource extends ContextResource
 
 	@POST
 	@Path("/allelefreq/histogram")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postJson(SubsettedGenotypeDatasetRequest request)
@@ -173,7 +171,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "allelefreq", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "allelefreq", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 		{
@@ -232,7 +230,6 @@ public class DatasetExportResource extends ContextResource
 
 	@POST
 	@Path("/climate")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postDatasetExportClimate(SubsettedDatasetRequest request)
@@ -246,7 +243,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "climate", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "climate", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 		{
@@ -325,7 +322,6 @@ public class DatasetExportResource extends ContextResource
 
 	@POST
 	@Path("/trial")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	public Response postDatasetExportTrial(SubsettedDatasetRequest request, @QueryParam("format") String formatString)
@@ -339,7 +335,7 @@ public class DatasetExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 		{
@@ -415,7 +411,6 @@ public class DatasetExportResource extends ContextResource
 
 	@POST
 	@Path("/pedigree")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	public Response postDatasetExportPedigree(PedigreeRequest request)

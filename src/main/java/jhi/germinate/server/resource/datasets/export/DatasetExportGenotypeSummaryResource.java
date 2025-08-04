@@ -30,7 +30,6 @@ import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 public class DatasetExportGenotypeSummaryResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postJson(SubsettedDatasetRequest request)
@@ -43,7 +42,7 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 		}
 
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "genotype", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "genotype", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(datasetIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);

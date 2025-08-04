@@ -28,7 +28,6 @@ import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
 public class FileResourceResource extends ContextResource
 {
 	@PUT
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
@@ -89,7 +88,7 @@ public class FileResourceResource extends ContextResource
 
 			if (!CollectionUtils.isEmpty(fileResource.getDatasetIds()))
 			{
-				List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, fileResource.getDatasetIds(), true);
+				List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, fileResource.getDatasetIds(), true);
 
 				for (Integer datasetId : requestedIds)
 				{
@@ -114,7 +113,7 @@ public class FileResourceResource extends ContextResource
 		// IMPORTANT: This needs to be here, because we are using a specific URL token to fetch this
 		AuthenticationFilter.UserDetails userDetails = AuthenticationFilter.getDetailsFromUrlToken(token);
 		if (userDetails == null) {
-			userDetails = new AuthenticationFilter.UserDetails(-1000, token, token, UserType.AUTH_USER, System.currentTimeMillis());
+			userDetails = new AuthenticationFilter.UserDetails(-1000, token, token, UserType.UNKNOWN, AuthenticationFilter.AGE);
 		}
 		return getFileResourceInternal(fileResourceId, userDetails);
 	}
@@ -134,7 +133,7 @@ public class FileResourceResource extends ContextResource
 	private Response getFileResourceInternal(Integer fileResourceId, AuthenticationFilter.UserDetails userDetails)
 			throws IOException, SQLException
 	{
-		List<Integer> datasetIds = DatasetTableResource.getDatasetIdsForUser(req, userDetails, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);
 
 		if (fileResourceId == null)
 		{

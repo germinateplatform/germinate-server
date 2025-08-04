@@ -64,7 +64,6 @@ public class TraitResource extends ContextResource
 
 	@GET
 	@Path("values")
-	@NeedsDatasets
 	@PermitAll
 	@Secured
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -82,7 +81,7 @@ public class TraitResource extends ContextResource
 		{
 			DSLContext context = Database.getContext(conn);
 
-			List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "trials", true);
+			List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", true);
 
 			return context.selectDistinct(PHENOTYPEDATA.PHENOTYPE_VALUE).from(PHENOTYPEDATA)
 						  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))

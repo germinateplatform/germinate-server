@@ -32,7 +32,6 @@ import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
 public class DatasetExportPedigreeResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postJson(PedigreeRequest request)
@@ -46,7 +45,7 @@ public class DatasetExportPedigreeResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, "pedigree", request.getDatasetIds(), true);
+		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "pedigree", request.getDatasetIds(), true);
 
 		if (datasetIds.size() < 1)
 			return new ArrayList<>();

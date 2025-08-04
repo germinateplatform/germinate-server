@@ -36,7 +36,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_DATASETS);
 
 			if (!userDetails.isAtLeast(UserType.ADMIN))
-				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, null, false)));
+				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, userDetails, null, false)));
 
 			if (optionalAdjuster != null)
 				optionalAdjuster.adjustQuery(from);
@@ -153,7 +153,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			SelectJoinStep<Record1<Integer>> from = select.from(VIEW_TABLE_DATASETS);
 
 			if (!userDetails.isAtLeast(UserType.ADMIN))
-				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, null, false)));
+				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, userDetails, null, false)));
 
 			// Filter here!
 			where(from, filters);

@@ -31,7 +31,6 @@ public class FileResourceStreamerResource extends ContextResource
 	Integer fileResourceId;
 
 	@HEAD
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
@@ -43,7 +42,6 @@ public class FileResourceStreamerResource extends ContextResource
 	}
 
 	@GET
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
@@ -57,7 +55,7 @@ public class FileResourceStreamerResource extends ContextResource
 	private Response stream(String range, boolean isHead)
 		throws SQLException, IOException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		if (fileResourceId == null)
 		{

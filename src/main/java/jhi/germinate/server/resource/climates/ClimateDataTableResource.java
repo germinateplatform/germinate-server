@@ -29,7 +29,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableClimateData.
 public class ClimateDataTableResource extends ExportResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableClimateDataWithGroups>> postClimateDataTable(SubsettedDatasetRequest request)
@@ -44,7 +43,7 @@ public class ClimateDataTableResource extends ExportResource
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-		requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", requestedIds, true);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "climate", requestedIds, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -106,7 +105,6 @@ public class ClimateDataTableResource extends ExportResource
 
 	@POST
 	@Path("/ids")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postClimateDataTableIds(PaginatedDatasetRequest request)
@@ -119,7 +117,7 @@ public class ClimateDataTableResource extends ExportResource
 		}
 
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-		requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", requestedIds, true);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", requestedIds, true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
@@ -148,14 +146,13 @@ public class ClimateDataTableResource extends ExportResource
 
 	@POST
 	@Path("/export")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postClimateDataTableExport(DatasetExportRequest request)
 		throws IOException, SQLException
 	{
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
-		requestedIds = AuthorizationFilter.restrictDatasetIds(req, "climate", requestedIds, true);
+		requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", requestedIds, true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 		{

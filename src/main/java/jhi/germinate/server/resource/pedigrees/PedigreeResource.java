@@ -36,13 +36,12 @@ public class PedigreeResource extends ExportResource
 {
 	@Path("/table")
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePedigrees>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
-		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "pedigree", true);
+		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "pedigree", true);
 		if (CollectionUtils.isEmpty(datasets))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
@@ -73,7 +72,6 @@ public class PedigreeResource extends ExportResource
 
 	@POST
 	@Path("/export")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postPedigreeTableExport(ExportRequest request)
@@ -93,7 +91,7 @@ public class PedigreeResource extends ExportResource
 			return null;
 		}
 
-		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, "pedigree", true);
+		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "pedigree", true);
 
 		if (CollectionUtils.isEmpty(datasets))
 		{

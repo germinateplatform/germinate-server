@@ -26,13 +26,12 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableFileresource
 public class FileResourceTableResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableFileresources>> getJson(PaginatedRequest request)
 			throws SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

@@ -24,7 +24,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIE
 public class TraitDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postTraitDatasetTable(UnacceptedLicenseRequest request, @PathParam("traitId") Integer traitId)

@@ -25,7 +25,6 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 {
 	@POST
 	@Path("/table")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmPolygonTable(PaginatedPolygonRequest request)
@@ -37,7 +36,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 			return null;
 		}
 
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -63,7 +62,6 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/table/ids")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGermplasmPolgonTableIds(PaginatedPolygonRequest request)
@@ -75,7 +73,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 			return null;
 		}
 
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		currentPage = 0;

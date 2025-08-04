@@ -4,7 +4,7 @@ import jakarta.ws.rs.Path;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableUsergroups;
 import jhi.germinate.server.database.codegen.tables.records.DatasetpermissionsRecord;
 import jhi.germinate.server.resource.BaseResource;
@@ -44,6 +44,8 @@ public class DatasetUsergroupTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
+
+			int res;
 			if (request.getAddOperation())
 			{
 				List<Integer> existingIds = context.selectDistinct(DATASETPERMISSIONS.USER_ID).from(DATASETPERMISSIONS).where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId())).fetchInto(Integer.class);
@@ -55,15 +57,18 @@ public class DatasetUsergroupTableResource extends BaseResource
 
 				toAdd.forEach(id -> step.values(id, request.getDatasetId()));
 
-				return step.execute() > 0;
+				res = step.execute();
 			}
 			else
 			{
-				return context.deleteFrom(DATASETPERMISSIONS)
+				res = context.deleteFrom(DATASETPERMISSIONS)
 							  .where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId()))
 							  .and(DATASETPERMISSIONS.GROUP_ID.in(request.getGroupIds()))
-							  .execute() > 0;
+							  .execute();
 			}
+
+			AuthorizationFilter.refreshUserDatasetInfo();
+			return res > 0;
 		}
 	}
 

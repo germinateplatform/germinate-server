@@ -29,7 +29,6 @@ public class MapOverlayResource extends ContextResource
 
 	@GET
 	@Path("/{mapoverlayId:\\d+}/src")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token)
@@ -64,7 +63,7 @@ public class MapOverlayResource extends ContextResource
 			// Check they have access to the dataset (if present)
 			if (overlay.getDatasetId() != null)
 			{
-				List<Integer> ids = AuthorizationFilter.getDatasetIds(req, null, true);
+				List<Integer> ids = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 				if (!ids.contains(overlay.getDatasetId()))
 				{

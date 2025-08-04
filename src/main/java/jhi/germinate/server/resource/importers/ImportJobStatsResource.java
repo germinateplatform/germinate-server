@@ -25,13 +25,12 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableImportJobs.*
 public class ImportJobStatsResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableImportJobs>> getImportJobStats(PaginatedRequest request)
 		throws SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, false);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, false);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

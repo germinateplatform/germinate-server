@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource.users;
 
-import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
+import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.GatekeeperClient;
 import jhi.germinate.server.resource.ContextResource;
@@ -18,7 +18,7 @@ public class UserResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ViewUserDetails> getUser()
+	public List<ViewUserDetailsType> getUser()
 		throws SQLException
 	{
 		return GatekeeperClient.getUsers();

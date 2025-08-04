@@ -23,7 +23,6 @@ public class TrialLocationResource extends ContextResource
 {
 	@POST
 	@Path("/count")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public long postTrialLocationCount(DatasetRequest request)
@@ -34,7 +33,7 @@ public class TrialLocationResource extends ContextResource
 			return 0;
 		}
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, "trials", request.getDatasetIds(), true);
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
 			return 0;
 

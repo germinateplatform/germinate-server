@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableInstitutionD
 public class InstitutionDatasetTableResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postInstitutionTable(PaginatedRequest request)
@@ -37,7 +36,7 @@ public class InstitutionDatasetTableResource extends BaseResource
 			DSLContext context = Database.getContext(conn);
 			SelectSelectStep<Record> select = context.select();
 
-			List<Integer> availableDatasets = AuthorizationFilter.getDatasetIds(req, null, false);
+			List<Integer> availableDatasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, false);
 
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");

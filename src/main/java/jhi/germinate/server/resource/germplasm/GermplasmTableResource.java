@@ -27,13 +27,12 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	private String namesFromFile;
 
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmTable(PaginatedRequest request)
 		throws SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -73,13 +72,12 @@ public class GermplasmTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/ids")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGermplasmTableIds(PaginatedRequest request)
 		throws SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		processRequest(request);
 		currentPage = 0;
@@ -119,14 +117,12 @@ public class GermplasmTableResource extends GermplasmBaseResource
 
 	@POST
 	@Path("/export")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public Response postGermplasmTableExport(ExportRequest request)
 		throws IOException, SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		try (Connection conn = Database.getConnection())
 		{

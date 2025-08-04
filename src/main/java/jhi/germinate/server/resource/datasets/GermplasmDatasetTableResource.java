@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class GermplasmDatasetTableResource extends BaseDatasetTableResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postGermplasmDatasetTable(UnacceptedLicenseRequest request, @PathParam("germplasmId") Integer germplasmId)

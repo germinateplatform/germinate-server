@@ -26,13 +26,12 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableFileresource
 public class DatasetFileResourceTableResource extends BaseResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableFileresources>> postDatasetFileResources(PaginatedDatasetRequest request)
 		throws SQLException
 	{
-		final List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, null, request.getDatasetIds(), true);
+		final List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, request.getDatasetIds(), true);
 
 		// None of the requested dataset ids are available to the user, return nothing
 		if (CollectionUtils.isEmpty(requestedIds))

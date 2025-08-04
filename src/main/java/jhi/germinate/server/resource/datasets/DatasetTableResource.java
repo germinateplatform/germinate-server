@@ -46,21 +46,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 		}
 	}
 
-	public static List<Integer> getDatasetIdsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
-			throws SQLException
-	{
-		return getDatasetsForUser(req, userDetails, datasetType, checkIfLicenseAccepted).stream()
-																						.map(ViewTableDatasets::getDatasetId)
-																						.collect(Collectors.toList());
-	}
-
-	public static List<ViewTableDatasets> getDatasetsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType)
-			throws SQLException
-	{
-		return getDatasetsForUser(req, userDetails, datasetType, true);
-	}
-
-	public static List<ViewTableDatasets> getDatasetsForUser(HttpServletRequest req, AuthenticationFilter.UserDetails userDetails, String datasetType, boolean checkIfLicenseAccepted)
+	public static List<ViewTableDatasets> getDatasetsForUser(AuthenticationFilter.UserDetails userDetails, String datasetType)
 			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -84,10 +70,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
 
-			if (checkIfLicenseAccepted)
-				return restrictBasedOnLicenseAgreement(from.fetchInto(ViewTableDatasets.class), req, userDetails);
-			else
-				return from.fetchInto(ViewTableDatasets.class);
+			return from.fetchInto(ViewTableDatasets.class);
 		}
 	}
 
@@ -123,7 +106,8 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			{
 				if (checkIfLicenseAccepted)
 				{
-					List<ViewTableDatasets> ds = restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), req, userDetails);
+					Set<Integer> licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
+					List<ViewTableDatasets> ds = restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), licenseIds, userDetails);
 
 					return CollectionUtils.isEmpty(ds) ? null : ds.get(0);
 				}
@@ -135,10 +119,9 @@ public class DatasetTableResource extends BaseDatasetTableResource
 		}
 	}
 
-	private static List<ViewTableDatasets> restrictBasedOnLicenseAgreement(List<ViewTableDatasets> datasets, HttpServletRequest request, AuthenticationFilter.UserDetails userDetails)
+	public static List<ViewTableDatasets> restrictBasedOnLicenseAgreement(List<ViewTableDatasets> datasets, Set<Integer> acceptedLicenses, AuthenticationFilter.UserDetails userDetails)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
-		Set<Integer> acceptedLicenses = AuthenticationFilter.getAcceptedLicenses(request);
 
 		List<ViewTableDatasets> result = new ArrayList<>(datasets);
 		List<ViewTableDatasets> toRemove = datasets.stream()
@@ -243,9 +226,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 		return result;
 	}
 
-
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postDatasetsTable(UnacceptedLicenseRequest request)
@@ -276,7 +257,6 @@ public class DatasetTableResource extends BaseDatasetTableResource
 
 	@POST
 	@Path("/ids")
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postDatasetTableIds(PaginatedRequest request)

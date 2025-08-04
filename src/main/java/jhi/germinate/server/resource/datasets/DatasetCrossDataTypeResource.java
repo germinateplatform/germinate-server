@@ -36,7 +36,6 @@ import static jhi.germinate.server.database.codegen.tables.Units.UNITS;
 public class DatasetCrossDataTypeResource extends ContextResource
 {
 	@POST
-	@NeedsDatasets
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response postDatasetCrossDataType(DatasetCrossDataTypeRequest request)
@@ -53,7 +52,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		// Get the datasets the user has access to
-		List<Integer> allDatasetIds = AuthorizationFilter.getDatasetIds(req, null, true);
+		List<Integer> allDatasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);
 		List<Integer> firstDatasetIds = new ArrayList<>();
 		List<Integer> secondDatasetIds = new ArrayList<>();
 
