@@ -1,20 +1,16 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class DatasetRequest
 {
 	private Integer[] datasetIds;
-
-	public Integer[] getDatasetIds()
-	{
-		return datasetIds;
-	}
-
-	public DatasetRequest setDatasetIds(Integer[] datasetIds)
-	{
-		this.datasetIds = datasetIds;
-		return this;
-	}
 }

@@ -1,34 +1,18 @@
 package jhi.germinate.resource;
 
 import jhi.gatekeeper.resource.NewUnapprovedUser;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class NewUnapprovedUserRequest
 {
 	private NewUnapprovedUser user;
 	private String            locale;
-
-	public NewUnapprovedUser getUser()
-	{
-		return user;
-	}
-
-	public NewUnapprovedUserRequest setUser(NewUnapprovedUser user)
-	{
-		this.user = user;
-		return this;
-	}
-
-	public String getLocale()
-	{
-		return locale;
-	}
-
-	public NewUnapprovedUserRequest setLocale(String locale)
-	{
-		this.locale = locale;
-		return this;
-	}
 }

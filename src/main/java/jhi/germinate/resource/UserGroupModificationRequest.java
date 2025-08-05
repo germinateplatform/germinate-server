@@ -1,44 +1,18 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class UserGroupModificationRequest
 {
 	private Integer   userGroupId;
 	private Integer[] userIds;
 	private Boolean   addOperation;
-
-	public Integer getUserGroupId()
-	{
-		return userGroupId;
-	}
-
-	public UserGroupModificationRequest setUserGroupId(Integer userGroupId)
-	{
-		this.userGroupId = userGroupId;
-		return this;
-	}
-
-	public Integer[] getUserIds()
-	{
-		return userIds;
-	}
-
-	public UserGroupModificationRequest setUserIds(Integer[] userIds)
-	{
-		this.userIds = userIds;
-		return this;
-	}
-
-	public Boolean getAddOperation()
-	{
-		return addOperation;
-	}
-
-	public UserGroupModificationRequest setAddOperation(Boolean addOperation)
-	{
-		this.addOperation = addOperation;
-		return this;
-	}
 }

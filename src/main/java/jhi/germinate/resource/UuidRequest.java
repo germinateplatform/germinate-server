@@ -1,20 +1,16 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class UuidRequest
 {
 	private String[] uuids;
-
-	public String[] getUuids()
-	{
-		return uuids;
-	}
-
-	public UuidRequest setUuids(String[] uuids)
-	{
-		this.uuids = uuids;
-		return this;
-	}
 }

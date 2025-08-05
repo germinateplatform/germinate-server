@@ -104,23 +104,23 @@ public class PedigreeExporter
 			DSLContext context = Database.getContext(conn);
 
 			// Get the germplasm
-			if (exportJob.getJobConfig().getyGroupIds() != null || exportJob.getJobConfig().getyIds() != null)
+			if (exportJob.getJobConfig().getYGroupIds() != null || exportJob.getJobConfig().getYIds() != null)
 			{
 				Set<String> result = new LinkedHashSet<>();
 
-				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getyIds()))
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getYIds()))
 				{
 					result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 										 .from(GERMINATEBASE)
-										 .where(GERMINATEBASE.ID.in(exportJob.getJobConfig().getyIds()))
+										 .where(GERMINATEBASE.ID.in(exportJob.getJobConfig().getYIds()))
 										 .fetchInto(String.class));
 				}
-				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getyGroupIds()))
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getYGroupIds()))
 				{
 					result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 										 .from(GERMINATEBASE)
 										 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getyGroupIds()))
+										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getYGroupIds()))
 										 .fetchInto(String.class));
 				}
 

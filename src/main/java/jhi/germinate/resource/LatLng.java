@@ -1,32 +1,17 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class LatLng
 {
 	private Double lat;
 	private Double lng;
-
-	public Double getLat()
-	{
-		return lat;
-	}
-
-	public LatLng setLat(Double lat)
-	{
-		this.lat = lat;
-		return this;
-	}
-
-	public Double getLng()
-	{
-		return lng;
-	}
-
-	public LatLng setLng(Double lng)
-	{
-		this.lng = lng;
-		return this;
-	}
 }

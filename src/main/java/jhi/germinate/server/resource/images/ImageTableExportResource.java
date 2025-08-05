@@ -68,7 +68,7 @@ public class ImageTableExportResource extends BaseResource
 			dbJob.setDatatype(DataExportJobsDatatype.images);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setJobConfig(new ExportJobDetails()
-				.setyIds(imageIds.toArray(new Integer[0]))
+				.setYIds(imageIds.toArray(new Integer[0]))
 				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL)));
 			dbJob.setStatus(DataExportJobsStatus.waiting);
 			if (userDetails.getId() != -1000)

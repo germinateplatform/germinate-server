@@ -78,10 +78,10 @@ public class DatasetExportPedigreeResource extends ContextResource
 				dbJob.setDatatype(DataExportJobsDatatype.pedigree);
 				dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setxIds(request.getxIds())
-					.setxGroupIds(request.getxGroupIds())
-					.setyIds(request.getyIds())
-					.setyGroupIds(request.getyGroupIds())
+					.setXIds(request.getXIds())
+					.setXGroupIds(request.getXGroupIds())
+					.setYIds(request.getYIds())
+					.setYGroupIds(request.getYGroupIds())
 					.setExportParams(request.getIncludeAttributes() ? new String[]{"includeAttributes"} : null));
 				dbJob.setStatus(DataExportJobsStatus.waiting);
 				if (userDetails.getId() != -1000)

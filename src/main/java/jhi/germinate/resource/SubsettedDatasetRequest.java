@@ -1,8 +1,15 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class SubsettedDatasetRequest extends PaginatedRequest
 {
 	private Integer[] xIds;
@@ -10,59 +17,4 @@ public class SubsettedDatasetRequest extends PaginatedRequest
 	private Integer[] yIds;
 	private Integer[] yGroupIds;
 	private Integer[] datasetIds;
-
-	public Integer[] getxIds()
-	{
-		return xIds;
-	}
-
-	public SubsettedDatasetRequest setxIds(Integer[] xIds)
-	{
-		this.xIds = xIds;
-		return this;
-	}
-
-	public Integer[] getxGroupIds()
-	{
-		return xGroupIds;
-	}
-
-	public SubsettedDatasetRequest setxGroupIds(Integer[] xGroupIds)
-	{
-		this.xGroupIds = xGroupIds;
-		return this;
-	}
-
-	public Integer[] getyIds()
-	{
-		return yIds;
-	}
-
-	public SubsettedDatasetRequest setyIds(Integer[] yIds)
-	{
-		this.yIds = yIds;
-		return this;
-	}
-
-	public Integer[] getyGroupIds()
-	{
-		return yGroupIds;
-	}
-
-	public SubsettedDatasetRequest setyGroupIds(Integer[] yGroupIds)
-	{
-		this.yGroupIds = yGroupIds;
-		return this;
-	}
-
-	public Integer[] getDatasetIds()
-	{
-		return datasetIds;
-	}
-
-	public SubsettedDatasetRequest setDatasetIds(Integer[] datasetIds)
-	{
-		this.datasetIds = datasetIds;
-		return this;
-	}
 }

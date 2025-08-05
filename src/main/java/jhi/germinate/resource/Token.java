@@ -16,9 +16,17 @@
 
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class Token
 {
 	private String  token;
@@ -30,120 +38,4 @@ public class Token
 	private String  userType = null;
 	private Long    lifetime;
 	private Long    createdOn;
-
-	public Token()
-	{
-	}
-
-	public Token(String token, String imageToken, Integer id, String username, String fullName, String email, String userType, Long lifetime, Long createdOn)
-	{
-		this.token = token;
-		this.imageToken = imageToken;
-		this.id = id;
-		this.fullName = fullName;
-		this.username = username;
-		this.email = email;
-		this.userType = userType;
-		this.lifetime = lifetime;
-		this.createdOn = createdOn;
-	}
-
-	public String getToken()
-	{
-		return token;
-	}
-
-	public Token setToken(String token)
-	{
-		this.token = token;
-		return this;
-	}
-
-	public String getImageToken()
-	{
-		return imageToken;
-	}
-
-	public Token setImageToken(String imageToken)
-	{
-		this.imageToken = imageToken;
-		return this;
-	}
-
-	public Integer getId()
-	{
-		return id;
-	}
-
-	public Token setId(Integer id)
-	{
-		this.id = id;
-		return this;
-	}
-
-	public String getFullName()
-	{
-		return fullName;
-	}
-
-	public Token setFullName(String fullName)
-	{
-		this.fullName = fullName;
-		return this;
-	}
-
-	public String getUsername()
-	{
-		return username;
-	}
-
-	public Token setUsername(String username)
-	{
-		this.username = username;
-		return this;
-	}
-
-	public String getEmail()
-	{
-		return email;
-	}
-
-	public Token setEmail(String email)
-	{
-		this.email = email;
-		return this;
-	}
-
-	public String getUserType()
-	{
-		return userType;
-	}
-
-	public Token setUserType(String userType)
-	{
-		this.userType = userType;
-		return this;
-	}
-
-	public Long getLifetime()
-	{
-		return lifetime;
-	}
-
-	public Token setLifetime(Long lifetime)
-	{
-		this.lifetime = lifetime;
-		return this;
-	}
-
-	public Long getCreatedOn()
-	{
-		return createdOn;
-	}
-
-	public Token setCreatedOn(Long createdOn)
-	{
-		this.createdOn = createdOn;
-		return this;
-	}
 }

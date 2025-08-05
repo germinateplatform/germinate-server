@@ -1,29 +1,14 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class ServerSetupConfig
 {
 	private DatabaseConfig dbConfig;
 	private GatekeeperConfig gkConfig;
-
-	public DatabaseConfig getDbConfig()
-	{
-		return dbConfig;
-	}
-
-	public ServerSetupConfig setDbConfig(DatabaseConfig dbConfig)
-	{
-		this.dbConfig = dbConfig;
-		return this;
-	}
-
-	public GatekeeperConfig getGkConfig()
-	{
-		return gkConfig;
-	}
-
-	public ServerSetupConfig setGkConfig(GatekeeperConfig gkConfig)
-	{
-		this.gkConfig = gkConfig;
-		return this;
-	}
 }

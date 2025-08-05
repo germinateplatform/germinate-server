@@ -186,7 +186,7 @@ public class PedigreeResource extends ExportResource
 		bw.write("# heliumInput = PEDIGREE" + CRLF);
 		bw.write("LineName\tParent\tParentType" + CRLF);
 
-		if (CollectionUtils.isEmpty(request.getyGroupIds()) && CollectionUtils.isEmpty(request.getyIds()))
+		if (CollectionUtils.isEmpty(request.getYGroupIds()) && CollectionUtils.isEmpty(request.getYIds()))
 		{
 			if (down.size() < 1)
 				throw new GerminateException(Response.Status.NOT_FOUND);
@@ -202,12 +202,12 @@ public class PedigreeResource extends ExportResource
 																					.where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)
 																													 .or(PEDIGREES.PARENT_ID.eq(GERMINATEBASE.ID)))));
 
-			if (!CollectionUtils.isEmpty(request.getyIds()))
-				step.and(GERMINATEBASE.ID.in(request.getyIds()));
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getYIds()))
+				step.and(GERMINATEBASE.ID.in(request.getYIds()));
+			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
 				step.and(DSL.exists(DSL.selectOne()
 									   .from(GROUPMEMBERS)
-									   .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds())
+									   .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds())
 																   .and(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID)))));
 
 			List<String> requestedNames = step.orderBy(GERMINATEBASE.NAME)

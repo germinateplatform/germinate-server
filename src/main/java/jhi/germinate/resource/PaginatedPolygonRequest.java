@@ -1,20 +1,16 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class PaginatedPolygonRequest extends PaginatedRequest
 {
 	private LatLng[][] polygons;
-
-	public LatLng[][] getPolygons()
-	{
-		return polygons;
-	}
-
-	public PaginatedPolygonRequest setPolygons(LatLng[][] polygons)
-	{
-		this.polygons = polygons;
-		return this;
-	}
 }

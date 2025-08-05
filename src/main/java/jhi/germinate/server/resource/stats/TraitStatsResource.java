@@ -77,8 +77,8 @@ public class TraitStatsResource extends ContextResource
 																				.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
 																				.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)));
 
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getxIds()));
+			if (!CollectionUtils.isEmpty(request.getXIds()))
+				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getXIds()));
 
 			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
@@ -91,12 +91,12 @@ public class TraitStatsResource extends ContextResource
 			TempStats tempStats = new TempStats();
 			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
 
-			Field<String> groupIds = CollectionUtils.isEmpty(request.getyGroupIds())
+			Field<String> groupIds = CollectionUtils.isEmpty(request.getYGroupIds())
 					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
 					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
 						 .from(GROUPMEMBERS)
 						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+						 .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))
 						 .and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID)).asField("groupIds");
 
 			// Run the query
@@ -119,10 +119,10 @@ public class TraitStatsResource extends ContextResource
 			SelectLimitStep<Record5<Integer, Integer, Integer, String, BigDecimal>> orderByStep;
 
 			// If a subselection was requested
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
+			if (!CollectionUtils.isEmpty(request.getYGroupIds()) || !CollectionUtils.isEmpty(request.getYIds()))
 			{
 				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
-				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID))));
+				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getYGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID))));
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(PHENOTYPEDATA.ID)
@@ -135,7 +135,7 @@ public class TraitStatsResource extends ContextResource
 				orderByStep = dataStep.orderBy(TRIALSETUP.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 
-			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getyGroupIds());
+			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getYGroupIds());
 
 			// This consumes the database result and generates the stats
 			Consumer<Record5<Integer, Integer, Integer, String, BigDecimal>> consumer = pd -> {
@@ -181,7 +181,7 @@ public class TraitStatsResource extends ContextResource
 					   .forEachOrdered(consumer);
 
 			// If marked items were requested, then get these as well separately
-			if (!CollectionUtils.isEmpty(request.getyIds()))
+			if (!CollectionUtils.isEmpty(request.getYIds()))
 			{
 				context.select(
 							   TRIALSETUP.DATASET_ID,
@@ -195,7 +195,7 @@ public class TraitStatsResource extends ContextResource
 					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
 					   .where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
 					   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
-					   .and(TRIALSETUP.GERMINATEBASE_ID.in(request.getyIds()))
+					   .and(TRIALSETUP.GERMINATEBASE_ID.in(request.getYIds()))
 					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
 					   .forEach(consumer);
 			}
@@ -227,7 +227,7 @@ public class TraitStatsResource extends ContextResource
 									 Quantiles q = stats.get(entry.getKey());
 									 q.setTreatmentId(treatmentId);
 									 q.setDatasetId(datasetId);
-									 q.setxId(traitId);
+									 q.setXId(traitId);
 									 q.setGroupIds(groupId);
 
 									 return q;

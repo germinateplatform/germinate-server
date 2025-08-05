@@ -1,20 +1,16 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class UnacceptedLicenseRequest extends PaginatedRequest
 {
 	private Boolean justUnacceptedLicenses;
-
-	public Boolean getJustUnacceptedLicenses()
-	{
-		return justUnacceptedLicenses;
-	}
-
-	public UnacceptedLicenseRequest setJustUnacceptedLicenses(Boolean justUnacceptedLicenses)
-	{
-		this.justUnacceptedLicenses = justUnacceptedLicenses;
-		return this;
-	}
 }

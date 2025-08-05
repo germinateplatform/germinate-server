@@ -74,14 +74,14 @@ public class ClimateDataTableResource extends ExportResource
 
 			// Handle requested location ids or group ids
 			Set<Integer> locationIds = new HashSet<>();
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-				locationIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getyGroupIds())).fetchInto(Integer.class));
-			if (!CollectionUtils.isEmpty(request.getyIds()))
-				locationIds.addAll(Arrays.asList(request.getyIds()));
+			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
+				locationIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getYGroupIds())).fetchInto(Integer.class));
+			if (!CollectionUtils.isEmpty(request.getYIds()))
+				locationIds.addAll(Arrays.asList(request.getYIds()));
 			if (!CollectionUtils.isEmpty(locationIds))
 				from.where(VIEW_TABLE_CLIMATE_DATA.LOCATION_ID.in(locationIds));
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getxIds()));
+			if (!CollectionUtils.isEmpty(request.getXIds()))
+				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getXIds()));
 
 			// Filter here!
 			where(from, filters);

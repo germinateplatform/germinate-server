@@ -28,7 +28,7 @@ public class ClimateCategoricalResource extends ContextResource
 	public Response postJson(SubsettedDatasetRequest request)
 		throws IOException, SQLException
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getxIds()))
+		if (request == null || CollectionUtils.isEmpty(request.getXIds()))
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return null;
@@ -38,15 +38,15 @@ public class ClimateCategoricalResource extends ContextResource
 
 		try
 		{
-			File file = ResourceUtils.createTempFile("climates-" + CollectionUtils.join(request.getxIds(), "-"), ".tsv");
+			File file = ResourceUtils.createTempFile("climates-" + CollectionUtils.join(request.getXIds(), "-"), ".tsv");
 
 			try (Connection conn = Database.getConnection();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				DSLContext context = Database.getContext(conn);
-				String climateIdString = CollectionUtils.join(request.getxIds(), ",");
-				String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
-				String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
+				String climateIdString = CollectionUtils.join(request.getXIds(), ",");
+				String germplasmIdString = CollectionUtils.join(request.getYIds(), ",");
+				String groupIdString = CollectionUtils.join(request.getYGroupIds(), ",");
 
 				if (CollectionUtils.isEmpty(datasetIds))
 				{

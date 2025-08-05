@@ -23,6 +23,7 @@ public enum ServerProperty
 	DATABASE_PASSWORD("database.password", null, false),
 	DATABASE_PORT("database.port", null, false),
 	DATABASE_BACKUP_EVERY_DAYS("database.backup.every.days", null, false),
+	DATABASE_BACKUP_MAX_SIZE("database.backup.max.size.gb", "1", false),
 	DEBUG_IS_DEVELOPMENT("debug.is.development", null, false),
 	EXTERNAL_LINK_IDENTIFIER("external.link.identifier", null, false),
 	EXTERNAL_LINK_TEMPLATE("external.link.template", null, false),

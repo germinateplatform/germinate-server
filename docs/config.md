@@ -100,7 +100,8 @@ database.name     = <database name>
 database.username = <database username>
 database.password = <database password if required
 database.port     = <database port if not 3306>
-database.backup.every.days = <optional; set to a whole number to make Germinate create automatic database backups every X days; stored under `<GERINATE_FOLDER>/backups`>
+database.backup.every.days  = <optional; set to a whole number to make Germinate create automatic database backups every X days; stored under `<GERINATE_FOLDER>/backups`>
+database.backup.max.size.gb = <optional; set to the maximum disk space that should be taken up by Germinate backups> 
 
 # This is required so that the server can generate files that link back to the user interface
 germinate.client.url = <base url of the client, e.g. https://ics.hutton.ac.uk/germinate-demo/>

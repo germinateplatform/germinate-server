@@ -187,23 +187,23 @@ public class GenotypeExporter
 			context.select(GERMINATEBASE.NAME, GERMINATEBASE.DISPLAY_NAME).from(GERMINATEBASE).forEach(g -> this.germplasmNameMapping.put(g.get(GERMINATEBASE.NAME), StringUtils.orElse(g.get(GERMINATEBASE.DISPLAY_NAME), g.get(GERMINATEBASE.NAME))));
 
 			// Get the germplasm
-			if (exportJob.getJobConfig().getyGroupIds() != null || exportJob.getJobConfig().getyIds() != null)
+			if (exportJob.getJobConfig().getYGroupIds() != null || exportJob.getJobConfig().getYIds() != null)
 			{
 				Set<String> result = new LinkedHashSet<>();
 
-				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getyIds()))
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getYIds()))
 				{
 					result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 										 .from(GERMINATEBASE)
-										 .where(GERMINATEBASE.ID.in(exportJob.getJobConfig().getyIds()))
+										 .where(GERMINATEBASE.ID.in(exportJob.getJobConfig().getYIds()))
 										 .fetchInto(String.class));
 				}
-				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getyGroupIds()))
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getYGroupIds()))
 				{
 					result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 										 .from(GERMINATEBASE)
 										 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getyGroupIds()))
+										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getYGroupIds()))
 										 .fetchInto(String.class));
 				}
 
@@ -211,23 +211,23 @@ public class GenotypeExporter
 			}
 
 			// Get the markers
-			if (exportJob.getJobConfig().getxGroupIds() != null || exportJob.getJobConfig().getxIds() != null)
+			if (exportJob.getJobConfig().getXGroupIds() != null || exportJob.getJobConfig().getXIds() != null)
 			{
 				Set<String> result = new LinkedHashSet<>();
-				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getxIds()))
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getXIds()))
 				{
 					result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
 										 .from(MARKERS)
-										 .where(MARKERS.ID.in(exportJob.getJobConfig().getxIds()))
+										 .where(MARKERS.ID.in(exportJob.getJobConfig().getXIds()))
 										 .fetchInto(String.class));
 				}
 
-				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getxGroupIds()))
+				if (!CollectionUtils.isEmpty(exportJob.getJobConfig().getXGroupIds()))
 				{
 					result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
 										 .from(MARKERS)
 										 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID))
-										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getxGroupIds()))
+										 .where(GROUPMEMBERS.GROUP_ID.in(exportJob.getJobConfig().getXGroupIds()))
 										 .fetchInto(String.class));
 				}
 

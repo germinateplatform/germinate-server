@@ -324,6 +324,23 @@ public class PropertyWatcher
 	}
 
 	/**
+	 * Reads an {@link Double} property from the .properties file
+	 *
+	 * @param property The property to readAll
+	 * @param fallback The fallback value in case no value is defined
+	 * @return The {@link Double} property
+	 */
+	public static Double getDouble(ServerProperty property, double fallback)
+	{
+		String value = get(property);
+
+		if (StringUtils.isEmpty(value))
+			return fallback;
+		else
+			return Double.parseDouble(value);
+	}
+
+	/**
 	 * Reads a {@link Float} property from the .properties file
 	 *
 	 * @param property The property to readAll

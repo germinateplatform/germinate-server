@@ -1,44 +1,18 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class DatasetUserModificationRequest
 {
 	private Integer   datasetId;
 	private Integer[] userIds;
 	private Boolean   addOperation;
-
-	public Integer getDatasetId()
-	{
-		return datasetId;
-	}
-
-	public DatasetUserModificationRequest setDatasetId(Integer datasetId)
-	{
-		this.datasetId = datasetId;
-		return this;
-	}
-
-	public Integer[] getUserIds()
-	{
-		return userIds;
-	}
-
-	public DatasetUserModificationRequest setUserIds(Integer[] userIds)
-	{
-		this.userIds = userIds;
-		return this;
-	}
-
-	public Boolean getAddOperation()
-	{
-		return addOperation;
-	}
-
-	public DatasetUserModificationRequest setAddOperation(Boolean addOperation)
-	{
-		this.addOperation = addOperation;
-		return this;
-	}
 }

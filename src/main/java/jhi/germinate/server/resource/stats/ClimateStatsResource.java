@@ -75,8 +75,8 @@ public class ClimateStatsResource extends ContextResource
 																				.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
 																				.and(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)));
 
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getxIds()));
+			if (!CollectionUtils.isEmpty(request.getXIds()))
+				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getXIds()));
 
 			Map<Integer, ViewTableClimates> climateMap = step.fetchMap(VIEW_TABLE_CLIMATES.CLIMATE_ID, ViewTableClimates.class);
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
@@ -87,12 +87,12 @@ public class ClimateStatsResource extends ContextResource
 			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
 			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
 
-			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getyGroupIds())
+			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getYGroupIds())
 					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
 					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
 						 .from(GROUPMEMBERS)
 						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+						 .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))
 						 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
 
 			// Run the query
@@ -113,10 +113,10 @@ public class ClimateStatsResource extends ContextResource
 			SelectLimitStep<Record4<Integer, Integer, String, BigDecimal>> orderByStep;
 
 			// If a subselection was requested
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()) || !CollectionUtils.isEmpty(request.getyIds()))
+			if (!CollectionUtils.isEmpty(request.getYGroupIds()) || !CollectionUtils.isEmpty(request.getYIds()))
 			{
 				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
-				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.in(request.getyGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID))));
+				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.in(request.getYGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID))));
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(CLIMATEDATA.ID)
@@ -161,7 +161,7 @@ public class ClimateStatsResource extends ContextResource
 					   .forEachOrdered(consumer);
 
 			// If marked items were requested, then get these as well separately
-			if (!CollectionUtils.isEmpty(request.getyIds()))
+			if (!CollectionUtils.isEmpty(request.getYIds()))
 			{
 				context.select(
 							   CLIMATEDATA.DATASET_ID,
@@ -173,7 +173,7 @@ public class ClimateStatsResource extends ContextResource
 					   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
 					   .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
 					   .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()))
-					   .and(CLIMATEDATA.LOCATION_ID.in(request.getyIds()))
+					   .and(CLIMATEDATA.LOCATION_ID.in(request.getYIds()))
 					   .orderBy(CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE)
 					   .forEach(consumer);
 			}
@@ -198,7 +198,7 @@ public class ClimateStatsResource extends ContextResource
 
 									 Quantiles q = stats.get(ids);
 									 q.setDatasetId(datasetId);
-									 q.setxId(climateId);
+									 q.setXId(climateId);
 									 q.setGroupIds(groupIds);
 
 									 return q;

@@ -88,10 +88,10 @@ public class ImageZipExporter
 			DSLContext context = Database.getContext(conn);
 
 			// Get the images
-			if (exportJob.getJobConfig().getyIds() != null)
+			if (exportJob.getJobConfig().getYIds() != null)
 			{
 				images = context.selectFrom(VIEW_TABLE_IMAGES)
-								.where(VIEW_TABLE_IMAGES.IMAGE_ID.in(exportJob.getJobConfig().getyIds()))
+								.where(VIEW_TABLE_IMAGES.IMAGE_ID.in(exportJob.getJobConfig().getYIds()))
 								.fetchInto(ViewTableImages.class);
 
 			}

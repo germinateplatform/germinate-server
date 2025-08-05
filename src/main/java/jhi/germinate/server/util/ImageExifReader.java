@@ -171,16 +171,16 @@ public class ImageExifReader implements Callable<ImageExifReader.ExifResult>
 							exif.setSamplesPerPixel(tag.getDescription());
 							break;
 						case TAG_X_RESOLUTION:
-							exif.setxResolution(tag.getDescription());
+							exif.setXResolution(tag.getDescription());
 							break;
 						case TAG_Y_RESOLUTION:
-							exif.setyResolution(tag.getDescription());
+							exif.setYResolution(tag.getDescription());
 							break;
 						case TAG_EXPOSURE_TIME:
 							exif.setExposureTime(tag.getDescription());
 							break;
 						case TAG_FNUMBER:
-							exif.setfNumber(tag.getDescription());
+							exif.setFNumber(tag.getDescription());
 							break;
 						case TAG_ISO_EQUIVALENT:
 							exif.setIsoSpeedRatings(tag.getDescription());

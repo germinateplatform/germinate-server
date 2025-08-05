@@ -1,36 +1,17 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class GroupModificationRequest
 {
 	private Integer[] ids;
 	private Boolean   addition;
-
-	public GroupModificationRequest()
-	{
-	}
-
-	public Integer[] getIds()
-	{
-		return ids;
-	}
-
-	public GroupModificationRequest setIds(Integer[] ids)
-	{
-		this.ids = ids;
-		return this;
-	}
-
-	public Boolean getAddition()
-	{
-		return addition;
-	}
-
-	public GroupModificationRequest setAddition(Boolean addition)
-	{
-		this.addition = addition;
-		return this;
-	}
 }

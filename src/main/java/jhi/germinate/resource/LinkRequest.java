@@ -1,32 +1,17 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class LinkRequest
 {
 	private String  targetTable;
 	private Integer foreignId;
-
-	public String getTargetTable()
-	{
-		return targetTable;
-	}
-
-	public LinkRequest setTargetTable(String targetTable)
-	{
-		this.targetTable = targetTable;
-		return this;
-	}
-
-	public Integer getForeignId()
-	{
-		return foreignId;
-	}
-
-	public LinkRequest setForeignId(Integer foreignId)
-	{
-		this.foreignId = foreignId;
-		return this;
-	}
 }

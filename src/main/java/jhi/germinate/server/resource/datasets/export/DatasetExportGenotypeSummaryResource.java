@@ -57,17 +57,17 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 																	  .where(DATASETMEMBERS.DATASET_ID.eq(DATASETS.ID))
 																	  .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2));
 			Field<?> germplasm;
-			if (CollectionUtils.isEmpty(request.getyIds()) && CollectionUtils.isEmpty(request.getyGroupIds()))
+			if (CollectionUtils.isEmpty(request.getYIds()) && CollectionUtils.isEmpty(request.getYGroupIds()))
 			{
 				germplasm = germplasmQuery.asField("data_object_count");
 			}
 			else
 			{
-				germplasm = germplasmQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getyIds())
+				germplasm = germplasmQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getYIds())
 																		.orExists(DSL.selectOne()
 																					 .from(GROUPMEMBERS)
 																					 .where(GROUPMEMBERS.FOREIGN_ID.eq(DATASETMEMBERS.FOREIGN_ID))
-																					 .and(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))))
+																					 .and(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))))
 										  .asField("data_object_count");
 			}
 
@@ -77,17 +77,17 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 																   .where(DATASETMEMBERS.DATASET_ID.eq(DATASETS.ID))
 																   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1));
 			Field<?> markers;
-			if (CollectionUtils.isEmpty(request.getxIds()) && CollectionUtils.isEmpty(request.getxGroupIds()))
+			if (CollectionUtils.isEmpty(request.getXIds()) && CollectionUtils.isEmpty(request.getXGroupIds()))
 			{
 				markers = markerQuery.asField("data_point_count");
 			}
 			else
 			{
-				markers = markerQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getxIds())
+				markers = markerQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getXIds())
 																   .orExists(DSL.selectOne()
 																				.from(GROUPMEMBERS)
 																				.where(GROUPMEMBERS.FOREIGN_ID.eq(DATASETMEMBERS.FOREIGN_ID))
-																				.and(GROUPMEMBERS.GROUP_ID.in(request.getxGroupIds()))))
+																				.and(GROUPMEMBERS.GROUP_ID.in(request.getXGroupIds()))))
 									 .asField("data_point_count");
 			}
 

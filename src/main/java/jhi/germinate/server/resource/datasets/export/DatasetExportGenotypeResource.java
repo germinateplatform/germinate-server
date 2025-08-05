@@ -82,10 +82,10 @@ public class DatasetExportGenotypeResource extends ContextResource
 				dbJob.setDatatype(DataExportJobsDatatype.genotype);
 				dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setxIds(request.getxIds())
-					.setxGroupIds(request.getxGroupIds())
-					.setyIds(request.getyIds())
-					.setyGroupIds(request.getyGroupIds())
+					.setXIds(request.getXIds())
+					.setXGroupIds(request.getXGroupIds())
+					.setYIds(request.getYIds())
+					.setYGroupIds(request.getYGroupIds())
 					.setSubsetId(request.getMapId())
 					.setFileHeaders(String.join("\n", getFlapjackHeaders()) + "\n")
 					.setFileTypes(request.getFileTypes()));
@@ -157,27 +157,27 @@ public class DatasetExportGenotypeResource extends ContextResource
 
 	static Set<String> getMarkerNameList(DSLContext context, SubsettedGenotypeDatasetRequest request)
 	{
-		if (request.getxGroupIds() == null && request.getxIds() == null)
+		if (request.getXGroupIds() == null && request.getXIds() == null)
 		{
 			return null;
 		}
 		else
 		{
 			Set<String> result = new LinkedHashSet<>();
-			if (!CollectionUtils.isEmpty(request.getxIds()))
+			if (!CollectionUtils.isEmpty(request.getXIds()))
 			{
 				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
 									 .from(MARKERS)
-									 .where(MARKERS.ID.in(request.getxIds()))
+									 .where(MARKERS.ID.in(request.getXIds()))
 									 .fetchInto(String.class));
 			}
 
-			if (!CollectionUtils.isEmpty(request.getxGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getXGroupIds()))
 			{
 				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
 									 .from(MARKERS)
 									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getxGroupIds()))
+									 .where(GROUPMEMBERS.GROUP_ID.in(request.getXGroupIds()))
 									 .fetchInto(String.class));
 			}
 
@@ -197,7 +197,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 
 	static Set<String> getGermplasmNames(DSLContext context, SubsettedGenotypeDatasetRequest request)
 	{
-		if (request.getyGroupIds() == null && request.getyIds() == null)
+		if (request.getYGroupIds() == null && request.getYIds() == null)
 		{
 			return null;
 		}
@@ -205,19 +205,19 @@ public class DatasetExportGenotypeResource extends ContextResource
 		{
 			Set<String> result = new LinkedHashSet<>();
 
-			if (!CollectionUtils.isEmpty(request.getyIds()))
+			if (!CollectionUtils.isEmpty(request.getYIds()))
 			{
 				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 									 .from(GERMINATEBASE)
-									 .where(GERMINATEBASE.ID.in(request.getyIds()))
+									 .where(GERMINATEBASE.ID.in(request.getYIds()))
 									 .fetchInto(String.class));
 			}
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
 			{
 				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 									 .from(GERMINATEBASE)
 									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getyGroupIds()))
+									 .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))
 									 .fetchInto(String.class));
 			}
 

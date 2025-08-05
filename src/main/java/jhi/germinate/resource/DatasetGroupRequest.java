@@ -1,32 +1,17 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class DatasetGroupRequest extends DatasetRequest
 {
 	private String datasetType;
 	private String groupType;
-
-	public String getDatasetType()
-	{
-		return datasetType;
-	}
-
-	public DatasetGroupRequest setDatasetType(String datasetType)
-	{
-		this.datasetType = datasetType;
-		return this;
-	}
-
-	public String getGroupType()
-	{
-		return groupType;
-	}
-
-	public DatasetGroupRequest setGroupType(String groupType)
-	{
-		this.groupType = groupType;
-		return this;
-	}
 }

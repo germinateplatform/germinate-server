@@ -4,47 +4,45 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
-import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.ResourceUtils;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Climates.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
-import static jhi.germinate.server.database.codegen.tables.Entitytypes.*;
-import static jhi.germinate.server.database.codegen.tables.Experiments.*;
-import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
-import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Images.*;
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
-import static jhi.germinate.server.database.codegen.tables.Maps.*;
-import static jhi.germinate.server.database.codegen.tables.Markers.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
+import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.DATASETFILERESOURCES;
+import static jhi.germinate.server.database.codegen.tables.Entitytypes.ENTITYTYPES;
+import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
+import static jhi.germinate.server.database.codegen.tables.Fileresources.FILERESOURCES;
+import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.FILERESOURCETYPES;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
+import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
+import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
-import static jhi.germinate.server.database.codegen.tables.Publications.*;
+import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
-import static jhi.germinate.server.database.codegen.tables.ViewStatsBiologicalstatus.*;
-import static jhi.germinate.server.database.codegen.tables.ViewStatsCountry.*;
-import static jhi.germinate.server.database.codegen.tables.ViewStatsPdci.*;
-import static jhi.germinate.server.database.codegen.tables.ViewStatsTaxonomy.*;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES;
+import static jhi.germinate.server.database.codegen.tables.ViewStatsBiologicalstatus.VIEW_STATS_BIOLOGICALSTATUS;
+import static jhi.germinate.server.database.codegen.tables.ViewStatsCountry.VIEW_STATS_COUNTRY;
+import static jhi.germinate.server.database.codegen.tables.ViewStatsTaxonomy.VIEW_STATS_TAXONOMY;
 
 @Path("stats")
 @Secured
@@ -63,7 +61,7 @@ public class StatsResource
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/biologicalstatus")
 	public Response getBioStatusStats()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		return export("biologicalstatus", VIEW_STATS_BIOLOGICALSTATUS);
 	}
@@ -73,7 +71,7 @@ public class StatsResource
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/country")
 	public Response getCountryStats()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		return export("country", VIEW_STATS_COUNTRY);
 	}
@@ -83,15 +81,15 @@ public class StatsResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/entitytype")
 	public List<EntityTypeStats> getEntityTypeStats()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			return context.select(
-							  ENTITYTYPES.ID.as("entity_type_id"),
-							  ENTITYTYPES.NAME.as("entity_type_name"),
-							  DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.ENTITYTYPE_ID.eq(ENTITYTYPES.ID)).asField("count"))
+								  ENTITYTYPES.ID.as("entity_type_id"),
+								  ENTITYTYPES.NAME.as("entity_type_name"),
+								  DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.ENTITYTYPE_ID.eq(ENTITYTYPES.ID)).asField("count"))
 						  .from(ENTITYTYPES)
 						  .fetchInto(EntityTypeStats.class);
 		}
@@ -102,7 +100,7 @@ public class StatsResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/overview")
 	public OverviewStats getJson()
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -122,19 +120,19 @@ public class StatsResource
 
 			DSLContext context = Database.getContext(conn);
 			OverviewStats stats = context.select(
-				DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
-				DSL.selectCount().from(MARKERS).asField("markers"),
-				DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
-				DSL.selectCount().from(PHENOTYPES).asField("traits"),
-				DSL.selectCount().from(CLIMATES).asField("climates"),
-				DSL.selectCount().from(LOCATIONS).asField("locations"),
-				DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
-				DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
-				DSL.selectCount().from(IMAGES).asField("images"),
-				step.asField("fileresources"),
-				DSL.selectCount().from(PUBLICATIONS).asField("publications"),
-				DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true)).or(STORIES.USER_ID.eq(userDetails.getId())).asField("dataStories"),
-				DSL.selectCount().from(PROJECTS).asField("projects")
+					DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
+					DSL.selectCount().from(MARKERS).asField("markers"),
+					DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
+					DSL.selectCount().from(PHENOTYPES).asField("traits"),
+					DSL.selectCount().from(CLIMATES).asField("climates"),
+					DSL.selectCount().from(LOCATIONS).asField("locations"),
+					DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
+					DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
+					DSL.selectCount().from(IMAGES).asField("images"),
+					step.asField("fileresources"),
+					DSL.selectCount().from(PUBLICATIONS).asField("publications"),
+					DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true)).or(STORIES.USER_ID.eq(userDetails.getId())).asField("dataStories"),
+					DSL.selectCount().from(PROJECTS).asField("projects")
 			).fetchSingleInto(OverviewStats.class);
 
 			stats.setDatasets(datasets.size());
@@ -171,9 +169,58 @@ public class StatsResource
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/pdci")
 	public Response getPdciStats()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
-		return export("pdci", VIEW_STATS_PDCI);
+		File file = ResourceUtils.createTempFile("pdci", ".tsv");
+
+		try (Connection conn = Database.getConnection();
+			 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+		{
+			DSLContext context = Database.getContext(conn);
+
+			Map<String, Map<Integer, Integer>> mapping = new TreeMap<>(Collections.reverseOrder());
+
+			context.select(GERMINATEBASE.PDCI, TAXONOMIES.GENUS)
+				   .from(GERMINATEBASE)
+				   .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+				   .and(GERMINATEBASE.PDCI.isNotNull())
+				   .forEach(r -> {
+					   String genus = r.get(TAXONOMIES.GENUS);
+					   if (genus == null)
+						   genus = "";
+					   int pdciLower = (int) Math.floor(r.get(GERMINATEBASE.PDCI));
+
+					   if (!mapping.containsKey(genus))
+					   {
+						   Map<Integer, Integer> genusMap = new LinkedHashMap<>();
+						   for (int i = 0; i < 10; i++)
+							   genusMap.put(i, 0);
+
+						   mapping.put(genus, genusMap);
+					   }
+
+					   mapping.get(genus).put(pdciLower, mapping.get(genus).get(pdciLower) + 1);
+				   });
+
+			bw.write("bin\tgenus\tcount" + ResourceUtils.CRLF);
+
+			mapping.forEach((genus, counts) -> {
+				counts.forEach((bin, count) -> {
+					bw.write(bin + "-" + (bin + 1) + "\t" + genus + "\t" + count + ResourceUtils.CRLF);
+				});
+			});
+		}
+
+		java.nio.file.Path filePath = file.toPath();
+		return Response.ok((StreamingOutput) output -> {
+						   Files.copy(filePath, output);
+						   Files.deleteIfExists(filePath);
+					   })
+					   .type("text/plain")
+					   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+					   .header("content-length", file.length())
+					   .build();
 	}
 
 	@GET
@@ -181,13 +228,13 @@ public class StatsResource
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/taxonomy")
 	public Response getTaxonomyStats()
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		return export("taxonomy", VIEW_STATS_TAXONOMY);
 	}
 
 	protected Response export(String filename, TableImpl<? extends Record> table)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		try
 		{

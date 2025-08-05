@@ -1,17 +1,13 @@
 package jhi.germinate.resource;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class TraitDatasetRequest extends DatasetRequest
 {
 	private Integer[] traitIds;
-
-	public Integer[] getTraitIds()
-	{
-		return traitIds;
-	}
-
-	public TraitDatasetRequest setTraitIds(Integer[] traitIds)
-	{
-		this.traitIds = traitIds;
-		return this;
-	}
 }

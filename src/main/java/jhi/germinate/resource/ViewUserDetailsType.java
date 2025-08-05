@@ -2,27 +2,17 @@ package jhi.germinate.resource;
 
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.enums.UserType;
+import lombok.*;
+import lombok.experimental.Accessors;
 
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
 public class ViewUserDetailsType extends ViewUserDetails
 {
 	private UserType userType       = UserType.UNKNOWN;
 	private String   userTypeString = null;
-
-	public UserType getUserType()
-	{
-		return userType;
-	}
-
-	public ViewUserDetailsType setUserType(UserType userType)
-	{
-		this.userType = userType;
-		return this;
-	}
-
-	public String getUserTypeString()
-	{
-		return userTypeString;
-	}
 
 	public ViewUserDetailsType setUserTypeString(String userTypeString)
 	{

@@ -92,6 +92,9 @@ dependencies {
     // Disabled Swagger until we can figure out how to make it work with Jersey3 and Jakarta
     implementation 'io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.31'
     implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer-jakarta:2.2.31'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
 task generateManpageAsciiDoc(type: JavaExec) {

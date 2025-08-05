@@ -15,6 +15,9 @@ import java.io.*;
 import java.io.File;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -368,6 +371,36 @@ public class Database
 
 					File zip = ResourceUtils.getFromExternal(null, dt + ".zip", "backups");
 					FileUtils.zipUp(zip, List.of(new File(dbBackupFile.getAbsolutePath())), true);
+
+					Double maxGb = PropertyWatcher.getDouble(ServerProperty.DATABASE_BACKUP_MAX_SIZE);
+
+					if (maxGb != null)
+					{
+						// Get all the backups from the folder sorted by modification date DESC
+						File folder = dbBackupFile.getParentFile();
+						List<File> backupFiles = Files.list(folder.toPath())
+													  .map(Path::toFile)
+													  .filter(f -> f.getName().endsWith(".zip"))
+													  .sorted((a, b) -> (int) Math.signum(b.lastModified() - a.lastModified()))
+													  .toList();
+
+						// If there is more than 2
+						if (backupFiles.size() > 2)
+						{
+							// Check if they exceed the maximum size limit
+							long maxSize = (long) (maxGb * 1024 * 1024 * 1024);
+							long totalSize = 0;
+							for (File backupFile : backupFiles)
+							{
+								totalSize += backupFile.length();
+
+								// Delete the older backup files once the space limit has been reached
+								if (totalSize > maxSize)
+									backupFile.delete();
+							}
+						}
+					}
+
 
 					backupIsRunning = false;
 					return zip;

@@ -69,14 +69,14 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 			// Handle requested germplasm ids or group ids
 			Set<Integer> germplasmIds = new HashSet<>();
-			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-				germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getyGroupIds())).fetchInto(Integer.class));
-			if (!CollectionUtils.isEmpty(request.getyIds()))
-				germplasmIds.addAll(Arrays.asList(request.getyIds()));
+			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
+				germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getYGroupIds())).fetchInto(Integer.class));
+			if (!CollectionUtils.isEmpty(request.getYIds()))
+				germplasmIds.addAll(Arrays.asList(request.getYIds()));
 			if (!CollectionUtils.isEmpty(germplasmIds))
 				from.where(DSL.field(TrialsDataBaseResource.GERMPLASM_ID, Integer.class).in(germplasmIds));
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-				from.where(DSL.field(TrialsDataBaseResource.TRAIT_ID, Integer.class).in(request.getxIds()));
+			if (!CollectionUtils.isEmpty(request.getXIds()))
+				from.where(DSL.field(TrialsDataBaseResource.TRAIT_ID, Integer.class).in(request.getXIds()));
 
 			// Filter here!
 			where(from, filters);

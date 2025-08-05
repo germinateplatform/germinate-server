@@ -105,10 +105,10 @@ public class DatasetExportResource extends ContextResource
 			dbJob.setDatatype(DataExportJobsDatatype.allelefreq);
 			dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setxIds(request.getxIds())
-					.setxGroupIds(request.getxGroupIds())
-					.setyIds(request.getyIds())
-					.setyGroupIds(request.getyGroupIds())
+					.setXIds(request.getXIds())
+					.setXGroupIds(request.getXGroupIds())
+					.setYIds(request.getYIds())
+					.setYGroupIds(request.getYGroupIds())
 					.setSubsetId(request.getMapId())
 					.setBinningConfig(request.getConfig())
 					.setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
@@ -261,9 +261,9 @@ public class DatasetExportResource extends ContextResource
 				{
 					File file = exportTabFastClimate("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 
-//					String climateIdString = CollectionUtils.join(request.getxIds(), ",");
-//					String germplasmIdString = CollectionUtils.join(request.getyIds(), ",");
-//					String groupIdString = CollectionUtils.join(request.getyGroupIds(), ",");
+//					String climateIdString = CollectionUtils.join(request.getXIds(), ",");
+//					String germplasmIdString = CollectionUtils.join(request.getYIds(), ",");
+//					String groupIdString = CollectionUtils.join(request.getYGroupIds(), ",");
 //
 //					ExportClimateData procedure = new ExportClimateData();
 //					procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
@@ -509,8 +509,8 @@ public class DatasetExportResource extends ContextResource
 																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)).and(TRIALSETUP.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Limit to requested traits
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getxIds()));
+			if (!CollectionUtils.isEmpty(request.getXIds()))
+				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getXIds()));
 
 			// Map to their display name
 			step.forEach(t -> {
@@ -523,8 +523,8 @@ public class DatasetExportResource extends ContextResource
 			});
 
 			// Optional conditions for germplasm restrictions
-			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getyIds()) ? GERMINATEBASE.ID.in(request.getyIds()) : null;
-			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getyGroupIds()) ? GROUPS.ID.in(request.getyGroupIds()) : null;
+			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getYIds()) ? GERMINATEBASE.ID.in(request.getYIds()) : null;
+			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getYGroupIds()) ? GROUPS.ID.in(request.getYGroupIds()) : null;
 
 			// Germplasm lookup
 			Map<Integer, ViewTableTrialGermplasm> germplasm = new LinkedHashMap<>();
@@ -549,7 +549,7 @@ public class DatasetExportResource extends ContextResource
 				fields.add(DSL.select(DSL.jsonArrayAgg(GROUPS.ID))
 							  .from(GROUPMEMBERS)
 							  .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-							  .where(GROUPS.ID.in(request.getyGroupIds()))
+							  .where(GROUPS.ID.in(request.getYGroupIds()))
 							  .and(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 							  .asField("groupIds"));
 			}
@@ -724,8 +724,8 @@ public class DatasetExportResource extends ContextResource
 																	   .whereExists(DSL.selectOne().from(CLIMATEDATA).where(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)).and(CLIMATEDATA.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Limit to requested traits
-			if (!CollectionUtils.isEmpty(request.getxIds()))
-				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getxIds()));
+			if (!CollectionUtils.isEmpty(request.getXIds()))
+				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getXIds()));
 
 			// Map to their display name
 			step.forEach(t -> {
@@ -744,8 +744,8 @@ public class DatasetExportResource extends ContextResource
 			SelectJoinStep<?> lStep = context.select(VIEW_TABLE_LOCATIONS.fields()).from(VIEW_TABLE_LOCATIONS);
 
 			// Optional conditions for germplasm restrictions
-			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getyIds()) ? VIEW_TABLE_LOCATIONS.LOCATION_ID.in(request.getyIds()) : null;
-			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getyGroupIds()) ? GROUPS.ID.in(request.getyGroupIds()) : null;
+			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getYIds()) ? VIEW_TABLE_LOCATIONS.LOCATION_ID.in(request.getYIds()) : null;
+			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getYGroupIds()) ? GROUPS.ID.in(request.getYGroupIds()) : null;
 
 			// Join more tables if groups are requested
 			if (hasGroupIds != null)
@@ -861,12 +861,12 @@ public class DatasetExportResource extends ContextResource
 //			procedure.setDatasetids(CollectionUtils.join(datasetIds, ","));
 //
 //			// Set parameters if present
-//			if (!CollectionUtils.isEmpty(request.getyGroupIds()))
-//				procedure.setGroupids(CollectionUtils.join(request.getyGroupIds(), ","));
-//			if (!CollectionUtils.isEmpty(request.getyIds()))
-//				procedure.setMarkedids(CollectionUtils.join(request.getyIds(), ","));
-//			if (!CollectionUtils.isEmpty(request.getxIds()))
-//				procedure.setPhenotypeids(CollectionUtils.join(request.getxIds(), ","));
+//			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
+//				procedure.setGroupids(CollectionUtils.join(request.getYGroupIds(), ","));
+//			if (!CollectionUtils.isEmpty(request.getYIds()))
+//				procedure.setMarkedids(CollectionUtils.join(request.getYIds(), ","));
+//			if (!CollectionUtils.isEmpty(request.getXIds()))
+//				procedure.setPhenotypeids(CollectionUtils.join(request.getXIds(), ","));
 //
 //			// Execute the procedure
 //			procedure.execute(context.configuration());

@@ -3,8 +3,8 @@ package jhi.germinate.server.resource.settings;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
@@ -122,6 +122,8 @@ public class SettingsResource
 				.setGatekeeperPassword(PropertyWatcher.get(ServerProperty.GATEKEEPER_PASSWORD))
 				.setGatekeeperRegistrationRequiresApproval(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL))
 				.setPdciEnabled(PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED))
+				.setDatabaseBackupEveryDays(PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS))
+				.setDatabaseBackupMaxSizeGB(PropertyWatcher.getDouble(ServerProperty.DATABASE_BACKUP_MAX_SIZE))
 				.setHiddenPagesAutodiscover(PropertyWatcher.getBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER));
 
 		// Get all the base settings as well
@@ -225,6 +227,8 @@ public class SettingsResource
 		PropertyWatcher.set(ServerProperty.GRIDSCORE_URL, config.getGridscoreUrl());
 		PropertyWatcher.set(ServerProperty.HELIUM_URL, config.getHeliumUrl());
 		PropertyWatcher.set(ServerProperty.FIELDHUB_URL, config.getFieldhubUrl());
+		PropertyWatcher.setInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS, config.getDatabaseBackupEveryDays());
+		PropertyWatcher.setDouble(ServerProperty.DATABASE_BACKUP_MAX_SIZE, config.getDatabaseBackupMaxSizeGB());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, config.getHiddenColumns().getGermplasm());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, config.getHiddenColumns().getGermplasmAttributes());
 		PropertyWatcher.setPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, config.getHiddenColumns().getImages());
