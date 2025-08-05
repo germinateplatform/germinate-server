@@ -254,7 +254,7 @@ public class GatekeeperClient
 			{
 				GatekeeperClient.users.clear();
 				allUsers.getData().forEach(u -> {
-					ViewUserDetailsType ut = (ViewUserDetailsType) u;
+					ViewUserDetailsType ut = ViewUserDetailsType.from(u);
 
 					try
 					{
