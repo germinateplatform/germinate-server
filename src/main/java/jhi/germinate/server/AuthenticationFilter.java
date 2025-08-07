@@ -246,7 +246,7 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		}
 	}
 
-	public static void addToken(HttpServletRequest request, HttpServletResponse response, String token, String imageToken, String userType, Integer userId)
+	public static UserDetails addToken(HttpServletRequest request, HttpServletResponse response, String token, String imageToken, String userType, Integer userId)
 	{
 		setCookie(token, request, response);
 		UserDetails details = new UserDetails();
@@ -272,6 +272,8 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		tokenToUserDetails.put(token, details);
 		imageTokenToUserDetails.put(details.imageToken, details);
 		tokenToImageToken.put(token, details.imageToken);
+
+		return details;
 	}
 
 	public static void removeToken(String token, HttpServletRequest request, HttpServletResponse response)

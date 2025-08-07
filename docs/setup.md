@@ -255,9 +255,10 @@ After the build process is complete, the Germinate API will be available at the 
 
 ## Proxy
 
-If Germinate is sitting behind a proxy, further setup may be required. We'll give an example that shows you how to set up Apache to properly work with Germinate.
+If Germinate is sitting behind a proxy, further setup may be required. We'll give an example that shows you how to set up Apache and Nginx to properly work with Germinate.
 
-
+### Germinate running on sub-path of domain
+#### Apache
 ```
 # Allow rewrite rules
 RewriteEngine on
@@ -277,6 +278,45 @@ RewriteRule     ^/germinate$ /germinate/ [R]
 </Location>
 ```
 
+#### Nginx
+
+```
+location /germinate/ {
+  proxy_pass http://internalserver:1234/;
+  proxy_cookie_path / /germinate/;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $remote_addr;
+}
+```
+
 The example above maps `/germinate/` on your public server to an internal server `http://internalserver:1234/`. The other settings make sure that trailing slashes are automatically added and that the original request URL are passed through. The latter is important for links placed in exported data files. As an example, Germinate includes links back to Germinate into Flapjack files so that users of Flapjack can easily see the passport page of a specific germplasm.
+
+### Germinate running as a subdomain
+#### Apache
+
+```
+# Allow rewrite rules
+RewriteEngine on
+# Preserve request URL
+ProxyPreserveHost On
+
+# Define the mapping
+<Location />
+    ProxyPass        http://internalserver:1234/
+    ProxyPassReverse http://internalserver:1234/
+</Location>
+```
+
+#### Nginx
+
+```
+location / {
+  proxy_pass http://internalserver:1234/;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $remote_addr;
+}
+```
+
+**NOTE**: If Germinate is running on a sub-path on the internal machine (for example `http://internalserver:1234/germinate/`) make sure to adjust the mappings and the cookie path adjustments accordingly. 
 
 When you copy the example above, make sure to replace "germinate" with the mapping you want to use publicly and "http://internalserver:1234/" with your internal server.

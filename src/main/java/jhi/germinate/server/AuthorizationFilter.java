@@ -167,25 +167,34 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		}
 	}
 
+	public static void ensureUserDatasetsAvailable(List<String> dsTypes, AuthenticationFilter.UserDetails user)
+	{
+		if (!DATASET_ACCESS_INFO.containsKey(user.getId()))
+		{
+			try
+			{
+				DATASET_ACCESS_INFO.put(user.getId(), toMap(dsTypes, DatasetTableResource.getDatasetsForUser(user, null)));
+			}
+			catch (SQLException e)
+			{
+				Logger.getLogger("").info(e.getMessage());
+			}
+		}
+	}
+
 	public static void refreshUserDatasetInfo()
 	{
 		synchronized (DATASET_ACCESS_INFO)
 		{
 			DATASET_ACCESS_INFO.clear();
+			GatekeeperClient.getUsersFromGatekeeper();
 
 			try
 			{
 				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
 				for (ViewUserDetailsType user : GatekeeperClient.getUsers())
 				{
-					try
-					{
-						DATASET_ACCESS_INFO.put(user.getId(), toMap(dsTypes, DatasetTableResource.getDatasetsForUser(AuthenticationFilter.UserDetails.from(user), null)));
-					}
-					catch (SQLException e)
-					{
-						Logger.getLogger("").info(e.getMessage());
-					}
+					ensureUserDatasetsAvailable(dsTypes, AuthenticationFilter.UserDetails.from(user));
 				}
 
 				DATASET_ACCESS_INFO.put(-1000, toMap(dsTypes, DatasetTableResource.getDatasetsForUser(new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE), null)));
@@ -194,7 +203,6 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			{
 				Logger.getLogger("").info(e.getMessage());
 			}
-
 		}
 	}
 

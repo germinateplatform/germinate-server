@@ -24,6 +24,7 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
+import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 
 import jakarta.ws.rs.*;
@@ -157,7 +158,9 @@ public class TokenResource extends ContextResource
 		{
 			token = UUID.randomUUID().toString();
 			imageToken = UUID.randomUUID().toString();
-			AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, userType, user.getId());
+			AuthenticationFilter.UserDetails details = AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, userType, user.getId());
+
+			AuthorizationFilter.ensureUserDatasetsAvailable(DatasetTableResource.getDatasetTypes(), details);
 		}
 		else
 		{

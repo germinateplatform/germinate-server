@@ -1,6 +1,10 @@
 package jhi.germinate.server.resource.datasets;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
@@ -11,21 +15,17 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.http.*;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.DATASETPERMISSIONS;
 import static jhi.germinate.server.database.codegen.tables.Datasettypes.DATASETTYPES;
-import static jhi.germinate.server.database.codegen.tables.Licenselogs.*;
-import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
+import static jhi.germinate.server.database.codegen.tables.Licenselogs.LICENSELOGS;
+import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.USERGROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Usergroups.USERGROUPS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
 
 /**
  * @author Sebastian Raubach
@@ -36,13 +36,17 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 public class DatasetTableResource extends BaseDatasetTableResource
 {
 	public static List<String> getDatasetTypes()
-			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			return context.selectFrom(DATASETTYPES).fetchInto(Datasettypes.class).stream().map(Datasettypes::getDescription).collect(Collectors.toList());
+		}
+		catch (SQLException e)
+		{
+			Logger.getLogger("").info(e.getMessage());
+			return new ArrayList<>();
 		}
 	}
 
