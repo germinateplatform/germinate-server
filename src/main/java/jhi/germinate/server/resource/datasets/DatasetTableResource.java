@@ -110,7 +110,12 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			{
 				if (checkIfLicenseAccepted)
 				{
-					Set<Integer> licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
+					Set<Integer> licenseIds = new HashSet<>();
+					AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
+					if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
+						licenseIds = context.select(LICENSELOGS.LICENSE_ID).from(LICENSELOGS).where(LICENSELOGS.USER_ID.eq(userDetails.getId())).fetchSet(LICENSELOGS.LICENSE_ID);
+					else
+						licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
 					List<ViewTableDatasets> ds = restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), licenseIds, userDetails);
 
 					return CollectionUtils.isEmpty(ds) ? null : ds.get(0);
@@ -125,109 +130,10 @@ public class DatasetTableResource extends BaseDatasetTableResource
 
 	public static List<ViewTableDatasets> restrictBasedOnLicenseAgreement(List<ViewTableDatasets> datasets, Set<Integer> acceptedLicenses, AuthenticationFilter.UserDetails userDetails)
 	{
-		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
-
-		List<ViewTableDatasets> result = new ArrayList<>(datasets);
-		List<ViewTableDatasets> toRemove = datasets.stream()
-												   .filter(d -> d.getLicenseId() != null)
-												   .filter(d -> {
-													   Integer[] acceptedBy = d.getAcceptedBy();
-
-													   if (mode == AuthenticationMode.NONE)
-													   {
-														   // If there's no authentication, check if the license is in the cookie
-														   if (acceptedLicenses.contains(d.getLicenseId()))
-														   {
-															   acceptedBy = new Integer[1];
-															   acceptedBy[0] = userDetails.getId();
-															   d.setAcceptedBy(acceptedBy);
-															   return false;
-														   }
-														   else
-														   {
-															   d.setAcceptedBy(new Integer[0]);
-															   return true;
-														   }
-													   }
-													   else if (mode == AuthenticationMode.SELECTIVE)
-													   {
-														   if (userDetails.getId() == -1000)
-														   {
-															   // If we offer login, but the user hasn't logged in, check the cookie
-															   if (acceptedLicenses.contains(d.getLicenseId()))
-															   {
-																   acceptedBy = new Integer[1];
-																   acceptedBy[0] = userDetails.getId();
-																   d.setAcceptedBy(acceptedBy);
-																   return false;
-															   }
-															   else
-															   {
-																   d.setAcceptedBy(new Integer[0]);
-																   return true;
-															   }
-														   }
-														   else
-														   {
-
-															   if (!CollectionUtils.isEmpty(acceptedBy))
-															   {
-																   List<Integer> ids = Arrays.asList(acceptedBy);
-																   if (ids.contains(userDetails.getId()))
-																   {
-																	   // If the user accepted the license, set his/her id to indicate this
-																	   acceptedBy = new Integer[1];
-																	   acceptedBy[0] = userDetails.getId();
-																	   d.setAcceptedBy(acceptedBy);
-																	   return false;
-																   }
-																   else
-																   {
-																	   // Else, clear this information
-																	   d.setAcceptedBy(new Integer[0]);
-																	   return true;
-																   }
-															   }
-															   else
-															   {
-																   // Else, clear this information
-																   d.setAcceptedBy(new Integer[0]);
-																   return true;
-															   }
-														   }
-													   }
-													   else
-													   {
-														   if (!CollectionUtils.isEmpty(acceptedBy))
-														   {
-															   List<Integer> ids = Arrays.asList(acceptedBy);
-															   if (ids.contains(userDetails.getId()))
-															   {
-																   // If the user accepted the license, set his/her id to indicate this
-																   acceptedBy = new Integer[1];
-																   acceptedBy[0] = userDetails.getId();
-																   d.setAcceptedBy(acceptedBy);
-																   return false;
-															   }
-															   else
-															   {
-																   // Else, clear this information
-																   d.setAcceptedBy(new Integer[0]);
-																   return true;
-															   }
-														   }
-														   else
-														   {
-															   // Else, clear this information
-															   d.setAcceptedBy(new Integer[0]);
-															   return true;
-														   }
-													   }
-												   })
-												   .collect(Collectors.toList());
-
-		result.removeAll(toRemove);
-		return result;
+		return new ArrayList<>(datasets.stream()
+									   .filter(ds -> ds.getLicenseId() == null || acceptedLicenses.contains(ds.getLicenseId()))
+									   .map(ds -> ds.setAcceptedBy(new Integer[]{userDetails.getId()}))
+									   .toList());
 	}
 
 	@POST

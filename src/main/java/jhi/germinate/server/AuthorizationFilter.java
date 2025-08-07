@@ -7,17 +7,20 @@ import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
 import jhi.germinate.resource.ViewUserDetailsType;
-import jhi.germinate.resource.enums.UserType;
+import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+import org.jooq.DSLContext;
 
 import java.io.IOException;
 import java.lang.reflect.*;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+
+import static jhi.germinate.server.database.codegen.tables.Licenselogs.LICENSELOGS;
 
 /**
  * This filter makes sure that the {@link Secured} resources are only accessible by users with the correct user type.
@@ -117,7 +120,27 @@ public class AuthorizationFilter implements ContainerRequestFilter
 
 		if (onlyLicenseAccepted)
 		{
-			Set<Integer> licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
+			AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
+
+			Set<Integer> licenseIds = new HashSet<>();
+			if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
+			{
+				try (Connection conn = Database.getConnection())
+				{
+					DSLContext context = Database.getContext(conn);
+					licenseIds = context.select(LICENSELOGS.LICENSE_ID).from(LICENSELOGS).where(LICENSELOGS.USER_ID.eq(userDetails.getId())).fetchSet(LICENSELOGS.LICENSE_ID);
+				}
+				catch (SQLException e)
+				{
+					e.printStackTrace();
+					Logger.getLogger("").severe(e.getMessage());
+				}
+			}
+			else
+			{
+				licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
+			}
+
 			ds = DatasetTableResource.restrictBasedOnLicenseAgreement(ds, licenseIds, userDetails);
 		}
 
@@ -192,11 +215,6 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			try
 			{
 				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
-				for (ViewUserDetailsType user : GatekeeperClient.getUsers())
-				{
-					ensureUserDatasetsAvailable(dsTypes, AuthenticationFilter.UserDetails.from(user));
-				}
-
 				DATASET_ACCESS_INFO.put(-1000, toMap(dsTypes, DatasetTableResource.getDatasetsForUser(new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE), null)));
 			}
 			catch (SQLException e)

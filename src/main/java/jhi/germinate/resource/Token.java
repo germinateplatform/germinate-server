@@ -27,6 +27,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString
 public class Token
 {
 	private String  token;

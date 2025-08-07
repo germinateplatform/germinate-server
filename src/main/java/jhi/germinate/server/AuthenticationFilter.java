@@ -2,14 +2,12 @@ package jhi.germinate.server;
 
 import jakarta.annotation.Priority;
 import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
-import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
@@ -44,14 +42,15 @@ public class AuthenticationFilter implements ContainerRequestFilter
 	@Context
 	private HttpServletResponse response;
 	@Context
-	ServletContext servletContext;
-	@Context
-	private ResourceInfo resourceInfo;
+	private ResourceInfo        resourceInfo;
 
-	public static void updateAcceptedDatasets(HttpServletRequest req, HttpServletResponse resp, Integer licenseId)
+	public static void updateAcceptedDatasets(HttpServletRequest req, HttpServletResponse resp, Integer licenseId, boolean add)
 	{
 		Set<Integer> ids = getAcceptedLicenses(req);
-		ids.add(licenseId);
+		if (add)
+			ids.add(licenseId);
+		else
+			ids.remove(licenseId);
 
 		Cookie cookie = new Cookie("accepted-licenses", CollectionUtils.join(ids, "|"));
 		cookie.setPath(getContextPath(req));
