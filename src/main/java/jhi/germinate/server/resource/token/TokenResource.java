@@ -160,7 +160,7 @@ public class TokenResource extends ContextResource
 			imageToken = UUID.randomUUID().toString();
 			AuthenticationFilter.UserDetails details = AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, userType, user.getId());
 
-			AuthorizationFilter.ensureUserDatasetsAvailable(DatasetTableResource.getDatasetTypes(), details);
+			AuthorizationFilter.ensureUserDatasetsAvailable(req, details);
 		}
 		else
 		{

@@ -41,15 +41,19 @@ public class LicenseDecisionResource extends ContextResource
 			{
 				DSLContext context = Database.getContext(conn);
 
-				return Response.ok(context.deleteFrom(LICENSELOGS)
-											.where(LICENSELOGS.LICENSE_ID.eq(licenseId))
-											.and(LICENSELOGS.USER_ID.eq(userDetails.getId()))
-											.execute() > 0).build();
+				int result = context.deleteFrom(LICENSELOGS)
+									.where(LICENSELOGS.LICENSE_ID.eq(licenseId))
+									.and(LICENSELOGS.USER_ID.eq(userDetails.getId()))
+									.execute();
+
+				AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
+				return Response.ok(result > 0).build();
 			}
 		}
 		else
 		{
 			AuthenticationFilter.updateAcceptedDatasets(req, resp, licenseId, false);
+			AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
 			return Response.ok(true).build();
 		}
 	}
@@ -84,6 +88,8 @@ public class LicenseDecisionResource extends ContextResource
 						   .set(LICENSELOGS.USER_ID, userDetails.getId())
 						   .execute();
 
+					AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
+
 					return Response.ok(true).build();
 				}
 				else
@@ -95,6 +101,7 @@ public class LicenseDecisionResource extends ContextResource
 		else
 		{
 			AuthenticationFilter.updateAcceptedDatasets(req, resp, licenseId, true);
+			AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
 			return Response.ok(true).build();
 		}
 	}
