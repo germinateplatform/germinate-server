@@ -1,11 +1,14 @@
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import jakarta.ws.rs.HttpMethod;
 import jakarta.ws.rs.client.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.Token;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.glassfish.jersey.apache5.connector.Apache5ConnectorProvider;
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.jooq.tools.StringUtils;
 import org.jooq.types.ULong;
@@ -13,18 +16,18 @@ import org.jooq.types.ULong;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.logging.*;
 
 @Builder
 public class RequestBuilder<T, U>
 {
-	protected static String             URL = "http://localhost:8180/germinate-demo-api/v4.9.0/api/";
-	protected static Client             client;
-	protected static Invocation.Builder postBuilder;
+	protected static String URL = "http://localhost:8180/germinate-demo-api/v4.9.0/api/";
+	protected static Client client;
 
 	@Builder.Default
-	private String                 url       = URL;
+	private String                 url        = URL;
 	@Builder.Default
-	private String                 mediaType = MediaType.APPLICATION_JSON;
+	private String[]               mediaTypes = {MediaType.APPLICATION_JSON};
 	private String                 path;
 	private Class<T>               clazz;
 	private GenericType<T>         gt;
@@ -33,11 +36,11 @@ public class RequestBuilder<T, U>
 	private Map<String, String>    params;
 	private Token                  token;
 
-	protected static void setUpClient(String url)
+	protected static void resetClient()
 	{
-		String finalUrl = StringUtils.isEmpty(url) ? URL : url;
-		client = ClientBuilder.newBuilder()
-							  .build();
+		ClientConfig config = new ClientConfig();
+		config.connectorProvider(new Apache5ConnectorProvider());
+		client = ClientBuilder.newClient(config);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXX"));
@@ -47,9 +50,7 @@ public class RequestBuilder<T, U>
 		// Create a Jackson Provider
 		JacksonJaxbJsonProvider jsonProvider = new JacksonJaxbJsonProvider(objectMapper, JacksonJaxbJsonProvider.DEFAULT_ANNOTATIONS);
 		client.register(jsonProvider);
-
-		postBuilder = client.target(finalUrl)
-							.request(MediaType.APPLICATION_JSON);
+//		client.register(new LoggingFilter());
 	}
 
 	private ApiResult<T> process(Response response)
@@ -59,7 +60,7 @@ public class RequestBuilder<T, U>
 
 		return new ApiResult<T>().setData(result)
 								 .setStatus(code)
-								 .setReason(response.getStatusInfo().getReasonPhrase())
+								 .setHeaders(response.getStringHeaders())
 								 .setResponseContent(result == null ? response.readEntity(String.class) : null)
 								 .setCookies(response.getCookies());
 	}
@@ -68,7 +69,7 @@ public class RequestBuilder<T, U>
 	{
 		return process(addToken(addCookies(addParams(client.target(url)
 														   .path(path))
-				.request(mediaType)))
+				.request(mediaTypes)))
 				.delete());
 	}
 
@@ -76,8 +77,16 @@ public class RequestBuilder<T, U>
 	{
 		return process(addToken(addCookies(addParams(client.target(url)
 														   .path(path))
-				.request(mediaType)))
+				.request(mediaTypes)))
 				.get());
+	}
+
+	public ApiResult<T> patch()
+	{
+		return process(addToken(addCookies(addParams(client.target(url)
+														   .path(path))
+				.request(mediaTypes)))
+				.method(HttpMethod.PATCH, Entity.entity(body, MediaType.APPLICATION_JSON)));
 	}
 
 	private Invocation.Builder addCookies(Invocation.Builder request)
@@ -114,7 +123,7 @@ public class RequestBuilder<T, U>
 	{
 		return process(addToken(addCookies(addParams(client.target(url)
 														   .path(path))
-				.request(mediaType)))
+				.request(mediaTypes)))
 				.post(Entity.entity(body, MediaType.APPLICATION_JSON)));
 	}
 
@@ -139,10 +148,23 @@ public class RequestBuilder<T, U>
 	@Accessors(chain = true)
 	public static class ApiResult<T>
 	{
-		public T                      data;
-		public int                    status;
-		public String                 reason;
-		public String                 responseContent;
-		public Map<String, NewCookie> cookies;
+		public T                              data;
+		public int                            status;
+		public String                         responseContent;
+		public Map<String, NewCookie>         cookies;
+		public MultivaluedMap<String, String> headers;
+	}
+
+	public static class LoggingFilter implements ClientRequestFilter
+	{
+		private static final Logger LOG = Logger.getLogger(LoggingFilter.class.getName());
+
+		@Override
+		public void filter(ClientRequestContext requestContext)
+				throws IOException
+		{
+			LOG.log(Level.INFO, "PATH: " + requestContext.getUri().toString() + "\n" + "COOKIES: " + requestContext.getCookies().toString());
+
+		}
 	}
 }

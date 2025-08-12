@@ -139,7 +139,7 @@ public class PropertyWatcher
 			GatekeeperClient.init(get(ServerProperty.GATEKEEPER_URL), get(ServerProperty.GATEKEEPER_USERNAME), get(ServerProperty.GATEKEEPER_PASSWORD));
 			GenesysClient.init(get(ServerProperty.GENESYS_URL), get(ServerProperty.GENESYS_CLIENT_ID), get(ServerProperty.GENESYS_CLIENT_SECRET));
 			TokenResource.SALT = getInteger(ServerProperty.BCRYPT_SALT);
-			AuthorizationFilter.refreshUserDatasetInfo();
+			AuthorizationFilter.refreshUserDatasetInfo(false);
 		}
 	}
 

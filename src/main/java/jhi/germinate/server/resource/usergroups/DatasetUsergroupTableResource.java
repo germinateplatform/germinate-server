@@ -67,7 +67,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 							  .execute();
 			}
 
-			AuthorizationFilter.refreshUserDatasetInfo();
+			AuthorizationFilter.refreshUserDatasetInfo(true);
 			return res > 0;
 		}
 	}

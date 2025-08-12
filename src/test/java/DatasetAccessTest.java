@@ -10,10 +10,14 @@ import java.util.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DatasetAccessTest
 {
-	@BeforeAll
-	static void setUp()
+	private Map<String, NewCookie> cookies = new HashMap<>();
+
+	@BeforeEach
+	void resetClient()
 	{
-		RequestBuilder.setUpClient(null);
+		// We're using @BeforeEach here to make sure the client is properly reset between tests.
+		// When we weren't doing this, there were remnants of cookies etc that couldn't be removed otherwise.
+		RequestBuilder.resetClient();
 	}
 
 	/**
@@ -48,7 +52,7 @@ public class DatasetAccessTest
 		SubsettedDatasetRequest req = new SubsettedDatasetRequest().setDatasetIds(new Integer[]{4});
 		RequestBuilder.RequestBuilderBuilder<String, SubsettedDatasetRequest> builder = RequestBuilder.<String, SubsettedDatasetRequest>builder()
 																									  .path("dataset/export/trial")
-																									  .mediaType(MediaType.TEXT_PLAIN)
+																									  .mediaTypes(new String[]{MediaType.TEXT_PLAIN})
 																									  .clazz(String.class)
 																									  .body(req);
 		RequestBuilder.ApiResult<String> det = builder.build()
@@ -57,24 +61,7 @@ public class DatasetAccessTest
 		// Fails
 		Assertions.assertEquals(404, det.status);
 
-		// Now accept the license
-		RequestBuilder.ApiResult<Boolean> lar = RequestBuilder.<Boolean, Void>builder()
-															  .path("license/34/accept")
-															  .clazz(Boolean.class)
-															  .build()
-															  .get();
-
-		// Succeeds
-		Assertions.assertEquals(200, lar.status);
-		Assertions.assertEquals(true, lar.data);
-
-		// Get the cookie response (set by server for non-auth sessions) and check them
-		Map<String, NewCookie> cookies = lar.cookies;
-		Assertions.assertNotNull(cookies);
-		Assertions.assertEquals(1, cookies.size());
-		Assertions.assertEquals("accepted-licenses", cookies.get("accepted-licenses").getName());
-		Assertions.assertEquals("34", cookies.get("accepted-licenses").getValue());
-		Assertions.assertTrue(RequestBuilder.URL.contains(cookies.get("accepted-licenses").getPath()));
+		acceptLicense();
 
 		// Now, request the same dataset again, just with the cookie set
 		det = builder.cookies(cookies)
@@ -92,6 +79,8 @@ public class DatasetAccessTest
 		// Now let's try to do the same with BrAPI.
 		Map<String, String> params = new HashMap<>();
 		params.put("studyDbId", "4");
+		params.put("page", "0");
+		params.put("pageSize", "2000");
 		RequestBuilder.RequestBuilderBuilder<BaseResult<TableResult<List<String>>>, SubsettedDatasetRequest> builder = RequestBuilder.<BaseResult<TableResult<List<String>>>, SubsettedDatasetRequest>builder()
 																																	 .path("brapi/v2/observations/table")
 																																	 .params(params)
@@ -106,6 +95,20 @@ public class DatasetAccessTest
 		Assertions.assertEquals(200, ot.status);
 		Assertions.assertEquals(0, ot.data.getResult().getData().size());
 
+		acceptLicense();
+
+		// Now, request the same dataset again, just with the cookie set
+		ot = builder.cookies(cookies)
+					.build()
+					.get();
+
+		// Succeeds
+		Assertions.assertEquals(200, ot.status);
+		Assertions.assertEquals(2000, ot.data.getResult().getData().size());
+	}
+
+	private void acceptLicense()
+	{
 		// Now accept the license
 		RequestBuilder.ApiResult<Boolean> lar = RequestBuilder.<Boolean, Void>builder()
 															  .path("license/34/accept")
@@ -118,21 +121,12 @@ public class DatasetAccessTest
 		Assertions.assertEquals(true, lar.data);
 
 		// Get the cookie response (set by server for non-auth sessions) and check them
-		Map<String, NewCookie> cookies = lar.cookies;
+		cookies = lar.cookies;
 		Assertions.assertNotNull(cookies);
 		Assertions.assertEquals(1, cookies.size());
 		Assertions.assertEquals("accepted-licenses", cookies.get("accepted-licenses").getName());
 		Assertions.assertEquals("34", cookies.get("accepted-licenses").getValue());
 		Assertions.assertTrue(RequestBuilder.URL.contains(cookies.get("accepted-licenses").getPath()));
-
-		// Now, request the same dataset again, just with the cookie set
-		ot = builder.cookies(cookies)
-					.build()
-					.get();
-
-		// Succeeds
-		Assertions.assertEquals(200, ot.status);
-		Assertions.assertNotEquals(0, ot.data.getResult().getData().size());
 	}
 
 	@AfterAll

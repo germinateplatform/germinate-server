@@ -30,8 +30,8 @@ import static jhi.germinate.server.database.codegen.tables.Licenselogs.LICENSELO
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter
 {
-	private static final ConcurrentHashMap<Integer, Map<String, List<ViewTableDatasets>>> DATASET_ACCESS_INFO                  = new ConcurrentHashMap<>();
-	private static final ConcurrentHashMap<Integer, Map<String, List<ViewTableDatasets>>> DATASET_ACCESS_LICENSE_ACCEPTED_INFO = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<AuthenticationFilter.UserDetails, Map<String, List<ViewTableDatasets>>> DATASET_ACCESS_INFO                  = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<AuthenticationFilter.UserDetails, Map<String, List<ViewTableDatasets>>> DATASET_ACCESS_LICENSE_ACCEPTED_INFO = new ConcurrentHashMap<>();
 
 	@Context
 	private ResourceInfo resourceInfo;
@@ -106,7 +106,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			if (!CollectionUtils.isEmpty(allowedRoles))
 			{
 				// TODO: implement
-				if (allowedRoles.stream().filter(userDetails::isAtLeast).count() < 1)
+				if (allowedRoles.stream().noneMatch(userDetails::isAtLeast))
 				{
 					throw new IOException();
 				}
@@ -125,7 +125,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
 			{
 				// If we're authenticated, then use our cached info
-				Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_LICENSE_ACCEPTED_INFO.get(userDetails.getId()), new HashMap<>());
+				Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_LICENSE_ACCEPTED_INFO.get(userDetails), new HashMap<>());
 				ds = Objects.requireNonNullElse(map.get(dsType), new ArrayList<>());
 				// Get the license ids from the datasets for which we already know the user has access to
 				licenseIds = ds.stream().map(ViewTableDatasets::getLicenseId).filter(Objects::nonNull).collect(Collectors.toSet());
@@ -134,7 +134,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			else
 			{
 				// Else, we're not authenticated, hence need to rely on all datasets filtered down by cookie value
-				Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_INFO.get(userDetails.getId()), new HashMap<>());
+				Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_INFO.get(userDetails), new HashMap<>());
 				// Get the license ids from the cookie
 				licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
 				ds = DatasetTableResource.restrictBasedOnLicenseAgreement(Objects.requireNonNullElse(map.get(dsType), new ArrayList<>()), licenseIds, userDetails);
@@ -143,7 +143,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		else
 		{
 			// No license checking required, just return all datasets that are visible
-			Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_INFO.get(userDetails.getId()), new HashMap<>());
+			Map<String, List<ViewTableDatasets>> map = Objects.requireNonNullElse(DATASET_ACCESS_INFO.get(userDetails), new HashMap<>());
 			ds = Objects.requireNonNullElse(map.get(dsType), new ArrayList<>());
 		}
 
@@ -199,7 +199,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		{
 			List<String> dsTypes = DatasetTableResource.getDatasetTypes();
 			List<ViewTableDatasets> ds = DatasetTableResource.getDatasetsForUser(user, null);
-			DATASET_ACCESS_INFO.put(user.getId(), toMap(dsTypes, ds));
+			DATASET_ACCESS_INFO.put(user, toMap(dsTypes, ds));
 
 			AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -223,7 +223,7 @@ public class AuthorizationFilter implements ContainerRequestFilter
 			}
 
 			ds = DatasetTableResource.restrictBasedOnLicenseAgreement(ds, licenseIds, user);
-			DATASET_ACCESS_LICENSE_ACCEPTED_INFO.put(user.getId(), toMap(dsTypes, ds));
+			DATASET_ACCESS_LICENSE_ACCEPTED_INFO.put(user, toMap(dsTypes, ds));
 		}
 		catch (SQLException e)
 		{
@@ -231,16 +231,27 @@ public class AuthorizationFilter implements ContainerRequestFilter
 		}
 	}
 
-	public static void refreshUserDatasetInfo()
+	public static void refreshUserDatasetInfo(boolean force)
 	{
 		synchronized (DATASET_ACCESS_INFO)
 		{
+			Set<AuthenticationFilter.UserDetails> users = new HashSet<>();
+			users.addAll(DATASET_ACCESS_INFO.keySet());
+			users.addAll(DATASET_ACCESS_LICENSE_ACCEPTED_INFO.keySet());
+
 			DATASET_ACCESS_INFO.clear();
 			DATASET_ACCESS_LICENSE_ACCEPTED_INFO.clear();
 			try
 			{
 				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
-				DATASET_ACCESS_INFO.put(-1000, toMap(dsTypes, DatasetTableResource.getDatasetsForUser(new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE), null)));
+				AuthenticationFilter.UserDetails ud = new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE);
+				DATASET_ACCESS_INFO.put(ud, toMap(dsTypes, DatasetTableResource.getDatasetsForUser(ud, null)));
+
+				if (force)
+				{
+					for (AuthenticationFilter.UserDetails user : users)
+						ensureUserDatasetsAvailable(null, user);
+				}
 			}
 			catch (SQLException e)
 			{

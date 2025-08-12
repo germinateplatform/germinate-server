@@ -1,13 +1,9 @@
-import de.poiu.apron.PropertyFile;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
 import org.junit.jupiter.api.*;
 
-import java.io.*;
-import java.net.URL;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TokenTest extends PropertyTest
@@ -16,7 +12,7 @@ public class TokenTest extends PropertyTest
 	static void setUp()
 	{
 		loadProperties();
-		RequestBuilder.setUpClient(null);
+		RequestBuilder.resetClient();
 	}
 
 	/**
@@ -44,7 +40,7 @@ public class TokenTest extends PropertyTest
 		Assertions.assertTrue(resp.responseContent.contains(StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name()));
 
 		// Update the username to the correct one, but leave it on the old/wrong password.
-		details.setUsername(properties.get("germinate.username"));
+		details.setUsername(properties.get("germinate.regular.username"));
 
 		resp = builder.body(details)
 					  .build()
@@ -55,7 +51,7 @@ public class TokenTest extends PropertyTest
 		Assertions.assertTrue(resp.responseContent.contains(StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name()));
 
 		// Now use the correct password
-		details.setPassword(properties.get("germinate.password"));
+		details.setPassword(properties.get("germinate.regular.password"));
 
 		resp = builder.body(details)
 					  .build()

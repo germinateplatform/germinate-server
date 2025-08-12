@@ -495,5 +495,19 @@ public class AuthenticationFilter implements ContainerRequestFilter
 		{
 			return Integer.toString(id);
 		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (o == null || getClass() != o.getClass()) return false;
+			UserDetails that = (UserDetails) o;
+			return Objects.equals(id, that.id);
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return Objects.hashCode(id);
+		}
 	}
 }

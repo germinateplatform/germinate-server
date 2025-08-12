@@ -214,15 +214,15 @@ public class DataImportRunner
 			args.add(importerClassArg);
 		// Add database parameters
 		args.add("-dbserver");
-		args.add(StringUtils.quoteOrEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_SERVER)));
+		args.add(StringUtils.orEmptyQuotes( PropertyWatcher.get(ServerProperty.DATABASE_SERVER)));
 		args.add("-dbname");
-		args.add(StringUtils.quoteOrEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_NAME)));
+		args.add(StringUtils.orEmptyQuotes( PropertyWatcher.get(ServerProperty.DATABASE_NAME)));
 		args.add("-dbport");
-		args.add(StringUtils.quoteOrEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PORT)));
+		args.add(StringUtils.orEmptyQuotes( PropertyWatcher.get(ServerProperty.DATABASE_PORT)));
 		args.add("-dbuser");
-		args.add(StringUtils.quoteOrEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_USERNAME)));
+		args.add(StringUtils.orEmptyQuotes( PropertyWatcher.get(ServerProperty.DATABASE_USERNAME)));
 		args.add("-dbpass");
-		args.add(StringUtils.quoteOrEmptyQuotes(PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD)));
+		args.add(StringUtils.orEmptyQuotes( PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD)));
 		// Add the id
 		args.add("-jid");
 		args.add(jobDbId.toString());

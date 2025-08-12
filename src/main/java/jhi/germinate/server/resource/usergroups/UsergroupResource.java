@@ -120,7 +120,7 @@ public class UsergroupResource extends ContextResource
 			{
 				int res = dbGroup.delete();
 
-				AuthorizationFilter.refreshUserDatasetInfo();
+				AuthorizationFilter.refreshUserDatasetInfo(true);
 
 				return res == 1;
 			}
@@ -165,7 +165,7 @@ public class UsergroupResource extends ContextResource
 							  .execute();
 			}
 
-			AuthorizationFilter.refreshUserDatasetInfo();
+			AuthorizationFilter.refreshUserDatasetInfo(true);
 
 			return res > 0;
 		}

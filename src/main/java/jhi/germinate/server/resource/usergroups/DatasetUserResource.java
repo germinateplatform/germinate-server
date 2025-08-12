@@ -64,7 +64,7 @@ public class DatasetUserResource extends ContextResource
 							  .execute();
 			}
 
-			AuthorizationFilter.refreshUserDatasetInfo();
+			AuthorizationFilter.refreshUserDatasetInfo(true);
 			return res > 0;
 		}
 	}
