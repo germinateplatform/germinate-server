@@ -125,7 +125,7 @@ public class HiddenPagesAutodiscoverTask implements Runnable
 			if (projects < 1)
 			{
 				hiddenPages.add("projects");
-				hiddenPages.add("projectDetails");
+				hiddenPages.add("project-details");
 			}
 
 			List<Datasets> datasets = context.selectFrom(DATASETS).fetchInto(Datasets.class);

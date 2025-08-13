@@ -42,11 +42,11 @@ public class SettingsResource
 			return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
 		else
 		{
-			List<String> hiddenPages = new ArrayList<>();
+			Set<String> hiddenPages = new HashSet<>();
 
 			// Add any auto-discovered pages
 			if (AUTO_DISCOVERY_HIDDEN_PAGES != null)
-				hiddenPages = new ArrayList<>(AUTO_DISCOVERY_HIDDEN_PAGES);
+				hiddenPages = new HashSet<>(AUTO_DISCOVERY_HIDDEN_PAGES);
 
 			// Then add any that the user specifically requested
 			hiddenPages.addAll(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class));
@@ -58,7 +58,7 @@ public class SettingsResource
 					.setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
 					.setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
 					.setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
-					.setHiddenPages(hiddenPages)
+					.setHiddenPages(new ArrayList<>(hiddenPages))
 					.setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
 					.setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
 					.setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
