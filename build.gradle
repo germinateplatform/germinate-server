@@ -21,8 +21,8 @@ apply plugin: 'com.bmuschko.cargo-base'
 
 compileJava.options.encoding = 'UTF-8'
 
-group 'uk.ac.hutton.germinate'
-version '4.9.0'
+group = 'uk.ac.hutton.germinate'
+version = '4.9.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -30,11 +30,11 @@ java {
 
 repositories {
     maven {
-        url 'https://repo.osgeo.org/repository/release/'
+        url = 'https://repo.osgeo.org/repository/release/'
     }
     mavenCentral()
     maven {
-        url 'https://maven.scijava.org/content/repositories/public/'
+        url = 'https://maven.scijava.org/content/repositories/public/'
     }
 }
 
@@ -110,7 +110,7 @@ task generateManpageAsciiDoc(type: JavaExec) {
     group = "Documentation"
     description = "Generate AsciiDoc manpage"
     classpath(configurations.compileClasspath, configurations.annotationProcessor, sourceSets.main.runtimeClasspath)
-    main 'picocli.codegen.docgen.manpage.ManPageGenerator'
+    mainClass = 'picocli.codegen.docgen.manpage.ManPageGenerator'
     args "jhi.germinate.GerminateCommand", "--outdir=${project.layout.buildDirectory.get()}/generated-picocli-docs", "-v", "-f"
 }
 
