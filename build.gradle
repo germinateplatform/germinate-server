@@ -105,7 +105,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
-task generateManpageAsciiDoc(type: JavaExec) {
+tasks.register('generateManpageAsciiDoc', JavaExec) {
     dependsOn(classes)
     group = "Documentation"
     description = "Generate AsciiDoc manpage"
@@ -126,7 +126,9 @@ asciidoctor {
 }
 
 // Generate a .jar file for the Germinate importer project
-task jarForImporter (type: Jar, dependsOn: classes) {
+tasks.register('jarForImporter', Jar) {
+    dependsOn classes
+
     from sourceSets.main.output
     archiveFileName = "germinate-core-${project.version}.jar"
     includeEmptyDirs = false
@@ -151,7 +153,9 @@ task jarForImporter (type: Jar, dependsOn: classes) {
 }
 
 // Generate a .jar file that other applications can use to communicate with the API
-task jarClient (type: Jar, dependsOn: classes) {
+tasks.register('jarClient', Jar) {
+    dependsOn classes
+
     from sourceSets.main.output
     archiveFileName = "germinate-client-${project.version}.jar"
     includeEmptyDirs = false
@@ -203,14 +207,14 @@ war {
 }
 
 // Deploy the created .war file to Tomcat
-task deployTomcat (type: CargoRedeployRemote) {
-    dependsOn = [war]
-    containerId = project.findProperty('tomcat.manager.version') ?: "tomcat10x"
-    protocol = project.findProperty('tomcat.manager.protocol') ?: "http"
-    hostname = project.findProperty('tomcat.manager.hostname') ?: "localhost"
-    port = (project.findProperty('tomcat.manager.port') ?: "8080") as Integer
-    username = project.findProperty('tomcat.manager.username') ?: ""
-    password = project.findProperty('tomcat.manager.password') ?: ""
+tasks.register('deployTomcat', CargoRedeployRemote) {
+    containerId = project.findProperty('tomcat.manager.version') ?: 'tomcat10x'
+    port = (project.findProperty('tomcat.manager.port') ?: '8080') as Integer
+    protocol = project.findProperty('tomcat.manager.protocol') ?: 'http'
+    hostname = project.findProperty('tomcat.manager.hostname') ?: 'localhost'
+    username = project.findProperty('tomcat.manager.username') ?: ''
+    password = project.findProperty('tomcat.manager.password') ?: ''
+
     deployables = [new Deployable(files: project.files([war.archiveFile]), context: "${project.'project.name'}/v${project.version}")]
 }
 
@@ -219,5 +223,6 @@ test {
 }
 
 // Automatically build both jars on every build
-rootProject.tasks.getByName('build').dependsOn jarClient
-rootProject.tasks.getByName('build').dependsOn jarForImporter
+rootProject.tasks.named('deployTomcat').get().dependsOn war
+rootProject.tasks.named('build').get().dependsOn jarClient
+rootProject.tasks.named('build').get().dependsOn jarForImporter
