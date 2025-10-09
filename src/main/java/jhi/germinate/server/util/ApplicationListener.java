@@ -50,7 +50,8 @@ public class ApplicationListener implements ServletContextListener
 			e.printStackTrace();
 		}
 
-		PropertyWatcher.initialize();
+		File propertiesFile = PropertyWatcher.initialize();
+		DatabasePermissionCacheWatcher.initialize(propertiesFile.getParentFile());
 
 		List<LocaleConfig> locales = ensureClientLocaleFileExists();
 		ensureCarouselFileExists(locales);
@@ -216,6 +217,7 @@ public class ApplicationListener implements ServletContextListener
 	public void contextDestroyed(ServletContextEvent servletContextEvent)
 	{
 		PropertyWatcher.stopFileWatcher();
+		DatabasePermissionCacheWatcher.stopFileWatcher();
 		GatekeeperClient.close();
 
 		try

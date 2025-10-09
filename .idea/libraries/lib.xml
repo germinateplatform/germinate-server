@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/scri-commons.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/flapjack.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/germinate-brapi-4.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/brapi-server-2.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/germinate-importer-4.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/gatekeeper-client.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/germinate-codegen-4.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/oddjob.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

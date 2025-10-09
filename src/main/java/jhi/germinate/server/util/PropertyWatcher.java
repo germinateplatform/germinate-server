@@ -47,7 +47,7 @@ public class PropertyWatcher
 	/**
 	 * Attempts to reads the properties file and then checks the required properties.
 	 */
-	public static void initialize()
+	public static File initialize()
 	{
 		/* Start to listen for file changes */
 		try
@@ -102,6 +102,8 @@ public class PropertyWatcher
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+
+		return config;
 	}
 
 	public static boolean storeProperties()

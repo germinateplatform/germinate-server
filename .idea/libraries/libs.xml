@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/libs/germinate-core-4.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/libs/germinate-client-4.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/libs/germinate-4.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
