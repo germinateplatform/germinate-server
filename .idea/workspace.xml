@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="583ec2cf-da61-44a6-af3b-08f9e3d9df85" name="Changes" comment="">
+    <list default="true" id="583ec2cf-da61-44a6-af3b-08f9e3d9df85" name="Changes" comment="- CHG: Blah">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/germinate-importer-4.9.1.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +115,7 @@
       <recent name="C:\Users\sr41756\workspaces\germinate-server\lib" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.germinate-server [deployTomcat]">
+  <component name="RunManager" selected="Gradle.germinate-server [build]">
     <configuration name="germinate-server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -187,9 +189,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.germinate-server [deployTomcat]" />
-        <item itemvalue="Gradle.germinate-server [clean]" />
         <item itemvalue="Gradle.germinate-server [build]" />
+        <item itemvalue="Gradle.germinate-server [clean]" />
+        <item itemvalue="Gradle.germinate-server [deployTomcat]" />
       </list>
     </recent_temporary>
   </component>
@@ -208,6 +210,21 @@
       <option name="presentableId" value="Default" />
       <updated>1759995954037</updated>
     </task>
+    <task id="LOCAL-00001" summary="- CHG: Blah">
+      <option name="closed" value="true" />
+      <created>1760099619790</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760099619790</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="- CHG: Blah" />
+    <option name="LAST_COMMIT_MESSAGE" value="- CHG: Blah" />
   </component>
 </project>
