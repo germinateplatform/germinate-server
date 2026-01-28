@@ -1,6 +1,6 @@
 package jhi.germinate.server.resource.traits;
 
-import jhi.germinate.resource.SubsettedDatasetRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportTraitCategorical;
 import jhi.germinate.server.resource.*;
@@ -24,10 +24,10 @@ public class TraitCategoricalResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postJson(SubsettedDatasetRequest request)
+	public Response postJson(TrialsExportDatasetRequest request)
 		throws IOException, SQLException
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getXIds()))
+		if (request == null || CollectionUtils.isEmpty(request.getTraitIds()))
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return null;
@@ -37,15 +37,15 @@ public class TraitCategoricalResource extends ContextResource
 
 		try
 		{
-			File file = ResourceUtils.createTempFile("traits-" + CollectionUtils.join(request.getXIds(), "-"), ".tsv");
+			File file = ResourceUtils.createTempFile("traits-" + CollectionUtils.join(request.getTraitIds(), "-"), ".tsv");
 
 			try (Connection conn = Database.getConnection();
 				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				DSLContext context = Database.getContext(conn);
-				String traitIdString = CollectionUtils.join(request.getXIds(), ",");
-				String germplasmIdString = CollectionUtils.join(request.getYIds(), ",");
-				String groupIdString = CollectionUtils.join(request.getYGroupIds(), ",");
+				String traitIdString = CollectionUtils.join(request.getTraitIds(), ",");
+				String germplasmIdString = CollectionUtils.join(request.getGermplasmGroupIds(), ",");
+				String groupIdString = CollectionUtils.join(request.getGermplasmGroupIds(), ",");
 
 				if (CollectionUtils.isEmpty(datasetIds))
 				{

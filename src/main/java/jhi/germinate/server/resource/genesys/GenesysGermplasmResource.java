@@ -65,7 +65,7 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 
 			DSLContext context = Database.getContext(conn);
 
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, new ArrayList<>(), null);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, new ArrayList<>(), false, null);
 
 			from.having(DSL.field(GERMPLASM_ID, Integer.class).in(details.getGermplasmIds()));
 

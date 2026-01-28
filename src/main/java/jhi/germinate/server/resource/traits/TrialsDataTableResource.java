@@ -30,7 +30,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableTrialsData>> postTrialsDataTable(SubsettedDatasetRequest request)
+	public PaginatedResult<List<ViewTableTrialsData>> postTrialsDataTable(TrialsExportDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -69,14 +69,14 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 			// Handle requested germplasm ids or group ids
 			Set<Integer> germplasmIds = new HashSet<>();
-			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
-				germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getYGroupIds())).fetchInto(Integer.class));
-			if (!CollectionUtils.isEmpty(request.getYIds()))
-				germplasmIds.addAll(Arrays.asList(request.getYIds()));
+			if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
+				germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getGermplasmGroupIds())).fetchInto(Integer.class));
+			if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
+				germplasmIds.addAll(Arrays.asList(request.getGermplasmIds()));
 			if (!CollectionUtils.isEmpty(germplasmIds))
 				from.where(DSL.field(TrialsDataBaseResource.GERMPLASM_ID, Integer.class).in(germplasmIds));
-			if (!CollectionUtils.isEmpty(request.getXIds()))
-				from.where(DSL.field(TrialsDataBaseResource.TRAIT_ID, Integer.class).in(request.getXIds()));
+			if (!CollectionUtils.isEmpty(request.getTraitIds()))
+				from.where(DSL.field(TrialsDataBaseResource.TRAIT_ID, Integer.class).in(request.getTraitIds()));
 
 			// Filter here!
 			where(from, filters);

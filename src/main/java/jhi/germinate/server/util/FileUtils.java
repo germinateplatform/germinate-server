@@ -4,10 +4,28 @@ import java.io.*;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.*;
 
 public class FileUtils
 {
+	public static void touch(final Path path)
+			throws IOException
+	{
+		if (path != null)
+		{
+			try
+			{
+				Files.createFile(path);
+			}
+			catch (FileAlreadyExistsException e)
+			{
+				Files.setLastModifiedTime(path, FileTime.from(Instant.now()));
+			}
+		}
+	}
+
 	/**
 	 * Checks, whether the child directory is a subdirectory of the base
 	 * directory.

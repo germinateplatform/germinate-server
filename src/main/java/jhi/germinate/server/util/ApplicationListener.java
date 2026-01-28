@@ -50,7 +50,8 @@ public class ApplicationListener implements ServletContextListener
 			e.printStackTrace();
 		}
 
-		PropertyWatcher.initialize();
+		File propertiesFile = PropertyWatcher.initialize();
+		DatabasePermissionCacheWatcher.initialize(propertiesFile.getParentFile());
 
 		List<LocaleConfig> locales = ensureClientLocaleFileExists();
 		ensureCarouselFileExists(locales);
@@ -66,6 +67,7 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new ImageExifReaderTask(), 5, 1440, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new UserFeedbackEmailRemovalTask(), 0, 1, TimeUnit.DAYS);
+		backgroundScheduler.scheduleAtFixedRate(new NCBITaxonomyLookupTask(), 0, 7, TimeUnit.DAYS);
 
 		// Create automatic database backups every X days
 		Integer dbBackupEveryDays = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);
@@ -216,6 +218,7 @@ public class ApplicationListener implements ServletContextListener
 	public void contextDestroyed(ServletContextEvent servletContextEvent)
 	{
 		PropertyWatcher.stopFileWatcher();
+		DatabasePermissionCacheWatcher.stopFileWatcher();
 		GatekeeperClient.close();
 
 		try

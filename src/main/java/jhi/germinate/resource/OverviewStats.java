@@ -28,4 +28,5 @@ public class OverviewStats
 	private long publications       = 0;
 	private long dataStories        = 0;
 	private long projects           = 0;
+	private long taxonomies			= 0;
 }

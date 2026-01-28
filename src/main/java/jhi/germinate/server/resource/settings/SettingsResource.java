@@ -10,6 +10,7 @@ import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.genesys.GenesysClient;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
 import org.glassfish.jersey.media.multipart.*;
@@ -45,7 +46,7 @@ public class SettingsResource
 			Set<String> hiddenPages = new HashSet<>();
 
 			// Add any auto-discovered pages
-			if (AUTO_DISCOVERY_HIDDEN_PAGES != null)
+			if (PropertyWatcher.getBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER, false) && AUTO_DISCOVERY_HIDDEN_PAGES != null)
 				hiddenPages = new HashSet<>(AUTO_DISCOVERY_HIDDEN_PAGES);
 
 			// Then add any that the user specifically requested
@@ -56,6 +57,7 @@ public class SettingsResource
 					.setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
 					.setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 					.setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
+					.setGenesysAvailable(GenesysClient.isAvailable())
 					.setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
 					.setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
 					.setHiddenPages(new ArrayList<>(hiddenPages))
@@ -131,6 +133,7 @@ public class SettingsResource
 			  .setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
 			  .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
 			  .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
+			  .setGenesysAvailable(GenesysClient.isAvailable())
 			  .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
 			  .setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
 			  .setHiddenPages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class))

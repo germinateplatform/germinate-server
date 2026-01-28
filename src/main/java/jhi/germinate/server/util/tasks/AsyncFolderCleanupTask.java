@@ -73,6 +73,7 @@ public class AsyncFolderCleanupTask implements Runnable
 	{
 		try
 		{
+			asyncFolder.mkdirs();
 			Files.list(asyncFolder.toPath())
 				 .map(Path::toFile)
 				 .filter(f -> f.isDirectory() && !validUuids.contains(f.getName()))

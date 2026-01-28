@@ -56,24 +56,22 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 		{
 			requestedIds.add(datasetId);
 		}
-		else if (request != null && request.getFilter() != null)
+		else if (request != null && request.getFilters() != null)
 		{
-			Filter matchingFilter = Arrays.stream(request.getFilter())
-										  .filter(f -> f.getColumn().equals("datasetId"))
-										  .findFirst()
-										  .orElse(null);
+			List<Filter> matchingFilter = findFiltersWithColumn(request.getFilters(), "datasetId");
 
-			if (matchingFilter != null)
-			{
-				for (String value : matchingFilter.getValues())
-				{
-					try
-					{
-						requestedIds.add(Integer.parseInt(value));
+			if (!CollectionUtils.isEmpty(matchingFilter)) {
+				for (Filter filter : matchingFilter){
+					for (String value : filter.getValues()) {
+						try
+						{
+							requestedIds.add(Integer.parseInt(value));
+						}
+						catch (NumberFormatException e)
+						{
+						}
 					}
-					catch (NumberFormatException e)
-					{
-					}
+
 				}
 			}
 		}

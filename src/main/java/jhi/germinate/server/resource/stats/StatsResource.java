@@ -40,6 +40,7 @@ import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTaxonomies.VIEW_TABLE_TAXONOMIES;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsBiologicalstatus.VIEW_STATS_BIOLOGICALSTATUS;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsCountry.VIEW_STATS_COUNTRY;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsTaxonomy.VIEW_STATS_TAXONOMY;
@@ -132,7 +133,8 @@ public class StatsResource
 					step.asField("fileresources"),
 					DSL.selectCount().from(PUBLICATIONS).asField("publications"),
 					DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true)).or(STORIES.USER_ID.eq(userDetails.getId())).asField("dataStories"),
-					DSL.selectCount().from(PROJECTS).asField("projects")
+					DSL.selectCount().from(PROJECTS).asField("projects"),
+					DSL.selectCount().from(VIEW_TABLE_TAXONOMIES).asField("taxonomies")
 			).fetchSingleInto(OverviewStats.class);
 
 			stats.setDatasets(datasets.size());

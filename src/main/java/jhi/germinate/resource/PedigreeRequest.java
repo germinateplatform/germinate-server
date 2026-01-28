@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class PedigreeRequest extends SubsettedDatasetRequest
+public class PedigreeRequest extends TrialsExportDatasetRequest
 {
 	private Integer   levelsUp;
 	private Integer   levelsDown;

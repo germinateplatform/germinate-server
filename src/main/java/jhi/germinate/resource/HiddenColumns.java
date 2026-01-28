@@ -25,10 +25,15 @@ public class HiddenColumns
 	private List<String> datasetAttributes;
 	private List<String> experiments;
 	private List<String> entities;
+	private List<String> news;
+	private List<String> backups;
+	private List<String> dataUpdate;
+	private List<String> taxonomies;
 	private List<String> groups;
 	private List<String> institutions;
 	private List<String> locations;
 	private List<String> pedigrees;
+	private List<String> projects;
 	private List<String> pedigreedefinitions;
 	private List<String> traits;
 	private List<String> trialsData;

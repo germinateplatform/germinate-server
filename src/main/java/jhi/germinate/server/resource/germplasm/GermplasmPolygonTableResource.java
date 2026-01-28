@@ -42,7 +42,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null)
+			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, null)
 				.having(DSL.field(LATITUDE).isNotNull()
 						  .and(DSL.field(LONGITUDE).isNotNull())
 						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));

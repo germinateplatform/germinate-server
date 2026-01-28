@@ -324,7 +324,7 @@ public class DatasetExportResource extends ContextResource
 	@Path("/trial")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
-	public Response postDatasetExportTrial(SubsettedDatasetRequest request, @QueryParam("format") String formatString)
+	public Response postDatasetExportTrial(TrialsExportDatasetRequest request, @QueryParam("format") String formatString)
 			throws IOException, SQLException
 	{
 		if (request == null)
@@ -420,7 +420,7 @@ public class DatasetExportResource extends ContextResource
 	}
 
 
-	private File exportIsaTab(SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+	private File exportIsaTab(TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
 			throws IOException, SQLException
 	{
 		File zipFile = ResourceUtils.createTempFile(null, "trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), ".zip", false);
@@ -478,7 +478,7 @@ public class DatasetExportResource extends ContextResource
 		return zipFile;
 	}
 
-	private File exportTabFast(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+	private File exportTabFast(String filename, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
 			throws GerminateException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
@@ -509,8 +509,8 @@ public class DatasetExportResource extends ContextResource
 																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)).and(TRIALSETUP.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Limit to requested traits
-			if (!CollectionUtils.isEmpty(request.getXIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getXIds()));
+			if (!CollectionUtils.isEmpty(request.getTraitIds()))
+				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getTraitIds()));
 
 			// Map to their display name
 			step.forEach(t -> {
@@ -523,8 +523,8 @@ public class DatasetExportResource extends ContextResource
 			});
 
 			// Optional conditions for germplasm restrictions
-			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getYIds()) ? GERMINATEBASE.ID.in(request.getYIds()) : null;
-			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getYGroupIds()) ? GROUPS.ID.in(request.getYGroupIds()) : null;
+			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getGermplasmIds()) ? GERMINATEBASE.ID.in(request.getGermplasmIds()) : null;
+			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getGermplasmGroupIds()) ? GROUPS.ID.in(request.getGermplasmGroupIds()) : null;
 
 			// Germplasm lookup
 			Map<Integer, ViewTableTrialGermplasm> germplasm = new LinkedHashMap<>();
@@ -549,7 +549,7 @@ public class DatasetExportResource extends ContextResource
 				fields.add(DSL.select(DSL.jsonArrayAgg(GROUPS.ID))
 							  .from(GROUPMEMBERS)
 							  .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-							  .where(GROUPS.ID.in(request.getYGroupIds()))
+							  .where(GROUPS.ID.in(request.getGermplasmGroupIds()))
 							  .and(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 							  .asField("groupIds"));
 			}

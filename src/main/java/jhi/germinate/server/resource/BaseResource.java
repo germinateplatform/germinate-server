@@ -33,18 +33,18 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 	@DefaultValue("false")
 	protected boolean minimal;
 
-	protected Filter[] filters;
+	protected FilterGroup[] filters;
 
 	protected void processRequest(ExportRequest request)
 	{
 		if (request != null)
-			this.filters = request.getFilter();
+			this.filters = request.getFilters();
 	}
 
 	protected void processRequest(PaginatedRequest request)
 	{
 		if (request != null)
-			this.filters = request.getFilter();
+			this.filters = request.getFilters();
 
 		try
 		{

@@ -2,7 +2,8 @@ package jhi.germinate.server.resource.backup;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import jhi.germinate.resource.BackupResult;
+import jhi.gatekeeper.resource.PaginatedResult;
+import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.*;
@@ -10,19 +11,61 @@ import jhi.germinate.server.util.*;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.*;
+import java.sql.Timestamp;
 import java.text.*;
 import java.util.*;
 
 @Path("backup")
-public class BackupResource extends ContextResource
+public class BackupResource extends BaseResource
 {
-	@GET
+	@POST
+	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response getBackups()
-			throws IOException, SQLException
+	public Response postBackupTable(PaginatedRequest request)
+			throws IOException
+	{
+		processRequest(request);
+		List<BackupResult> result = getBackupsInternally();
+
+		if (!StringUtils.isEmpty(orderBy))
+		{
+			result.sort((a, b) -> {
+				int sortResult = 0;
+				switch(orderBy) {
+					case "timestamp":
+						sortResult = (int) Math.signum(a.getTimestamp().getTime() - b.getTimestamp().getTime());
+						break;
+					case "filename":
+						sortResult = a.getFilename().compareTo(b.getFilename());
+						break;
+					case "germinateVersion":
+						sortResult = a.getGerminateVersion().compareTo(b.getGerminateVersion());
+						break;
+					case "type":
+						sortResult = a.getType().name().compareTo(b.getType().name());
+						break;
+					case "filesize":
+						sortResult = (int) Math.signum(a.getFilesize() - b.getFilesize());
+						break;
+				}
+
+				if (!ascending)
+					sortResult = -sortResult;
+
+				return sortResult;
+			});
+		}
+
+		int count = result.size();
+		result = result.subList(pageSize * currentPage, Math.min(pageSize * (currentPage + 1), count));
+
+		return Response.ok(new PaginatedResult<>(result, count)).build();
+	}
+
+	private List<BackupResult> getBackupsInternally()
+			throws IOException
 	{
 		File backups = ResourceUtils.getFromExternal(resp, "backups");
 
@@ -56,7 +99,17 @@ public class BackupResource extends ContextResource
 						   .toList();
 		}
 
-		return Response.ok(result).build();
+		return new ArrayList<>(result);
+	}
+
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.ADMIN)
+	public Response getBackups()
+			throws IOException
+	{
+		return Response.ok(getBackupsInternally()).build();
 	}
 
 	@PUT

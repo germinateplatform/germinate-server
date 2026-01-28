@@ -52,7 +52,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 
 			Field<BigDecimal> c = DSL.asin(DSL.sqrt(a)).times(2);
 
-			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null, DSL.cast(c.times(6372.8), Double.class).as("distance"))
+			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, null, DSL.cast(c.times(6372.8), Double.class).as("distance"))
 				.having(DSL.field(LONGITUDE).isNotNull()
 				.and(DSL.field(LATITUDE).isNotNull()));
 

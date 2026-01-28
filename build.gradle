@@ -15,6 +15,7 @@ plugins {
     id 'java'
     id 'war'
     id 'org.asciidoctor.jvm.convert' version '4.0.2'
+    id('cz.habarta.typescript-generator') version '3.2.1263'
 }
 
 apply plugin: 'com.bmuschko.cargo-base'
@@ -22,7 +23,7 @@ apply plugin: 'com.bmuschko.cargo-base'
 compileJava.options.encoding = 'UTF-8'
 
 group = 'uk.ac.hutton.germinate'
-version = '4.9.0'
+version = '5.0.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -216,6 +217,19 @@ tasks.register('deployTomcat', CargoRedeployRemote) {
     password = project.findProperty('tomcat.manager.password') ?: ''
 
     deployables = [new Deployable(files: project.files([war.archiveFile]), context: "${project.'project.name'}/v${project.version}")]
+}
+
+generateTypeScript {
+    jsonLibrary = 'jackson2'
+    classes = ['jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations', 'jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications', 'jhi.gatekeeper.resource.PaginatedResult', 'jhi.germinate.resource.enums.UserType', 'jhi.germinate.resource.LoginDetails', 'jhi.gatekeeper.server.database.tables.pojos.UnapprovedUsers']
+    classPatterns = ['jhi.germinate.resource.*', 'jhi.germinate.resource.**.*', 'jhi.germinate.server.database.codegen.tables.pojos.*', 'jhi.germinate.server.database.pojo.*']
+    outputKind = 'module'
+    outputFile = 'germinate.ts'
+    outputFileType = 'implementationFile'
+//    generateConstructors = true
+//    mapClasses = 'asClasses'
+    mapEnum = 'asEnum'
+    stringQuotes = 'singleQuotes'
 }
 
 test {

@@ -49,7 +49,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
 
 			from.having(fieldGroupTypeId.eq(3));
 			if (groupId != null)
@@ -162,7 +162,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			List<Join<Integer>> joins = new ArrayList<>();
 			joins.add(new Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
 			joins.add(new Join<>(GROUPS, GROUPS.ID, GROUPMEMBERS.GROUP_ID));
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, joins, GROUPS.ID.as("group_id"), GROUPS.GROUPTYPE_ID.as("grouptype_id"));
 
 			from.having(fieldGroupTypeId.eq(3));
 			if (groupId != null)

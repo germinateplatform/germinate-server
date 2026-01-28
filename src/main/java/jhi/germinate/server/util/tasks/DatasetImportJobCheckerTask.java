@@ -19,7 +19,7 @@ package jhi.germinate.server.util.tasks;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
 import jhi.germinate.server.database.codegen.routines.DatasetMeta;
 import jhi.germinate.server.database.pojo.ImportResult;
@@ -95,6 +95,8 @@ public class DatasetImportJobCheckerTask implements Runnable
 				// Update the dataset counts
 				DatasetMeta procedure = new DatasetMeta();
 				procedure.execute(context.configuration());
+
+				AuthorizationFilter.refreshUserDatasetInfo(true);
 			}
 		}
 		catch (SQLException e)

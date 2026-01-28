@@ -47,7 +47,7 @@ public class PropertyWatcher
 	/**
 	 * Attempts to reads the properties file and then checks the required properties.
 	 */
-	public static void initialize()
+	public static File initialize()
 	{
 		/* Start to listen for file changes */
 		try
@@ -102,6 +102,8 @@ public class PropertyWatcher
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+
+		return config;
 	}
 
 	public static boolean storeProperties()
@@ -139,7 +141,7 @@ public class PropertyWatcher
 			GatekeeperClient.init(get(ServerProperty.GATEKEEPER_URL), get(ServerProperty.GATEKEEPER_USERNAME), get(ServerProperty.GATEKEEPER_PASSWORD));
 			GenesysClient.init(get(ServerProperty.GENESYS_URL), get(ServerProperty.GENESYS_CLIENT_ID), get(ServerProperty.GENESYS_CLIENT_SECRET));
 			TokenResource.SALT = getInteger(ServerProperty.BCRYPT_SALT);
-			AuthorizationFilter.refreshUserDatasetInfo(false);
+			AuthorizationFilter.refreshUserDatasetInfo(true);
 		}
 	}
 
