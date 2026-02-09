@@ -56,7 +56,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 				// Whatever other non-standard/safe headers (see list above)
 				// you want the client to be able to send to the server,
 				// put it in this list. And remove the ones you don't want.
-				"X-Requested-With, Authorization, Accept-Version, Accept-Language, Content-MD5, CSRF-Token, Content-Type");
+				"X-Requested-With, Authorization, Accept-Version, Accept-Language, Content-MD5, CSRF-Token, Content-Type, Access-Control-Allow-Credentials");
 		}
 
 		response.getHeaders().add("Access-Control-Allow-Credentials", "true");

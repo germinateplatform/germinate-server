@@ -4,15 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="583ec2cf-da61-44a6-af3b-08f9e3d9df85" name="Changes" comment="- CHG: Blah">
+    <list default="true" id="583ec2cf-da61-44a6-af3b-08f9e3d9df85" name="Changes" comment="- CHG: Significantly improved the performance of large trials and climate data imports.">
+      <change afterPath="$PROJECT_DIR$/.idea/modules/germinate.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/germinate-importer-4.9.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/germinate-brapi-4.9.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/germinate-brapi-4.9.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/resource/IFilteredResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/resource/IFilteredResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/util/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/util/CorsFilter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="repository" />
+    </option>
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -31,23 +41,6 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="germinate" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="germinate" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="germinate" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="germinate" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="deployment" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -98,6 +91,7 @@
     &quot;Gradle.germinate-server [build].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.germinate-server [clean].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.germinate-server [deployTomcat].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.germinate-server [war].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -114,8 +108,11 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sr41756\workspaces\germinate-server\lib" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="jhi.germinate.server.util.jooq" />
+    </key>
   </component>
-  <component name="RunManager" selected="Gradle.germinate-server [build]">
+  <component name="RunManager" selected="Gradle.germinate-server [deployTomcat]">
     <configuration name="germinate-server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -182,23 +179,47 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="germinate-server [war]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="war" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Gradle.germinate-server [war]" />
       <item itemvalue="Gradle.germinate-server [deployTomcat]" />
       <item itemvalue="Gradle.germinate-server [build]" />
       <item itemvalue="Gradle.germinate-server [clean]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.germinate-server [build]" />
-        <item itemvalue="Gradle.germinate-server [clean]" />
         <item itemvalue="Gradle.germinate-server [deployTomcat]" />
+        <item itemvalue="Gradle.germinate-server [clean]" />
+        <item itemvalue="Gradle.germinate-server [war]" />
+        <item itemvalue="Gradle.germinate-server [build]" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28539.33" />
       </set>
     </attachedChunks>
   </component>
@@ -218,13 +239,22 @@
       <option name="project" value="LOCAL" />
       <updated>1760099619790</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- CHG: Significantly improved the performance of large trials and climate data imports.">
+      <option name="closed" value="true" />
+      <created>1762353855844</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1762353855844</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="- CHG: Blah" />
-    <option name="LAST_COMMIT_MESSAGE" value="- CHG: Blah" />
+    <MESSAGE value="- CHG: Significantly improved the performance of large trials and climate data imports." />
+    <option name="LAST_COMMIT_MESSAGE" value="- CHG: Significantly improved the performance of large trials and climate data imports." />
   </component>
 </project>
