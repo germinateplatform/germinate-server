@@ -14,7 +14,7 @@ public class GDSL
 	}
 
 	public static Condition jsonContains(String searchValue, Field<?> field) {
-		return CustomCondition.of(ctx -> ctx.visit(DSL.field("json_contains({0}, \"{1}\")", String.class, field, searchValue)));
+		return CustomCondition.of(ctx -> ctx.visit(DSL.field("json_contains({0}, {1})", String.class, field, searchValue)));
 	}
 
     public static Field<String> concatWS(String separator, Field<?>... fields) {
