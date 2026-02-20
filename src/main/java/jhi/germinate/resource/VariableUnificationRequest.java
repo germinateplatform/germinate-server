@@ -7,8 +7,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class TraitUnificationRequest
+public class VariableUnificationRequest
 {
-	private Integer   preferredTraitId;
-	private Integer[] otherTraitIds;
+	private Integer   preferredVariableId;
+	private Integer[] otherVariableIds;
 }

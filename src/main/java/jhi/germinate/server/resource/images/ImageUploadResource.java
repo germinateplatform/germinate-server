@@ -25,7 +25,7 @@ import java.util.*;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Variables.*;
 
 @Path("image/upload")
 @MultipartConfig
@@ -92,9 +92,9 @@ public class ImageUploadResource
 									.where(GERMINATEBASE.ID.eq(foreignId))
 									.fetchAny();
 					break;
-				case "phenotypes":
-					record = context.selectFrom(PHENOTYPES)
-									.where(PHENOTYPES.ID.eq(foreignId))
+				case "variables":
+					record = context.selectFrom(VARIABLES)
+									.where(VARIABLES.ID.eq(foreignId))
 									.fetchAny();
 					break;
 			}

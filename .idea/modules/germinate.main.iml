@@ -5,19 +5,4 @@
       <sourceFolder url="file://$MODULE_DIR$/../../build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
     </content>
   </component>
-  <component name="FacetManager">
-    <facet type="web" name="Web Gradle : germinate-4.9.0.war">
-      <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/../../src/main/webapp/WEB-INF/web.xml" />
-        </descriptors>
-        <webroots>
-          <root url="file://$MODULE_DIR$/../../src/main/webapp" relative="/" />
-          <root url="file://$MODULE_DIR$/../../client/css" relative="/css" />
-          <root url="file://$MODULE_DIR$/../../client/img" relative="/img" />
-          <root url="file://$MODULE_DIR$/../../client" relative="/" />
-        </webroots>
-      </configuration>
-    </facet>
-  </component>
 </module>

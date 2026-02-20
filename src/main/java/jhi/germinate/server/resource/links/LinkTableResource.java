@@ -18,7 +18,7 @@ import java.util.List;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.*;
 import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 import static jhi.germinate.server.database.codegen.tables.ViewTableLinks.*;
 
 @Path("link/table")
@@ -76,10 +76,10 @@ public class LinkTableResource extends ContextResource
 											 .where(MARKERS.ID.eq(request.getForeignId()))
 											 .fetchAnyInto(String.class);
 							  break;
-						  case "phenotypes":
+						  case "variables":
 							  value = context.select(DSL.field(targetColumn).cast(String.class))
-											 .from(PHENOTYPES)
-											 .where(PHENOTYPES.ID.eq(request.getForeignId()))
+											 .from(VARIABLES)
+											 .where(VARIABLES.ID.eq(request.getForeignId()))
 											 .fetchAnyInto(String.class);
 							  break;
 					  }

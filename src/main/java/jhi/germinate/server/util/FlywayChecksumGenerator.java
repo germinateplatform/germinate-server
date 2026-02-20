@@ -1,7 +1,5 @@
 package jhi.germinate.server.util;
 
-import org.flywaydb.core.api.FlywayException;
-import org.flywaydb.core.internal.util.StringUtils;
 import org.flywaydb.core.internal.util.*;
 
 import java.io.*;
@@ -16,7 +14,7 @@ public class FlywayChecksumGenerator
 	public static void main(String[] args)
 			throws IOException
 	{
-		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V4.25.01.08__update.sql")));
+		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V5.26.01.28__update.sql")));
 	}
 
 	/**
@@ -44,7 +42,7 @@ public class FlywayChecksumGenerator
 				} while ((line = bufferedReader.readLine()) != null);
 			}
 		} catch (IOException e) {
-			throw new FlywayException("Unable to calculate checksum of " + file.getName() + "\r\n" + e.getMessage(), e);
+			throw new RuntimeException("Unable to calculate checksum of " + file.getName() + "\r\n" + e.getMessage(), e);
 		} finally {
 			IOUtils.close(bufferedReader);
 		}

@@ -1,9 +1,9 @@
 package jhi.germinate.server.resource.traits;
 
-import jhi.germinate.resource.TraitUnificationRequest;
+import jhi.germinate.resource.VariableUnificationRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.Phenotypes;
+import jhi.germinate.server.database.codegen.tables.pojos.Variables;
 import jhi.germinate.server.database.codegen.tables.records.SynonymsRecord;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
 @Path("trait/unify")
 @Secured(UserType.DATA_CURATOR)
@@ -29,28 +29,28 @@ public class TraitUnifierResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postTraitUnifier(TraitUnificationRequest request)
+	public boolean postTraitUnifier(VariableUnificationRequest request)
 		throws SQLException, IOException
 	{
-		if (request == null || request.getPreferredTraitId() == null || CollectionUtils.isEmpty(request.getOtherTraitIds()))
+		if (request == null || request.getPreferredVariableId() == null || CollectionUtils.isEmpty(request.getOtherVariableIds()))
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return false;
 		}
 
 		// Remove the preferred id from the list just in case it was added
-		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherTraitIds()));
-		ids.remove(request.getPreferredTraitId());
+		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherVariableIds()));
+		ids.remove(request.getPreferredVariableId());
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			// Get the database entries matching the requested ids
-			Phenotypes preferred = context.selectFrom(PHENOTYPES).where(PHENOTYPES.ID.eq(request.getPreferredTraitId())).fetchAnyInto(Phenotypes.class);
+			Variables preferred = context.selectFrom(VARIABLES).where(VARIABLES.ID.eq(request.getPreferredVariableId())).fetchAnyInto(Variables.class);
 			Integer preferredId = preferred.getId();
-			List<Phenotypes> others = context.selectFrom(PHENOTYPES).where(PHENOTYPES.ID.in(ids)).fetchInto(Phenotypes.class);
-			List<Integer> otherIds = others.stream().map(Phenotypes::getId).collect(Collectors.toList());
+			List<Variables> others = context.selectFrom(VARIABLES).where(VARIABLES.ID.in(ids)).fetchInto(Variables.class);
+			List<Integer> otherIds = others.stream().map(Variables::getId).collect(Collectors.toList());
 
 			// If there's no preferred one or the others are empty or the only other one is the preferred one, return
 			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.get(0), preferredId)))
@@ -60,9 +60,9 @@ public class TraitUnifierResource extends ContextResource
 			}
 
 			context.update(IMAGES.leftJoin(IMAGETYPES).on(IMAGETYPES.ID.eq(IMAGES.IMAGETYPE_ID))).set(IMAGES.FOREIGN_ID, preferredId).where(IMAGETYPES.REFERENCE_TABLE.eq("phenotypes").and(IMAGES.FOREIGN_ID.in(otherIds))).execute();
-			context.update(PHENOTYPEDATA).set(PHENOTYPEDATA.PHENOTYPE_ID, preferredId).where(PHENOTYPEDATA.PHENOTYPE_ID.in(otherIds)).execute();
+			context.update(PHENOTYPEDATA).set(PHENOTYPEDATA.VARIABLE_ID, preferredId).where(PHENOTYPEDATA.VARIABLE_ID.in(otherIds)).execute();
 
-			List<String> otherNames = others.stream().map(Phenotypes::getName).collect(Collectors.toList());
+			List<String> otherNames = others.stream().map(Variables::getName).toList();
 
 			// Check the synonyms of the preferred trait
 			SynonymsRecord synonymsRecord = context.selectFrom(SYNONYMS).where(SYNONYMS.SYNONYMTYPE_ID.eq(4).and(SYNONYMS.FOREIGN_ID.eq(preferredId))).fetchAny();
@@ -84,7 +84,7 @@ public class TraitUnifierResource extends ContextResource
 			synonymsRecord.store();
 
 			// Delete the old ids
-			context.deleteFrom(PHENOTYPES).where(PHENOTYPES.ID.in(otherIds)).execute();
+			context.deleteFrom(VARIABLES).where(VARIABLES.ID.in(otherIds)).execute();
 
 			return true;
 		}

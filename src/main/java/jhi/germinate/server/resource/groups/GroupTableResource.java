@@ -1,6 +1,9 @@
 package jhi.germinate.server.resource.groups;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
@@ -9,18 +12,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
-import org.jooq.conf.ParamType;
 
 import java.sql.*;
 import java.util.List;
-import java.util.logging.Logger;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.VIEW_TABLE_GROUPS;
 
 @Path("group/table")
 @Secured

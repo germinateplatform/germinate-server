@@ -30,6 +30,6 @@ public class TraitDatasetTableResource extends BaseDatasetTableResource
 			throws IOException, SQLException
 	{
 		return runQuery(request, query -> query.where(DSL.exists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(TRIALSETUP.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
-																																																	   .and(PHENOTYPEDATA.PHENOTYPE_ID.eq(traitId))))));
+																																																	   .and(PHENOTYPEDATA.VARIABLE_ID.eq(traitId))))));
 	}
 }

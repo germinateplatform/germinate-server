@@ -4,11 +4,11 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
+import jhi.germinate.server.database.codegen.enums.ScalesDatatype;
 import jhi.germinate.server.database.codegen.tables.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
@@ -16,11 +16,14 @@ import org.jooq.impl.*;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
+import static jhi.germinate.server.database.codegen.tables.Methods.METHODS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Scales.SCALES;
+import static jhi.germinate.server.database.codegen.tables.Traits.TRAITS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("trait/stats")
 @Secured
@@ -51,72 +54,82 @@ public class TraitStatsResource
 			SelectConditionStep<?> min = context.select(DSL.min(p.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))))
 												.from(p)
 												.leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
-												.where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												.where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												.and(ts.DATASET_ID.in(datasetIds));
 
 			SelectConditionStep<?> max = context.select(DSL.max(p.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))))
 												.from(p)
 												.leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
-												.where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												.where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												.and(ts.DATASET_ID.in(datasetIds));
 
 			SelectConditionStep<?> count = context.select(DSL.count())
 												  .from(p)
 												  .leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
-												  .where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												  .where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												  .and(ts.DATASET_ID.in(datasetIds));
 
 			List<TraitStats> numeric = context.select(
-													  PHENOTYPES.ID.as("trait_id"),
-													  PHENOTYPES.NAME.as("trait_name"),
-													  PHENOTYPES.SHORT_NAME.as("trait_name_short"),
-													  PHENOTYPES.DATATYPE.as("data_type"),
+													  VARIABLES.ID.as("variable_id"),
+													  VARIABLES.NAME.as("variable_name"),
+													  TRAITS.ID.as("trait_id"),
+													  TRAITS.NAME.as("trait_name"),
+													  TRAITS.ABBREVIATION.as("trait_name_short"),
+													  SCALES.DATATYPE.as("data_type"),
 													  min.asField("min"),
 													  DSL.avg(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))).as("avg"),
 													  max.asField("max"),
 													  count.asField("count")
 											  ).from(PHENOTYPEDATA)
 											  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-											  .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+											  .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+											  .leftJoin(METHODS).on(METHODS.ID.eq(VARIABLES.METHOD_ID))
+											  .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID))
+											  .leftJoin(TRAITS).on(TRAITS.ID.eq(VARIABLES.TRAIT_ID))
 											  .where(TRIALSETUP.DATASET_ID.in(datasetIds))
-											  .and(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.numeric))
-											  .and(PHENOTYPES.ID.in(request.getTraitIds()))
-											  .groupBy(PHENOTYPES.ID)
-											  .orderBy(PHENOTYPES.NAME)
+											  .and(SCALES.DATATYPE.eq(ScalesDatatype.numeric))
+											  .and(VARIABLES.ID.in(request.getTraitIds()))
+											  .groupBy(VARIABLES.ID)
+											  .orderBy(VARIABLES.NAME)
 											  .fetchInto(TraitStats.class);
 
-			List<jhi.germinate.server.database.codegen.tables.pojos.Phenotypes> categorical = context.selectDistinct(PHENOTYPES.fields())
-																									 .from(PHENOTYPEDATA)
-																									 .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-																									 .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-																									 .where(TRIALSETUP.DATASET_ID.in(datasetIds))
-																									 .and(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.categorical))
-																									 .and(PHENOTYPES.RESTRICTIONS.isNotNull())
-																									 .fetchInto(jhi.germinate.server.database.codegen.tables.pojos.Phenotypes.class);
+			List<jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits> categorical = context.select()
+																										  .from(PHENOTYPEDATA)
+																										  .leftJoin(VIEW_TABLE_TRAITS).on(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID))
+																										  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+																										  .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+																										  .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID))
+																										  .where(TRIALSETUP.DATASET_ID.in(datasetIds))
+																										  .and(SCALES.DATATYPE.eq(ScalesDatatype.categorical))
+																										  .and(SCALES.RESTRICTIONS.isNotNull())
+																										  .fetchInto(jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits.class);
 
 			// Filter out the ones that don't have restriction categories
-			categorical = categorical.stream().filter(t -> !CollectionUtils.isEmpty(t.getRestrictions().getCategories()) && !CollectionUtils.isEmpty(t.getRestrictions().getCategories()[0])).collect(Collectors.toList());
+			categorical = categorical.stream().filter(t -> !CollectionUtils.isEmpty(t.getScaleRestrictions().getCategories()) && !CollectionUtils.isEmpty(t.getScaleRestrictions().getCategories()[0])).toList();
 
 			Map<Integer, TraitStats> mapping = new HashMap<>();
 
-			for (jhi.germinate.server.database.codegen.tables.pojos.Phenotypes t : categorical)
-				mapping.put(t.getId(), new TraitStats().setTraitName(t.getName())
-													   .setTraitNameShort(t.getShortName())
-													   .setTraitId(t.getId())
-													   .setDataType(t.getDatatype().getLiteral())
-													   .setCategories(t.getRestrictions().getCategories())
-													   .setMin(Double.MAX_VALUE)
-													   .setMax(-Double.MAX_VALUE)
-													   .setAvg(0d)
-													   .setCount(0));
+			for (jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits t : categorical)
+				mapping.put(t.getVariableId(), new TraitStats()
+						.setVariableId(t.getVariableId())
+						.setVariableName(t.getVariableName())
+						.setTraitName(t.getTraitName())
+						.setTraitNameShort(t.getTraitAbbreviation())
+						.setTraitId(t.getTraitId())
+						.setDataType(t.getScaleDatatype().getLiteral())
+						.setCategories(t.getScaleRestrictions().getCategories())
+						.setMin(Double.MAX_VALUE)
+						.setMax(-Double.MAX_VALUE)
+						.setAvg(0d)
+						.setCount(0));
 
 			context.selectDistinct()
 				   .from(PHENOTYPEDATA)
 				   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 				   .where(TRIALSETUP.DATASET_ID.in(datasetIds))
-				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(mapping.keySet()))
+				   .and(PHENOTYPEDATA.VARIABLE_ID.in(mapping.keySet()))
 				   .forEach(r -> {
-					   TraitStats tStat = mapping.get(r.get(PHENOTYPEDATA.PHENOTYPE_ID));
+					   TraitStats tStat = mapping.get(r.get(PHENOTYPEDATA.VARIABLE_ID));
 
 					   String value = r.get(PHENOTYPEDATA.PHENOTYPE_VALUE);
 

@@ -53,7 +53,7 @@ public enum ServerProperty
 	HIDDEN_COLUMNS_LOCATIONS("hidden.columns.locations", null, false),
 	HIDDEN_COLUMNS_PEDIGREES("hidden.columns.pedigrees", null, false),
 	HIDDEN_COLUMNS_PEDIGREEDEFIITIONS("hidden.columns.pedigreedefinitions", "pedigreeNotationDescription,pedigreeDescriptionDescription", false),
-	HIDDEN_COLUMNS_TRAITS("hidden.columns.traits", null, false),
+	HIDDEN_COLUMNS_TRAITS("hidden.columns.traits", "traitId,scaleId,methodId", false),
 	HIDDEN_COLUMNS_TRIALS_DATA("hidden.columns.trials.data", "traitId", false),
 	HIDDEN_COLUMNS_COLLABORATORS("hidden.columns.collaborators", null, false),
 	HIDDEN_COLUMNS_PUBLICATIONS("hidden.columns.publications", null, false),

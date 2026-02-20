@@ -35,7 +35,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
@@ -124,7 +124,7 @@ public class StatsResource
 					DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
 					DSL.selectCount().from(MARKERS).asField("markers"),
 					DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
-					DSL.selectCount().from(PHENOTYPES).asField("traits"),
+					DSL.selectCount().from(VARIABLES).asField("traits"),
 					DSL.selectCount().from(CLIMATES).asField("climates"),
 					DSL.selectCount().from(LOCATIONS).asField("locations"),
 					DSL.selectCount().from(EXPERIMENTS).asField("experiments"),

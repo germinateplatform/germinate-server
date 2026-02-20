@@ -13,13 +13,13 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
+import java.util.Date;
 
 import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
 import static jhi.germinate.server.database.codegen.tables.Datasetlocations.DATASETLOCATIONS;
@@ -27,8 +27,9 @@ import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINA
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Scales.SCALES;
 import static jhi.germinate.server.database.codegen.tables.Units.UNITS;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
 @Path("dataset/crosscomparison")
 @Secured
@@ -224,7 +225,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(y).on(y.GERMPLASM_ID.eq(GERMINATEBASE.ID))
-							  .where(x.PHENOTYPE_ID.eq(trait.getId()));
+							  .where(x.VARIABLE_ID.eq(trait.getId()));
 
 				addFiltering(step, userDetails, trait, germplasm, xs.GERMINATEBASE_ID, y.GERMPLASM_ID, xs.DATASET_ID, xs.DATASET_ID);
 			}
@@ -254,8 +255,8 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(ys).on(ys.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(y).on(y.TRIALSETUP_ID.eq(ys.ID))
-							  .where(x.PHENOTYPE_ID.eq(first.getId()))
-							  .and(y.PHENOTYPE_ID.eq(second.getId()));
+							  .where(x.VARIABLE_ID.eq(first.getId()))
+							  .and(y.VARIABLE_ID.eq(second.getId()));
 
 				addFiltering(step, userDetails, first, second, xs.GERMINATEBASE_ID, ys.GERMINATEBASE_ID, xs.DATASET_ID, ys.DATASET_ID);
 			}
@@ -288,7 +289,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(y).on(y.LOCATION_ID.in(DSL.select(DATASETLOCATIONS.LOCATION_ID).from(DATASETLOCATIONS).where(DATASETLOCATIONS.DATASET_ID.in(trait.getDatasetIds()))))
-							  .where(x.PHENOTYPE_ID.eq(trait.getId()))
+							  .where(x.VARIABLE_ID.eq(trait.getId()))
 							  .and(y.CLIMATE_ID.eq(climate.getId()));
 
 				addFiltering(step, userDetails, trait, climate, xs.GERMINATEBASE_ID, y.LOCATION_ID, xs.DATASET_ID, y.DATASET_ID);
@@ -381,11 +382,11 @@ public class DatasetCrossDataTypeResource extends ContextResource
 	private Map<Integer, String> getTraitMapping(DSLContext context, Integer... ids)
 	{
 		// Get the trait names including units. Map id to concat name.
-		Field<String> traitUnit = DSL.concat(PHENOTYPES.NAME, DSL.iif(PHENOTYPES.UNIT_ID.isNull().or(UNITS.UNIT_ABBREVIATION.isNull()), "", DSL.concat(" [", UNITS.UNIT_ABBREVIATION).concat("]")));
-		return context.select(PHENOTYPES.ID, traitUnit)
-					  .from(PHENOTYPES)
-					  .leftJoin(UNITS).on(UNITS.ID.eq(PHENOTYPES.UNIT_ID))
-					  .where(PHENOTYPES.ID.in(ids))
-					  .fetchMap(PHENOTYPES.ID, traitUnit);
+		Field<String> traitUnit = DSL.concat(VARIABLES.NAME, DSL.iif(VARIABLES.SCALE_ID.isNull().or(SCALES.UNIT.isNull()), "", DSL.concat(" [", SCALES.UNIT).concat("]")));
+		return context.select(VARIABLES.ID, traitUnit)
+					  .from(VARIABLES)
+					  .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID))
+					  .where(VARIABLES.ID.in(ids))
+					  .fetchMap(VARIABLES.ID, traitUnit);
 	}
 }

@@ -6,10 +6,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -19,16 +18,17 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Scales.SCALES;
 import static jhi.germinate.server.database.codegen.tables.Treatments.TREATMENTS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("dataset/stats/trial")
@@ -75,7 +75,7 @@ public class TraitStatsResource extends ContextResource
 																				.from(PHENOTYPEDATA)
 																				.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 																				.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
-																				.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)));
+																				.and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID)));
 
 			if (!CollectionUtils.isEmpty(request.getXIds()))
 				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getXIds()));
@@ -102,19 +102,20 @@ public class TraitStatsResource extends ContextResource
 			// Run the query
 			SelectOnConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> dataStep = context.select(
 																													TRIALSETUP.DATASET_ID,
-																													PHENOTYPEDATA.PHENOTYPE_ID,
+																													PHENOTYPEDATA.VARIABLE_ID,
 																													TRIALSETUP.TREATMENT_ID,
 																													// Now, get the concatenated group names for the requested selection.
 																													groupIds,
-																													DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
+																													DSL.iif(SCALES.DATATYPE.ne(ScalesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 																											)
 																											.from(PHENOTYPEDATA)
 																											.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-																											.leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
+																											.leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+																											.leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID));
 
 			// Restrict to dataset ids and phenotype ids
 			SelectConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> condStep = dataStep.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
-																										   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
+																										   .and(PHENOTYPEDATA.VARIABLE_ID.in(traitMap.keySet()));
 
 			SelectLimitStep<Record5<Integer, Integer, Integer, String, BigDecimal>> orderByStep;
 
@@ -127,12 +128,12 @@ public class TraitStatsResource extends ContextResource
 				orderByStep = condStep.and(groups)
 									  .groupBy(PHENOTYPEDATA.ID)
 									  .having(groupIds.isNotNull())
-									  .orderBy(groupIds, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
+									  .orderBy(groupIds, PHENOTYPEDATA.VARIABLE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 			else
 			{
 				// If nothing specific was requested, order by dataset instead
-				orderByStep = dataStep.orderBy(TRIALSETUP.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
+				orderByStep = dataStep.orderBy(TRIALSETUP.DATASET_ID, PHENOTYPEDATA.VARIABLE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 
 			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getYGroupIds());
@@ -140,7 +141,7 @@ public class TraitStatsResource extends ContextResource
 			// This consumes the database result and generates the stats
 			Consumer<Record5<Integer, Integer, Integer, String, BigDecimal>> consumer = pd -> {
 				Integer datasetId = pd.get(TRIALSETUP.DATASET_ID);
-				Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
+				Integer traitId = pd.get(PHENOTYPEDATA.VARIABLE_ID);
 				Integer treatmentId = pd.get(TRIALSETUP.TREATMENT_ID);
 				String groupId = pd.get(groupIds);
 
@@ -185,18 +186,19 @@ public class TraitStatsResource extends ContextResource
 			{
 				context.select(
 							   TRIALSETUP.DATASET_ID,
-							   PHENOTYPEDATA.PHENOTYPE_ID,
+							   PHENOTYPEDATA.VARIABLE_ID,
 							   TRIALSETUP.TREATMENT_ID,
 							   DSL.inline("Marked items").as("groupIds"),
-							   DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
+							   DSL.iif(SCALES.DATATYPE.ne(ScalesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 					   )
 					   .from(PHENOTYPEDATA)
 					   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+					   .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+					   .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID))
 					   .where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
-					   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
+					   .and(PHENOTYPEDATA.VARIABLE_ID.in(traitMap.keySet()))
 					   .and(TRIALSETUP.GERMINATEBASE_ID.in(request.getYIds()))
-					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
+					   .orderBy(PHENOTYPEDATA.VARIABLE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
 					   .forEach(consumer);
 			}
 

@@ -5,14 +5,14 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.database.codegen.tables.pojos.Phenotypecategories;
+import jhi.germinate.server.database.codegen.tables.pojos.Traitcategories;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
 import java.sql.*;
 
-import static jhi.germinate.server.database.codegen.tables.Phenotypecategories.PHENOTYPECATEGORIES;
+import static jhi.germinate.server.database.codegen.tables.Traitcategories.TRAITCATEGORIES;
 
 @Path("trait/category")
 @Secured
@@ -29,7 +29,7 @@ public class TraitCategoryResource extends BaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 
-			return Response.ok(context.selectFrom(PHENOTYPECATEGORIES).fetchInto(Phenotypecategories.class)).build();
+			return Response.ok(context.selectFrom(TRAITCATEGORIES).fetchInto(Traitcategories.class)).build();
 		}
 	}
 }

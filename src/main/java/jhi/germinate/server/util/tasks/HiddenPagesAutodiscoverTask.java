@@ -35,7 +35,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
@@ -50,7 +50,7 @@ public class HiddenPagesAutodiscoverTask implements Runnable
 			DSLContext context = Database.getContext(conn);
 
 			int germplasm = context.selectCount().from(GERMINATEBASE).fetchOne(0, int.class);
-			int traits = context.selectCount().from(PHENOTYPES).fetchOne(0, int.class);
+			int traits = context.selectCount().from(VARIABLES).fetchOne(0, int.class);
 			int climates = context.selectCount().from(CLIMATES).fetchOne(0, int.class);
 			int markers = context.selectCount().from(MARKERS).fetchOne(0, int.class);
 			int maps = context.selectCount().from(MAPS).fetchOne(0, int.class);

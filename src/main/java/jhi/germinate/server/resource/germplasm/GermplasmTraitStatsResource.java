@@ -4,11 +4,11 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.GermplasmStats;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
+import jhi.germinate.server.database.codegen.enums.ViewTableTraitsScaleDatatype;
 import jhi.germinate.server.database.codegen.tables.*;
 import jhi.germinate.server.database.pojo.TraitRestrictions;
 import jhi.germinate.server.util.*;
@@ -21,8 +21,10 @@ import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Traits.TRAITS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("germplasm/{germplasmId}/stats/trait")
 @Secured
@@ -53,32 +55,32 @@ public class GermplasmTraitStatsResource
 			SelectConditionStep<?> min = context.select(DSL.min(p.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))))
 												.from(p)
 												.leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
-												.where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												.where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												.and(ts.DATASET_ID.in(datasetIds));
 
 			SelectConditionStep<?> max = context.select(DSL.max(p.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))))
 												.from(p)
 												.leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
-												.where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												.where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												.and(ts.DATASET_ID.in(datasetIds));
 
 			SelectConditionStep<?> count = context.select(DSL.count())
 												  .from(p)
 												  .leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
-												  .where(p.PHENOTYPE_ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+												  .where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												  .and(ts.DATASET_ID.in(datasetIds));
 
 			List<Integer> traitIds = new ArrayList<>();
 
-			context.selectFrom(PHENOTYPES)
-				   .where(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.numeric))
-				   .or(PHENOTYPES.DATATYPE.eq(PhenotypesDatatype.categorical))
+			context.selectFrom(VIEW_TABLE_TRAITS)
+				   .where(VIEW_TABLE_TRAITS.SCALE_DATATYPE.eq(ViewTableTraitsScaleDatatype.numeric))
+				   .or(VIEW_TABLE_TRAITS.SCALE_DATATYPE.eq(ViewTableTraitsScaleDatatype.categorical))
 				   .forEach(t -> {
-					   if (t.get(PHENOTYPES.DATATYPE) == PhenotypesDatatype.numeric)
-						   traitIds.add(t.get(PHENOTYPES.ID));
-					   else if (t.get(PHENOTYPES.DATATYPE) == PhenotypesDatatype.categorical)
+					   if (t.get(VIEW_TABLE_TRAITS.SCALE_DATATYPE) == ViewTableTraitsScaleDatatype.numeric)
+						   traitIds.add(t.get(VIEW_TABLE_TRAITS.VARIABLE_ID));
+					   else if (t.get(VIEW_TABLE_TRAITS.SCALE_DATATYPE) == ViewTableTraitsScaleDatatype.categorical)
 					   {
-						   TraitRestrictions traitRestrictions = t.get(PHENOTYPES.RESTRICTIONS);
+						   TraitRestrictions traitRestrictions = t.get(VIEW_TABLE_TRAITS.SCALE_RESTRICTIONS);
 
 						   if (traitRestrictions != null && !CollectionUtils.isEmpty(traitRestrictions.getCategories()))
 						   {
@@ -90,7 +92,7 @@ public class GermplasmTraitStatsResource
 									   allNumeric &= NumberUtils.isParsable(value);
 
 								   if (allNumeric)
-									   traitIds.add(t.get(PHENOTYPES.ID));
+									   traitIds.add(t.get(VIEW_TABLE_TRAITS.VARIABLE_ID));
 							   }
 
 						   }
@@ -100,22 +102,24 @@ public class GermplasmTraitStatsResource
 			return context.select(
 								  GERMINATEBASE.ID.as("germplasm_id"),
 								  GERMINATEBASE.NAME.as("germplasm_name"),
-								  PHENOTYPES.ID.as("trait_id"),
-								  PHENOTYPES.NAME.as("trait_name"),
-								  PHENOTYPES.SHORT_NAME.as("trait_name_short"),
+								  VARIABLES.ID.as("variable_id"),
+								  VARIABLES.NAME.as("variable_name"),
+								  TRAITS.ID.as("trait_id"),
+								  TRAITS.NAME.as("trait_name"),
+								  TRAITS.ABBREVIATION.as("trait_name_short"),
 								  min.asField("min"),
 								  DSL.avg(PHENOTYPEDATA.PHENOTYPE_VALUE.cast(SQLDataType.DECIMAL.precision(64, 10))).as("avg"),
 								  max.asField("max"),
 								  count.asField("count")
 						  ).from(PHENOTYPEDATA)
 						  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-						  .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
+						  .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 						  .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
 						  .where(GERMINATEBASE.ID.eq(germplasmId))
 						  .and(TRIALSETUP.DATASET_ID.in(datasetIds))
-						  .and(PHENOTYPES.ID.in(traitIds))
-						  .groupBy(PHENOTYPES.ID, GERMINATEBASE.ID)
-						  .orderBy(PHENOTYPES.NAME)
+						  .and(VARIABLES.ID.in(traitIds))
+						  .groupBy(VARIABLES.ID, GERMINATEBASE.ID)
+						  .orderBy(VARIABLES.NAME)
 						  .fetchInto(GermplasmStats.class);
 		}
 	}

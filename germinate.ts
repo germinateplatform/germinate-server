@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2025-09-17 14:10:33.
+// Generated using typescript-generator version 3.2.1263 on 2026-01-30 11:45:12.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -367,7 +367,7 @@ export interface PaginatedRequest {
     filters: FilterGroup[];
 }
 
-export interface PedigreeRequest extends SubsettedDatasetRequest {
+export interface PedigreeRequest extends TrialsExportDatasetRequest {
     levelsUp: number;
     levelsDown: number;
     includeAttributes: boolean;
@@ -405,10 +405,10 @@ export interface SgoneGermplasmUnificationRequest {
 
 export interface SubsettedDatasetRequest extends PaginatedRequest {
     datasetIds: number[];
-    xgroupIds: number[];
-    ygroupIds: number[];
     yids: number[];
     xids: number[];
+    ygroupIds: number[];
+    xgroupIds: number[];
 }
 
 export interface SubsettedGenotypeDatasetRequest extends SubsettedDatasetRequest {
@@ -443,6 +443,8 @@ export interface TraitDatasetStats {
 }
 
 export interface TraitStats {
+    variableId: number;
+    variableName: string;
     traitId: number;
     traitName: string;
     traitNameShort: string;
@@ -469,6 +471,12 @@ export interface TraitUnificationRequest {
 export interface TrialCreationDetails {
     datasetId: number;
     plots: PlotDetails[];
+}
+
+export interface TrialSetupStats {
+    reps: string[];
+    treatments: Treatments[];
+    plots: Plot[];
 }
 
 export interface TrialsExportDatasetRequest extends PaginatedRequest {
@@ -636,12 +644,15 @@ export interface ViewTableTrialsData {
     locationName: string;
     countryName: string;
     countryCode2: string;
+    variableId: number;
+    variableName: string;
+    variableDescription: string;
     traitId: number;
     traitName: string;
-    traitNameShort: string;
-    traitRestrictions: TraitRestrictions;
-    traitDataType: PhenotypesDatatype;
-    unitName: string;
+    traitAbbreviation: string;
+    scaleRestrictions: TraitRestrictions;
+    scaleDatatype: ScalesDatatype;
+    scaleUnit: string;
     treatment: string;
     trialsetupId: number;
     rep: string;
@@ -1239,6 +1250,25 @@ export interface Mcpd extends Serializable {
     updatedOn: Date;
 }
 
+export interface Methodontologies extends Serializable {
+    ontologyId: number;
+    methodId: number;
+    ontologyPuid: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Methods extends Serializable {
+    id: number;
+    name: string;
+    description: string;
+    methodClass: MethodsMethodClass;
+    setsize: number;
+    isTimeseries: boolean;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
 export interface Mlsstatus extends Serializable {
     id: number;
     description: string;
@@ -1263,6 +1293,16 @@ export interface Newstypes extends Serializable {
     id: number;
     name: string;
     description: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Ontologies extends Serializable {
+    id: number;
+    name: string;
+    description: string;
+    version: string;
+    url: string;
     createdOn: Date;
     updatedOn: Date;
 }
@@ -1308,35 +1348,12 @@ export interface Pedigrees extends Serializable {
     updatedOn: Date;
 }
 
-export interface Phenotypecategories extends Serializable {
-    id: number;
-    name: string;
-    description: string;
-    createdOn: Date;
-    updatedOn: Date;
-}
-
 export interface Phenotypedata extends Serializable {
     id: number;
     trialsetupId: number;
-    phenotypeId: number;
+    variableId: number;
     phenotypeValue: string;
     recordingDate: Date;
-    createdOn: Date;
-    updatedOn: Date;
-}
-
-export interface Phenotypes extends Serializable {
-    id: number;
-    name: string;
-    shortName: string;
-    description: string;
-    datatype: PhenotypesDatatype;
-    restrictions: TraitRestrictions;
-    unitId: number;
-    categoryId: number;
-    setsize: number;
-    isTimeseries: boolean;
     createdOn: Date;
     updatedOn: Date;
 }
@@ -1389,6 +1406,25 @@ export interface Publications extends Serializable {
     id: number;
     doi: string;
     fallbackCache: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Scaleontologies extends Serializable {
+    ontologyId: number;
+    scaleId: number;
+    ontologyPuid: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Scales extends Serializable {
+    id: number;
+    name: string;
+    description: string;
+    unit: string;
+    datatype: ScalesDatatype;
+    restrictions: JSON;
     createdOn: Date;
     updatedOn: Date;
 }
@@ -1479,6 +1515,34 @@ export interface Taxonomyproviderslinks extends Serializable {
     externalId: string;
 }
 
+export interface Traitcategories extends Serializable {
+    id: number;
+    name: string;
+    description: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Traitontologies extends Serializable {
+    ontologyId: number;
+    traitId: number;
+    ontologyPuid: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Traits extends Serializable {
+    id: number;
+    name: string;
+    description: string;
+    abbreviation: string;
+    traitClass: TraitsTraitClass;
+    traitcategoryId: number;
+    synonyms: string[];
+    createdOn: Date;
+    updatedOn: Date;
+}
+
 export interface Treatments extends Serializable {
     id: number;
     name: string;
@@ -1547,6 +1611,25 @@ export interface Usergroups extends Serializable {
     id: number;
     name: string;
     description: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Variableontologies extends Serializable {
+    ontologyId: number;
+    variableId: number;
+    ontologyPuid: string;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
+export interface Variables extends Serializable {
+    id: number;
+    name: string;
+    description: string;
+    traitId: number;
+    methodId: number;
+    scaleId: number;
     createdOn: Date;
     updatedOn: Date;
 }
@@ -2012,8 +2095,8 @@ export interface ViewTableTaxonomies extends Serializable {
 
 export interface ViewTableTraitAttributes extends Serializable {
     attributeValueId: number;
-    traitId: number;
-    traitName: string;
+    variableId: number;
+    variableName: string;
     attributeId: number;
     attributeName: string;
     attributeDescription: string;
@@ -2025,24 +2108,55 @@ export interface ViewTableTraitAttributes extends Serializable {
 }
 
 export interface ViewTableTraits extends Serializable {
+    variableId: number;
+    variableName: string;
+    variableDescription: string;
     traitId: number;
     traitName: string;
-    traitNameShort: string;
     traitDescription: string;
-    dataType: ViewTableTraitsDataType;
-    traitRestrictions: TraitRestrictions;
-    traitSetSize: number;
-    traitIsTimeseries: boolean;
-    categoryId: number;
-    categoryName: string;
-    categoryDescription: string;
-    unitId: number;
-    unitName: string;
-    unitDescription: string;
-    unitAbbreviation: string;
-    synonyms: string[];
+    methodId: number;
+    methodName: string;
+    methodDescription: string;
+    methodClass: ViewTableTraitsMethodClass;
+    scaleId: number;
+    scaleName: string;
+    scaleDescription: string;
+    traitAbbreviation: string;
+    traitClass: ViewTableTraitsTraitClass;
+    traitSynonyms: string[];
+    methodSetSize: number;
+    methodIsTimeseries: boolean;
+    scaleDatatype: ViewTableTraitsScaleDatatype;
+    scaleRestrictions: TraitRestrictions;
+    scaleUnit: string;
     datasetIds: number[];
     count: number;
+}
+
+export interface ViewTableTraitsTemplate extends Serializable {
+    variableCropontologyId: string;
+    variableName: string;
+    variableDescription: string;
+    traitCopontologyId: string;
+    traitName: string;
+    traitDescription: string;
+    traitAbbreviation: string;
+    traitClass: ViewTableTraitsTemplateTraitClass;
+    traitCategory: string;
+    methodCropontologyId: string;
+    methodName: string;
+    methodDescription: string;
+    methodClass: ViewTableTraitsTemplateMethodClass;
+    methodSetSize: number;
+    methodIsTimeseries: boolean;
+    scaleCropontologyId: string;
+    scaleName: string;
+    scaleDescription: string;
+    scaleUnit: string;
+    scaleDataType: ViewTableTraitsTemplateScaleDataType;
+    scaleMinimum: JSON;
+    scaleMaximum: JSON;
+    scaleValidValues: JSON;
 }
 
 export interface ViewTableUsergroups extends Serializable {
@@ -2148,10 +2262,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    xgroupIds: number[];
-    ygroupIds: number[];
     yids: number[];
     xids: number[];
+    ygroupIds: number[];
+    xgroupIds: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2315,6 +2429,11 @@ export interface PlotDetails {
     rep: string;
 }
 
+export interface Plot {
+    row: number;
+    column: number;
+}
+
 export interface ViewUserDetails extends Serializable {
     id: number;
     username: string;
@@ -2328,30 +2447,33 @@ export interface ViewUserDetails extends Serializable {
     address: string;
 }
 
+export interface JSON extends Data {
+}
+
 export interface JsonElement {
     asInt: number;
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
     asString: string;
-    asByte: number;
-    jsonNull: boolean;
-    asShort: number;
-    asFloat: number;
     jsonArray: boolean;
     asJsonObject: JsonObject;
-    asJsonNull: JsonNull;
+    jsonObject: boolean;
+    asNumber: number;
     asBigDecimal: number;
-    asJsonArray: JsonArray;
+    asJsonNull: JsonNull;
+    asJsonPrimitive: JsonPrimitive;
+    asBigInteger: number;
+    jsonPrimitive: boolean;
     /**
      * @deprecated
      */
     asCharacter: string;
-    asNumber: number;
-    asJsonPrimitive: JsonPrimitive;
-    asBigInteger: number;
-    jsonPrimitive: boolean;
-    jsonObject: boolean;
+    asJsonArray: JsonArray;
+    jsonNull: boolean;
+    asFloat: number;
+    asByte: number;
+    asShort: number;
 }
 
 export interface LevelCount {
@@ -2372,6 +2494,9 @@ export interface SgonePojo {
     name: string;
 }
 
+export interface Data extends Serializable {
+}
+
 export interface JsonObject extends JsonElement {
     empty: boolean;
 }
@@ -2379,14 +2504,14 @@ export interface JsonObject extends JsonElement {
 export interface JsonNull extends JsonElement {
 }
 
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
-    empty: boolean;
-}
-
 export interface JsonPrimitive extends JsonElement {
     number: boolean;
-    string: boolean;
     boolean: boolean;
+    string: boolean;
+}
+
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
+    empty: boolean;
 }
 
 export interface Cloneable {
@@ -2606,7 +2731,7 @@ export const enum ViewTableClimateDataClimateDataType {
     date = 'date',
 }
 
-export const enum PhenotypesDatatype {
+export const enum ScalesDatatype {
     categorical = 'categorical',
     numeric = 'numeric',
     text = 'text',
@@ -2689,6 +2814,17 @@ export const enum MapoverlaysReferenceTable {
     climates = 'climates',
 }
 
+export const enum MethodsMethodClass {
+    measurement = 'measurement',
+    estimation = 'estimation',
+    counting = 'counting',
+    computation = 'computation',
+    prediction = 'prediction',
+    description = 'description',
+    classification = 'classification',
+    other = 'other',
+}
+
 export const enum NewsImageFit {
     contain = 'contain',
     cover = 'cover',
@@ -2715,6 +2851,19 @@ export const enum PublicationdataReferenceType {
     germplasm = 'germplasm',
     group = 'group',
     experiment = 'experiment',
+}
+
+export const enum TraitsTraitClass {
+    abiotic_stress = 'abiotic_stress',
+    agronomic = 'agronomic',
+    biochemical = 'biochemical',
+    biotic_stress = 'biotic_stress',
+    fertility = 'fertility',
+    morphological = 'morphological',
+    phenological = 'phenological',
+    physiological = 'physiological',
+    quality = 'quality',
+    other = 'other',
 }
 
 export const enum UserfeedbackFeedbackType {
@@ -2796,7 +2945,62 @@ export const enum ViewTableTraitAttributesAttributeType {
     date = 'date',
 }
 
-export const enum ViewTableTraitsDataType {
+export const enum ViewTableTraitsMethodClass {
+    measurement = 'measurement',
+    estimation = 'estimation',
+    counting = 'counting',
+    computation = 'computation',
+    prediction = 'prediction',
+    description = 'description',
+    classification = 'classification',
+    other = 'other',
+}
+
+export const enum ViewTableTraitsTraitClass {
+    abiotic_stress = 'abiotic_stress',
+    agronomic = 'agronomic',
+    biochemical = 'biochemical',
+    biotic_stress = 'biotic_stress',
+    fertility = 'fertility',
+    morphological = 'morphological',
+    phenological = 'phenological',
+    physiological = 'physiological',
+    quality = 'quality',
+    other = 'other',
+}
+
+export const enum ViewTableTraitsScaleDatatype {
+    categorical = 'categorical',
+    numeric = 'numeric',
+    text = 'text',
+    date = 'date',
+}
+
+export const enum ViewTableTraitsTemplateTraitClass {
+    abiotic_stress = 'abiotic_stress',
+    agronomic = 'agronomic',
+    biochemical = 'biochemical',
+    biotic_stress = 'biotic_stress',
+    fertility = 'fertility',
+    morphological = 'morphological',
+    phenological = 'phenological',
+    physiological = 'physiological',
+    quality = 'quality',
+    other = 'other',
+}
+
+export const enum ViewTableTraitsTemplateMethodClass {
+    measurement = 'measurement',
+    estimation = 'estimation',
+    counting = 'counting',
+    computation = 'computation',
+    prediction = 'prediction',
+    description = 'description',
+    classification = 'classification',
+    other = 'other',
+}
+
+export const enum ViewTableTraitsTemplateScaleDataType {
     categorical = 'categorical',
     numeric = 'numeric',
     text = 'text',

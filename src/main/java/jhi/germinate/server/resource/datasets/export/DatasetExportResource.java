@@ -25,15 +25,14 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
 import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
@@ -362,14 +361,14 @@ public class DatasetExportResource extends ContextResource
 			switch (format)
 			{
 				case isatab:
-					file = exportIsaTab(request, context, datasetIds);
+					file = exportIsaTab(userDetails, request, context, datasetIds);
 					mediaType = "application/zip";
 					break;
 				case tab:
 				default:
 					try
 					{
-						file = exportTabFast("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
+						file = exportTabFast(userDetails, "trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 //						file = exportTab("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 						mediaType = MediaType.TEXT_PLAIN;
 					}
@@ -420,7 +419,7 @@ public class DatasetExportResource extends ContextResource
 	}
 
 
-	private File exportIsaTab(TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+	private File exportIsaTab(AuthenticationFilter.UserDetails userDetails, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
 			throws IOException, SQLException
 	{
 		File zipFile = ResourceUtils.createTempFile(null, "trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), ".zip", false);
@@ -429,8 +428,6 @@ public class DatasetExportResource extends ContextResource
 		Investigation inv = new Investigation("Germinate");
 		inv.setTitle("Germinate");
 		inv.setDescription("This dataset contains phenotypic data exported from Germinate");
-
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		for (Integer dsId : datasetIds)
 		{
@@ -445,7 +442,7 @@ public class DatasetExportResource extends ContextResource
 				study.setTitle(dataset.getDatasetName());
 				study.setDescription(dataset.getDatasetDescription());
 				study.setPublicReleaseDate(dataset.getCreatedOn());
-				File datasetFile = exportTabFast("s_" + dsId + DateTimeUtils.getFormattedDateTime(new Date()), request, context, Collections.singletonList(dsId));
+				File datasetFile = exportTabFast(userDetails, "s_" + dsId + DateTimeUtils.getFormattedDateTime(new Date()), request, context, Collections.singletonList(dsId));
 				study.setFileName(datasetFile.getName());
 				resultFiles.add(datasetFile);
 				inv.addStudy(study);
@@ -478,7 +475,7 @@ public class DatasetExportResource extends ContextResource
 		return zipFile;
 	}
 
-	private File exportTabFast(String filename, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+	private File exportTabFast(AuthenticationFilter.UserDetails userDetails, String filename, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
 			throws GerminateException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
@@ -501,12 +498,10 @@ public class DatasetExportResource extends ContextResource
 			Map<Integer, String> locations = new HashMap<>();
 			context.selectFrom(LOCATIONS).forEach(l -> locations.put(l.getId(), l.getSiteName()));
 
-			Map<Integer, GroupsRecord> groups = context.selectFrom(GROUPS).fetchMap(GROUPS.ID);
-
 			// Get the requested traits
 			Map<Integer, String> traits = new LinkedHashMap<>();
 			SelectConditionStep<ViewTableTraitsRecord> step = context.selectFrom(VIEW_TABLE_TRAITS)
-																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)).and(TRIALSETUP.DATASET_ID.in(datasetIds)).limit(1));
+																	 .whereExists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID)).and(TRIALSETUP.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Limit to requested traits
 			if (!CollectionUtils.isEmpty(request.getTraitIds()))
@@ -516,8 +511,8 @@ public class DatasetExportResource extends ContextResource
 			step.forEach(t -> {
 				String name = t.getTraitName();
 
-				if (!StringUtils.isEmpty(t.getUnitAbbreviation()))
-					name += " [" + t.getUnitAbbreviation() + "]";
+				if (!StringUtils.isEmpty(t.getScaleUnit()))
+					name += " [" + t.getScaleUnit() + "]";
 
 				traits.put(t.getTraitId(), name);
 			});
@@ -587,9 +582,28 @@ public class DatasetExportResource extends ContextResource
 			Map<Integer, String> treatments = new HashMap<>();
 			context.selectFrom(TREATMENTS).forEach(t -> treatments.put(t.getId(), t.getName()));
 
+			// Get germplasm mapped to group ids
+			Map<Integer, Set<String>> germplasmGroupIds = new HashMap<>();
+			context.select()
+				   .from(GROUPMEMBERS)
+				   .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+				   .where(GROUPS.GROUPTYPE_ID.eq(3))
+				   .and(GROUPS.VISIBILITY.eq(true)
+										 .or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+				   .forEach(gm -> {
+					   Integer germplasmId = gm.get(GROUPMEMBERS.FOREIGN_ID);
+					   Set<String> ids = germplasmGroupIds.get(germplasmId);
+
+					   if (ids == null)
+						   ids = new HashSet<>();
+					   ids.add(gm.get(GROUPMEMBERS.GROUP_ID, String.class));
+
+					   germplasmGroupIds.put(germplasmId, ids);
+				   });
+
 			// Add header rows
 			bw.write("#input=PHENOTYPE" + ResourceUtils.CRLF);
-			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_name\tdataset_version\tlicense_name\tyear\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\tblock\ttrial_row\ttrial_column\t");
+			bw.write("name\tdbId\tpuid\tgeneral_identifier\ttaxonomy\tentity_parent_name\tentity_parent_general_identifier\tdataset_id\tdataset_name\tdataset_version\tlicense_name\tyear\tgroups\tlocation\tlatitude\tlongitude\televation\ttreatments_description\trep\tblock\ttrial_row\ttrial_column\t");
 			bw.write(String.join("\t", traits.values()));
 
 			// Keep track of the data for each germplasm record (name, rep, row, column, treatment)-tuple
@@ -605,7 +619,7 @@ public class DatasetExportResource extends ContextResource
 				   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 				   .where(TRIALSETUP.DATASET_ID.in(datasetIds))
 				   .and(TRIALSETUP.GERMINATEBASE_ID.in(germplasm.keySet()))
-				   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traits.keySet()))
+				   .and(PHENOTYPEDATA.VARIABLE_ID.in(traits.keySet()))
 //				   .orderBy(PHENOTYPEDATA.GERMINATEBASE_ID, PHENOTYPEDATA.REP, PHENOTYPEDATA.TRIAL_ROW, PHENOTYPEDATA.TRIAL_COLUMN, PHENOTYPEDATA.TREATMENT_ID)
 				   .stream()
 				   .forEach(pd -> {
@@ -614,7 +628,7 @@ public class DatasetExportResource extends ContextResource
 					   String block = pd.get(TRIALSETUP.BLOCK);
 					   Short trialRow = pd.get(TRIALSETUP.TRIAL_ROW);
 					   Short trialColumn = pd.get(TRIALSETUP.TRIAL_COLUMN);
-					   String traitHeader = traits.get(pd.get(PHENOTYPEDATA.PHENOTYPE_ID));
+					   String traitHeader = traits.get(pd.get(PHENOTYPEDATA.VARIABLE_ID));
 					   int traitIndex = traitsOrdered.indexOf(traitHeader);
 					   String treatment = treatments.get(pd.get(TRIALSETUP.TREATMENT_ID));
 					   Integer year = null;
@@ -658,27 +672,22 @@ public class DatasetExportResource extends ContextResource
 					   String treatment = StringUtils.orEmpty(gp.treatment);
 					   String entityParentName = StringUtils.orEmpty(gpdb.getEntityParentName());
 					   String entityParentGid = StringUtils.orEmpty(gpdb.getEntityParentGeneralIdentifier());
-					   String dataset = gp.datasetId + "-" + datasets.get(gp.datasetId);
+					   String datasetId = Integer.toString(gp.datasetId);
+					   String dataset = datasets.get(gp.datasetId);
 					   String location = gp.locationId == null ? "" : locations.get(gp.locationId);
 					   String latitude = gp.latitude == null ? "" : String.valueOf(gp.latitude);
 					   String longitude = gp.longitude == null ? "" : String.valueOf(gp.longitude);
 					   String elevation = gp.elevation == null ? "" : String.valueOf(gp.elevation);
 					   String groupString = "";
 
-					   if (!CollectionUtils.isEmpty(gpdb.getGroupIds()))
-					   {
-						   List<String> germplasmGroups = gpdb.getGroupIds().stream().map(gr -> {
-							   GroupsRecord group = groups.get(gr);
-							   return StringUtils.truncate(group.getName(), 10);
-						   }).sorted().collect(Collectors.toList());
-
-						   groupString = gson.toJson(germplasmGroups);
-					   }
+					   Set<String> groupIds = germplasmGroupIds.get(gp.germplasmId);
+					   if (!CollectionUtils.isEmpty(groupIds))
+						   groupString = gson.toJson(groupIds.toArray(new String[0]));
 
 					   String mainIdentifier = StringUtils.isEmpty(gp.germplasmDisplayName) ? gp.germplasmName : gp.germplasmDisplayName;
 
 					   bw.write(ResourceUtils.CRLF);
-					   bw.write(String.join("\t", mainIdentifier, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, dataset, year, groupString, location, latitude, longitude, elevation, treatment, rep, block, row, col));
+					   bw.write(String.join("\t", mainIdentifier, String.valueOf(gp.germplasmId), puid, gid, tax, entityParentName, entityParentGid, datasetId, dataset, year, groupString, location, latitude, longitude, elevation, treatment, rep, block, row, col));
 
 					   // Print trait data
 					   traits.values().forEach(traitHeader -> {

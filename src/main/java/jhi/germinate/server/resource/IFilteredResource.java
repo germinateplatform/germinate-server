@@ -3,6 +3,7 @@ package jhi.germinate.server.resource;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.jooq.GDSL;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -213,10 +214,9 @@ public interface IFilteredResource
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
-													   .filter(v -> !StringUtils.isEmpty(v))
-													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
-													   .map(v -> DSL.condition("JSON_SEARCH(LOWER(" + field.getName() + "), 'one', LOWER('%" + v + "%')) IS NOT NULL"))
-													   .toList();
+							.filter(v -> !StringUtils.isEmpty(v))
+							.map(v -> GDSL.jsonSearch(v, field).isNotNull())
+							.toList();
 
 					Condition result = conditions.get(0);
 
@@ -236,9 +236,8 @@ public interface IFilteredResource
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
-													   .map(v -> v.replaceAll("[^a-zA-Z0-9_-]", "")) // Replace all non letters and numbers
-													   .map(v -> DSL.condition("JSON_CONTAINS(" + field.getName() + ", '" + v + "')"))
-													   .toList();
+							.map(v -> GDSL.jsonContains(v, field))
+							.toList();
 
 					Condition result = conditions.get(0);
 

@@ -9,7 +9,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.resource.ResourceUtils;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -42,6 +41,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
+
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
 
@@ -53,30 +53,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
 
-			Field<Integer> germplasmId = GROUPMEMBERS.FOREIGN_ID.as("germplasmId");
-			Map<Integer, GermplasmGroups> germplasmGroups = new HashMap<>();
-			context.select(
-					   germplasmId,
-					   DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(GROUPS.ID), DSL.key("name").value(GROUPS.NAME))).as("groups")
-				   )
-				   .from(GROUPS)
-				   .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-				   .where(GROUPS.GROUPTYPE_ID.eq(3)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
-				   .groupBy(germplasmId)
-				   .forEach(r -> {
-					   germplasmGroups.put(r.get(germplasmId), r.into(GermplasmGroups.class));
-				   });
-
-			// Handle requested germplasm ids or group ids
-			Set<Integer> germplasmIds = new HashSet<>();
-			if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
-				germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getGermplasmGroupIds())).fetchInto(Integer.class));
-			if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
-				germplasmIds.addAll(Arrays.asList(request.getGermplasmIds()));
-			if (!CollectionUtils.isEmpty(germplasmIds))
-				from.where(DSL.field(TrialsDataBaseResource.GERMPLASM_ID, Integer.class).in(germplasmIds));
-			if (!CollectionUtils.isEmpty(request.getTraitIds()))
-				from.where(DSL.field(TrialsDataBaseResource.TRAIT_ID, Integer.class).in(request.getTraitIds()));
+			Map<Integer, GermplasmGroups> germplasmGroups = addFilter(context, from, userDetails, request);
 
 			// Filter here!
 			where(from, filters);
@@ -98,11 +75,41 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 		}
 	}
 
+	private Map<Integer, GermplasmGroups> addFilter(DSLContext context, SelectJoinStep<?> from, AuthenticationFilter.UserDetails userDetails, TrialsExportDatasetRequest request)
+	{
+		Field<Integer> germplasmId = GROUPMEMBERS.FOREIGN_ID.as("germplasmId");
+		Map<Integer, GermplasmGroups> germplasmGroups = new HashMap<>();
+		context.select(
+					   germplasmId,
+					   DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(GROUPS.ID), DSL.key("name").value(GROUPS.NAME))).as("groups")
+			   )
+			   .from(GROUPS)
+			   .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+			   .where(GROUPS.GROUPTYPE_ID.eq(3)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+			   .groupBy(germplasmId)
+			   .forEach(r -> {
+				   germplasmGroups.put(r.get(germplasmId), r.into(GermplasmGroups.class));
+			   });
+
+		// Handle requested germplasm ids or group ids
+		Set<Integer> germplasmIds = new HashSet<>();
+		if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
+			germplasmIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getGermplasmGroupIds())).fetchInto(Integer.class));
+		if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
+			germplasmIds.addAll(Arrays.asList(request.getGermplasmIds()));
+		if (!CollectionUtils.isEmpty(germplasmIds))
+			from.where(DSL.field(TrialsDataBaseResource.GERMPLASM_ID, Integer.class).in(germplasmIds));
+		if (!CollectionUtils.isEmpty(request.getTraitIds()))
+			from.where(DSL.field(TrialsDataBaseResource.VARIABLE_ID, Integer.class).in(request.getTraitIds()));
+
+		return germplasmGroups;
+	}
+
 	@POST
 	@Path("/ids")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<Integer>> postTrialsDataTableIds(PaginatedDatasetRequest request)
+	public PaginatedResult<List<Integer>> postTrialsDataTableIds(TrialsExportDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -111,11 +118,11 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			return null;
 		}
 
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
 			return new PaginatedResult<>(new ArrayList<>(), 0);
-
 
 		processRequest(request);
 		currentPage = 0;
@@ -126,6 +133,8 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			SelectJoinStep<Record1<Integer>> from = getTrialsDataIdQueryWrapped(context, minimal, null);
 
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
+
+			addFilter(context, from, userDetails, request);
 
 			// Filter here!
 			where(from, filters);
@@ -142,10 +151,11 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postTrialsDataTableExport(DatasetExportRequest request)
+	public Response postTrialsDataTableExport(TrialsExportDatasetRequest request)
 		throws IOException, SQLException
 	{
-		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
 		{
 			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
@@ -160,6 +170,8 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			SelectJoinStep<?> from = getTrialsDataQueryWrapped(context, minimal, null);
 
 			from.where(DSL.field(TrialsDataBaseResource.DATASET_ID, Integer.class).in(requestedIds));
+
+			addFilter(context, from, userDetails, request);
 
 			// Filter here!
 			where(from, filters);
