@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-01-30 11:45:12.
+// Generated using typescript-generator version 3.2.1263 on 2026-03-18 15:17:48.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -77,6 +77,12 @@ export interface BackupResult {
     filesize: number;
 }
 
+export interface BiologicalStatusCount {
+    id: number;
+    biologicalstatus: string;
+    count: number;
+}
+
 export interface ClientAdminConfiguration extends ClientConfiguration {
     bcryptSalt: number;
     brapiEnabled: boolean;
@@ -125,6 +131,14 @@ export interface ClimateDatasetStats {
     datasets: ViewTableDatasets[];
     climates: ViewTableClimates[];
     stats: Quantiles[];
+}
+
+export interface CountryCount {
+    id: number;
+    countryName: string;
+    countryCode2: string;
+    countryCode3: string;
+    count: number;
 }
 
 export interface DatabaseConfig {
@@ -215,6 +229,14 @@ export interface GermplasmExportRequest extends ExportRequest {
     individualIds: number[];
     groupIds: number[];
     includeAttributes: boolean;
+}
+
+export interface GermplasmMetaStats {
+    genus: string;
+    species: string;
+    taxonomy: string;
+    sampstat: string;
+    pdci: number;
 }
 
 export interface GermplasmStats {
@@ -405,8 +427,8 @@ export interface SgoneGermplasmUnificationRequest {
 
 export interface SubsettedDatasetRequest extends PaginatedRequest {
     datasetIds: number[];
-    yids: number[];
     xids: number[];
+    yids: number[];
     ygroupIds: number[];
     xgroupIds: number[];
 }
@@ -463,11 +485,6 @@ export interface TraitTimelineRequest {
     markedIds: number[];
 }
 
-export interface TraitUnificationRequest {
-    preferredTraitId: number;
-    otherTraitIds: number[];
-}
-
 export interface TrialCreationDetails {
     datasetId: number;
     plots: PlotDetails[];
@@ -476,7 +493,9 @@ export interface TrialCreationDetails {
 export interface TrialSetupStats {
     reps: string[];
     treatments: Treatments[];
-    plots: Plot[];
+    taxonomies: Taxonomies[];
+    plots: PlotDetails[];
+    years: number[];
 }
 
 export interface TrialsExportDatasetRequest extends PaginatedRequest {
@@ -498,6 +517,11 @@ export interface UserGroupModificationRequest {
 
 export interface UuidRequest {
     uuids: string[];
+}
+
+export interface VariableUnificationRequest {
+    preferredVariableId: number;
+    otherVariableIds: number[];
 }
 
 export interface ViewMcpd {
@@ -635,6 +659,8 @@ export interface ViewTableTrialsData {
     germplasmName: string;
     germplasmDisplayName: string;
     germplasmSynonyms: string[];
+    taxonomyId: number;
+    taxonomyFull: string;
     entityParentName: string;
     entityParentGeneralIdentifier: string;
     entityType: string;
@@ -2250,9 +2276,9 @@ export interface Exif {
     userComment: string;
     whiteBalance: string;
     whiteBalanceMode: string;
-    yresolution: string;
-    xresolution: string;
     fnumber: string;
+    xresolution: string;
+    yresolution: string;
 }
 
 export interface ExportJobDetails {
@@ -2262,8 +2288,8 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    yids: number[];
     xids: number[];
+    yids: number[];
     ygroupIds: number[];
     xgroupIds: number[];
 }
@@ -2423,15 +2449,11 @@ export interface SgoneGermplasmUnification {
 }
 
 export interface PlotDetails {
+    id: string;
     row: number;
     column: number;
     germplasm: string;
     rep: string;
-}
-
-export interface Plot {
-    row: number;
-    column: number;
 }
 
 export interface ViewUserDetails extends Serializable {
@@ -2455,25 +2477,25 @@ export interface JsonElement {
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
-    asString: string;
-    jsonArray: boolean;
-    asJsonObject: JsonObject;
-    jsonObject: boolean;
     asNumber: number;
-    asBigDecimal: number;
-    asJsonNull: JsonNull;
-    asJsonPrimitive: JsonPrimitive;
-    asBigInteger: number;
+    jsonObject: boolean;
     jsonPrimitive: boolean;
     /**
      * @deprecated
      */
     asCharacter: string;
+    asBigDecimal: number;
+    jsonArray: boolean;
     asJsonArray: JsonArray;
-    jsonNull: boolean;
-    asFloat: number;
-    asByte: number;
+    asJsonNull: JsonNull;
+    asJsonObject: JsonObject;
+    asJsonPrimitive: JsonPrimitive;
+    asBigInteger: number;
     asShort: number;
+    jsonNull: boolean;
+    asByte: number;
+    asFloat: number;
+    asString: string;
 }
 
 export interface LevelCount {
@@ -2497,21 +2519,21 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonObject extends JsonElement {
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
 }
 
 export interface JsonNull extends JsonElement {
 }
 
-export interface JsonPrimitive extends JsonElement {
-    number: boolean;
-    boolean: boolean;
-    string: boolean;
+export interface JsonObject extends JsonElement {
+    empty: boolean;
 }
 
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
-    empty: boolean;
+export interface JsonPrimitive extends JsonElement {
+    boolean: boolean;
+    string: boolean;
+    number: boolean;
 }
 
 export interface Cloneable {

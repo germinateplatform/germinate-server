@@ -30,7 +30,7 @@ import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
 public class GroupResource extends BaseResource
 {
 	public static List<Integer> getGroupIdsForUser(AuthenticationFilter.UserDetails userDetails, Integer foreignId)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{

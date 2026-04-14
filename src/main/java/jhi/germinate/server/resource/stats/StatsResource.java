@@ -11,6 +11,7 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.jooq.GDSL;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
@@ -23,6 +24,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static jhi.germinate.server.database.codegen.tables.Biologicalstatus.BIOLOGICALSTATUS;
 import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
 import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.DATASETFILERESOURCES;
 import static jhi.germinate.server.database.codegen.tables.Entitytypes.ENTITYTYPES;
@@ -35,15 +37,16 @@ import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
-import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES;
-import static jhi.germinate.server.database.codegen.tables.ViewTableTaxonomies.VIEW_TABLE_TAXONOMIES;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsBiologicalstatus.VIEW_STATS_BIOLOGICALSTATUS;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsCountry.VIEW_STATS_COUNTRY;
 import static jhi.germinate.server.database.codegen.tables.ViewStatsTaxonomy.VIEW_STATS_TAXONOMY;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTaxonomies.VIEW_TABLE_TAXONOMIES;
 
 @Path("stats")
 @Secured
@@ -272,6 +275,41 @@ public class StatsResource
 			e.printStackTrace();
 			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 			return null;
+		}
+	}
+
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/meta")
+	public Response getMetaTats()
+			throws IOException, SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			Field<Double> pdciField = DSL.floor(GERMINATEBASE.PDCI).as("pdci");
+
+			return Response.ok(context.select(
+											  TAXONOMIES.GENUS,
+											  TAXONOMIES.SPECIES,
+											  GDSL.concatWS(" ", TAXONOMIES.GENUS, TAXONOMIES.SPECIES).as("taxonomy"),
+											  DSL.substringIndex(BIOLOGICALSTATUS.SAMPSTAT, "(", 1).as("sampstat"),
+											  pdciField
+									  )
+									  .from(GERMINATEBASE)
+									  .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+									  .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+									  .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+									  .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+									  .andNot(
+											  TAXONOMIES.GENUS.isNull()
+															  .and(pdciField.isNull())
+															  .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
+									  )
+									  .fetchInto(GermplasmMetaStats.class))
+						   .build();
 		}
 	}
 }

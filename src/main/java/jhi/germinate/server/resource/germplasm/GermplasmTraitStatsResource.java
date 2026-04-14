@@ -6,11 +6,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.core.Context;
-import jhi.germinate.resource.GermplasmStats;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.ViewTableTraitsScaleDatatype;
 import jhi.germinate.server.database.codegen.tables.*;
 import jhi.germinate.server.database.pojo.TraitRestrictions;
+import jhi.germinate.server.resource.groups.GroupResource;
 import jhi.germinate.server.util.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jooq.*;
@@ -20,6 +21,7 @@ import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
 import static jhi.germinate.server.database.codegen.tables.Traits.TRAITS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
@@ -38,13 +40,14 @@ public class GermplasmTraitStatsResource
 	@Context
 	protected HttpServletResponse resp;
 
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<GermplasmStats> getGermplasmTraitStats(@PathParam("germplasmId") Integer germplasmId)
+	public List<GermplasmStats> getGermplasmTraitStats(@PathParam("germplasmId") Integer germplasmId, GermplasmExportRequest requestedSubset)
 			throws SQLException
 	{
-		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", true);
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, "trials", true);
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -69,6 +72,35 @@ public class GermplasmTraitStatsResource
 												  .leftJoin(ts).on(ts.ID.eq(p.TRIALSETUP_ID))
 												  .where(p.VARIABLE_ID.eq(PHENOTYPEDATA.VARIABLE_ID))
 												  .and(ts.DATASET_ID.in(datasetIds));
+
+			if (requestedSubset != null && (!CollectionUtils.isEmpty(requestedSubset.getGroupIds()) || !CollectionUtils.isEmpty(requestedSubset.getIndividualIds())))
+			{
+				List<Integer> availableGroupIds = GroupResource.getGroupIdsForUser(userDetails, null);
+
+				List<Integer> requestedGroupIds = requestedSubset.getGroupIds() == null ? new ArrayList<>() : new ArrayList<>(Arrays.stream(requestedSubset.getGroupIds()).toList());
+				requestedGroupIds.retainAll(availableGroupIds);
+
+				Set<Integer> allGermplasmIds = new HashSet<>();
+
+				if (requestedSubset.getIndividualIds() != null)
+					allGermplasmIds.addAll(Arrays.asList(requestedSubset.getIndividualIds()));
+
+				if (!CollectionUtils.isEmpty(requestedGroupIds))
+				{
+					List<Integer> germplasmIds = context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).where(GROUPMEMBERS.GROUP_ID.in(requestedGroupIds)).fetchInto(Integer.class);
+
+					allGermplasmIds.addAll(germplasmIds);
+				}
+
+				if (!CollectionUtils.isEmpty(allGermplasmIds))
+				{
+					Condition condition = ts.GERMINATEBASE_ID.in(allGermplasmIds);
+
+					min = min.and(condition);
+					max = max.and(condition);
+					count = count.and(condition);
+				}
+			}
 
 			List<Integer> traitIds = new ArrayList<>();
 
@@ -114,6 +146,7 @@ public class GermplasmTraitStatsResource
 						  ).from(PHENOTYPEDATA)
 						  .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 						  .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+						  .leftJoin(TRAITS).on(TRAITS.ID.eq(VARIABLES.TRAIT_ID))
 						  .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
 						  .where(GERMINATEBASE.ID.eq(germplasmId))
 						  .and(TRIALSETUP.DATASET_ID.in(datasetIds))

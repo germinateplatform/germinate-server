@@ -119,13 +119,18 @@ public class StringUtils
 
 	public static String join(String separator, String... parts)
 	{
+		return join(separator, false, parts);
+	}
+
+	public static String join(String separator, boolean allowEmpty, String... parts)
+	{
 		List<String> nonNull = new ArrayList<>();
 
 		if (parts != null)
 		{
 			for (String part : parts)
 			{
-				if (!StringUtils.isEmpty(part))
+				if (allowEmpty || !StringUtils.isEmpty(part))
 					nonNull.add(part);
 			}
 
