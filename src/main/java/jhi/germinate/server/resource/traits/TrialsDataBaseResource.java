@@ -57,6 +57,7 @@ public class TrialsDataBaseResource extends ExportResource
 	public static String BLOCK                            = "block";
 	public static String TRIAL_ROW                        = "trial_row";
 	public static String TRIAL_COLUMN                     = "trial_column";
+	// TODO
 	public static String GROUPS_FIELD                     = "groups";
 	public static String LATITUDE                         = "latitude";
 	public static String LONGITUDE                        = "longitude";

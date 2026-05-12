@@ -104,10 +104,10 @@ public class DatasetExportResource extends ContextResource
 			dbJob.setDatatype(DataExportJobsDatatype.allelefreq);
 			dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setXIds(request.getXIds())
-					.setXGroupIds(request.getXGroupIds())
-					.setYIds(request.getYIds())
-					.setYGroupIds(request.getYGroupIds())
+					.setXIds(request.getMarkerIds())
+					.setXGroupIds(request.getMarkerGroupIds())
+					.setYIds(request.getGermplasmIds())
+					.setYGroupIds(request.getGermplasmGroupIds())
 					.setSubsetId(request.getMapId())
 					.setBinningConfig(request.getConfig())
 					.setFileHeaders(String.join("\n", DatasetExportGenotypeResource.getFlapjackHeaders()) + "\n")
@@ -159,7 +159,7 @@ public class DatasetExportResource extends ContextResource
 	@Path("/allelefreq/histogram")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postJson(SubsettedGenotypeDatasetRequest request)
+	public Response postJson(GenotypeSubsetDatasetRequest request)
 			throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
@@ -231,7 +231,7 @@ public class DatasetExportResource extends ContextResource
 	@Path("/climate")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postDatasetExportClimate(SubsettedDatasetRequest request)
+	public Response postDatasetExportClimate(ClimateExportDatasetRequest request)
 			throws IOException, SQLException
 	{
 		if (request == null)
@@ -707,7 +707,7 @@ public class DatasetExportResource extends ContextResource
 		return file;
 	}
 
-	private File exportTabFastClimate(String filename, SubsettedDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+	private File exportTabFastClimate(String filename, ClimateExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
 			throws GerminateException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
@@ -733,8 +733,8 @@ public class DatasetExportResource extends ContextResource
 																	   .whereExists(DSL.selectOne().from(CLIMATEDATA).where(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)).and(CLIMATEDATA.DATASET_ID.in(datasetIds)).limit(1));
 
 			// Limit to requested traits
-			if (!CollectionUtils.isEmpty(request.getXIds()))
-				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getXIds()));
+			if (!CollectionUtils.isEmpty(request.getClimateIds()))
+				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getClimateIds()));
 
 			// Map to their display name
 			step.forEach(t -> {
@@ -753,8 +753,8 @@ public class DatasetExportResource extends ContextResource
 			SelectJoinStep<?> lStep = context.select(VIEW_TABLE_LOCATIONS.fields()).from(VIEW_TABLE_LOCATIONS);
 
 			// Optional conditions for germplasm restrictions
-			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getYIds()) ? VIEW_TABLE_LOCATIONS.LOCATION_ID.in(request.getYIds()) : null;
-			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getYGroupIds()) ? GROUPS.ID.in(request.getYGroupIds()) : null;
+			Condition hasMarkedIds = !CollectionUtils.isEmpty(request.getLocationIds()) ? VIEW_TABLE_LOCATIONS.LOCATION_ID.in(request.getLocationIds()) : null;
+			Condition hasGroupIds = !CollectionUtils.isEmpty(request.getLocationGroupIds()) ? GROUPS.ID.in(request.getLocationGroupIds()) : null;
 
 			// Join more tables if groups are requested
 			if (hasGroupIds != null)

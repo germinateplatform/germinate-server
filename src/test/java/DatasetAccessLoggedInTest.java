@@ -1,5 +1,5 @@
 import jakarta.ws.rs.core.MediaType;
-import jhi.germinate.resource.SubsettedDatasetRequest;
+import jhi.germinate.resource.GenotypeSubsetDatasetRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
@@ -44,13 +44,13 @@ public class DatasetAccessLoggedInTest extends AuthUserTest
 	void tryAccessOnLicensedDataset()
 	{
 		// Try and request a dataset protected with a license without having accepted said license
-		SubsettedDatasetRequest req = new SubsettedDatasetRequest().setDatasetIds(new Integer[]{4});
-		RequestBuilder.RequestBuilderBuilder<String, SubsettedDatasetRequest> builder = RequestBuilder.<String, SubsettedDatasetRequest>builder()
-																									  .path("dataset/export/trial")
-																									  .mediaTypes(new String[]{MediaType.TEXT_PLAIN})
-																									  .clazz(String.class)
-																									  .token(token)
-																									  .body(req);
+		GenotypeSubsetDatasetRequest req = new GenotypeSubsetDatasetRequest().setDatasetIds(new Integer[]{4});
+		RequestBuilder.RequestBuilderBuilder<String, GenotypeSubsetDatasetRequest> builder = RequestBuilder.<String, GenotypeSubsetDatasetRequest>builder()
+		                                                                                                   .path("dataset/export/trial")
+		                                                                                                   .mediaTypes(new String[]{MediaType.TEXT_PLAIN})
+		                                                                                                   .clazz(String.class)
+		                                                                                                   .token(token)
+		                                                                                                   .body(req);
 		RequestBuilder.ApiResult<String> det = builder.build()
 													  .post();
 
@@ -120,8 +120,8 @@ public class DatasetAccessLoggedInTest extends AuthUserTest
 
 			signIn(UserType.AUTH_USER);
 
-			SubsettedDatasetRequest req = new SubsettedDatasetRequest().setDatasetIds(new Integer[]{4});
-			RequestBuilder.ApiResult<String> det = RequestBuilder.<String, SubsettedDatasetRequest>builder()
+			GenotypeSubsetDatasetRequest req = new GenotypeSubsetDatasetRequest().setDatasetIds(new Integer[]{4});
+			RequestBuilder.ApiResult<String> det = RequestBuilder.<String, GenotypeSubsetDatasetRequest>builder()
 																 .path("dataset/export/trial")
 																 .mediaTypes(new String[]{MediaType.TEXT_PLAIN})
 																 .clazz(String.class)

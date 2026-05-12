@@ -6,7 +6,6 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
@@ -38,7 +37,7 @@ public class ClimateStatsResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ClimateDatasetStats postClimateStats(SubsettedDatasetRequest request)
+	public ClimateDatasetStats postClimateStats(ClimateExportDatasetRequest request)
 			throws IOException, SQLException
 	{
 		if (request == null)
@@ -75,8 +74,8 @@ public class ClimateStatsResource extends ContextResource
 																				.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
 																				.and(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)));
 
-			if (!CollectionUtils.isEmpty(request.getXIds()))
-				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getXIds()));
+			if (!CollectionUtils.isEmpty(request.getClimateIds()))
+				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getClimateIds()));
 
 			Map<Integer, ViewTableClimates> climateMap = step.fetchMap(VIEW_TABLE_CLIMATES.CLIMATE_ID, ViewTableClimates.class);
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
@@ -87,12 +86,12 @@ public class ClimateStatsResource extends ContextResource
 			TraitStatsResource.TempStats tempStats = new TraitStatsResource.TempStats();
 			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
 
-			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getYGroupIds())
+			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getLocationGroupIds())
 					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
 					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
 						 .from(GROUPMEMBERS)
 						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))
+						 .where(GROUPMEMBERS.GROUP_ID.in(request.getLocationGroupIds()))
 						 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
 
 			// Run the query
@@ -113,10 +112,10 @@ public class ClimateStatsResource extends ContextResource
 			SelectLimitStep<Record4<Integer, Integer, String, BigDecimal>> orderByStep;
 
 			// If a subselection was requested
-			if (!CollectionUtils.isEmpty(request.getYGroupIds()) || !CollectionUtils.isEmpty(request.getYIds()))
+			if (!CollectionUtils.isEmpty(request.getLocationGroupIds()) || !CollectionUtils.isEmpty(request.getLocationIds()))
 			{
 				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
-				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.in(request.getYGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID))));
+				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.in(request.getLocationGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID))));
 
 				orderByStep = condStep.and(groups)
 									  .groupBy(CLIMATEDATA.ID)
@@ -161,7 +160,7 @@ public class ClimateStatsResource extends ContextResource
 					   .forEachOrdered(consumer);
 
 			// If marked items were requested, then get these as well separately
-			if (!CollectionUtils.isEmpty(request.getYIds()))
+			if (!CollectionUtils.isEmpty(request.getLocationIds()))
 			{
 				context.select(
 							   CLIMATEDATA.DATASET_ID,
@@ -173,7 +172,7 @@ public class ClimateStatsResource extends ContextResource
 					   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
 					   .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
 					   .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()))
-					   .and(CLIMATEDATA.LOCATION_ID.in(request.getYIds()))
+					   .and(CLIMATEDATA.LOCATION_ID.in(request.getLocationIds()))
 					   .orderBy(CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE)
 					   .forEach(consumer);
 			}

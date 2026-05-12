@@ -38,7 +38,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<AsyncExportResult> postJson(SubsettedGenotypeDatasetRequest request)
+	public List<AsyncExportResult> postJson(GenotypeSubsetDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
@@ -82,10 +82,10 @@ public class DatasetExportGenotypeResource extends ContextResource
 				dbJob.setDatatype(DataExportJobsDatatype.genotype);
 				dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setXIds(request.getXIds())
-					.setXGroupIds(request.getXGroupIds())
-					.setYIds(request.getYIds())
-					.setYGroupIds(request.getYGroupIds())
+					.setXIds(request.getMarkerIds())
+					.setXGroupIds(request.getMarkerGroupIds())
+					.setYIds(request.getGermplasmIds())
+					.setYGroupIds(request.getGermplasmGroupIds())
 					.setSubsetId(request.getMapId())
 					.setFileHeaders(String.join("\n", getFlapjackHeaders()) + "\n")
 					.setFileTypes(request.getFileTypes()));
@@ -155,29 +155,29 @@ public class DatasetExportGenotypeResource extends ContextResource
 		return result;
 	}
 
-	static Set<String> getMarkerNameList(DSLContext context, SubsettedGenotypeDatasetRequest request)
+	static Set<String> getMarkerNameList(DSLContext context, GenotypeSubsetDatasetRequest request)
 	{
-		if (request.getXGroupIds() == null && request.getXIds() == null)
+		if (request.getMarkerGroupIds() == null && request.getMarkerIds() == null)
 		{
 			return null;
 		}
 		else
 		{
 			Set<String> result = new LinkedHashSet<>();
-			if (!CollectionUtils.isEmpty(request.getXIds()))
+			if (!CollectionUtils.isEmpty(request.getMarkerIds()))
 			{
 				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
 									 .from(MARKERS)
-									 .where(MARKERS.ID.in(request.getXIds()))
+									 .where(MARKERS.ID.in(request.getMarkerIds()))
 									 .fetchInto(String.class));
 			}
 
-			if (!CollectionUtils.isEmpty(request.getXGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getMarkerGroupIds()))
 			{
 				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
 									 .from(MARKERS)
 									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getXGroupIds()))
+									 .where(GROUPMEMBERS.GROUP_ID.in(request.getMarkerGroupIds()))
 									 .fetchInto(String.class));
 			}
 
@@ -195,9 +195,9 @@ public class DatasetExportGenotypeResource extends ContextResource
 		}
 	}
 
-	static Set<String> getGermplasmNames(DSLContext context, SubsettedGenotypeDatasetRequest request)
+	static Set<String> getGermplasmNames(DSLContext context, GenotypeSubsetDatasetRequest request)
 	{
-		if (request.getYGroupIds() == null && request.getYIds() == null)
+		if (request.getGermplasmGroupIds() == null && request.getGermplasmIds() == null)
 		{
 			return null;
 		}
@@ -205,19 +205,19 @@ public class DatasetExportGenotypeResource extends ContextResource
 		{
 			Set<String> result = new LinkedHashSet<>();
 
-			if (!CollectionUtils.isEmpty(request.getYIds()))
+			if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
 			{
 				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 									 .from(GERMINATEBASE)
-									 .where(GERMINATEBASE.ID.in(request.getYIds()))
+									 .where(GERMINATEBASE.ID.in(request.getGermplasmIds()))
 									 .fetchInto(String.class));
 			}
-			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
 			{
 				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
 									 .from(GERMINATEBASE)
 									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))
+									 .where(GROUPMEMBERS.GROUP_ID.in(request.getGermplasmGroupIds()))
 									 .fetchInto(String.class));
 			}
 

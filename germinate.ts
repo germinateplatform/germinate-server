@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-03-18 15:17:48.
+// Generated using typescript-generator version 3.2.1263 on 2026-05-06 13:18:00.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -60,7 +60,7 @@ export interface UnapprovedUsers extends Serializable {
     activationKey: string;
 }
 
-export interface AlleleFrequencyDatasetRequest extends SubsettedGenotypeDatasetRequest {
+export interface AlleleFrequencyDatasetRequest extends GenotypeSubsetDatasetRequest {
     config: BinningConfig;
 }
 
@@ -131,6 +131,13 @@ export interface ClimateDatasetStats {
     datasets: ViewTableDatasets[];
     climates: ViewTableClimates[];
     stats: Quantiles[];
+}
+
+export interface ClimateExportDatasetRequest extends PaginatedRequest {
+    climateIds: number[];
+    locationIds: number[];
+    locationGroupIds: number[];
+    datasetIds: number[];
 }
 
 export interface CountryCount {
@@ -219,6 +226,19 @@ export interface GenesysRequestDetails {
     name: string;
     email: string;
     germplasmIds: number[];
+}
+
+export interface GenotypeSubsetDatasetRequest extends PaginatedRequest {
+    markerIds: number[];
+    germplasmIds: number[];
+    markerGroupIds: number[];
+    germplasmGroupIds: number[];
+    datasetIds: number[];
+    mapId: number;
+    generateFlapjackProject: boolean;
+    generateHapMap: boolean;
+    generateFlatFile: boolean;
+    fileTypes: AdditionalExportFormat[];
 }
 
 export interface GermplasmDistance extends ViewTableGermplasm {
@@ -425,22 +445,6 @@ export interface SgoneGermplasmUnificationRequest {
     unifications: SgoneGermplasmUnification[];
 }
 
-export interface SubsettedDatasetRequest extends PaginatedRequest {
-    datasetIds: number[];
-    xids: number[];
-    yids: number[];
-    ygroupIds: number[];
-    xgroupIds: number[];
-}
-
-export interface SubsettedGenotypeDatasetRequest extends SubsettedDatasetRequest {
-    mapId: number;
-    generateFlapjackProject: boolean;
-    generateHapMap: boolean;
-    generateFlatFile: boolean;
-    fileTypes: AdditionalExportFormat[];
-}
-
 export interface Token {
     token: string;
     imageToken: string;
@@ -574,6 +578,10 @@ export interface ViewMcpd {
 
 export interface ViewTableClimateDataWithGroups extends ViewTableClimateData {
     groups: Groups[];
+}
+
+export interface ViewTableDatasetMaps extends ViewTableMaps {
+    mapCoverageCount: number;
 }
 
 export interface ViewTableExperiments {
@@ -1719,6 +1727,7 @@ export interface ViewTableClimates extends Serializable {
     unitDescription: string;
     overlays: number;
     unitAbbreviation: string;
+    datasetIds: number[];
     count: number;
 }
 
@@ -2288,10 +2297,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    xids: number[];
     yids: number[];
-    ygroupIds: number[];
+    xids: number[];
     xgroupIds: number[];
+    ygroupIds: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2477,25 +2486,25 @@ export interface JsonElement {
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
-    asNumber: number;
-    jsonObject: boolean;
-    jsonPrimitive: boolean;
+    asString: string;
+    jsonNull: boolean;
+    asFloat: number;
+    asShort: number;
+    asJsonNull: JsonNull;
     /**
      * @deprecated
      */
     asCharacter: string;
-    asBigDecimal: number;
-    jsonArray: boolean;
+    jsonObject: boolean;
+    jsonPrimitive: boolean;
     asJsonArray: JsonArray;
-    asJsonNull: JsonNull;
-    asJsonObject: JsonObject;
-    asJsonPrimitive: JsonPrimitive;
     asBigInteger: number;
-    asShort: number;
-    jsonNull: boolean;
+    asJsonObject: JsonObject;
+    asBigDecimal: number;
+    asJsonPrimitive: JsonPrimitive;
+    asNumber: number;
+    jsonArray: boolean;
     asByte: number;
-    asFloat: number;
-    asString: string;
 }
 
 export interface LevelCount {
@@ -2519,11 +2528,11 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
-    empty: boolean;
+export interface JsonNull extends JsonElement {
 }
 
-export interface JsonNull extends JsonElement {
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
+    empty: boolean;
 }
 
 export interface JsonObject extends JsonElement {
@@ -2532,8 +2541,8 @@ export interface JsonObject extends JsonElement {
 
 export interface JsonPrimitive extends JsonElement {
     boolean: boolean;
-    string: boolean;
     number: boolean;
+    string: boolean;
 }
 
 export interface Cloneable {

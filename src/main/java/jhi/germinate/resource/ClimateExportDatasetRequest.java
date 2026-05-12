@@ -10,11 +10,10 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class SubsettedDatasetRequest extends PaginatedRequest
+public class ClimateExportDatasetRequest extends PaginatedRequest
 {
-	private Integer[] xIds;
-	private Integer[] xGroupIds;
-	private Integer[] yIds;
-	private Integer[] yGroupIds;
+	private Integer[] climateIds;
+	private Integer[] locationIds;
+	private Integer[] locationGroupIds;
 	private Integer[] datasetIds;
 }

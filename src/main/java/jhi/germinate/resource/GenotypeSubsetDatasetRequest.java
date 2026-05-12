@@ -13,8 +13,14 @@ import java.util.*;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class SubsettedGenotypeDatasetRequest extends SubsettedDatasetRequest
+public class GenotypeSubsetDatasetRequest extends PaginatedRequest
 {
+	private Integer[] markerIds;
+	private Integer[] germplasmIds;
+	private Integer[] markerGroupIds;
+	private Integer[] germplasmGroupIds;
+	private Integer[] datasetIds;
+
 	private Integer mapId;
 	private boolean generateFlapjackProject;
 	private boolean generateHapMap;

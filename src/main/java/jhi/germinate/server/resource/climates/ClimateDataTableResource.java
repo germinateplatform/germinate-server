@@ -31,7 +31,7 @@ public class ClimateDataTableResource extends ExportResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableClimateDataWithGroups>> postClimateDataTable(SubsettedDatasetRequest request)
+	public PaginatedResult<List<ViewTableClimateDataWithGroups>> postClimateDataTable(ClimateExportDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null)
@@ -74,14 +74,14 @@ public class ClimateDataTableResource extends ExportResource
 
 			// Handle requested location ids or group ids
 			Set<Integer> locationIds = new HashSet<>();
-			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
-				locationIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getYGroupIds())).fetchInto(Integer.class));
-			if (!CollectionUtils.isEmpty(request.getYIds()))
-				locationIds.addAll(Arrays.asList(request.getYIds()));
+			if (!CollectionUtils.isEmpty(request.getLocationGroupIds()))
+				locationIds.addAll(context.select(GROUPMEMBERS.FOREIGN_ID).from(GROUPMEMBERS).leftJoin(GROUPS).on(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.ID.in(request.getLocationGroupIds())).fetchInto(Integer.class));
+			if (!CollectionUtils.isEmpty(request.getLocationIds()))
+				locationIds.addAll(Arrays.asList(request.getLocationIds()));
 			if (!CollectionUtils.isEmpty(locationIds))
 				from.where(VIEW_TABLE_CLIMATE_DATA.LOCATION_ID.in(locationIds));
-			if (!CollectionUtils.isEmpty(request.getXIds()))
-				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getXIds()));
+			if (!CollectionUtils.isEmpty(request.getClimateIds()))
+				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getClimateIds()));
 
 			// Filter here!
 			where(from, filters);

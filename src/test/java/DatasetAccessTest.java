@@ -49,12 +49,12 @@ public class DatasetAccessTest
 	void tryAccessOnLicensedDataset()
 	{
 		// Try and request a dataset protected with a license without having accepted said license
-		SubsettedDatasetRequest req = new SubsettedDatasetRequest().setDatasetIds(new Integer[]{4});
-		RequestBuilder.RequestBuilderBuilder<String, SubsettedDatasetRequest> builder = RequestBuilder.<String, SubsettedDatasetRequest>builder()
-																									  .path("dataset/export/trial")
-																									  .mediaTypes(new String[]{MediaType.TEXT_PLAIN})
-																									  .clazz(String.class)
-																									  .body(req);
+		GenotypeSubsetDatasetRequest req = new GenotypeSubsetDatasetRequest().setDatasetIds(new Integer[]{4});
+		RequestBuilder.RequestBuilderBuilder<String, GenotypeSubsetDatasetRequest> builder = RequestBuilder.<String, GenotypeSubsetDatasetRequest>builder()
+		                                                                                                   .path("dataset/export/trial")
+		                                                                                                   .mediaTypes(new String[]{MediaType.TEXT_PLAIN})
+		                                                                                                   .clazz(String.class)
+		                                                                                                   .body(req);
 		RequestBuilder.ApiResult<String> det = builder.build()
 													  .post();
 
@@ -81,10 +81,10 @@ public class DatasetAccessTest
 		params.put("studyDbId", "4");
 		params.put("page", "0");
 		params.put("pageSize", "2000");
-		RequestBuilder.RequestBuilderBuilder<BaseResult<TableResult<List<String>>>, SubsettedDatasetRequest> builder = RequestBuilder.<BaseResult<TableResult<List<String>>>, SubsettedDatasetRequest>builder()
-																																	 .path("brapi/v2/observations/table")
-																																	 .params(params)
-																																	 .gt(new GenericType<>()
+		RequestBuilder.RequestBuilderBuilder<BaseResult<TableResult<List<String>>>, GenotypeSubsetDatasetRequest> builder = RequestBuilder.<BaseResult<TableResult<List<String>>>, GenotypeSubsetDatasetRequest>builder()
+		                                                                                                                                  .path("brapi/v2/observations/table")
+		                                                                                                                                  .params(params)
+		                                                                                                                                  .gt(new GenericType<>()
 																																	 {
 																																	 });
 		RequestBuilder.ApiResult<BaseResult<TableResult<List<String>>>> ot = builder
