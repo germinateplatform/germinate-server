@@ -37,7 +37,7 @@ If you have docker-compose available, things are as simple as defining this `doc
 version: '3.3'
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql:8.4
     ports:
       - 9306:3306
     volumes:
@@ -98,7 +98,7 @@ docker run -d \
     -v mysql:/var/lib/mysql \
     -p 9306:3306 \
     --restart unless-stopped \
-    mysql:5.7
+    mysql:8.4
 
 docker run -d \
     --name germinate \
@@ -135,7 +135,7 @@ Setting up Germinate manually involves a few steps that have to be done for ever
 Server:
 - Java 21 or above
 - Tomcat 10.1 or above
-- MySQL 5.7.37 or above
+- MySQL 8.4 or above
 - imagemagick 6.9.10 or above
 - Gradle 8.8 or above
 - gdal 3.0.4 or above

@@ -10,7 +10,7 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.ResourceUtils;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.jooq.GDSL;
 import org.jooq.*;
 import org.jooq.Record;
@@ -38,6 +38,8 @@ import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
+import static jhi.germinate.server.database.codegen.tables.Projectgroups.PROJECTGROUPS;
+import static jhi.germinate.server.database.codegen.tables.Projectpublications.PROJECTPUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
@@ -103,7 +105,7 @@ public class StatsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/overview")
-	public OverviewStats getJson()
+	public OverviewStats getJson(@QueryParam("projectIds") List<Integer> projectIds)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -123,22 +125,46 @@ public class StatsResource
 																				   .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 
 			DSLContext context = Database.getContext(conn);
-			OverviewStats stats = context.select(
-					DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
-					DSL.selectCount().from(MARKERS).asField("markers"),
-					DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
-					DSL.selectCount().from(VARIABLES).asField("traits"),
-					DSL.selectCount().from(CLIMATES).asField("climates"),
-					DSL.selectCount().from(LOCATIONS).asField("locations"),
-					DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
-					DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
-					DSL.selectCount().from(IMAGES).asField("images"),
-					step.asField("fileresources"),
-					DSL.selectCount().from(PUBLICATIONS).asField("publications"),
-					DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true)).or(STORIES.USER_ID.eq(userDetails.getId())).asField("dataStories"),
-					DSL.selectCount().from(PROJECTS).asField("projects"),
-					DSL.selectCount().from(VIEW_TABLE_TAXONOMIES).asField("taxonomies")
-			).fetchSingleInto(OverviewStats.class);
+			OverviewStats stats;
+
+			if (CollectionUtils.isEmpty(projectIds))
+			{
+				stats = context.select(
+						DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
+						DSL.selectCount().from(MARKERS).asField("markers"),
+						DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
+						DSL.selectCount().from(VARIABLES).asField("traits"),
+						DSL.selectCount().from(CLIMATES).asField("climates"),
+						DSL.selectCount().from(LOCATIONS).asField("locations"),
+						DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
+						DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
+						DSL.selectCount().from(IMAGES).asField("images"),
+						step.asField("fileresources"),
+						DSL.selectCount().from(PUBLICATIONS).asField("publications"),
+						DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true)).or(STORIES.USER_ID.eq(userDetails.getId())).asField("dataStories"),
+						DSL.selectCount().from(PROJECTS).asField("projects"),
+						DSL.selectCount().from(VIEW_TABLE_TAXONOMIES).asField("taxonomies")
+				).fetchSingleInto(OverviewStats.class);
+			} else {
+				stats = context.select(
+						DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
+						DSL.selectCount().from(MARKERS).asField("markers"),
+						DSL.selectCount().from(MAPS).where(MAPS.VISIBILITY.eq(true)).or(MAPS.USER_ID.eq(userDetails.getId())).asField("maps"),
+						DSL.selectCount().from(VARIABLES).asField("traits"),
+						DSL.selectCount().from(CLIMATES).asField("climates"),
+						DSL.selectCount().from(LOCATIONS).asField("locations"),
+						DSL.selectCount().from(EXPERIMENTS).where(EXPERIMENTS.PROJECT_ID.in(projectIds)).asField("experiments"),
+						DSL.selectCount().from(GROUPS).leftJoin(PROJECTGROUPS).on(PROJECTGROUPS.GROUP_ID.eq(GROUPS.ID)).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).and(PROJECTGROUPS.PROJECT_ID.in(projectIds)).asField("groups"),
+						DSL.selectCount().from(IMAGES).asField("images"),
+						step.and(FILERESOURCES.PROJECT_ID.in(projectIds)).asField("fileresources"),
+						DSL.selectCount().from(PUBLICATIONS).leftJoin(PROJECTPUBLICATIONS).on(PROJECTPUBLICATIONS.PUBLICATION_ID.eq(PUBLICATIONS.ID)).where(PROJECTPUBLICATIONS.PROJECT_ID.in(projectIds)).asField("publications"),
+						DSL.selectCount().from(STORIES).where(STORIES.VISIBILITY.eq(true).or(STORIES.USER_ID.eq(userDetails.getId()))).and(STORIES.PROJECT_ID.in(projectIds)).asField("dataStories"),
+						DSL.selectCount().from(PROJECTS).asField("projects"),
+						DSL.selectCount().from(VIEW_TABLE_TAXONOMIES).asField("taxonomies")
+				).fetchSingleInto(OverviewStats.class);
+
+				datasets = datasets.stream().filter(ds -> projectIds.contains(ds.getProjectId())).toList();
+			}
 
 			stats.setDatasets(datasets.size());
 			datasets.stream()

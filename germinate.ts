@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-05-06 13:18:00.
+// Generated using typescript-generator version 3.2.1263 on 2026-05-12 16:00:23.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -500,6 +500,10 @@ export interface TrialSetupStats {
     taxonomies: Taxonomies[];
     plots: PlotDetails[];
     years: number[];
+}
+
+export interface TrialStats {
+    dataPointsByYear: { [index: string]: number };
 }
 
 export interface TrialsExportDatasetRequest extends PaginatedRequest {
@@ -2297,10 +2301,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
+    ygroupIds: number[];
+    xgroupIds: number[];
     yids: number[];
     xids: number[];
-    xgroupIds: number[];
-    ygroupIds: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2482,29 +2486,29 @@ export interface JSON extends Data {
 }
 
 export interface JsonElement {
-    asInt: number;
-    asDouble: number;
-    asLong: number;
-    asBoolean: boolean;
     asString: string;
+    asShort: number;
     jsonNull: boolean;
     asFloat: number;
-    asShort: number;
-    asJsonNull: JsonNull;
+    asByte: number;
+    jsonObject: boolean;
+    asBigDecimal: number;
+    asBigInteger: number;
     /**
      * @deprecated
      */
     asCharacter: string;
-    jsonObject: boolean;
-    jsonPrimitive: boolean;
     asJsonArray: JsonArray;
-    asBigInteger: number;
+    asJsonNull: JsonNull;
+    jsonArray: boolean;
+    jsonPrimitive: boolean;
     asJsonObject: JsonObject;
-    asBigDecimal: number;
     asJsonPrimitive: JsonPrimitive;
     asNumber: number;
-    jsonArray: boolean;
-    asByte: number;
+    asInt: number;
+    asDouble: number;
+    asLong: number;
+    asBoolean: boolean;
 }
 
 export interface LevelCount {
@@ -2528,11 +2532,11 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonNull extends JsonElement {
-}
-
 export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
+}
+
+export interface JsonNull extends JsonElement {
 }
 
 export interface JsonObject extends JsonElement {
@@ -2540,9 +2544,9 @@ export interface JsonObject extends JsonElement {
 }
 
 export interface JsonPrimitive extends JsonElement {
-    boolean: boolean;
     number: boolean;
     string: boolean;
+    boolean: boolean;
 }
 
 export interface Cloneable {
