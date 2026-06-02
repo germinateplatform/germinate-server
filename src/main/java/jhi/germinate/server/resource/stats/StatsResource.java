@@ -38,6 +38,8 @@ import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.PEDIGREES;
 import static jhi.germinate.server.database.codegen.tables.Projectgroups.PROJECTGROUPS;
 import static jhi.germinate.server.database.codegen.tables.Projectpublications.PROJECTPUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
@@ -96,8 +98,8 @@ public class StatsResource
 								  ENTITYTYPES.ID.as("entity_type_id"),
 								  ENTITYTYPES.NAME.as("entity_type_name"),
 								  DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.ENTITYTYPE_ID.eq(ENTITYTYPES.ID)).asField("count"))
-						  .from(ENTITYTYPES)
-						  .fetchInto(EntityTypeStats.class);
+			              .from(ENTITYTYPES)
+			              .fetchInto(EntityTypeStats.class);
 		}
 	}
 
@@ -114,15 +116,19 @@ public class StatsResource
 		{
 			// Get the datasets this user has access to (ignore if licenses are accepted or not)
 			List<ViewTableDatasets> datasets = AuthorizationFilter.getDatasets(req, userDetails, null, false);
+
+			if (!CollectionUtils.isEmpty(projectIds))
+				datasets = datasets.stream().filter(ds -> projectIds.contains(ds.getProjectId())).toList();
+
 			List<Integer> datasetIds = datasets.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
 
 			SelectConditionStep<Record1<Integer>> step = DSL.selectCount()
-															.from(FILERESOURCES)
-															.leftJoin(FILERESOURCETYPES).on(FILERESOURCETYPES.ID.eq(FILERESOURCES.FILERESOURCETYPE_ID))
-															.where(DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES)
-																					.where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
-																	  .orExists(DSL.selectOne().from(DATASETFILERESOURCES)
-																				   .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
+			                                                .from(FILERESOURCES)
+			                                                .leftJoin(FILERESOURCETYPES).on(FILERESOURCETYPES.ID.eq(FILERESOURCES.FILERESOURCETYPE_ID))
+			                                                .where(DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES)
+			                                                                        .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
+			                                                          .orExists(DSL.selectOne().from(DATASETFILERESOURCES)
+			                                                                       .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 
 			DSLContext context = Database.getContext(conn);
 			OverviewStats stats;
@@ -136,6 +142,8 @@ public class StatsResource
 						DSL.selectCount().from(VARIABLES).asField("traits"),
 						DSL.selectCount().from(CLIMATES).asField("climates"),
 						DSL.selectCount().from(LOCATIONS).asField("locations"),
+						DSL.selectCount().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).asField()
+						   .plus(DSL.selectCount().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).asField()).as("pedigreeDefinitions"),
 						DSL.selectCount().from(EXPERIMENTS).asField("experiments"),
 						DSL.selectCount().from(GROUPS).where(GROUPS.VISIBILITY.eq(true)).or(GROUPS.CREATED_BY.eq(userDetails.getId())).asField("groups"),
 						DSL.selectCount().from(IMAGES).asField("images"),
@@ -145,7 +153,9 @@ public class StatsResource
 						DSL.selectCount().from(PROJECTS).asField("projects"),
 						DSL.selectCount().from(VIEW_TABLE_TAXONOMIES).asField("taxonomies")
 				).fetchSingleInto(OverviewStats.class);
-			} else {
+			}
+			else
+			{
 				stats = context.select(
 						DSL.selectCount().from(GERMINATEBASE).asField("germplasm"),
 						DSL.selectCount().from(MARKERS).asField("markers"),
@@ -153,6 +163,8 @@ public class StatsResource
 						DSL.selectCount().from(VARIABLES).asField("traits"),
 						DSL.selectCount().from(CLIMATES).asField("climates"),
 						DSL.selectCount().from(LOCATIONS).asField("locations"),
+						DSL.selectCount().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).asField()
+						   .plus(DSL.selectCount().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).asField()).as("pedigreeDefinitions"),
 						DSL.selectCount().from(EXPERIMENTS).where(EXPERIMENTS.PROJECT_ID.in(projectIds)).asField("experiments"),
 						DSL.selectCount().from(GROUPS).leftJoin(PROJECTGROUPS).on(PROJECTGROUPS.GROUP_ID.eq(GROUPS.ID)).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).and(PROJECTGROUPS.PROJECT_ID.in(projectIds)).asField("groups"),
 						DSL.selectCount().from(IMAGES).asField("images"),
@@ -162,14 +174,12 @@ public class StatsResource
 						DSL.selectCount().from(PROJECTS).asField("projects"),
 						DSL.selectCount().from(VIEW_TABLE_TAXONOMIES).asField("taxonomies")
 				).fetchSingleInto(OverviewStats.class);
-
-				datasets = datasets.stream().filter(ds -> projectIds.contains(ds.getProjectId())).toList();
 			}
 
 			stats.setDatasets(datasets.size());
 			datasets.stream()
-					.filter(d -> !d.getIsExternal())
-					.forEach(d -> {
+			        .filter(d -> !d.getIsExternal())
+			        .forEach(d -> {
 						// Increase the specific counts
 						switch (d.getDatasetType())
 						{
@@ -205,18 +215,18 @@ public class StatsResource
 		File file = ResourceUtils.createTempFile("pdci", ".tsv");
 
 		try (Connection conn = Database.getConnection();
-			 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+		     PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 		{
 			DSLContext context = Database.getContext(conn);
 
 			Map<String, Map<Integer, Integer>> mapping = new TreeMap<>(Collections.reverseOrder());
 
 			context.select(GERMINATEBASE.PDCI, TAXONOMIES.GENUS)
-				   .from(GERMINATEBASE)
-				   .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
-				   .and(GERMINATEBASE.PDCI.isNotNull())
-				   .forEach(r -> {
+			       .from(GERMINATEBASE)
+			       .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+			       .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+			       .and(GERMINATEBASE.PDCI.isNotNull())
+			       .forEach(r -> {
 					   String genus = r.get(TAXONOMIES.GENUS);
 					   if (genus == null)
 						   genus = "";
@@ -248,10 +258,10 @@ public class StatsResource
 						   Files.copy(filePath, output);
 						   Files.deleteIfExists(filePath);
 					   })
-					   .type("text/plain")
-					   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-					   .header("content-length", file.length())
-					   .build();
+		               .type("text/plain")
+		               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+		               .header("content-length", file.length())
+		               .build();
 	}
 
 	@GET
@@ -272,11 +282,11 @@ public class StatsResource
 			File file = ResourceUtils.createTempFile(filename, ".tsv");
 
 			try (Connection conn = Database.getConnection();
-				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+			     PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				DSLContext context = Database.getContext(conn);
 				Result<? extends Record> result = context.selectFrom(table)
-														 .fetch();
+				                                         .fetch();
 				ResourceUtils.exportToFile(bw, result, true, null);
 			}
 			catch (IOException e)
@@ -291,10 +301,10 @@ public class StatsResource
 							   Files.copy(filePath, output);
 							   Files.deleteIfExists(filePath);
 						   })
-						   .type("text/plain")
-						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-						   .header("content-length", file.length())
-						   .build();
+			               .type("text/plain")
+			               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+			               .header("content-length", file.length())
+			               .build();
 		}
 		catch (IOException e)
 		{
@@ -324,18 +334,18 @@ public class StatsResource
 											  DSL.substringIndex(BIOLOGICALSTATUS.SAMPSTAT, "(", 1).as("sampstat"),
 											  pdciField
 									  )
-									  .from(GERMINATEBASE)
-									  .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-									  .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-									  .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
-									  .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
-									  .andNot(
+			                          .from(GERMINATEBASE)
+			                          .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+			                          .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+			                          .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+			                          .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+			                          .andNot(
 											  TAXONOMIES.GENUS.isNull()
-															  .and(pdciField.isNull())
-															  .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
+					                                          .and(pdciField.isNull())
+					                                          .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
 									  )
-									  .fetchInto(GermplasmMetaStats.class))
-						   .build();
+			                          .fetchInto(GermplasmMetaStats.class))
+			               .build();
 		}
 	}
 }
