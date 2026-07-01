@@ -14,14 +14,15 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("gatekeeper/user/existing")
 public class GatekeeperExistingUserResource extends ContextResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Boolean postGatekeeperExistingUser(NewUserAccessRequest request)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
+	public jakarta.ws.rs.core.Response postGatekeeperExistingUser(NewUserAccessRequest request)
 		throws IOException
 	{
 		GatekeeperService service = GatekeeperClient.get();
@@ -57,28 +58,34 @@ public class GatekeeperExistingUserResource extends ContextResource
 
 					if (response.isSuccessful())
 					{
-						return response.body();
+						return jakarta.ws.rs.core.Response.ok(response.body()).build();
 					}
 					else
 					{
 						GatekeeperApiError error = GatekeeperClient.parseError(response);
-						resp.sendError(response.code(), error.getDescription());
-						return false;
+						return jakarta.ws.rs.core.Response.status(response.code())
+						                                  .entity(error.getDescription())
+						                                  .type(MediaType.TEXT_PLAIN)
+						                                  .build();
 					}
 				}
 			}
 			else
 			{
 				GatekeeperApiError error = GatekeeperClient.parseError(user);
-				resp.sendError(user.code(), error.getDescription());
-				return false;
+				return jakarta.ws.rs.core.Response.status(user.code())
+				                                  .entity(error.getDescription())
+				                                  .type(MediaType.TEXT_PLAIN)
+				                                  .build();
 			}
 		}
 		else
 		{
 			GatekeeperApiError error = GatekeeperClient.parseError(systems);
-			resp.sendError(systems.code(), error.getDescription());
-			return false;
+			return jakarta.ws.rs.core.Response.status(systems.code())
+			                                  .entity(error.getDescription())
+			                                  .type(MediaType.TEXT_PLAIN)
+			                                  .build();
 		}
 //		catch (IOException e)
 //		{
@@ -87,6 +94,6 @@ public class GatekeeperExistingUserResource extends ContextResource
 //			return false;
 //		}
 
-		return false;
+		return jakarta.ws.rs.core.Response.ok(false).build();
 	}
 }

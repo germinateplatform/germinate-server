@@ -505,7 +505,7 @@ public class DatasetExportResource extends ContextResource
 
 			// Limit to requested traits
 			if (!CollectionUtils.isEmpty(request.getTraitIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getTraitIds()));
+				step.and(VIEW_TABLE_TRAITS.VARIABLE_ID.in(request.getTraitIds()));
 
 			// Map to their display name
 			step.forEach(t -> {
@@ -514,7 +514,7 @@ public class DatasetExportResource extends ContextResource
 				if (!StringUtils.isEmpty(t.getScaleUnit()))
 					name += " [" + t.getScaleUnit() + "]";
 
-				traits.put(t.getTraitId(), name);
+				traits.put(t.getVariableId(), name);
 			});
 
 			// Optional conditions for germplasm restrictions

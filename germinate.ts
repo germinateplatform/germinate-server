@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-05-26 13:40:23.
+// Generated using typescript-generator version 3.2.1263 on 2026-06-30 14:18:41.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -58,6 +58,13 @@ export interface UnapprovedUsers extends Serializable {
     hasBeenRejected: number;
     needsApproval: number;
     activationKey: string;
+}
+
+export interface GatekeeperInstitution extends Serializable {
+    id: number;
+    name: string;
+    acronym: string;
+    address: string;
 }
 
 export interface AlleleFrequencyDatasetRequest extends GenotypeSubsetDatasetRequest {
@@ -127,6 +134,10 @@ export interface ClientConfiguration {
     genesysUrl: string;
 }
 
+export interface ClimateDatasetRequest extends DatasetRequest {
+    climateIds: number[];
+}
+
 export interface ClimateDatasetStats {
     datasets: ViewTableDatasets[];
     climates: ViewTableClimates[];
@@ -138,6 +149,12 @@ export interface ClimateExportDatasetRequest extends PaginatedRequest {
     locationIds: number[];
     locationGroupIds: number[];
     datasetIds: number[];
+}
+
+export interface ClimateStats {
+    dataPointsByYear: { [index: string]: number };
+    climateDatasetsPerYear: { [index: string]: number };
+    climatesPerYear: { [index: string]: number };
 }
 
 export interface CountryCount {
@@ -1471,7 +1488,7 @@ export interface Scales extends Serializable {
     description: string;
     unit: string;
     datatype: ScalesDatatype;
-    restrictions: JSON;
+    restrictions: TraitRestrictions;
     createdOn: Date;
     updatedOn: Date;
 }
@@ -2172,6 +2189,9 @@ export interface ViewTableTraits extends Serializable {
     traitAbbreviation: string;
     traitClass: ViewTableTraitsTraitClass;
     traitSynonyms: string[];
+    traitCategoryId: number;
+    traitCategoryName: string;
+    traitCategoryDescription: string;
     methodSetSize: number;
     methodIsTimeseries: boolean;
     scaleDatatype: ViewTableTraitsScaleDatatype;
@@ -2205,6 +2225,23 @@ export interface ViewTableTraitsTemplate extends Serializable {
     scaleMinimum: JSON;
     scaleMaximum: JSON;
     scaleValidValues: JSON;
+}
+
+export interface ViewTableTrialLayouts extends Serializable {
+    germplasmId: number;
+    germplasmName: string;
+    germplasmGid: string;
+    germplasmDisplayName: string;
+    rep: string;
+    block: string;
+    treatment: string;
+    setupId: number;
+    row: number;
+    column: number;
+    datasetId: number;
+    taxonomyId: number;
+    genus: string;
+    species: string;
 }
 
 export interface ViewTableUsergroups extends Serializable {
@@ -2299,8 +2336,8 @@ export interface Exif {
     whiteBalance: string;
     whiteBalanceMode: string;
     fnumber: string;
-    xresolution: string;
     yresolution: string;
+    xresolution: string;
 }
 
 export interface ExportJobDetails {
@@ -2310,10 +2347,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    xids: number[];
     yids: number[];
     xgroupIds: number[];
     ygroupIds: number[];
+    xids: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2499,25 +2536,25 @@ export interface JsonElement {
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
+    asString: string;
+    asByte: number;
     jsonNull: boolean;
     asFloat: number;
-    asByte: number;
     asShort: number;
-    asString: string;
+    jsonPrimitive: boolean;
+    jsonObject: boolean;
+    asJsonNull: JsonNull;
+    asJsonArray: JsonArray;
     /**
      * @deprecated
      */
     asCharacter: string;
-    jsonPrimitive: boolean;
-    asNumber: number;
     jsonArray: boolean;
     asJsonPrimitive: JsonPrimitive;
-    jsonObject: boolean;
-    asJsonNull: JsonNull;
-    asBigInteger: number;
-    asBigDecimal: number;
+    asNumber: number;
     asJsonObject: JsonObject;
-    asJsonArray: JsonArray;
+    asBigDecimal: number;
+    asBigInteger: number;
 }
 
 export interface LevelCount {
@@ -2541,20 +2578,20 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonPrimitive extends JsonElement {
-    string: boolean;
-    boolean: boolean;
-    number: boolean;
-}
-
 export interface JsonNull extends JsonElement {
 }
 
-export interface JsonObject extends JsonElement {
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
 }
 
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
+export interface JsonPrimitive extends JsonElement {
+    number: boolean;
+    boolean: boolean;
+    string: boolean;
+}
+
+export interface JsonObject extends JsonElement {
     empty: boolean;
 }
 
@@ -2729,6 +2766,8 @@ export const enum ImportStatus {
     MCPD_MISSING_ACCENUMB = 'MCPD_MISSING_ACCENUMB',
     MCPD_INVALID_DUPLINST_NAME_MAPPING = 'MCPD_INVALID_DUPLINST_NAME_MAPPING',
     TRIALS_INVALID_TRAIT_DATATYPE = 'TRIALS_INVALID_TRAIT_DATATYPE',
+    TRIALS_INVALID_TRAIT_CLASS = 'TRIALS_INVALID_TRAIT_CLASS',
+    TRIALS_INVALID_METHOD_CLASS = 'TRIALS_INVALID_METHOD_CLASS',
     TRIALS_INVALID_TRAIT_CATEGORIES = 'TRIALS_INVALID_TRAIT_CATEGORIES',
     TRIALS_MISSING_TRAIT_DECLARATION = 'TRIALS_MISSING_TRAIT_DECLARATION',
     TRIALS_DATA_DATE_HEADER_MISMATCH = 'TRIALS_DATA_DATE_HEADER_MISMATCH',

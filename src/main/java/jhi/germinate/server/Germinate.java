@@ -35,7 +35,7 @@ public class Germinate extends ResourceConfig
 {
 	public Germinate()
 	{
-		PropertyWatcher.initialize();
+		PropertyWatcher.initialize(null);
 
 		boolean brapiEnabled = PropertyWatcher.getBoolean(ServerProperty.BRAPI_ENABLED);
 

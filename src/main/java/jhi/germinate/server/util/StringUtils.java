@@ -78,6 +78,15 @@ public class StringUtils
 			return input;
 	}
 
+	public static String coalesce(String... parts) {
+		for (String part : parts) {
+			if (!isEmptyOrQuotes(part))
+				return part;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Returns either the original string (if it's not empty) or empty double quotes (if it is)
 	 *

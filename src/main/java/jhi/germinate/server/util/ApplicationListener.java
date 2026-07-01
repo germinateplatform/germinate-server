@@ -50,7 +50,7 @@ public class ApplicationListener implements ServletContextListener
 			e.printStackTrace();
 		}
 
-		File propertiesFile = PropertyWatcher.initialize();
+		File propertiesFile = PropertyWatcher.initialize(null);
 		DatabasePermissionCacheWatcher.initialize(propertiesFile.getParentFile());
 
 		List<LocaleConfig> locales = ensureClientLocaleFileExists();
@@ -62,12 +62,14 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler = Executors.newSingleThreadScheduledExecutor();
 		// Every hour, update the dataset sizes
 		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 1, 1, TimeUnit.HOURS);
-		// Every minute, check the async job status
+		// Every 15 minutes, check the async job status
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new ImageExifReaderTask(), 5, 1440, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new UserFeedbackEmailRemovalTask(), 0, 1, TimeUnit.DAYS);
 		backgroundScheduler.scheduleAtFixedRate(new NCBITaxonomyLookupTask(), 0, 7, TimeUnit.DAYS);
+		// Only run the allele frequency -> genotype dataset conversion once on startup
+		backgroundScheduler.schedule(new AlleleToGenotypeDatasetTask(), 10, TimeUnit.MINUTES);
 
 		// Create automatic database backups every X days
 		Integer dbBackupEveryDays = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);

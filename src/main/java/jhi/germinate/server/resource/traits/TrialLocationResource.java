@@ -46,13 +46,13 @@ public class TrialLocationResource extends ContextResource
 											  DSL.avg(TRIALSETUP.LATITUDE).as(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE.getName()),
 											  DSL.avg(TRIALSETUP.LONGITUDE).as(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE.getName())
 									  )
-									  .from(TRIALSETUP)
-									  .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
-									  .where(TRIALSETUP.DATASET_ID.in(requestedIds))
-									  .and(TRIALSETUP.LATITUDE.isNotNull())
-									  .and(TRIALSETUP.LONGITUDE.isNotNull())
-									  .groupBy(TRIALSETUP.GERMINATEBASE_ID)
-									  .fetchInto(ViewTableLocations.class)).build();
+			                          .from(TRIALSETUP)
+			                          .leftJoin(GERMINATEBASE).on(GERMINATEBASE.ID.eq(TRIALSETUP.GERMINATEBASE_ID))
+			                          .where(TRIALSETUP.DATASET_ID.in(requestedIds))
+			                          .and(TRIALSETUP.LATITUDE.isNotNull())
+			                          .and(TRIALSETUP.LONGITUDE.isNotNull())
+			                          .groupBy(TRIALSETUP.GERMINATEBASE_ID)
+			                          .fetchInto(ViewTableLocations.class)).build();
 		}
 	}
 
@@ -60,31 +60,31 @@ public class TrialLocationResource extends ContextResource
 	@Path("/count")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public long postTrialLocationCount(DatasetRequest request)
+	public Response postTrialLocationCount(DatasetRequest request)
 			throws IOException, SQLException
 	{
 		if (request == null)
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return 0;
+			return Response.ok(0).build();
 		}
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
-			return 0;
+			return Response.ok(0).build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
-			return context.selectCount()
-						  .from(DSL.selectDistinct(TRIALSETUP.LATITUDE, TRIALSETUP.LONGITUDE)
-								   .from(TRIALSETUP)
-								   .where(TRIALSETUP.DATASET_ID.in(requestedIds))
-								   .and(TRIALSETUP.LATITUDE.isNotNull())
-								   .and(TRIALSETUP.LONGITUDE.isNotNull())
-								   .asTable())
-						  .fetchOneInto(Long.class);
+			return Response.ok(context.selectCount()
+			                          .from(DSL.selectDistinct(TRIALSETUP.LATITUDE, TRIALSETUP.LONGITUDE)
+			                                   .from(TRIALSETUP)
+			                                   .where(TRIALSETUP.DATASET_ID.in(requestedIds))
+			                                   .and(TRIALSETUP.LATITUDE.isNotNull())
+			                                   .and(TRIALSETUP.LONGITUDE.isNotNull())
+			                                   .asTable())
+			                          .fetchOneInto(Long.class)).build();
 		}
 	}
 }

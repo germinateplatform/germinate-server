@@ -33,4 +33,13 @@ public class GatekeeperApiError
 		this.description = description;
 		return this;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "GatekeeperApiError{" +
+				"code=" + code +
+				", description='" + description + '\'' +
+				'}';
+	}
 }

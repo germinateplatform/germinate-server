@@ -21,7 +21,7 @@ import java.util.logging.*;
 @Builder
 public class RequestBuilder<T, U>
 {
-	protected static String URL = "http://localhost:8180/germinate-demo-api/v4.9.0/api/";
+	protected static String URL = "http://localhost:8180/germinate-demo-next-api/v5.0.0/api/";
 	protected static Client client;
 
 	@Builder.Default

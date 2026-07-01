@@ -59,6 +59,13 @@ public abstract class AbstractHdf5Converter
 			else
 				lines = lines.stream().filter(line -> hdf5Lines.contains(line)).collect(Collectors.toCollection(LinkedHashSet::new));
 
+			if (germplasmNameMapping == null) {
+				germplasmNameMapping = new HashMap<>();
+
+				for (String line : lines)
+					germplasmNameMapping.put(line, line);
+			}
+
 			lineInds = new HashMap<>();
 			for (int i = 0; i < hdf5LinesArray.length; i++)
 				lineInds.put(hdf5LinesArray[i], i);

@@ -2,7 +2,6 @@ package jhi.germinate.server.resource.datasets.export;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
@@ -16,19 +15,18 @@ import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.GenotypeExporter;
 import jhi.oddjob.JobInfo;
-import org.jooq.*;
+import org.jooq.DSLContext;
 
-import java.io.File;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
+import static jhi.germinate.server.database.codegen.tables.Datasetaccesslogs.DATASETACCESSLOGS;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.MAPDEFINITIONS;
+import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 
 @Path("dataset/export/genotype")
 @Secured
@@ -39,7 +37,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postJson(GenotypeSubsetDatasetRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 		{
@@ -81,14 +79,14 @@ public class DatasetExportGenotypeResource extends ContextResource
 				dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 				dbJob.setDatatype(DataExportJobsDatatype.genotype);
 				dbJob.setJobConfig(new ExportJobDetails()
-					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setXIds(request.getMarkerIds())
-					.setXGroupIds(request.getMarkerGroupIds())
-					.setYIds(request.getGermplasmIds())
-					.setYGroupIds(request.getGermplasmGroupIds())
-					.setSubsetId(request.getMapId())
-					.setFileHeaders(String.join("\n", getFlapjackHeaders()) + "\n")
-					.setFileTypes(request.getFileTypes()));
+						.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
+						.setXIds(request.getMarkerIds())
+						.setXGroupIds(request.getMarkerGroupIds())
+						.setYIds(request.getGermplasmIds())
+						.setYGroupIds(request.getGermplasmGroupIds())
+						.setSubsetId(request.getMapId())
+						.setFileHeaders(String.join("\n", getFlapjackHeaders()) + "\n")
+						.setFileTypes(request.getFileTypes()));
 				dbJob.setStatus(DataExportJobsStatus.waiting);
 				if (userDetails.getId() != -1000)
 					dbJob.setUserId(userDetails.getId());
@@ -167,28 +165,28 @@ public class DatasetExportGenotypeResource extends ContextResource
 			if (!CollectionUtils.isEmpty(request.getMarkerIds()))
 			{
 				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
-									 .from(MARKERS)
-									 .where(MARKERS.ID.in(request.getMarkerIds()))
-									 .fetchInto(String.class));
+				                     .from(MARKERS)
+				                     .where(MARKERS.ID.in(request.getMarkerIds()))
+				                     .fetchInto(String.class));
 			}
 
 			if (!CollectionUtils.isEmpty(request.getMarkerGroupIds()))
 			{
 				result.addAll(context.selectDistinct(MARKERS.MARKER_NAME)
-									 .from(MARKERS)
-									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getMarkerGroupIds()))
-									 .fetchInto(String.class));
+				                     .from(MARKERS)
+				                     .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(MARKERS.ID))
+				                     .where(GROUPMEMBERS.GROUP_ID.in(request.getMarkerGroupIds()))
+				                     .fetchInto(String.class));
 			}
 
 			if (request.getMapId() != null)
 			{
 				// Only keep those that are actually on the map
 				result.retainAll(context.selectDistinct(MARKERS.MARKER_NAME)
-										.from(MARKERS)
-										.leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
-										.where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()))
-										.fetchInto(String.class));
+				                        .from(MARKERS)
+				                        .leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
+				                        .where(MAPDEFINITIONS.MAP_ID.eq(request.getMapId()))
+				                        .fetchInto(String.class));
 			}
 
 			return result;
@@ -208,17 +206,17 @@ public class DatasetExportGenotypeResource extends ContextResource
 			if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
 			{
 				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
-									 .from(GERMINATEBASE)
-									 .where(GERMINATEBASE.ID.in(request.getGermplasmIds()))
-									 .fetchInto(String.class));
+				                     .from(GERMINATEBASE)
+				                     .where(GERMINATEBASE.ID.in(request.getGermplasmIds()))
+				                     .fetchInto(String.class));
 			}
 			if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
 			{
 				result.addAll(context.selectDistinct(GERMINATEBASE.NAME)
-									 .from(GERMINATEBASE)
-									 .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									 .where(GROUPMEMBERS.GROUP_ID.in(request.getGermplasmGroupIds()))
-									 .fetchInto(String.class));
+				                     .from(GERMINATEBASE)
+				                     .leftJoin(GROUPMEMBERS).on(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+				                     .where(GROUPMEMBERS.GROUP_ID.in(request.getGermplasmGroupIds()))
+				                     .fetchInto(String.class));
 			}
 
 			return result;

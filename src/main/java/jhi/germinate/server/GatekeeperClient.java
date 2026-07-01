@@ -1,5 +1,6 @@
 package jhi.germinate.server;
 
+import com.google.gson.*;
 import jhi.gatekeeper.client.GatekeeperService;
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
@@ -156,11 +157,12 @@ public class GatekeeperClient
 		allowSelfSignedCertificates(builder);
 
 		httpClient = builder.build();
+
 		// Create the retrofit instance
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
-										   .addConverterFactory(GsonConverterFactory.create())
-										   .client(httpClient)
-										   .build();
+		                                   .addConverterFactory(GsonConverterFactory.create())
+		                                   .client(httpClient)
+		                                   .build();
 
 		// Create an instance of the service interface
 		service = retrofit.create(GatekeeperService.class);
@@ -198,9 +200,9 @@ public class GatekeeperClient
 				.connectionPool(connectionPool)
 				.retryOnConnectionFailure(true)
 				.addInterceptor(chain -> chain.proceed(chain.request().newBuilder()
-															.addHeader("Authorization", "Bearer " + token.getToken())
-															.addHeader("Cookie", "token=" + token.getToken())
-															.build()))
+				                                            .addHeader("Authorization", "Bearer " + token.getToken())
+				                                            .addHeader("Cookie", "token=" + token.getToken())
+				                                            .build()))
 				.addInterceptor(chain -> {
 					// Add an interceptor that will handle some error codes
 					Request request = chain.request();
@@ -224,11 +226,14 @@ public class GatekeeperClient
 		httpClient = builder
 				.build();
 
+		Gson gson = new GsonBuilder()
+				.setLenient() // This silences the error, but use with caution!
+				.create();
 		// Now recreate the retrofit instance and the service
 		retrofit = (new Retrofit.Builder()).baseUrl(url)
-										   .addConverterFactory(GsonConverterFactory.create())
-										   .client(httpClient)
-										   .build();
+		                                   .addConverterFactory(GsonConverterFactory.create(gson))
+		                                   .client(httpClient)
+		                                   .build();
 		service = retrofit.create(GatekeeperService.class);
 	}
 
@@ -263,10 +268,10 @@ public class GatekeeperClient
 						if (permissions.isSuccessful() && permissions.body() != null)
 						{
 							ut.setUserTypeString(permissions.body().getData().stream()
-															.map(ViewUserPermissions::getUserType)
-															.filter(p -> !Objects.equals(p, "Suspended User"))
-															.findFirst()
-															.orElse(null));
+							                                .map(ViewUserPermissions::getUserType)
+							                                .filter(p -> !Objects.equals(p, "Suspended User"))
+							                                .findFirst()
+							                                .orElse(null));
 						}
 					}
 					catch (IOException e)
@@ -292,16 +297,36 @@ public class GatekeeperClient
 
 		GatekeeperApiError error;
 
-		try
+
+		try (ResponseBody responseBody = response.errorBody())
 		{
-			error = converter.convert(response.errorBody());
+			String content = responseBody.string();
+
+			try
+			{
+				Gson gson = new Gson();
+				error = gson.fromJson(content, GatekeeperApiError.class);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				error = new GatekeeperApiError()
+						.setCode(response.code())
+						.setDescription(content);
+
+				reset();
+			}
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
+			error = new GatekeeperApiError()
+					.setCode(response.code());
+
 			reset();
-			Logger.getLogger("").info(e.getMessage());
-			return new GatekeeperApiError();
 		}
+
+		Logger.getLogger("").info(error.toString());
 
 		return error;
 	}

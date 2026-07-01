@@ -78,9 +78,9 @@ public class TraitStatsResource extends ContextResource
 																				.and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID)));
 
 			if (!CollectionUtils.isEmpty(request.getTraitIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getTraitIds()));
+				step.and(VIEW_TABLE_TRAITS.VARIABLE_ID.in(request.getTraitIds()));
 
-			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
+			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.VARIABLE_ID, ViewTableTraits.class);
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
 																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
 			Map<Integer, Treatments> treatmentMap = new HashMap<>();

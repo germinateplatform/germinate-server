@@ -36,7 +36,9 @@ import java.util.logging.Logger;
  */
 public class PropertyWatcher
 {
-	/** The name of the properties file */
+	/**
+	 * The name of the properties file
+	 */
 	private static final String PROPERTIES_FILE = "config.properties";
 
 	private static PropertyFile properties = new PropertyFile();
@@ -47,60 +49,69 @@ public class PropertyWatcher
 	/**
 	 * Attempts to reads the properties file and then checks the required properties.
 	 */
-	public static File initialize()
+	public static File initialize(File propertyFile)
 	{
-		/* Start to listen for file changes */
-		try
+		if (propertyFile != null && propertyFile.exists() && propertyFile.isFile())
 		{
-			// We have to load the internal one initially to figure out where the external data directory is...
-			URL resource = PropertyWatcher.class.getClassLoader().getResource(PROPERTIES_FILE);
-			if (resource != null)
-			{
-				config = new File(resource.toURI());
-				loadProperties(false);
-
-				// Then check if there's another version in the external data directory
-				String path = get(ServerProperty.DATA_DIRECTORY_EXTERNAL);
-				if (path != null)
-				{
-					File folder = new File(path);
-					if (folder.exists() && folder.isDirectory())
-					{
-						File potential = new File(folder, PROPERTIES_FILE);
-
-						if (potential.exists() && potential.isFile())
-						{
-							// Use it
-							config = potential;
-						}
-					}
-				}
-
-				// Finally, load it properly. This is either the original file or the external file.
-				loadProperties(true);
-
-				// Then watch whichever file exists for changes
-				FileAlterationObserver observer = FileAlterationObserver.builder().setFile(config.getParentFile()).get();
-				monitor = new FileAlterationMonitor(1000L);
-				observer.addListener(new FileAlterationListenerAdaptor()
-				{
-					@Override
-					public void onFileChange(File file)
-					{
-						if (file.equals(config))
-						{
-							loadProperties(true);
-						}
-					}
-				});
-				monitor.addObserver(observer);
-				monitor.start();
-			}
+			// This is really just for debug testing!
+			config = propertyFile;
+			loadProperties(false);
 		}
-		catch (Exception e)
+		else
 		{
-			e.printStackTrace();
-			throw new RuntimeException(e);
+			/* Start to listen for file changes */
+			try
+			{
+				// We have to load the internal one initially to figure out where the external data directory is...
+				URL resource = PropertyWatcher.class.getClassLoader().getResource(PROPERTIES_FILE);
+				if (resource != null)
+				{
+					config = new File(resource.toURI());
+					loadProperties(false);
+
+					// Then check if there's another version in the external data directory
+					String path = get(ServerProperty.DATA_DIRECTORY_EXTERNAL);
+					if (path != null)
+					{
+						File folder = new File(path);
+						if (folder.exists() && folder.isDirectory())
+						{
+							File potential = new File(folder, PROPERTIES_FILE);
+
+							if (potential.exists() && potential.isFile())
+							{
+								// Use it
+								config = potential;
+							}
+						}
+					}
+
+					// Finally, load it properly. This is either the original file or the external file.
+					loadProperties(true);
+
+					// Then watch whichever file exists for changes
+					FileAlterationObserver observer = FileAlterationObserver.builder().setFile(config.getParentFile()).get();
+					monitor = new FileAlterationMonitor(1000L);
+					observer.addListener(new FileAlterationListenerAdaptor()
+					{
+						@Override
+						public void onFileChange(File file)
+						{
+							if (file.equals(config))
+							{
+								loadProperties(true);
+							}
+						}
+					});
+					monitor.addObserver(observer);
+					monitor.start();
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
 		}
 
 		return config;

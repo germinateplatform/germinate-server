@@ -67,7 +67,7 @@ public class TraitTableResource extends BaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_TRAITS.TRAIT_ID)
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_TRAITS.VARIABLE_ID)
 														   .from(VIEW_TABLE_TRAITS);
 
 			// Filter here!
