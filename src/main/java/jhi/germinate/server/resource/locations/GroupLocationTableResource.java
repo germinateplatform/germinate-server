@@ -166,7 +166,7 @@ public class GroupLocationTableResource extends BaseResource
 			// Filter here!
 			where(from, filters);
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "marker-group-table-");
+			return ResourceUtils.exportToZip(from.fetch(), resp, "location-group-table-");
 		}
 		catch (GerminateException e)
 		{
