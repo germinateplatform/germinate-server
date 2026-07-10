@@ -230,6 +230,7 @@ public interface IFilteredResource
 				else
 				{
 					Logger.getLogger("").warning("Trying to use a json operation, but not allowed: " + filter);
+					Thread.dumpStack();
 					return null;
 				}
 			case FilterComparator.arrayContains:
@@ -251,6 +252,7 @@ public interface IFilteredResource
 				else
 				{
 					Logger.getLogger("").warning("Trying to use a json operation, but not allowed: " + filter);
+					Thread.dumpStack();
 					return null;
 				}
 			case FilterComparator.inSet:

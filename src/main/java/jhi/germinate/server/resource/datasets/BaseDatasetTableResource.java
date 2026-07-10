@@ -156,7 +156,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, userDetails, null, false)));
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

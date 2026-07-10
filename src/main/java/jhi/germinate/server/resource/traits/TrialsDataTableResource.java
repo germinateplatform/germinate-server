@@ -56,7 +56,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			Map<Integer, GermplasmGroups> germplasmGroups = addFilter(context, from, userDetails, request);
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -137,7 +137,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			addFilter(context, from, userDetails, request);
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -174,7 +174,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			addFilter(context, from, userDetails, request);
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			return ResourceUtils.exportToZip(from.fetch(), resp, "trials-data-table-");
 		}
