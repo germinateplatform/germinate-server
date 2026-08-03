@@ -79,19 +79,17 @@ public class ExperimentResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Integer putExperiment(ViewTableExperiments experiment)
+	public Response putExperiment(ViewTableExperiments experiment)
 		throws IOException, SQLException
 	{
 		if (experiment == null || StringUtils.isEmpty(experiment.getExperimentName()))
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return null;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
 		}
 
 		if (experiment.getExperimentId() != null)
 		{
-			resp.sendError(Response.Status.CONFLICT.getStatusCode(), "Experiment ID provided on a creation call.");
-			return null;
+			return Response.status(Response.Status.CONFLICT.getStatusCode(), "Experiment ID provided on a creation call.").build();
 		}
 
 		try (Connection conn = Database.getConnection())
@@ -107,7 +105,7 @@ public class ExperimentResource extends ContextResource
 			e.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			e.store();
 
-			return e.getId();
+			return Response.ok(e.getId()).build();
 		}
 	}
 
@@ -116,13 +114,12 @@ public class ExperimentResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public boolean patchExperiment(@PathParam("experimentId") Integer experimentId, ViewTableExperiments experiment)
+	public Response patchExperiment(@PathParam("experimentId") Integer experimentId, ViewTableExperiments experiment)
 		throws IOException, SQLException
 	{
 		if (experimentId == null || experiment == null || !experimentId.equals(experiment.getExperimentId()) || StringUtils.isEmpty(experiment.getExperimentName()))
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return false;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
 		}
 
 		try (Connection conn = Database.getConnection())
@@ -134,7 +131,7 @@ public class ExperimentResource extends ContextResource
 			if (e == null)
 			{
 				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
+				return Response.ok(false).build();
 			}
 
 			// Update the experiment
@@ -146,6 +143,6 @@ public class ExperimentResource extends ContextResource
 			e.store();
 		}
 
-		return true;
+		return Response.ok(true).build();
 	}
 }

@@ -29,21 +29,15 @@ public class CommentResource
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Integer putComment(Comments comment)
+	public Response putComment(Comments comment)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (comment.getUserId() == null || !Objects.equals(comment.getUserId(), userDetails.getId()))
-		{
-			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
 		if (StringUtils.isEmpty(comment.getDescription()) || comment.getCommenttypeId() == null || comment.getReferenceId() == null || comment.getId() != null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -53,7 +47,7 @@ public class CommentResource
 
 			CommentsRecord record = context.newRecord(COMMENTS, comment);
 			record.store();
-			return record.getId();
+			return Response.ok(record.getId()).build();
 		}
 	}
 
@@ -61,16 +55,13 @@ public class CommentResource
 	@Path("/{commentId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteComment(@PathParam("commentId") Integer commentId)
+	public Response deleteComment(@PathParam("commentId") Integer commentId)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (commentId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -84,11 +75,11 @@ public class CommentResource
 			if (dbRecord == null)
 			{
 				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
+				return Response.ok(false).build();
 			}
 			else
 			{
-				return dbRecord.delete() == 1;
+				return Response.ok(dbRecord.delete() == 1).build();
 			}
 		}
 	}

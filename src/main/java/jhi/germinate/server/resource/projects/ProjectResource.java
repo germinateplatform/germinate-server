@@ -140,7 +140,7 @@ public class ProjectResource
 				project.store(PROJECTS.IMAGE_ID);
 			}
 
-			return Response.status(Response.Status.OK).build();
+			return Response.ok(true).build();
 		}
 	}
 
@@ -245,7 +245,7 @@ public class ProjectResource
 
 			project.store();
 
-			return Response.status(Response.Status.OK).build();
+			return Response.ok(true).build();
 		}
 	}
 

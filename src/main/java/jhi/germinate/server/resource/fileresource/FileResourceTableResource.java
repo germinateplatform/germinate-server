@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.fileresource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
@@ -28,7 +28,7 @@ public class FileResourceTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableFileresources>> getJson(PaginatedRequest request)
+	public Response postFileResourceTable(PaginatedRequest request)
 			throws SQLException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
@@ -70,7 +70,7 @@ public class FileResourceTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 }

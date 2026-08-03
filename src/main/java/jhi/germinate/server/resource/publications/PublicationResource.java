@@ -141,7 +141,7 @@ public class PublicationResource extends ContextResource
 	@Path("/{publicationId}/reference/database")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deletePublicationReferenceDatabase(@PathParam("publicationId") Integer publicationId)
+	public Response deletePublicationReferenceDatabase(@PathParam("publicationId") Integer publicationId)
 			throws SQLException, IOException
 	{
 		return delete(publicationId, PublicationdataReferenceType.database, null);
@@ -151,7 +151,7 @@ public class PublicationResource extends ContextResource
 	@Path("/{publicationId:\\d+}/reference/{referenceType}/{referenceId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deletePublicationReferenceById(@PathParam("publicationId") Integer publicationId, @PathParam("referenceType") String referenceType, @PathParam("referenceId") Integer referenceId)
+	public Response deletePublicationReferenceById(@PathParam("publicationId") Integer publicationId, @PathParam("referenceType") String referenceType, @PathParam("referenceId") Integer referenceId)
 			throws SQLException, IOException
 	{
 		PublicationdataReferenceType type = null;
@@ -166,14 +166,11 @@ public class PublicationResource extends ContextResource
 		return delete(publicationId, type, referenceId);
 	}
 
-	private boolean delete(Integer publicationId, PublicationdataReferenceType referenceType, Integer referenceId)
+	private Response delete(Integer publicationId, PublicationdataReferenceType referenceType, Integer referenceId)
 			throws IOException, SQLException
 	{
 		if (publicationId == null || (referenceType != PublicationdataReferenceType.database && referenceId == null))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -187,7 +184,7 @@ public class PublicationResource extends ContextResource
 			// Delete all no longer referenced publications
 			context.deleteFrom(PUBLICATIONS).whereNotExists(DSL.selectOne().from(PUBLICATIONDATA).where(PUBLICATIONDATA.PUBLICATION_ID.eq(PUBLICATIONS.ID))).execute();
 
-			return result;
+			return Response.ok(result).build();
 		}
 	}
 }

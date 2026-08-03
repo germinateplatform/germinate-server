@@ -28,14 +28,11 @@ public class GermplasmMcpdResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ViewMcpd getGermplasmMcpd(@PathParam("germplasmId") Integer germplasmId)
+	public Response getGermplasmMcpd(@PathParam("germplasmId") Integer germplasmId)
 		throws IOException, SQLException
 	{
 		if (germplasmId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -44,10 +41,10 @@ public class GermplasmMcpdResource
 			List<Field<?>> fields = new ArrayList<>(Arrays.asList(MCPD.fields()));
 			fields.add(MCPD.GERMINATEBASE_ID.as("id"));
 
-			return context.select(fields)
+			return Response.ok(context.select(fields)
 						  .from(MCPD)
 						  .where(MCPD.GERMINATEBASE_ID.eq(germplasmId))
-						  .fetchAnyInto(ViewMcpd.class);
+						  .fetchAnyInto(ViewMcpd.class)).build();
 		}
 	}
 }

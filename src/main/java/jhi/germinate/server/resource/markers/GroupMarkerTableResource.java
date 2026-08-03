@@ -4,7 +4,6 @@ import jakarta.ws.rs.Path;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.pojo.ViewTableMarkers;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.germplasm.GermplasmBaseResource;
 import jhi.germinate.server.resource.groups.GroupResource;
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
 import static jhi.germinate.server.database.codegen.tables.Groups.*;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
@@ -28,7 +26,7 @@ import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 @Path("group/{groupId}/marker")
 @Secured
 @PermitAll
-public class GroupMarkerTable extends MarkerBaseResource
+public class GroupMarkerTableResource extends MarkerBaseResource
 {
 	@PathParam("groupId")
 	private Integer groupId;
@@ -77,18 +75,17 @@ public class GroupMarkerTable extends MarkerBaseResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public int patchGroupMarkerTable(GroupModificationRequest modification)
+	public Response patchGroupMarkerTable(GroupModificationRequest modification)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		try
 		{
-			return GroupResource.patchGroupMembers(groupId, userDetails, modification);
+			return Response.ok(GroupResource.patchGroupMembers(groupId, userDetails, modification)).build();
 		}
 		catch (GerminateException e)
 		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return 0;
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
 		}
 	}
 

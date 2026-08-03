@@ -97,21 +97,15 @@ public class GroupResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})
-	public Integer putGroup(Groups group)
+	public Response putGroup(Groups group)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (group.getCreatedBy() == null || !Objects.equals(group.getCreatedBy(), userDetails.getId()))
-		{
-			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-			return null;
-		}
+		 	return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
 		if (StringUtils.isEmpty(group.getName()) || group.getGrouptypeId() == null || group.getId() != null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+		 	return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -121,7 +115,7 @@ public class GroupResource extends BaseResource
 
 			GroupsRecord record = context.newRecord(GROUPS, group);
 			record.store();
-			return record.getId();
+			return Response.ok(record.getId()).build();
 		}
 	}
 
@@ -130,21 +124,15 @@ public class GroupResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})
-	public boolean patchGroup(Groups group, @PathParam("groupId") Integer groupId)
+	public Response patchGroup(Groups group, @PathParam("groupId") Integer groupId)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (group == null || groupId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id or payload");
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id or payload").build();
 		if (!Objects.equals(group.getId(), groupId))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Id mismatch");
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Id mismatch").build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -155,10 +143,7 @@ public class GroupResource extends BaseResource
 										  .fetchAnyInto(GroupsRecord.class);
 
 			if (dbGroup == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 			// Only update the name if it's not empty
 			if (!StringUtils.isEmpty(group.getName()))
@@ -168,7 +153,7 @@ public class GroupResource extends BaseResource
 				dbGroup.setVisibility(group.getVisibility());
 			// Update the description
 			dbGroup.setDescription(group.getDescription());
-			return dbGroup.store() == 1;
+			return Response.ok(dbGroup.store() == 1).build();
 		}
 	}
 
@@ -177,16 +162,13 @@ public class GroupResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})
-	public boolean deleteGroup(@PathParam("groupId") Integer groupId)
+	public Response deleteGroup(@PathParam("groupId") Integer groupId)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (groupId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id");
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id").build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -198,10 +180,7 @@ public class GroupResource extends BaseResource
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbGroup == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 			else
 			{
 				// Delete the publication reference
@@ -210,7 +189,7 @@ public class GroupResource extends BaseResource
 					   .and(PUBLICATIONDATA.FOREIGN_ID.eq(dbGroup.getId()))
 					   .execute();
 
-				return dbGroup.delete() == 1;
+				return Response.ok(dbGroup.delete() == 1).build();
 			}
 		}
 	}

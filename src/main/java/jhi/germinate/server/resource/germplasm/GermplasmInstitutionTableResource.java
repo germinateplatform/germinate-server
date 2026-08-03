@@ -31,13 +31,11 @@ public class GermplasmInstitutionTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableInstitutions>> postInstitutionTable(PaginatedRequest request)
+	public Response postInstitutionTable(PaginatedRequest request)
 		throws SQLException, IOException
 	{
-		if (germplasmId == null) {
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+		if (germplasmId == null)
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -75,7 +73,7 @@ public class GermplasmInstitutionTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 }

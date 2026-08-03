@@ -32,7 +32,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableGroupGermplasm>> postGroupGermplasmTable(PaginatedRequest request)
+	public Response postGroupGermplasmTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -64,7 +64,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 		catch (GerminateException e)
 		{
@@ -76,19 +76,18 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public int patchGermplasmGroup(GroupModificationRequest modification)
+	public Response patchGermplasmGroup(GroupModificationRequest modification)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		try
 		{
-			return GroupResource.patchGroupMembers(groupId, userDetails, modification);
+			return Response.ok(GroupResource.patchGroupMembers(groupId, userDetails, modification)).build();
 		}
 		catch (GerminateException e)
 		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return -1;
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
 		}
 	}
 

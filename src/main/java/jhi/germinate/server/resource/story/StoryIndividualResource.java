@@ -76,7 +76,7 @@ public class StoryIndividualResource extends ContextResource
 				}
 			}
 
-			return Response.ok().build();
+			return Response.ok(true).build();
 		}
 	}
 
@@ -503,7 +503,7 @@ public class StoryIndividualResource extends ContextResource
 				}
 			}
 
-			return Response.ok().build();
+			return Response.ok(true).build();
 		}
 	}
 }

@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.fileresource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.AuthenticationFilter;
@@ -28,12 +28,12 @@ public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableDatasets>> postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)
+	public Response postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		return runQuery(request, query -> {
+		return Response.ok(runQuery(request, query -> {
 			SelectConditionStep<?> step = DSL.selectOne()
 											 .from(DATASETFILERESOURCES)
 											 .leftJoin(FILERESOURCES).on(FILERESOURCES.ID.eq(DATASETFILERESOURCES.FILERESOURCE_ID))
@@ -42,6 +42,6 @@ public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 											 .and(DATASETFILERESOURCES.FILERESOURCE_ID.eq(fileresourceId));
 
 			query.where(DSL.exists(step));
-		});
+		})).build();
 	}
 }

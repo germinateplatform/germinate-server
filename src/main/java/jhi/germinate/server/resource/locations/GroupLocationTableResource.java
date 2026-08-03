@@ -33,25 +33,24 @@ public class GroupLocationTableResource extends BaseResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public int patchGroupLocationTable(GroupModificationRequest modification)
+	public Response patchGroupLocationTable(GroupModificationRequest modification)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		try
 		{
-			return GroupResource.patchGroupMembers(groupId, userDetails, modification);
+			return Response.ok(GroupResource.patchGroupMembers(groupId, userDetails, modification)).build();
 		}
 		catch (GerminateException e)
 		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return 0;
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
 		}
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableGroupLocations>> postGroupLocationTable(PaginatedRequest request)
+	public Response postGroupLocationTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);
@@ -84,12 +83,11 @@ public class GroupLocationTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 		catch (GerminateException e)
 		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
+			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
 		}
 	}
 

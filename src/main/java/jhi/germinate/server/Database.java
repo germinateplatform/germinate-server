@@ -44,6 +44,8 @@ public class Database
 
 	private static final String utc = TimeZone.getDefault().getID();
 
+	private static Settings GLOBAL_SETTINGS;
+
 	public static void close()
 	{
 //		Logger.getLogger("").info("CLOSE DATABASE " + (datasource != null && !datasource.isClosed()));
@@ -67,6 +69,13 @@ public class Database
 		Database.databasePort = databasePort;
 		Database.username = username;
 		Database.password = password;
+
+		GLOBAL_SETTINGS = new Settings()
+				.withQueryTimeout(60)
+				.withRenderMapping(new RenderMapping()
+						.withSchemata(
+								new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
+								                  .withOutput(databaseName)));
 
 		try
 		{
@@ -118,6 +127,13 @@ public class Database
 		{
 			// handle the error
 		}
+
+		GLOBAL_SETTINGS = new Settings()
+				.withQueryTimeout(60)
+				.withRenderMapping(new RenderMapping()
+						.withSchemata(
+								new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
+								                  .withOutput(databaseName)));
 
 //		Database.datasource = new HikariDataSource();
 //		Database.datasource.setJdbcUrl(getDatabaseUrl());
@@ -500,13 +516,7 @@ public class Database
 	 */
 	public static DSLContext getContext(Connection connection)
 	{
-		Settings settings = new Settings()
-				.withRenderMapping(new RenderMapping()
-						.withSchemata(
-								new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
-												  .withOutput(databaseName)));
-
-		return DSL.using(connection, SQLDialect.MYSQL, settings);
+		return DSL.using(connection, SQLDialect.MYSQL, GLOBAL_SETTINGS);
 	}
 
 	public static String getDatabaseServer()

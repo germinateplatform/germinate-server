@@ -78,6 +78,14 @@ public class StringUtils
 			return input;
 	}
 
+	public static<T> String orEmpty(T input) {
+		if (input == null) {
+			return "";
+		} else {
+			return orEmpty(input.toString());
+		}
+	}
+
 	public static String coalesce(String... parts) {
 		for (String part : parts) {
 			if (!isEmptyOrQuotes(part))

@@ -3,13 +3,13 @@ package jhi.germinate.server.resource.images;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.CarouselConfig;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
@@ -40,32 +40,26 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public boolean patchImage(ViewTableImages imageToPatch, @PathParam("imageId") Integer imageId)
+	public Response patchImage(ViewTableImages imageToPatch, @PathParam("imageId") Integer imageId)
 			throws IOException, SQLException
 	{
 		if (imageId == null || imageToPatch == null || !Objects.equals(imageId, imageToPatch.getImageId()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			ImagesRecord image = context.selectFrom(IMAGES)
-										.where(IMAGES.ID.eq(imageId))
-										.fetchAny();
+			                            .where(IMAGES.ID.eq(imageId))
+			                            .fetchAny();
 
 			if (image == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 			image.setDescription(imageToPatch.getImageDescription());
 			image.setIsReference(imageToPatch.getImageIsReference());
 			image.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-			return image.store() > 0;
+			return Response.ok(image.store() > 0).build();
 		}
 	}
 
@@ -74,14 +68,11 @@ public class ImageResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public boolean postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
+	public Response postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
 			throws IOException
 	{
 		if (CollectionUtils.isEmpty(locales))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST).build();
 
 		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.template.name());
 		folder.mkdirs();
@@ -92,10 +83,7 @@ public class ImageResource
 		File targetFile = new File(folder, uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, targetFile))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST).build();
 
 		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -129,7 +117,7 @@ public class ImageResource
 			gson.toJson(config, type, writer);
 		}
 
-		return true;
+		return Response.ok(true).build();
 	}
 
 	@DELETE
@@ -137,14 +125,11 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public boolean deleteImageByName(@PathParam("name") String name)
+	public Response deleteImageByName(@PathParam("name") String name)
 			throws IOException
 	{
 		if (StringUtils.isEmpty(name))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		// Get the template images folder
 		File parent = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images");
@@ -153,16 +138,10 @@ public class ImageResource
 
 		// Check it's actually a child of the template images folder
 		if (!FileUtils.isSubDirectory(parent, large))
-		{
-			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
 		// Then check it exists
 		if (!large.exists())
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 		// Get the thumbnail
 		File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
@@ -199,7 +178,7 @@ public class ImageResource
 		if (small.exists())
 			small.delete();
 
-		return true;
+		return Response.ok(true).build();
 	}
 
 	@DELETE
@@ -207,27 +186,21 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public boolean deleteImage(@PathParam("imageId") Integer imageId)
+	public Response deleteImage(@PathParam("imageId") Integer imageId)
 			throws IOException, SQLException
 	{
 		if (imageId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			ImagesRecord image = context.selectFrom(IMAGES)
-										.where(IMAGES.ID.eq(imageId))
-										.fetchAny();
+			                            .where(IMAGES.ID.eq(imageId))
+			                            .fetchAny();
 
 			if (image == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.database.name()), image.getPath());
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
@@ -237,7 +210,7 @@ public class ImageResource
 			if (small.exists() && small.isFile())
 				small.delete();
 
-			return image.delete() > 0;
+			return Response.ok(image.delete() > 0).build();
 		}
 	}
 
@@ -262,8 +235,8 @@ public class ImageResource
 		{
 			DSLContext context = Database.getContext(conn);
 			ViewTableImages image = context.selectFrom(VIEW_TABLE_IMAGES)
-										   .where(VIEW_TABLE_IMAGES.IMAGE_ID.eq(imageId))
-										   .fetchAnyInto(ViewTableImages.class);
+			                               .where(VIEW_TABLE_IMAGES.IMAGE_ID.eq(imageId))
+			                               .fetchAnyInto(ViewTableImages.class);
 
 			if (image == null)
 			{
@@ -360,9 +333,9 @@ public class ImageResource
 					try
 					{
 						Thumbnails.of(large)
-								  .height(500)
-								  .keepAspectRatio(true)
-								  .toFile(small);
+						          .height(500)
+						          .keepAspectRatio(true)
+						          .toFile(small);
 					}
 					catch (IOException e)
 					{
@@ -382,8 +355,8 @@ public class ImageResource
 					byte[] bytes = IOUtils.toByteArray(file.toURI());
 
 					return Response.ok(new ByteArrayInputStream(bytes))
-								   .header("Content-Type", mediaType)
-								   .build();
+					               .header("Content-Type", mediaType)
+					               .build();
 				}
 				catch (IOException e)
 				{

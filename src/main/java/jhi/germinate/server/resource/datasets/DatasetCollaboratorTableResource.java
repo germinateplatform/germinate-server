@@ -4,7 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
@@ -30,7 +30,7 @@ public class DatasetCollaboratorTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableCollaborators>> postCollaboratorTable(PaginatedRequest request)
+	public Response postCollaboratorTable(PaginatedRequest request)
 		throws SQLException
 	{
 		processRequest(request);
@@ -60,11 +60,11 @@ public class DatasetCollaboratorTableResource extends BaseResource
 
 				long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-				return new PaginatedResult<>(result, count);
+				return Response.ok(new PaginatedResult<>(result, count)).build();
 			}
 			else
 			{
-				return new PaginatedResult<>(new ArrayList<>(), 0);
+				return Response.ok(new PaginatedResult<>(new ArrayList<>(), 0)).build();
 			}
 		}
 	}

@@ -30,13 +30,12 @@ public class DatasetResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ViewTableDatasets postDataset(Datasets newDataset)
+	public Response postDataset(Datasets newDataset)
 			throws SQLException, IOException
 	{
 		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 		}
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -60,7 +59,7 @@ public class DatasetResource extends ContextResource
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
 
-			return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
+			return Response.ok(DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false)).build();
 		}
 	}
 
@@ -68,13 +67,12 @@ public class DatasetResource extends ContextResource
 	@Path("/{datasetId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ViewTableDatasets patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
+	public Response patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
 			throws SQLException, IOException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 		}
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -83,8 +81,7 @@ public class DatasetResource extends ContextResource
 
 		if (ds == null)
 		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 		}
 		else
 		{
@@ -96,8 +93,7 @@ public class DatasetResource extends ContextResource
 
 				if (dataset == null)
 				{
-					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-					return null;
+					return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 				}
 
 				dataset.setName(updatedDataset.getName());
@@ -112,7 +108,7 @@ public class DatasetResource extends ContextResource
 
 				AuthorizationFilter.refreshUserDatasetInfo(true);
 
-				return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
+				return Response.ok(DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false)).build();
 			}
 		}
 	}

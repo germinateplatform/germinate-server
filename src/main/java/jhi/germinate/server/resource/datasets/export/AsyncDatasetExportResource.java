@@ -28,23 +28,23 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
-	public List<DataExportJobs> postJson(UuidRequest request)
+	public Response postJson(UuidRequest request)
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (CollectionUtils.isEmpty(request.getUuids()) && (userDetails.getId() == -1000))
-			return new ArrayList<>();
+			return Response.ok(new ArrayList<>()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			return context.selectFrom(DATA_EXPORT_JOBS)
+			return Response.ok(context.selectFrom(DATA_EXPORT_JOBS)
 						  .where(DATA_EXPORT_JOBS.UUID.in(request.getUuids())
 														 .or(DATA_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
 						  .and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
 						  .orderBy(DATA_EXPORT_JOBS.UPDATED_ON.desc())
-						  .fetchInto(DataExportJobs.class);
+						  .fetchInto(DataExportJobs.class)).build();
 		}
 	}
 
@@ -54,7 +54,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
-	public boolean deleteAsyncDatasetExport(@PathParam("jobUuid") String jobUuid)
+	public Response deleteAsyncDatasetExport(@PathParam("jobUuid") String jobUuid)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -62,7 +62,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		if (StringUtils.isEmpty(jobUuid))
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
+			return Response.ok(false).build();
 		}
 
 		boolean result = false;
@@ -115,7 +115,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			}
 		}
 
-		return result;
+		return Response.ok(result).build();
 	}
 
 	@GET

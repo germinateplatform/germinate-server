@@ -43,18 +43,16 @@ public class LicenseResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Integer addLicenseAndData(ViewTableLicenseDefinitions license)
+	public Response addLicenseAndData(ViewTableLicenseDefinitions license)
 		throws IOException, SQLException
 	{
 		if (license == null || StringUtils.isEmpty(license.getLicenseName()))
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return null;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
 		}
 
 		if (license.getLicenseId() != null) {
-			resp.sendError(Response.Status.CONFLICT.getStatusCode(), "License ID provided on a creation call.");
-			return null;
+			return Response.status(Response.Status.CONFLICT.getStatusCode(), "License ID provided on a creation call.").build();
 		}
 
 		try (Connection conn = Database.getConnection())
@@ -97,7 +95,7 @@ public class LicenseResource extends BaseResource
 				ld.store();
 			}
 
-			return l.getId();
+			return Response.ok(l.getId()).build();
 		}
 	}
 
@@ -106,13 +104,12 @@ public class LicenseResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public boolean patchLicense(@PathParam("licenseId") Integer licenseId, ViewTableLicenseDefinitions license)
+	public Response patchLicense(@PathParam("licenseId") Integer licenseId, ViewTableLicenseDefinitions license)
 		throws IOException, SQLException
 	{
 		if (licenseId == null || license == null || !licenseId.equals(license.getLicenseId()) || StringUtils.isEmpty(license.getLicenseName()))
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return false;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
 		}
 
 		try (Connection conn = Database.getConnection())
@@ -123,8 +120,7 @@ public class LicenseResource extends BaseResource
 
 			if (l == null)
 			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 			}
 
 			// Update the license
@@ -169,6 +165,6 @@ public class LicenseResource extends BaseResource
 			}
 		}
 
-		return true;
+		return Response.ok(true).build();
 	}
 }

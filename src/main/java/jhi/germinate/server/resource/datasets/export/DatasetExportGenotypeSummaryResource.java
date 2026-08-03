@@ -32,7 +32,7 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableDatasets>> postJson(GenotypeSubsetDatasetRequest request)
+	public Response postJson(GenotypeSubsetDatasetRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
@@ -45,7 +45,7 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "genotype", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(datasetIds))
-			return new PaginatedResult<>(new ArrayList<>(), 0);
+			return Response.ok(new PaginatedResult<>(new ArrayList<>(), 0)).build();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -109,7 +109,7 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 			List<ViewTableDatasets> result = setPaginationAndOrderBy(step)
 				.fetchInto(ViewTableDatasets.class);
 
-			return new PaginatedResult<>(result, result.size());
+			return Response.ok(new PaginatedResult<>(result, result.size())).build();
 		}
 	}
 }

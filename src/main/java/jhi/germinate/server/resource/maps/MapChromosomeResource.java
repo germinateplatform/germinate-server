@@ -26,28 +26,25 @@ public class MapChromosomeResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> getMapChromosomes()
+	public Response getMapChromosomes()
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (mapId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			return context.selectDistinct(MAPDEFINITIONS.CHROMOSOME)
+			return Response.ok(context.selectDistinct(MAPDEFINITIONS.CHROMOSOME)
 						  .from(MAPS)
 						  .leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MAP_ID.eq(MAPS.ID))
 						  .where(MAPS.ID.eq(mapId))
 						  .and(MAPS.VISIBILITY.eq(true)
 											  .or(MAPS.USER_ID.eq(userDetails.getId())))
 						  .orderBy(MAPDEFINITIONS.CHROMOSOME)
-						  .fetchInto(String.class);
+						  .fetchInto(String.class)).build();
 		}
 	}
 }

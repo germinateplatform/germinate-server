@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.ws.rs.core.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.pojo.TaxonCount;
 import jhi.germinate.server.util.Secured;
@@ -8,7 +9,7 @@ import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
+
 import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -22,7 +23,7 @@ public class GermplasmTaxonomyResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public TaxonCount getTaxonomies()
+	public Response getTaxonomies()
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -46,7 +47,7 @@ public class GermplasmTaxonomyResource
 									 .groupBy(TAXONOMIES.SUBTAXA)
 									 .fetchInto(TaxonCount.LevelCount.class));
 
-			return result;
+			return Response.ok(result).build();
 		}
 	}
 }

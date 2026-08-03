@@ -31,13 +31,12 @@ public class FileResourceResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public boolean putFileResource(ViewTableFileresources fileResource)
+	public Response putFileResource(ViewTableFileresources fileResource)
 		throws IOException, SQLException
 	{
 		if (fileResource == null || fileResource.getFileresourceId() != null || fileResource.getFileresourcetypeId() == null || StringUtils.isEmpty(fileResource.getFileresourcePath()) || StringUtils.isEmpty(fileResource.getFileresourceName()))
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 		}
 
 		try (Connection conn = Database.getConnection())
@@ -53,8 +52,7 @@ public class FileResourceResource extends ContextResource
 			// If the type doesn't exist or the source file isn't available fail
 			if (type == null || !source.exists() || !source.isFile())
 			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return false;
+				return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 			}
 
 			// Get the target location for this file
@@ -71,8 +69,7 @@ public class FileResourceResource extends ContextResource
 				// If the operation fails, delete the source.
 				source.delete();
 				e.printStackTrace();
-				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-				return false;
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).build();
 			}
 
 			// If we get here the file was successfully found and moved
@@ -101,7 +98,7 @@ public class FileResourceResource extends ContextResource
 				}
 			}
 
-			return true;
+			return Response.ok(true).build();
 		}
 	}
 
@@ -187,14 +184,11 @@ public class FileResourceResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public boolean deleteFileResource(@PathParam("fileResourceId") Integer fileResourceId)
+	public Response deleteFileResource(@PathParam("fileResourceId") Integer fileResourceId)
 		throws IOException, SQLException
 	{
 		if (fileResourceId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -215,10 +209,10 @@ public class FileResourceResource extends ContextResource
 						file.delete();
 				}
 
-				return fileResource.delete() > 0;
+				return Response.ok(fileResource.delete() > 0).build();
 			}
 
-			return false;
+			return Response.ok(false).build();
 		}
 	}
 }

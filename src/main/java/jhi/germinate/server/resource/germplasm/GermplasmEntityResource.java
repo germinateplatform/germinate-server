@@ -28,32 +28,29 @@ public class GermplasmEntityResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Integer> postGermplasmEntities(Integer[] ids)
+	public Response postGermplasmEntities(Integer[] ids)
 		throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			if (ids == null)
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return null;
-			}
+				return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 			if (Objects.equals(direction, "down"))
 			{
-				return context.selectDistinct(GERMINATEBASE.ID)
+				return Response.ok(context.selectDistinct(GERMINATEBASE.ID)
 							  .from(GERMINATEBASE)
 							  .where(GERMINATEBASE.ENTITYPARENT_ID.in(ids))
-							  .fetchInto(Integer.class);
+							  .fetchInto(Integer.class)).build();
 			}
 			else if (Objects.equals(direction, "up"))
 			{
-				return context.selectDistinct(GERMINATEBASE.ENTITYPARENT_ID)
+				return Response.ok(context.selectDistinct(GERMINATEBASE.ENTITYPARENT_ID)
 							  .from(GERMINATEBASE)
 							  .where(GERMINATEBASE.ENTITYPARENT_ID.isNotNull())
 							  .and(GERMINATEBASE.ID.in(ids))
-							  .fetchInto(Integer.class);
+							  .fetchInto(Integer.class)).build();
 			}
 			else
 			{

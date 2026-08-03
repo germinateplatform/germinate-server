@@ -23,5 +23,5 @@ public class ClientAdminConfiguration extends ClientConfiguration
 	private Integer filesDeleteAfterHoursTemp;
 	private Boolean hiddenPagesAutodiscover;
 	private Integer databaseBackupEveryDays;
-	private Double databaseBackupMaxSizeGB;
+	private Double  databaseBackupMaxSizeGB;
 }

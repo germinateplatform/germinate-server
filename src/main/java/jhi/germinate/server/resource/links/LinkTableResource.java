@@ -29,14 +29,11 @@ public class LinkTableResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ViewTableLinks> postLinkTable(LinkRequest request)
+	public Response postLinkTable(LinkRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null || StringUtils.isEmpty(request.getTargetTable()) || request.getForeignId() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "'targetTable' and 'foreignId' must be specified.");
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "'targetTable' and 'foreignId' must be specified.").build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -90,7 +87,7 @@ public class LinkTableResource extends ContextResource
 						  l.setHyperlink(hyperlink.replace(placeholder, value));
 				  });
 
-			return result;
+			return Response.ok(result).build();
 		}
 	}
 }

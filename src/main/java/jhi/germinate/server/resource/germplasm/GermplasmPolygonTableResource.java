@@ -27,14 +27,11 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmPolygonTable(PaginatedPolygonRequest request)
+	public Response postGermplasmPolygonTable(PaginatedPolygonRequest request)
 		throws IOException, SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -56,7 +53,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 

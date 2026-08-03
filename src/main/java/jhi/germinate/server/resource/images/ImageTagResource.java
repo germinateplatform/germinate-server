@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.images;
 
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.pojo.ImageTag;
@@ -11,7 +12,7 @@ import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
+
 import java.sql.*;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ImageTagResource extends BaseResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ImageTag>> getImageTag()
+	public Response getImageTag()
 		throws SQLException
 	{
 		return getImageTag(null);
@@ -38,7 +39,7 @@ public class ImageTagResource extends BaseResource
 	@Path("/{referenceTable}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable)
+	public Response getImageTag(@PathParam("referenceTable") String referenceTable)
 		throws SQLException
 	{
 		return getImageTag(referenceTable, null);
@@ -48,7 +49,7 @@ public class ImageTagResource extends BaseResource
 	@Path("/{referenceTable}/{foreignId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)
+	public Response getImageTag(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -84,7 +85,7 @@ public class ImageTagResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 }

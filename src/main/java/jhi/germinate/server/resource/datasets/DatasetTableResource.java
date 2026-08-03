@@ -57,7 +57,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record> from = context.select()
-												 .from(VIEW_TABLE_DATASETS);
+			                                     .from(VIEW_TABLE_DATASETS);
 
 			if (!StringUtils.isEmpty(datasetType))
 				from.where(VIEW_TABLE_DATASETS.DATASET_TYPE.eq(datasetType));
@@ -66,12 +66,13 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			{
 				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
 				from.where(VIEW_TABLE_DATASETS.DATASET_STATE.eq("public")
-															.orExists(context.selectOne().from(DATASETPERMISSIONS)
-																			 .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
-																			 .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
-																			 .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
-																			 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
-																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
+				                                            .or(VIEW_TABLE_DATASETS.CREATED_BY.eq(userDetails.getId()))
+				                                            .orExists(context.selectOne().from(DATASETPERMISSIONS)
+				                                                             .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
+				                                                             .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
+				                                                             .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
+				                                                             .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
+				                                                                                          .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
 
 			return from.fetchInto(ViewTableDatasets.class);
@@ -85,22 +86,23 @@ public class DatasetTableResource extends BaseDatasetTableResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record> from = context.select()
-												 .from(VIEW_TABLE_DATASETS);
+			                                     .from(VIEW_TABLE_DATASETS);
 
 			if (!userDetails.isAtLeast(UserType.ADMIN))
 			{
 				// Check if the dataset is public or if the user is part of a group that has access or if the user has access themselves
 				from.where(VIEW_TABLE_DATASETS.DATASET_STATE.eq("public")
-															.orExists(context.selectOne().from(DATASETPERMISSIONS)
-																			 .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
-																			 .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
-																			 .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
-																			 .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
-																										  .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
+				                                            .or(VIEW_TABLE_DATASETS.CREATED_BY.eq(userDetails.getId()))
+				                                            .orExists(context.selectOne().from(DATASETPERMISSIONS)
+				                                                             .leftJoin(USERGROUPS).on(USERGROUPS.ID.eq(DATASETPERMISSIONS.GROUP_ID))
+				                                                             .leftJoin(USERGROUPMEMBERS).on(USERGROUPMEMBERS.USERGROUP_ID.eq(USERGROUPS.ID))
+				                                                             .where(DATASETPERMISSIONS.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID))
+				                                                             .and(USERGROUPMEMBERS.USER_ID.eq(userDetails.getId())
+				                                                                                          .or(DATASETPERMISSIONS.USER_ID.eq(userDetails.getId())))));
 			}
 
 			ViewTableDatasets dataset = from.where(VIEW_TABLE_DATASETS.DATASET_ID.eq(datasetId))
-											.fetchAnyInto(ViewTableDatasets.class);
+			                                .fetchAnyInto(ViewTableDatasets.class);
 
 			if (dataset == null)
 			{
@@ -131,9 +133,9 @@ public class DatasetTableResource extends BaseDatasetTableResource
 	public static List<ViewTableDatasets> restrictBasedOnLicenseAgreement(List<ViewTableDatasets> datasets, Set<Integer> acceptedLicenses, AuthenticationFilter.UserDetails userDetails)
 	{
 		return new ArrayList<>(datasets.stream()
-									   .filter(ds -> ds.getLicenseId() == null || acceptedLicenses.contains(ds.getLicenseId()))
-									   .map(ds -> ds.setAcceptedBy(new Integer[]{userDetails.getId()}))
-									   .toList());
+		                               .filter(ds -> ds.getLicenseId() == null || acceptedLicenses.contains(ds.getLicenseId()))
+		                               .map(ds -> ds.setAcceptedBy(new Integer[]{userDetails.getId()}))
+		                               .toList());
 	}
 
 	@POST
@@ -150,10 +152,10 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			Set<Integer> ids = AuthenticationFilter.getAcceptedLicenses(req);
 			adjuster = query -> {
 				query.where(VIEW_TABLE_DATASETS.LICENSE_ID.isNotNull())
-					 .and(DSL.notExists(DSL.selectOne()
-										   .from(LICENSELOGS)
-										   .where(LICENSELOGS.LICENSE_ID.eq(VIEW_TABLE_DATASETS.LICENSE_ID))
-										   .and(LICENSELOGS.USER_ID.eq(userDetails.getId()))));
+				     .and(DSL.notExists(DSL.selectOne()
+				                           .from(LICENSELOGS)
+				                           .where(LICENSELOGS.LICENSE_ID.eq(VIEW_TABLE_DATASETS.LICENSE_ID))
+				                           .and(LICENSELOGS.USER_ID.eq(userDetails.getId()))));
 
 				if (!CollectionUtils.isEmpty(ids) && userDetails.getId() == -1000)
 				{

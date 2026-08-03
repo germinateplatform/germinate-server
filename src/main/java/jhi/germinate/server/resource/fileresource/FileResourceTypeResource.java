@@ -29,7 +29,7 @@ public class FileResourceTypeResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ViewTableFileresourcetypes> getFileResourceType()
+	public Response getFileResourceType()
 		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -39,7 +39,7 @@ public class FileResourceTypeResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 			SelectWhereStep<?> step = context.selectFrom(VIEW_TABLE_FILERESOURCETYPES);
 
-			return step.fetchInto(ViewTableFileresourcetypes.class);
+			return Response.ok(step.fetchInto(ViewTableFileresourcetypes.class)).build();
 		}
 	}
 
@@ -47,7 +47,7 @@ public class FileResourceTypeResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public Integer postFileResource(Fileresourcetypes type)
+	public Response postFileResource(Fileresourcetypes type)
 		throws IOException, SQLException
 	{
 		if (type == null || StringUtils.isEmpty(type.getName()) || type.getId() != null)
@@ -64,7 +64,7 @@ public class FileResourceTypeResource extends ContextResource
 			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			record.store();
 
-			return record.getId();
+			return Response.ok(record.getId()).build();
 		}
 	}
 

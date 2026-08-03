@@ -27,14 +27,11 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<GermplasmDistance>> postGermplasmDistanceTable(PaginatedLocationRequest request)
+	public Response postGermplasmDistanceTable(PaginatedLocationRequest request)
 		throws IOException, SQLException
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -65,7 +62,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 
@@ -73,14 +70,11 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 	@Path("/table/ids")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<Integer>> postGermplasmDistanceTableIds(PaginatedLocationRequest request)
+	public Response postGermplasmDistanceTableIds(PaginatedLocationRequest request)
 		throws IOException, SQLException
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -101,7 +95,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 				.fetch()
 				.into(Integer.class);
 
-			return new PaginatedResult<>(result, result.size());
+			return Response.ok(new PaginatedResult<>(result, result.size())).build();
 		}
 	}
 }

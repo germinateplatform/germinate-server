@@ -32,15 +32,14 @@ public class MarkerGroupTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableGroups>> getJson(PaginatedRequest request)
+	public Response getMarkerGroupTable(PaginatedRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (markerId == null)
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 		}
 
 		processRequest(request);
@@ -70,7 +69,7 @@ public class MarkerGroupTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 }

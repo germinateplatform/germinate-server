@@ -27,14 +27,11 @@ public class NewsResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postNews(News newsItem)
+	public Response postNews(News newsItem)
 		throws IOException, SQLException
 	{
 		if (newsItem == null || newsItem.getId() != null || StringUtils.isEmpty(newsItem.getTitle()) || StringUtils.isEmpty(newsItem.getContent()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -48,10 +45,7 @@ public class NewsResource extends ContextResource
 				String[] strings = base64.split(",");
 
 				if (strings.length != 2)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return false;
-				}
+					return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 				// Get the extension
 				String extension;
@@ -67,8 +61,7 @@ public class NewsResource extends ContextResource
 						extension = "jpg";
 						break;
 					default:
-						resp.sendError(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
-						return false;
+						return Response.status(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode()).build();
 				}
 				//convert base64 string to binary data
 				byte[] bytes = Base64.getDecoder().decode(strings[1].getBytes(StandardCharsets.UTF_8));
@@ -89,27 +82,23 @@ public class NewsResource extends ContextResource
 			if (newsItem.getUpdatedOn() == null)
 				newsItem.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			NewsRecord record = context.newRecord(NEWS, newsItem);
-			return record.store() > 0;
+			return Response.ok(record.store() > 0).build();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return false;
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()).build();
 		}
 	}
 
 
 	@DELETE
 	@Path("/{newsId:\\d+}")
-	public boolean deleteNews(@PathParam("newsId") Integer newsId)
+	public Response deleteNews(@PathParam("newsId") Integer newsId)
 		throws IOException, SQLException
 	{
 		if (newsId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -133,10 +122,10 @@ public class NewsResource extends ContextResource
 						thumb.delete();
 				}
 
-				return news.delete() > 0;
+				return Response.ok(news.delete() > 0).build();
 			}
 
-			return false;
+			return Response.ok(false).build();
 		}
 	}
 }

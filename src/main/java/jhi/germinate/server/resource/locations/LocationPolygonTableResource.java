@@ -30,14 +30,11 @@ public class LocationPolygonTableResource extends BaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableLocations>> postLocationPolygonTable(PaginatedPolygonRequest request)
+	public Response postLocationPolygonTable(PaginatedPolygonRequest request)
 		throws IOException, SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -63,7 +60,7 @@ public class LocationPolygonTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 

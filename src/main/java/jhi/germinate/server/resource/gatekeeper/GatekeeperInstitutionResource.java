@@ -19,7 +19,7 @@ public class GatekeeperInstitutionResource extends BaseResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<Institutions>> getGatekeeperInstitution()
+	public jakarta.ws.rs.core.Response getGatekeeperInstitution()
 		throws IOException
 	{
 		if (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
@@ -30,13 +30,12 @@ public class GatekeeperInstitutionResource extends BaseResource
 
 			if (response.isSuccessful())
 			{
-				return response.body();
+				return jakarta.ws.rs.core.Response.ok(response.body()).build();
 			}
 			else
 			{
 				GatekeeperApiError error = GatekeeperClient.parseError(response);
-				resp.sendError(response.code(), error.getDescription());
-				return null;
+				return jakarta.ws.rs.core.Response.status(response.code(), error.getDescription()).build();
 			}
 //			}
 //			catch (IOException e)
@@ -48,8 +47,7 @@ public class GatekeeperInstitutionResource extends BaseResource
 		}
 		else
 		{
-			resp.sendError(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
-			return null;
+			return jakarta.ws.rs.core.Response.status(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode()).build();
 		}
 	}
 }

@@ -21,7 +21,7 @@ public class FileResourceUploadResource extends ContextResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public String postFileResource(@FormDataParam("file") InputStream fileIs, @FormDataParam("file") FormDataContentDisposition fileDetails)
+	public Response postFileResource(@FormDataParam("file") InputStream fileIs, @FormDataParam("file") FormDataContentDisposition fileDetails)
 		throws IOException
 	{
 		// Generate a UUID to identify the file
@@ -42,6 +42,6 @@ public class FileResourceUploadResource extends ContextResource
 
 		Files.copy(fileIs, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		return target.getName();
+		return Response.ok(target.getName()).build();
 	}
 }

@@ -33,13 +33,13 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
-	public List<DataImportJobs> postImportJob(UuidRequest request)
+	public Response postImportJob(UuidRequest request)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (CollectionUtils.isEmpty(request.getUuids()) && (userDetails.getId() == -1000))
-			return new ArrayList<>();
+			return Response.ok(new ArrayList<>()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -52,8 +52,8 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 			else
 				step.and(DATA_IMPORT_JOBS.UUID.in(request.getUuids()));
 
-			return step.orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
-					   .fetchInto(DataImportJobs.class);
+			return Response.ok(step.orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
+					   .fetchInto(DataImportJobs.class)).build();
 		}
 	}
 
@@ -62,16 +62,13 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public boolean deleteImportJob(@PathParam("jobUuid") String jobUuid)
+	public Response deleteImportJob(@PathParam("jobUuid") String jobUuid)
 			throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (StringUtils.isEmpty(jobUuid))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		boolean result = false;
 
@@ -124,7 +121,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 			}
 		}
 
-		return result;
+		return Response.ok(result).build();
 	}
 
 	@GET

@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.fileresource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedDatasetRequest;
 import jhi.germinate.server.*;
@@ -28,14 +28,14 @@ public class DatasetFileResourceTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableFileresources>> postDatasetFileResources(PaginatedDatasetRequest request)
+	public Response postDatasetFileResources(PaginatedDatasetRequest request)
 		throws SQLException
 	{
 		final List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, request.getDatasetIds(), true);
 
 		// None of the requested dataset ids are available to the user, return nothing
 		if (CollectionUtils.isEmpty(requestedIds))
-			return new PaginatedResult<>(new ArrayList<>(), 0);
+			return Response.ok(new PaginatedResult<>(new ArrayList<>(), 0)).build();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -72,7 +72,7 @@ public class DatasetFileResourceTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 }

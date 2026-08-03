@@ -27,14 +27,11 @@ public class GermplasmLocationResource extends ContextResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchGermplasmLocation(Locations newLocation)
+	public Response patchGermplasmLocation(Locations newLocation)
 		throws SQLException, IOException
 	{
 		if (germplasmId == null || newLocation == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -43,36 +40,32 @@ public class GermplasmLocationResource extends ContextResource
 			if (newLocation.getId() != null)
 			{
 				// It exists
-				return context.update(GERMINATEBASE)
+				return Response.ok(context.update(GERMINATEBASE)
 							  .set(GERMINATEBASE.LOCATION_ID, newLocation.getId())
 							  .where(GERMINATEBASE.ID.eq(germplasmId))
-							  .execute() > 0;
+							  .execute() > 0).build();
 			}
 			else
 			{
 				// It needs to be created
 				if (newLocation.getCountryId() == null || StringUtils.isEmpty(newLocation.getSiteName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return false;
-				}
+					return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 				try
 				{
 					LocationsRecord l = context.newRecord(LOCATIONS, newLocation);
 					l.store();
 
-					return context.update(GERMINATEBASE)
+					return Response.ok(context.update(GERMINATEBASE)
 								  .set(GERMINATEBASE.LOCATION_ID, l.getId())
 								  .where(GERMINATEBASE.ID.eq(germplasmId))
-								  .execute() > 0;
+								  .execute() > 0).build();
 				}
 				catch (Exception e)
 				{
 					e.printStackTrace();
 					Logger.getLogger("").info(e.getLocalizedMessage());
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return false;
+					return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 				}
 			}
 		}

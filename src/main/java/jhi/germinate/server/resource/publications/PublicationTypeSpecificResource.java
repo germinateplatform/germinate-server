@@ -29,7 +29,7 @@ public class PublicationTypeSpecificResource extends ContextResource
 	@Path("/{referenceType}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ViewTablePublications> getPublicationsForType(@PathParam("referenceType") PublicationdataReferenceType referenceType)
+	public Response getPublicationsForType(@PathParam("referenceType") PublicationdataReferenceType referenceType)
 		throws IOException, SQLException
 	{
 		return this.getPublicationsForTypeAndId(referenceType, null);
@@ -39,14 +39,11 @@ public class PublicationTypeSpecificResource extends ContextResource
 	@Path("/{referenceType}/{referenceId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ViewTablePublications> getPublicationsForTypeAndId(@PathParam("referenceType") PublicationdataReferenceType referenceType, @PathParam("referenceId") Integer referenceId)
+	public Response getPublicationsForTypeAndId(@PathParam("referenceType") PublicationdataReferenceType referenceType, @PathParam("referenceId") Integer referenceId)
 		throws IOException, SQLException
 	{
 		if (referenceType == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -77,7 +74,7 @@ public class PublicationTypeSpecificResource extends ContextResource
 				where = where.or(PUBLICATIONDATA.REFERENCE_TYPE.eq(PublicationdataReferenceType.group).and(PUBLICATIONDATA.FOREIGN_ID.in(groupIds)));
 			}
 
-			return where.orderBy(PUBLICATIONS.CREATED_ON.desc()).fetchInto(ViewTablePublications.class);
+			return Response.ok(where.orderBy(PUBLICATIONS.CREATED_ON.desc()).fetchInto(ViewTablePublications.class)).build();
 		}
 	}
 }

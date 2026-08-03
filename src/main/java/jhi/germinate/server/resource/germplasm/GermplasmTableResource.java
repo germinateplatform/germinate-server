@@ -140,8 +140,8 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Path("/columns")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> getGermplasmTableColumns()
+	public Response getGermplasmTableColumns()
 	{
-		return COLUMNS;
+		return Response.ok(COLUMNS).build();
 	}
 }

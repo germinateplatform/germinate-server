@@ -27,14 +27,11 @@ public class LocationDistanceTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<LocationDistance>> postLocationDistanceTable(PaginatedLocationRequest request)
+	public Response postLocationDistanceTable(PaginatedLocationRequest request)
 		throws IOException, SQLException
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -80,7 +77,7 @@ public class LocationDistanceTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return new PaginatedResult<>(result, count);
+			return Response.ok(new PaginatedResult<>(result, count)).build();
 		}
 	}
 

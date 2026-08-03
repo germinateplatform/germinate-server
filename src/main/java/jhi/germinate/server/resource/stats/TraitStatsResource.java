@@ -39,7 +39,7 @@ public class TraitStatsResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public TraitDatasetStats postTraitStats(TrialsExportDatasetRequest request)
+	public Response postTraitStats(TrialsExportDatasetRequest request)
 			throws IOException, SQLException
 	{
 		if (request == null)
@@ -240,7 +240,7 @@ public class TraitStatsResource extends ContextResource
 			result.setTraits(traits);
 			result.setTreatments(treatments);
 
-			return result;
+			return Response.ok(result).build();
 		}
 	}
 

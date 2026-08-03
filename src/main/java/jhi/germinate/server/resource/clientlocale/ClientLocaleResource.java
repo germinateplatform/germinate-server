@@ -22,7 +22,7 @@ public class ClientLocaleResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<LocaleConfig> getLocale()
+	public Response getLocale()
 		throws IOException
 	{
 		File configFile = ResourceUtils.getFromExternal(resp, "locales.json", "template");
@@ -32,15 +32,12 @@ public class ClientLocaleResource extends ContextResource
 		}.getType();
 
 		if (configFile == null || !configFile.exists())
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 		else
 		{
 			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				return gson.fromJson(br, type);
+				return Response.ok(gson.fromJson(br, type)).build();
 			}
 		}
 	}

@@ -266,7 +266,7 @@ public class SettingsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public boolean postTemplateCarouselConfig(CarouselConfig config)
+	public Response postTemplateCarouselConfig(CarouselConfig config)
 			throws IOException
 	{
 		Gson gson = new Gson();
@@ -284,7 +284,7 @@ public class SettingsResource
 			gson.toJson(config, type, writer);
 		}
 
-		return true;
+		return Response.ok(true).build();
 	}
 
 	@GET
@@ -397,7 +397,7 @@ public class SettingsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public boolean patchTemplateAboutConfig(AboutConfig config)
+	public Response patchTemplateAboutConfig(AboutConfig config)
 			throws IOException
 	{
 		Gson gson = new Gson();
@@ -415,14 +415,14 @@ public class SettingsResource
 			gson.toJson(config, type, writer);
 		}
 
-		return true;
+		return Response.ok(true).build();
 	}
 
 	@GET
 	@Path("/about")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public AboutConfig getAboutConfig()
+	public Response getAboutConfig()
 			throws IOException
 	{
 		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
@@ -432,15 +432,12 @@ public class SettingsResource
 		}.getType();
 
 		if (configFile == null || !configFile.exists())
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 		else
 		{
 			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				return gson.fromJson(br, type);
+				return Response.ok(gson.fromJson(br, type)).build();
 			}
 		}
 	}
