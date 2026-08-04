@@ -1,6 +1,8 @@
 package jhi.germinate.server.resource.usergroups;
 
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.UserGroupModificationRequest;
 import jhi.germinate.resource.enums.UserType;
@@ -12,15 +14,13 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Usergroups.*;
+import static jhi.germinate.server.database.codegen.tables.Usergroupmembers.USERGROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Usergroups.USERGROUPS;
 
 @Path("usergroup")
 @Secured({UserType.ADMIN})
@@ -29,14 +29,11 @@ public class UsergroupResource extends ContextResource
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Integer putUsergroup(Usergroups group)
-		throws IOException, SQLException
+	public Response putUsergroup(Usergroups group)
+			throws IOException, SQLException
 	{
 		if (StringUtils.isEmpty(group.getName()) || group.getId() != null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -46,7 +43,7 @@ public class UsergroupResource extends ContextResource
 
 			UsergroupsRecord record = context.newRecord(USERGROUPS, group);
 			record.store();
-			return record.getId();
+			return Response.ok(record.getId()).build();
 		}
 	}
 
@@ -54,39 +51,30 @@ public class UsergroupResource extends ContextResource
 	@Path("/{usergroupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchJson(Usergroups group, @PathParam("usergroupId") Integer usergroupId)
-		throws IOException, SQLException
+	public Response patchJson(Usergroups group, @PathParam("usergroupId") Integer usergroupId)
+			throws IOException, SQLException
 	{
 		if (group == null || usergroupId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id or payload");
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id or payload").build();
 		if (!Objects.equals(group.getId(), usergroupId))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Id mismatch");
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Id mismatch").build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			UsergroupsRecord dbGroup = context.selectFrom(USERGROUPS)
-											  .where(USERGROUPS.ID.eq(usergroupId))
-											  .fetchAnyInto(UsergroupsRecord.class);
+			                                  .where(USERGROUPS.ID.eq(usergroupId))
+			                                  .fetchAnyInto(UsergroupsRecord.class);
 
 			if (dbGroup == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 			// Only update the name if it's not empty
 			if (!StringUtils.isEmpty(group.getName()))
 				dbGroup.setName(group.getName());
 			// Update the description
 			dbGroup.setDescription(group.getDescription());
-			return dbGroup.store(USERGROUPS.NAME, USERGROUPS.DESCRIPTION) == 1;
+			return Response.ok(dbGroup.store(USERGROUPS.NAME, USERGROUPS.DESCRIPTION) == 1).build();
 		}
 	}
 
@@ -94,35 +82,29 @@ public class UsergroupResource extends ContextResource
 	@Path("/{usergroupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean deleteUsergroup(@PathParam("usergroupId") Integer usergroupId)
-		throws IOException, SQLException
+	public Response deleteUsergroup(@PathParam("usergroupId") Integer usergroupId)
+			throws IOException, SQLException
 	{
 		if (usergroupId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			UsergroupsRecord dbGroup = context.selectFrom(USERGROUPS)
-											  .where(USERGROUPS.ID.eq(usergroupId))
-											  .fetchAnyInto(UsergroupsRecord.class);
+			                                  .where(USERGROUPS.ID.eq(usergroupId))
+			                                  .fetchAnyInto(UsergroupsRecord.class);
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbGroup == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				return Response.status(Response.Status.NOT_FOUND).build();
 			else
 			{
 				int res = dbGroup.delete();
 
 				AuthorizationFilter.refreshUserDatasetInfo(true);
 
-				return res == 1;
+				return Response.ok(res == 1).build();
 			}
 		}
 	}
@@ -131,14 +113,11 @@ public class UsergroupResource extends ContextResource
 	@Path("/{usergroupId}/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchUser(@PathParam("usergroupId") Integer usergroupId, UserGroupModificationRequest request)
-		throws IOException, SQLException
+	public Response patchUser(@PathParam("usergroupId") Integer usergroupId, UserGroupModificationRequest request)
+			throws IOException, SQLException
 	{
 		if (request == null || usergroupId == null || usergroupId != request.getUserGroupId() || request.getAddOperation() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -160,14 +139,14 @@ public class UsergroupResource extends ContextResource
 			else
 			{
 				res = context.deleteFrom(USERGROUPMEMBERS)
-							  .where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId()))
-							  .and(USERGROUPMEMBERS.USER_ID.in(request.getUserIds()))
-							  .execute();
+				             .where(USERGROUPMEMBERS.USERGROUP_ID.eq(request.getUserGroupId()))
+				             .and(USERGROUPMEMBERS.USER_ID.in(request.getUserIds()))
+				             .execute();
 			}
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
 
-			return res > 0;
+			return Response.ok(res > 0).build();
 		}
 	}
 
@@ -176,26 +155,26 @@ public class UsergroupResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewUserDetails> getUserForGroupId(@PathParam("usergroupId") Integer usergroupId)
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			List<ViewUserDetails> result = context.select(
-				USERGROUPMEMBERS.USER_ID.as("id"),
-				DSL.val("", String.class).as("username"),
-				DSL.val("", String.class).as("full_name"),
-				DSL.val("", String.class).as("email_address"),
-				DSL.val("", String.class).as("name")
-			)
-												  .from(USERGROUPMEMBERS)
-												  .where(USERGROUPMEMBERS.USERGROUP_ID.eq(usergroupId))
-												  .fetchInto(ViewUserDetails.class);
+														  USERGROUPMEMBERS.USER_ID.as("id"),
+														  DSL.val("", String.class).as("username"),
+														  DSL.val("", String.class).as("full_name"),
+														  DSL.val("", String.class).as("email_address"),
+														  DSL.val("", String.class).as("name")
+												  )
+			                                      .from(USERGROUPMEMBERS)
+			                                      .where(USERGROUPMEMBERS.USERGROUP_ID.eq(usergroupId))
+			                                      .fetchInto(ViewUserDetails.class);
 
 			return result.stream()
-						 .map(r -> GatekeeperClient.getUser(r.getId()))
-						 .filter(Objects::nonNull)
-						 .collect(Collectors.toList());
+			             .map(r -> GatekeeperClient.getUser(r.getId()))
+			             .filter(Objects::nonNull)
+			             .collect(Collectors.toList());
 		}
 	}
 }

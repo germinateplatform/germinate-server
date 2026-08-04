@@ -32,14 +32,11 @@ public class DatasetUsergroupTableResource extends BaseResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean patchDatasetUsergroupTable(DatasetGroupModificationRequest request)
+	public Response patchDatasetUsergroupTable(DatasetGroupModificationRequest request)
 		throws SQLException, IOException
 	{
 		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.getAddOperation() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -68,7 +65,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 			}
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
-			return res > 0;
+			return Response.ok(res > 0).build();
 		}
 	}
 

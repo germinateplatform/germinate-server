@@ -74,7 +74,7 @@ public class GermplasmUnifierResource extends ContextResource
 																  return null;
 															  }
 														  })
-														  .collect(Collectors.toList());
+														  .toList();
 
 		boolean allGood = true;
 
