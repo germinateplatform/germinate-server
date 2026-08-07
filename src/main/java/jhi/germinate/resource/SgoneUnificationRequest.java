@@ -9,15 +9,15 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class SgoneGermplasmUnificationRequest
+public class SgoneUnificationRequest
 {
-	private List<SgoneGermplasmUnification> unifications;
+	private List<SgoneUnification> unifications;
 
 	@NoArgsConstructor
 	@Getter
 	@Setter
 	@Accessors(chain = true)
-	public static class SgoneGermplasmUnification
+	public static class SgoneUnification
 	{
 		private SgonePojo preferred;
 		private List<SgonePojo> others;

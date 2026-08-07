@@ -73,7 +73,7 @@ public class VariableResource extends ContextResource
 
 			return Response.ok(context.select(TRAITS.TRAIT_CLASS, count)
 									  .from(VARIABLES)
-									  .leftJoin(TRAITS).on(VARIABLES.METHOD_ID.eq(TRAITS.ID))
+									  .leftJoin(TRAITS).on(VARIABLES.TRAIT_ID.eq(TRAITS.ID))
 									  .groupBy(TRAITS.TRAIT_CLASS)
 									  .fetchMap(TRAITS.TRAIT_CLASS, count)).build();
 		}

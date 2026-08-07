@@ -35,7 +35,6 @@ import static jhi.germinate.server.database.codegen.tables.Links.*;
 import static jhi.germinate.server.database.codegen.tables.Linktypes.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
 import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
@@ -48,7 +47,7 @@ public class GermplasmUnifierResource extends ContextResource
 	@Path("/sgone")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postGermplasmUnifierSgone(SgoneGermplasmUnificationRequest request)
+	public boolean postGermplasmUnifierSgone(SgoneUnificationRequest request)
 		throws IOException, SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getUnifications()))
@@ -57,14 +56,14 @@ public class GermplasmUnifierResource extends ContextResource
 			return false;
 		}
 
-		List<GermplasmUnificationRequest> mapped = request.getUnifications()
+		List<UnificationRequest> mapped = request.getUnifications()
 														  .stream()
 														  .map(u -> {
 															  try
 															  {
-																  GermplasmUnificationRequest req = new GermplasmUnificationRequest();
-																  req.setPreferredGermplasmId(Integer.parseInt(u.getPreferred().getId()));
-																  req.setOtherGermplasmIds(u.getOthers().stream().map(o -> Integer.parseInt(o.getId())).toArray(Integer[]::new));
+																  UnificationRequest req = new UnificationRequest();
+																  req.setPreferredId(Integer.parseInt(u.getPreferred().getId()));
+																  req.setOtherIds(u.getOthers().stream().map(o -> Integer.parseInt(o.getId())).toArray(Integer[]::new));
 																  req.setExplanation("SGONE unification");
 
 																  return req;
@@ -78,7 +77,7 @@ public class GermplasmUnifierResource extends ContextResource
 
 		boolean allGood = true;
 
-		for (GermplasmUnificationRequest u : mapped)
+		for (UnificationRequest u : mapped)
 		{
 			try
 			{
@@ -97,10 +96,10 @@ public class GermplasmUnifierResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postGermplasmUnifier(GermplasmUnificationRequest request)
+	public boolean postGermplasmUnifier(UnificationRequest request)
 		throws SQLException, IOException
 	{
-		if (request == null || request.getPreferredGermplasmId() == null || CollectionUtils.isEmpty(request.getOtherGermplasmIds()))
+		if (request == null || request.getPreferredId() == null || CollectionUtils.isEmpty(request.getOtherIds()))
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return false;
@@ -109,21 +108,21 @@ public class GermplasmUnifierResource extends ContextResource
 		return unify(request);
 	}
 
-	private boolean unify(GermplasmUnificationRequest request)
+	private boolean unify(UnificationRequest request)
 		throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		// Remove the preferred id from the list just in case it was added
-		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherGermplasmIds()));
-		ids.remove(request.getPreferredGermplasmId());
+		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherIds()));
+		ids.remove(request.getPreferredId());
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			// Get the database entries matching the requested ids
-			Germinatebase preferred = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(request.getPreferredGermplasmId())).fetchAnyInto(Germinatebase.class);
+			Germinatebase preferred = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(request.getPreferredId())).fetchAnyInto(Germinatebase.class);
 			Integer preferredId = preferred.getId();
 			List<Germinatebase> others = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.in(ids)).fetchInto(Germinatebase.class);
 			List<Integer> otherIds = others.stream().map(Germinatebase::getId).collect(Collectors.toList());

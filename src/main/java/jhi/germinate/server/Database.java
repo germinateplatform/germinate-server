@@ -71,7 +71,7 @@ public class Database
 		Database.password = password;
 
 		GLOBAL_SETTINGS = new Settings()
-				.withQueryTimeout(60)
+				.withQueryTimeout(600)
 				.withRenderMapping(new RenderMapping()
 						.withSchemata(
 								new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())
@@ -129,7 +129,7 @@ public class Database
 		}
 
 		GLOBAL_SETTINGS = new Settings()
-				.withQueryTimeout(60)
+				.withQueryTimeout(600)
 				.withRenderMapping(new RenderMapping()
 						.withSchemata(
 								new MappedSchema().withInput(GerminateDb.GERMINATE_DB.getQualifiedName().first())

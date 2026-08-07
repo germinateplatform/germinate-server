@@ -1,10 +1,10 @@
 package jhi.germinate.server.resource.traits;
 
-import jhi.germinate.resource.VariableUnificationRequest;
+import jhi.germinate.resource.UnificationRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.Variables;
-import jhi.germinate.server.database.codegen.tables.records.SynonymsRecord;
+import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
@@ -20,6 +20,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
 import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Synonymtypes.SYNONYMTYPES;
 import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
 @Path("trait/unify")
@@ -29,25 +30,25 @@ public class TraitUnifierResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postTraitUnifier(VariableUnificationRequest request)
+	public boolean postTraitUnifier(UnificationRequest request)
 		throws SQLException, IOException
 	{
-		if (request == null || request.getPreferredVariableId() == null || CollectionUtils.isEmpty(request.getOtherVariableIds()))
+		if (request == null || request.getPreferredId() == null || CollectionUtils.isEmpty(request.getOtherIds()))
 		{
 			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
 			return false;
 		}
 
 		// Remove the preferred id from the list just in case it was added
-		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherVariableIds()));
-		ids.remove(request.getPreferredVariableId());
+		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherIds()));
+		ids.remove(request.getPreferredId());
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			// Get the database entries matching the requested ids
-			Variables preferred = context.selectFrom(VARIABLES).where(VARIABLES.ID.eq(request.getPreferredVariableId())).fetchAnyInto(Variables.class);
+			Variables preferred = context.selectFrom(VARIABLES).where(VARIABLES.ID.eq(request.getPreferredId())).fetchAnyInto(Variables.class);
 			Integer preferredId = preferred.getId();
 			List<Variables> others = context.selectFrom(VARIABLES).where(VARIABLES.ID.in(ids)).fetchInto(Variables.class);
 			List<Integer> otherIds = others.stream().map(Variables::getId).collect(Collectors.toList());
@@ -64,14 +65,23 @@ public class TraitUnifierResource extends ContextResource
 
 			List<String> otherNames = others.stream().map(Variables::getName).toList();
 
+			SynonymtypesRecord type = context.selectFrom(SYNONYMTYPES).where(SYNONYMTYPES.TARGET_TABLE.eq("variables")).fetchAny();
+			if (type == null) {
+				type = context.newRecord(SYNONYMTYPES);
+				type.setName("Variables");
+				type.setDescription("Synonyms for variables");
+				type.setTargetTable("variables");
+				type.store();
+			}
+
 			// Check the synonyms of the preferred trait
-			SynonymsRecord synonymsRecord = context.selectFrom(SYNONYMS).where(SYNONYMS.SYNONYMTYPE_ID.eq(4).and(SYNONYMS.FOREIGN_ID.eq(preferredId))).fetchAny();
+			SynonymsRecord synonymsRecord = context.selectFrom(SYNONYMS).where(SYNONYMS.SYNONYMTYPE_ID.eq(type.getId()).and(SYNONYMS.FOREIGN_ID.eq(preferredId))).fetchAny();
 			// Create if it doesn't exist
 			if (synonymsRecord == null)
 			{
 				synonymsRecord = context.newRecord(SYNONYMS);
 				synonymsRecord.setForeignId(preferredId);
-				synonymsRecord.setSynonymtypeId(4);
+				synonymsRecord.setSynonymtypeId(type.getId());
 				synonymsRecord.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			}
 			// Update the synonyms to include the ones that have just been removed.

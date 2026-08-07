@@ -7,9 +7,9 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class GermplasmUnificationRequest
+public class UnificationRequest
 {
-	private Integer   preferredGermplasmId;
-	private Integer[] otherGermplasmIds;
+	private Integer   preferredId;
+	private Integer[] otherIds;
 	private String    explanation;
 }
