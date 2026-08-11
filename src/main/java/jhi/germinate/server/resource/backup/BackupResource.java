@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.backup;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
@@ -10,7 +11,6 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.text.*;
 import java.util.*;
@@ -23,8 +23,8 @@ public class BackupResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response postBackupTable(PaginatedRequest request)
-			throws IOException
+	public PaginatedResult<List<BackupResult>> postBackupTable(PaginatedRequest request)
+			throws IOException, StatusException
 	{
 		processRequest(request);
 		List<BackupResult> result = getBackupsInternally();
@@ -33,7 +33,8 @@ public class BackupResource extends BaseResource
 		{
 			result.sort((a, b) -> {
 				int sortResult = 0;
-				switch(orderBy) {
+				switch (orderBy)
+				{
 					case "timestamp":
 						sortResult = (int) Math.signum(a.getTimestamp().getTime() - b.getTimestamp().getTime());
 						break;
@@ -61,13 +62,13 @@ public class BackupResource extends BaseResource
 		int count = result.size();
 		result = result.subList(pageSize * currentPage, Math.min(pageSize * (currentPage + 1), count));
 
-		return Response.ok(new PaginatedResult<>(result, count)).build();
+		return new PaginatedResult<>(result, count);
 	}
 
 	private List<BackupResult> getBackupsInternally()
-			throws IOException
+			throws IOException, StatusException
 	{
-		File backups = ResourceUtils.getFromExternal(resp, "backups");
+		File backups = ResourceUtils.getFromExternal("backups");
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 		List<BackupResult> result = new ArrayList<>();
@@ -86,92 +87,79 @@ public class BackupResource extends BaseResource
 							   {
 								   return new BackupResult()
 										   .setFilename(filename)
-										   .setFilesize(f.length())
-										   .setTimestamp(new Timestamp(sdf.parse(parts[0] + " " + parts[1]).getTime()))
-										   .setType(Database.BackupType.valueOf(parts[2].toUpperCase()))
-										   .setGerminateVersion(parts[3]);
+							               .setFilesize(f.length())
+							               .setTimestamp(new Timestamp(sdf.parse(parts[0] + " " + parts[1]).getTime()))
+							               .setType(Database.BackupType.valueOf(parts[2].toUpperCase()))
+							               .setGerminateVersion(parts[3]);
 							   }
 							   catch (ParseException e)
 							   {
 								   return null;
 							   }
 						   }).filter(Objects::nonNull)
-						   .toList();
+			               .toList();
 		}
 
 		return new ArrayList<>(result);
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response getBackups()
-			throws IOException
+	public List<BackupResult> getBackups()
+			throws IOException, StatusException
 	{
-		return Response.ok(getBackupsInternally()).build();
+		return getBackupsInternally();
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response putBackup()
+	public boolean putBackup()
 	{
 		File zipFile = Database.attemptDatabaseDump(Database.BackupType.MANUAL);
 
-		return Response.ok(zipFile != null && zipFile.exists()).build();
+		return zipFile != null && zipFile.exists();
 	}
 
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFileResourceDownload(BackupResult backup)
-			throws IOException
+	public boolean getFileResourceDownload(BackupResult backup)
+			throws IOException, StatusException
 	{
-		File zipFile = ResourceUtils.getFromExternal(resp, backup.getFilename(), "backups");
+		File zipFile = ResourceUtils.getFromExternal(backup.getFilename(), "backups");
 
 		if (zipFile != null)
-			return Response.ok(zipFile.delete()).build();
+			return zipFile.delete();
 		else
-			return Response.status(Response.Status.NOT_FOUND).build();
+			throw new NotFoundException();
 	}
 
 	@GET
 	@Path("/download")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
-	public Response getFileResourceDownload(@QueryParam("filename") String filename, @QueryParam("token") String token)
-			throws IOException
+	public StreamingOutput getFileResourceDownload(@QueryParam("filename") String filename, @QueryParam("token") String token, @Context HttpServletResponse response)
+			throws IOException, StatusException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		if (mode == AuthenticationMode.FULL && StringUtils.isEmpty(token))
-			return Response.status(Response.Status.UNAUTHORIZED).build();
+			throw new StatusException(Response.Status.UNAUTHORIZED.getStatusCode());
 		if (StringUtils.isEmpty(filename))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		// IMPORTANT: This needs to be here, because we are using a specific URL token to fetch this
 		AuthenticationFilter.UserDetails userDetails = AuthenticationFilter.getDetailsFromUrlToken(token);
 		if (!StringUtils.isEmpty(token) && userDetails == null)
-			return Response.status(Response.Status.FORBIDDEN).build();
+			throw new ForbiddenException();
 
-		File zipFile = ResourceUtils.getFromExternal(resp, filename, "backups");
+		File zipFile = ResourceUtils.getFromExternal(filename, "backups");
 
 		if (zipFile != null)
-		{
-			java.nio.file.Path filePath = zipFile.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-						   })
-						   .type("application/zip")
-						   .header("content-disposition", "attachment; filename=\"" + zipFile.getName() + "\"")
-						   .header("content-length", zipFile.length())
-						   .build();
-		}
+			return toStreamingResult(zipFile, "application/zip", response);
 		else
-		{
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
+			throw new NotFoundException();
 	}
 }

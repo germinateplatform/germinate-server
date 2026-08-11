@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.groups;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.DatasetGroupRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableGroups;
@@ -34,13 +34,10 @@ public class DatasetGroupResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableGroups> postDatasetGroups(DatasetGroupRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null || StringUtils.isEmpty(request.getDatasetType()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -90,9 +87,9 @@ public class DatasetGroupResource extends ContextResource
 			if (resultStep != null)
 			{
 				return resultStep.groupBy(GROUPS.ID)
-				          .having(count.gt(0))
-				          .orderBy(GROUPS.NAME)
-				          .fetchInto(ViewTableGroups.class);
+				                 .having(count.gt(0))
+				                 .orderBy(GROUPS.NAME)
+				                 .fetchInto(ViewTableGroups.class);
 			}
 			else
 			{

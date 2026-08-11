@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.markers;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -13,6 +15,7 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
@@ -86,7 +89,7 @@ public class MapMarkerDefinitionTableResource extends MapdefinitionBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postMapMarkerDefinitionTableExport(ExportRequest request)
+	public File postMapMarkerDefinitionTableExport(ExportRequest request, @Context HttpServletResponse response)
 			throws SQLException, IOException
 	{
 		processRequest(request);
@@ -103,7 +106,9 @@ public class MapMarkerDefinitionTableResource extends MapdefinitionBaseResource
 			// Filter here!
 			having(from, filters);
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "map-definition-table-");
+			File result = ResourceUtils.exportToZip(from.fetch(), "map-definition-table-");
+
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 }

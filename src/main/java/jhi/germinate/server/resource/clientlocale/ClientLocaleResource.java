@@ -2,9 +2,10 @@ package jhi.germinate.server.resource.clientlocale;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import jakarta.servlet.http.HttpServletResponse;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -20,24 +21,23 @@ public class ClientLocaleResource extends ContextResource
 {
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getLocale()
-		throws IOException
+	public List<LocaleConfig> getLocale()
+		throws IOException, StatusException
 	{
-		File configFile = ResourceUtils.getFromExternal(resp, "locales.json", "template");
+		File configFile = ResourceUtils.getFromExternal("locales.json", "template");
 		Gson gson = new Gson();
 		Type type = new TypeToken<ArrayList<LocaleConfig>>()
 		{
 		}.getType();
 
 		if (configFile == null || !configFile.exists())
-			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+			throw new NotFoundException();
 		else
 		{
 			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				return Response.ok(gson.fromJson(br, type)).build();
+				return gson.fromJson(br, type);
 			}
 		}
 	}
@@ -45,9 +45,8 @@ public class ClientLocaleResource extends ContextResource
 
 	@Path("/{locale}")
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response getLocale(@PathParam("locale") String locale)
+	public File getLocale(@PathParam("locale") String locale, @Context HttpServletResponse response)
 		throws IOException
 	{
 		try
@@ -56,22 +55,17 @@ public class ClientLocaleResource extends ContextResource
 
 			if (file.exists() && file.isFile())
 			{
-				return Response.ok(file)
-							   .type(MediaType.TEXT_PLAIN)
-							   .header("content-length", file.length())
-							   .build();
+				return toFileResult(file, MediaType.TEXT_PLAIN, response);
 			}
 			else
 			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
+				throw new NotFoundException();
 			}
 		}
 		catch (NullPointerException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
+			throw new NotFoundException();
 		}
 	}
 }

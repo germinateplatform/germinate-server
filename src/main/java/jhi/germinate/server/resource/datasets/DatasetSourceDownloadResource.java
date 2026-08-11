@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.datasets;
 import jhi.germinate.server.AuthenticationFilter;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
@@ -17,25 +17,18 @@ import java.sql.SQLException;
 public class DatasetSourceDownloadResource extends ContextResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	public Response getDatasetSourceDownload(@PathParam("datasetId") Integer datasetId)
-		throws IOException, SQLException
+		throws IOException, SQLException, StatusException
 	{
 		if (datasetId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, true);
 
 		if (dataset == null)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 		File file;
 		String type;
@@ -43,23 +36,19 @@ public class DatasetSourceDownloadResource extends ContextResource
 		switch (dataset.getDatasetType())
 		{
 			case "allelefreq":
-				file = ResourceUtils.getFromExternal(resp, dataset.getSourceFile(), "data", "allelefreq");
+				file = ResourceUtils.getFromExternal(dataset.getSourceFile(), "data", "allelefreq");
 				type = "text/plain";
 				break;
 			case "genotype":
-				file = ResourceUtils.getFromExternal(resp, dataset.getSourceFile(), "data", "genotypes");
+				file = ResourceUtils.getFromExternal(dataset.getSourceFile(), "data", "genotypes");
 				type = "application/x-hdf5";
 				break;
 			default:
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return null;
+				return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
 		}
 
 		if (!file.exists() || !file.isFile())
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
 
 		// Prevent caching
 		CacheControl cc = new CacheControl();

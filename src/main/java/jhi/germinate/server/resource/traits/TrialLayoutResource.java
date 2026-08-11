@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.traits;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTrialLayouts;
@@ -26,26 +26,25 @@ public class TrialLayoutResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTrialLayout(DatasetRequest request)
+	public List<ViewTableTrialLayouts> getTrialLayout(DatasetRequest request)
 			throws SQLException
 	{
 		if (request == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
-			return Response.status(Response.Status.NOT_FOUND).build();
+			throw new NotFoundException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
-			return Response.ok(context.selectFrom(VIEW_TABLE_TRIAL_LAYOUTS)
-			                          .where(VIEW_TABLE_TRIAL_LAYOUTS.DATASET_ID.in(requestedIds))
-			                          .and(VIEW_TABLE_TRIAL_LAYOUTS.ROW.isNotNull())
-			                          .and(VIEW_TABLE_TRIAL_LAYOUTS.COLUMN.isNotNull())
-			                          .fetchInto(ViewTableTrialLayouts.class)
-			).build();
+			return context.selectFrom(VIEW_TABLE_TRIAL_LAYOUTS)
+			              .where(VIEW_TABLE_TRIAL_LAYOUTS.DATASET_ID.in(requestedIds))
+			              .and(VIEW_TABLE_TRIAL_LAYOUTS.ROW.isNotNull())
+			              .and(VIEW_TABLE_TRIAL_LAYOUTS.COLUMN.isNotNull())
+			              .fetchInto(ViewTableTrialLayouts.class);
 		}
 	}
 
@@ -53,18 +52,15 @@ public class TrialLayoutResource extends ContextResource
 	@Path("/count")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postTrialLayoutCount(DatasetRequest request)
-			throws IOException, SQLException
+	public Map<Integer, Integer> postTrialLayoutCount(DatasetRequest request)
+			throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return Response.ok(0).build();
-		}
+			throw new BadRequestException();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
-			return Response.ok(0).build();
+			return new HashMap<>();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -83,7 +79,7 @@ public class TrialLayoutResource extends ContextResource
 					   counts.put(row.get(VIEW_TABLE_TRIAL_LAYOUTS.DATASET_ID), row.get(count));
 				   });
 
-			return Response.ok(counts).build();
+			return counts;
 		}
 	}
 }

@@ -26,11 +26,11 @@ public class InstitutionUnifierResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postInstitutionUnifier(InstitutionUnificationRequest request)
+	public boolean postInstitutionUnifier(InstitutionUnificationRequest request)
 			throws SQLException, IOException
 	{
 		if (request == null || request.getPreferredInstitutionId() == null || CollectionUtils.isEmpty(request.getInstitutionIds()))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		// Remove the preferred id from the list just in case it was added
 		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getInstitutionIds()));
@@ -48,7 +48,7 @@ public class InstitutionUnifierResource extends ContextResource
 
 			// If there's no preferred one or the others are empty or the only other one is the preferred one, return
 			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.get(0), preferredId)))
-				return Response.status(Response.Status.BAD_REQUEST).build();
+				throw new BadRequestException();
 
 			context.update(GERMPLASMINSTITUTIONS).set(GERMPLASMINSTITUTIONS.INSTITUTION_ID, preferredId).where(GERMPLASMINSTITUTIONS.INSTITUTION_ID.in(otherIds)).execute();
 			context.update(COLLABORATORS).set(COLLABORATORS.INSTITUTION_ID, preferredId).where(COLLABORATORS.INSTITUTION_ID.in(otherIds)).execute();
@@ -56,7 +56,7 @@ public class InstitutionUnifierResource extends ContextResource
 			// Delete the old ids
 			context.deleteFrom(INSTITUTIONS).where(INSTITUTIONS.ID.in(otherIds)).execute();
 
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 }

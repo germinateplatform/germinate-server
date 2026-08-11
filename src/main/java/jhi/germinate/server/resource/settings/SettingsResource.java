@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.genesys.GenesysClient;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
@@ -23,7 +23,7 @@ import java.nio.file.*;
 import java.util.*;
 
 @Path("settings")
-public class SettingsResource
+public class SettingsResource extends BaseResource
 {
 	public static Set<String> AUTO_DISCOVERY_HIDDEN_PAGES = null;
 
@@ -33,14 +33,14 @@ public class SettingsResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSettings()
+	public ClientConfiguration getSettings()
 	{
 		AuthenticationMode authMode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 		boolean dbConValid = Database.check(PropertyWatcher.get(ServerProperty.DATABASE_SERVER), PropertyWatcher.get(ServerProperty.DATABASE_NAME), PropertyWatcher.get(ServerProperty.DATABASE_PORT), PropertyWatcher.get(ServerProperty.DATABASE_USERNAME), PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD));
 
 		// If something isn't configured correctly, then the client needs to run through setup
 		if (!dbConValid || (authMode != AuthenticationMode.NONE && !GatekeeperClient.connectionValid()))
-			return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+			throw new ServiceUnavailableException();
 		else
 		{
 			Set<String> hiddenPages = new HashSet<>();
@@ -52,7 +52,7 @@ public class SettingsResource
 			// Then add any that the user specifically requested
 			hiddenPages.addAll(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class));
 
-			return Response.ok(new ClientConfiguration()
+			return new ClientConfiguration()
 					.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
 					.setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
 					.setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
@@ -101,8 +101,7 @@ public class SettingsResource
 					.setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
 					.setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
 					.setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
-					.setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured())
-			).build();
+					.setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured());
 		}
 	}
 
@@ -130,53 +129,53 @@ public class SettingsResource
 
 		// Get all the base settings as well
 		result.setColorsCharts(PropertyWatcher.getPropertyList(ServerProperty.COLORS_CHART, String.class))
-			  .setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
-			  .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
-			  .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
-			  .setGenesysAvailable(GenesysClient.isAvailable())
-			  .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
-			  .setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
-			  .setHiddenPages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class))
-			  .setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
-			  .setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
-			  .setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
-			  .setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
-			  .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
-			  .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
-			  .setHiddenColumns(new HiddenColumns()
+		      .setColorsTemplate(PropertyWatcher.getPropertyList(ServerProperty.COLORS_TEMPLATE, String.class))
+		      .setColorsGradient(PropertyWatcher.getPropertyList(ServerProperty.COLORS_GRADIENT, String.class))
+		      .setColorPrimary(PropertyWatcher.get(ServerProperty.COLOR_PRIMARY))
+		      .setGenesysAvailable(GenesysClient.isAvailable())
+		      .setDashboardCategories(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_CATEGORIES, String.class))
+		      .setDashboardSections(PropertyWatcher.getPropertyList(ServerProperty.DASHBOARD_SECTIONS, String.class))
+		      .setHiddenPages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_PAGES, String.class))
+		      .setAuthMode(PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class))
+		      .setRegistrationEnabled(PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
+		      .setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
+		      .setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
+		      .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
+		      .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
+		      .setHiddenColumns(new HiddenColumns()
 					  .setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
-					  .setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
-					  .setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
-					  .setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
-					  .setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
-					  .setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
-					  .setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
-					  .setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
-					  .setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
-					  .setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
-					  .setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
-					  .setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
-					  .setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
-					  .setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
-					  .setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
-					  .setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
-					  .setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
-					  .setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
-					  .setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
-					  .setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
-					  .setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
-					  .setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
+				      .setGermplasmAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES, String.class))
+				      .setImages(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_IMAGES, String.class))
+				      .setClimates(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATES, String.class))
+				      .setClimateData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_CLIMATE_DATA, String.class))
+				      .setComments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COMMENTS, String.class))
+				      .setFileresources(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_FILERESOURCES, String.class))
+				      .setMaps(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAPS, String.class))
+				      .setMarkers(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MARKERS, String.class))
+				      .setMapDefinitions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_MAP_DEFIITIONS, String.class))
+				      .setDatasets(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASETS, String.class))
+				      .setDatasetAttributes(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_DATASET_ATTRIBUTES, String.class))
+				      .setExperiments(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_EXPERIMENTS, String.class))
+				      .setEntities(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_ENTITIES, String.class))
+				      .setGroups(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GROUPS, String.class))
+				      .setInstitutions(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_INSTITUTIONS, String.class))
+				      .setLocations(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_LOCATIONS, String.class))
+				      .setPedigrees(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PEDIGREES, String.class))
+				      .setTraits(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRAITS, String.class))
+				      .setTrialsData(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_TRIALS_DATA, String.class))
+				      .setCollaborators(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_COLLABORATORS, String.class))
+				      .setPublications(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_PUBLICATIONS, String.class))
 			  )
-			  .setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
-			  .setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
-			  .setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
-			  .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
-			  .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
-			  .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
-			  .setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
-			  .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
-			  .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
-			  .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured());
+		      .setPlausibleApiHost(PropertyWatcher.get(ServerProperty.PLAUSIBLE_API_HOST))
+		      .setPlausibleHashMode(PropertyWatcher.getBoolean(ServerProperty.PLAUSIBLE_HASH_MODE))
+		      .setPlausibleDomain(PropertyWatcher.get(ServerProperty.PLAUSIBLE_DOMAIN))
+		      .setGatekeeperUrl(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL))
+		      .setCommentsEnabled(PropertyWatcher.getBoolean(ServerProperty.COMMENTS_ENABLED))
+		      .setDataImportMode(PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class))
+		      .setGridscoreUrl(PropertyWatcher.get(ServerProperty.GRIDSCORE_URL))
+		      .setHeliumUrl(PropertyWatcher.get(ServerProperty.HELIUM_URL))
+		      .setFieldhubUrl(PropertyWatcher.get(ServerProperty.FIELDHUB_URL))
+		      .setSupportsFeedback(!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.FEEDBACK_EMAIL)) && PropertyWatcher.isEmailConfigured());
 
 		return result;
 	}
@@ -186,17 +185,14 @@ public class SettingsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public boolean postAdminSettings(ClientAdminConfiguration config)
+	public ClientAdminConfiguration postAdminSettings(ClientAdminConfiguration config)
 			throws IOException
 	{
 		// This is the only one that's really required for Germinate to run. Everything else is optional.
 		// This doesn't mean that sending properties without other settings won't screw things over. If no Gatekeeper settings are returned,
 		// then logging back into Germinate to change the settings again won't be possible anymore.
 		if (StringUtils.isEmpty(config.getDataDirectoryExternal()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		PropertyWatcher.setInteger(ServerProperty.BRAPI_ENABLED, config.getBcryptSalt());
 		PropertyWatcher.setBoolean(ServerProperty.BRAPI_ENABLED, config.getBrapiEnabled());
@@ -258,7 +254,9 @@ public class SettingsResource
 		// Invalidate all tokens
 		AuthenticationFilter.invalidateAllTokens();
 
-		return PropertyWatcher.storeProperties();
+		PropertyWatcher.storeProperties();
+
+		return getAdminSettings();
 	}
 
 	@POST
@@ -266,7 +264,7 @@ public class SettingsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response postTemplateCarouselConfig(CarouselConfig config)
+	public boolean postTemplateCarouselConfig(CarouselConfig config)
 			throws IOException
 	{
 		Gson gson = new Gson();
@@ -275,7 +273,7 @@ public class SettingsResource
 		}.getType();
 
 		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
 		configFile.getParentFile().mkdirs();
 
 		// Write the file back
@@ -284,31 +282,29 @@ public class SettingsResource
 			gson.toJson(config, type, writer);
 		}
 
-		return Response.ok(true).build();
+		return true;
 	}
 
 	@GET
 	@Path("/carousel")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getCarouselConfig()
+	public CarouselConfig getCarouselConfig()
 			throws IOException
 	{
-		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
 		Gson gson = new Gson();
 		Type type = new TypeToken<CarouselConfig>()
 		{
 		}.getType();
 
 		if (configFile == null || !configFile.exists())
-		{
-			return Response.ok(Response.Status.NOT_FOUND).build();
-		}
+			throw new NotFoundException();
 		else
 		{
 			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				return Response.ok(gson.fromJson(br, type)).build();
+				return gson.fromJson(br, type);
 			}
 		}
 	}
@@ -318,11 +314,11 @@ public class SettingsResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response postTemplateAboutConfig(@FormDataParam("name") String name, @FormDataParam("description") String description, @FormDataParam("group") String group, @FormDataParam("url") String url, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
+	public boolean postTemplateAboutConfig(@FormDataParam("name") String name, @FormDataParam("description") String description, @FormDataParam("group") String group, @FormDataParam("url") String url, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
 			throws IOException
 	{
 		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(url) || fileIs == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		AboutConfig.AboutInfo newInfo = new AboutConfig.AboutInfo()
 				.setName(name)
@@ -343,7 +339,7 @@ public class SettingsResource
 		File targetFile = new File(folder, uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, targetFile))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -356,10 +352,10 @@ public class SettingsResource
 		}.getType();
 
 		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
+		File configFile = ResourceUtils.getFromExternal("about.json", "template");
 
 		if (configFile == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		configFile.getParentFile().mkdirs();
 
@@ -389,7 +385,7 @@ public class SettingsResource
 			}
 		}
 
-		return Response.ok(true).build();
+		return true;
 	}
 
 	@PATCH
@@ -397,7 +393,7 @@ public class SettingsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response patchTemplateAboutConfig(AboutConfig config)
+	public boolean patchTemplateAboutConfig(AboutConfig config)
 			throws IOException
 	{
 		Gson gson = new Gson();
@@ -406,7 +402,7 @@ public class SettingsResource
 		}.getType();
 
 		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
+		File configFile = ResourceUtils.getFromExternal("about.json", "template");
 		configFile.getParentFile().mkdirs();
 
 		// Write the file back
@@ -415,29 +411,29 @@ public class SettingsResource
 			gson.toJson(config, type, writer);
 		}
 
-		return Response.ok(true).build();
+		return true;
 	}
 
 	@GET
 	@Path("/about")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAboutConfig()
+	public AboutConfig getAboutConfig()
 			throws IOException
 	{
-		File configFile = ResourceUtils.getFromExternal(resp, "about.json", "template");
+		File configFile = ResourceUtils.getFromExternal("about.json", "template");
 		Gson gson = new Gson();
 		Type type = new TypeToken<AboutConfig>()
 		{
 		}.getType();
 
 		if (configFile == null || !configFile.exists())
-			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+			throw new NotFoundException();
 		else
 		{
 			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				return Response.ok(gson.fromJson(br, type)).build();
+				return gson.fromJson(br, type);
 			}
 		}
 	}
@@ -447,16 +443,16 @@ public class SettingsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response patchTemplateI18n(@PathParam("lang") String lang, Map<String, String> i18n)
+	public boolean patchTemplateI18n(@PathParam("lang") String lang, Map<String, String> i18n)
 			throws IOException
 	{
 		if (StringUtils.isEmpty(lang) || i18n == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
-		File langFile = ResourceUtils.getFromExternal(resp, lang + ".json", "template");
+		File langFile = ResourceUtils.getFromExternal(lang + ".json", "template");
 
 		if (langFile == null || !langFile.exists())
-			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+			throw new NotFoundException();
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -474,7 +470,7 @@ public class SettingsResource
 		final Map<String, String> finalMap = content;
 		if (content != null)
 		{
-			i18n.forEach((key, value) -> finalMap.put(key, value));
+			finalMap.putAll(i18n);
 
 			// Write the file
 			try (Writer writer = new OutputStreamWriter(new FileOutputStream(langFile), StandardCharsets.UTF_8))
@@ -483,14 +479,14 @@ public class SettingsResource
 			}
 		}
 
-		return Response.ok().build();
+		return true;
 	}
 
 	@GET
 	@Path("/css")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/css")
-	public Response getSettingsCss()
+	public File getSettingsCss(@Context HttpServletResponse response)
 	{
 		String primaryColor = PropertyWatcher.get(ServerProperty.COLOR_PRIMARY);
 
@@ -507,11 +503,7 @@ public class SettingsResource
 				return null;
 		}
 
-		return Response.ok(cssFile)
-					   .type("text/css")
-					   .header("content-disposition", "attachment;filename= \"" + cssFile.getName() + "\"")
-					   .header("content-length", cssFile.length())
-					   .build();
+		return toFileResult(cssFile, "text/css", response);
 	}
 
 	private boolean createCssFile(String color, File targetFile)
@@ -530,12 +522,12 @@ public class SettingsResource
 
 			String content = Files.readString(template.toPath());
 			content = content.replace("{{PRIMARY}}", primary.toHexValue())
-							 .replace("{{PRIMARY_HOVER}}", hover.toHexValue())
-							 .replace("{{PRIMARY_DARKER}}", darker.toHexValue())
-							 .replace("{{PRIMARY_LIGHTER_BORDER}}", lighterBorder.toHexValue())
-							 .replace("{{PRIMARY_DARKER_SHADOW}}", darkerShadow.toHexValue())
-							 .replace("{{PRIMARY_SHADOW}}", primary5.toHexValue())
-							 .replace("{{PRIMARY_LIGHTER_SHADOW}}", primary25.toHexValue());
+			                 .replace("{{PRIMARY_HOVER}}", hover.toHexValue())
+			                 .replace("{{PRIMARY_DARKER}}", darker.toHexValue())
+			                 .replace("{{PRIMARY_LIGHTER_BORDER}}", lighterBorder.toHexValue())
+			                 .replace("{{PRIMARY_DARKER_SHADOW}}", darkerShadow.toHexValue())
+			                 .replace("{{PRIMARY_SHADOW}}", primary5.toHexValue())
+			                 .replace("{{PRIMARY_LIGHTER_SHADOW}}", primary25.toHexValue());
 			Files.write(targetFile.toPath(), content.getBytes(StandardCharsets.UTF_8));
 
 			return true;
@@ -548,29 +540,29 @@ public class SettingsResource
 	}
 
 	private Response getFile(String name)
-			throws GerminateException, IOException
+			throws IOException
 	{
 		try
 		{
-			File file = ResourceUtils.getFromExternal(resp, name, "template");
+			File file = ResourceUtils.getFromExternal(name, "template");
 
 			if (file != null && file.exists() && file.isFile())
 			{
 				return Response.ok(file)
-							   .type("text/plain")
-							   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-							   .header("content-length", file.length())
-							   .build();
+				               .type("text/plain")
+				               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
+				               .header("content-length", file.length())
+				               .build();
 			}
 			else
 			{
-				throw new GerminateException(Response.Status.NOT_FOUND);
+				throw new NotFoundException();
 			}
 		}
 		catch (NullPointerException e)
 		{
 			e.printStackTrace();
-			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
+			throw new InternalServerErrorException();
 		}
 	}
 }

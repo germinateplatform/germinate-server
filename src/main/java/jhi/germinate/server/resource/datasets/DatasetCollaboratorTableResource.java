@@ -30,7 +30,7 @@ public class DatasetCollaboratorTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postCollaboratorTable(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableCollaborators>> postCollaboratorTable(PaginatedRequest request)
 		throws SQLException
 	{
 		processRequest(request);
@@ -60,16 +60,16 @@ public class DatasetCollaboratorTableResource extends BaseResource
 
 				long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-				return Response.ok(new PaginatedResult<>(result, count)).build();
+				return new PaginatedResult<>(result, count);
 			}
 			else
 			{
-				return Response.ok(new PaginatedResult<>(new ArrayList<>(), 0)).build();
+				return new PaginatedResult<>(new ArrayList<>(), 0);
 			}
 		}
 	}
 
-	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails)
+	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, HttpServletRequest req, AuthenticationFilter.UserDetails userDetails)
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())

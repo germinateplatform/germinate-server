@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.traits;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableTraits;
@@ -28,13 +28,10 @@ public class DatasetTraitResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableTraits> postDatasetTraits(DatasetRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
@@ -46,13 +43,13 @@ public class DatasetTraitResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			return context.selectFrom(VIEW_TABLE_TRAITS)
-						  .where(DSL.exists(DSL.selectOne().from(PHENOTYPEDATA)
-											   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-											   .where(TRIALSETUP.DATASET_ID.in(requestedIds))
-											   .and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID))
-											   .limit(1)))
-						  .orderBy(VIEW_TABLE_TRAITS.VARIABLE_NAME)
-						  .fetchInto(ViewTableTraits.class);
+			              .where(DSL.exists(DSL.selectOne().from(PHENOTYPEDATA)
+			                                   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+			                                   .where(TRIALSETUP.DATASET_ID.in(requestedIds))
+			                                   .and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID))
+			                                   .limit(1)))
+			              .orderBy(VIEW_TABLE_TRAITS.VARIABLE_NAME)
+			              .fetchInto(ViewTableTraits.class);
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class TraitAttributeTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableTraitAttributes>> postTraitAttributeTable(PaginatedRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

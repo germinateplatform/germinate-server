@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.traits;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.TrialStats;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
@@ -11,7 +11,6 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -27,8 +26,8 @@ public class TrialStatsResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTrialOverviewStats()
-			throws SQLException, IOException
+	public TrialStats getTrialOverviewStats()
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -80,6 +79,6 @@ public class TrialStatsResource extends ContextResource
 		}
 
 
-		return Response.ok(result).build();
+		return result;
 	}
 }

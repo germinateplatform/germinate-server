@@ -20,7 +20,7 @@ public class GatekeeperNewUserResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-	public jakarta.ws.rs.core.Response postJson(NewUnapprovedUserRequest request)
+	public Boolean postJson(NewUnapprovedUserRequest request)
 			throws IOException
 	{
 		if (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_ENABLED))
@@ -46,33 +46,27 @@ public class GatekeeperNewUserResource extends ContextResource
 
 					if (response.isSuccessful())
 					{
-						return jakarta.ws.rs.core.Response.ok(response.body()).build();
+						return response.body();
 					}
 					else
 					{
 						GatekeeperApiError error = GatekeeperClient.parseError(response);
 
-						return jakarta.ws.rs.core.Response.status(response.code())
-						                                  .entity(error.getDescription())
-						                                  .type(MediaType.TEXT_PLAIN)
-						                                  .build();
+						throw new StatusException(response.code(), error.getDescription());
 					}
 				}
 			}
 			else
 			{
 				GatekeeperApiError error = GatekeeperClient.parseError(systems);
-				return jakarta.ws.rs.core.Response.status(systems.code())
-				                                  .entity(error.getDescription())
-				                                  .type(MediaType.TEXT_PLAIN)
-				                                  .build();
+				throw new StatusException(systems.code(), error.getDescription());
 			}
 
-			return jakarta.ws.rs.core.Response.ok(false).build();
+			return false;
 		}
 		else
 		{
-			return jakarta.ws.rs.core.Response.status(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE).build();
+			throw new ServiceUnavailableException();
 		}
 	}
 }

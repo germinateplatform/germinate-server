@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.attributes;
 
+import jakarta.servlet.http.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ExportResource;
@@ -9,7 +10,9 @@ import org.jooq.Condition;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
+import java.io.*;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -24,23 +27,23 @@ public class DatasetAttributeTableExportResource extends ExportResource
 	@Path("/attribute/table/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(ExportRequest request)
+	public StreamingOutput postDatasetAttributeExport(ExportRequest request, @Context HttpServletResponse response)
 		throws IOException, SQLException
 	{
-		return export(null, request);
+		return toStreamingResult(export(null, request), "application/zip", response);
 	}
 
 	@POST
 	@Path("/{datasetId}/attribute/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(@PathParam("datasetId") Integer datasetId)
+	public StreamingOutput postDatasetAttributeExport(@PathParam("datasetId") Integer datasetId, @Context HttpServletResponse response)
 		throws IOException, SQLException
 	{
-		return export(datasetId, null);
+		return toStreamingResult(export(datasetId, null), "application/zip", response);
 	}
 
-	private Response export(Integer datasetId, ExportRequest request)
+	private File export(Integer datasetId, ExportRequest request)
 		throws IOException, SQLException
 	{
 		processRequest(request);
@@ -75,10 +78,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 
 		// If either nothing is available or the user has access to nothing, return a 404
 		if (CollectionUtils.isEmpty(requestedIds))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		ExportSettings settings = new ExportSettings();
 		settings.conditions = new Condition[]{VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds)};

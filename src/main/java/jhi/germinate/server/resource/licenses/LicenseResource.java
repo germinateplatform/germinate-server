@@ -11,14 +11,13 @@ import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Licensedata.*;
-import static jhi.germinate.server.database.codegen.tables.Licenses.*;
-import static jhi.germinate.server.database.codegen.tables.Locales.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableLicenseDefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Licensedata.LICENSEDATA;
+import static jhi.germinate.server.database.codegen.tables.Licenses.LICENSES;
+import static jhi.germinate.server.database.codegen.tables.Locales.LOCALES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLicenseDefinitions.VIEW_TABLE_LICENSE_DEFINITIONS;
 
 @Path("license")
 public class LicenseResource extends BaseResource
@@ -29,7 +28,7 @@ public class LicenseResource extends BaseResource
 	@Secured
 	@PermitAll
 	public List<ViewTableLicenseDefinitions> getLicenses()
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -43,17 +42,14 @@ public class LicenseResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response addLicenseAndData(ViewTableLicenseDefinitions license)
-		throws IOException, SQLException
+	public Integer addLicenseAndData(ViewTableLicenseDefinitions license)
+			throws SQLException
 	{
 		if (license == null || StringUtils.isEmpty(license.getLicenseName()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
-		}
+			throw new BadRequestException();
 
-		if (license.getLicenseId() != null) {
-			return Response.status(Response.Status.CONFLICT.getStatusCode(), "License ID provided on a creation call.").build();
-		}
+		if (license.getLicenseId() != null)
+			throw new StatusException(Response.Status.CONFLICT.getStatusCode(), "License ID provided on a creation call.");
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -95,7 +91,7 @@ public class LicenseResource extends BaseResource
 				ld.store();
 			}
 
-			return Response.ok(l.getId()).build();
+			return l.getId();
 		}
 	}
 
@@ -104,13 +100,11 @@ public class LicenseResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response patchLicense(@PathParam("licenseId") Integer licenseId, ViewTableLicenseDefinitions license)
-		throws IOException, SQLException
+	public boolean patchLicense(@PathParam("licenseId") Integer licenseId, ViewTableLicenseDefinitions license)
+			throws SQLException
 	{
 		if (licenseId == null || license == null || !licenseId.equals(license.getLicenseId()) || StringUtils.isEmpty(license.getLicenseName()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -119,9 +113,7 @@ public class LicenseResource extends BaseResource
 			LicensesRecord l = context.selectFrom(LICENSES).where(LICENSES.ID.eq(licenseId)).fetchAny();
 
 			if (l == null)
-			{
-				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
-			}
+				throw new NotFoundException();
 
 			// Update the license
 			l.setName(license.getLicenseName());
@@ -137,7 +129,8 @@ public class LicenseResource extends BaseResource
 			{
 				LocalesRecord lo = context.selectFrom(LOCALES).where(LOCALES.NAME.eq(entry.getKey())).fetchAny();
 
-				if (lo == null) {
+				if (lo == null)
+				{
 					lo = context.newRecord(LOCALES);
 					lo.setName(entry.getKey());
 					lo.setDescription(entry.getKey());
@@ -147,9 +140,9 @@ public class LicenseResource extends BaseResource
 				}
 
 				LicensedataRecord ld = context.selectFrom(LICENSEDATA)
-											  .where(LICENSEDATA.LICENSE_ID.eq(licenseId))
-											  .and(LICENSEDATA.LOCALE_ID.eq(lo.getId()))
-											  .fetchAny();
+				                              .where(LICENSEDATA.LICENSE_ID.eq(licenseId))
+				                              .and(LICENSEDATA.LOCALE_ID.eq(lo.getId()))
+				                              .fetchAny();
 
 				if (ld == null)
 				{
@@ -165,6 +158,6 @@ public class LicenseResource extends BaseResource
 			}
 		}
 
-		return Response.ok(true).build();
+		return true;
 	}
 }

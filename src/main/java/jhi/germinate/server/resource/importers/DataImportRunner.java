@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.importers;
 
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import jhi.germinate.resource.AsyncExportResult;
 import jhi.germinate.resource.enums.*;
@@ -29,12 +30,11 @@ import static jhi.germinate.server.database.codegen.tables.DataImportJobs.DATA_I
 public class DataImportRunner
 {
 	public List<AsyncExportResult> importData(String uuid)
-			throws GerminateException, SQLException
 	{
 		DataImportMode mode = PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class);
 
 		if (mode != DataImportMode.IMPORT)
-			throw new GerminateException(Response.Status.SERVICE_UNAVAILABLE);
+			throw new StatusException(Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -48,7 +48,7 @@ public class DataImportRunner
 												 .fetchAnyInto(DataImportJobsRecord.class);
 
 			if (record == null)
-				throw new GerminateException(Response.Status.NOT_FOUND);
+				throw new NotFoundException();
 
 			// Replace the whole job details, because jOOQ will only execute the update if the job_config field changed, not fields within the JSON.
 			record.setJobConfig(new ImportJobDetails()
@@ -63,7 +63,7 @@ public class DataImportRunner
 			String originalFileName = record.getOriginalFilename();
 			String extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 
-			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 
 			String[] importerArgs = getImporterClassArgs(record.getDatatype(), extension);
 			List<String> args = getArgs(importerArgs, record.getId());
@@ -97,15 +97,14 @@ public class DataImportRunner
 	}
 
 	public static List<AsyncExportResult> checkData(DataImportJobsDatatype dataType, AuthenticationFilter.UserDetails userDetails, String uuid, File templateFile, String originalFileName, boolean isUpdate, DataOrientation orientation, Integer datasetId, Integer datasetStateId)
-			throws GerminateException
 	{
 		if (dataType == null)
-			throw new GerminateException(Response.Status.BAD_REQUEST);
+			throw new BadRequestException();
 
 		DataImportMode mode = PropertyWatcher.get(ServerProperty.DATA_IMPORT_MODE, DataImportMode.class);
 
 		if (mode == DataImportMode.NONE)
-			throw new GerminateException(Response.Status.SERVICE_UNAVAILABLE);
+			throw new ServiceUnavailableException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -161,12 +160,11 @@ public class DataImportRunner
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
+			throw new InternalServerErrorException();
 		}
 	}
 
 	public static String[] getImporterClassArgs(DataImportJobsDatatype dataType, String extension)
-			throws GerminateException
 	{
 		switch (dataType)
 		{
@@ -194,7 +192,7 @@ public class DataImportRunner
 			case geotiff:
 				return GeotiffImporterCommand.CMD_ARGS;
 			default:
-				throw new GerminateException(Response.Status.NOT_IMPLEMENTED);
+				throw new StatusException(Response.Status.NOT_IMPLEMENTED.getStatusCode());
 				// TODO: Others
 		}
 	}

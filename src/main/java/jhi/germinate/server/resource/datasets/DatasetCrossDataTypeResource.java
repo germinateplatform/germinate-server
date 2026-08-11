@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.datasets;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.*;
@@ -39,14 +41,11 @@ public class DatasetCrossDataTypeResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postDatasetCrossDataType(DatasetCrossDataTypeRequest request)
+	public StreamingOutput postDatasetCrossDataType(DatasetCrossDataTypeRequest request, @Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
 		if (request == null || request.getFirst() == null || request.getSecond() == null || request.getFirst().getType() == null || request.getSecond().getType() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		DatasetCrossDataTypeRequest.Config first = request.getFirst();
 		DatasetCrossDataTypeRequest.Config second = request.getSecond();
@@ -99,10 +98,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			if (f == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN)
 			{
 				if (StringUtils.isEmpty(first.getColumnName()) || StringUtils.isEmpty(second.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String firstColumnName = Filter.getSafeColumn(first.getColumnName());
 				String secondColumnName = Filter.getSafeColumn(second.getColumnName());
@@ -116,10 +112,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 												  .findAny();
 
 				if (firstField.isEmpty() || secondField.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String firstDisplayName = firstColumnName.replace("_", " ");
 				firstDisplayName = firstDisplayName.substring(0, 1).toUpperCase() + firstDisplayName.substring(1);
@@ -146,10 +139,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
 
 				if (climate.getId() == null || StringUtils.isEmpty(germplasm.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String germplasmColumn = Filter.getSafeColumn(germplasm.getColumnName());
 
@@ -162,10 +152,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 											.findAny();
 
 				if (field.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String displayName = germplasmColumn.replace("_", " ");
 				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
@@ -190,10 +177,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
 
 				if (trait.getId() == null || StringUtils.isEmpty(germplasm.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String germplasmColumn = Filter.getSafeColumn(germplasm.getColumnName());
 
@@ -207,10 +191,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 											.findAny();
 
 				if (field.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String displayName = germplasmColumn.replace("_", " ");
 				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
@@ -232,10 +213,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			else if (f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.TRAIT)
 			{
 				if (first.getId() == null || second.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				Map<Integer, String> traits = getTraitMapping(context, first.getId(), second.getId());
 
@@ -267,10 +245,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				DatasetCrossDataTypeRequest.Config climate = first.getType() == DatasetCrossDataTypeRequest.DataType.CLIMATE ? first : second;
 
 				if (trait.getId() == null || climate.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				Map<Integer, String> traits = getTraitMapping(context, trait.getId());
 				Map<Integer, String> climates = getClimateMapping(context, climate.getId());
@@ -297,10 +272,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			else if (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
 			{
 				if (first.getId() == null || second.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				Map<Integer, String> climates = getClimateMapping(context, first.getId(), second.getId());
 
@@ -336,15 +308,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			}
 		}
 
-		java.nio.file.Path target = resultFile.toPath();
-		return Response.ok((StreamingOutput) output -> {
-						   Files.copy(target, output);
-						   Files.deleteIfExists(target);
-					   })
-					   .type(MediaType.TEXT_PLAIN)
-					   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")
-					   .header("content-length", resultFile.length())
-					   .build();
+		return toStreamingResult(resultFile, MediaType.TEXT_PLAIN, response);
 	}
 
 	private void addFiltering(SelectConditionStep<?> step, AuthenticationFilter.UserDetails userDetails, DatasetCrossDataTypeRequest.Config first, DatasetCrossDataTypeRequest.Config second, TableField<?, Integer> firstItemId, TableField<?, Integer> secondItemId, TableField<?, Integer> firstDatasetId, TableField<?, Integer> secondDatasetId)

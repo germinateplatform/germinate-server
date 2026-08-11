@@ -4,18 +4,17 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.ViewMcpd;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
 
 @Path("germplasm/{germplasmId}/mcpd")
 @Secured
@@ -26,13 +25,12 @@ public class GermplasmMcpdResource
 	protected HttpServletResponse resp;
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getGermplasmMcpd(@PathParam("germplasmId") Integer germplasmId)
-		throws IOException, SQLException
+	public ViewMcpd getGermplasmMcpd(@PathParam("germplasmId") Integer germplasmId)
+			throws SQLException
 	{
 		if (germplasmId == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -41,10 +39,10 @@ public class GermplasmMcpdResource
 			List<Field<?>> fields = new ArrayList<>(Arrays.asList(MCPD.fields()));
 			fields.add(MCPD.GERMINATEBASE_ID.as("id"));
 
-			return Response.ok(context.select(fields)
-						  .from(MCPD)
-						  .where(MCPD.GERMINATEBASE_ID.eq(germplasmId))
-						  .fetchAnyInto(ViewMcpd.class)).build();
+			return context.select(fields)
+			              .from(MCPD)
+			              .where(MCPD.GERMINATEBASE_ID.eq(germplasmId))
+			              .fetchAnyInto(ViewMcpd.class);
 		}
 	}
 }

@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.importers;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
@@ -15,8 +17,8 @@ import jhi.germinate.server.resource.datasets.export.AsyncResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
@@ -33,27 +35,27 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
-	public Response postImportJob(UuidRequest request)
+	public List<DataImportJobs> postImportJob(UuidRequest request)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (CollectionUtils.isEmpty(request.getUuids()) && (userDetails.getId() == -1000))
-			return Response.ok(new ArrayList<>()).build();
+			return new ArrayList<>();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectConditionStep<?> step = context.selectFrom(DATA_IMPORT_JOBS)
-												 .where(DATA_IMPORT_JOBS.VISIBILITY.eq(true));
+			                                     .where(DATA_IMPORT_JOBS.VISIBILITY.eq(true));
 
 			if (userDetails.getId() != -1000)
 				step.and(DATA_IMPORT_JOBS.USER_ID.eq(userDetails.getId()));
 			else
 				step.and(DATA_IMPORT_JOBS.UUID.in(request.getUuids()));
 
-			return Response.ok(step.orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
-					   .fetchInto(DataImportJobs.class)).build();
+			return step.orderBy(DATA_IMPORT_JOBS.UPDATED_ON.desc())
+			           .fetchInto(DataImportJobs.class);
 		}
 	}
 
@@ -62,13 +64,13 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response deleteImportJob(@PathParam("jobUuid") String jobUuid)
+	public boolean deleteImportJob(@PathParam("jobUuid") String jobUuid)
 			throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (StringUtils.isEmpty(jobUuid))
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		boolean result = false;
 
@@ -76,8 +78,8 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 		{
 			DSLContext context = Database.getContext(conn);
 			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
-												 .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
-												 .fetchAnyInto(DataImportJobsRecord.class);
+			                                     .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
+			                                     .fetchAnyInto(DataImportJobsRecord.class);
 
 			boolean isCancelRequest = record.getStatus() == DataImportJobsStatus.running;
 
@@ -96,10 +98,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 					result = true;
 				}
 				else
-				{
-					resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-					result = false;
-				}
+					throw new ForbiddenException();
 			}
 			else
 			{
@@ -114,14 +113,14 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 			}
 
 			// Delete the async folder corresponding to the job uuid.
-			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
+			File asyncFolder = ResourceUtils.getFromExternal(record.getUuid(), "async");
 			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory())
 			{
 				org.apache.commons.io.FileUtils.deleteDirectory(asyncFolder);
 			}
 		}
 
-		return Response.ok(result).build();
+		return result;
 	}
 
 	@GET
@@ -130,21 +129,11 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public List<AsyncExportResult> getImportJob(@PathParam("jobUuid") String jobUuid)
-			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(jobUuid))
 			return new ArrayList<>();
 
-		try
-		{
-			return new DataImportRunner().importData(jobUuid);
-		}
-		catch (GerminateException e)
-		{
-			e.printStackTrace();
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
-		}
+		return new DataImportRunner().importData(jobUuid);
 	}
 
 	@GET
@@ -152,31 +141,25 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	@Secured(UserType.DATA_CURATOR)
-	public Response getImportJobLog(@PathParam("jobUuid") String jobUuid)
+	public StreamingOutput getImportJobLog(@PathParam("jobUuid") String jobUuid, @Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			DataImportJobsRecord record = context.selectFrom(DATA_IMPORT_JOBS)
-												 .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
-												 .and(DATA_IMPORT_JOBS.VISIBILITY.eq(true))
-												 .and(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.failed))
-												 .fetchAnyInto(DataImportJobsRecord.class);
+			                                     .where(DATA_IMPORT_JOBS.UUID.in(jobUuid))
+			                                     .and(DATA_IMPORT_JOBS.VISIBILITY.eq(true))
+			                                     .and(DATA_IMPORT_JOBS.STATUS.eq(DataImportJobsStatus.failed))
+			                                     .fetchAnyInto(DataImportJobsRecord.class);
 
 			if (record == null)
-			{
-				return Response.status(Response.Status.NOT_FOUND.getStatusCode())
-							   .build();
-			}
+				throw new NotFoundException();
 
-			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
+			File asyncFolder = ResourceUtils.getFromExternal(record.getUuid(), "async");
 
 			if (asyncFolder == null || !asyncFolder.exists())
-			{
-				return Response.status(Response.Status.NOT_FOUND.getStatusCode())
-							   .build();
-			}
+				throw new NotFoundException();
 
 			try (Stream<java.nio.file.Path> stream = Files.find(asyncFolder.toPath(), 1, (path, basicFileAttributes) -> path.toFile().getName().matches(".+\\.(e|o)\\d+")))
 			{
@@ -186,15 +169,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 
 				FileUtils.zipUp(zipFile, logFiles, false);
 
-				java.nio.file.Path zipFilePath = zipFile.toPath();
-				return Response.ok((StreamingOutput) output -> {
-								   java.nio.file.Files.copy(zipFilePath, output);
-								   java.nio.file.Files.deleteIfExists(zipFilePath);
-							   })
-							   .type("application/zip")
-							   .header("content-disposition", "attachment;filename= \"" + zipFile.getName() + "\"")
-							   .header("content-length", zipFile.length())
-							   .build();
+				return toStreamingResult(zipFile, "application/zip", response);
 			}
 		}
 	}

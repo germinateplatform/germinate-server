@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.projects;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
@@ -27,7 +27,7 @@ public class ProjectTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postProjectTable(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableProjects>> postProjectTable(PaginatedRequest request)
 			throws SQLException
 	{
 		HashSet<Integer> datasetsForUser = new HashSet<>(AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true));
@@ -69,7 +69,7 @@ public class ProjectTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class ProjectTableResource extends BaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_PROJECTS.PROJECT_ID)
-														   .from(VIEW_TABLE_PROJECTS);
+			                                               .from(VIEW_TABLE_PROJECTS);
 
 			// Filter here!
 			where(from, filters);

@@ -27,7 +27,7 @@ public class TraitDatasetTableResource extends BaseDatasetTableResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postTraitDatasetTable(UnacceptedLicenseRequest request, @PathParam("traitId") Integer traitId)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		return runQuery(request, query -> query.where(DSL.exists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(TRIALSETUP.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
 																																																	   .and(PHENOTYPEDATA.VARIABLE_ID.eq(traitId))))));

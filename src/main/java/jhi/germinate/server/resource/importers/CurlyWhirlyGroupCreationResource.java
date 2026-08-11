@@ -1,23 +1,23 @@
 package jhi.germinate.server.resource.importers;
 
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.DSLContext;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 
 @Path("group/upload")
 @Secured({UserType.AUTH_USER})
@@ -28,7 +28,7 @@ public class CurlyWhirlyGroupCreationResource extends ContextResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String accept(@FormDataParam("textfile") InputStream fileIs, @FormDataParam("textfile") FormDataContentDisposition fileDetails)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -41,10 +41,7 @@ public class CurlyWhirlyGroupCreationResource extends ContextResource
 			File targetFile = new File(folder, uuid + "." + extension);
 
 			if (!FileUtils.isSubDirectory(folder, targetFile))
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return null;
-			}
+				throw new BadRequestException();
 
 			Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -56,9 +53,9 @@ public class CurlyWhirlyGroupCreationResource extends ContextResource
 			if (!CollectionUtils.isEmpty(names))
 			{
 				ids = context.selectDistinct(GERMINATEBASE.ID.cast(String.class))
-							 .from(GERMINATEBASE)
-							 .where(GERMINATEBASE.NAME.in(names))
-							 .fetchInto(String.class);
+				             .from(GERMINATEBASE)
+				             .where(GERMINATEBASE.NAME.in(names))
+				             .fetchInto(String.class);
 			}
 
 			// Write the ids back
@@ -70,8 +67,7 @@ public class CurlyWhirlyGroupCreationResource extends ContextResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 }

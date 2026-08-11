@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.story;
 import com.google.gson.Gson;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
@@ -39,11 +39,11 @@ public class StoryIndividualResource extends ContextResource
 	@Path("/{storyId:\\d+}/step/{storyStepId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteStoryStep(@PathParam("storyId") Integer storyId, @PathParam("storyStepId") Integer storyStepId)
+	public boolean deleteStoryStep(@PathParam("storyId") Integer storyId, @PathParam("storyStepId") Integer storyStepId)
 			throws SQLException
 	{
 		if (storyId == null || storyStepId == null)
-			return Response.status(Response.Status.NOT_FOUND).build();
+			throw new NotFoundException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -52,14 +52,14 @@ public class StoryIndividualResource extends ContextResource
 			StoriesRecord story = context.selectFrom(STORIES).where(STORIES.ID.eq(storyId)).fetchAny();
 
 			if (story == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			Result<StorystepsRecord> steps = context.selectFrom(STORYSTEPS).where(STORYSTEPS.STORY_ID.eq(storyId)).orderBy(STORYSTEPS.STORY_INDEX).fetch();
 
 			Optional<StorystepsRecord> stepToDelete = steps.stream().filter(s -> Objects.equals(s.getId(), storyStepId)).findFirst();
 
 			if (stepToDelete.isEmpty())
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			int index = stepToDelete.get().getStoryIndex();
 
@@ -76,7 +76,7 @@ public class StoryIndividualResource extends ContextResource
 				}
 			}
 
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 
@@ -84,11 +84,11 @@ public class StoryIndividualResource extends ContextResource
 	@Path("/{storyId:\\d+}/step")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchStorySteps(@PathParam("storyId") Integer storyId, Storysteps[] steps)
+	public boolean patchStorySteps(@PathParam("storyId") Integer storyId, Storysteps[] steps)
 			throws SQLException
 	{
 		if (steps == null || steps.length == 0 || storyId == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -97,7 +97,7 @@ public class StoryIndividualResource extends ContextResource
 			StoriesRecord story = context.selectFrom(STORIES).where(STORIES.ID.eq(storyId)).fetchAny();
 
 			if (story == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			// New steps that didn't exist before
 			List<Storysteps> newSteps = new ArrayList<>();
@@ -149,7 +149,7 @@ public class StoryIndividualResource extends ContextResource
 				record.store();
 			}
 
-			return Response.ok().build();
+			return true;
 		}
 	}
 
@@ -157,19 +157,19 @@ public class StoryIndividualResource extends ContextResource
 	@Path("/{storyId:\\d+}/step")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postStoryStep(@PathParam("storyId") Integer storyId,
-	                              @FormDataParam("stepName") String stepName,
-	                              @FormDataParam("stepDescription") String stepDescription,
-	                              @FormDataParam("image") InputStream image,
-	                              @FormDataParam("image") FormDataContentDisposition fileDetails,
-	                              @FormDataParam("pageConfig") String pageConfig,
-	                              @FormDataParam("storyIndex") Integer storyIndex)
+	public boolean postStoryStep(@PathParam("storyId") Integer storyId,
+	                             @FormDataParam("stepName") String stepName,
+	                             @FormDataParam("stepDescription") String stepDescription,
+	                             @FormDataParam("image") InputStream image,
+	                             @FormDataParam("image") FormDataContentDisposition fileDetails,
+	                             @FormDataParam("pageConfig") String pageConfig,
+	                             @FormDataParam("storyIndex") Integer storyIndex)
 			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(pageConfig))
 		{
 			Logger.getLogger("").warning("Empty pageConfig parameter");
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 		}
 
 		StoryStepConfig config;
@@ -180,13 +180,13 @@ public class StoryIndividualResource extends ContextResource
 		catch (Exception e)
 		{
 			Logger.getLogger("").warning("Invalid StoryStepConfig: " + pageConfig);
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 		}
 
 		if (storyId == null || config == null || config.getRouter() == null || StringUtils.isEmpty(config.getRouter().getName()) || StringUtils.isEmpty(stepName) || StringUtils.isEmpty(stepDescription))
 		{
 			Logger.getLogger("").warning("Invalid required parameter.");
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 		}
 
 		if (storyIndex == null)
@@ -199,7 +199,7 @@ public class StoryIndividualResource extends ContextResource
 			StoriesRecord story = context.selectFrom(STORIES).where(STORIES.ID.eq(storyId)).fetchAny();
 
 			if (story == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			Result<StorystepsRecord> steps = context.selectFrom(STORYSTEPS).where(STORYSTEPS.STORY_ID.eq(storyId)).orderBy(STORYSTEPS.STORY_INDEX).fetch();
 
@@ -219,7 +219,9 @@ public class StoryIndividualResource extends ContextResource
 				requirements = new StoryRequirements()
 						.setDatasetIds(new HashSet<>())
 						.setGroupIds(new HashSet<>());
-			} else {
+			}
+			else
+			{
 				if (requirements.getDatasetIds() == null)
 					requirements.setDatasetIds(new HashSet<>());
 				if (requirements.getGroupIds() == null)
@@ -296,7 +298,7 @@ public class StoryIndividualResource extends ContextResource
 				File targetFile = new File(folder, uuid + "." + extension);
 
 				if (!FileUtils.isSubDirectory(folder, targetFile))
-					return Response.status(Response.Status.BAD_REQUEST).build();
+					throw new BadRequestException();
 
 				Files.copy(image, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -312,27 +314,27 @@ public class StoryIndividualResource extends ContextResource
 			}
 
 			if (successful)
-				return Response.status(Response.Status.OK).build();
+				return true;
 			else
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+				throw new InternalServerErrorException();
 		}
 	}
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postStory(@FormDataParam("storyName") String storyName,
-	                          @FormDataParam("storyDescription") String storyDescription,
-	                          @FormDataParam("image") InputStream image,
-	                          @FormDataParam("image") FormDataContentDisposition fileDetails,
-	                          @FormDataParam("storyCreatedOn") String storyCreatedOn,
-	                          @FormDataParam("publicationId") Integer publicationId,
-	                          @FormDataParam("storyVisibility") Boolean storyVisibility,
-	                          @FormDataParam("storyFeatured") Boolean storyFeatured)
+	public boolean postStory(@FormDataParam("storyName") String storyName,
+	                         @FormDataParam("storyDescription") String storyDescription,
+	                         @FormDataParam("image") InputStream image,
+	                         @FormDataParam("image") FormDataContentDisposition fileDetails,
+	                         @FormDataParam("storyCreatedOn") String storyCreatedOn,
+	                         @FormDataParam("publicationId") Integer publicationId,
+	                         @FormDataParam("storyVisibility") Boolean storyVisibility,
+	                         @FormDataParam("storyFeatured") Boolean storyFeatured)
 			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(storyName) || StringUtils.isEmpty(storyDescription))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		Date d;
 
@@ -361,7 +363,7 @@ public class StoryIndividualResource extends ContextResource
 				boolean publicationExists = context.fetchExists(PUBLICATIONS, PUBLICATIONS.ID.eq(publicationId));
 
 				if (!publicationExists)
-					return Response.status(Response.Status.NOT_FOUND).build();
+					throw new NotFoundException();
 			}
 
 			StoriesRecord story = context.newRecord(STORIES);
@@ -389,7 +391,7 @@ public class StoryIndividualResource extends ContextResource
 				File targetFile = new File(folder, uuid + "." + extension);
 
 				if (!FileUtils.isSubDirectory(folder, targetFile))
-					return Response.status(Response.Status.BAD_REQUEST).build();
+					throw new BadRequestException();
 
 				Files.copy(image, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -405,9 +407,9 @@ public class StoryIndividualResource extends ContextResource
 			}
 
 			if (successful)
-				return Response.status(Response.Status.OK).build();
+				return true;
 			else
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+				throw new InternalServerErrorException();
 		}
 	}
 
@@ -415,11 +417,11 @@ public class StoryIndividualResource extends ContextResource
 	@Path("/{storyId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchStory(@PathParam("storyId") Integer storyId, ViewTableStories update)
-			throws SQLException, IOException
+	public boolean patchStory(@PathParam("storyId") Integer storyId, ViewTableStories update)
+			throws SQLException
 	{
 		if (storyId == null || update == null || StringUtils.isEmpty(update.getStoryName()) || StringUtils.isEmpty(update.getStoryDescription()))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -432,7 +434,7 @@ public class StoryIndividualResource extends ContextResource
 				boolean publicationExists = context.fetchExists(PUBLICATIONS, PUBLICATIONS.ID.eq(update.getPublicationId()));
 
 				if (!publicationExists)
-					return Response.status(Response.Status.NOT_FOUND).build();
+					throw new NotFoundException();
 			}
 
 			StoriesRecord story = context.selectFrom(STORIES)
@@ -442,7 +444,7 @@ public class StoryIndividualResource extends ContextResource
 			                             .fetchAny();
 
 			if (story == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			story.setName(update.getStoryName());
 			story.setDescription(update.getStoryDescription());
@@ -451,7 +453,7 @@ public class StoryIndividualResource extends ContextResource
 			story.setPublicationId(update.getPublicationId());
 			story.setCreatedOn(update.getStoryCreatedOn());
 
-			return Response.ok(story.store() > 0).build();
+			return story.store() > 0;
 		}
 	}
 
@@ -459,11 +461,11 @@ public class StoryIndividualResource extends ContextResource
 	@Path("/{storyId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteStoryById(@PathParam("storyId") Integer storyId)
+	public boolean deleteStoryById(@PathParam("storyId") Integer storyId)
 			throws SQLException
 	{
 		if (storyId == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -472,7 +474,7 @@ public class StoryIndividualResource extends ContextResource
 			StoriesRecord match = context.selectFrom(STORIES).where(STORIES.ID.eq(storyId)).fetchAny();
 
 			if (match == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			match.delete();
 
@@ -486,7 +488,7 @@ public class StoryIndividualResource extends ContextResource
 			                                          .andNotExists(DSL.selectOne().from(STORYSTEPS).where(STORYSTEPS.IMAGE_ID.eq(IMAGES.ID)))
 			                                          .fetch();
 
-			if (looseImages.size() > 0)
+			if (!looseImages.isEmpty())
 			{
 				File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.storysteps.name());
 
@@ -503,7 +505,7 @@ public class StoryIndividualResource extends ContextResource
 				}
 			}
 
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 }

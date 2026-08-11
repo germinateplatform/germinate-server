@@ -24,28 +24,23 @@ public class SetupResource
 	@Path("/store")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postSetupConfig(ServerSetupConfig config) {
-		Response availability = checkAvailability();
-
-		// This means no configuration is required and we don't accept requests.
-		if (availability.getStatus() != 200)
-			return availability;
+	public boolean postSetupConfig(ServerSetupConfig config)
+	{
+		checkAvailability();
 
 		if (config == null)
+			throw new BadRequestException("Invalid configuration provided.");
+		else
 		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid configuration provided.")
-						   .entity("Invalid configuration provided.")
-						   .build();
-		} else {
-			Response resp = postDatabaseConfig(config.getDbConfig());
-			if (resp.getStatus() != 200)
-				return resp;
+			boolean db = postDatabaseConfig(config.getDbConfig());
+			if (!db)
+				return false;
 
 			if (config.getGkConfig() != null)
 			{
-				resp = postGatekeeperConfig(config.getGkConfig());
-				if (resp.getStatus() != 200)
-					return resp;
+				boolean gk = postGatekeeperConfig(config.getGkConfig());
+				if (!gk)
+					return false;
 			}
 
 			PropertyWatcher.set(ServerProperty.DATABASE_SERVER, config.getDbConfig().getHost());
@@ -54,7 +49,8 @@ public class SetupResource
 			PropertyWatcher.set(ServerProperty.DATABASE_USERNAME, config.getDbConfig().getUsername());
 			PropertyWatcher.set(ServerProperty.DATABASE_PASSWORD, config.getDbConfig().getPassword());
 
-			if (config.getGkConfig() != null) {
+			if (config.getGkConfig() != null)
+			{
 				PropertyWatcher.set(ServerProperty.GATEKEEPER_URL, config.getGkConfig().getUrl());
 				PropertyWatcher.set(ServerProperty.GATEKEEPER_USERNAME, config.getGkConfig().getUsername());
 				PropertyWatcher.set(ServerProperty.GATEKEEPER_PASSWORD, config.getGkConfig().getPassword());
@@ -63,7 +59,7 @@ public class SetupResource
 			// Invalidate all tokens
 			AuthenticationFilter.invalidateAllTokens();
 
-			return Response.ok(PropertyWatcher.storeProperties()).build();
+			return PropertyWatcher.storeProperties();
 		}
 	}
 
@@ -71,12 +67,12 @@ public class SetupResource
 	@Path("/check")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSetupCheckAvailable()
+	public boolean getSetupCheckAvailable()
 	{
 		return checkAvailability();
 	}
 
-	private Response checkAvailability()
+	private boolean checkAvailability()
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -88,28 +84,24 @@ public class SetupResource
 				if (GatekeeperClient.connectionValid())
 				{
 					// If it valid, no setup is required => SERVICE_UNAVAILABLE
-					return Response.status(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(), "Germinate has already been configured successfully.")
-								   .entity("Germinate has already been configured successfully.")
-								   .build();
+					throw new ServiceUnavailableException("Germinate has already been configured successfully.");
 				}
 				else
 				{
 					// If it's not valid, setup is required => OK
-					return Response.ok().build();
+					return true;
 				}
 			}
 			else
 			{
 				// Database connection works, no Gatekeeper required => SERVICE_UNAVAILABLE
-				return Response.status(Response.Status.SERVICE_UNAVAILABLE.getStatusCode(), "Germinate has already been configured successfully.")
-							   .entity("Germinate has already been configured successfully.")
-							   .build();
+				throw new ServiceUnavailableException("Germinate has already been configured successfully.");
 			}
 		}
 		catch (SQLException e)
 		{
 			// If we get an exception, that means configuration is still required
-			return Response.ok().build();
+			return false;
 		}
 	}
 
@@ -117,58 +109,40 @@ public class SetupResource
 	@Path("/check/database")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postDatabaseConfig(DatabaseConfig config)
+	public boolean postDatabaseConfig(DatabaseConfig config)
 	{
-		Response availability = checkAvailability();
-
-		// This means no configuration is required and we don't accept requests.
-		if (availability.getStatus() != 200)
-			return availability;
+		checkAvailability();
 
 		if (config == null || StringUtils.isEmpty(config.getHost()) || StringUtils.isEmpty(config.getDatabase()) || StringUtils.isEmpty(config.getUsername()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid database configuration provided. Please complete at least Host, Database and username fields.")
-						   .entity("Invalid database configuration provided. Please complete at least Host, Database and username fields.")
-						   .build();
-		}
+			throw new BadRequestException("Invalid database configuration provided. Please complete at least Host, Database and username fields.");
 
 		boolean valid = Database.check(config.getHost(), config.getDatabase(), config.getPort(), config.getUsername(), config.getPassword());
 
 		if (valid)
-			return Response.ok().build();
+			return true;
 		else
-			return Response.status(Response.Status.UNAUTHORIZED.getStatusCode(), "Invalid database details provided.")
-						   .entity("Invalid database details provided.")
-						   .build();
+			throw new StatusException(Response.Status.UNAUTHORIZED.getStatusCode(), "Invalid database details provided.");
 	}
 
 	@POST
 	@Path("/check/gatekeeper")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGatekeeperConfig(GatekeeperConfig config)
+	public boolean postGatekeeperConfig(GatekeeperConfig config)
 	{
-		Response availability = checkAvailability();
-
-		// This means no configuration is required and we don't accept requests.
-		if (availability.getStatus() != 200)
-			return availability;
+		checkAvailability();
 
 		if (config == null || StringUtils.isEmpty(config.getUrl()) || StringUtils.isEmpty(config.getUsername()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid Gatekeeper configuration provided. Please complete at least URL and username fields.")
-						   .entity("Invalid Gatekeeper configuration provided. Please complete at least URL and username fields.")
-						   .build();
-		}
+			throw new BadRequestException("Invalid Gatekeeper configuration provided. Please complete at least URL and username fields.");
 
 		// Create the HTTP client with the pool and timeouts
 		OkHttpClient httpClient = new OkHttpClient.Builder()
-			.readTimeout(20, TimeUnit.SECONDS)
-			.callTimeout(20, TimeUnit.SECONDS)
-			.connectTimeout(20, TimeUnit.SECONDS)
-			.writeTimeout(20, TimeUnit.SECONDS)
-			.retryOnConnectionFailure(true)
-			.build();
+				.readTimeout(20, TimeUnit.SECONDS)
+				.callTimeout(20, TimeUnit.SECONDS)
+				.connectTimeout(20, TimeUnit.SECONDS)
+				.writeTimeout(20, TimeUnit.SECONDS)
+				.retryOnConnectionFailure(true)
+				.build();
 
 		String url = config.getUrl();
 		// Fix any issues that might occur with the URL
@@ -180,9 +154,9 @@ public class SetupResource
 
 		// Create the retrofit instance
 		Retrofit retrofit = (new Retrofit.Builder()).baseUrl(url)
-													.addConverterFactory(GsonConverterFactory.create())
-													.client(httpClient)
-													.build();
+		                                            .addConverterFactory(GsonConverterFactory.create())
+		                                            .client(httpClient)
+		                                            .build();
 
 		// Create an instance of the service interface
 		GatekeeperService service = retrofit.create(GatekeeperService.class);
@@ -198,28 +172,18 @@ public class SetupResource
 			if (!resp.isSuccessful())
 			{
 				if (resp.code() == 500)
-				{
-					return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Internal server error: " + resp.message())
-								   .entity("Internal server error: " + resp.message())
-								   .build();
-				}
+					throw new InternalServerErrorException("Internal server error: " + resp.message());
 				else
-				{
-					return Response.status(Response.Status.UNAUTHORIZED.getStatusCode(), "Invalid details: " + resp.message())
-								   .entity("Invalid details: " + resp.message())
-								   .build();
-				}
+					throw new StatusException(Response.Status.UNAUTHORIZED.getStatusCode(), "Invalid details: " + resp.message());
 			}
 			else
 			{
-				return Response.ok().build();
+				return true;
 			}
 		}
 		catch (IOException e)
 		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid Gatekeeper URL specfied: " + e.getMessage())
-						   .entity("Invalid Gatekeeper URL specfied: " + e.getMessage())
-						   .build();
+			throw new BadRequestException("Invalid Gatekeeper URL specfied: " + e.getMessage());
 		}
 		finally
 		{

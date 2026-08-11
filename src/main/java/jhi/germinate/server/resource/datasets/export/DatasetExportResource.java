@@ -2,9 +2,11 @@ package jhi.germinate.server.resource.datasets.export;
 
 import de.ipk_gatersleben.bit.bi.isa4j.components.*;
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.flapjack.io.binning.MakeHistogram;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
@@ -51,24 +53,17 @@ public class DatasetExportResource extends ContextResource
 	@Path("/allelefreq")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public AsyncExportResult postJson(AlleleFrequencyDatasetRequest request)
-			throws IOException, SQLException
+	public AsyncExportResult postAlleleFrequencyExport(AlleleFrequencyDatasetRequest request)
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "allelefreq", request.getDatasetIds(), true);
 
-		if (datasetIds.size() < 1)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+		if (datasetIds.isEmpty())
+			throw new NotFoundException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -81,7 +76,7 @@ public class DatasetExportResource extends ContextResource
 			String uuid = UUID.randomUUID().toString();
 
 			// Get the target folder for all generated files
-			File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 			asyncFolder.mkdirs();
 
 			Integer[] array = {ds.getDatasetId()};
@@ -141,8 +136,7 @@ public class DatasetExportResource extends ContextResource
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -150,24 +144,18 @@ public class DatasetExportResource extends ContextResource
 	@Path("/allelefreq/histogram")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postJson(GenotypeSubsetDatasetRequest request)
-			throws IOException, SQLException
+	public StreamingOutput postAlleleFrequencyHistogram(GenotypeSubsetDatasetRequest request, @Context HttpServletResponse response)
+			throws StatusException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "allelefreq", request.getDatasetIds(), true);
 
-		if (datasetIds.size() < 1)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+		if (datasetIds.isEmpty())
+			throw new NotFoundException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -181,7 +169,7 @@ public class DatasetExportResource extends ContextResource
 			Set<String> markerNames = DatasetExportGenotypeResource.getMarkerNameList(context, request);
 
 			// Get the source file
-			File source = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
+			File source = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
 
 			// Create all temporary files
 			File target = ResourceUtils.createTempFile("allelefreq-" + CollectionUtils.join(datasetIds, "-"), ".txt");
@@ -200,21 +188,12 @@ public class DatasetExportResource extends ContextResource
 				new MakeHistogram(200, target.getAbsolutePath(), histogram.getAbsolutePath()).createHistogram();
 			}
 
-			java.nio.file.Path filePath = histogram.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-							   Files.deleteIfExists(filePath);
-						   })
-			               .type(MediaType.TEXT_PLAIN)
-			               .header("content-disposition", "attachment; filename=\"" + histogram.getName() + "\"")
-			               .header("content-length", histogram.length())
-			               .build();
+			return toStreamingResult(histogram, MediaType.TEXT_PLAIN, response);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -222,34 +201,26 @@ public class DatasetExportResource extends ContextResource
 	@Path("/climate")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postDatasetExportClimate(ClimateExportDatasetRequest request)
-			throws IOException, SQLException
+	public StreamingOutput postDatasetExportClimate(ClimateExportDatasetRequest request, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "climate", request.getDatasetIds(), true);
 
-		if (datasetIds.size() < 1)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+		if (datasetIds.isEmpty())
+			throw new NotFoundException();
 
-		try
+		try (Connection conn = Database.getConnection())
 		{
-			try (Connection conn = Database.getConnection())
+			DSLContext context = Database.getContext(conn);
+
+			try
 			{
-				DSLContext context = Database.getContext(conn);
-
-				try
-				{
-					File file = exportTabFastClimate("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
+				File file = exportTabFastClimate("climate-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 
 //					String climateIdString = CollectionUtils.join(request.getXIds(), ",");
 //					String germplasmIdString = CollectionUtils.join(request.getYIds(), ",");
@@ -269,44 +240,27 @@ public class DatasetExportResource extends ContextResource
 //
 //					ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
 
-					for (Integer dsId : datasetIds)
-					{
-						DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
-						access.setDatasetId(dsId);
-						access.setUserId(userDetails.getId());
-						access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-						access.store();
-					}
-
-					java.nio.file.Path filePath = file.toPath();
-					return Response.ok((StreamingOutput) output -> {
-									   Files.copy(filePath, output);
-									   Files.deleteIfExists(filePath);
-								   })
-					               .type(MediaType.TEXT_PLAIN)
-					               .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
-					               .header("content-length", file.length())
-					               .build();
-				}
-				catch (GerminateException e)
+				for (Integer dsId : datasetIds)
 				{
-					conn.close();
-					resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-					return null;
+					DatasetaccesslogsRecord access = context.newRecord(DATASETACCESSLOGS);
+					access.setDatasetId(dsId);
+					access.setUserId(userDetails.getId());
+					access.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+					access.store();
 				}
+
+				return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
 			}
-			catch (IOException e)
+			catch (StatusException e)
 			{
-				e.printStackTrace();
-				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-				return null;
+				conn.close();
+				throw e;
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -314,24 +268,18 @@ public class DatasetExportResource extends ContextResource
 	@Path("/trial")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
-	public Response postDatasetExportTrial(TrialsExportDatasetRequest request, @QueryParam("format") String formatString)
-			throws IOException, SQLException
+	public StreamingOutput postDatasetExportTrial(TrialsExportDatasetRequest request, @QueryParam("format") String formatString, @Context HttpServletResponse response)
+			throws StatusException, SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
 
-		if (datasetIds.size() < 1)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+		if (datasetIds.isEmpty())
+			throw new NotFoundException();
 
 		TrialsExportFormat format = TrialsExportFormat.tab;
 
@@ -359,15 +307,14 @@ public class DatasetExportResource extends ContextResource
 				default:
 					try
 					{
-						file = exportTabFast(userDetails, "trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
+						file = exportTabFast("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 //						file = exportTab("trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), request, context, datasetIds);
 						mediaType = MediaType.TEXT_PLAIN;
 					}
-					catch (GerminateException e)
+					catch (StatusException e)
 					{
 						conn.close();
-						resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-						return null;
+						throw e;
 					}
 					break;
 			}
@@ -381,21 +328,12 @@ public class DatasetExportResource extends ContextResource
 				access.store();
 			}
 
-			java.nio.file.Path filePath = file.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-							   Files.deleteIfExists(filePath);
-						   })
-			               .type(mediaType)
-			               .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
-			               .header("content-length", file.length())
-			               .build();
+			return toStreamingResult(file, mediaType, response);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -403,15 +341,19 @@ public class DatasetExportResource extends ContextResource
 	@Path("/pedigree")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
-	public Response postDatasetExportPedigree(PedigreeRequest request)
-			throws IOException, SQLException
+	public File postDatasetExportPedigree(PedigreeRequest request, @Context HttpServletResponse response)
+			throws IOException, SQLException, StatusException
 	{
-		return PedigreeResource.exportFlatFile(request, req, resp, securityContext);
+		if (request.getIncludeAttributes()) {
+			return toFileResult(PedigreeResource.exportFlatFile(request, req, securityContext), "application/zip", response);
+		} else {
+			return toFileResult(PedigreeResource.exportFlatFile(request, req, securityContext), MediaType.TEXT_PLAIN, response);
+		}
 	}
 
 
 	private File exportIsaTab(AuthenticationFilter.UserDetails userDetails, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
-			throws IOException, SQLException
+			throws IOException, SQLException, StatusException
 	{
 		File zipFile = ResourceUtils.createTempFile(null, "trials-" + CollectionUtils.join(datasetIds, "-") + "-" + DateTimeUtils.getFormattedDateTime(new Date()), ".zip", false);
 		List<File> resultFiles = new ArrayList<>();
@@ -422,8 +364,6 @@ public class DatasetExportResource extends ContextResource
 
 		for (Integer dsId : datasetIds)
 		{
-			try
-			{
 				ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(dsId, req, userDetails, true);
 
 				if (dataset == null)
@@ -433,12 +373,12 @@ public class DatasetExportResource extends ContextResource
 				study.setTitle(dataset.getDatasetName());
 				study.setDescription(dataset.getDatasetDescription());
 				study.setPublicReleaseDate(dataset.getCreatedOn());
-				File datasetFile = exportTabFast(userDetails, "s_" + dsId + DateTimeUtils.getFormattedDateTime(new Date()), request, context, Collections.singletonList(dsId));
+				File datasetFile = exportTabFast("s_" + dsId + DateTimeUtils.getFormattedDateTime(new Date()), request, context, Collections.singletonList(dsId));
 				study.setFileName(datasetFile.getName());
 				resultFiles.add(datasetFile);
 				inv.addStudy(study);
 
-				List<ViewTableCollaborators> collaborators = DatasetCollaboratorTableResource.getCollaboratorsForDataset(dataset.getDatasetId(), req, resp, userDetails);
+				List<ViewTableCollaborators> collaborators = DatasetCollaboratorTableResource.getCollaboratorsForDataset(dataset.getDatasetId(), req, userDetails);
 
 				if (!CollectionUtils.isEmpty(collaborators))
 					collaborators.forEach(c -> study.addContact(new Person(c.getCollaboratorLastName(), c.getCollaboratorFirstName(), c.getCollaboratorEmail(), c.getInstitutionName(), c.getInstitutionAddress())));
@@ -450,11 +390,6 @@ public class DatasetExportResource extends ContextResource
 					traits.forEach(t -> protocol.addParameter(new ProtocolParameter(t.getTraitName())));
 
 				study.addProtocol(protocol);
-			}
-			catch (GerminateException e)
-			{
-				e.printStackTrace();
-			}
 		}
 
 		File invFile = ResourceUtils.createTempFile("i_" + CollectionUtils.join(datasetIds, "-") + DateTimeUtils.getFormattedDateTime(new Date()), ".txt");
@@ -466,18 +401,15 @@ public class DatasetExportResource extends ContextResource
 		return zipFile;
 	}
 
-	private File exportTabFast(AuthenticationFilter.UserDetails userDetails, String filename, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
-			throws GerminateException, IOException
+	private File exportTabFast(String filename, TrialsExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
+			throws IOException, StatusException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
 
 		try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 		{
 			if (CollectionUtils.isEmpty(datasetIds))
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				throw new StatusException(Response.Status.NOT_FOUND.getStatusCode());
 
 			bw.write("#input=PHENOTYPE");
 			bw.write(System.lineSeparator());
@@ -487,24 +419,21 @@ public class DatasetExportResource extends ContextResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
+			throw new StatusException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 		}
 
 		return file;
 	}
 
 	private File exportTabFastClimate(String filename, ClimateExportDatasetRequest request, DSLContext context, List<Integer> datasetIds)
-			throws GerminateException, IOException
+			throws StatusException, IOException
 	{
 		File file = ResourceUtils.createTempFile(filename, ".txt");
 
 		try (PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 		{
 			if (CollectionUtils.isEmpty(datasetIds))
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				throw new StatusException(Response.Status.NOT_FOUND.getStatusCode());
 
 			// Get the dataset metadata
 			Map<Integer, String> datasets = new HashMap<>();
@@ -632,7 +561,7 @@ public class DatasetExportResource extends ContextResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			throw new GerminateException(Response.Status.INTERNAL_SERVER_ERROR);
+			throw new StatusException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
 		}
 
 		return file;

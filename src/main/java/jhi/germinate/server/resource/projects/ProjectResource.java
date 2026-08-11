@@ -33,11 +33,11 @@ public class ProjectResource
 	@Path("/{projectId:\\d+}/stats")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProjectStats(@PathParam("projectId") Integer projectId)
+	public ProjectStats getProjectStats(@PathParam("projectId") Integer projectId)
 			throws SQLException
 	{
 		if (projectId == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -46,7 +46,7 @@ public class ProjectResource
 			ProjectsRecord project = context.selectFrom(PROJECTS).where(PROJECTS.ID.eq(projectId)).fetchAny();
 
 			if (project == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			ProjectStats result = new ProjectStats();
 			result.setGroupCount(context.selectCount().from(PROJECTGROUPS).where(PROJECTGROUPS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
@@ -54,7 +54,7 @@ public class ProjectResource
 			result.setPublicationCount(context.selectCount().from(PROJECTPUBLICATIONS).where(PROJECTPUBLICATIONS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 			result.setCollaboratorCount(context.selectCount().from(PROJECTCOLLABORATORS).where(PROJECTCOLLABORATORS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 
-			return Response.ok(result).build();
+			return result;
 		}
 	}
 
@@ -62,18 +62,18 @@ public class ProjectResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response postProject(@FormDataParam("name") String name,
-								@FormDataParam("description") String description,
-								@FormDataParam("pageContent") String pageContent,
-								@FormDataParam("externalUrl") String externalUrl,
-								@FormDataParam("startDate") String startDate,
-								@FormDataParam("endDate") String endDate,
-								@FormDataParam("image") InputStream image,
-								@FormDataParam("image") FormDataContentDisposition fileDetails)
+	public boolean postProject(@FormDataParam("name") String name,
+	                           @FormDataParam("description") String description,
+	                           @FormDataParam("pageContent") String pageContent,
+	                           @FormDataParam("externalUrl") String externalUrl,
+	                           @FormDataParam("startDate") String startDate,
+	                           @FormDataParam("endDate") String endDate,
+	                           @FormDataParam("image") InputStream image,
+	                           @FormDataParam("image") FormDataContentDisposition fileDetails)
 			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(name))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -113,8 +113,8 @@ public class ProjectResource
 			if (image != null)
 			{
 				ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
-													.where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
-													.fetchAny();
+				                                    .where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
+				                                    .fetchAny();
 
 				File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.projects.name()), "upload");
 				folder.mkdirs();
@@ -125,7 +125,7 @@ public class ProjectResource
 				File targetFile = new File(folder, uuid + "." + extension);
 
 				if (!FileUtils.isSubDirectory(folder, targetFile))
-					return Response.status(Response.Status.BAD_REQUEST).build();
+					throw new BadRequestException();
 
 				java.nio.file.Files.copy(image, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -140,7 +140,7 @@ public class ProjectResource
 				project.store(PROJECTS.IMAGE_ID);
 			}
 
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 
@@ -149,19 +149,19 @@ public class ProjectResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response patchProject(@PathParam("projectId") Integer projectId,
-								 @FormDataParam("name") String name,
-								 @FormDataParam("description") String description,
-								 @FormDataParam("pageContent") String pageContent,
-								 @FormDataParam("externalUrl") String externalUrl,
-								 @FormDataParam("startDate") String startDate,
-								 @FormDataParam("endDate") String endDate,
-								 @FormDataParam("image") InputStream image,
-								 @FormDataParam("image") FormDataContentDisposition fileDetails)
+	public boolean patchProject(@PathParam("projectId") Integer projectId,
+	                            @FormDataParam("name") String name,
+	                            @FormDataParam("description") String description,
+	                            @FormDataParam("pageContent") String pageContent,
+	                            @FormDataParam("externalUrl") String externalUrl,
+	                            @FormDataParam("startDate") String startDate,
+	                            @FormDataParam("endDate") String endDate,
+	                            @FormDataParam("image") InputStream image,
+	                            @FormDataParam("image") FormDataContentDisposition fileDetails)
 			throws SQLException, IOException
 	{
 		if (projectId == null || StringUtils.isEmpty(name))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -170,7 +170,7 @@ public class ProjectResource
 			ProjectsRecord project = context.selectFrom(PROJECTS).where(PROJECTS.ID.eq(projectId)).fetchAny();
 
 			if (project == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			project.setName(name);
 			project.setDescription(description);
@@ -213,8 +213,8 @@ public class ProjectResource
 			if (image != null)
 			{
 				ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
-													.where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
-													.fetchAny();
+				                                    .where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
+				                                    .fetchAny();
 
 				File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.projects.name()), "upload");
 				folder.mkdirs();
@@ -225,7 +225,7 @@ public class ProjectResource
 				File targetFile = new File(folder, uuid + "." + extension);
 
 				if (!FileUtils.isSubDirectory(folder, targetFile))
-					return Response.status(Response.Status.BAD_REQUEST).build();
+					throw new BadRequestException();
 
 				java.nio.file.Files.copy(image, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -245,7 +245,7 @@ public class ProjectResource
 
 			project.store();
 
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 
@@ -254,17 +254,17 @@ public class ProjectResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response deleteProject(@PathParam("projectId") Integer projectId)
+	public boolean deleteProject(@PathParam("projectId") Integer projectId)
 			throws SQLException
 	{
 		if (projectId == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
-			return Response.ok(context.deleteFrom(PROJECTS).where(PROJECTS.ID.eq(projectId)).execute() > 0).build();
+			return context.deleteFrom(PROJECTS).where(PROJECTS.ID.eq(projectId)).execute() > 0;
 		}
 	}
 }

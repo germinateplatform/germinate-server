@@ -1,11 +1,9 @@
 package jhi.germinate.server.resource.images;
 
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.http.*;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.records.*;
@@ -14,39 +12,31 @@ import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
 import org.jooq.Record;
 
-import java.io.File;
 import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
 import java.nio.file.*;
+import java.nio.file.Files;
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
+import java.util.Date;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Images.*;
-import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Variables.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
 @Path("image/upload")
 @MultipartConfig
 public class ImageUploadResource
 {
-	@Context
-	protected HttpServletRequest  req;
-	@Context
-	protected HttpServletResponse resp;
-
 	@POST
 	@Path("/template")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.ADMIN})
-	public Response postTemplateImage(@FormDataParam("image") InputStream fileIs, @FormDataParam("image") FormDataContentDisposition fileDetails)
+	public String postTemplateImage(@FormDataParam("image") InputStream fileIs, @FormDataParam("image") FormDataContentDisposition fileDetails)
 			throws IOException
 	{
-		if (req == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
-
 		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.template.name());
 		folder.mkdirs();
 
@@ -56,11 +46,11 @@ public class ImageUploadResource
 		File targetFile = new File(folder, uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, targetFile))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		return Response.ok(targetFile.getName()).build();
+		return targetFile.getName();
 	}
 
 	@POST
@@ -71,39 +61,33 @@ public class ImageUploadResource
 	public boolean postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId, @FormDataParam("imageFiles") InputStream fileIs, @FormDataParam("imageFiles") FormDataContentDisposition fileDetails)
 			throws IOException, SQLException
 	{
-		if (foreignId == null || referenceTable == null || req == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+		if (foreignId == null || referenceTable == null)
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
-												.where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
-												.fetchAny();
+			                                    .where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
+			                                    .fetchAny();
 
 			Record record = null;
 			switch (imageType.getReferenceTable())
 			{
 				case "germinatebase":
 					record = context.selectFrom(GERMINATEBASE)
-									.where(GERMINATEBASE.ID.eq(foreignId))
-									.fetchAny();
+					                .where(GERMINATEBASE.ID.eq(foreignId))
+					                .fetchAny();
 					break;
 				case "variables":
 					record = context.selectFrom(VARIABLES)
-									.where(VARIABLES.ID.eq(foreignId))
-									.fetchAny();
+					                .where(VARIABLES.ID.eq(foreignId))
+					                .fetchAny();
 					break;
 			}
 
 			if (record == null)
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return false;
-			}
+				throw new BadRequestException();
 
 			File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.database.name()), "upload");
 			folder.mkdirs();
@@ -114,10 +98,7 @@ public class ImageUploadResource
 			File targetFile = new File(folder, uuid + "." + extension);
 
 			if (!FileUtils.isSubDirectory(folder, targetFile))
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return false;
-			}
+				throw new BadRequestException();
 
 			Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 

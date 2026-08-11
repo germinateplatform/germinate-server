@@ -1,6 +1,11 @@
 package jhi.germinate.server.resource.locations;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
@@ -8,17 +13,14 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import org.jooq.Record;
 
-import java.io.IOException;
+import java.io.*;
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.VIEW_TABLE_LOCATIONS;
 
 @Path("location/table")
 @Secured
@@ -29,7 +31,7 @@ public class LocationTableResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableLocations>> postLocationTable(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -46,8 +48,8 @@ public class LocationTableResource extends ExportResource
 			where(from, filters);
 
 			List<ViewTableLocations> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableLocations.class);
+					.fetch()
+					.into(ViewTableLocations.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -60,7 +62,7 @@ public class LocationTableResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postLocationTableIds(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		currentPage = 0;
@@ -69,14 +71,14 @@ public class LocationTableResource extends ExportResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_LOCATIONS.LOCATION_ID)
-														   .from(VIEW_TABLE_LOCATIONS);
+			                                               .from(VIEW_TABLE_LOCATIONS);
 
 			// Filter here!
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}
@@ -86,11 +88,13 @@ public class LocationTableResource extends ExportResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postLocationTableExport(ExportRequest request)
-		throws SQLException, IOException
+	public File postLocationTableExport(ExportRequest request, @Context HttpServletResponse response)
+			throws SQLException, IOException
 	{
 		processRequest(request);
 
-		return export(VIEW_TABLE_LOCATIONS, "location-table-", null);
+		File result = export(VIEW_TABLE_LOCATIONS, "location-table-", null);
+
+		return toFileResult(result, "application/zip", response);
 	}
 }

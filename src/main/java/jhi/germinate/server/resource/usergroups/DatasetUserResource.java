@@ -1,6 +1,8 @@
 package jhi.germinate.server.resource.usergroups;
 
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.DatasetUserModificationRequest;
 import jhi.germinate.resource.enums.UserType;
@@ -11,14 +13,12 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.DATASETPERMISSIONS;
 
 @Path("dataset/{datasetId}/user")
 @Secured(UserType.ADMIN)
@@ -31,13 +31,10 @@ public class DatasetUserResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean patchDatasetUser(DatasetUserModificationRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.getAddOperation() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -59,9 +56,9 @@ public class DatasetUserResource extends ContextResource
 			else
 			{
 				res = context.deleteFrom(DATASETPERMISSIONS)
-							  .where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId()))
-							  .and(DATASETPERMISSIONS.USER_ID.in(request.getUserIds()))
-							  .execute();
+				             .where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId()))
+				             .and(DATASETPERMISSIONS.USER_ID.in(request.getUserIds()))
+				             .execute();
 			}
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
@@ -73,26 +70,26 @@ public class DatasetUserResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewUserDetails> getDatasetUser()
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			List<ViewUserDetails> result = context.select(
-				DATASETPERMISSIONS.USER_ID.as("id"),
-				DSL.val("", String.class).as("username"),
-				DSL.val("", String.class).as("full_name"),
-				DSL.val("", String.class).as("email_address"),
-				DSL.val("", String.class).as("name")
-			)
-												  .from(DATASETPERMISSIONS)
-												  .where(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))
-												  .fetchInto(ViewUserDetails.class);
+														  DATASETPERMISSIONS.USER_ID.as("id"),
+														  DSL.val("", String.class).as("username"),
+														  DSL.val("", String.class).as("full_name"),
+														  DSL.val("", String.class).as("email_address"),
+														  DSL.val("", String.class).as("name")
+												  )
+			                                      .from(DATASETPERMISSIONS)
+			                                      .where(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))
+			                                      .fetchInto(ViewUserDetails.class);
 
 			return result.stream()
-						 .map(r -> GatekeeperClient.getUser(r.getId()))
-						 .filter(Objects::nonNull)
-						 .collect(Collectors.toList());
+			             .map(r -> GatekeeperClient.getUser(r.getId()))
+			             .filter(Objects::nonNull)
+			             .collect(Collectors.toList());
 		}
 	}
 }

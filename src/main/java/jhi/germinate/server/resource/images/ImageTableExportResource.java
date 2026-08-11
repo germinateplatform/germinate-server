@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.images;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
@@ -16,13 +16,13 @@ import jhi.oddjob.JobInfo;
 import org.jooq.*;
 import org.jooq.Record;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableImages.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableImages.VIEW_TABLE_IMAGES;
 
 @jakarta.ws.rs.Path("image/table/export")
 @Secured
@@ -33,7 +33,7 @@ public class ImageTableExportResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postImageTableExport(ExportRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		processRequest(request);
 
@@ -49,16 +49,16 @@ public class ImageTableExportResource extends BaseResource
 			List<Integer> imageIds = new ArrayList<>();
 
 			setPaginationAndOrderBy(from)
-				.forEach(i -> {
-					imageIds.add(i.get(VIEW_TABLE_IMAGES.IMAGE_ID));
-				});
+					.forEach(i -> {
+						imageIds.add(i.get(VIEW_TABLE_IMAGES.IMAGE_ID));
+					});
 
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 			String uuid = UUID.randomUUID().toString();
 
 			// Get the target folder for all generated files
-			File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 			asyncFolder.mkdirs();
 
 			// Store the job information in the database
@@ -68,8 +68,8 @@ public class ImageTableExportResource extends BaseResource
 			dbJob.setDatatype(DataExportJobsDatatype.images);
 			dbJob.setCreatedOn(new Timestamp(System.currentTimeMillis()));
 			dbJob.setJobConfig(new ExportJobDetails()
-				.setYIds(imageIds.toArray(new Integer[0]))
-				.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL)));
+					.setYIds(imageIds.toArray(new Integer[0]))
+					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL)));
 			dbJob.setStatus(DataExportJobsStatus.waiting);
 			if (userDetails.getId() != -1000)
 				dbJob.setUserId(userDetails.getId());
@@ -102,8 +102,7 @@ public class ImageTableExportResource extends BaseResource
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 }

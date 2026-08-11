@@ -21,7 +21,7 @@ public class FileResourceUploadResource extends ContextResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public Response postFileResource(@FormDataParam("file") InputStream fileIs, @FormDataParam("file") FormDataContentDisposition fileDetails)
+	public String postFileResource(@FormDataParam("file") InputStream fileIs, @FormDataParam("file") FormDataContentDisposition fileDetails)
 		throws IOException
 	{
 		// Generate a UUID to identify the file
@@ -35,13 +35,10 @@ public class FileResourceUploadResource extends ContextResource
 		File target = new File(folder, uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, target))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		Files.copy(fileIs, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		return Response.ok(target.getName()).build();
+		return target.getName();
 	}
 }

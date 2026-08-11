@@ -1,6 +1,8 @@
 package jhi.germinate.server.resource.usergroups;
 
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
@@ -13,14 +15,12 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableUsergroups.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetpermissions.DATASETPERMISSIONS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableUsergroups.VIEW_TABLE_USERGROUPS;
 
 @Path("dataset/{datasetId}/usergroup")
 @Secured({UserType.ADMIN})
@@ -32,11 +32,11 @@ public class DatasetUsergroupTableResource extends BaseResource
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchDatasetUsergroupTable(DatasetGroupModificationRequest request)
-		throws SQLException, IOException
+	public boolean patchDatasetUsergroupTable(DatasetGroupModificationRequest request)
+			throws SQLException
 	{
 		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.getAddOperation() == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -59,13 +59,13 @@ public class DatasetUsergroupTableResource extends BaseResource
 			else
 			{
 				res = context.deleteFrom(DATASETPERMISSIONS)
-							  .where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId()))
-							  .and(DATASETPERMISSIONS.GROUP_ID.in(request.getGroupIds()))
-							  .execute();
+				             .where(DATASETPERMISSIONS.DATASET_ID.eq(request.getDatasetId()))
+				             .and(DATASETPERMISSIONS.GROUP_ID.in(request.getGroupIds()))
+				             .execute();
 			}
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
-			return Response.ok(res > 0).build();
+			return res > 0;
 		}
 	}
 
@@ -73,13 +73,10 @@ public class DatasetUsergroupTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableUsergroups>> postDatasetUsergroupTable(PaginatedRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		if (datasetId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -93,15 +90,15 @@ public class DatasetUsergroupTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_USERGROUPS);
 
 			from.where(DSL.exists(DSL.selectOne().from(DATASETPERMISSIONS)
-									 .where(DATASETPERMISSIONS.GROUP_ID.eq(VIEW_TABLE_USERGROUPS.USER_GROUP_ID))
-									 .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
+			                         .where(DATASETPERMISSIONS.GROUP_ID.eq(VIEW_TABLE_USERGROUPS.USER_GROUP_ID))
+			                         .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
 
 			// Filter here!
 			where(from, filters);
 
 			List<ViewTableUsergroups> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableUsergroups.class);
+					.fetch()
+					.into(ViewTableUsergroups.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -114,7 +111,7 @@ public class DatasetUsergroupTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> getDatasetUsergroupIds(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		currentPage = 0;
@@ -123,18 +120,18 @@ public class DatasetUsergroupTableResource extends BaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_USERGROUPS.USER_GROUP_ID)
-														   .from(VIEW_TABLE_USERGROUPS);
+			                                               .from(VIEW_TABLE_USERGROUPS);
 
 			from.where(DSL.exists(DSL.selectOne().from(DATASETPERMISSIONS)
-									 .where(DATASETPERMISSIONS.GROUP_ID.eq(VIEW_TABLE_USERGROUPS.USER_GROUP_ID))
-									 .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
+			                         .where(DATASETPERMISSIONS.GROUP_ID.eq(VIEW_TABLE_USERGROUPS.USER_GROUP_ID))
+			                         .and(DATASETPERMISSIONS.DATASET_ID.eq(datasetId))));
 
 			// Filter here!
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}

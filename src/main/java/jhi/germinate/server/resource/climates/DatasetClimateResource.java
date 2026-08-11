@@ -4,6 +4,7 @@ import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.MapoverlaysReferenceTable;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimates;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -25,15 +26,8 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
 @Path("dataset/climate")
 @Secured
 @PermitAll
-public class DatasetClimateResource
+public class DatasetClimateResource extends ContextResource
 {
-	@Context
-	protected SecurityContext     securityContext;
-	@Context
-	protected HttpServletRequest  req;
-	@Context
-	protected HttpServletResponse resp;
-
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -41,10 +35,7 @@ public class DatasetClimateResource
 		throws IOException, SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", request.getDatasetIds(), true);
 

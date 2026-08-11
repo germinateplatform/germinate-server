@@ -29,25 +29,25 @@ public class GermplasmExternalIdResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postExternalIds(Integer[] ids)
-		throws IOException, SQLException
+	public List<String> postExternalIds(Integer[] ids)
+		throws SQLException
 	{
 		String identifier = PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER);
 
 		if (StringUtils.isEmpty(identifier))
-			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+			throw new NotFoundException();
 		if (CollectionUtils.isEmpty(ids))
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			Field<?> field = DSL.field(identifier);
 
-			return Response.ok(context.selectDistinct(field)
+			return context.selectDistinct(field)
 						  .from(GERMINATEBASE)
 						  .where(GERMINATEBASE.ID.in(ids))
-						  .fetchInto(String.class)).build();
+						  .fetchInto(String.class);
 		}
 	}
 }

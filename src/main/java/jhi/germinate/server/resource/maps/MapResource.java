@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.maps;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.UserType;
@@ -51,7 +51,7 @@ public class MapResource extends BaseResource implements IFilteredResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_MAPS);
 
 			from.where(VIEW_TABLE_MAPS.VISIBILITY.eq(true)
-												 .or(VIEW_TABLE_MAPS.USER_ID.eq(userDetails.getId())));
+			                                     .or(VIEW_TABLE_MAPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
 			where(from, filters);
@@ -70,7 +70,7 @@ public class MapResource extends BaseResource implements IFilteredResource
 	@Path("/{mapId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteMap(@PathParam("mapId") Integer mapId)
+	public boolean deleteMap(@PathParam("mapId") Integer mapId)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -92,14 +92,14 @@ public class MapResource extends BaseResource implements IFilteredResource
 
 				// Delete any marker that no longer has an association with a map OR is linked to a genotypic dataset.
 				context.deleteFrom(MARKERS)
-					   .whereNotExists(DSL.selectOne().from(MAPDEFINITIONS).where(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID)))
-					   .andNotExists(DSL.selectOne().from(DATASETMEMBERS).where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)).and(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID)))
-					   .executeAsync();
+				       .whereNotExists(DSL.selectOne().from(MAPDEFINITIONS).where(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID)))
+				       .andNotExists(DSL.selectOne().from(DATASETMEMBERS).where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1)).and(DATASETMEMBERS.FOREIGN_ID.eq(MARKERS.ID)))
+				       .executeAsync();
 
-				return Response.ok().build();
+				return true;
 			}
 			else
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 		}
 	}
 
@@ -123,7 +123,7 @@ public class MapResource extends BaseResource implements IFilteredResource
 			SelectJoinStep<Record> from = select.from(MAPS);
 
 			from.where(MAPS.VISIBILITY.eq(true)
-									  .or(MAPS.USER_ID.eq(userDetails.getId())));
+			                          .or(MAPS.USER_ID.eq(userDetails.getId())));
 
 			if (mapId != null)
 				from.where(MAPS.ID.eq(mapId));

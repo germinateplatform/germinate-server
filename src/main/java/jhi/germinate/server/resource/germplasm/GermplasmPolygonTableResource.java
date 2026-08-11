@@ -3,20 +3,19 @@ package jhi.germinate.server.resource.germplasm;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.locations.LocationPolygonTableResource;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 
 @Path("germplasm/polygon")
 @Secured
@@ -27,11 +26,11 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGermplasmPolygonTable(PaginatedPolygonRequest request)
-		throws IOException, SQLException
+	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmPolygonTable(PaginatedPolygonRequest request)
+			throws SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -40,20 +39,20 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, null)
-				.having(DSL.field(LATITUDE).isNotNull()
-						  .and(DSL.field(LONGITUDE).isNotNull())
-						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+					.having(DSL.field(LATITUDE).isNotNull()
+					           .and(DSL.field(LONGITUDE).isNotNull())
+					           .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
 			having(from, filters);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableGermplasm.class);
+					.fetch()
+					.into(ViewTableGermplasm.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 
@@ -62,13 +61,10 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGermplasmPolgonTableIds(PaginatedPolygonRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -79,16 +75,16 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectConditionStep<Record1<Integer>> from = getGermplasmIdQueryWrapped(context, datasetIds, null)
-				.where(DSL.field(LATITUDE).isNotNull()
-						  .and(DSL.field(LONGITUDE).isNotNull())
-						  .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+					.where(DSL.field(LATITUDE).isNotNull()
+					          .and(DSL.field(LONGITUDE).isNotNull())
+					          .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}

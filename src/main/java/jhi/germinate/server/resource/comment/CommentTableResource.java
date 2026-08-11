@@ -28,7 +28,7 @@ public class CommentTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postCommentTable(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableComments>> postCommentTable(PaginatedRequest request)
 		throws SQLException
 	{
 		processRequest(request);
@@ -58,7 +58,7 @@ public class CommentTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 }

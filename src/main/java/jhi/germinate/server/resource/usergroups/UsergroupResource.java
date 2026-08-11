@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.usergroups;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.UserGroupModificationRequest;
 import jhi.germinate.resource.enums.UserType;
@@ -14,7 +14,6 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,11 +28,11 @@ public class UsergroupResource extends ContextResource
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response putUsergroup(Usergroups group)
-			throws IOException, SQLException
+	public Integer putUsergroup(Usergroups group)
+			throws SQLException
 	{
 		if (StringUtils.isEmpty(group.getName()) || group.getId() != null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -43,7 +42,7 @@ public class UsergroupResource extends ContextResource
 
 			UsergroupsRecord record = context.newRecord(USERGROUPS, group);
 			record.store();
-			return Response.ok(record.getId()).build();
+			return record.getId();
 		}
 	}
 
@@ -51,13 +50,11 @@ public class UsergroupResource extends ContextResource
 	@Path("/{usergroupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchJson(Usergroups group, @PathParam("usergroupId") Integer usergroupId)
-			throws IOException, SQLException
+	public boolean patchJson(Usergroups group, @PathParam("usergroupId") Integer usergroupId)
+			throws SQLException
 	{
-		if (group == null || usergroupId == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id or payload").build();
-		if (!Objects.equals(group.getId(), usergroupId))
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Id mismatch").build();
+		if (group == null || usergroupId == null || !Objects.equals(group.getId(), usergroupId))
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -67,14 +64,14 @@ public class UsergroupResource extends ContextResource
 			                                  .fetchAnyInto(UsergroupsRecord.class);
 
 			if (dbGroup == null)
-				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+				throw new NotFoundException();
 
 			// Only update the name if it's not empty
 			if (!StringUtils.isEmpty(group.getName()))
 				dbGroup.setName(group.getName());
 			// Update the description
 			dbGroup.setDescription(group.getDescription());
-			return Response.ok(dbGroup.store(USERGROUPS.NAME, USERGROUPS.DESCRIPTION) == 1).build();
+			return dbGroup.store(USERGROUPS.NAME, USERGROUPS.DESCRIPTION) == 1;
 		}
 	}
 
@@ -82,11 +79,11 @@ public class UsergroupResource extends ContextResource
 	@Path("/{usergroupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteUsergroup(@PathParam("usergroupId") Integer usergroupId)
-			throws IOException, SQLException
+	public boolean deleteUsergroup(@PathParam("usergroupId") Integer usergroupId)
+			throws SQLException
 	{
 		if (usergroupId == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -97,14 +94,14 @@ public class UsergroupResource extends ContextResource
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbGroup == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 			else
 			{
 				int res = dbGroup.delete();
 
 				AuthorizationFilter.refreshUserDatasetInfo(true);
 
-				return Response.ok(res == 1).build();
+				return res == 1;
 			}
 		}
 	}
@@ -113,11 +110,11 @@ public class UsergroupResource extends ContextResource
 	@Path("/{usergroupId}/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchUser(@PathParam("usergroupId") Integer usergroupId, UserGroupModificationRequest request)
-			throws IOException, SQLException
+	public boolean patchUser(@PathParam("usergroupId") Integer usergroupId, UserGroupModificationRequest request)
+			throws SQLException
 	{
-		if (request == null || usergroupId == null || usergroupId != request.getUserGroupId() || request.getAddOperation() == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+		if (request == null || usergroupId == null || !usergroupId.equals(request.getUserGroupId()) || request.getAddOperation() == null)
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -146,7 +143,7 @@ public class UsergroupResource extends ContextResource
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
 
-			return Response.ok(res > 0).build();
+			return res > 0;
 		}
 	}
 

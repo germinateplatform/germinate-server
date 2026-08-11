@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.traits;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.TrialCreationDetails;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
@@ -27,11 +27,11 @@ public class TrialResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postTrial(TrialCreationDetails details)
+	public boolean postTrialCreation(TrialCreationDetails details)
 			throws SQLException
 	{
 		if (details == null || details.getDatasetId() == null || CollectionUtils.isEmpty(details.getPlots()))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -42,12 +42,12 @@ public class TrialResource extends ContextResource
 			ViewTableDatasets dataset = DatasetTableResource.getDatasetForId(details.getDatasetId(), req, userDetails, false);
 
 			if (dataset == null)
-				return Response.status(Response.Status.FORBIDDEN).build();
+				throw new ForbiddenException();
 
 			Set<String> germplasmNames = new HashSet<>();
 			Set<String> rowColumn = new HashSet<>();
 			boolean[] validIndices = {true};
-			details.getPlots().stream().forEach(p -> {
+			details.getPlots().forEach(p -> {
 				germplasmNames.add(p.getGermplasm());
 				if (p.getRow() != null && p.getColumn() != null)
 				{
@@ -63,14 +63,14 @@ public class TrialResource extends ContextResource
 			});
 
 			if (!validIndices[0])
-				return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), ImportStatus.TRIALS_ROW_COL_MISMATCH.name()).build();
+				throw new BadRequestException(ImportStatus.TRIALS_ROW_COL_MISMATCH.name());
 
 			Map<String, Integer> germplasmMap = new HashMap<>();
 			context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.NAME.in(germplasmNames))
-				   .forEach(g -> germplasmMap.put(g.getName(), g.getId()));
+			       .forEach(g -> germplasmMap.put(g.getName(), g.getId()));
 
 			if (germplasmMap.size() != germplasmNames.size())
-				return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), ImportStatus.GENERIC_INVALID_GERMPLASM.name()).build();
+				throw new BadRequestException(ImportStatus.GENERIC_INVALID_GERMPLASM.name());
 
 			List<TrialsetupRecord> entries = details.getPlots().stream().map(p -> {
 				TrialsetupRecord r = context.newRecord(TRIALSETUP);
@@ -86,9 +86,9 @@ public class TrialResource extends ContextResource
 			}).collect(Collectors.toList());
 
 			context.batchStore(entries)
-				   .execute();
+			       .execute();
 
-			return Response.ok().build();
+			return true;
 		}
 	}
 }

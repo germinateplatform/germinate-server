@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.markers;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.GenotypeStats;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
@@ -11,7 +11,6 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
@@ -28,8 +27,8 @@ public class GenotypeStatsResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getGenotypeOverviewStats()
-			throws SQLException, IOException
+	public GenotypeStats getGenotypeOverviewStats()
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -81,6 +80,6 @@ public class GenotypeStatsResource extends ContextResource
 		}
 
 
-		return Response.ok(result).build();
+		return result;
 	}
 }

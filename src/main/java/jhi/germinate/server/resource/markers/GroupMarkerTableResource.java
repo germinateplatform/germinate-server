@@ -1,26 +1,27 @@
 package jhi.germinate.server.resource.markers;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.resource.*;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.resource.germplasm.GermplasmBaseResource;
 import jhi.germinate.server.resource.groups.GroupResource;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 
 @Path("group/{groupId}/marker")
@@ -35,7 +36,7 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGroupMarkers>> postGroupMarkerTable(PaginatedRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -65,28 +66,16 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 
 			return new PaginatedResult<>(result, count);
 		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
-		}
 	}
 
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchGroupMarkerTable(GroupModificationRequest modification)
-		throws IOException, SQLException
+	public int patchGroupMarkerTable(GroupModificationRequest modification)
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
-		try
-		{
-			return Response.ok(GroupResource.patchGroupMembers(groupId, userDetails, modification)).build();
-		}
-		catch (GerminateException e)
-		{
-			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
-		}
+		return GroupResource.patchGroupMembers(groupId, userDetails, modification);
 	}
 
 	@POST
@@ -94,7 +83,7 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGroupMarkerTableIds(PaginatedRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		currentPage = 0;
@@ -124,19 +113,14 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 
 			return new PaginatedResult<>(result, result.size());
 		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
-		}
 	}
 
 	@POST
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response getJson(ExportRequest request)
-		throws IOException, SQLException
+	public java.io.File postGroupMarkerTableExport(ExportRequest request, @Context HttpServletResponse response)
+			throws IOException, SQLException
 	{
 		processRequest(request);
 
@@ -162,12 +146,9 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 			// Filter here!
 			having(from, filters);
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "marker-group-table-");
-		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
+			java.io.File result = ResourceUtils.exportToZip(from.fetch(), "marker-group-table-");
+
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 }

@@ -28,12 +28,13 @@ public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)
+	public PaginatedResult<List<ViewTableDatasets>> postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)
 		throws SQLException
 	{
+		// TODO: Check if these need to be checked
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		return Response.ok(runQuery(request, query -> {
+		return runQuery(request, query -> {
 			SelectConditionStep<?> step = DSL.selectOne()
 											 .from(DATASETFILERESOURCES)
 											 .leftJoin(FILERESOURCES).on(FILERESOURCES.ID.eq(DATASETFILERESOURCES.FILERESOURCE_ID))
@@ -42,6 +43,6 @@ public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 											 .and(DATASETFILERESOURCES.FILERESOURCE_ID.eq(fileresourceId));
 
 			query.where(DSL.exists(step));
-		})).build();
+		});
 	}
 }

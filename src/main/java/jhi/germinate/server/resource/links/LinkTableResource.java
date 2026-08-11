@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.links;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.LinkRequest;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLinks;
@@ -11,15 +11,14 @@ import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Markers.*;
-import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
 import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
-import static jhi.germinate.server.database.codegen.tables.ViewTableLinks.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLinks.VIEW_TABLE_LINKS;
 
 @Path("link/table")
 @Secured
@@ -29,25 +28,25 @@ public class LinkTableResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postLinkTable(LinkRequest request)
-		throws IOException, SQLException
+	public List<ViewTableLinks> postLinkTable(LinkRequest request)
+			throws SQLException
 	{
 		if (request == null || StringUtils.isEmpty(request.getTargetTable()) || request.getForeignId() == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "'targetTable' and 'foreignId' must be specified.").build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			List<ViewTableLinks> result = context.selectFrom(VIEW_TABLE_LINKS)
-												 .where(VIEW_TABLE_LINKS.LINKTYPE_TARGET_TABLE.eq(request.getTargetTable()))
-												 .and(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.eq(request.getForeignId())
-																					  .or(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.isNull()
-																														  .and(VIEW_TABLE_LINKS.PLACEHOLDER.isNotNull())))
-												 .fetchInto(ViewTableLinks.class);
+			                                     .where(VIEW_TABLE_LINKS.LINKTYPE_TARGET_TABLE.eq(request.getTargetTable()))
+			                                     .and(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.eq(request.getForeignId())
+			                                                                          .or(VIEW_TABLE_LINKS.LINK_FOREIGN_ID.isNull()
+			                                                                                                              .and(VIEW_TABLE_LINKS.PLACEHOLDER.isNotNull())))
+			                                     .fetchInto(ViewTableLinks.class);
 
 			result.stream()
-				  .filter(l -> l.getLinkForeignId() == null && !StringUtils.isEmpty(l.getPlaceholder()))
-				  .forEach(l -> {
+			      .filter(l -> l.getLinkForeignId() == null && !StringUtils.isEmpty(l.getPlaceholder()))
+			      .forEach(l -> {
 					  String hyperlink = l.getHyperlink();
 					  String placeholder = l.getPlaceholder();
 					  String targetTable = l.getLinktypeTargetTable();
@@ -62,22 +61,22 @@ public class LinkTableResource extends ContextResource
 					  {
 						  case "germinatebase":
 							  value = context.select(DSL.field(targetColumn).cast(String.class))
-											 .from(GERMINATEBASE)
-											 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-											 .where(GERMINATEBASE.ID.eq(request.getForeignId()))
-											 .fetchAnyInto(String.class);
+						                     .from(GERMINATEBASE)
+						                     .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+						                     .where(GERMINATEBASE.ID.eq(request.getForeignId()))
+						                     .fetchAnyInto(String.class);
 							  break;
 						  case "markers":
 							  value = context.select(DSL.field(targetColumn).cast(String.class))
-											 .from(MARKERS)
-											 .where(MARKERS.ID.eq(request.getForeignId()))
-											 .fetchAnyInto(String.class);
+						                     .from(MARKERS)
+						                     .where(MARKERS.ID.eq(request.getForeignId()))
+						                     .fetchAnyInto(String.class);
 							  break;
 						  case "variables":
 							  value = context.select(DSL.field(targetColumn).cast(String.class))
-											 .from(VARIABLES)
-											 .where(VARIABLES.ID.eq(request.getForeignId()))
-											 .fetchAnyInto(String.class);
+						                     .from(VARIABLES)
+						                     .where(VARIABLES.ID.eq(request.getForeignId()))
+						                     .fetchAnyInto(String.class);
 							  break;
 					  }
 
@@ -87,7 +86,7 @@ public class LinkTableResource extends ContextResource
 						  l.setHyperlink(hyperlink.replace(placeholder, value));
 				  });
 
-			return Response.ok(result).build();
+			return result;
 		}
 	}
 }

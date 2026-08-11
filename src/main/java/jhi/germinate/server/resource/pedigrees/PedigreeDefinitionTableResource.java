@@ -28,12 +28,12 @@ public class PedigreeDefinitionTableResource extends ExportResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postPedigreeTable(PaginatedRequest request)
+	public PaginatedResult<List<ViewTablePedigreedefinitions>> postPedigreeTable(PaginatedRequest request)
 		throws SQLException
 	{
 		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "pedigree", true);
 		if (CollectionUtils.isEmpty(datasets))
-			return Response.ok(new PaginatedResult<>(new ArrayList<>(), 0)).build();
+			return new PaginatedResult<>(new ArrayList<>(), 0);
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -56,7 +56,7 @@ public class PedigreeDefinitionTableResource extends ExportResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 }

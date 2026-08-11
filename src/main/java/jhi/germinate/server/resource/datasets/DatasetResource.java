@@ -12,8 +12,8 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
@@ -30,13 +30,11 @@ public class DatasetResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postDataset(Datasets newDataset)
-			throws SQLException, IOException
+	public ViewTableDatasets postDataset(Datasets newDataset)
+			throws SQLException
 	{
 		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -59,7 +57,7 @@ public class DatasetResource extends ContextResource
 
 			AuthorizationFilter.refreshUserDatasetInfo(true);
 
-			return Response.ok(DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false)).build();
+			return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
 		}
 	}
 
@@ -67,22 +65,18 @@ public class DatasetResource extends ContextResource
 	@Path("/{datasetId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
+	public ViewTableDatasets patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
 			throws SQLException, IOException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 		if (ds == null)
-		{
-			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
-		}
+			throw new NotFoundException();
 		else
 		{
 			try (Connection conn = Database.getConnection())
@@ -92,9 +86,7 @@ public class DatasetResource extends ContextResource
 				DatasetsRecord dataset = context.selectFrom(DATASETS).where(DATASETS.ID.eq(ds.getDatasetId())).fetchAny();
 
 				if (dataset == null)
-				{
-					return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
-				}
+					throw new NotFoundException();
 
 				dataset.setName(updatedDataset.getName());
 				dataset.setDescription(updatedDataset.getDescription());
@@ -108,7 +100,7 @@ public class DatasetResource extends ContextResource
 
 				AuthorizationFilter.refreshUserDatasetInfo(true);
 
-				return Response.ok(DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false)).build();
+				return DatasetTableResource.getDatasetForId(dataset.getId(), req, userDetails, false);
 			}
 		}
 	}
@@ -118,23 +110,17 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteDatasetById(@PathParam("datasetId") Integer datasetId)
-			throws IOException, SQLException
+			throws IOException, SQLException, StatusException
 	{
 		if (datasetId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 		if (ds == null)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return false;
-		}
+			throw new NotFoundException();
 		else
 		{
 			try (Connection conn = Database.getConnection())
@@ -153,7 +139,7 @@ public class DatasetResource extends ContextResource
 					case "genotype":
 						if (ds.getSourceFile() != null)
 						{
-							sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "genotypes");
+							sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "genotypes");
 							File transposed = new File(sourceFile.getParentFile(), "transposed-" + sourceFile.getName());
 
 							if (transposed.exists() && transposed.isFile())
@@ -163,7 +149,7 @@ public class DatasetResource extends ContextResource
 					case "allelefreq":
 						if (ds.getSourceFile() != null)
 						{
-							sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
+							sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
 						}
 						break;
 					case "climate":

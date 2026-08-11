@@ -25,7 +25,7 @@ public class MapdefinitionBaseResource extends ExportResource
 	public static String CHROMOSOME       = "chromosome";
 	public static String POSITION         = "position";
 
-	protected <A> SelectJoinStep<?> getMapdefinitionQuery(DSLContext context)
+	protected SelectJoinStep<?> getMapdefinitionQuery(DSLContext context)
 	{
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(
 				MARKERS.ID.as(MARKER_ID),
@@ -54,7 +54,7 @@ public class MapdefinitionBaseResource extends ExportResource
 		return inner;
 	}
 
-	protected <A> SelectJoinStep<?> getMapDefinitionIdQuery(DSLContext context) {
+	protected SelectJoinStep<?> getMapDefinitionIdQuery(DSLContext context) {
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(
 				MARKERS.ID.as(MARKER_ID),
 				MARKERS.MARKER_NAME.as(MARKER_NAME),

@@ -53,8 +53,15 @@ public class ApplicationListener implements ServletContextListener
 		File propertiesFile = PropertyWatcher.initialize(null);
 		DatabasePermissionCacheWatcher.initialize(propertiesFile.getParentFile());
 
-		List<LocaleConfig> locales = ensureClientLocaleFileExists();
-		ensureCarouselFileExists(locales);
+		try
+		{
+			List<LocaleConfig> locales = ensureClientLocaleFileExists();
+			ensureCarouselFileExists(locales);
+		}
+		catch (StatusException e)
+		{
+			Logger.getLogger("").severe(e.getMessage());
+		}
 
 		Long asyncDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 		Long tempDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);
@@ -97,11 +104,12 @@ public class ApplicationListener implements ServletContextListener
 	}
 
 	private void ensureCarouselFileExists(List<LocaleConfig> locales)
+			throws StatusException
 	{
 		Gson gson = new Gson();
 		try
 		{
-			File configFile = ResourceUtils.getFromExternal(null, "carousel.json", "template");
+			File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
 			Type type = new TypeToken<CarouselConfig>()
 			{
 			}.getType();
@@ -156,11 +164,12 @@ public class ApplicationListener implements ServletContextListener
 	}
 
 	private List<LocaleConfig> ensureClientLocaleFileExists()
+			throws StatusException
 	{
 		Gson gson = new Gson();
 		try
 		{
-			File configFile = ResourceUtils.getFromExternal(null, "locales.json", "template");
+			File configFile = ResourceUtils.getFromExternal("locales.json", "template");
 			Type type = new TypeToken<ArrayList<LocaleConfig>>()
 			{
 			}.getType();

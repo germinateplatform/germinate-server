@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -12,7 +14,8 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
+import java.io.*;
+import java.io.File;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
@@ -119,8 +122,8 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postGermplasmTableExport(ExportRequest request)
-			throws IOException, SQLException
+	public File postGermplasmTableExport(ExportRequest request, @Context HttpServletResponse response)
+			throws IOException, SQLException, StatusException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -132,16 +135,16 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			// Filter here!
 			having(from, request.getFilters());
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-", request.getColumnNameMapping(), request.getForcedFileExtension());
+			File result = ResourceUtils.exportToZip(from.fetch(), "germplasm-table-", request.getColumnNameMapping(), request.getForcedFileExtension());
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 
 	@GET
 	@Path("/columns")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getGermplasmTableColumns()
+	public List<String> getGermplasmTableColumns()
 	{
-		return Response.ok(COLUMNS).build();
+		return COLUMNS;
 	}
 }

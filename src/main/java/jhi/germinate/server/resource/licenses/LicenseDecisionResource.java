@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.licenses;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
@@ -26,14 +27,14 @@ public class LicenseDecisionResource extends ContextResource
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteLicenseDecision()
-			throws IOException, SQLException
+	public boolean deleteLicenseDecision(@Context HttpServletResponse response)
+			throws SQLException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (licenseId == null)
-			return Response.status(Response.Status.NOT_FOUND).build();
+			throw new NotFoundException();
 
 		if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
 		{
@@ -47,28 +48,28 @@ public class LicenseDecisionResource extends ContextResource
 									.execute();
 
 				AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
-				return Response.ok(result > 0).build();
+				return result > 0;
 			}
 		}
 		else
 		{
-			AuthenticationFilter.updateAcceptedDatasets(req, resp, licenseId, false);
+			AuthenticationFilter.updateAcceptedDatasets(req, response, licenseId, false);
 			AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getLicenseDecision()
+	public boolean getLicenseDecision(@Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (licenseId == null)
-			return Response.status(Response.Status.NOT_FOUND).build();
+			throw new NotFoundException();
 
 		if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
 		{
@@ -90,19 +91,19 @@ public class LicenseDecisionResource extends ContextResource
 
 					AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
 
-					return Response.ok(true).build();
+					return true;
 				}
 				else
 				{
-					return Response.status(Response.Status.NO_CONTENT).build();
+					throw new NoContentException("");
 				}
 			}
 		}
 		else
 		{
-			AuthenticationFilter.updateAcceptedDatasets(req, resp, licenseId, true);
+			AuthenticationFilter.updateAcceptedDatasets(req, response, licenseId, true);
 			AuthorizationFilter.ensureUserDatasetsAvailable(req, userDetails);
-			return Response.ok(true).build();
+			return true;
 		}
 	}
 }

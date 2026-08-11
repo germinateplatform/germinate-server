@@ -11,11 +11,10 @@ import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 
-import static jhi.germinate.server.database.codegen.tables.Datasets.*;
-import static jhi.germinate.server.database.codegen.tables.Experiments.*;
+import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
+import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
 
 @Path("experiment")
 public class ExperimentResource extends ContextResource
@@ -26,13 +25,10 @@ public class ExperimentResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public boolean deleteExperiment(@PathParam("experimentId") Integer experimentId)
-		throws SQLException, IOException
+			throws SQLException
 	{
 		if (experimentId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -41,10 +37,7 @@ public class ExperimentResource extends ContextResource
 			ExperimentsRecord toDelete = context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(experimentId)).fetchAny();
 
 			if (toDelete == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			// Check if datasets have to be reassigned to a dummy dataset
 			boolean hasDatasets = context.fetchExists(DSL.selectOne().from(DATASETS).where(DATASETS.EXPERIMENT_ID.eq(experimentId)));
@@ -52,9 +45,9 @@ public class ExperimentResource extends ContextResource
 			{
 				// If it doesn't, check if the experiment exists
 				ExperimentsRecord dummy = context.selectFrom(EXPERIMENTS)
-												 .where(EXPERIMENTS.EXPERIMENT_NAME.isNotDistinctFrom("Generic Experiment"))
-												 .and(EXPERIMENTS.DESCRIPTION.isNotDistinctFrom("A generic experiment to which every uploaded dataset will be assigned initially."))
-												 .fetchAny();
+				                                 .where(EXPERIMENTS.EXPERIMENT_NAME.isNotDistinctFrom("Generic Experiment"))
+				                                 .and(EXPERIMENTS.DESCRIPTION.isNotDistinctFrom("A generic experiment to which every uploaded dataset will be assigned initially."))
+				                                 .fetchAny();
 
 				if (dummy == null)
 				{
@@ -66,9 +59,9 @@ public class ExperimentResource extends ContextResource
 				}
 
 				context.update(DATASETS)
-					   .set(DATASETS.EXPERIMENT_ID, dummy.getId())
-					   .where(DATASETS.EXPERIMENT_ID.eq(experimentId))
-					   .execute();
+				       .set(DATASETS.EXPERIMENT_ID, dummy.getId())
+				       .where(DATASETS.EXPERIMENT_ID.eq(experimentId))
+				       .execute();
 			}
 
 			return toDelete.delete() > 0;
@@ -79,18 +72,14 @@ public class ExperimentResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response putExperiment(ViewTableExperiments experiment)
-		throws IOException, SQLException
+	public Integer putExperiment(ViewTableExperiments experiment)
+			throws SQLException
 	{
 		if (experiment == null || StringUtils.isEmpty(experiment.getExperimentName()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
-		}
+			throw new BadRequestException();
 
 		if (experiment.getExperimentId() != null)
-		{
-			return Response.status(Response.Status.CONFLICT.getStatusCode(), "Experiment ID provided on a creation call.").build();
-		}
+			throw new StatusException(Response.Status.CONFLICT.getStatusCode(), "Experiment ID provided on a creation call.");
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -105,7 +94,7 @@ public class ExperimentResource extends ContextResource
 			e.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			e.store();
 
-			return Response.ok(e.getId()).build();
+			return e.getId();
 		}
 	}
 
@@ -114,13 +103,11 @@ public class ExperimentResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
-	public Response patchExperiment(@PathParam("experimentId") Integer experimentId, ViewTableExperiments experiment)
-		throws IOException, SQLException
+	public boolean patchExperiment(@PathParam("experimentId") Integer experimentId, ViewTableExperiments experiment)
+			throws SQLException
 	{
 		if (experimentId == null || experiment == null || !experimentId.equals(experiment.getExperimentId()) || StringUtils.isEmpty(experiment.getExperimentName()))
-		{
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters").build();
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -129,10 +116,7 @@ public class ExperimentResource extends ContextResource
 			ExperimentsRecord e = context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(experimentId)).fetchAny();
 
 			if (e == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return Response.ok(false).build();
-			}
+				throw new NotFoundException();
 
 			// Update the experiment
 			e.setExperimentName(experiment.getExperimentName());
@@ -143,6 +127,6 @@ public class ExperimentResource extends ContextResource
 			e.store();
 		}
 
-		return Response.ok(true).build();
+		return true;
 	}
 }

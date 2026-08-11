@@ -36,20 +36,17 @@ public class DatasetExportGenotypeResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<AsyncExportResult> postJson(GenotypeSubsetDatasetRequest request)
-			throws IOException, SQLException
+	public List<AsyncExportResult> postDatasetGenotypeExport(GenotypeSubsetDatasetRequest request)
+			throws IOException, SQLException, StatusException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "genotype", request.getDatasetIds(), true);
 
-		if (datasetIds.size() < 1)
+		if (datasetIds.isEmpty())
 			return new ArrayList<>();
 
 		List<AsyncExportResult> result = new ArrayList<>();
@@ -66,7 +63,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 				String uuid = UUID.randomUUID().toString();
 
 				// Get the target folder for all generated files
-				File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
+				File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 				asyncFolder.mkdirs();
 
 				Integer[] array = {ds.getDatasetId()};
@@ -129,8 +126,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 

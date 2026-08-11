@@ -15,12 +15,12 @@ import java.io.*;
 import java.io.File;
 import java.nio.channels.*;
 import java.sql.*;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
-import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.DATASETFILERESOURCES;
+import static jhi.germinate.server.database.codegen.tables.Fileresources.FILERESOURCES;
 
 @Path("fileresource/{fileResourceId}/stream")
 public class FileResourceStreamerResource extends ContextResource
@@ -36,47 +36,43 @@ public class FileResourceStreamerResource extends ContextResource
 	@Secured
 	@PermitAll
 	public Response getFileResourceStreamHead(@HeaderParam("Range") String range)
-		throws IOException, SQLException
+			throws IOException, SQLException, StatusException
 	{
-		return this.stream(range, true);
+		return stream(range, true);
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
 	@PermitAll
 	public Response getFileResourceStreamBody(@HeaderParam("Range") String range)
-		throws IOException, SQLException
+			throws IOException, SQLException, StatusException
 	{
-		return this.stream(range, false);
+		return stream(range, false);
 	}
 
 	private Response stream(String range, boolean isHead)
-		throws SQLException, IOException
+			throws SQLException, IOException, StatusException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		if (fileResourceId == null)
-		{
-			return Response.status(Response.Status.BAD_REQUEST)
-				.build();
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			// Check whether there isn't a dataset linked to this resource OR whether the user has access to that dataset
 			Condition cond = DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
-								.or(DSL.exists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
+			                    .or(DSL.exists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 			DSLContext context = Database.getContext(conn);
 			FileresourcesRecord record = context.selectFrom(FILERESOURCES)
-												.where(FILERESOURCES.ID.eq(fileResourceId).and(cond))
-												.fetchAny();
+			                                    .where(FILERESOURCES.ID.eq(fileResourceId).and(cond))
+			                                    .fetchAny();
 
 			if (record == null)
 				return Response.status(Response.Status.NOT_FOUND).build();
 
-			File resultFile = ResourceUtils.getFromExternal(resp, record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
+			File resultFile = ResourceUtils.getFromExternal(record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
 
 			if (!resultFile.exists() || !resultFile.isFile())
 				return Response.status(Response.Status.NOT_FOUND).build();
@@ -93,26 +89,29 @@ public class FileResourceStreamerResource extends ContextResource
 			if (isHead)
 			{
 				return Response.ok()
-							   .status(Response.Status.PARTIAL_CONTENT)
-							   .header(HttpHeaders.CONTENT_LENGTH, resultFile.length())
-							   .header("Accept-Ranges", "bytes")
-							   .build();
-			} else {
+				               .status(Response.Status.PARTIAL_CONTENT)
+				               .type(type)
+				               .header(HttpHeaders.CONTENT_LENGTH, resultFile.length())
+				               .header("Accept-Ranges", "bytes")
+				               .build();
+			}
+			else
+			{
 				return this.buildStream(resultFile, range);
 			}
 		}
 	}
 
 	private Response buildStream(final File asset, final String range)
-		throws IOException
+			throws IOException
 	{
 		// range not requested: firefox does not send range headers
 		if (range == null)
 		{
 			StreamingOutput streamer = output -> {
 				try (FileInputStream fis = new FileInputStream(asset);
-					 FileChannel inputChannel = fis.getChannel();
-					 WritableByteChannel outputChannel = Channels.newChannel(output))
+				     FileChannel inputChannel = fis.getChannel();
+				     WritableByteChannel outputChannel = Channels.newChannel(output))
 				{
 
 					inputChannel.transferTo(0, inputChannel.size(), outputChannel);
@@ -125,9 +124,9 @@ public class FileResourceStreamerResource extends ContextResource
 			};
 
 			return Response.ok(streamer)
-						   .status(Response.Status.OK)
-						   .header(HttpHeaders.CONTENT_LENGTH, asset.length())
-						   .build();
+			               .status(Response.Status.OK)
+			               .header(HttpHeaders.CONTENT_LENGTH, asset.length())
+			               .build();
 		}
 
 		String[] ranges = range.split("=")[1].split("-");
@@ -155,11 +154,11 @@ public class FileResourceStreamerResource extends ContextResource
 		final int len = to - from + 1;
 		final MediaStreamer mediaStreamer = new MediaStreamer(len, raf);
 		return Response.ok(mediaStreamer)
-					   .status(Response.Status.PARTIAL_CONTENT)
-					   .header("Accept-Ranges", "bytes")
-					   .header("Content-Range", responseRange)
-					   .header(HttpHeaders.CONTENT_LENGTH, mediaStreamer.getLenth())
-					   .header(HttpHeaders.LAST_MODIFIED, new Date(asset.lastModified()))
-					   .build();
+		               .status(Response.Status.PARTIAL_CONTENT)
+		               .header("Accept-Ranges", "bytes")
+		               .header("Content-Range", responseRange)
+		               .header(HttpHeaders.CONTENT_LENGTH, mediaStreamer.getLenth())
+		               .header(HttpHeaders.LAST_MODIFIED, new Date(asset.lastModified()))
+		               .build();
 	}
 }

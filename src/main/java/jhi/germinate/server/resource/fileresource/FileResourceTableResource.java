@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.fileresource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
@@ -28,7 +28,7 @@ public class FileResourceTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postFileResourceTable(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableFileresources>> postFileResourceTable(PaginatedRequest request)
 			throws SQLException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
@@ -43,13 +43,13 @@ public class FileResourceTableResource extends BaseResource
 				select.hint("SQL_CALC_FOUND_ROWS");
 
 			SelectConditionStep<Record> from = select.from(VIEW_TABLE_FILERESOURCES)
-													 // Check whether this resource either isn't linked to any dataset
-													 .where(VIEW_TABLE_FILERESOURCES.DATASET_IDS.isNull()
-																								// Or whether the user has access to the dataset
-																								.or(DSL.exists(DSL.selectOne()
-																												  .from(DATASETFILERESOURCES)
-																												  .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
-																																							 .and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
+			                                         // Check whether this resource either isn't linked to any dataset
+			                                         .where(VIEW_TABLE_FILERESOURCES.DATASET_IDS.isNull()
+			                                                                                    // Or whether the user has access to the dataset
+			                                                                                    .or(DSL.exists(DSL.selectOne()
+			                                                                                                      .from(DATASETFILERESOURCES)
+			                                                                                                      .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
+			                                                                                                                                                 .and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
 
 			// Filter here!
 			where(from, filters);
@@ -70,7 +70,7 @@ public class FileResourceTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 }

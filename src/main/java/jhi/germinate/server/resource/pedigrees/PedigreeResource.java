@@ -5,6 +5,7 @@ import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -74,30 +75,24 @@ public class PedigreeResource extends ExportResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postPedigreeTableExport(ExportRequest request)
+	public StreamingOutput postPedigreeTableExport(ExportRequest request, @Context HttpServletResponse response)
 			throws SQLException, IOException
 	{
 		processRequest(request);
 
-		return export(VIEW_TABLE_PEDIGREES, "pedigree-table-", null);
+		return toStreamingResult(export(VIEW_TABLE_PEDIGREES, "pedigree-table-", null), "application/zip", response);
 	}
 
-	public static Response exportFlatFile(PedigreeRequest request, HttpServletRequest req, HttpServletResponse resp, SecurityContext securityContext)
-		throws IOException, SQLException
+	public static File exportFlatFile(PedigreeRequest request, HttpServletRequest req, SecurityContext securityContext)
+		throws IOException, SQLException, StatusException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "pedigree", true);
 
 		if (CollectionUtils.isEmpty(datasets))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		File zipFile = ResourceUtils.createTempFile("pedigree", "zip");
 		try
@@ -135,15 +130,7 @@ public class PedigreeResource extends ExportResource
 						   parentToChildren.put(parent, parentList);
 					   });
 
-				try
-				{
-					export(context, bwH, parentToChildren, childrenToParents, request);
-				}
-				catch (GerminateException e)
-				{
-					resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-					return null;
-				}
+				export(context, bwH, parentToChildren, childrenToParents, request);
 
 				if (includeAttributes)
 				{
@@ -162,26 +149,16 @@ public class PedigreeResource extends ExportResource
 			if (includeAttributes)
 				FileUtils.zipUp(zipFile, Arrays.asList(heliumFile, attributesFile));
 
-			java.nio.file.Path targetFilePath = target.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(targetFilePath, output);
-							   Files.deleteIfExists(targetFilePath);
-						   })
-						   .type(mt)
-						   .header("content-disposition", "attachment;filename= \"" + target.getName() + "\"")
-						   .header("content-length", target.length())
-						   .build();
+			return target;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
 	private static void export(DSLContext context, PrintWriter bw, Map<String, List<ViewTablePedigreesRecord>> down, Map<String, List<ViewTablePedigreesRecord>> up, PedigreeRequest request)
-		throws GerminateException
 	{
 		bw.write("# heliumInput = PEDIGREE" + CRLF);
 		bw.write("LineName\tParent\tParentType" + CRLF);
@@ -189,7 +166,7 @@ public class PedigreeResource extends ExportResource
 		if (CollectionUtils.isEmpty(request.getGermplasmGroupIds()) && CollectionUtils.isEmpty(request.getGermplasmIds()))
 		{
 			if (down.size() < 1)
-				throw new GerminateException(Response.Status.NOT_FOUND);
+				throw new NotFoundException();
 			else
 				down.forEach((p, cs) -> cs.forEach(c -> bw.write(c.getChildName() + "\t" + c.getParentName() + "\t" + c.getRelationshipType().getLiteral() + CRLF)));
 		}
@@ -214,7 +191,7 @@ public class PedigreeResource extends ExportResource
 											  .fetchInto(String.class);
 
 			if (CollectionUtils.isEmpty(requestedNames))
-				throw new GerminateException(Response.Status.NOT_FOUND);
+				throw new NotFoundException();
 
 			int upLimit = requestedNames.size() == 1 ? 2 : 3;
 			int downLimit = requestedNames.size() == 1 ? 1 : 3;

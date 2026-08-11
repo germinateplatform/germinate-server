@@ -11,8 +11,10 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
-import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.*;
@@ -30,7 +32,7 @@ import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.VIEW_TABLE_IMAGES;
 
 @Path("image")
-public class ImageResource
+public class ImageResource extends ContextResource
 {
 	@Context
 	protected HttpServletResponse resp;
@@ -40,11 +42,11 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public Response patchImage(ViewTableImages imageToPatch, @PathParam("imageId") Integer imageId)
-			throws IOException, SQLException
+	public boolean patchImage(ViewTableImages imageToPatch, @PathParam("imageId") Integer imageId)
+			throws SQLException
 	{
 		if (imageId == null || imageToPatch == null || !Objects.equals(imageId, imageToPatch.getImageId()))
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -54,12 +56,12 @@ public class ImageResource
 			                            .fetchAny();
 
 			if (image == null)
-				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+				throw new NotFoundException();
 
 			image.setDescription(imageToPatch.getImageDescription());
 			image.setIsReference(imageToPatch.getImageIsReference());
 			image.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-			return Response.ok(image.store() > 0).build();
+			return image.store() > 0;
 		}
 	}
 
@@ -68,11 +70,11 @@ public class ImageResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
+	public boolean postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
 			throws IOException
 	{
 		if (CollectionUtils.isEmpty(locales))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.template.name());
 		folder.mkdirs();
@@ -83,12 +85,12 @@ public class ImageResource
 		File targetFile = new File(folder, uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, targetFile))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
 		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
 
 		CarouselConfig config;
 		Gson gson = new Gson();
@@ -117,7 +119,7 @@ public class ImageResource
 			gson.toJson(config, type, writer);
 		}
 
-		return Response.ok(true).build();
+		return true;
 	}
 
 	@DELETE
@@ -125,11 +127,11 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response deleteImageByName(@PathParam("name") String name)
+	public boolean deleteImageByName(@PathParam("name") String name)
 			throws IOException
 	{
 		if (StringUtils.isEmpty(name))
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		// Get the template images folder
 		File parent = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images");
@@ -138,15 +140,15 @@ public class ImageResource
 
 		// Check it's actually a child of the template images folder
 		if (!FileUtils.isSubDirectory(parent, large))
-			return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
+			throw new ForbiddenException();
 		// Then check it exists
 		if (!large.exists())
-			return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+			throw new NotFoundException();
 
 		// Get the thumbnail
 		File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
+		File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
 		CarouselConfig config;
 		Gson gson = new Gson();
 		Type type = new TypeToken<CarouselConfig>()
@@ -178,7 +180,7 @@ public class ImageResource
 		if (small.exists())
 			small.delete();
 
-		return Response.ok(true).build();
+		return true;
 	}
 
 	@DELETE
@@ -186,11 +188,11 @@ public class ImageResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public Response deleteImage(@PathParam("imageId") Integer imageId)
-			throws IOException, SQLException
+	public boolean deleteImage(@PathParam("imageId") Integer imageId)
+			throws SQLException
 	{
 		if (imageId == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -200,7 +202,7 @@ public class ImageResource
 			                            .fetchAny();
 
 			if (image == null)
-				return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+				throw new NotFoundException();
 
 			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.database.name()), image.getPath());
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
@@ -210,26 +212,26 @@ public class ImageResource
 			if (small.exists() && small.isFile())
 				small.delete();
 
-			return Response.ok(image.delete() > 0).build();
+			return image.delete() > 0;
 		}
 	}
 
 	@GET
 	@Path("/src/{name}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
-	public Response getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-			throws IOException
+	@Produces("image/*")
+	public byte[] getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token, @Context HttpServletResponse response)
 	{
-		return this.getImageLocal(imageType, name, size, token, true);
+		FileResult result = getImageLocal(imageType, name, size, token, true);
+
+		response.setContentType(result.mime);
+		return result.data;
 	}
 
 	@GET
 	@Path("/{imageId:\\d+}/src")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
-	public Response getImageByID(@PathParam("imageId") Integer imageId, @QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-			throws IOException, SQLException
+	@Produces("image/*")
+	public byte[] getImageByID(@PathParam("imageId") Integer imageId, @QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -239,30 +241,31 @@ public class ImageResource
 			                               .fetchAnyInto(ViewTableImages.class);
 
 			if (image == null)
-			{
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
+				throw new NotFoundException();
 			else
 			{
 				// Trait reference images are free to view so GridScore can get to them without a token
 				boolean checkToken = !image.getImageRefTable().equals("phenotypes") || !image.getImageIsReference();
-				return getImageLocal(imageType, image.getImagePath(), size, token, checkToken);
+				FileResult result = getImageLocal(imageType, image.getImagePath(), size, token, checkToken);
+
+				response.setContentType(result.mime);
+				return result.data;
 			}
 		}
 	}
 
 	@GET
 	@Path("/src")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
-	public Response getImage(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-			throws IOException
+	@Produces("image/*")
+	public byte[] getImage(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token, @Context HttpServletResponse response)
 	{
-		return getImageLocal(imageType, name, size, token, true);
+		FileResult result = getImageLocal(imageType, name, size, token, true);
+
+		response.setContentType(result.mime);
+		return result.data;
 	}
 
-	private Response getImageLocal(String imageType, String name, String size, String token, boolean checkToken)
-			throws IOException
+	private FileResult getImageLocal(String imageType, String name, String size, String token, boolean checkToken)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -277,19 +280,13 @@ public class ImageResource
 		}
 
 		if (type == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		// If it's not a template image, check the image token
 		if (mode == AuthenticationMode.FULL && type != ImageType.template)
 		{
 			if (checkToken && (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token)))
-			{
-				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-				return null;
-			}
+				throw new ForbiddenException();
 		}
 
 		if (!StringUtils.isEmpty(name))
@@ -298,10 +295,7 @@ public class ImageResource
 			File large = new File(new File(parent, type.name()), name);
 
 			if (!FileUtils.isSubDirectory(parent, large))
-			{
-				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-				return null;
-			}
+				throw new ForbiddenException();
 
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 
@@ -352,31 +346,37 @@ public class ImageResource
 
 				try
 				{
-					byte[] bytes = IOUtils.toByteArray(file.toURI());
-
-					return Response.ok(new ByteArrayInputStream(bytes))
-					               .header("Content-Type", mediaType)
-					               .build();
+					return new FileResult()
+							.setData(IOUtils.toByteArray(file.toURI()))
+							.setMime(mediaType);
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
 
-					resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-					return null;
+					throw new InternalServerErrorException();
 				}
 			}
 			else
 			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
+				throw new NotFoundException();
 			}
 		}
 		else
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
+			throw new BadRequestException();
 		}
+	}
+
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@ToString
+	@Accessors(chain = true)
+	private static class FileResult
+	{
+		byte[] data;
+		String mime;
 	}
 
 	public enum ImageType

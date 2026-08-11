@@ -40,7 +40,7 @@ public class TraitStatsResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTraitStats(TraitDatasetRequest request)
+	public List<TraitStats> getTraitStats(TraitDatasetRequest request)
 			throws SQLException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
@@ -159,7 +159,7 @@ public class TraitStatsResource
 				tStat.setAvg(tStat.getAvg() / tStat.getCount());
 
 			numeric.addAll(mapping.values());
-			return Response.ok(numeric).build();
+			return numeric;
 		}
 	}
 }

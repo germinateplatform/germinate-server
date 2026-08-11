@@ -1,6 +1,11 @@
 package jhi.germinate.server.resource.maps;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.MapExportRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Maps;
@@ -9,24 +14,19 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.maps.writer.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
-
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import org.jooq.Record;
 
 import java.io.*;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Maps.*;
-import static jhi.germinate.server.database.codegen.tables.Markers.*;
+import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.MAPDEFINITIONS;
+import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.MAPFEATURETYPES;
+import static jhi.germinate.server.database.codegen.tables.Maps.MAPS;
+import static jhi.germinate.server.database.codegen.tables.Markers.MARKERS;
 
 @Path("map/{mapId}/export")
 @Secured
@@ -39,14 +39,11 @@ public class MapExportResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postMapFile(MapExportRequest request)
-		throws IOException, SQLException
+	public StreamingOutput postMapFile(MapExportRequest request, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		if (request == null || StringUtils.isEmpty(request.getFormat()) || mapId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -55,7 +52,7 @@ public class MapExportResource extends ContextResource
 			File file = ResourceUtils.createTempFile("map-" + mapId, ".tsv");
 
 			try (Connection conn = Database.getConnection();
-				 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
+			     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
 			{
 				DSLContext context = Database.getContext(conn);
 				Maps map = context.selectFrom(MAPS).where(MAPS.ID.eq(mapId)).fetchAnyInto(Maps.class);
@@ -81,20 +78,20 @@ public class MapExportResource extends ContextResource
 					writer.writeHeader(map);
 
 					SelectConditionStep<? extends Record> step = context.selectFrom(
-						MAPDEFINITIONS.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
-									  .leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-									  .leftJoin(MAPFEATURETYPES).on(MAPFEATURETYPES.ID.eq(MAPDEFINITIONS.MAPFEATURETYPE_ID))
-					)
-																		.where(MAPS.VISIBILITY.eq(true)
-																							  .or(MAPS.USER_ID.eq(userDetails.getId())))
-																		.and(MAPS.ID.eq(mapId));
+																				MAPDEFINITIONS.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
+							                                                                  .leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
+							                                                                  .leftJoin(MAPFEATURETYPES).on(MAPFEATURETYPES.ID.eq(MAPDEFINITIONS.MAPFEATURETYPE_ID))
+																		)
+					                                                    .where(MAPS.VISIBILITY.eq(true)
+					                                                                          .or(MAPS.USER_ID.eq(userDetails.getId())))
+					                                                    .and(MAPS.ID.eq(mapId));
 
 					if (!StringUtils.isEmpty(request.getMethod()))
 						filter(context, step, request);
 
 //					step.orderBy(MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START, MARKERS.MARKER_NAME)
 					step.stream()
-						.forEachOrdered(m -> {
+					    .forEachOrdered(m -> {
 							try
 							{
 								writer.writeRow(m);
@@ -111,30 +108,20 @@ public class MapExportResource extends ContextResource
 			catch (IOException e)
 			{
 				e.printStackTrace();
-				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-				return null;
+				throw new InternalServerErrorException();
 			}
 
-			java.nio.file.Path filePath = file.toPath();
-			return Response.ok((StreamingOutput) output -> {
-				Files.copy(filePath, output);
-				Files.deleteIfExists(filePath);
-			})
-						   .header("content-disposition", "attachment; filename=\"" + file.getName() + "\"")
-						   .header("content-length", file.length())
-						   .build();
+			return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+			throw new InternalServerErrorException();
 		}
-
-		return null;
 	}
 
 	private void filter(DSLContext context, SelectConditionStep<? extends Record> step, MapExportRequest request)
-		throws IOException
+			throws IOException
 	{
 		switch (request.getMethod().toLowerCase())
 		{
@@ -143,16 +130,13 @@ public class MapExportResource extends ContextResource
 				break;
 			case "regions":
 				if (CollectionUtils.isEmpty(request.getRegions()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return;
-				}
+					throw new BadRequestException();
 
 				List<Condition> conditions = Arrays.stream(request.getRegions())
-												   .map(r -> MAPDEFINITIONS.CHROMOSOME.eq(r.getChromosome())
-																					  .and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(r.getStart()))
-																					  .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(r.getEnd())))
-												   .collect(Collectors.toList());
+				                                   .map(r -> MAPDEFINITIONS.CHROMOSOME.eq(r.getChromosome())
+				                                                                      .and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(r.getStart()))
+				                                                                      .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(r.getEnd())))
+				                                   .collect(Collectors.toList());
 
 				if (conditions.size() > 0)
 				{
@@ -166,43 +150,31 @@ public class MapExportResource extends ContextResource
 				break;
 			case "markeridinterval":
 				if (request.getMarkerIdInterval() == null || request.getMarkerIdInterval().length != 2)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return;
-				}
+					throw new BadRequestException();
 
 				MapdefinitionsRecord one = context.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MAP_ID.eq(mapId).and(MAPDEFINITIONS.MARKER_ID.eq(request.getMarkerIdInterval()[0]))).fetchAny();
 				MapdefinitionsRecord two = context.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MAP_ID.eq(mapId).and(MAPDEFINITIONS.MARKER_ID.eq(request.getMarkerIdInterval()[1]))).fetchAny();
 
 				if (one == null || two == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return;
-				}
+					throw new BadRequestException();
 
 				step.and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(one.getDefinitionEnd())
-														.and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(two.getDefinitionStart()))
-														.and(MAPDEFINITIONS.CHROMOSOME.eq(one.getChromosome()))
-														.and(MAPDEFINITIONS.CHROMOSOME.eq(two.getChromosome())));
+				                                        .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(two.getDefinitionStart()))
+				                                        .and(MAPDEFINITIONS.CHROMOSOME.eq(one.getChromosome()))
+				                                        .and(MAPDEFINITIONS.CHROMOSOME.eq(two.getChromosome())));
 				break;
 			case "radius":
 				if (request.getRadius() == null || request.getRadius().getMarkerId() == null || request.getRadius().getLeft() == null || request.getRadius().getRight() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return;
-				}
+					throw new BadRequestException();
 
 				MapdefinitionsRecord marker = context.selectFrom(MAPDEFINITIONS).where(MAPDEFINITIONS.MAP_ID.eq(mapId).and(MAPDEFINITIONS.MARKER_ID.eq(request.getRadius().getMarkerId()))).fetchAny();
 
 				if (marker == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return;
-				}
+					throw new BadRequestException();
 
 				step.and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(marker.getDefinitionStart() - request.getRadius().getLeft())
-														.and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(marker.getDefinitionEnd() + request.getRadius().getRight()))
-														.and(MAPDEFINITIONS.CHROMOSOME.eq(marker.getChromosome())));
+				                                        .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(marker.getDefinitionEnd() + request.getRadius().getRight()))
+				                                        .and(MAPDEFINITIONS.CHROMOSOME.eq(marker.getChromosome())));
 				break;
 		}
 	}

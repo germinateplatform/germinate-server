@@ -1,9 +1,12 @@
 package jhi.germinate.server.resource.stats;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.*;
+import jhi.germinate.server.database.codegen.enums.ClimatesDatatype;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
@@ -11,23 +14,19 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Climatedata.*;
-import static jhi.germinate.server.database.codegen.tables.Climates.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
+import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
+import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.VIEW_TABLE_CLIMATES;
 
 @Path("dataset/stats/climate")
 @Secured
@@ -41,10 +40,7 @@ public class ClimateStatsResource extends ContextResource
 			throws IOException, SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -55,31 +51,28 @@ public class ClimateStatsResource extends ContextResource
 			requestedDatasetIds = datasetsForUser.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
 		else
 			requestedDatasetIds.retainAll(datasetsForUser.stream()
-														 .map(ViewTableDatasets::getDatasetId)
-														 .collect(Collectors.toList()));
+			                                             .map(ViewTableDatasets::getDatasetId)
+			                                             .collect(Collectors.toList()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			// All climates within the selected datasets
 			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_CLIMATES)
-																.whereExists(DSL.selectOne()
-																				.from(CLIMATEDATA)
-																				.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
-																				.and(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)));
+			                                                    .whereExists(DSL.selectOne()
+			                                                                    .from(CLIMATEDATA)
+			                                                                    .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
+			                                                                    .and(CLIMATEDATA.CLIMATE_ID.eq(VIEW_TABLE_CLIMATES.CLIMATE_ID)));
 
 			if (!CollectionUtils.isEmpty(request.getClimateIds()))
 				step.and(VIEW_TABLE_CLIMATES.CLIMATE_ID.in(request.getClimateIds()));
 
 			Map<Integer, ViewTableClimates> climateMap = step.fetchMap(VIEW_TABLE_CLIMATES.CLIMATE_ID, ViewTableClimates.class);
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
-																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
+			                                                            .collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
 
 			Map<String, Quantiles> stats = new TreeMap<>();
 
@@ -89,10 +82,10 @@ public class ClimateStatsResource extends ContextResource
 			Field<String> groupIdsField = CollectionUtils.isEmpty(request.getLocationGroupIds())
 					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
 					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-						 .from(GROUPMEMBERS)
-						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getLocationGroupIds()))
-						 .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
+					     .from(GROUPMEMBERS)
+					     .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+					     .where(GROUPMEMBERS.GROUP_ID.in(request.getLocationGroupIds()))
+					     .and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID)).asField("groupIds");
 
 			// Run the query
 			SelectOnConditionStep<Record4<Integer, Integer, String, BigDecimal>> dataStep = context.select(
@@ -102,12 +95,12 @@ public class ClimateStatsResource extends ContextResource
 																										   groupIdsField,
 																										   DSL.iif(CLIMATES.DATATYPE.ne(ClimatesDatatype.numeric), "0", CLIMATEDATA.CLIMATE_VALUE).cast(dt).as("phenotype_value")
 																								   )
-																								   .from(CLIMATEDATA)
-																								   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID));
+			                                                                                       .from(CLIMATEDATA)
+			                                                                                       .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID));
 
 			// Restrict to dataset ids and climate ids
 			SelectConditionStep<Record4<Integer, Integer, String, BigDecimal>> condStep = dataStep.where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
-																								  .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()));
+			                                                                                      .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()));
 
 			SelectLimitStep<Record4<Integer, Integer, String, BigDecimal>> orderByStep;
 
@@ -118,9 +111,9 @@ public class ClimateStatsResource extends ContextResource
 				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(1).and(GROUPS.ID.in(request.getLocationGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(CLIMATEDATA.LOCATION_ID))));
 
 				orderByStep = condStep.and(groups)
-									  .groupBy(CLIMATEDATA.ID)
-									  .having(groupIdsField.isNotNull())
-									  .orderBy(groupIdsField, CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE);
+				                      .groupBy(CLIMATEDATA.ID)
+				                      .having(groupIdsField.isNotNull())
+				                      .orderBy(groupIdsField, CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE);
 			}
 			else
 			{
@@ -157,7 +150,7 @@ public class ClimateStatsResource extends ContextResource
 
 			// Now stream the result and consume it
 			orderByStep.stream()
-					   .forEachOrdered(consumer);
+			           .forEachOrdered(consumer);
 
 			// If marked items were requested, then get these as well separately
 			if (!CollectionUtils.isEmpty(request.getLocationIds()))
@@ -168,13 +161,13 @@ public class ClimateStatsResource extends ContextResource
 							   DSL.inline("Marked items").as("groupIds"),
 							   DSL.iif(CLIMATES.DATATYPE.ne(ClimatesDatatype.numeric), "0", CLIMATEDATA.CLIMATE_VALUE).cast(dt).as("phenotype_value")
 					   )
-					   .from(CLIMATEDATA)
-					   .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
-					   .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
-					   .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()))
-					   .and(CLIMATEDATA.LOCATION_ID.in(request.getLocationIds()))
-					   .orderBy(CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE)
-					   .forEach(consumer);
+				       .from(CLIMATEDATA)
+				       .leftJoin(CLIMATES).on(CLIMATES.ID.eq(CLIMATEDATA.CLIMATE_ID))
+				       .where(CLIMATEDATA.DATASET_ID.in(requestedDatasetIds))
+				       .and(CLIMATEDATA.CLIMATE_ID.in(climateMap.keySet()))
+				       .and(CLIMATEDATA.LOCATION_ID.in(request.getLocationIds()))
+				       .orderBy(CLIMATEDATA.CLIMATE_ID, CLIMATEDATA.CLIMATE_VALUE)
+				       .forEach(consumer);
 			}
 
 			// Add the last one
@@ -186,7 +179,7 @@ public class ClimateStatsResource extends ContextResource
 			Set<ViewTableDatasets> datasets = new LinkedHashSet<>();
 
 			result.setStats(stats.keySet().stream()
-								 .map(ids -> {
+			                     .map(ids -> {
 									 String[] split = ids.split("\\|");
 									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer climateId = Integer.parseInt(split[1]);
@@ -202,7 +195,7 @@ public class ClimateStatsResource extends ContextResource
 
 									 return q;
 								 })
-								 .collect(Collectors.toList()));
+			                     .collect(Collectors.toList()));
 
 			result.setDatasets(datasets);
 			result.setClimates(climates);

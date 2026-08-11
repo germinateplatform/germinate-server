@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.markers;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
@@ -12,7 +14,8 @@ import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 
-import java.io.IOException;
+import java.io.*;
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 
@@ -77,7 +80,7 @@ public class MarkerTableRespource extends MarkerBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postMarkerTableExport(ExportRequest request)
+	public File postMarkerTableExport(ExportRequest request, @Context HttpServletResponse response)
 			throws SQLException, IOException
 	{
 		processRequest(request);
@@ -90,7 +93,9 @@ public class MarkerTableRespource extends MarkerBaseResource
 			// Filter here!
 			having(from, filters);
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "marker-table-");
+			File result = ResourceUtils.exportToZip(from.fetch(), "marker-table-");
+
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource.traits;
 
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.UnificationRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.Database;
@@ -9,17 +11,15 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Images.*;
-import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
+import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.SYNONYMS;
 import static jhi.germinate.server.database.codegen.tables.Synonymtypes.SYNONYMTYPES;
 import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
@@ -31,13 +31,10 @@ public class TraitUnifierResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean postTraitUnifier(UnificationRequest request)
-		throws SQLException, IOException
+			throws SQLException
 	{
 		if (request == null || request.getPreferredId() == null || CollectionUtils.isEmpty(request.getOtherIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		// Remove the preferred id from the list just in case it was added
 		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherIds()));
@@ -55,10 +52,7 @@ public class TraitUnifierResource extends ContextResource
 
 			// If there's no preferred one or the others are empty or the only other one is the preferred one, return
 			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.get(0), preferredId)))
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return false;
-			}
+				throw new BadRequestException();
 
 			context.update(IMAGES.leftJoin(IMAGETYPES).on(IMAGETYPES.ID.eq(IMAGES.IMAGETYPE_ID))).set(IMAGES.FOREIGN_ID, preferredId).where(IMAGETYPES.REFERENCE_TABLE.eq("phenotypes").and(IMAGES.FOREIGN_ID.in(otherIds))).execute();
 			context.update(PHENOTYPEDATA).set(PHENOTYPEDATA.VARIABLE_ID, preferredId).where(PHENOTYPEDATA.VARIABLE_ID.in(otherIds)).execute();
@@ -66,7 +60,8 @@ public class TraitUnifierResource extends ContextResource
 			List<String> otherNames = others.stream().map(Variables::getName).toList();
 
 			SynonymtypesRecord type = context.selectFrom(SYNONYMTYPES).where(SYNONYMTYPES.TARGET_TABLE.eq("variables")).fetchAny();
-			if (type == null) {
+			if (type == null)
+			{
 				type = context.newRecord(SYNONYMTYPES);
 				type.setName("Variables");
 				type.setDescription("Synonyms for variables");

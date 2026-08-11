@@ -26,7 +26,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static jhi.germinate.server.database.codegen.tables.Userfeedback.*;
+import static jhi.germinate.server.database.codegen.tables.Userfeedback.USERFEEDBACK;
 
 @Path("feedback")
 public class FeedbackResource extends ContextResource
@@ -45,58 +45,53 @@ public class FeedbackResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response deleteFeedback(@PathParam("id") Integer id)
-		throws SQLException
+	public boolean deleteFeedback(@PathParam("id") Integer id)
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
-			return Response.ok(context.deleteFrom(USERFEEDBACK)
-									  .where(USERFEEDBACK.ID.eq(id))
-									  .execute() > 0)
-						   .build();
+			return context.deleteFrom(USERFEEDBACK)
+			              .where(USERFEEDBACK.ID.eq(id))
+			              .execute() > 0;
 		}
 	}
 
 	@GET
 	@Path("/{id:\\d+}/mark")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public Response getFeedbackMarked(@PathParam("id") Integer id)
-		throws SQLException
+	public void getFeedbackMarked(@PathParam("id") Integer id)
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			UserfeedbackRecord uf = context.selectFrom(USERFEEDBACK)
-										   .where(USERFEEDBACK.ID.eq(id))
-										   .and(USERFEEDBACK.IS_NEW.eq(true))
-										   .fetchAny();
+			                               .where(USERFEEDBACK.ID.eq(id))
+			                               .and(USERFEEDBACK.IS_NEW.eq(true))
+			                               .fetchAny();
 
 			if (uf == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			uf.setIsNew(false);
 			uf.store(USERFEEDBACK.IS_NEW);
-
-			return Response.ok().build();
 		}
 	}
 
 	@GET
 	@Path("/{id:\\d+}/img")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/*"})
 	@Secured
 	@PermitAll
-	public Response getFeedbackImage(@PathParam("id") Integer id, @QueryParam("size") String size, @QueryParam("token") String token)
-		throws SQLException, IOException
+	public StreamingOutput getFeedbackImage(@PathParam("id") Integer id, @QueryParam("size") String size, @QueryParam("token") String token)
+			throws SQLException, IOException
 	{
 		if (id == null || StringUtils.isEmpty(token))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -104,16 +99,13 @@ public class FeedbackResource extends ContextResource
 		if (mode == AuthenticationMode.FULL)
 		{
 			if (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token))
-			{
-				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-				return null;
-			}
+				throw new ForbiddenException();
 		}
 
 		AuthenticationFilter.UserDetails userDetails = AuthenticationFilter.getDetailsFromImageToken(token);
 
 		if (userDetails == null || !userDetails.isAtLeast(UserType.ADMIN))
-			return Response.status(Response.Status.FORBIDDEN).build();
+			throw new ForbiddenException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -122,7 +114,7 @@ public class FeedbackResource extends ContextResource
 			Userfeedback uf = context.selectFrom(USERFEEDBACK).where(USERFEEDBACK.ID.eq(id)).fetchAnyInto(Userfeedback.class);
 
 			if (uf == null || uf.getImage() == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			if (Objects.equals(size, "small"))
 			{
@@ -130,28 +122,24 @@ public class FeedbackResource extends ContextResource
 				{
 					BufferedImage bi = ImageIO.read(is);
 
-					return Response.ok((StreamingOutput) output -> Thumbnails.of(bi)
-																			 .height(500)
-																			 .addFilter(new NoScaleUpResizer(bi.getWidth(), bi.getHeight()))
-																			 .keepAspectRatio(true)
-																			 .outputFormat("png")
-																			 .toOutputStream(output))
-								   .type("image/png")
-								   .build();
+					return output -> Thumbnails.of(bi)
+					                           .height(500)
+					                           .addFilter(new NoScaleUpResizer(bi.getWidth(), bi.getHeight()))
+					                           .keepAspectRatio(true)
+					                           .outputFormat("png")
+					                           .toOutputStream(output);
 
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
 					Logger.getLogger("").severe(e.getLocalizedMessage());
-					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+					throw new InternalServerErrorException();
 				}
 			}
 			else
 			{
-				return Response.ok(new ByteArrayInputStream(uf.getImage()))
-							   .type("image/png")
-							   .build();
+				return output -> output.write(uf.getImage());
 			}
 		}
 	}
@@ -162,21 +150,21 @@ public class FeedbackResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
-	public Response postFeedback(@PathParam("uuid") String uuid,
-								 @FormDataParam("captcha") String captcha,
-								 @FormDataParam("content") String content,
-								 @FormDataParam("image") InputStream image,
-								 @FormDataParam("pageUrl") String pageUrl,
-								 @FormDataParam("contactEmail") String contactEmail,
-								 @FormDataParam("feedbackType") UserfeedbackFeedbackType feedbackType,
-								 @FormDataParam("severity") UserfeedbackSeverity severity)
-		throws SQLException, IOException
+	public void postFeedback(@PathParam("uuid") String uuid,
+	                             @FormDataParam("captcha") String captcha,
+	                             @FormDataParam("content") String content,
+	                             @FormDataParam("image") InputStream image,
+	                             @FormDataParam("pageUrl") String pageUrl,
+	                             @FormDataParam("contactEmail") String contactEmail,
+	                             @FormDataParam("feedbackType") UserfeedbackFeedbackType feedbackType,
+	                             @FormDataParam("severity") UserfeedbackSeverity severity)
+			throws SQLException, IOException
 	{
 		// Synchronize on the map to be sure
 		synchronized (captchaMap)
 		{
 			if (StringUtils.isEmpty(uuid) || StringUtils.isEmpty(captcha) || StringUtils.isEmpty(contactEmail) || StringUtils.isEmpty(content) || StringUtils.isEmpty(pageUrl) || image == null || severity == null || feedbackType == null)
-				return Response.status(Response.Status.BAD_REQUEST).build();
+				throw new BadRequestException();
 
 			String mapCaptcha = captchaMap.get(uuid);
 
@@ -184,7 +172,7 @@ public class FeedbackResource extends ContextResource
 
 			// Check if the captcha is correct
 			if (StringUtils.isEmpty(mapCaptcha) || !Objects.equals(mapCaptcha, captcha))
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			try (Connection conn = Database.getConnection())
 			{
@@ -207,30 +195,27 @@ public class FeedbackResource extends ContextResource
 
 				captchaMap.remove(uuid);
 
-				if (record.store() > 0)
-					return Response.status(Response.Status.OK).build();
-				else
-					return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+				if (record.store() <= 0)
+					throw new InternalServerErrorException();
 			}
 		}
 	}
 
 	@GET
 	@Path("/{uuid}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces({"image/png"})
+	@Produces("image/png")
 	@Secured
 	@PermitAll
-	public Response getFeedbackCaptcha(@PathParam("uuid") String uuid)
+	public byte[] getFeedbackCaptcha(@PathParam("uuid") String uuid)
 	{
 		try
 		{
 			// Create a captcha with noise
 			ImageCaptcha imageCaptcha = new ImageCaptcha.Builder(200, 50)
-				.addNoise()
-				.addContent(new LatinContentProducer(7))
-				.addBackground(new FlatColorBackgroundProducer(Color.WHITE))
-				.build();
+					.addNoise()
+					.addContent(new LatinContentProducer(7))
+					.addBackground(new FlatColorBackgroundProducer(Color.WHITE))
+					.build();
 
 			// Write to image
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -241,14 +226,13 @@ public class FeedbackResource extends ContextResource
 			captchaMap.put(uuid, imageCaptcha.getContent());
 
 			// Send image
-			return Response.ok(new ByteArrayInputStream(imageData)).build();
+			return imageData;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 			Logger.getLogger("").severe(e.getLocalizedMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-						   .build();
+			throw new InternalServerErrorException();
 		}
 	}
 }

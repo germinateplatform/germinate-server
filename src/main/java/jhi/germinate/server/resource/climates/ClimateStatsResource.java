@@ -24,10 +24,9 @@ import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
 public class ClimateStatsResource extends ContextResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getClimateOverviewStats()
-			throws SQLException, IOException
+	public ClimateStats getClimateOverviewStats()
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -76,15 +75,15 @@ public class ClimateStatsResource extends ContextResource
 		}
 
 
-		return Response.ok(result).build();
+		return result;
 	}
 
-	@Path("/year")
 	@POST
+	@Path("/year")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getClimateYears(ClimateDatasetRequest request)
-			throws SQLException, IOException
+	public List<Integer> getClimateYears(ClimateDatasetRequest request)
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -94,12 +93,12 @@ public class ClimateStatsResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			return Response.ok(context.selectDistinct(DSL.year(CLIMATEDATA.RECORDING_DATE))
+			return context.selectDistinct(DSL.year(CLIMATEDATA.RECORDING_DATE))
 			                          .from(CLIMATEDATA)
 			                          .where(CLIMATEDATA.DATASET_ID.in(datasetIds))
 			                          .and(CLIMATEDATA.CLIMATE_ID.in(request.getClimateIds()))
 			                          .and(CLIMATEDATA.RECORDING_DATE.isNotNull())
-			                          .fetchInto(Integer.class)).build();
+			                          .fetchInto(Integer.class);
 		}
 	}
 }

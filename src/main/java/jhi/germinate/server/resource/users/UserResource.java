@@ -19,7 +19,6 @@ public class UserResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewUserDetailsType> getUser()
-		throws SQLException
 	{
 		return GatekeeperClient.getUsers();
 	}

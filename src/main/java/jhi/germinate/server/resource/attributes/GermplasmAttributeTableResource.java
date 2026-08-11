@@ -28,8 +28,8 @@ public class GermplasmAttributeTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGermplasmAttributeTable(PaginatedRequest request)
-		throws IOException, SQLException
+	public PaginatedResult<List<ViewTableGermplasmAttributes>> postGermplasmAttributeTable(PaginatedRequest request)
+		throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -51,7 +51,7 @@ public class GermplasmAttributeTableResource extends BaseResource
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 }

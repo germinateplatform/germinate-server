@@ -137,7 +137,7 @@ public class DataAutoImportTask implements Runnable
 	{
 		String uuid = UUID.randomUUID().toString();
 		// Get the target folder for all generated files
-		File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
+		File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 		asyncFolder.mkdirs();
 		String extension = template.file.substring(template.file.lastIndexOf(".") + 1);
 

@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.fileresource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
@@ -13,13 +13,13 @@ import jhi.germinate.server.util.*;
 import org.apache.commons.io.FileUtils;
 import org.jooq.*;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableFileresourcetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.FILERESOURCETYPES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableFileresourcetypes.VIEW_TABLE_FILERESOURCETYPES;
 
 @Path("fileresourcetype")
 @Secured
@@ -27,11 +27,11 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableFileresource
 public class FileResourceTypeResource extends ContextResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFileResourceType()
-		throws SQLException
+	public List<ViewTableFileresourcetypes> getFileResourceType()
+			throws SQLException
 	{
+		// TODO: Check if these need to be checked
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		try (Connection conn = Database.getConnection())
@@ -39,7 +39,7 @@ public class FileResourceTypeResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 			SelectWhereStep<?> step = context.selectFrom(VIEW_TABLE_FILERESOURCETYPES);
 
-			return Response.ok(step.fetchInto(ViewTableFileresourcetypes.class)).build();
+			return step.fetchInto(ViewTableFileresourcetypes.class);
 		}
 	}
 
@@ -47,14 +47,11 @@ public class FileResourceTypeResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public Response postFileResource(Fileresourcetypes type)
-		throws IOException, SQLException
+	public Integer postFileResource(Fileresourcetypes type)
+			throws SQLException
 	{
 		if (type == null || StringUtils.isEmpty(type.getName()) || type.getId() != null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -64,7 +61,7 @@ public class FileResourceTypeResource extends ContextResource
 			record.setUpdatedOn(new Timestamp(System.currentTimeMillis()));
 			record.store();
 
-			return Response.ok(record.getId()).build();
+			return record.getId();
 		}
 	}
 
@@ -74,29 +71,27 @@ public class FileResourceTypeResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean deleteFileResourceType(@PathParam("fileResourceTypeId") Integer fileResourceTypeId)
-		throws IOException, SQLException
+			throws SQLException, StatusException
 	{
 		if (fileResourceTypeId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
+		;
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			FileresourcetypesRecord record = context.selectFrom(FILERESOURCETYPES)
-													.where(FILERESOURCETYPES.ID.eq(fileResourceTypeId))
-													// Don't allow deletion of these new default resource types
-													.andNot(FILERESOURCETYPES.NAME.eq("Trials Shapefile").and(FILERESOURCETYPES.DESCRIPTION.eq("Shape file associated with a phenotypic trial. Fields within the shape file have to match the database entries.")))
-													.andNot(FILERESOURCETYPES.NAME.eq("Trials GeoTIFF").and(FILERESOURCETYPES.DESCRIPTION.eq("GeoTIFF file associated with a phenotypic trial. The \"created_on\" date of this fileresource determines the time point at which it was recorded.")))
-													.fetchAny();
+			                                        .where(FILERESOURCETYPES.ID.eq(fileResourceTypeId))
+			                                        // Don't allow deletion of these new default resource types
+			                                        .andNot(FILERESOURCETYPES.NAME.eq("Trials Shapefile").and(FILERESOURCETYPES.DESCRIPTION.eq("Shape file associated with a phenotypic trial. Fields within the shape file have to match the database entries.")))
+			                                        .andNot(FILERESOURCETYPES.NAME.eq("Trials GeoTIFF").and(FILERESOURCETYPES.DESCRIPTION.eq("GeoTIFF file associated with a phenotypic trial. The \"created_on\" date of this fileresource determines the time point at which it was recorded.")))
+			                                        .fetchAny();
 
 			if (record != null)
 			{
 				// Delete all files associated with fileresource database objects.
-				File target = ResourceUtils.getFromExternal(resp, Integer.toString(record.getId()), "data", "download");
+				File target = ResourceUtils.getFromExternal(Integer.toString(record.getId()), "data", "download");
 
 				try
 				{
@@ -118,8 +113,7 @@ public class FileResourceTypeResource extends ContextResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return false;
+			throw new InternalServerErrorException();
 		}
 	}
 }

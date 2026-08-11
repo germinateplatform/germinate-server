@@ -347,7 +347,7 @@ public class Database
 
 					String dt = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 					dt += "_" + type.name().toLowerCase() + "_" + Database.class.getPackage().getImplementationVersion();
-					File dbBackupFile = ResourceUtils.getFromExternal(null, dt + ".sql", "backups");
+					File dbBackupFile = ResourceUtils.getFromExternal(dt + ".sql", "backups");
 					dbBackupFile.getParentFile().mkdirs();
 
 					List<String> params = new ArrayList<>();
@@ -385,7 +385,7 @@ public class Database
 
 					process.destroy();
 
-					File zip = ResourceUtils.getFromExternal(null, dt + ".zip", "backups");
+					File zip = ResourceUtils.getFromExternal(dt + ".zip", "backups");
 					FileUtils.zipUp(zip, List.of(new File(dbBackupFile.getAbsolutePath())), true);
 
 					Double maxGb = PropertyWatcher.getDouble(ServerProperty.DATABASE_BACKUP_MAX_SIZE);

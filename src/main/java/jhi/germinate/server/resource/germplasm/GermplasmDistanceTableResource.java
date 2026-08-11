@@ -1,22 +1,21 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
 
 @Path("germplasm/distance")
 @Secured
@@ -27,11 +26,11 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 	@Path("/table")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGermplasmDistanceTable(PaginatedLocationRequest request)
-		throws IOException, SQLException
+	public PaginatedResult<List<GermplasmDistance>> postGermplasmDistanceTable(PaginatedLocationRequest request)
+			throws SQLException
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -43,26 +42,26 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 			Field<BigDecimal> dLon = DSL.rad(LOCATIONS.LONGITUDE.minus(request.getLongitude()));
 
 			Field<BigDecimal> a = DSL.power(DSL.sin(dLon.div(2)), 2)
-									 .times(DSL.cos(DSL.rad(request.getLatitude())))
-									 .times(DSL.cos(DSL.rad(LOCATIONS.LATITUDE)))
-									 .plus(DSL.power(DSL.sin(dLat.div(2)), 2));
+			                         .times(DSL.cos(DSL.rad(request.getLatitude())))
+			                         .times(DSL.cos(DSL.rad(LOCATIONS.LATITUDE)))
+			                         .plus(DSL.power(DSL.sin(dLat.div(2)), 2));
 
 			Field<BigDecimal> c = DSL.asin(DSL.sqrt(a)).times(2);
 
 			SelectHavingConditionStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, null, DSL.cast(c.times(6372.8), Double.class).as("distance"))
-				.having(DSL.field(LONGITUDE).isNotNull()
-				.and(DSL.field(LATITUDE).isNotNull()));
+					.having(DSL.field(LONGITUDE).isNotNull()
+					           .and(DSL.field(LATITUDE).isNotNull()));
 
 			// Filter here!
 			having(from, filters);
 
 			List<GermplasmDistance> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(GermplasmDistance.class);
+					.fetch()
+					.into(GermplasmDistance.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
+			return new PaginatedResult<>(result, count);
 		}
 	}
 
@@ -70,11 +69,11 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 	@Path("/table/ids")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGermplasmDistanceTableIds(PaginatedLocationRequest request)
-		throws IOException, SQLException
+	public PaginatedResult<List<Integer>> postGermplasmDistanceTableIds(PaginatedLocationRequest request)
+			throws SQLException
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -85,17 +84,17 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectConditionStep<?> from = getGermplasmIdQueryWrapped(context, datasetIds, null)
-				.where(DSL.field(LONGITUDE).isNotNull())
-				.and(DSL.field(LATITUDE).isNotNull());
+					.where(DSL.field(LONGITUDE).isNotNull())
+					.and(DSL.field(LATITUDE).isNotNull());
 
 			// Filter here!
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
-			return Response.ok(new PaginatedResult<>(result, result.size())).build();
+			return new PaginatedResult<>(result, result.size());
 		}
 	}
 }

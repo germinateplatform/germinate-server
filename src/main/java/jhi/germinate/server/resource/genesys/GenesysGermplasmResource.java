@@ -25,17 +25,16 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 {
 	@GET
 	@Path("/status")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getGenesysStatus()
+	public boolean getGenesysStatus()
 	{
-		return Response.ok(GenesysClient.isAvailable()).build();
+		return GenesysClient.isAvailable();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGermplasmList(GenesysRequestDetails details)
+	public String postGermplasmList(GenesysRequestDetails details)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -54,7 +53,7 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 		}
 
 		if (StringUtils.isEmpty(user.getName()) || StringUtils.isEmpty(user.getEmailAddress()) || CollectionUtils.isEmpty(details.getGermplasmIds()))
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -103,18 +102,18 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 			}).collect(Collectors.toList()));
 
 			if (CollectionUtils.isEmpty(req.getItems()))
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			GenesysResponse response = GenesysClient.postGermplasmRequest(req);
 
 			if (!StringUtils.isEmpty(response.getUuid()))
-				return Response.ok(response.getUuid()).build();
+				return response.getUuid();
 			else
-				return Response.status(Response.Status.BAD_REQUEST).entity(response.getMissingItems().stream().map(item -> mapping.get(item.doi + "|" + item.genus + "|" + item.getAcceNumb() + "|" + item.getInstCode())).toList()).build();
+				throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode(), response.getMissingItems().stream().map(item -> mapping.get(item.doi + "|" + item.genus + "|" + item.getAcceNumb() + "|" + item.getInstCode())).toList());
 		}
 		catch (ServiceUnavailableException e)
 		{
-			return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+			throw new ServiceUnavailableException();
 		}
 	}
 

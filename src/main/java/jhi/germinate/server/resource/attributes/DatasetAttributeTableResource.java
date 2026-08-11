@@ -31,7 +31,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(PaginatedRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 		return export(null, request);
@@ -42,7 +42,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(@PathParam("datasetId") Integer datasetId)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		return export(datasetId, null);
 	}

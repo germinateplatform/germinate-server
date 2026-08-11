@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.traits;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -17,8 +19,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 
 
 @Path("dataset/data/trial/table")
@@ -30,13 +32,10 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableTrialsData>> postTrialsDataTable(TrialsExportDatasetRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -59,8 +58,8 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			where(from, filters, true);
 
 			List<ViewTableTrialsData> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableTrialsData.class);
+					.fetch()
+					.into(ViewTableTrialsData.class);
 
 			result.forEach(r -> {
 				if (germplasmGroups.containsKey(r.getGermplasmId()))
@@ -83,11 +82,11 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 					   germplasmId,
 					   DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(GROUPS.ID), DSL.key("name").value(GROUPS.NAME))).as("groups")
 			   )
-			   .from(GROUPS)
-			   .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-			   .where(GROUPS.GROUPTYPE_ID.eq(3)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
-			   .groupBy(germplasmId)
-			   .forEach(r -> {
+		       .from(GROUPS)
+		       .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+		       .where(GROUPS.GROUPTYPE_ID.eq(3)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+		       .groupBy(germplasmId)
+		       .forEach(r -> {
 				   germplasmGroups.put(r.get(germplasmId), r.into(GermplasmGroups.class));
 			   });
 
@@ -110,13 +109,10 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postTrialsDataTableIds(TrialsExportDatasetRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
@@ -140,8 +136,8 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			where(from, filters, true);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}
@@ -151,16 +147,13 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postTrialsDataTableExport(TrialsExportDatasetRequest request)
-		throws IOException, SQLException
+	public java.io.File postTrialsDataTableExport(TrialsExportDatasetRequest request, @Context HttpServletResponse response)
+			throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "trials", request.getDatasetIds(), true);
 		if (CollectionUtils.isEmpty(requestedIds))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		processRequest(request);
 
@@ -176,7 +169,9 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 			// Filter here!
 			where(from, filters, true);
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "trials-data-table-");
+			java.io.File result = ResourceUtils.exportToZip(from.fetch(), "trials-data-table-");
+
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 

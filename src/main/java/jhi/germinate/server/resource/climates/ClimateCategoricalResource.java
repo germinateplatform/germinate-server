@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.climates;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.ClimateExportDatasetRequest;
@@ -12,7 +13,6 @@ import org.jooq.DSLContext;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
 
@@ -24,14 +24,11 @@ public class ClimateCategoricalResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postJson(ClimateExportDatasetRequest request)
-			throws IOException, SQLException
+	public StreamingOutput postJson(ClimateExportDatasetRequest request, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getClimateIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", request.getDatasetIds(), true);
 
@@ -48,10 +45,7 @@ public class ClimateCategoricalResource extends ContextResource
 				String groupIdString = CollectionUtils.join(request.getLocationGroupIds(), ",");
 
 				if (CollectionUtils.isEmpty(datasetIds))
-				{
-					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-					return null;
-				}
+					throw new NotFoundException();
 				else
 				{
 					ExportClimateCategorical procedure = new ExportClimateCategorical();
@@ -70,21 +64,12 @@ public class ClimateCategoricalResource extends ContextResource
 				}
 			}
 
-			java.nio.file.Path filePath = file.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-							   Files.deleteIfExists(filePath);
-						   })
-			               .type(MediaType.TEXT_PLAIN)
-			               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-			               .header("content-length", file.length())
-			               .build();
+			return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 }

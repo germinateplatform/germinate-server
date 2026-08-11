@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -13,13 +15,14 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 
 @Path("group/{groupId}/germplasm")
 @Secured
@@ -32,8 +35,8 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postGroupGermplasmTable(PaginatedRequest request)
-		throws IOException, SQLException
+	public PaginatedResult<List<ViewTableGroupGermplasm>> postGroupGermplasmTable(PaginatedRequest request)
+			throws StatusException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);
@@ -59,36 +62,24 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			having(from, filters);
 
 			List<ViewTableGroupGermplasm> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableGroupGermplasm.class);
+					.fetch()
+					.into(ViewTableGroupGermplasm.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
-			return Response.ok(new PaginatedResult<>(result, count)).build();
-		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
+			return new PaginatedResult<>(result, count);
 		}
 	}
 
 	@PATCH
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response patchGermplasmGroup(GroupModificationRequest modification)
-		throws IOException, SQLException
+	public int patchGermplasmGroup(GroupModificationRequest modification)
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		try
-		{
-			return Response.ok(GroupResource.patchGroupMembers(groupId, userDetails, modification)).build();
-		}
-		catch (GerminateException e)
-		{
-			return Response.status(e.getStatus().getStatusCode(), e.getMessage()).build();
-		}
+		return GroupResource.patchGroupMembers(groupId, userDetails, modification);
 	}
 
 	@POST
@@ -96,7 +87,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGroupGermplasmTableIds(PaginatedRequest request)
-		throws IOException, SQLException
+			throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);
@@ -124,15 +115,10 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
-		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
 		}
 	}
 
@@ -140,8 +126,8 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postGroupGermplasmTableExport(ExportRequest request)
-		throws IOException, SQLException
+	public File postGroupGermplasmTableExport(ExportRequest request, @Context HttpServletResponse response)
+			throws IOException, SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);
@@ -170,12 +156,9 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 			// Filter here!
 			having(from, filters);
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-group-table-");
-		}
-		catch (GerminateException e)
-		{
-			resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-			return null;
+			File result = ResourceUtils.exportToZip(from.fetch(), "germplasm-group-table-");
+
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 }

@@ -18,7 +18,7 @@ public class ImageSvgResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("image/svg+xml")
-	public Response getSvgImage(@PathParam("name") String name)
+	public byte[] getSvgImage(@PathParam("name") String name)
 		throws IOException
 	{
 		if (!StringUtils.isEmpty(name))
@@ -36,29 +36,22 @@ public class ImageSvgResource
 			{
 				try
 				{
-					byte[] bytes = IOUtils.toByteArray(file.toURI());
-
-					return Response.ok(new ByteArrayInputStream(bytes))
-								   .header("Content-Type", "image/svg+xml")
-								   .build();
+					return IOUtils.toByteArray(file.toURI());
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
-					resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-					return null;
+					throw new InternalServerErrorException();
 				}
 			}
 			else
 			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
+				throw new NotFoundException();
 			}
 		}
 		else
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
+			throw new BadRequestException();
 		}
 	}
 }

@@ -29,15 +29,15 @@ public class CommentResource
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response putComment(Comments comment)
-		throws IOException, SQLException
+	public Integer putComment(Comments comment)
+		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (comment.getUserId() == null || !Objects.equals(comment.getUserId(), userDetails.getId()))
-			return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
+			throw new ForbiddenException();
 		if (StringUtils.isEmpty(comment.getDescription()) || comment.getCommenttypeId() == null || comment.getReferenceId() == null || comment.getId() != null)
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -47,7 +47,7 @@ public class CommentResource
 
 			CommentsRecord record = context.newRecord(COMMENTS, comment);
 			record.store();
-			return Response.ok(record.getId()).build();
+			return record.getId();
 		}
 	}
 
@@ -55,13 +55,13 @@ public class CommentResource
 	@Path("/{commentId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteComment(@PathParam("commentId") Integer commentId)
-		throws IOException, SQLException
+	public boolean deleteComment(@PathParam("commentId") Integer commentId)
+		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (commentId == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -73,14 +73,9 @@ public class CommentResource
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbRecord == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return Response.ok(false).build();
-			}
+				throw new NotFoundException();
 			else
-			{
-				return Response.ok(dbRecord.delete() == 1).build();
-			}
+				return dbRecord.delete() == 1;
 		}
 	}
 }

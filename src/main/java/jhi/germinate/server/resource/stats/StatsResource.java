@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.stats;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.jooq.GDSL;
 import org.jooq.*;
@@ -19,7 +19,6 @@ import org.jooq.impl.*;
 import java.io.*;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,33 +54,28 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableTaxonomies.V
 @Path("stats")
 @Secured
 @PermitAll
-public class StatsResource
+public class StatsResource extends BaseResource
 {
-	@Context
-	protected SecurityContext     securityContext;
-	@Context
-	protected HttpServletRequest  req;
-	@Context
-	protected HttpServletResponse resp;
-
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/biologicalstatus")
-	public Response getBioStatusStats()
+	public StreamingOutput getBioStatusStats(@Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
-		return export("biologicalstatus", VIEW_STATS_BIOLOGICALSTATUS);
+		File result = export("biologicalstatus", VIEW_STATS_BIOLOGICALSTATUS);
+		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
 	}
 
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/country")
-	public Response getCountryStats()
+	public StreamingOutput getCountryStats(@Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
-		return export("country", VIEW_STATS_COUNTRY);
+		File result = export("country", VIEW_STATS_COUNTRY);
+		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
 	}
 
 	@GET
@@ -89,7 +83,7 @@ public class StatsResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/entitytype")
 	public List<EntityTypeStats> getEntityTypeStats()
-			throws IOException, SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -209,7 +203,7 @@ public class StatsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/pdci")
-	public Response getPdciStats()
+	public StreamingOutput getPdciStats(@Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
 		File file = ResourceUtils.createTempFile("pdci", ".tsv");
@@ -253,28 +247,21 @@ public class StatsResource
 			});
 		}
 
-		java.nio.file.Path filePath = file.toPath();
-		return Response.ok((StreamingOutput) output -> {
-						   Files.copy(filePath, output);
-						   Files.deleteIfExists(filePath);
-					   })
-		               .type("text/plain")
-		               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-		               .header("content-length", file.length())
-		               .build();
+		return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
 	}
 
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/taxonomy")
-	public Response getTaxonomyStats()
+	public StreamingOutput getTaxonomyStats(@Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
-		return export("taxonomy", VIEW_STATS_TAXONOMY);
+		File result = export("taxonomy", VIEW_STATS_TAXONOMY);
+		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
 	}
 
-	protected Response export(String filename, TableImpl<? extends Record> table)
+	protected File export(String filename, TableImpl<? extends Record> table)
 			throws IOException, SQLException
 	{
 		try
@@ -292,25 +279,15 @@ public class StatsResource
 			catch (IOException e)
 			{
 				e.printStackTrace();
-				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-				return null;
+				throw new InternalServerErrorException();
 			}
 
-			java.nio.file.Path filePath = file.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-							   Files.deleteIfExists(filePath);
-						   })
-			               .type("text/plain")
-			               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-			               .header("content-length", file.length())
-			               .build();
+			return file;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -318,8 +295,8 @@ public class StatsResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/meta")
-	public Response getMetaTats()
-			throws IOException, SQLException
+	public List<GermplasmMetaStats> getMetaTats()
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -327,25 +304,24 @@ public class StatsResource
 
 			Field<Double> pdciField = DSL.floor(GERMINATEBASE.PDCI).as("pdci");
 
-			return Response.ok(context.select(
-											  TAXONOMIES.GENUS,
-											  TAXONOMIES.SPECIES,
-											  GDSL.concatWS(" ", TAXONOMIES.GENUS, TAXONOMIES.SPECIES).as("taxonomy"),
-											  DSL.substringIndex(BIOLOGICALSTATUS.SAMPSTAT, "(", 1).as("sampstat"),
-											  pdciField
-									  )
-			                          .from(GERMINATEBASE)
-			                          .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-			                          .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-			                          .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
-			                          .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
-			                          .andNot(
-											  TAXONOMIES.GENUS.isNull()
-					                                          .and(pdciField.isNull())
-					                                          .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
-									  )
-			                          .fetchInto(GermplasmMetaStats.class))
-			               .build();
+			return context.select(
+								  TAXONOMIES.GENUS,
+								  TAXONOMIES.SPECIES,
+								  GDSL.concatWS(" ", TAXONOMIES.GENUS, TAXONOMIES.SPECIES).as("taxonomy"),
+								  DSL.substringIndex(BIOLOGICALSTATUS.SAMPSTAT, "(", 1).as("sampstat"),
+								  pdciField
+						  )
+			              .from(GERMINATEBASE)
+			              .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+			              .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+			              .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+			              .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+			              .andNot(
+								  TAXONOMIES.GENUS.isNull()
+					                              .and(pdciField.isNull())
+					                              .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
+						  )
+			              .fetchInto(GermplasmMetaStats.class);
 		}
 	}
 }

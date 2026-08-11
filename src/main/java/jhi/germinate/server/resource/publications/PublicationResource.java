@@ -30,13 +30,10 @@ public class PublicationResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Integer putPublication(Publications publication)
-			throws SQLException, IOException
+			throws SQLException
 	{
 		if (publication == null || StringUtils.isEmpty(publication.getDoi()) || publication.getId() != null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		publication.setDoi(publication.getDoi().trim());
 
@@ -61,13 +58,10 @@ public class PublicationResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean putPublicationReference(@PathParam("publicationId") Integer publicationId, Publicationdata data)
-			throws SQLException, IOException
+			throws SQLException
 	{
-		if (data == null || data.getPublicationId() == null || data.getReferenceType() == null || (data.getReferenceType() != PublicationdataReferenceType.database && data.getForeignId() == null) || publicationId == null || publicationId != data.getPublicationId())
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+		if (data == null || data.getPublicationId() == null || data.getReferenceType() == null || (data.getReferenceType() != PublicationdataReferenceType.database && data.getForeignId() == null) || publicationId == null || !publicationId.equals(data.getPublicationId()))
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -78,10 +72,7 @@ public class PublicationResource extends ContextResource
 			PublicationsRecord publication = context.selectFrom(PUBLICATIONS).where(PUBLICATIONS.ID.eq(data.getPublicationId())).fetchAny();
 
 			if (publication == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			boolean exists = false;
 			switch (data.getReferenceType())
@@ -94,15 +85,8 @@ public class PublicationResource extends ContextResource
 					exists = availableIds.contains(data.getForeignId());
 					break;
 				case group:
-					try
-					{
-						GroupResource.checkGroupVisibility(context, userDetails, data.getForeignId());
-						exists = true;
-					}
-					catch (GerminateException e)
-					{
-						exists = false;
-					}
+					GroupResource.checkGroupVisibility(context, userDetails, data.getForeignId());
+					exists = true;
 					break;
 				case experiment:
 					exists = context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(data.getForeignId())).fetchAny() != null;
@@ -113,16 +97,13 @@ public class PublicationResource extends ContextResource
 			}
 
 			if (!exists)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			PublicationdataRecord record = context.selectFrom(PUBLICATIONDATA)
-												  .where(PUBLICATIONDATA.PUBLICATION_ID.eq(data.getPublicationId()))
-												  .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(data.getForeignId()))
-												  .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(data.getReferenceType()))
-												  .fetchAny();
+			                                      .where(PUBLICATIONDATA.PUBLICATION_ID.eq(data.getPublicationId()))
+			                                      .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(data.getForeignId()))
+			                                      .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(data.getReferenceType()))
+			                                      .fetchAny();
 
 			if (record == null)
 			{
@@ -141,8 +122,8 @@ public class PublicationResource extends ContextResource
 	@Path("/{publicationId}/reference/database")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deletePublicationReferenceDatabase(@PathParam("publicationId") Integer publicationId)
-			throws SQLException, IOException
+	public boolean deletePublicationReferenceDatabase(@PathParam("publicationId") Integer publicationId)
+			throws SQLException
 	{
 		return delete(publicationId, PublicationdataReferenceType.database, null);
 	}
@@ -151,8 +132,8 @@ public class PublicationResource extends ContextResource
 	@Path("/{publicationId:\\d+}/reference/{referenceType}/{referenceId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deletePublicationReferenceById(@PathParam("publicationId") Integer publicationId, @PathParam("referenceType") String referenceType, @PathParam("referenceId") Integer referenceId)
-			throws SQLException, IOException
+	public boolean deletePublicationReferenceById(@PathParam("publicationId") Integer publicationId, @PathParam("referenceType") String referenceType, @PathParam("referenceId") Integer referenceId)
+			throws SQLException
 	{
 		PublicationdataReferenceType type = null;
 		try
@@ -166,25 +147,25 @@ public class PublicationResource extends ContextResource
 		return delete(publicationId, type, referenceId);
 	}
 
-	private Response delete(Integer publicationId, PublicationdataReferenceType referenceType, Integer referenceId)
-			throws IOException, SQLException
+	private boolean delete(Integer publicationId, PublicationdataReferenceType referenceType, Integer referenceId)
+			throws SQLException
 	{
 		if (publicationId == null || (referenceType != PublicationdataReferenceType.database && referenceId == null))
-			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			boolean result = context.deleteFrom(PUBLICATIONDATA)
-									.where(PUBLICATIONDATA.PUBLICATION_ID.eq(publicationId))
-									.and(PUBLICATIONDATA.REFERENCE_TYPE.eq(referenceType))
-									.and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(referenceId)).execute() > 0;
+			                        .where(PUBLICATIONDATA.PUBLICATION_ID.eq(publicationId))
+			                        .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(referenceType))
+			                        .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(referenceId)).execute() > 0;
 
 			// Delete all no longer referenced publications
 			context.deleteFrom(PUBLICATIONS).whereNotExists(DSL.selectOne().from(PUBLICATIONDATA).where(PUBLICATIONDATA.PUBLICATION_ID.eq(PUBLICATIONS.ID))).execute();
 
-			return Response.ok(result).build();
+			return result;
 		}
 	}
 }

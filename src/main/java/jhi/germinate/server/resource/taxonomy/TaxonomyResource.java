@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.taxonomy;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.Taxonomies;
 import jhi.germinate.server.resource.BaseResource;
@@ -23,7 +23,7 @@ public class TaxonomyResource extends BaseResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTaxonomies(@QueryParam("onlyGenusSpecies") Boolean onlyGenusSpecies)
+	public List<Taxonomies> getTaxonomies(@QueryParam("onlyGenusSpecies") Boolean onlyGenusSpecies)
 			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -42,9 +42,8 @@ public class TaxonomyResource extends BaseResource
 				fields.add(TAXONOMIES.SPECIES);
 			}
 
-			return Response.ok(context.selectDistinct(fields).from(TAXONOMIES)
-									  .fetchInto(Taxonomies.class))
-						   .build();
+			return context.selectDistinct(fields).from(TAXONOMIES)
+			              .fetchInto(Taxonomies.class);
 		}
 	}
 }

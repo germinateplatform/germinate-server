@@ -21,9 +21,8 @@ import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 public class GermplasmTaxonomyResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTaxonomies()
+	public TaxonCount getTaxonomies()
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -47,7 +46,7 @@ public class GermplasmTaxonomyResource
 									 .groupBy(TAXONOMIES.SUBTAXA)
 									 .fetchInto(TaxonCount.LevelCount.class));
 
-			return Response.ok(result).build();
+			return result;
 		}
 	}
 }
