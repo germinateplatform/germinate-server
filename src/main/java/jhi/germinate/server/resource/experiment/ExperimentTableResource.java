@@ -9,8 +9,7 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
-import jhi.germinate.server.util.Secured;
+import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -28,7 +27,7 @@ public class ExperimentTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableExperiments>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableExperiments>> postExperimentTable(PaginatedRequest request)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -42,8 +41,10 @@ public class ExperimentTableResource extends BaseResource
 			if (previousCount == -1)
 				select.hint("SQL_CALC_FOUND_ROWS");
 
+			Field<Integer> projectId = EXPERIMENTS.PROJECT_ID.as("project_id");
+
 			SelectJoinStep<? extends Record> inner = context.select(
-					EXPERIMENTS.PROJECT_ID.as("project_id"),
+					projectId,
 					EXPERIMENTS.ID.as("experiment_id"),
 					EXPERIMENTS.EXPERIMENT_NAME.as("experiment_name"),
 					EXPERIMENTS.DESCRIPTION.as("experiment_description"),

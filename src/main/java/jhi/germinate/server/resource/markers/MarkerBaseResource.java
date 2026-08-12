@@ -69,9 +69,6 @@ public class MarkerBaseResource extends ExportResource
 
 		SelectSelectStep<?> select = context.select(fields);
 
-		if (previousCount == -1)
-			select.hint("SQL_CALC_FOUND_ROWS");
-
 		SelectJoinStep<?> inner = select.from(MARKERS)
 										.leftJoin(MARKERTYPES).on(MARKERTYPES.ID.eq(MARKERS.MARKERTYPE_ID))
 										.leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(2).and(SYNONYMS.FOREIGN_ID.eq(MARKERS.ID)));

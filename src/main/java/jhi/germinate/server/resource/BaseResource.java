@@ -112,7 +112,7 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 		}
 
 		return step.limit(pageSize)
-				   .offset(pageSize * currentPage);
+		           .offset(pageSize * currentPage);
 	}
 
 	protected static String getSafeColumn(String column)
