@@ -73,7 +73,6 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new ImageExifReaderTask(), 5, 1440, TimeUnit.MINUTES);
-		backgroundScheduler.scheduleAtFixedRate(new UserFeedbackEmailRemovalTask(), 0, 1, TimeUnit.DAYS);
 		backgroundScheduler.scheduleAtFixedRate(new NCBITaxonomyLookupTask(), 0, 7, TimeUnit.DAYS);
 		// Only run the allele frequency -> genotype dataset conversion once on startup
 		backgroundScheduler.schedule(new AlleleToGenotypeDatasetTask(), 10, TimeUnit.MINUTES);

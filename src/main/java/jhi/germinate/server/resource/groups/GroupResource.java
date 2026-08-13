@@ -120,7 +120,7 @@ public class GroupResource extends BaseResource
 	@Path("/{groupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured({UserType.AUTH_USER})
+	@Secured(UserType.AUTH_USER)
 	public boolean patchGroup(Groups group, @PathParam("groupId") Integer groupId)
 			throws SQLException
 	{

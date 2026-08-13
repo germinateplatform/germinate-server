@@ -44,7 +44,7 @@ public class GroupTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GROUPS);
 
 			from.where(VIEW_TABLE_GROUPS.GROUP_VISIBILITY.eq(true)
-														 .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
+			                                             .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
 			where(from, filters, true);
@@ -64,6 +64,38 @@ public class GroupTableResource extends BaseResource
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> postExperimentTableIds(PaginatedRequest request)
+			throws SQLException
+	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_GROUPS.GROUP_ID)
+			                                               .from(VIEW_TABLE_GROUPS);
+
+			from.where(VIEW_TABLE_GROUPS.GROUP_VISIBILITY.eq(true)
+			                                             .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
+
+			// Filter here!
+			where(from, filters);
+
+			List<Integer> result = setPaginationAndOrderBy(from)
+					.fetch()
+					.into(Integer.class);
+
+			return new PaginatedResult<>(result, result.size());
 		}
 	}
 }

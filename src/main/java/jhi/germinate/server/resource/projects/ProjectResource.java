@@ -1,24 +1,29 @@
 package jhi.germinate.server.resource.projects;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.ProjectStats;
 import jhi.germinate.resource.enums.*;
-import jhi.germinate.server.Database;
+import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
 import org.glassfish.jersey.media.multipart.*;
-import org.jooq.DSLContext;
+import org.jooq.*;
 
 import java.io.*;
+import java.io.File;
 import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.UUID;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
 import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
 import static jhi.germinate.server.database.codegen.tables.Projectcollaborators.PROJECTCOLLABORATORS;
@@ -27,7 +32,7 @@ import static jhi.germinate.server.database.codegen.tables.Projectpublications.P
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 
 @Path("project")
-public class ProjectResource
+public class ProjectResource extends ContextResource
 {
 	@GET
 	@Path("/{projectId:\\d+}/stats")
@@ -265,6 +270,100 @@ public class ProjectResource
 			DSLContext context = Database.getContext(conn);
 
 			return context.deleteFrom(PROJECTS).where(PROJECTS.ID.eq(projectId)).execute() > 0;
+		}
+	}
+
+	@POST
+	@Path("/{projectId:\\d+}/group")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
+	public boolean postProjectGroups(@PathParam("projectId") Integer projectId, List<Integer> groupIds)
+			throws SQLException
+	{
+		if (projectId == null || CollectionUtils.isEmpty(groupIds))
+			throw new BadRequestException();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Only leave group ids they have access to
+			groupIds.retainAll(context.select(GROUPS.ID).from(GROUPS).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).fetchInto(Integer.class));
+
+			InsertValuesStep2<ProjectgroupsRecord, Integer, Integer> insertStep = context.insertInto(PROJECTGROUPS, PROJECTGROUPS.PROJECT_ID, PROJECTGROUPS.GROUP_ID);
+
+			for (Integer groupId : groupIds)
+				insertStep.values(projectId, groupId);
+
+			return insertStep.onDuplicateKeyIgnore()
+			                 .execute() > 0;
+		}
+	}
+
+	@POST
+	@Path("/{projectId:\\d+}/experiment")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
+	public boolean postProjectExperiments(@PathParam("projectId") Integer projectId, List<Integer> experimentIds)
+			throws SQLException
+	{
+		if (projectId == null || CollectionUtils.isEmpty(experimentIds))
+			throw new BadRequestException();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.update(EXPERIMENTS).set(EXPERIMENTS.PROJECT_ID, projectId).where(EXPERIMENTS.ID.in(experimentIds)).execute() > 0;
+		}
+	}
+
+	@DELETE
+	@Path("/{projectId:\\d+}/group/{groupId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
+	public boolean deleteProjectGroup(@PathParam("projectId") Integer projectId, @PathParam("groupId") Integer groupId)
+			throws SQLException
+	{
+		if (projectId == null || groupId == null)
+			throw new BadRequestException();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Check they have permissions to use this group
+			Groups group = context.selectFrom(GROUPS).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).fetchAnyInto(Groups.class);
+
+			if (group != null)
+				return context.deleteFrom(PROJECTGROUPS).where(PROJECTGROUPS.PROJECT_ID.eq(projectId).and(PROJECTGROUPS.GROUP_ID.eq(groupId))).execute() > 0;
+			else
+				return false;
+		}
+	}
+
+	@DELETE
+	@Path("/{projectId:\\d+}/experiment/{experimentId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
+	public boolean deleteProjectExperiment(@PathParam("projectId") Integer projectId, @PathParam("experimentId") Integer experimentId)
+			throws SQLException
+	{
+		if (projectId == null || experimentId == null)
+			throw new BadRequestException();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.update(EXPERIMENTS).setNull(EXPERIMENTS.PROJECT_ID).where(EXPERIMENTS.ID.eq(experimentId)).execute() > 0;
 		}
 	}
 }

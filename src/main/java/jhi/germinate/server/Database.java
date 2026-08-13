@@ -1,5 +1,7 @@
 package jhi.germinate.server;
 
+import com.google.gson.Gson;
+import jhi.germinate.resource.Userfeedback;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.database.codegen.GerminateDb;
 import jhi.germinate.server.resource.ResourceUtils;
@@ -15,7 +17,6 @@ import java.io.*;
 import java.io.File;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
@@ -197,7 +198,7 @@ public class Database
 			boolean databaseExists = true;
 			// Check if the germinatebase table exists
 			try (Connection conn = getConnection();
-				 PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(1) AS count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?"))
+			     PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(1) AS count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?"))
 			{
 				stmt.setString(1, databaseName);
 				stmt.setString(2, "germinatebase");
@@ -249,6 +250,41 @@ public class Database
 			catch (SQLException | DataAccessException e)
 			{
 				e.printStackTrace();
+				Logger.getLogger("").severe(e.getLocalizedMessage());
+			}
+
+			// Now dump all information from the legacy `userfeedbacks` table into a json file, then drop the table.
+			try (Connection conn = getConnection())
+			{
+				Logger.getLogger("").log(Level.INFO, "DUMPING THEN DROPPING `USERFEEDBACK` TABLE");
+				DSLContext context = Database.getContext(conn);
+
+				List<Userfeedback> feedback = context.selectFrom("userfeedback")
+				                                     .fetchInto(Userfeedback.class);
+
+				if (!CollectionUtils.isEmpty(feedback))
+				{
+					File jsonFile = ResourceUtils.getFromExternal("userfeedback_dump.json", "backups");
+					File zipFile = ResourceUtils.getFromExternal("userfeedback_dump.zip", "backups");
+					jsonFile.getParentFile().mkdirs();
+
+					Gson gson = new Gson();
+					try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFile)))
+					{
+						writer.write(gson.toJson(feedback));
+					}
+
+					FileUtils.zipUp(zipFile, Collections.singletonList(jsonFile));
+				}
+			}
+			catch (SQLException e)
+			{
+				// Do nothing here, we expect this to fail once the table no longer exists
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				Logger.getLogger("").severe(e.getLocalizedMessage());
 			}
 
 			try
@@ -273,12 +309,12 @@ public class Database
 			{
 				Logger.getLogger("").log(Level.INFO, "RUNNING FLYWAY on: " + databaseName);
 				Flyway flyway = Flyway.configure()
-									  .table("schema_version")
-									  .validateOnMigrate(false)
-									  .dataSource(getDatabaseUrl(false), username, password)
-									  .locations("classpath:jhi/germinate/server/util/database/migration")
-									  .baselineOnMigrate(true)
-									  .load();
+				                      .table("schema_version")
+				                      .validateOnMigrate(false)
+				                      .dataSource(getDatabaseUrl(false), username, password)
+				                      .locations("classpath:jhi/germinate/server/util/database/migration")
+				                      .baselineOnMigrate(true)
+				                      .load();
 
 				MigrationInfo[] pending = flyway.info().pending();
 				if (!CollectionUtils.isEmpty(pending))
@@ -395,10 +431,10 @@ public class Database
 						// Get all the backups from the folder sorted by modification date DESC
 						File folder = dbBackupFile.getParentFile();
 						List<File> backupFiles = Files.list(folder.toPath())
-													  .map(Path::toFile)
-													  .filter(f -> f.getName().endsWith(".zip"))
-													  .sorted((a, b) -> (int) Math.signum(b.lastModified() - a.lastModified()))
-													  .toList();
+						                              .map(Path::toFile)
+						                              .filter(f -> f.getName().endsWith(".zip"))
+						                              .sorted((a, b) -> (int) Math.signum(b.lastModified() - a.lastModified()))
+						                              .toList();
 
 						// If there is more than 2
 						if (backupFiles.size() > 2)
@@ -442,7 +478,7 @@ public class Database
 	private static void executeFile(File sqlFile)
 	{
 		try (Connection conn = getConnection();
-			 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sqlFile), StandardCharsets.UTF_8)))
+		     BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sqlFile), StandardCharsets.UTF_8)))
 		{
 			ScriptRunner runner = new ScriptRunner(conn, true, true);
 			runner.runScript(br);

@@ -9,7 +9,7 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -99,6 +99,33 @@ public class ExperimentTableResource extends BaseResource
 			}
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> postExperimentTableIds(PaginatedRequest request)
+			throws SQLException
+	{
+		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(EXPERIMENTS.ID)
+			                                               .from(EXPERIMENTS);
+
+			// Filter here!
+			where(from, filters);
+
+			List<Integer> result = setPaginationAndOrderBy(from)
+					.fetch()
+					.into(Integer.class);
+
+			return new PaginatedResult<>(result, result.size());
 		}
 	}
 }
