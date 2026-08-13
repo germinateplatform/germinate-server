@@ -14,7 +14,7 @@ public enum ServerProperty
 	COLOR_PRIMARY("color.primary", null, false),
 	COMMENTS_ENABLED("comments.enabled", "true", false),
 	DASHBOARD_CATEGORIES("dashboard.categories", "germplasm,markers,traits,locations", false),
-	DASHBOARD_SECTIONS("dashboard.sections", "publications,news,projects,dataupdates,datastories", false),
+	DASHBOARD_SECTIONS("dashboard.sections", "news,publications,datastories,dataupdates", false),
 	DATA_DIRECTORY_EXTERNAL("data.directory.external", "/data/germinate", true),
 	DATA_IMPORT_MODE("data.import.mode", "NONE", false),
 	DATABASE_SERVER("database.server", null, true),
