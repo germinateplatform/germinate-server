@@ -194,6 +194,8 @@ public class SettingsResource extends BaseResource
 		if (StringUtils.isEmpty(config.getDataDirectoryExternal()))
 			throw new BadRequestException();
 
+		Integer currentBackupValue = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);
+
 		PropertyWatcher.setInteger(ServerProperty.BRAPI_ENABLED, config.getBcryptSalt());
 		PropertyWatcher.setBoolean(ServerProperty.BRAPI_ENABLED, config.getBrapiEnabled());
 		PropertyWatcher.set(ServerProperty.DATA_DIRECTORY_EXTERNAL, config.getDataDirectoryExternal());
@@ -255,6 +257,10 @@ public class SettingsResource extends BaseResource
 		AuthenticationFilter.invalidateAllTokens();
 
 		PropertyWatcher.storeProperties();
+
+		// If the value changed, reset the configuration
+		if (!Objects.equals(currentBackupValue, config.getDatabaseBackupEveryDays()))
+			ApplicationListener.resetBackupScheduler();
 
 		return getAdminSettings();
 	}

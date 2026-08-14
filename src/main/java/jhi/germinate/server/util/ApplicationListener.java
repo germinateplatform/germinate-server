@@ -32,6 +32,7 @@ public class ApplicationListener implements ServletContextListener
 	public static final IScheduler SCHEDULER = new ProcessScheduler();
 
 	private static ScheduledExecutorService backgroundScheduler;
+	private static ScheduledFuture<?> backupFuture;
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce)
@@ -72,15 +73,14 @@ public class ApplicationListener implements ServletContextListener
 		// Every 15 minutes, check the async job status
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
+		// Every day, reload exif info (using minutes unit to accommodate the 5-minute delay)
 		backgroundScheduler.scheduleAtFixedRate(new ImageExifReaderTask(), 5, 1440, TimeUnit.MINUTES);
+		// Every 7 days re-run the NCBI taxonomy lookup
 		backgroundScheduler.scheduleAtFixedRate(new NCBITaxonomyLookupTask(), 0, 7, TimeUnit.DAYS);
-		// Only run the allele frequency -> genotype dataset conversion once on startup
+		// Only run the allele frequency -> genotype dataset conversion once 10 minutes after startup
 		backgroundScheduler.schedule(new AlleleToGenotypeDatasetTask(), 10, TimeUnit.MINUTES);
 
-		// Create automatic database backups every X days
-		Integer dbBackupEveryDays = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);
-		if (dbBackupEveryDays != null)
-			backgroundScheduler.scheduleAtFixedRate(new DatabaseBackupTask(), dbBackupEveryDays, dbBackupEveryDays, TimeUnit.DAYS);
+		resetBackupScheduler();
 
 		// Every 5 minutes, get an update on the user information from Gatekeeper
 		if (!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL)))
@@ -100,6 +100,16 @@ public class ApplicationListener implements ServletContextListener
 
 		if (PropertyWatcher.getBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER))
 			backgroundScheduler.scheduleAtFixedRate(new HiddenPagesAutodiscoverTask(), 0, 1, TimeUnit.HOURS);
+	}
+
+	public static void resetBackupScheduler () {
+		if (backupFuture != null)
+			backupFuture.cancel(true);
+
+		// Create automatic database backups every X days
+		Integer dbBackupEveryDays = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);
+		if (dbBackupEveryDays != null)
+			backupFuture = backgroundScheduler.scheduleAtFixedRate(new DatabaseBackupTask(), dbBackupEveryDays, dbBackupEveryDays, TimeUnit.DAYS);
 	}
 
 	private void ensureCarouselFileExists(List<LocaleConfig> locales)
