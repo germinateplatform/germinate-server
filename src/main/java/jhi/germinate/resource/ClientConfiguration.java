@@ -41,4 +41,5 @@ public class ClientConfiguration
 	private HiddenColumns      hiddenColumns;
 	private Boolean            supportsFeedback;
 	private String             genesysUrl;
+	private Boolean            donationsSectionEnabled;
 }

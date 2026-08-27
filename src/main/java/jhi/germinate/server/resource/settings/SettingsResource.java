@@ -37,10 +37,21 @@ public class SettingsResource extends BaseResource
 	{
 		AuthenticationMode authMode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 		boolean dbConValid = Database.check(PropertyWatcher.get(ServerProperty.DATABASE_SERVER), PropertyWatcher.get(ServerProperty.DATABASE_NAME), PropertyWatcher.get(ServerProperty.DATABASE_PORT), PropertyWatcher.get(ServerProperty.DATABASE_USERNAME), PropertyWatcher.get(ServerProperty.DATABASE_PASSWORD));
+		boolean gkConValid = authMode == AuthenticationMode.NONE || GatekeeperClient.connectionValid();
 
 		// If something isn't configured correctly, then the client needs to run through setup
-		if (!dbConValid || (authMode != AuthenticationMode.NONE && !GatekeeperClient.connectionValid()))
-			throw new ServiceUnavailableException();
+		if (!dbConValid || !gkConValid)
+		{
+			Response response = Response
+					.status(Response.Status.SERVICE_UNAVAILABLE)
+					.entity(new GerminateConfigStatus()
+							.setDbConfigValid(dbConValid)
+							.setGkConfigValid(gkConValid))
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+
+			throw new ServiceUnavailableException(response);
+		}
 		else
 		{
 			Set<String> hiddenPages = new HashSet<>();
@@ -66,6 +77,7 @@ public class SettingsResource extends BaseResource
 					.setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
 					.setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 					.setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
+					.setDonationsSectionEnabled(PropertyWatcher.getBoolean(ServerProperty.DONATIONS_SECTION_ENABLED))
 					.setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
 					.setGenesysUrl(PropertyWatcher.get(ServerProperty.GENESYS_URL))
 					.setHiddenColumns(new HiddenColumns()
@@ -141,6 +153,7 @@ public class SettingsResource extends BaseResource
 		      .setExternalLinkIdentifier(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER))
 		      .setExternalLinkTemplate(PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_TEMPLATE))
 		      .setShowGdprNotification(PropertyWatcher.getBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED))
+		      .setDonationsSectionEnabled(PropertyWatcher.getBoolean(ServerProperty.DONATIONS_SECTION_ENABLED))
 		      .setGoogleAnalyticsKey(PropertyWatcher.get(ServerProperty.GOOGLE_ANALYTICS_KEY))
 		      .setHiddenColumns(new HiddenColumns()
 					  .setGermplasm(PropertyWatcher.getPropertyList(ServerProperty.HIDDEN_COLUMNS_GERMPLASM, String.class))
@@ -218,6 +231,7 @@ public class SettingsResource extends BaseResource
 		PropertyWatcher.set(ServerProperty.EXTERNAL_LINK_IDENTIFIER, config.getExternalLinkIdentifier());
 		PropertyWatcher.set(ServerProperty.EXTERNAL_LINK_TEMPLATE, config.getExternalLinkTemplate());
 		PropertyWatcher.setBoolean(ServerProperty.GRPD_NOTIFICATION_ENABLED, config.getShowGdprNotification());
+		PropertyWatcher.setBoolean(ServerProperty.DONATIONS_SECTION_ENABLED, config.getDonationsSectionEnabled());
 		PropertyWatcher.set(ServerProperty.GOOGLE_ANALYTICS_KEY, config.getGoogleAnalyticsKey());
 		PropertyWatcher.set(ServerProperty.PLAUSIBLE_DOMAIN, config.getPlausibleDomain());
 		PropertyWatcher.setBoolean(ServerProperty.PLAUSIBLE_HASH_MODE, config.getPlausibleHashMode());
@@ -323,7 +337,7 @@ public class SettingsResource extends BaseResource
 	public boolean postTemplateAboutConfig(@FormDataParam("name") String name, @FormDataParam("description") String description, @FormDataParam("group") String group, @FormDataParam("url") String url, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
 			throws IOException
 	{
-		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(url) || fileIs == null)
+		if (StringUtils.isEmpty(name) || fileIs == null)
 			throw new BadRequestException();
 
 		AboutConfig.AboutInfo newInfo = new AboutConfig.AboutInfo()

@@ -121,7 +121,14 @@ public class GatekeeperClient
 		}
 		else
 		{
-			reset();
+			try
+			{
+				reset();
+			}
+			catch (Exception e)
+			{
+				// Do nothing here
+			}
 
 			return token != null;
 		}

@@ -22,7 +22,7 @@ import static jhi.germinate.server.database.codegen.tables.ImageToTags.*;
 import static jhi.germinate.server.database.codegen.tables.Images.*;
 import static jhi.germinate.server.database.codegen.tables.Imagetags.*;
 
-@Path("image/{imageId}/tag")
+@Path("image/{imageId:\\d+}/tag")
 @Secured({UserType.DATA_CURATOR})
 public class ImageSpecificTagModResource
 {
@@ -149,7 +149,7 @@ public class ImageSpecificTagModResource
 										 .filter(Objects::nonNull)
 										 .map(String::strip)
 										 .map(String::toLowerCase)
-										 .collect(Collectors.toList());
+										 .toList();
 
 			// Get the existing tags from the database
 			List<String> existingTags = context.select(DSL.lower(IMAGETAGS.TAG_NAME))

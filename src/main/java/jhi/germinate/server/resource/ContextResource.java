@@ -1,11 +1,13 @@
 package jhi.germinate.server.resource;
 
 import jakarta.servlet.http.*;
+import jakarta.ws.rs.InternalServerErrorException;
 import jakarta.ws.rs.core.*;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.*;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.Files;
+import java.util.logging.Logger;
 
 public class ContextResource
 {
@@ -13,6 +15,22 @@ public class ContextResource
 	protected SecurityContext     securityContext;
 	@Context
 	protected HttpServletRequest  req;
+
+	protected Response toImageResponse (File file, String type) {
+		try
+		{
+			byte[] bytes = IOUtils.toByteArray(file.toURI());
+
+			return Response.ok(new ByteArrayInputStream(bytes))
+			               .header("Content-Type", type)
+			               .build();
+		}
+		catch (IOException e)
+		{
+			Logger.getLogger("").severe(e.getLocalizedMessage());
+			throw new InternalServerErrorException();
+		}
+	}
 
 	protected File toFileResult (File file, String type, HttpServletResponse response) {
 		response.setHeader("Content-Length", String.valueOf(file.length()));

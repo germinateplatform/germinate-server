@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-06-30 14:18:41.
+// Generated using typescript-generator version 3.2.1263 on 2026-08-27 12:13:30.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -132,6 +132,7 @@ export interface ClientConfiguration {
     hiddenColumns: HiddenColumns;
     supportsFeedback: boolean;
     genesysUrl: string;
+    donationsSectionEnabled: boolean;
 }
 
 export interface ClimateDatasetRequest extends DatasetRequest {
@@ -264,6 +265,11 @@ export interface GenotypeSubsetDatasetRequest extends PaginatedRequest {
     fileTypes: AdditionalExportFormat[];
 }
 
+export interface GerminateConfigStatus {
+    dbConfigValid: boolean;
+    gkConfigValid: boolean;
+}
+
 export interface GermplasmDistance extends ViewTableGermplasm {
     distance: number;
 }
@@ -292,12 +298,6 @@ export interface GermplasmStats {
     avg: number;
     max: number;
     count: number;
-}
-
-export interface GermplasmUnificationRequest {
-    preferredGermplasmId: number;
-    otherGermplasmIds: number[];
-    explanation: string;
 }
 
 export interface GroupModificationRequest {
@@ -465,8 +465,8 @@ export interface ServerSetupConfig {
     gkConfig: GatekeeperConfig;
 }
 
-export interface SgoneGermplasmUnificationRequest {
-    unifications: SgoneGermplasmUnification[];
+export interface SgoneUnificationRequest {
+    unifications: SgoneUnification[];
 }
 
 export interface Token {
@@ -543,19 +543,34 @@ export interface UnacceptedLicenseRequest extends PaginatedRequest {
     justUnacceptedLicenses: boolean;
 }
 
+export interface UnificationRequest {
+    preferredId: number;
+    otherIds: number[];
+    explanation: string;
+}
+
 export interface UserGroupModificationRequest {
     userGroupId: number;
     userIds: number[];
     addOperation: boolean;
 }
 
-export interface UuidRequest {
-    uuids: string[];
+export interface Userfeedback {
+    id: number;
+    content: string;
+    image: any;
+    pageUrl: string;
+    userId: number;
+    contactEmail: string;
+    feedbackType: UserfeedbackFeedbackType;
+    severity: UserfeedbackSeverity;
+    isNew: boolean;
+    createdOn: Date;
+    updatedOn: Date;
 }
 
-export interface VariableUnificationRequest {
-    preferredVariableId: number;
-    otherVariableIds: number[];
+export interface UuidRequest {
+    uuids: string[];
 }
 
 export interface ViewMcpd {
@@ -1649,20 +1664,6 @@ export interface Units extends Serializable {
     updatedOn: Date;
 }
 
-export interface Userfeedback extends Serializable {
-    id: number;
-    content: string;
-    image: any;
-    pageUrl: string;
-    userId: number;
-    contactEmail: string;
-    feedbackType: UserfeedbackFeedbackType;
-    severity: UserfeedbackSeverity;
-    isNew: boolean;
-    createdOn: Date;
-    updatedOn: Date;
-}
-
 export interface Usergroupmembers extends Serializable {
     id: number;
     userId: number;
@@ -1828,6 +1829,7 @@ export interface ViewTableDatasets extends Serializable {
     startDate: Date;
     endDate: Date;
     dublinCore: DublinCore;
+    createdBy: number;
     createdOn: Date;
     updatedOn: Date;
     dataObjectCount: number;
@@ -2176,6 +2178,7 @@ export interface ViewTableTraits extends Serializable {
     variableId: number;
     variableName: string;
     variableDescription: string;
+    variableSynonyms: string[];
     traitId: number;
     traitName: string;
     traitDescription: string;
@@ -2335,9 +2338,9 @@ export interface Exif {
     userComment: string;
     whiteBalance: string;
     whiteBalanceMode: string;
-    fnumber: string;
-    yresolution: string;
     xresolution: string;
+    yresolution: string;
+    fnumber: string;
 }
 
 export interface ExportJobDetails {
@@ -2347,10 +2350,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    yids: number[];
     xgroupIds: number[];
     ygroupIds: number[];
     xids: number[];
+    yids: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2502,7 +2505,7 @@ export interface NewUnapprovedUser extends LocaleRequest {
     unapprovedUser: UnapprovedUsers;
 }
 
-export interface SgoneGermplasmUnification {
+export interface SgoneUnification {
     preferred: SgonePojo;
     others: SgonePojo[];
 }
@@ -2537,24 +2540,24 @@ export interface JsonElement {
     asLong: number;
     asBoolean: boolean;
     asString: string;
-    asByte: number;
-    jsonNull: boolean;
-    asFloat: number;
-    asShort: number;
-    jsonPrimitive: boolean;
-    jsonObject: boolean;
-    asJsonNull: JsonNull;
-    asJsonArray: JsonArray;
     /**
      * @deprecated
      */
     asCharacter: string;
     jsonArray: boolean;
+    jsonPrimitive: boolean;
     asJsonPrimitive: JsonPrimitive;
+    asJsonNull: JsonNull;
+    asBigDecimal: number;
+    jsonObject: boolean;
     asNumber: number;
     asJsonObject: JsonObject;
-    asBigDecimal: number;
     asBigInteger: number;
+    asJsonArray: JsonArray;
+    asByte: number;
+    asFloat: number;
+    asShort: number;
+    jsonNull: boolean;
 }
 
 export interface LevelCount {
@@ -2578,20 +2581,20 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonNull extends JsonElement {
-}
-
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
-    empty: boolean;
-}
-
 export interface JsonPrimitive extends JsonElement {
     number: boolean;
     boolean: boolean;
     string: boolean;
 }
 
+export interface JsonNull extends JsonElement {
+}
+
 export interface JsonObject extends JsonElement {
+    empty: boolean;
+}
+
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
 }
 
@@ -2703,6 +2706,7 @@ export const enum ServerProperty {
     FIELDHUB_URL = 'FIELDHUB_URL',
     MYSQLDUMP_PATH = 'MYSQLDUMP_PATH',
     GRPD_NOTIFICATION_ENABLED = 'GRPD_NOTIFICATION_ENABLED',
+    DONATIONS_SECTION_ENABLED = 'DONATIONS_SECTION_ENABLED',
     HIDDEN_PAGES = 'HIDDEN_PAGES',
     HIDDEN_PAGES_AUTODISCOVER = 'HIDDEN_PAGES_AUTODISCOVER',
     PDCI_ENABLED = 'PDCI_ENABLED',
@@ -2805,6 +2809,20 @@ export const enum BackupType {
     UPDATE = 'UPDATE',
     PERIODICAL = 'PERIODICAL',
     MANUAL = 'MANUAL',
+}
+
+export const enum UserfeedbackFeedbackType {
+    question = 'question',
+    data_error = 'data_error',
+    general = 'general',
+    bug = 'bug',
+    feature_request = 'feature_request',
+}
+
+export const enum UserfeedbackSeverity {
+    low = 'low',
+    medium = 'medium',
+    high = 'high',
 }
 
 export const enum ViewTableClimateDataClimateDataType {
@@ -2947,20 +2965,6 @@ export const enum TraitsTraitClass {
     physiological = 'physiological',
     quality = 'quality',
     other = 'other',
-}
-
-export const enum UserfeedbackFeedbackType {
-    question = 'question',
-    data_error = 'data_error',
-    general = 'general',
-    bug = 'bug',
-    feature_request = 'feature_request',
-}
-
-export const enum UserfeedbackSeverity {
-    low = 'low',
-    medium = 'medium',
-    high = 'high',
 }
 
 export const enum ViewTableClimatesDataType {

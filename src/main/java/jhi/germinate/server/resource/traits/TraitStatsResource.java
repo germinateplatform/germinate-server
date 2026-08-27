@@ -100,7 +100,7 @@ public class TraitStatsResource
 																												  DSL.selectOne()
 					                                                                                                 .from(PHENOTYPEDATA.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)))
 					                                                                                                 .where(TRIALSETUP.DATASET_ID.in(datasetIds))
-					                                                                                                 .and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID))
+					                                                                                                 .and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID))
 																										  )
 			                                                                                              .and(VIEW_TABLE_TRAITS.VARIABLE_ID.in(request.getTraitIds()))
 			                                                                                              .and(VIEW_TABLE_TRAITS.SCALE_DATATYPE.eq(ViewTableTraitsScaleDatatype.categorical))

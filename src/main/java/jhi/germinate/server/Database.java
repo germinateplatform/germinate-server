@@ -277,7 +277,7 @@ public class Database
 					FileUtils.zipUp(zipFile, Collections.singletonList(jsonFile));
 				}
 			}
-			catch (SQLException e)
+			catch (SQLException | DataAccessException e)
 			{
 				// Do nothing here, we expect this to fail once the table no longer exists
 			}

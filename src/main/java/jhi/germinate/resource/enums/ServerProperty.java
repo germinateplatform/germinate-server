@@ -65,6 +65,7 @@ public enum ServerProperty
 	FIELDHUB_URL("fieldhub.url", "https://ics.hutton.ac.uk/fieldhub/", false),
 	MYSQLDUMP_PATH("mysqldump.path", null, false),
 	GRPD_NOTIFICATION_ENABLED("gdpr.notification.enabled", "false", false),
+	DONATIONS_SECTION_ENABLED("donations.section.enabled", "true", false),
 	HIDDEN_PAGES("hidden.pages", null, false),
 	HIDDEN_PAGES_AUTODISCOVER("hidden.pages.autodiscover", "false", true),
 	PDCI_ENABLED("pdci.enabled", "true", false),

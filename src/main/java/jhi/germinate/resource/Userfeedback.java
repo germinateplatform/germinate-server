@@ -20,7 +20,7 @@ import java.util.Arrays;
 @Setter
 @Accessors(chain = true)
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
-public class Userfeedback implements Serializable {
+public class Userfeedback {
 
     private static final long serialVersionUID = 1L;
 
@@ -194,4 +194,18 @@ public class Userfeedback implements Serializable {
         return sb.toString();
     }
     // @formatter:on
+
+    public static enum UserfeedbackFeedbackType {
+        question,
+        data_error,
+        general,
+        bug,
+        feature_request
+    }
+
+    public static enum UserfeedbackSeverity {
+        low,
+        medium,
+        high
+    }
 }

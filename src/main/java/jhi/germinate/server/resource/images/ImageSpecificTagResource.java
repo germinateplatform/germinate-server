@@ -18,7 +18,7 @@ import java.util.List;
 import static jhi.germinate.server.database.codegen.tables.ImageToTags.IMAGE_TO_TAGS;
 import static jhi.germinate.server.database.codegen.tables.Imagetags.IMAGETAGS;
 
-@Path("image/{imageId}/tag")
+@Path("image/{imageId:\\d+}/tag")
 @Secured
 @PermitAll
 public class ImageSpecificTagResource extends BaseResource
