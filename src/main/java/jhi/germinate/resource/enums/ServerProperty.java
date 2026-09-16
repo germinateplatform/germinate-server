@@ -34,7 +34,7 @@ public enum ServerProperty
 	GATEKEEPER_REGISTRATION_ENABLED("gatekeeper.registration.enabled", "false", false),
 	GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL("gatekeeper.registration.requires.approval", "true", false),
 	GOOGLE_ANALYTICS_KEY("google.analytics.key", null, false),
-	HIDDEN_COLUMNS_GERMPLASM("hidden.columns.germplasm", "entityParentName,entityParentGeneralIdentifier,institutionId,institutionName,latitude,longitude,collDate", false),
+	HIDDEN_COLUMNS_GERMPLASM("hidden.columns.germplasm", "entityParentName,entityParentGeneralIdentifier,taxonomyId,institutionId,institutionName,latitude,longitude,collDate", false),
 	HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES("hidden.columns.germplasm.attributes", null, false),
 	HIDDEN_COLUMNS_IMAGES("hidden.columns.images", null, false),
 	HIDDEN_COLUMNS_CLIMATES("hidden.columns.climates", null, false),

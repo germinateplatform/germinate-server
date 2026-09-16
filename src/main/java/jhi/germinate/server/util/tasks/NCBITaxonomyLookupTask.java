@@ -19,7 +19,7 @@ package jhi.germinate.server.util.tasks;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.util.StringUtils;
+import jhi.germinate.server.util.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import okhttp3.OkHttpClient;
@@ -49,13 +49,13 @@ public class NCBITaxonomyLookupTask implements Runnable
 			DSLContext context = Database.getContext(conn);
 
 			List<Taxonomies> taxonomies = context.selectFrom(TAXONOMIES)
-												 .whereNotExists(DSL.selectOne().from(TAXONOMYPROVIDERSLINKS)
-																	.where(TAXONOMYPROVIDERSLINKS.TAXONOMY_ID.eq(TAXONOMIES.ID)))
-												 .fetchInto(Taxonomies.class);
+			                                     .whereNotExists(DSL.selectOne().from(TAXONOMYPROVIDERSLINKS)
+			                                                        .where(TAXONOMYPROVIDERSLINKS.TAXONOMY_ID.eq(TAXONOMIES.ID)))
+			                                     .fetchInto(Taxonomies.class);
 
 			Taxonomyproviders ncbi = context.selectFrom(TAXONOMYPROVIDERS)
-											.where(TAXONOMYPROVIDERS.NAME.eq("NCBI"))
-											.fetchAnyInto(Taxonomyproviders.class);
+			                                .where(TAXONOMYPROVIDERS.NAME.eq("NCBI"))
+			                                .fetchAnyInto(Taxonomyproviders.class);
 
 			if (ncbi == null)
 			{
@@ -63,21 +63,30 @@ public class NCBITaxonomyLookupTask implements Runnable
 				return;
 			}
 
-			Map<String, Integer> map = new HashMap<>();
-			taxonomies.stream()
-					  .map(t -> {
-						  String s = t.getGenus();
-						  if (!StringUtils.isEmpty(t.getSpecies()))
-							  s += " " + t.getSpecies();
+			Map<String, List<Integer>> map = new HashMap<>();
+			taxonomies.forEach(t -> {
+				String s = t.getGenus();
+				if (!StringUtils.isEmpty(t.getSpecies()))
+					s += " " + t.getSpecies();
 
-						  if (!StringUtils.isEmpty(t.getSubtaxa()))
-							  s += " " + t.getSubtaxa();
+				if (!StringUtils.isEmpty(t.getSubtaxa()))
+				{
+					String subtaxa = t.getSubtaxa().toLowerCase();
+					// Let's try to fix some common mistakes for better results
+					if (subtaxa.startsWith("group "))
+						subtaxa = subtaxa.replaceFirst("group ", "subsp. ");
+					s += " " + subtaxa;
+				}
 
-						  map.put(s, t.getId());
+				List<Integer> ids = map.get(s);
 
-						  return s;
-					  })
-					  .toList();
+				if (ids == null)
+					ids = new ArrayList<>();
+
+				ids.add(t.getId());
+
+				map.put(s, ids);
+			});
 
 			// Create the HTTP client with the pool and timeouts
 			OkHttpClient.Builder builder = new OkHttpClient.Builder()
@@ -91,9 +100,9 @@ public class NCBITaxonomyLookupTask implements Runnable
 
 			// Create the retrofit instance
 			Retrofit retrofit = (new Retrofit.Builder()).baseUrl("https://api.ncbi.nlm.nih.gov/datasets/v2/")
-														.addConverterFactory(GsonConverterFactory.create())
-														.client(client)
-														.build();
+			                                            .addConverterFactory(GsonConverterFactory.create())
+			                                            .client(client)
+			                                            .build();
 
 			// Create an instance of the service interface
 			NCBITaxonomyService service = retrofit.create(NCBITaxonomyService.class);
@@ -108,15 +117,19 @@ public class NCBITaxonomyLookupTask implements Runnable
 					{
 						if (item.taxonomy != null && item.query != null && item.query.length > 0)
 						{
-							Integer id = map.get(item.query[0]);
+							List<Integer> ids = map.get(item.query[0]);
 
-							if (id != null)
+							if (!CollectionUtils.isEmpty(ids))
 							{
-								context.insertInto(TAXONOMYPROVIDERSLINKS)
-									   .set(TAXONOMYPROVIDERSLINKS.TAXONOMY_ID, id)
-									   .set(TAXONOMYPROVIDERSLINKS.TAXONOMYPROVIDER_ID, ncbi.getId())
-									   .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
-									   .execute();
+								ids.forEach(id -> {
+									context.insertInto(TAXONOMYPROVIDERSLINKS)
+									       .set(TAXONOMYPROVIDERSLINKS.TAXONOMY_ID, id)
+									       .set(TAXONOMYPROVIDERSLINKS.TAXONOMYPROVIDER_ID, ncbi.getId())
+									       .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
+									       .onDuplicateKeyUpdate()
+									       .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
+									       .execute();
+								});
 							}
 						}
 					}

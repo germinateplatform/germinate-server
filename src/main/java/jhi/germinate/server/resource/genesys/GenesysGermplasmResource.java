@@ -34,7 +34,7 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String postGermplasmList(GenesysRequestDetails details)
+	public Response postGermplasmList(GenesysRequestDetails details)
 			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -68,8 +68,7 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 
 			from.having(DSL.field(GERMPLASM_ID, Integer.class).in(details.getGermplasmIds()));
 
-			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
-					.fetch()
+			List<ViewTableGermplasm> result = from.fetch()
 					.into(ViewTableGermplasm.class);
 
 			Map<String, Integer> mapping = new HashMap<>();
@@ -107,9 +106,9 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 			GenesysResponse response = GenesysClient.postGermplasmRequest(req);
 
 			if (!StringUtils.isEmpty(response.getUuid()))
-				return response.getUuid();
+				return Response.ok(response.getUuid()).build();
 			else
-				throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode(), response.getMissingItems().stream().map(item -> mapping.get(item.doi + "|" + item.genus + "|" + item.getAcceNumb() + "|" + item.getInstCode())).toList());
+				return Response.status(Response.Status.BAD_REQUEST).entity(response.getMissingItems().stream().map(item -> mapping.get(item.doi + "|" + item.genus + "|" + item.getAcceNumb() + "|" + item.getInstCode())).toList()).build();
 		}
 		catch (ServiceUnavailableException e)
 		{

@@ -132,8 +132,8 @@ public class PhenotypeMatrixBuilder
 	{
 		return dsl.select()
 		          .from(VIEW_TABLE_TRAITS)
-		          .where(VIEW_TABLE_TRAITS.TRAIT_ID.in(traitIds))
-		          .fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
+		          .where(VIEW_TABLE_TRAITS.VARIABLE_ID.in(traitIds))
+		          .fetchMap(VIEW_TABLE_TRAITS.VARIABLE_ID, ViewTableTraits.class);
 	}
 
 	private Map<Integer, ViewTableTrialGermplasm> getGermplasm(DSLContext dsl, Integer[] germplasmIds, Integer[] germplasmGroupIds, Integer[] datasetIds)

@@ -44,6 +44,7 @@ public class GermplasmBaseResource extends ExportResource
 	public static String BIOLOGICAL_STATUS_NAME           = "biological_status_name";
 	public static String SSYNONYMS                        = "synonyms";
 	public static String COLLECTOR_NUMBER                 = "collector_number";
+	public static String TAXONOMY_ID                      = "taxonomy_id";
 	public static String GENUS                            = "genus";
 	public static String SPECIES                          = "species";
 	public static String SUBTAXA                          = "subtaxa";
@@ -83,6 +84,7 @@ public class GermplasmBaseResource extends ExportResource
 		COLUMNS.add(BIOLOGICAL_STATUS_NAME);
 		COLUMNS.add(SSYNONYMS);
 		COLUMNS.add(COLLECTOR_NUMBER);
+		COLUMNS.add(TAXONOMY_ID);
 		COLUMNS.add(GENUS);
 		COLUMNS.add(SPECIES);
 		COLUMNS.add(SUBTAXA);
@@ -112,9 +114,9 @@ public class GermplasmBaseResource extends ExportResource
 		Germinatebase g = GERMINATEBASE.as("g");
 
 		Field<?> institutions = DSL.select(DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(INSTITUTIONS.ID), DSL.key("code").value(INSTITUTIONS.CODE), DSL.key("name").value(INSTITUTIONS.NAME), DSL.key("type").value(GERMPLASMINSTITUTIONS.TYPE))))
-								   .from(GERMPLASMINSTITUTIONS).leftJoin(INSTITUTIONS).on(GERMPLASMINSTITUTIONS.INSTITUTION_ID.eq(INSTITUTIONS.ID))
-								   .where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
+		                           .from(GERMPLASMINSTITUTIONS).leftJoin(INSTITUTIONS).on(GERMPLASMINSTITUTIONS.INSTITUTION_ID.eq(INSTITUTIONS.ID))
+		                           .where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+		                           .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
 
 		List<Field<?>> fields = new ArrayList<>(Arrays.asList(GERMINATEBASE.NAME.as(GERMPLASM_NAME),
 				GERMINATEBASE.ID.as(GERMPLASM_ID),
@@ -131,6 +133,7 @@ public class GermplasmBaseResource extends ExportResource
 				BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
 				SYNONYMS.SYNONYMS_.as(SSYNONYMS),
 				MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
+				TAXONOMIES.ID.as(TAXONOMY_ID),
 				TAXONOMIES.GENUS.as(GENUS),
 				TAXONOMIES.SPECIES.as(SPECIES),
 				TAXONOMIES.SUBTAXA.as(SUBTAXA),
@@ -158,29 +161,29 @@ public class GermplasmBaseResource extends ExportResource
 				   .limit(1)
 				   .asField(FIRST_IMAGE_PATH),
 				DSL.coalesce(DSL.selectOne()
-								.from(PHENOTYPEDATA)
-								.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-								.where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-								.and(TRIALSETUP.DATASET_ID.in(datasetIds))
-								.limit(1), 0)
+				                .from(PHENOTYPEDATA)
+				                .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+				                .where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+				                .and(TRIALSETUP.DATASET_ID.in(datasetIds))
+				                .limit(1), 0)
 				   .as(HAS_TRIALS_DATA),
 				DSL.coalesce(DSL.selectOne()
-								.from(DATASETMEMBERS)
-								.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-								.where(DATASETS.ID.in(datasetIds))
-								.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-								.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-								.and(DATASETS.DATASETTYPE_ID.eq(1))
-								.limit(1), 0)
+				                .from(DATASETMEMBERS)
+				                .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+				                .where(DATASETS.ID.in(datasetIds))
+				                .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+				                .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+				                .and(DATASETS.DATASETTYPE_ID.eq(1))
+				                .limit(1), 0)
 				   .as(HAS_GENOTYPIC_DATA),
 				DSL.coalesce(DSL.selectOne()
-								.from(DATASETMEMBERS)
-								.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-								.where(DATASETS.ID.in(datasetIds))
-								.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-								.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-								.and(DATASETS.DATASETTYPE_ID.eq(4))
-								.limit(1), 0)
+				                .from(DATASETMEMBERS)
+				                .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+				                .where(DATASETS.ID.in(datasetIds))
+				                .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+				                .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+				                .and(DATASETS.DATASETTYPE_ID.eq(4))
+				                .limit(1), 0)
 				   .as(HAS_ALLELEFREQ_DATA),
 				DSL.coalesce(
 						DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
@@ -192,15 +195,15 @@ public class GermplasmBaseResource extends ExportResource
 			fields.addAll(Arrays.asList(additionalFields));
 
 		SelectJoinStep<?> inner = context.select(fields)
-										 .from(GERMINATEBASE)
-										 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
-										 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-										 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
-										 .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-										 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
-										 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
-										 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
+		                                 .from(GERMINATEBASE)
+		                                 .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
+		                                 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+		                                 .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
+		                                 .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+		                                 .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
+		                                 .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
+		                                 .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+		                                 .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins))
 		{
@@ -216,9 +219,9 @@ public class GermplasmBaseResource extends ExportResource
 		Germinatebase g = GERMINATEBASE.as("g");
 
 		Field<?> institutions = DSL.select(DSL.jsonArrayAgg(DSL.jsonObject(DSL.key("id").value(INSTITUTIONS.ID), DSL.key("code").value(INSTITUTIONS.CODE), DSL.key("name").value(INSTITUTIONS.NAME), DSL.key("type").value(GERMPLASMINSTITUTIONS.TYPE))))
-								   .from(GERMPLASMINSTITUTIONS).leftJoin(INSTITUTIONS).on(GERMPLASMINSTITUTIONS.INSTITUTION_ID.eq(INSTITUTIONS.ID))
-								   .where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-								   .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
+		                           .from(GERMPLASMINSTITUTIONS).leftJoin(INSTITUTIONS).on(GERMPLASMINSTITUTIONS.INSTITUTION_ID.eq(INSTITUTIONS.ID))
+		                           .where(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+		                           .groupBy(GERMPLASMINSTITUTIONS.GERMINATEBASE_ID).asField(INSTITUTIONS_FIELD);
 
 		List<Field<?>> fields;
 
@@ -248,6 +251,7 @@ public class GermplasmBaseResource extends ExportResource
 					BIOLOGICALSTATUS.SAMPSTAT.as(BIOLOGICAL_STATUS_NAME),
 					SYNONYMS.SYNONYMS_.as(SSYNONYMS),
 					MCPD.COLLNUMB.as(COLLECTOR_NUMBER),
+					TAXONOMIES.ID.as(TAXONOMY_ID),
 					TAXONOMIES.GENUS.as(GENUS),
 					TAXONOMIES.SPECIES.as(SPECIES),
 					TAXONOMIES.SUBTAXA.as(SUBTAXA),
@@ -275,29 +279,29 @@ public class GermplasmBaseResource extends ExportResource
 					   .limit(1)
 					   .asField(FIRST_IMAGE_PATH),
 					DSL.coalesce(DSL.selectOne()
-									.from(PHENOTYPEDATA)
-									.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-									.where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-									.and(TRIALSETUP.DATASET_ID.in(datasetIds))
-									.limit(1), 0)
+					                .from(PHENOTYPEDATA)
+					                .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+					                .where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+					                .and(TRIALSETUP.DATASET_ID.in(datasetIds))
+					                .limit(1), 0)
 					   .as(HAS_TRIALS_DATA),
 					DSL.coalesce(DSL.selectOne()
-									.from(DATASETMEMBERS)
-									.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-									.where(DATASETS.ID.in(datasetIds))
-									.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-									.and(DATASETS.DATASETTYPE_ID.eq(1))
-									.limit(1), 0)
+					                .from(DATASETMEMBERS)
+					                .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+					                .where(DATASETS.ID.in(datasetIds))
+					                .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+					                .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+					                .and(DATASETS.DATASETTYPE_ID.eq(1))
+					                .limit(1), 0)
 					   .as(HAS_GENOTYPIC_DATA),
 					DSL.coalesce(DSL.selectOne()
-									.from(DATASETMEMBERS)
-									.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-									.where(DATASETS.ID.in(datasetIds))
-									.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-									.and(DATASETS.DATASETTYPE_ID.eq(4))
-									.limit(1), 0)
+					                .from(DATASETMEMBERS)
+					                .leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
+					                .where(DATASETS.ID.in(datasetIds))
+					                .and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
+					                .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
+					                .and(DATASETS.DATASETTYPE_ID.eq(4))
+					                .limit(1), 0)
 					   .as(HAS_ALLELEFREQ_DATA),
 					DSL.coalesce(
 							DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
@@ -315,14 +319,14 @@ public class GermplasmBaseResource extends ExportResource
 			select.hint("SQL_CALC_FOUND_ROWS");
 
 		SelectJoinStep<?> inner = select.from(GERMINATEBASE)
-										.leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
-										.leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-										.leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
-										.leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-										.leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
-										.leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
-										.leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
-										.leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
+		                                .leftJoin(g).on(g.ID.eq(GERMINATEBASE.ENTITYPARENT_ID))
+		                                .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+		                                .leftJoin(ENTITYTYPES).on(ENTITYTYPES.ID.eq(GERMINATEBASE.ENTITYTYPE_ID))
+		                                .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+		                                .leftJoin(LOCATIONS).on(LOCATIONS.ID.eq(GERMINATEBASE.LOCATION_ID))
+		                                .leftJoin(COUNTRIES).on(COUNTRIES.ID.eq(LOCATIONS.COUNTRY_ID))
+		                                .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+		                                .leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(1).and(SYNONYMS.FOREIGN_ID.eq(GERMINATEBASE.ID)));
 
 		if (!CollectionUtils.isEmpty(joins))
 		{

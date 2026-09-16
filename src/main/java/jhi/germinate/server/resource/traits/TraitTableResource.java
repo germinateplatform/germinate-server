@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("trait/table")
 @Secured

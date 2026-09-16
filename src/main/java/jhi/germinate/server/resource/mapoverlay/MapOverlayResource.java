@@ -10,10 +10,9 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMapoverlays;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
-import org.apache.commons.io.IOUtils;
 import org.jooq.DSLContext;
 
-import java.io.*;
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 
@@ -28,8 +27,8 @@ public class MapOverlayResource extends ContextResource
 	@Path("/{mapoverlayId:\\d+}/src")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
-	public byte[] getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token, @Context HttpServletResponse response)
-			throws IOException, SQLException
+	public Response getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		if (mapoverlayId == null)
 			throw new BadRequestException();
@@ -48,8 +47,8 @@ public class MapOverlayResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			ViewTableMapoverlays overlay = context.selectFrom(VIEW_TABLE_MAPOVERLAYS)
-			                                      .where(VIEW_TABLE_MAPOVERLAYS.MAPOVERLAY_ID.eq(mapoverlayId))
-			                                      .fetchAnyInto(ViewTableMapoverlays.class);
+												  .where(VIEW_TABLE_MAPOVERLAYS.MAPOVERLAY_ID.eq(mapoverlayId))
+												  .fetchAnyInto(ViewTableMapoverlays.class);
 
 			if (overlay == null)
 				throw new NotFoundException();
@@ -69,19 +68,7 @@ public class MapOverlayResource extends ContextResource
 			if (!image.exists() || !image.isFile())
 				throw new NotFoundException();
 
-			try
-			{
-				byte[] bytes = IOUtils.toByteArray(image.toURI());
-
-				response.setContentType("image/png");
-
-				return bytes;
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-				throw new InternalServerErrorException();
-			}
+			return toImageResponse(image, "image/png");
 		}
 	}
 }
