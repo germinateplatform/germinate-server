@@ -158,7 +158,7 @@ public class BackupResource extends BaseResource
 		File zipFile = ResourceUtils.getFromExternal(filename, "backups");
 
 		if (zipFile != null)
-			return toStreamingResult(zipFile, "application/zip", response);
+			return toStreamingResult(zipFile, "application/zip", false, response);
 		else
 			throw new NotFoundException();
 	}

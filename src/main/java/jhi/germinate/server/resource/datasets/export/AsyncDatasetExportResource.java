@@ -8,14 +8,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.DataExportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
-import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
@@ -149,7 +147,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			record.setVisibility(false);
 			record.store(DATA_EXPORT_JOBS.VISIBILITY);
 
-			return toDiretoryStreamingResult(resultFile, jobFolder, "application/zip", response);
+			return toDirectoryStreamingResult(resultFile, jobFolder, "application/zip", response);
 		}
 	}
 }

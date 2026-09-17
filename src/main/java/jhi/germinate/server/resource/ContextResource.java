@@ -46,7 +46,7 @@ public class ContextResource
 		return file;
 	}
 
-	protected StreamingOutput toDiretoryStreamingResult (File result, File folder, String type, HttpServletResponse response) {
+	protected StreamingOutput toDirectoryStreamingResult(File result, File folder, String type, HttpServletResponse response) {
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + result.getName() + "\"");
 		response.setHeader("Content-Length", String.valueOf(result.length()));
 		response.setContentType(type);
@@ -62,7 +62,12 @@ public class ContextResource
 		};
 	}
 
-	protected StreamingOutput toStreamingResult (File result, String type, HttpServletResponse response) {
+	protected StreamingOutput toStreamingResult (File result, String type, HttpServletResponse response)
+	{
+		return toStreamingResult(result, type, true, response);
+	}
+
+	protected StreamingOutput toStreamingResult (File result, String type, boolean delete, HttpServletResponse response) {
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + result.getName() + "\"");
 		response.setHeader("Content-Length", String.valueOf(result.length()));
 		response.setContentType(type);
@@ -72,7 +77,10 @@ public class ContextResource
 			try {
 				Files.copy(filePath, output);
 			} finally {
-				Files.deleteIfExists(filePath);
+				if (delete)
+				{
+					Files.deleteIfExists(filePath);
+				}
 			}
 		};
 	}

@@ -41,7 +41,7 @@ public class ImageTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_IMAGES);
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<ViewTableImages> result = setPaginationAndOrderBy(from)
 					.fetch()
