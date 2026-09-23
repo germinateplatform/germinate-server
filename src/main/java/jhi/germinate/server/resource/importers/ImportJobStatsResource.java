@@ -5,7 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.PaginatedRequest;
+import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImportJobs;
 import jhi.germinate.server.resource.BaseResource;
@@ -65,6 +65,12 @@ public class ImportJobStatsResource extends BaseResource
 			List<ViewTableImportJobs> result = setPaginationAndOrderBy(from)
 					.fetch()
 					.into(ViewTableImportJobs.class);
+
+			result.forEach(r -> {
+				ViewUserDetailsType user = GatekeeperClient.getUser(r.getUserId());
+				if (user != null)
+					r.setUserName(user.getFullName());
+			});
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

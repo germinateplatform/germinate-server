@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-08-27 12:13:30.
+// Generated using typescript-generator version 3.2.1263 on 2026-09-23 08:02:57.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -1965,6 +1965,8 @@ export interface ViewTableImportJobs extends Serializable {
     isUpdate: boolean;
     datasetstateId: number;
     datatype: ViewTableImportJobsDatatype;
+    userId: number;
+    userName: string;
     status: ViewTableImportJobsStatus;
     stats: ImportJobStats;
     createdOn: Date;
@@ -2338,8 +2340,8 @@ export interface Exif {
     userComment: string;
     whiteBalance: string;
     whiteBalanceMode: string;
-    xresolution: string;
     yresolution: string;
+    xresolution: string;
     fnumber: string;
 }
 
@@ -2350,8 +2352,8 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    xgroupIds: number[];
     ygroupIds: number[];
+    xgroupIds: number[];
     xids: number[];
     yids: number[];
 }
@@ -2540,24 +2542,24 @@ export interface JsonElement {
     asLong: number;
     asBoolean: boolean;
     asString: string;
+    asShort: number;
+    asFloat: number;
+    jsonNull: boolean;
+    asJsonPrimitive: JsonPrimitive;
+    jsonArray: boolean;
+    jsonObject: boolean;
+    jsonPrimitive: boolean;
+    asJsonObject: JsonObject;
+    asJsonArray: JsonArray;
+    asJsonNull: JsonNull;
     /**
      * @deprecated
      */
     asCharacter: string;
-    jsonArray: boolean;
-    jsonPrimitive: boolean;
-    asJsonPrimitive: JsonPrimitive;
-    asJsonNull: JsonNull;
     asBigDecimal: number;
-    jsonObject: boolean;
-    asNumber: number;
-    asJsonObject: JsonObject;
     asBigInteger: number;
-    asJsonArray: JsonArray;
+    asNumber: number;
     asByte: number;
-    asFloat: number;
-    asShort: number;
-    jsonNull: boolean;
 }
 
 export interface LevelCount {
@@ -2583,11 +2585,8 @@ export interface Data extends Serializable {
 
 export interface JsonPrimitive extends JsonElement {
     number: boolean;
-    boolean: boolean;
     string: boolean;
-}
-
-export interface JsonNull extends JsonElement {
+    boolean: boolean;
 }
 
 export interface JsonObject extends JsonElement {
@@ -2596,6 +2595,9 @@ export interface JsonObject extends JsonElement {
 
 export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
+}
+
+export interface JsonNull extends JsonElement {
 }
 
 export interface Cloneable {
