@@ -26,19 +26,19 @@ import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 /**
- * Pulls long-format phenotype data (germplasm, trait, value) out of
+ * Pulls long-format phenotype data (germplasm, variable, value) out of
  * PHENOTYPEDATA / TRIALSETUP and pivots it into a matrix of
- * germplasm (+ plot position) x trait.
+ * germplasm (+ plot position) x variable.
  * <p>
  * Rows are merged together only when block, rep, trial_row and trial_column
- * all match - i.e. they come from the same physical plot. Numeric traits are
+ * all match - i.e. they come from the same physical plot. Numeric variables are
  * averaged across whatever contributes to that plot; everything else takes
  * the most recently recorded value, falling back to a majority vote.
  */
 public class PhenotypeMatrixBuilder
 {
 	private Gson                                  gson;
-	private Map<Integer, ViewTableTraits>         traits;
+	private Map<Integer, ViewTableTraits>         variables;
 	private Map<Integer, ViewTableTrialGermplasm> germplasm;
 	private AggregationMethod                     aggregationMethod = AggregationMethod.MEDIAN;
 
@@ -48,12 +48,39 @@ public class PhenotypeMatrixBuilder
 	public record PlotKey(int germplasmId, String block, String rep, String treatment, Short trialRow,
 	                      Short trialColumn, Integer locationId, Double latitude, Double longitude, Integer year)
 	{
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (!(o instanceof PlotKey that)) return false;
+			return germplasmId == that.germplasmId &&
+					Objects.equals(block, that.block) &&
+					Objects.equals(rep, that.rep) &&
+					Objects.equals(treatment, that.treatment) &&
+					Objects.equals(trialRow, that.trialRow) &&
+					Objects.equals(trialColumn, that.trialColumn) &&
+					Objects.equals(locationId, that.locationId) &&
+					Objects.equals(year, that.year);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(
+					germplasmId,
+					block,
+					rep,
+					treatment,
+					trialRow,
+					trialColumn,
+					locationId,
+					year
+			);
+		}
 	}
 
 	/**
 	 * One raw (variable, value, date) triple read from phenotypedata for a given plot.
 	 */
-	private record DataPoint(int traitId, String value, Timestamp recordingDate, int datasetId)
+	private record DataPoint(int variableId, String value, Timestamp recordingDate, int datasetId)
 	{
 	}
 
@@ -84,13 +111,13 @@ public class PhenotypeMatrixBuilder
 	public PhenotypeMatrix buildMatrix(DSLContext dsl, TrialsExportDatasetRequest request)
 	{
 		// Get requested items
-		traits = getTraits(dsl, request.getTraitIds());
+		variables = getVariables(dsl, request.getTraitIds());
 		germplasm = getGermplasm(dsl, request.getGermplasmIds(), request.getGermplasmGroupIds(), request.getDatasetIds());
 
-		Set<Integer> numericTraitIds = traits.keySet().stream().filter(traitId -> traits.get(traitId).getScaleDatatype() == ViewTableTraitsScaleDatatype.numeric).collect(Collectors.toSet());
+		Set<Integer> numericVariableIds = variables.keySet().stream().filter(variableId -> variables.get(variableId).getScaleDatatype() == ViewTableTraitsScaleDatatype.numeric).collect(Collectors.toSet());
 
 		// Get the actual data
-		Map<PlotKey, List<DataPoint>> byPlot = fetchRawData(dsl, request.getDatasetIds(), traits.keySet(), germplasm.keySet());
+		Map<PlotKey, List<DataPoint>> byPlot = fetchRawData(dsl, request.getDatasetIds(), variables.keySet(), germplasm.keySet());
 
 		List<PlotKey> plotKeys = new ArrayList<>(byPlot.keySet());
 		Map<PlotKey, Map<Integer, String>> cells = new LinkedHashMap<>();
@@ -98,23 +125,23 @@ public class PhenotypeMatrixBuilder
 
 		for (Map.Entry<PlotKey, List<DataPoint>> entry : byPlot.entrySet())
 		{
-			Map<Integer, List<DataPoint>> byTrait = entry.getValue().stream()
-			                                             .collect(Collectors.groupingBy(DataPoint::traitId, LinkedHashMap::new, Collectors.toList()));
+			Map<Integer, List<DataPoint>> byVariable = entry.getValue().stream()
+			                                             .collect(Collectors.groupingBy(DataPoint::variableId, LinkedHashMap::new, Collectors.toList()));
 
-			Map<Integer, String> traitValues = new LinkedHashMap<>();
-			for (Map.Entry<Integer, List<DataPoint>> traitEntry : byTrait.entrySet())
+			Map<Integer, String> variableValues = new LinkedHashMap<>();
+			for (Map.Entry<Integer, List<DataPoint>> variableEntry : byVariable.entrySet())
 			{
-				int traitId = traitEntry.getKey();
-				List<DataPoint> points = traitEntry.getValue();
+				int variableId = variableEntry.getKey();
+				List<DataPoint> points = variableEntry.getValue();
 
-				String aggregated = numericTraitIds.contains(traitId)
+				String aggregated = numericVariableIds.contains(variableId)
 						? aggregateNumeric(points)
 						: aggregateNonNumeric(points);
 
-				traitValues.put(traitId, aggregated);
+				variableValues.put(variableId, aggregated);
 			}
 
-			cells.put(entry.getKey(), traitValues);
+			cells.put(entry.getKey(), variableValues);
 
 			Set<Integer> dsIds = entry.getValue().stream()
 			                          .map(DataPoint::datasetId)
@@ -128,11 +155,11 @@ public class PhenotypeMatrixBuilder
 	// ------------------------------------------------------------------
 	// Data access
 	// ------------------------------------------------------------------
-	private Map<Integer, ViewTableTraits> getTraits(DSLContext dsl, Integer[] traitIds)
+	private Map<Integer, ViewTableTraits> getVariables(DSLContext dsl, Integer[] variableIds)
 	{
 		return dsl.select()
 		          .from(VIEW_TABLE_TRAITS)
-		          .where(VIEW_TABLE_TRAITS.VARIABLE_ID.in(traitIds))
+		          .where(VIEW_TABLE_TRAITS.VARIABLE_ID.in(variableIds))
 		          .fetchMap(VIEW_TABLE_TRAITS.VARIABLE_ID, ViewTableTraits.class);
 	}
 
@@ -205,7 +232,7 @@ public class PhenotypeMatrixBuilder
 	/**
 	 * Pulls the raw long-format rows and groups them by plot (the fields that define a "merge into one row" group).
 	 */
-	private Map<PlotKey, List<DataPoint>> fetchRawData(DSLContext context, Integer[] datasetIds, Collection<Integer> traitIds, Collection<Integer> germplasmIds)
+	private Map<PlotKey, List<DataPoint>> fetchRawData(DSLContext context, Integer[] datasetIds, Collection<Integer> variableIds, Collection<Integer> germplasmIds)
 	{
 		Field<Integer> year = DSL.year(PHENOTYPEDATA.RECORDING_DATE).as("year");
 
@@ -227,7 +254,7 @@ public class PhenotypeMatrixBuilder
 		                       .from(PHENOTYPEDATA)
 		                       .leftJoin(TRIALSETUP).on(PHENOTYPEDATA.TRIALSETUP_ID.eq(TRIALSETUP.ID))
 		                       .leftJoin(TREATMENTS).on(TREATMENTS.ID.eq(TRIALSETUP.TREATMENT_ID))
-		                       .where(CollectionUtils.isEmpty(traitIds) ? DSL.trueCondition() : PHENOTYPEDATA.VARIABLE_ID.in(traitIds))
+		                       .where(CollectionUtils.isEmpty(variableIds) ? DSL.trueCondition() : PHENOTYPEDATA.VARIABLE_ID.in(variableIds))
 		                       .and(CollectionUtils.isEmpty(germplasmIds) ? DSL.trueCondition() : TRIALSETUP.GERMINATEBASE_ID.in(germplasmIds))
 		                       .and(TRIALSETUP.DATASET_ID.in(datasetIds))
 		                       .fetch();
@@ -265,7 +292,7 @@ public class PhenotypeMatrixBuilder
 	// ------------------------------------------------------------------
 
 	/**
-	 * Averages every parseable numeric value contributing to this plot/trait combination.
+	 * Averages every parseable numeric value contributing to this plot/variable combination.
 	 */
 	private String aggregateNumeric(List<DataPoint> points)
 	{
@@ -282,7 +309,7 @@ public class PhenotypeMatrixBuilder
 			}
 			catch (NumberFormatException ignored)
 			{
-				// skip anything that isn't actually numeric despite the trait's data type
+				// skip anything that isn't actually numeric despite the variable's data type
 			}
 		}
 
@@ -369,7 +396,7 @@ public class PhenotypeMatrixBuilder
 
 	/**
 	 * Flattens the matrix into a simple table: a header row of
-	 * [germplasm_id, block, rep, trial_row, trial_column, trait1, trait2, ...]
+	 * [germplasm_id, block, rep, trial_row, trial_column, variable1, variable2, ...]
 	 * followed by one row per plot. Handy for dumping to CSV, a JTable, etc.
 	 */
 	public void writeTsv(PhenotypeMatrix matrix, Writer bw)
@@ -396,7 +423,7 @@ public class PhenotypeMatrixBuilder
 				"trial_row",
 				"trial_column"
 		));
-		header.addAll(traits.values().stream().map(t -> {
+		header.addAll(variables.values().stream().map(t -> {
 			String name = t.getTraitName();
 
 			if (!StringUtils.isEmpty(t.getScaleUnit()))
@@ -438,8 +465,8 @@ public class PhenotypeMatrixBuilder
 			));
 
 			Map<Integer, String> values = matrix.cells().get(key);
-			for (Integer traitId : traits.keySet())
-				row.add(StringUtils.orEmpty(values.get(traitId)));
+			for (Integer variableId : variables.keySet())
+				row.add(StringUtils.orEmpty(values.get(variableId)));
 
 			writeRow(bw, row);
 		}

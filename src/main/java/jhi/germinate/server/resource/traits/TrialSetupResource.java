@@ -33,7 +33,7 @@ public class TrialSetupResource extends TrialsDataBaseResource
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
 		if (CollectionUtils.isEmpty(requestedIds))
-			throw new BadRequestException();
+			return null;
 
 		try (Connection conn = Database.getConnection())
 		{
