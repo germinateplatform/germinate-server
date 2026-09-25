@@ -18,7 +18,6 @@ import java.nio.file.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.DataImportJobs.DATA_IMPORT_JOBS;
 
@@ -55,7 +54,7 @@ public class DataAutoImportTask implements Runnable
 					continue;
 				}
 
-				AutoImportJsonConfig config = null;
+				AutoImportJsonConfig config;
 
 				try (BufferedReader br = Files.newBufferedReader(configFile.toPath(), StandardCharsets.UTF_8))
 				{
@@ -94,7 +93,7 @@ public class DataAutoImportTask implements Runnable
 					{
 						DSLContext context = Database.getContext(conn);
 
-						List<TemplateConfig> germplasm = config.templates.stream().filter(t -> t.type == DataImportJobsDatatype.mcpd).sorted((a, b) -> Boolean.compare(a.isUpdate, b.isUpdate)).collect(Collectors.toList());
+						List<TemplateConfig> germplasm = config.templates.stream().filter(t -> t.type == DataImportJobsDatatype.mcpd).sorted((a, b) -> Boolean.compare(a.isUpdate, b.isUpdate)).toList();
 
 						for (TemplateConfig mcpdFile : germplasm)
 						{

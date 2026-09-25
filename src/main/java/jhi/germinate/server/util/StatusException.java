@@ -1,5 +1,8 @@
 package jhi.germinate.server.util;
 
+import lombok.Getter;
+
+@Getter
 public class StatusException extends RuntimeException
 {
 	private int statusCode;
@@ -19,15 +22,5 @@ public class StatusException extends RuntimeException
 	{
 		super(message);
 		this.statusCode = statusCode;
-	}
-
-	public int getStatusCode()
-	{
-		return statusCode;
-	}
-
-	public Object getEntity()
-	{
-		return entity;
 	}
 }

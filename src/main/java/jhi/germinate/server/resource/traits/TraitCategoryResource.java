@@ -20,7 +20,6 @@ import static jhi.germinate.server.database.codegen.tables.Traitcategories.TRAIT
 public class TraitCategoryResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Traitcategories> getTraitCategories()
 			throws SQLException

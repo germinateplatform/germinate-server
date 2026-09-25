@@ -23,7 +23,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableLicenseDefin
 public class LicenseResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll

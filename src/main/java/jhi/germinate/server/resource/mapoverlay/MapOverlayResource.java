@@ -25,7 +25,6 @@ public class MapOverlayResource extends ContextResource
 {
 	@GET
 	@Path("/{mapoverlayId:\\d+}/src")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token, @Context HttpServletResponse response)
 			throws SQLException

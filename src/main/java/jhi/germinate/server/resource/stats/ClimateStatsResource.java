@@ -14,7 +14,6 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
@@ -37,7 +36,7 @@ public class ClimateStatsResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ClimateDatasetStats postClimateStats(ClimateExportDatasetRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null)
 			throw new BadRequestException();

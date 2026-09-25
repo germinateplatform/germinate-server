@@ -11,6 +11,8 @@ import jhi.germinate.server.database.codegen.enums.GermplasminstitutionsType;
 import jhi.germinate.server.database.pojo.GermplasmInstitution;
 import jhi.germinate.server.resource.germplasm.GermplasmBaseResource;
 import jhi.germinate.server.util.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -116,165 +118,38 @@ public class GenesysGermplasmResource extends GermplasmBaseResource
 		}
 	}
 
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@Accessors(chain = true)
+	@ToString
 	public static class GenesysRequest
 	{
 		private List<GenesysRequestItem> items;
 		private GenesysRequestUser       pii;
-
-		public GenesysRequest()
-		{
-		}
-
-		public List<GenesysRequestItem> getItems()
-		{
-			return items;
-		}
-
-		public GenesysRequest setItems(List<GenesysRequestItem> items)
-		{
-			this.items = items;
-			return this;
-		}
-
-		public GenesysRequestUser getPii()
-		{
-			return pii;
-		}
-
-		public GenesysRequest setPii(GenesysRequestUser pii)
-		{
-			this.pii = pii;
-			return this;
-		}
-
-		@Override
-		public String toString()
-		{
-			return "GenesysRequest{" +
-					"items=" + items +
-					", pii=" + pii +
-					'}';
-		}
 	}
 
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@Accessors(chain = true)
+	@ToString
 	public static class GenesysRequestItem
 	{
 		private String instCode;
 		private String acceNumb;
 		private String doi;
 		private String genus;
-
-		public GenesysRequestItem()
-		{
-		}
-
-		public String getInstCode()
-		{
-			return instCode;
-		}
-
-		public GenesysRequestItem setInstCode(String instCode)
-		{
-			this.instCode = instCode;
-			return this;
-		}
-
-		public String getAcceNumb()
-		{
-			return acceNumb;
-		}
-
-		public GenesysRequestItem setAcceNumb(String acceNumb)
-		{
-			this.acceNumb = acceNumb;
-			return this;
-		}
-
-		public String getDoi()
-		{
-			return doi;
-		}
-
-		public GenesysRequestItem setDoi(String doi)
-		{
-			this.doi = doi;
-			return this;
-		}
-
-		public String getGenus()
-		{
-			return genus;
-		}
-
-		public GenesysRequestItem setGenus(String genus)
-		{
-			this.genus = genus;
-			return this;
-		}
-
-		@Override
-		public String toString()
-		{
-			return "GenesysRequestItem{" +
-					"instCode='" + instCode + '\'' +
-					", acceNumb='" + acceNumb + '\'' +
-					", doi='" + doi + '\'' +
-					", genus='" + genus + '\'' +
-					'}';
-		}
 	}
 
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@Accessors(chain = true)
 	public static class GenesysRequestUser
 	{
 		private String pid;
 		private String name;
 		private String email;
-
-		public GenesysRequestUser()
-		{
-		}
-
-		public String getPid()
-		{
-			return pid;
-		}
-
-		public GenesysRequestUser setPid(String pid)
-		{
-			this.pid = pid;
-			return this;
-		}
-
-		public String getName()
-		{
-			return name;
-		}
-
-		public GenesysRequestUser setName(String name)
-		{
-			this.name = name;
-			return this;
-		}
-
-		public String getEmail()
-		{
-			return email;
-		}
-
-		public GenesysRequestUser setEmail(String email)
-		{
-			this.email = email;
-			return this;
-		}
-
-		@Override
-		public String toString()
-		{
-			return "GenesysRequestUser{" +
-					"pid='" + pid + '\'' +
-					", name='" + name + '\'' +
-					", email='" + email + '\'' +
-					'}';
-		}
 	}
 }

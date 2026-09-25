@@ -39,7 +39,7 @@ public class GatekeeperNewUserResource extends ContextResource
 					if (StringUtils.isEmpty(user.getUserUsername()))
 						user.setUserUsername(user.getUserEmailAddress());
 					user.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
-					user.setDatabaseSystemId(list.getData().get(0).getId());
+					user.setDatabaseSystemId(list.getData().getFirst().getId());
 					user.setLocale(request.getLocale());
 
 					Response<Boolean> response = GatekeeperClient.get().addNewRequest(user).execute();

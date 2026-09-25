@@ -1,5 +1,8 @@
 package jhi.germinate.resource.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum FilterComparator
 {
 	isNull(0),
@@ -24,10 +27,5 @@ public enum FilterComparator
 
 	private FilterComparator(int cardinality) {
 		this.cardinality = cardinality;
-	}
-
-	public int getCardinality()
-	{
-		return cardinality;
 	}
 }

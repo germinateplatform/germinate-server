@@ -505,6 +505,6 @@ public class PhenotypeMatrixBuilder
 	public static enum AggregationMethod
 	{
 		MEAN,
-		MEDIAN;
+		MEDIAN
 	}
 }

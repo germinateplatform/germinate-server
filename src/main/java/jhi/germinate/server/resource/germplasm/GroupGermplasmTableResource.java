@@ -87,7 +87,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGroupGermplasmTableIds(PaginatedRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);

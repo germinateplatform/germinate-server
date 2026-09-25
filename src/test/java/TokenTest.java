@@ -70,7 +70,6 @@ public class TokenTest extends PropertyTest
 
 	@AfterAll
 	static void breakDown()
-			throws Exception
 	{
 	}
 }

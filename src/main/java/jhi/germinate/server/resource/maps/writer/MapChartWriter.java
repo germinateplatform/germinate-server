@@ -52,7 +52,6 @@ public class MapChartWriter extends AbstractMapWriter
 
 	@Override
 	public void writeFooter()
-		throws IOException
 	{
 
 	}

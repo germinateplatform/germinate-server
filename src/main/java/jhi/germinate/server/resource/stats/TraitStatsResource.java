@@ -14,7 +14,6 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
@@ -244,11 +243,11 @@ public class TraitStatsResource extends ContextResource
 		Quantiles q = new Quantiles();
 		q.setCount(tempStats.count);
 
-		if (tempStats.values.size() > 0)
+		if (!tempStats.values.isEmpty())
 		{
-			q.setMin(tempStats.values.get(0));
+			q.setMin(tempStats.values.getFirst());
 			q.setAvg(tempStats.avg / tempStats.values.size());
-			q.setMax(tempStats.values.get(tempStats.values.size() - 1));
+			q.setMax(tempStats.values.getLast());
 
 			if (tempStats.values.size() > 1)
 			{
@@ -269,9 +268,9 @@ public class TraitStatsResource extends ContextResource
 			else
 			{
 				// If there's only one value, just use it
-				q.setMedian(tempStats.values.get(0));
-				q.setQ1(tempStats.values.get(0));
-				q.setQ3(tempStats.values.get(0));
+				q.setMedian(tempStats.values.getFirst());
+				q.setQ1(tempStats.values.getFirst());
+				q.setQ3(tempStats.values.getFirst());
 			}
 		}
 

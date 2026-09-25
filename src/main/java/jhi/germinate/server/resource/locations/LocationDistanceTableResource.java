@@ -13,7 +13,6 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
@@ -86,7 +85,7 @@ public class LocationDistanceTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> getJson(PaginatedLocationRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request.getLatitude() == null || request.getLongitude() == null)
 			throw new BadRequestException();

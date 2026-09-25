@@ -26,18 +26,13 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>,
 						   MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
 		throws IOException
 	{
-		InputStreamReader streamReader = new InputStreamReader(entityStream, StandardCharsets.UTF_8);
-		try
+		try (InputStreamReader streamReader = new InputStreamReader(entityStream, StandardCharsets.UTF_8))
 		{
 			return GsonUtil.getInstance().fromJson(streamReader, genericType);
 		}
 		catch (com.google.gson.JsonSyntaxException e)
 		{
 			// Log exception
-		}
-		finally
-		{
-			streamReader.close();
 		}
 		return null;
 	}
@@ -64,14 +59,9 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>,
 		throws IOException,
 		WebApplicationException
 	{
-		OutputStreamWriter writer = new OutputStreamWriter(entityStream, StandardCharsets.UTF_8);
-		try
+		try (OutputStreamWriter writer = new OutputStreamWriter(entityStream, StandardCharsets.UTF_8))
 		{
 			GsonUtil.getInstance().toJson(object, genericType, writer);
-		}
-		finally
-		{
-			writer.close();
 		}
 	}
 }

@@ -57,29 +57,26 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableTaxonomies.V
 public class StatsResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/biologicalstatus")
 	public StreamingOutput getBioStatusStats(@Context HttpServletResponse response)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		File result = export("biologicalstatus", VIEW_STATS_BIOLOGICALSTATUS);
 		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/country")
 	public StreamingOutput getCountryStats(@Context HttpServletResponse response)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		File result = export("country", VIEW_STATS_COUNTRY);
 		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/entitytype")
 	public List<EntityTypeStats> getEntityTypeStats()
@@ -98,7 +95,6 @@ public class StatsResource extends BaseResource
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/overview")
 	public OverviewStats getJson(@QueryParam("projectIds") List<Integer> projectIds)
@@ -200,7 +196,6 @@ public class StatsResource extends BaseResource
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/pdci")
 	public StreamingOutput getPdciStats(@Context HttpServletResponse response)
@@ -240,29 +235,24 @@ public class StatsResource extends BaseResource
 
 			bw.write("bin\tgenus\tcount" + ResourceUtils.CRLF);
 
-			mapping.forEach((genus, counts) -> {
-				counts.forEach((bin, count) -> {
-					bw.write(bin + "-" + (bin + 1) + "\t" + genus + "\t" + count + ResourceUtils.CRLF);
-				});
-			});
+			mapping.forEach((genus, counts) -> counts.forEach((bin, count) -> bw.write(bin + "-" + (bin + 1) + "\t" + genus + "\t" + count + ResourceUtils.CRLF)));
 		}
 
 		return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/taxonomy")
 	public StreamingOutput getTaxonomyStats(@Context HttpServletResponse response)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		File result = export("taxonomy", VIEW_STATS_TAXONOMY);
 		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
 	}
 
 	protected File export(String filename, TableImpl<? extends Record> table)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		try
 		{
@@ -292,7 +282,6 @@ public class StatsResource extends BaseResource
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/meta")
 	public List<GermplasmMetaStats> getMetaTats()

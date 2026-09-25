@@ -68,7 +68,7 @@ public class DatasetExportResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), req, userDetails, true);
+			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.getFirst(), req, userDetails, true);
 
 			if (ds == null)
 				return null;
@@ -160,7 +160,7 @@ public class DatasetExportResource extends ContextResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.get(0), req, userDetails, true);
+			ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetIds.getFirst(), req, userDetails, true);
 
 			if (ds == null)
 				return null;
@@ -531,32 +531,29 @@ public class DatasetExportResource extends ContextResource
 			SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
 			// Once we're done, we can start printing it out
-			dataMap.entrySet().stream()
-			       .forEach(e -> {
-					   LocationRecord rec = e.getKey();
-					   ViewTableLocations loc = locations.get(rec.locationId);
-					   Double[] values = e.getValue();
-					   String dataset = datasets.get(rec.datasetId);
-					   String latitude = loc.getLocationLatitude() == null ? "" : String.valueOf(loc.getLocationLatitude());
-					   String longitude = loc.getLocationLongitude() == null ? "" : String.valueOf(loc.getLocationLongitude());
-					   String elevation = loc.getLocationElevation() == null ? "" : String.valueOf(loc.getLocationElevation());
-					   String date = rec.date == null ? "" : dateFormat.format(rec.date);
-					   String year = rec.date == null ? "" : yearFormat.format(rec.date);
+			dataMap.forEach((rec, values) -> {
+				ViewTableLocations loc = locations.get(rec.locationId);
+				String dataset = datasets.get(rec.datasetId);
+				String latitude = loc.getLocationLatitude() == null ? "" : String.valueOf(loc.getLocationLatitude());
+				String longitude = loc.getLocationLongitude() == null ? "" : String.valueOf(loc.getLocationLongitude());
+				String elevation = loc.getLocationElevation() == null ? "" : String.valueOf(loc.getLocationElevation());
+				String date = rec.date == null ? "" : dateFormat.format(rec.date);
+				String year = rec.date == null ? "" : yearFormat.format(rec.date);
 
-					   bw.write(ResourceUtils.CRLF);
-					   bw.write(String.join("\t", loc.getLocationName(), String.valueOf(loc.getLocationId()), dataset, latitude, longitude, elevation, date, year));
+				bw.write(ResourceUtils.CRLF);
+				bw.write(String.join("\t", loc.getLocationName(), String.valueOf(loc.getLocationId()), dataset, latitude, longitude, elevation, date, year));
 
-					   // Print trait data
-					   climates.values().forEach(traitHeader -> {
-						   int index = climatesOrdered.indexOf(traitHeader);
-						   Double value = values[index];
+				// Print trait data
+				climates.values().forEach(traitHeader -> {
+					int index = climatesOrdered.indexOf(traitHeader);
+					Double value = values[index];
 
-						   if (value != null)
-							   bw.write("\t" + value);
-						   else
-							   bw.write("\t");
-					   });
-				   });
+					if (value != null)
+						bw.write("\t" + value);
+					else
+						bw.write("\t");
+				});
+			});
 		}
 		catch (IOException e)
 		{

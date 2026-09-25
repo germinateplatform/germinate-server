@@ -55,30 +55,23 @@ public class LinkTableResource extends ContextResource
 					  if (StringUtils.isEmpty(hyperlink) || StringUtils.isEmpty(placeholder) || StringUtils.isEmpty(targetTable) || StringUtils.isEmpty(targetColumn))
 						  return;
 
-					  String value = "";
-
-					  switch (targetTable)
+					  String value = switch (targetTable)
 					  {
-						  case "germinatebase":
-							  value = context.select(DSL.field(targetColumn).cast(String.class))
-						                     .from(GERMINATEBASE)
-						                     .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-						                     .where(GERMINATEBASE.ID.eq(request.getForeignId()))
-						                     .fetchAnyInto(String.class);
-							  break;
-						  case "markers":
-							  value = context.select(DSL.field(targetColumn).cast(String.class))
-						                     .from(MARKERS)
-						                     .where(MARKERS.ID.eq(request.getForeignId()))
-						                     .fetchAnyInto(String.class);
-							  break;
-						  case "variables":
-							  value = context.select(DSL.field(targetColumn).cast(String.class))
-						                     .from(VARIABLES)
-						                     .where(VARIABLES.ID.eq(request.getForeignId()))
-						                     .fetchAnyInto(String.class);
-							  break;
-					  }
+						  case "germinatebase" -> context.select(DSL.field(targetColumn).cast(String.class))
+														 .from(GERMINATEBASE)
+														 .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+														 .where(GERMINATEBASE.ID.eq(request.getForeignId()))
+														 .fetchAnyInto(String.class);
+						  case "markers" -> context.select(DSL.field(targetColumn).cast(String.class))
+												   .from(MARKERS)
+												   .where(MARKERS.ID.eq(request.getForeignId()))
+												   .fetchAnyInto(String.class);
+						  case "variables" -> context.select(DSL.field(targetColumn).cast(String.class))
+													 .from(VARIABLES)
+													 .where(VARIABLES.ID.eq(request.getForeignId()))
+													 .fetchAnyInto(String.class);
+						  default -> "";
+					  };
 
 					  if (StringUtils.isEmpty(value))
 						  l.setHyperlink(null);

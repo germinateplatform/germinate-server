@@ -8,8 +8,6 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.logging.*;
@@ -25,7 +23,6 @@ public class LogResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public StreamingOutput getJson(@QueryParam("date") String dateString, @Context HttpServletResponse response)
-			throws IOException, SQLException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 

@@ -136,7 +136,6 @@ public class DatasetAccessLoggedInTest extends AuthUserTest
 
 	@AfterAll
 	static void breakDown()
-			throws Exception
 	{
 	}
 }

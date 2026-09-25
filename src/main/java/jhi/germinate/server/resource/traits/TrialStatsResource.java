@@ -24,7 +24,6 @@ import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP
 public class TrialStatsResource extends ContextResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public TrialStats getTrialOverviewStats()
 			throws SQLException
@@ -61,7 +60,6 @@ public class TrialStatsResource extends ContextResource
 			       .groupBy(year)
 			       .orderBy(year.asc())
 			       .forEach(record -> traitsPerYear.put(record.get(year), record.get(traitCount)));
-			;
 
 			Field<Integer> dsYear = DSL.coalesce(DSL.year(DATASETS.DATE_START), DSL.year(DATASETS.CREATED_ON));
 			Field<Integer> dsCount = DSL.count().as("count");

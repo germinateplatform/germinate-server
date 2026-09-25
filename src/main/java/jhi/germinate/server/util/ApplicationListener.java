@@ -59,7 +59,7 @@ public class ApplicationListener implements ServletContextListener
 			List<LocaleConfig> locales = ensureClientLocaleFileExists();
 			ensureCarouselFileExists(locales);
 		}
-		catch (StatusException e)
+		catch (StatusException | IOException e)
 		{
 			Logger.getLogger("").severe(e.getMessage());
 		}
@@ -113,125 +113,107 @@ public class ApplicationListener implements ServletContextListener
 	}
 
 	private void ensureCarouselFileExists(List<LocaleConfig> locales)
-			throws StatusException
+			throws StatusException, IOException
 	{
 		Gson gson = new Gson();
-		try
+		File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
+		Type type = new TypeToken<CarouselConfig>()
 		{
-			File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
-			Type type = new TypeToken<CarouselConfig>()
+		}.getType();
+
+		if (configFile == null || !configFile.exists())
+		{
+			// Write a default file
+			configFile.getParentFile().mkdirs();
+			CarouselConfig config = new CarouselConfig();
+
+			if (!CollectionUtils.isEmpty(locales))
+				locales.forEach(l -> config.put(l.getLocale(), new ArrayList<>()));
+
+			// Write the file back
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
 			{
-			}.getType();
-
-			if (configFile == null || !configFile.exists())
-			{
-				// Write a default file
-				configFile.getParentFile().mkdirs();
-				CarouselConfig config = new CarouselConfig();
-
-				if (!CollectionUtils.isEmpty(locales))
-					locales.forEach(l -> config.put(l.getLocale(), new ArrayList<>()));
-
-				// Write the file back
-				try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-				{
-					gson.toJson(config, type, writer);
-				}
+				gson.toJson(config, type, writer);
 			}
-			else
+		}
+		else
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+				CarouselConfig config = gson.fromJson(br, type);
+
+				if (config == null)
 				{
-					CarouselConfig config = gson.fromJson(br, type);
+					config = new CarouselConfig();
 
-					if (config == null)
+					if (!CollectionUtils.isEmpty(locales))
 					{
-						config = new CarouselConfig();
-
-						if (!CollectionUtils.isEmpty(locales))
+						for (LocaleConfig l : locales)
 						{
-							for (LocaleConfig l : locales)
-							{
-								config.put(l.getLocale(), new ArrayList<>());
-							}
+							config.put(l.getLocale(), new ArrayList<>());
 						}
+					}
 
-						// Write the file back
-						try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-						{
-							gson.toJson(config, type, writer);
-						}
+					// Write the file back
+					try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+					{
+						gson.toJson(config, type, writer);
 					}
 				}
 			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			Logger.getLogger("").severe(e.getLocalizedMessage());
 		}
 	}
 
 	private List<LocaleConfig> ensureClientLocaleFileExists()
-			throws StatusException
+			throws StatusException, IOException
 	{
 		Gson gson = new Gson();
-		try
+		File configFile = ResourceUtils.getFromExternal("locales.json", "template");
+		Type type = new TypeToken<ArrayList<LocaleConfig>>()
 		{
-			File configFile = ResourceUtils.getFromExternal("locales.json", "template");
-			Type type = new TypeToken<ArrayList<LocaleConfig>>()
-			{
-			}.getType();
+		}.getType();
 
-			if (configFile == null || !configFile.exists())
-			{
-				// Write a default file
-				configFile.getParentFile().mkdirs();
-				ArrayList<LocaleConfig> config = new ArrayList<>();
-				config.add(new LocaleConfig()
-						.setLocale("en_GB")
-						.setName("British English")
-						.setFlag("gb"));
+		if (configFile == null || !configFile.exists())
+		{
+			// Write a default file
+			configFile.getParentFile().mkdirs();
+			ArrayList<LocaleConfig> config = new ArrayList<>();
+			config.add(new LocaleConfig()
+					.setLocale("en_GB")
+					.setName("British English")
+					.setFlag("gb"));
 
-				// Write the file back
-				try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+			// Write the file back
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+			{
+				gson.toJson(config, type, writer);
+			}
+
+			return config;
+		}
+		else
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+			{
+				ArrayList<LocaleConfig> config = gson.fromJson(br, type);
+
+				if (CollectionUtils.isEmpty(config))
 				{
-					gson.toJson(config, type, writer);
+					config.add(new LocaleConfig()
+							.setLocale("en_GB")
+							.setName("British English")
+							.setFlag("gb"));
+
+					// Write the file back
+					try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+					{
+						gson.toJson(config, type, writer);
+					}
 				}
 
 				return config;
 			}
-			else
-			{
-				try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
-				{
-					ArrayList<LocaleConfig> config = gson.fromJson(br, type);
-
-					if (CollectionUtils.isEmpty(config))
-					{
-						config.add(new LocaleConfig()
-								.setLocale("en_GB")
-								.setName("British English")
-								.setFlag("gb"));
-
-						// Write the file back
-						try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-						{
-							gson.toJson(config, type, writer);
-						}
-					}
-
-					return config;
-				}
-			}
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			Logger.getLogger("").severe(e.getLocalizedMessage());
-		}
-
-		return null;
 	}
 
 	@Override

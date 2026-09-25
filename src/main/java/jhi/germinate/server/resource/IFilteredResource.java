@@ -183,7 +183,7 @@ public interface IFilteredResource
 		if (CollectionUtils.isEmpty(values))
 			values.add("");
 
-		String first = values.get(0);
+		String first = values.getFirst();
 		String second = values.size() > 1 ? values.get(1) : null;
 
 		switch (filter.getComparator())
@@ -218,7 +218,7 @@ public interface IFilteredResource
 							.map(v -> GDSL.jsonSearch(v, field).isNotNull())
 							.toList();
 
-					Condition result = conditions.get(0);
+					Condition result = conditions.getFirst();
 
 					for (int i = 1; i < conditions.size(); i++)
 					{
@@ -240,7 +240,7 @@ public interface IFilteredResource
 							.map(v -> GDSL.jsonContains(v, field))
 							.toList();
 
-					Condition result = conditions.get(0);
+					Condition result = conditions.getFirst();
 
 					for (int i = 1; i < conditions.size(); i++)
 					{

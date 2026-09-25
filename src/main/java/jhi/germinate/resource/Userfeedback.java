@@ -4,11 +4,9 @@
 package jhi.germinate.resource;
 
 
-import jhi.germinate.server.database.codegen.enums.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Arrays;
 

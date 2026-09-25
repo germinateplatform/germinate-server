@@ -11,7 +11,6 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,7 +50,7 @@ public class TraitUnifierResource extends ContextResource
 			List<Integer> otherIds = others.stream().map(Variables::getId).collect(Collectors.toList());
 
 			// If there's no preferred one or the others are empty or the only other one is the preferred one, return
-			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.get(0), preferredId)))
+			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.getFirst(), preferredId)))
 				throw new BadRequestException();
 
 			context.update(IMAGES.leftJoin(IMAGETYPES).on(IMAGETYPES.ID.eq(IMAGES.IMAGETYPE_ID))).set(IMAGES.FOREIGN_ID, preferredId).where(IMAGETYPES.REFERENCE_TABLE.eq("phenotypes").and(IMAGES.FOREIGN_ID.in(otherIds))).execute();

@@ -1,8 +1,11 @@
 package jhi.germinate.resource.enums;
 
+import lombok.Getter;
+
 /**
  * @author Sebastian Raubach
  */
+@Getter
 public enum ServerProperty
 {
 	AUTHENTICATION_MODE("authentication.mode", "NONE", true),
@@ -93,18 +96,4 @@ public enum ServerProperty
 		this.required = required;
 	}
 
-	public String getKey()
-	{
-		return key;
-	}
-
-	public String getDefaultValue()
-	{
-		return defaultValue;
-	}
-
-	public boolean isRequired()
-	{
-		return required;
-	}
 }

@@ -12,7 +12,6 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -75,9 +74,7 @@ public class TrialLayoutResource extends ContextResource
 			       .and(VIEW_TABLE_TRIAL_LAYOUTS.ROW.isNotNull())
 			       .and(VIEW_TABLE_TRIAL_LAYOUTS.COLUMN.isNotNull())
 			       .groupBy(VIEW_TABLE_TRIAL_LAYOUTS.DATASET_ID)
-			       .forEach(row -> {
-					   counts.put(row.get(VIEW_TABLE_TRIAL_LAYOUTS.DATASET_ID), row.get(count));
-				   });
+			       .forEach(row -> counts.put(row.get(VIEW_TABLE_TRIAL_LAYOUTS.DATASET_ID), row.get(count)));
 
 			return counts;
 		}

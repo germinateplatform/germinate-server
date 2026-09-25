@@ -112,7 +112,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			{
 				if (checkIfLicenseAccepted)
 				{
-					Set<Integer> licenseIds = new HashSet<>();
+					Set<Integer> licenseIds;
 					AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 					if (mode == AuthenticationMode.FULL || (mode == AuthenticationMode.SELECTIVE && userDetails.getId() != -1000))
 						licenseIds = context.select(LICENSELOGS.LICENSE_ID).from(LICENSELOGS).where(LICENSELOGS.USER_ID.eq(userDetails.getId())).fetchSet(LICENSELOGS.LICENSE_ID);
@@ -120,7 +120,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 						licenseIds = AuthenticationFilter.getAcceptedLicenses(req);
 					List<ViewTableDatasets> ds = restrictBasedOnLicenseAgreement(Collections.singletonList(dataset), licenseIds, userDetails);
 
-					return CollectionUtils.isEmpty(ds) ? null : ds.get(0);
+					return CollectionUtils.isEmpty(ds) ? null : ds.getFirst();
 				}
 				else
 				{

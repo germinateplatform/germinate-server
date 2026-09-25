@@ -34,7 +34,7 @@ public class StringUtils
 	 */
 	public static boolean isEmpty(String input)
 	{
-		return input == null || input.strip().isEmpty();
+		return input == null || input.isBlank();
 	}
 
 	/**

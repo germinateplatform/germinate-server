@@ -32,25 +32,15 @@ public class BackupResource extends BaseResource
 		if (!StringUtils.isEmpty(orderBy))
 		{
 			result.sort((a, b) -> {
-				int sortResult = 0;
-				switch (orderBy)
+				int sortResult = switch (orderBy)
 				{
-					case "timestamp":
-						sortResult = (int) Math.signum(a.getTimestamp().getTime() - b.getTimestamp().getTime());
-						break;
-					case "filename":
-						sortResult = a.getFilename().compareTo(b.getFilename());
-						break;
-					case "germinateVersion":
-						sortResult = a.getGerminateVersion().compareTo(b.getGerminateVersion());
-						break;
-					case "type":
-						sortResult = a.getType().name().compareTo(b.getType().name());
-						break;
-					case "filesize":
-						sortResult = (int) Math.signum(a.getFilesize() - b.getFilesize());
-						break;
-				}
+					case "timestamp" -> (int) Math.signum(a.getTimestamp().getTime() - b.getTimestamp().getTime());
+					case "filename" -> a.getFilename().compareTo(b.getFilename());
+					case "germinateVersion" -> a.getGerminateVersion().compareTo(b.getGerminateVersion());
+					case "type" -> a.getType().name().compareTo(b.getType().name());
+					case "filesize" -> (int) Math.signum(a.getFilesize() - b.getFilesize());
+					default -> 0;
+				};
 
 				if (!ascending)
 					sortResult = -sortResult;
@@ -66,7 +56,7 @@ public class BackupResource extends BaseResource
 	}
 
 	private List<BackupResult> getBackupsInternally()
-			throws IOException, StatusException
+			throws StatusException
 	{
 		File backups = ResourceUtils.getFromExternal("backups");
 
@@ -127,7 +117,7 @@ public class BackupResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean getFileResourceDownload(BackupResult backup)
-			throws IOException, StatusException
+			throws StatusException
 	{
 		File zipFile = ResourceUtils.getFromExternal(backup.getFilename(), "backups");
 
@@ -141,7 +131,7 @@ public class BackupResource extends BaseResource
 	@Path("/download")
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	public StreamingOutput getFileResourceDownload(@QueryParam("filename") String filename, @QueryParam("token") String token, @Context HttpServletResponse response)
-			throws IOException, StatusException
+			throws StatusException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 

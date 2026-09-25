@@ -12,6 +12,8 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -86,9 +88,7 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 		       .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
 		       .where(GROUPS.GROUPTYPE_ID.eq(3)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
 		       .groupBy(germplasmId)
-		       .forEach(r -> {
-				   germplasmGroups.put(r.get(germplasmId), r.into(GermplasmGroups.class));
-			   });
+		       .forEach(r -> germplasmGroups.put(r.get(germplasmId), r.into(GermplasmGroups.class)));
 
 		// Handle requested germplasm ids or group ids
 		Set<Integer> germplasmIds = new HashSet<>();
@@ -175,31 +175,12 @@ public class TrialsDataTableResource extends TrialsDataBaseResource
 		}
 	}
 
+	@Getter
+	@Setter
+	@Accessors(chain = true)
 	private static class GermplasmGroups
 	{
 		private Integer      germplasmId;
 		private List<Groups> groups;
-
-		public Integer getGermplasmId()
-		{
-			return germplasmId;
-		}
-
-		public GermplasmGroups setGermplasmId(Integer germplasmId)
-		{
-			this.germplasmId = germplasmId;
-			return this;
-		}
-
-		public List<Groups> getGroups()
-		{
-			return groups;
-		}
-
-		public GermplasmGroups setGroups(List<Groups> groups)
-		{
-			this.groups = groups;
-			return this;
-		}
 	}
 }

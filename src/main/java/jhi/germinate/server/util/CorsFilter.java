@@ -4,15 +4,13 @@ import jakarta.ws.rs.container.*;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 
-import java.io.IOException;
-import java.util.logging.Logger;
-
 @Provider
 @PreMatching
 public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilter
 {
 	@Override
-	public void filter(ContainerRequestContext request) throws IOException {
+	public void filter(ContainerRequestContext request)
+	{
 		if (isPreflightRequest(request)) {
 			Response.ResponseBuilder response = Response.ok();
 			addCorsHeaders(request, response, true);
@@ -21,7 +19,8 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 	}
 
 	@Override
-	public void filter(ContainerRequestContext request, ContainerResponseContext response) throws IOException {
+	public void filter(ContainerRequestContext request, ContainerResponseContext response)
+	{
 		if (request.getHeaderString("Origin") == null) return;
 
 		// Don't re-add headers to aborted preflight responses — they're already set

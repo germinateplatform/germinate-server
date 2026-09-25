@@ -80,7 +80,7 @@ public class GermplasmUnifierResource extends ContextResource
 			{
 				allGood &= unify(u);
 			}
-			catch (SQLException | IOException e)
+			catch (SQLException e)
 			{
 				Logger.getLogger(e.getLocalizedMessage());
 				e.printStackTrace();
@@ -94,7 +94,7 @@ public class GermplasmUnifierResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean postGermplasmUnifier(UnificationRequest request)
-			throws SQLException, IOException, StatusException
+			throws SQLException, StatusException
 	{
 		if (request == null || request.getPreferredId() == null || CollectionUtils.isEmpty(request.getOtherIds()))
 			throw new BadRequestException();
@@ -103,7 +103,7 @@ public class GermplasmUnifierResource extends ContextResource
 	}
 
 	private boolean unify(UnificationRequest request)
-			throws IOException, SQLException, StatusException
+			throws SQLException, StatusException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -122,7 +122,7 @@ public class GermplasmUnifierResource extends ContextResource
 			List<Integer> otherIds = others.stream().map(Germinatebase::getId).collect(Collectors.toList());
 
 			// If there's no preferred one or the others are empty or the only other one is the preferred one, return
-			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.get(0), preferredId)))
+			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.getFirst(), preferredId)))
 				throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode());
 
 			// Update all references to the old ids
@@ -185,7 +185,7 @@ public class GermplasmUnifierResource extends ContextResource
 					   {
 						   return ResourceUtils.getFromExternal(f, "data", "genotypes");
 					   }
-					   catch (IOException | StatusException e)
+					   catch (StatusException e)
 					   {
 						   return null;
 					   }
@@ -209,7 +209,7 @@ public class GermplasmUnifierResource extends ContextResource
 					   {
 						   return ResourceUtils.getFromExternal(f, "data", "allelefreq");
 					   }
-					   catch (IOException | StatusException e)
+					   catch (StatusException e)
 					   {
 						   return null;
 					   }

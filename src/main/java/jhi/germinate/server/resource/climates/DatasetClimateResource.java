@@ -10,10 +10,9 @@ import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
 import java.util.*;
 
@@ -32,7 +31,7 @@ public class DatasetClimateResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableClimates> getJson(DatasetRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		if (request == null)
 			throw new BadRequestException();

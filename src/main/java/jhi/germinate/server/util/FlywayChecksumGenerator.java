@@ -12,7 +12,6 @@ import java.util.zip.CRC32;
 public class FlywayChecksumGenerator
 {
 	public static void main(String[] args)
-			throws IOException
 	{
 		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V5.26.01.28__update.sql")));
 	}
@@ -22,10 +21,8 @@ public class FlywayChecksumGenerator
 	 *
 	 * @param file The SQL file
 	 * @return The checksum int
-	 * @throws IOException Thrown if the interaction with the file fails
 	 */
 	public static int getChecksum(File file)
-			throws IOException
 	{
 		final CRC32 crc32 = new CRC32();
 

@@ -18,6 +18,7 @@
 package jhi.germinate.server.util.hdf5;
 
 import ch.systemsx.cisd.hdf5.*;
+import lombok.Setter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -39,23 +40,15 @@ public class FJTabbedToHdf5Converter
 
 	private File    genotypeFile;
 	private File    hdf5File;
+	@Setter
 	private int     skipLines = 0;
+	@Setter
 	private boolean transpose = false;
 
 	public FJTabbedToHdf5Converter(File genotypeFile, File hdf5File)
 	{
 		this.genotypeFile = genotypeFile;
 		this.hdf5File = hdf5File;
-	}
-
-	public void setSkipLines(int skipLines)
-	{
-		this.skipLines = skipLines;
-	}
-
-	public void setTranspose(boolean transpose)
-	{
-		this.transpose = transpose;
 	}
 
 	private void checkFileExists(File file)
@@ -86,7 +79,7 @@ public class FJTabbedToHdf5Converter
 			// Count the number of header rows and skip them
 			int offset = 0;
 			String line = reader.readLine();
-			while (line.length() == 0 || line.startsWith("#"))
+			while (line.isEmpty() || line.startsWith("#"))
 			{
 				offset++;
 				line = reader.readLine();
@@ -127,7 +120,7 @@ public class FJTabbedToHdf5Converter
 			if (transpose)
 			{
 				// The number of rows is at least one and then depends on the number of times we can fit all the lines into 4GB
-				int verticalChunk = (int) Math.min(markers.length, Math.max(1, Math.floor(fourGig / (nrOfRows * 1d))));
+				int verticalChunk = (int) Math.clamp(Math.floor(fourGig / (nrOfRows * 1d)), 1, markers.length);
 				// The number of columns is at most the number of lines and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
 				int horizontalChunk = (int) Math.min(nrOfRows, fourGig);
 
@@ -163,7 +156,7 @@ public class FJTabbedToHdf5Converter
 					}
 				}
 
-				if (cache.size() > 0)
+				if (!cache.isEmpty())
 				{
 					writeCacheTransposed(writer, cache, markers.length, counter);
 				}
@@ -171,7 +164,7 @@ public class FJTabbedToHdf5Converter
 			else
 			{
 				// The number of rows is at least one and then depends on the number of times we can fit all the markers into 4GB
-				int verticalChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (markers.length * 1d))));
+				int verticalChunk = (int) Math.clamp(Math.floor(fourGig / (markers.length * 1d)), 1, nrOfRows);
 				// The number of columns is at most the number of markers and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
 				int horizontalChunk = (int) Math.min(markers.length, fourGig);
 
@@ -207,7 +200,7 @@ public class FJTabbedToHdf5Converter
 					}
 				}
 
-				if (cache.size() > 0)
+				if (!cache.isEmpty())
 				{
 					writeCache(writer, cache, markers.length, counter);
 				}

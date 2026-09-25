@@ -1,45 +1,18 @@
 package jhi.germinate.server.util;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sebastian Raubach
  */
+@NoArgsConstructor
+@Getter
+@Setter
+@Accessors(chain = true)
+@ToString
 public class GatekeeperApiError
 {
 	private int    code;
 	private String description;
-
-	public GatekeeperApiError()
-	{
-	}
-
-	public int getCode()
-	{
-		return code;
-	}
-
-	public GatekeeperApiError setCode(int code)
-	{
-		this.code = code;
-		return this;
-	}
-
-	public String getDescription()
-	{
-		return description;
-	}
-
-	public GatekeeperApiError setDescription(String description)
-	{
-		this.description = description;
-		return this;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "GatekeeperApiError{" +
-				"code=" + code +
-				", description='" + description + '\'' +
-				'}';
-	}
 }

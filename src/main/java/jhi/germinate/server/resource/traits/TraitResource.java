@@ -12,7 +12,6 @@ import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.DSLContext;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -34,7 +33,6 @@ public class TraitResource extends ContextResource
 	@Path("/values")
 	@PermitAll
 	@Secured
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getDistinctTraitValues()
 			throws SQLException

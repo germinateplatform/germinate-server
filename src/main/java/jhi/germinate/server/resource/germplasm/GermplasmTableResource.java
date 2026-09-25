@@ -123,7 +123,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public File postGermplasmTableExport(ExportRequest request, @Context HttpServletResponse response)
-			throws IOException, SQLException, StatusException
+			throws SQLException, StatusException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 

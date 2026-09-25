@@ -35,7 +35,7 @@ public class FileResourceResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean putFileResource(ViewTableFileresources fileResource)
-			throws IOException, SQLException, StatusException
+			throws SQLException, StatusException
 	{
 		if (fileResource == null || fileResource.getFileresourceId() != null || fileResource.getFileresourcetypeId() == null || StringUtils.isEmpty(fileResource.getFileresourcePath()) || StringUtils.isEmpty(fileResource.getFileresourceName()))
 			throw new BadRequestException();
@@ -179,7 +179,7 @@ public class FileResourceResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean deleteFileResource(@PathParam("fileResourceId") Integer fileResourceId)
-			throws IOException, SQLException, StatusException
+			throws SQLException, StatusException
 	{
 		if (fileResourceId == null)
 			throw new BadRequestException();

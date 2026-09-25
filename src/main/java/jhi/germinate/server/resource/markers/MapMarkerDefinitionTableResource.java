@@ -101,7 +101,7 @@ public class MapMarkerDefinitionTableResource extends MapdefinitionBaseResource
 			DSLContext context = Database.getContext(conn);
 			SelectHavingConditionStep<?> from = getMapdefinitionQuery(context)
 					.having(DSL.field(VISIBILITY, Boolean.class).eq(true)
-							   .or(DSL.field(USER_ID, Integer.class).eq(userDetails.getId())));;
+							   .or(DSL.field(USER_ID, Integer.class).eq(userDetails.getId())));
 
 			// Filter here!
 			having(from, filters);

@@ -30,7 +30,6 @@ import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMEN
 public class DatasetStatsResource extends ContextResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public StreamingOutput getDatasetStats(@Context HttpServletResponse response)
 			throws SQLException

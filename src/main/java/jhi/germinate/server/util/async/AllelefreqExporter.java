@@ -76,7 +76,6 @@ public class AllelefreqExporter
 	private List<String> errors = new ArrayList<>();
 
 	public static void main(String[] args)
-			throws IOException
 	{
 		AllelefreqExporter exporter = new AllelefreqExporter();
 		Database.init(args[0], args[1], args[2], args[3], args[4], false);
@@ -321,17 +320,13 @@ public class AllelefreqExporter
 		{
 			try
 			{
-				double[] thresholds;
-				switch (binningConfig.getBinningMethod())
+				double[] thresholds = switch (binningConfig.getBinningMethod())
 				{
-					case "equal":
-						thresholds = TableBinner.bin(tabbedUnbinnedFile, tabbedBinnedFile, binningConfig.getBinsLeft(), TableBinner.BinMode.EQUAL_WIDTH);
-						break;
-					case "auto":
-					default:
-						thresholds = TableBinner.bin(tabbedUnbinnedFile, tabbedBinnedFile, binningConfig.getBinsLeft(), TableBinner.BinMode.EQUAL_SIZE);
-						break;
-				}
+					case "equal" ->
+							TableBinner.bin(tabbedUnbinnedFile, tabbedBinnedFile, binningConfig.getBinsLeft(), TableBinner.BinMode.EQUAL_WIDTH);
+					default ->
+							TableBinner.bin(tabbedUnbinnedFile, tabbedBinnedFile, binningConfig.getBinsLeft(), TableBinner.BinMode.EQUAL_SIZE);
+				};
 
 				double prev = 0;
 				for (int i = 0; i < thresholds.length; i++) {

@@ -10,9 +10,8 @@ import org.jooq.DSLContext;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static jhi.germinate.server.database.codegen.tables.Comments.*;

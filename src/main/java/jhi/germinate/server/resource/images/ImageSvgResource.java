@@ -16,7 +16,6 @@ public class ImageSvgResource
 	protected HttpServletResponse resp;
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("image/svg+xml")
 	public byte[] getSvgImage(@PathParam("name") String name)
 		throws IOException

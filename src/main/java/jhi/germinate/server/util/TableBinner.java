@@ -110,7 +110,6 @@ public class TableBinner
 	private static double[] equalSizeThresholds(File inputPath,
 	                                            int numBins,
 	                                            int sampleLimit)
-			throws IOException
 	{
 		try
 		{

@@ -149,7 +149,6 @@ public class UsergroupResource extends ContextResource
 
 	@GET
 	@Path("/{usergroupId}/user")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewUserDetails> getUserForGroupId(@PathParam("usergroupId") Integer usergroupId)
 			throws SQLException

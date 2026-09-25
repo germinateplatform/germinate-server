@@ -21,7 +21,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Mapdefinitions.MAPDEFINITIONS;
 import static jhi.germinate.server.database.codegen.tables.Mapfeaturetypes.MAPFEATURETYPES;
@@ -59,21 +58,12 @@ public class MapExportResource extends ContextResource
 
 				if (map != null)
 				{
-					AbstractMapWriter writer;
-
-					switch (request.getFormat().toLowerCase())
+					AbstractMapWriter writer = switch (request.getFormat().toLowerCase())
 					{
-						case "strudel":
-							writer = new StrudelMapWriter(bw);
-							break;
-						case "mapchart":
-							writer = new MapChartWriter(bw);
-							break;
-						case "flapjack":
-						default:
-							writer = new FlapjackMapWriter(bw);
-							break;
-					}
+						case "strudel" -> new StrudelMapWriter(bw);
+						case "mapchart" -> new MapChartWriter(bw);
+						default -> new FlapjackMapWriter(bw);
+					};
 
 					writer.writeHeader(map);
 
@@ -121,7 +111,6 @@ public class MapExportResource extends ContextResource
 	}
 
 	private void filter(DSLContext context, SelectConditionStep<? extends Record> step, MapExportRequest request)
-			throws IOException
 	{
 		switch (request.getMethod().toLowerCase())
 		{
@@ -136,11 +125,11 @@ public class MapExportResource extends ContextResource
 				                                   .map(r -> MAPDEFINITIONS.CHROMOSOME.eq(r.getChromosome())
 				                                                                      .and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(r.getStart()))
 				                                                                      .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(r.getEnd())))
-				                                   .collect(Collectors.toList());
+				                                   .toList();
 
-				if (conditions.size() > 0)
+				if (!conditions.isEmpty())
 				{
-					Condition overall = conditions.get(0);
+					Condition overall = conditions.getFirst();
 
 					for (int i = 1; i < conditions.size(); i++)
 						overall = overall.or(conditions.get(i));

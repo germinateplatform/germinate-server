@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.projects;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
@@ -36,13 +37,17 @@ public class ProjectResource extends ContextResource
 {
 	@GET
 	@Path("/{projectId:\\d+}/stats")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
 	public ProjectStats getProjectStats(@PathParam("projectId") Integer projectId)
 			throws SQLException
 	{
 		if (projectId == null)
 			throw new BadRequestException();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -55,7 +60,7 @@ public class ProjectResource extends ContextResource
 
 			ProjectStats result = new ProjectStats();
 			result.setGroupCount(context.selectCount().from(PROJECTGROUPS).where(PROJECTGROUPS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
-			result.setDatasetCount(context.selectCount().from(DATASETS).leftJoin(EXPERIMENTS).on(EXPERIMENTS.ID.eq(DATASETS.EXPERIMENT_ID)).where(EXPERIMENTS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
+			result.setDatasetCount(context.selectCount().from(DATASETS).leftJoin(EXPERIMENTS).on(EXPERIMENTS.ID.eq(DATASETS.EXPERIMENT_ID)).where(DATASETS.ID.in(datasetIds)).and(EXPERIMENTS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 			result.setPublicationCount(context.selectCount().from(PROJECTPUBLICATIONS).where(PROJECTPUBLICATIONS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 			result.setCollaboratorCount(context.selectCount().from(PROJECTCOLLABORATORS).where(PROJECTCOLLABORATORS.PROJECT_ID.eq(projectId)).fetchOneInto(Integer.class));
 
@@ -68,13 +73,13 @@ public class ProjectResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public boolean postProject(@FormDataParam("name") String name,
-	                           @FormDataParam("description") String description,
-	                           @FormDataParam("pageContent") String pageContent,
-	                           @FormDataParam("externalUrl") String externalUrl,
-	                           @FormDataParam("startDate") String startDate,
-	                           @FormDataParam("endDate") String endDate,
-	                           @FormDataParam("image") InputStream image,
-	                           @FormDataParam("image") FormDataContentDisposition fileDetails)
+							   @FormDataParam("description") String description,
+							   @FormDataParam("pageContent") String pageContent,
+							   @FormDataParam("externalUrl") String externalUrl,
+							   @FormDataParam("startDate") String startDate,
+							   @FormDataParam("endDate") String endDate,
+							   @FormDataParam("image") InputStream image,
+							   @FormDataParam("image") FormDataContentDisposition fileDetails)
 			throws SQLException, IOException
 	{
 		if (StringUtils.isEmpty(name))
@@ -118,8 +123,8 @@ public class ProjectResource extends ContextResource
 			if (image != null)
 			{
 				ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
-				                                    .where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
-				                                    .fetchAny();
+													.where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
+													.fetchAny();
 
 				File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.projects.name()), "upload");
 				folder.mkdirs();
@@ -155,14 +160,14 @@ public class ProjectResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public boolean patchProject(@PathParam("projectId") Integer projectId,
-	                            @FormDataParam("name") String name,
-	                            @FormDataParam("description") String description,
-	                            @FormDataParam("pageContent") String pageContent,
-	                            @FormDataParam("externalUrl") String externalUrl,
-	                            @FormDataParam("startDate") String startDate,
-	                            @FormDataParam("endDate") String endDate,
-	                            @FormDataParam("image") InputStream image,
-	                            @FormDataParam("image") FormDataContentDisposition fileDetails)
+								@FormDataParam("name") String name,
+								@FormDataParam("description") String description,
+								@FormDataParam("pageContent") String pageContent,
+								@FormDataParam("externalUrl") String externalUrl,
+								@FormDataParam("startDate") String startDate,
+								@FormDataParam("endDate") String endDate,
+								@FormDataParam("image") InputStream image,
+								@FormDataParam("image") FormDataContentDisposition fileDetails)
 			throws SQLException, IOException
 	{
 		if (projectId == null || StringUtils.isEmpty(name))
@@ -218,8 +223,8 @@ public class ProjectResource extends ContextResource
 			if (image != null)
 			{
 				ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
-				                                    .where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
-				                                    .fetchAny();
+													.where(IMAGETYPES.REFERENCE_TABLE.eq("projects"))
+													.fetchAny();
 
 				File folder = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.projects.name()), "upload");
 				folder.mkdirs();
@@ -299,7 +304,7 @@ public class ProjectResource extends ContextResource
 				insertStep.values(projectId, groupId);
 
 			return insertStep.onDuplicateKeyIgnore()
-			                 .execute() > 0;
+							 .execute() > 0;
 		}
 	}
 

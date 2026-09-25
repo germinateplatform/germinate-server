@@ -36,7 +36,7 @@ public class ImageExifReader implements Callable<ImageExifReader.ExifResult>
 	@Override
 	public ExifResult call()
 	{
-		ExifResult exif = null;
+		ExifResult exif;
 		Timestamp date;
 
 		try

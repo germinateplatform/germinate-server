@@ -111,20 +111,18 @@ public class TraitStatsResource
 
 			// Filter out the ones that don't have restriction categories
 			categorical.stream().filter(t -> !CollectionUtils.isEmpty(t.getScaleRestrictions().getCategories()) && !CollectionUtils.isEmpty(t.getScaleRestrictions().getCategories()[0]))
-			           .forEach(t -> {
-						   mapping.put(t.getVariableId(), new TraitStats()
-								   .setVariableId(t.getVariableId())
-						           .setVariableName(t.getVariableName())
-						           .setTraitName(t.getTraitName())
-						           .setTraitNameShort(t.getTraitAbbreviation())
-						           .setTraitId(t.getTraitId())
-						           .setDataType(t.getScaleDatatype().getLiteral())
-						           .setCategories(t.getScaleRestrictions().getCategories())
-						           .setMin(Double.MAX_VALUE)
-						           .setMax(-Double.MAX_VALUE)
-						           .setAvg(0d)
-						           .setCount(0));
-					   });
+			           .forEach(t -> mapping.put(t.getVariableId(), new TraitStats()
+							   .setVariableId(t.getVariableId())
+							   .setVariableName(t.getVariableName())
+							   .setTraitName(t.getTraitName())
+							   .setTraitNameShort(t.getTraitAbbreviation())
+							   .setTraitId(t.getTraitId())
+							   .setDataType(t.getScaleDatatype().getLiteral())
+							   .setCategories(t.getScaleRestrictions().getCategories())
+							   .setMin(Double.MAX_VALUE)
+							   .setMax(-Double.MAX_VALUE)
+							   .setAvg(0d)
+							   .setCount(0)));
 
 			context.selectDistinct()
 			       .from(PHENOTYPEDATA)

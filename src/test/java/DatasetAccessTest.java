@@ -131,7 +131,6 @@ public class DatasetAccessTest
 
 	@AfterAll
 	static void breakDown()
-			throws Exception
 	{
 	}
 }

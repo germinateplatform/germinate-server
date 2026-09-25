@@ -105,7 +105,6 @@ public class MapResource extends BaseResource implements IFilteredResource
 
 	@GET
 	@Path("/{mapId:\\d+}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Maps>> getMaps(@PathParam("mapId") Integer mapId)
 			throws SQLException

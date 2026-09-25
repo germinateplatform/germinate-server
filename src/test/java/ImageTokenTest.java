@@ -82,7 +82,6 @@ public class ImageTokenTest extends AuthUserTest
 
 	@AfterAll
 	static void breakDown()
-			throws Exception
 	{
 	}
 }

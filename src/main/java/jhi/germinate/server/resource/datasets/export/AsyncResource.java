@@ -5,7 +5,6 @@ import jhi.germinate.server.util.ApplicationListener;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.nio.file.*;
 
 /**
  * @author Sebastian Raubach

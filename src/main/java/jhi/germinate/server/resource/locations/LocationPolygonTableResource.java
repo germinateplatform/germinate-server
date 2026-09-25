@@ -14,7 +14,6 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -69,7 +68,7 @@ public class LocationPolygonTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postLocationPolygonTableIds(PaginatedPolygonRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
 			throw new BadRequestException();
@@ -114,7 +113,7 @@ public class LocationPolygonTableResource extends BaseResource
 			                                  .collect(Collectors.toList());
 
 			// Add the start as end point
-			bounds.forEach(l -> l.add(l.get(0)));
+			bounds.forEach(l -> l.add(l.getFirst()));
 
 			builder.append(bounds.stream()
 			                     .map(p -> p.stream().map(l -> l.getLng() + " " + l.getLat()).collect(Collectors.joining(", ")))

@@ -15,7 +15,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 				title = "Swagger Germinate API implementation documentation",
 				version = "1.0",
 				description = "This is the Swagger API implementation documentation for Germinate.",
-				license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.html"),
+				license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html"),
 				contact = @Contact(url = "https://germinate.hutton.ac.uk", email = "germinate@hutton.ac.uk")
 		),
 		servers = {

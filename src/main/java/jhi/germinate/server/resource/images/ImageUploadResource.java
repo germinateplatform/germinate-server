@@ -71,20 +71,16 @@ public class ImageUploadResource
 			                                    .where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
 			                                    .fetchAny();
 
-			Record record = null;
-			switch (imageType.getReferenceTable())
+			Record record = switch (imageType.getReferenceTable())
 			{
-				case "germinatebase":
-					record = context.selectFrom(GERMINATEBASE)
-					                .where(GERMINATEBASE.ID.eq(foreignId))
-					                .fetchAny();
-					break;
-				case "variables":
-					record = context.selectFrom(VARIABLES)
-					                .where(VARIABLES.ID.eq(foreignId))
-					                .fetchAny();
-					break;
-			}
+				case "germinatebase" -> context.selectFrom(GERMINATEBASE)
+											   .where(GERMINATEBASE.ID.eq(foreignId))
+											   .fetchAny();
+				case "variables" -> context.selectFrom(VARIABLES)
+										   .where(VARIABLES.ID.eq(foreignId))
+										   .fetchAny();
+				default -> null;
+			};
 
 			if (record == null)
 				throw new BadRequestException();

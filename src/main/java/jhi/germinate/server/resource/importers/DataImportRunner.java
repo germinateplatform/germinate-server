@@ -10,7 +10,6 @@ import jhi.germinate.server.database.codegen.tables.records.DataImportJobsRecord
 import jhi.germinate.server.database.pojo.*;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
-import jhi.germinate.server.util.importer.*;
 import jhi.germinate.server.util.importer.cli.*;
 import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
@@ -208,8 +207,7 @@ public class DataImportRunner
 		args.add("-jar");
 		args.add(germinateJar.getAbsolutePath());
 		// Add the command selection for the importer
-		for (String importerClassArg : importerClassArgs)
-			args.add(importerClassArg);
+		Collections.addAll(args, importerClassArgs);
 		// Add database parameters
 		args.add("-dbserver");
 		args.add(StringUtils.orEmptyQuotes( PropertyWatcher.get(ServerProperty.DATABASE_SERVER)));

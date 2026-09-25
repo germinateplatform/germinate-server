@@ -37,7 +37,7 @@ public class DatasetExportGenotypeResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postDatasetGenotypeExport(GenotypeSubsetDatasetRequest request)
-			throws IOException, SQLException, StatusException
+			throws StatusException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
 			throw new BadRequestException();

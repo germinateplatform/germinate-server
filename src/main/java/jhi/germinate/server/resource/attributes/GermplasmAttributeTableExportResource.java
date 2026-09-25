@@ -10,7 +10,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.SQLException;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableGermplasmAttributes.*;
@@ -24,7 +23,7 @@ public class GermplasmAttributeTableExportResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public StreamingOutput postDatasetAttributeExport(ExportRequest request, @Context HttpServletResponse response)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 		return toStreamingResult(export(VIEW_TABLE_GERMPLASM_ATTRIBUTES, "germplasm-attributes-table-", null), "application/zip", response);

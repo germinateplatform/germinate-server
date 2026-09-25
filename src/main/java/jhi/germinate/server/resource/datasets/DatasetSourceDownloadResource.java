@@ -19,7 +19,7 @@ public class DatasetSourceDownloadResource extends ContextResource
 	@GET
 	@Produces("*/*")
 	public Response getDatasetSourceDownload(@PathParam("datasetId") Integer datasetId)
-		throws IOException, SQLException, StatusException
+		throws SQLException, StatusException
 	{
 		if (datasetId == null)
 			return Response.status(Response.Status.BAD_REQUEST.getStatusCode()).build();

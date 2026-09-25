@@ -75,7 +75,7 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 		}
 		try
 		{
-			Integer value = request == null ? this.isAscending : request.getAscending();
+			int value = request == null ? this.isAscending : request.getAscending();
 			this.ascending = value == 1;
 		}
 		catch (NullPointerException | NumberFormatException e)

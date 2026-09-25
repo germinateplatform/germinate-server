@@ -28,7 +28,7 @@ public class CurlyWhirlyGroupCreationResource extends ContextResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String accept(@FormDataParam("textfile") InputStream fileIs, @FormDataParam("textfile") FormDataContentDisposition fileDetails)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{

@@ -114,7 +114,6 @@ public class ImageSpecificTagModResource
 		{
 			e.printStackTrace();
 			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return;
 		}
 	}
 

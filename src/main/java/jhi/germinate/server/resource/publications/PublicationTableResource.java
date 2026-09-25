@@ -24,7 +24,6 @@ import static jhi.germinate.server.database.codegen.tables.ViewTablePublications
 public class PublicationTableResource extends BaseResource
 {
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePublications>> postPublicationTable(PaginatedRequest request)
 		throws SQLException

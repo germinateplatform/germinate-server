@@ -48,7 +48,6 @@ public class PedigreeExporter
 	}
 
 	public static void main(String[] args)
-			throws IOException, SQLException
 	{
 		PedigreeExporter exporter = new PedigreeExporter();
 		Database.init(args[0], args[1], args[2], args[3], args[4], false);
@@ -97,7 +96,7 @@ public class PedigreeExporter
 	}
 
 	private void init()
-			throws IOException, SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -213,7 +212,7 @@ public class PedigreeExporter
 
 						procedure.execute(context.configuration());
 
-						ResourceUtils.exportToFile(bwA, procedure.getResults().get(0), true, null, "#heliumInput = PHENOTYPE");
+						ResourceUtils.exportToFile(bwA, procedure.getResults().getFirst(), true, null, "#heliumInput = PHENOTYPE");
 					}
 				}
 			}

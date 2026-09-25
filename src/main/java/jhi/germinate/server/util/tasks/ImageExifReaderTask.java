@@ -72,7 +72,7 @@ public class ImageExifReaderTask implements Runnable
 				// Wait here
 				Logger.getLogger("").log(Level.INFO, "Image Exif scanner queue active/count: " + executor.getActiveCount() + "/" + executor.getQueue().size());
 
-				if (executor.getQueue().size() < 1 && executor.getActiveCount() < 1)
+				if (executor.getQueue().isEmpty() && executor.getActiveCount() < 1)
 				{
 					executor.shutdownNow();
 				}

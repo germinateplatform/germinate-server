@@ -12,6 +12,8 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Groups;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
@@ -34,7 +36,7 @@ public class ClimateDataTableResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableClimateDataWithGroups>> postClimateDataTable(ClimateExportDatasetRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null)
 			throw new BadRequestException();
@@ -67,9 +69,7 @@ public class ClimateDataTableResource extends ExportResource
 			       .leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
 			       .where(GROUPS.GROUPTYPE_ID.eq(1)).and(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())))
 			       .groupBy(locationId)
-			       .forEach(r -> {
-					   locationGroups.put(r.get(locationId), r.into(LocationGroups.class));
-				   });
+			       .forEach(r -> locationGroups.put(r.get(locationId), r.into(LocationGroups.class)));
 
 			// Handle requested location ids or group ids
 			Set<Integer> locationIds = new HashSet<>();
@@ -145,7 +145,7 @@ public class ClimateDataTableResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public File postClimateDataTableExport(DatasetExportRequest request, @Context HttpServletResponse response)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		List<Integer> requestedIds = request.getDatasetIds() == null ? null : new ArrayList<>(Arrays.asList(request.getDatasetIds()));
 		requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", requestedIds, true);
@@ -160,31 +160,12 @@ public class ClimateDataTableResource extends ExportResource
 		return toFileResult(export(VIEW_TABLE_CLIMATE_DATA, "climate-data-table-", settings), "application/zip", response);
 	}
 
+	@Getter
+	@Setter
+	@Accessors(chain = true)
 	private static class LocationGroups
 	{
 		private Integer      locationId;
 		private List<Groups> groups;
-
-		public Integer getLocationId()
-		{
-			return locationId;
-		}
-
-		public LocationGroups setLocationId(Integer locationId)
-		{
-			this.locationId = locationId;
-			return this;
-		}
-
-		public List<Groups> getGroups()
-		{
-			return groups;
-		}
-
-		public LocationGroups setGroups(List<Groups> groups)
-		{
-			this.groups = groups;
-			return this;
-		}
 	}
 }

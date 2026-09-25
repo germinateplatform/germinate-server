@@ -85,7 +85,6 @@ public class FileResourceStreamerResource extends ContextResource
 			if (StringUtils.isEmpty(type))
 				type = "*/*";
 
-
 			if (isHead)
 			{
 				return Response.ok()

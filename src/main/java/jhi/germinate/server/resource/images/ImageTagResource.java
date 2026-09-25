@@ -26,7 +26,6 @@ import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES
 public class ImageTagResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ImageTag>> getImageTag()
 			throws SQLException
@@ -36,7 +35,6 @@ public class ImageTagResource extends BaseResource
 
 	@GET
 	@Path("/{referenceTable}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable)
 			throws SQLException
@@ -46,7 +44,6 @@ public class ImageTagResource extends BaseResource
 
 	@GET
 	@Path("/{referenceTable}/{foreignId:\\d+}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ImageTag>> getImageTag(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId)
 			throws SQLException

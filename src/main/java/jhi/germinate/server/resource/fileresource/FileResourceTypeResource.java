@@ -75,7 +75,6 @@ public class FileResourceTypeResource extends ContextResource
 	{
 		if (fileResourceTypeId == null)
 			throw new BadRequestException();
-		;
 
 		try (Connection conn = Database.getConnection())
 		{

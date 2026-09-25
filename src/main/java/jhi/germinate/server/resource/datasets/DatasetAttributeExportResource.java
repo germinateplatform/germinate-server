@@ -27,7 +27,7 @@ public class DatasetAttributeExportResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public StreamingOutput postDatasetAttributeExport(ExperimentRequest request, @Context HttpServletResponse response)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null)
 			throw new BadRequestException();
@@ -66,7 +66,7 @@ public class DatasetAttributeExportResource extends ContextResource
 
 				procedure.execute(context.configuration());
 
-				ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+				ResourceUtils.exportToFile(bw, procedure.getResults().getFirst(), true, null);
 			}
 			catch (IOException e)
 			{

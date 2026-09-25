@@ -53,7 +53,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				procedure.execute(context.configuration());
 
-				File result = ResourceUtils.exportToZip(procedure.getResults().get(0), "germplasm-table-");
+				File result = ResourceUtils.exportToZip(procedure.getResults().getFirst(), "germplasm-table-");
 
 				return toStreamingResult(result, "application/zip", response);
 			}

@@ -1,8 +1,11 @@
 package jhi.germinate.server.util;
 
+import lombok.Getter;
+
 /**
  * @author Sebastian Raubach
  */
+@Getter
 public enum StatusMessage
 {
 	FORBIDDEN_ACCESS_TO_OTHER_USER("Access to other user not allowed."),
@@ -10,15 +13,10 @@ public enum StatusMessage
 	FORBIDDEN_INVALID_CREDENTIALS("Invalid username or password."),
 	NOT_FOUND_TOKEN("Token not provided.");
 
-	private String description;
+	private final String description;
 
 	StatusMessage(String description)
 	{
 		this.description = description;
-	}
-
-	public String getDescription()
-	{
-		return description;
 	}
 }

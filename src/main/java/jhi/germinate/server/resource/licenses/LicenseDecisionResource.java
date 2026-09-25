@@ -60,7 +60,6 @@ public class LicenseDecisionResource extends ContextResource
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean getLicenseDecision(@Context HttpServletResponse response)
 			throws IOException, SQLException

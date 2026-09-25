@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.markers;
 
+import jhi.germinate.server.database.codegen.tables.*;
 import jhi.germinate.server.resource.ExportResource;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -45,13 +46,11 @@ public class MapdefinitionBaseResource extends ExportResource
 		if (previousCount == -1)
 			select.hint("SQL_CALC_FOUND_ROWS");
 
-		SelectJoinStep<?> inner = select.from(MARKERS)
-										.leftJoin(MAPDEFINITIONS).on(MAPDEFINITIONS.MARKER_ID.eq(MARKERS.ID))
-										.leftJoin(MAPFEATURETYPES).on(MAPFEATURETYPES.ID.eq(MAPDEFINITIONS.MAPFEATURETYPE_ID))
-										.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
-										.leftJoin(SYNONYMS).on(SYNONYMS.SYNONYMTYPE_ID.eq(2).and(SYNONYMS.FOREIGN_ID.eq(MARKERS.ID)));
-
-		return inner;
+		return select.from(Markers.MARKERS)
+					 .leftJoin(Mapdefinitions.MAPDEFINITIONS).on(Mapdefinitions.MAPDEFINITIONS.MARKER_ID.eq(Markers.MARKERS.ID))
+					 .leftJoin(Mapfeaturetypes.MAPFEATURETYPES).on(Mapfeaturetypes.MAPFEATURETYPES.ID.eq(Mapdefinitions.MAPDEFINITIONS.MAPFEATURETYPE_ID))
+					 .leftJoin(Maps.MAPS).on(Maps.MAPS.ID.eq(Mapdefinitions.MAPDEFINITIONS.MAP_ID))
+					 .leftJoin(Synonyms.SYNONYMS).on(Synonyms.SYNONYMS.SYNONYMTYPE_ID.eq(2).and(Synonyms.SYNONYMS.FOREIGN_ID.eq(Markers.MARKERS.ID)));
 	}
 
 	protected SelectJoinStep<?> getMapDefinitionIdQuery(DSLContext context) {

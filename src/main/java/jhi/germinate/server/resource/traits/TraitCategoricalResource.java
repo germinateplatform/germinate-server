@@ -60,7 +60,7 @@ public class TraitCategoricalResource extends ContextResource
 
 					procedure.execute(context.configuration());
 
-					ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+					ResourceUtils.exportToFile(bw, procedure.getResults().getFirst(), true, null);
 				}
 			}
 

@@ -16,7 +16,6 @@ import jhi.oddjob.JobInfo;
 import org.jooq.*;
 import org.jooq.Record;
 
-import java.io.*;
 import java.io.File;
 import java.sql.*;
 import java.util.*;
@@ -33,7 +32,6 @@ public class ImageTableExportResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<AsyncExportResult> postImageTableExport(ExportRequest request)
-			throws IOException, SQLException
 	{
 		processRequest(request);
 
@@ -49,9 +47,7 @@ public class ImageTableExportResource extends BaseResource
 			List<Integer> imageIds = new ArrayList<>();
 
 			setPaginationAndOrderBy(from)
-					.forEach(i -> {
-						imageIds.add(i.get(VIEW_TABLE_IMAGES.IMAGE_ID));
-					});
+					.forEach(i -> imageIds.add(i.get(VIEW_TABLE_IMAGES.IMAGE_ID)));
 
 			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 

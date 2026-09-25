@@ -22,7 +22,6 @@ public class PublicationSpecificResource extends ContextResource
 	Integer publicationId;
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ViewTablePublications getPublicationById()
 			throws SQLException

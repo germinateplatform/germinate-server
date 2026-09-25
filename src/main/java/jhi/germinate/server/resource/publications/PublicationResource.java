@@ -13,7 +13,6 @@ import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
@@ -74,27 +73,24 @@ public class PublicationResource extends ContextResource
 			if (publication == null)
 				throw new NotFoundException();
 
-			boolean exists = false;
-			switch (data.getReferenceType())
+			boolean exists = switch (data.getReferenceType())
 			{
-				case database:
-					exists = true;
-					break;
-				case dataset:
+				case database -> true;
+				case dataset ->
+				{
 					List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
-					exists = availableIds.contains(data.getForeignId());
-					break;
-				case group:
+					yield availableIds.contains(data.getForeignId());
+				}
+				case group ->
+				{
 					GroupResource.checkGroupVisibility(context, userDetails, data.getForeignId());
-					exists = true;
-					break;
-				case experiment:
-					exists = context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(data.getForeignId())).fetchAny() != null;
-					break;
-				case germplasm:
-					exists = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(data.getForeignId())).fetchAny() != null;
-					break;
-			}
+					yield true;
+				}
+				case experiment ->
+						context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(data.getForeignId())).fetchAny() != null;
+				case germplasm ->
+						context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(data.getForeignId())).fetchAny() != null;
+			};
 
 			if (!exists)
 				throw new NotFoundException();

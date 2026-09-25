@@ -10,7 +10,6 @@ import jhi.germinate.server.resource.datasets.BaseDatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 

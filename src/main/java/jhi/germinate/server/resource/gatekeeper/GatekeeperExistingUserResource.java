@@ -49,7 +49,7 @@ public class GatekeeperExistingUserResource extends ContextResource
 					// Create a new request
 					NewAccessRequest newRequest = new NewAccessRequest();
 					newRequest.setUserId(token.getId());
-					newRequest.setDatabaseSystemId(list.getData().get(0).getId());
+					newRequest.setDatabaseSystemId(list.getData().getFirst().getId());
 					newRequest.setLocale(request.getLocale());
 					newRequest.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
 

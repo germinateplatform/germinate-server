@@ -234,23 +234,13 @@ public class ImageResource extends ContextResource
 			name = large.getName();
 			String extension = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
 
-			String mediaType;
-
-			switch (extension)
+			String mediaType = switch (extension)
 			{
-				case "jpg":
-				case "jpeg":
-					mediaType = "image/jpeg";
-					break;
-				case "png":
-					mediaType = "image/png";
-					break;
-				case "svg":
-					mediaType = "image/svg+xml";
-					break;
-				default:
-					mediaType = "image/*";
-			}
+				case "jpg", "jpeg" -> "image/jpeg";
+				case "png" -> "image/png";
+				case "svg" -> "image/svg+xml";
+				default -> "image/*";
+			};
 
 			if (large.exists() && large.isFile())
 			{

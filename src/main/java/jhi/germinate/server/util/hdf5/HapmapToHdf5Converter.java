@@ -18,6 +18,7 @@
 package jhi.germinate.server.util.hdf5;
 
 import ch.systemsx.cisd.hdf5.*;
+import lombok.Setter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -38,17 +39,13 @@ public class HapmapToHdf5Converter
 
 	private File    hapmapFile;
 	private File    hdf5File;
+	@Setter
 	private boolean transpose = false;
 
 	public HapmapToHdf5Converter(File hapmapFile, File hdf5File)
 	{
 		this.hapmapFile = hapmapFile;
 		this.hdf5File = hdf5File;
-	}
-
-	public void setTranspose(boolean transpose)
-	{
-		this.transpose = transpose;
 	}
 
 	private void checkFileExists(File file)
@@ -79,7 +76,7 @@ public class HapmapToHdf5Converter
 			// Count the number of header rows and skip them
 			int offset = 0;
 			String line = reader.readLine();
-			while (line.length() == 0 || line.startsWith("#"))
+			while (line.isEmpty() || line.startsWith("#"))
 			{
 				offset++;
 				line = reader.readLine();
@@ -107,7 +104,7 @@ public class HapmapToHdf5Converter
 			if (transpose)
 			{
 				// The number of rows is at least one and then depends on the number of times we can fit all the markers into 4GB
-				int verticalChunk = (int) Math.min(nrOfRows, Math.max(1, Math.floor(fourGig / (germplasm.length * 1d))));
+				int verticalChunk = (int) Math.clamp(Math.floor(fourGig / (germplasm.length * 1d)), 1, nrOfRows);
 				// The number of columns is at most the number of markers and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
 				int horizontalChunk = (int) Math.min(germplasm.length, fourGig);
 
@@ -142,7 +139,7 @@ public class HapmapToHdf5Converter
 					}
 				}
 
-				if (cache.size() > 0)
+				if (!cache.isEmpty())
 				{
 					writeCacheTransposed(writer, cache, germplasm.length, counter);
 				}
@@ -150,7 +147,7 @@ public class HapmapToHdf5Converter
 			else
 			{
 				// The number of rows is at least one and then depends on the number of times we can fit all the lines into 4GB
-				int verticalChunk = (int) Math.min(germplasm.length, Math.max(1, Math.floor(fourGig / (nrOfRows * 1d))));
+				int verticalChunk = (int) Math.clamp(Math.floor(fourGig / (nrOfRows * 1d)), 1, germplasm.length);
 				// The number of columns is at most the number of lines and if the row is more than 4GB, then it's  the maximal number of columns that fit in 4GB
 				int horizontalChunk = (int) Math.min(nrOfRows, fourGig);
 
@@ -186,7 +183,7 @@ public class HapmapToHdf5Converter
 					}
 				}
 
-				if (cache.size() > 0)
+				if (!cache.isEmpty())
 				{
 					writeCache(writer, cache, germplasm.length, counter);
 				}

@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.Datasets.DATASETS;
 public class GenotypeStatsResource extends ContextResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public GenotypeStats getGenotypeOverviewStats()
 			throws SQLException
@@ -63,7 +62,6 @@ public class GenotypeStatsResource extends ContextResource
 			       .groupBy(dsYear)
 			       .orderBy(dsYear.asc())
 			       .forEach(record -> markersPerYear.put(record.get(dsYear), record.get(markerCount)));
-			;
 
 			Field<Integer> dsCount = DSL.count().as("count");
 			Map<Integer, Integer> dssPerYear = new LinkedHashMap<>();

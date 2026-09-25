@@ -89,7 +89,7 @@ public class LocationTableResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public File postLocationTableExport(ExportRequest request, @Context HttpServletResponse response)
-			throws SQLException, IOException
+			throws SQLException
 	{
 		processRequest(request);
 

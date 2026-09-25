@@ -21,7 +21,6 @@ import org.jooq.impl.DSL;
 import java.io.File;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
@@ -76,7 +75,7 @@ public class PedigreeResource extends ExportResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
 	public StreamingOutput postPedigreeTableExport(ExportRequest request, @Context HttpServletResponse response)
-			throws SQLException, IOException
+			throws SQLException
 	{
 		processRequest(request);
 
@@ -140,7 +139,7 @@ public class PedigreeResource extends ExportResource
 
 					procedure.execute(context.configuration());
 
-					ResourceUtils.exportToFile(bwA, procedure.getResults().get(0), true, null, "#heliumInput = PHENOTYPE");
+					ResourceUtils.exportToFile(bwA, procedure.getResults().getFirst(), true, null, "#heliumInput = PHENOTYPE");
 				}
 			}
 
@@ -165,7 +164,7 @@ public class PedigreeResource extends ExportResource
 
 		if (CollectionUtils.isEmpty(request.getGermplasmGroupIds()) && CollectionUtils.isEmpty(request.getGermplasmIds()))
 		{
-			if (down.size() < 1)
+			if (down.isEmpty())
 				throw new NotFoundException();
 			else
 				down.forEach((p, cs) -> cs.forEach(c -> bw.write(c.getChildName() + "\t" + c.getParentName() + "\t" + c.getRelationshipType().getLiteral() + CRLF)));
@@ -198,9 +197,9 @@ public class PedigreeResource extends ExportResource
 
 			// If specific limits have been requested, make sure they're in the interval [1, 5]
 			if (request.getLevelsUp() != null)
-				upLimit = Math.max(1, Math.min(5, request.getLevelsUp()));
+				upLimit = Math.clamp(request.getLevelsUp(), 1, 5);
 			if (request.getLevelsDown() != null)
-				downLimit = Math.max(1, Math.min(5, request.getLevelsDown()));
+				downLimit = Math.clamp(request.getLevelsDown(), 1, 5);
 
 			PedigreeWriter downWriter = new PedigreeWriter(bw, down, false, downLimit);
 			PedigreeWriter upWriter = new PedigreeWriter(bw, up, true, upLimit);
@@ -286,9 +285,8 @@ public class PedigreeResource extends ExportResource
 		@Override
 		public boolean equals(Object obj)
 		{
-			if (obj instanceof Edge)
+			if (obj instanceof Edge e)
 			{
-				Edge e = (Edge) obj;
 				return Objects.equals(from, e.from) && Objects.equals(to, e.to);
 			}
 			else

@@ -48,21 +48,13 @@ public class NewsResource extends ContextResource
 					throw new BadRequestException();
 
 				// Get the extension
-				String extension;
-				switch (strings[0])
+				String extension = switch (strings[0])
 				{
-					case "data:image/jpeg;base64":
-						extension = "jpeg";
-						break;
-					case "data:image/png;base64":
-						extension = "png";
-						break;
-					case "data:image/jpg:base64":
-						extension = "jpg";
-						break;
-					default:
-						throw new StatusException(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
-				}
+					case "data:image/jpeg;base64" -> "jpeg";
+					case "data:image/png;base64" -> "png";
+					case "data:image/jpg:base64" -> "jpg";
+					default -> throw new StatusException(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
+				};
 				//convert base64 string to binary data
 				byte[] bytes = Base64.getDecoder().decode(strings[1].getBytes(StandardCharsets.UTF_8));
 

@@ -72,7 +72,7 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 		if (StringUtils.isEmpty(jobUuid))
 			throw new BadRequestException();
 
-		boolean result = false;
+		boolean result;
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -125,7 +125,6 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 
 	@GET
 	@Path("/{jobUuid}/import")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public List<AsyncExportResult> getImportJob(@PathParam("jobUuid") String jobUuid)
@@ -138,7 +137,6 @@ public class ImportJobResource extends ContextResource implements AsyncResource
 
 	@GET
 	@Path("/{jobUuid}/log")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({MediaType.TEXT_PLAIN, "application/zip"})
 	@Secured(UserType.DATA_CURATOR)
 	public StreamingOutput getImportJobLog(@PathParam("jobUuid") String jobUuid, @Context HttpServletResponse response)

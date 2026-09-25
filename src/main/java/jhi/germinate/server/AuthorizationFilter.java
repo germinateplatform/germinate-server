@@ -38,7 +38,6 @@ public class AuthorizationFilter implements ContainerRequestFilter
 
 	@Override
 	public void filter(ContainerRequestContext requestContext)
-			throws IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) requestContext.getSecurityContext().getUserPrincipal();
 

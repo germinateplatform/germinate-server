@@ -21,7 +21,6 @@ import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES
 public class TaxonomyResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Taxonomies> getTaxonomies(@QueryParam("onlyGenusSpecies") Boolean onlyGenusSpecies)
 			throws SQLException

@@ -12,7 +12,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -44,7 +43,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 	}
 
 	private File export(Integer datasetId, ExportRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 

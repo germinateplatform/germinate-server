@@ -17,7 +17,6 @@ import org.glassfish.jersey.media.multipart.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
@@ -31,7 +30,6 @@ public class SettingsResource extends BaseResource
 	protected HttpServletResponse resp;
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ClientConfiguration getSettings()
 	{
@@ -119,7 +117,6 @@ public class SettingsResource extends BaseResource
 
 	@GET
 	@Path("/admin")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
 	public ClientAdminConfiguration getAdminSettings()
@@ -199,7 +196,6 @@ public class SettingsResource extends BaseResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
 	public ClientAdminConfiguration postAdminSettings(ClientAdminConfiguration config)
-			throws IOException
 	{
 		// This is the only one that's really required for Germinate to run. Everything else is optional.
 		// This doesn't mean that sending properties without other settings won't screw things over. If no Gatekeeper settings are returned,
@@ -307,7 +303,6 @@ public class SettingsResource extends BaseResource
 
 	@GET
 	@Path("/carousel")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public CarouselConfig getCarouselConfig()
 			throws IOException
@@ -436,7 +431,6 @@ public class SettingsResource extends BaseResource
 
 	@GET
 	@Path("/about")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public AboutConfig getAboutConfig()
 			throws IOException
@@ -476,7 +470,7 @@ public class SettingsResource extends BaseResource
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-		Map<String, String> content = null;
+		Map<String, String> content;
 
 		// Read the file
 		try (Reader br = new InputStreamReader(new FileInputStream(langFile), StandardCharsets.UTF_8))
@@ -500,89 +494,5 @@ public class SettingsResource extends BaseResource
 		}
 
 		return true;
-	}
-
-	@GET
-	@Path("/css")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("text/css")
-	public File getSettingsCss(@Context HttpServletResponse response)
-	{
-		String primaryColor = PropertyWatcher.get(ServerProperty.COLOR_PRIMARY);
-
-		if (StringUtils.isEmpty(primaryColor))
-			return null;
-
-		File cssFile = ResourceUtils.getTempDir(primaryColor + ".css");
-
-		if (!cssFile.exists())
-		{
-			boolean worked = createCssFile(primaryColor, cssFile);
-
-			if (!worked)
-				return null;
-		}
-
-		return toFileResult(cssFile, "text/css", response);
-	}
-
-	private boolean createCssFile(String color, File targetFile)
-	{
-		try
-		{
-			Color primary = Color.fromHex(color);
-			Color primary5 = primary.toTransparency(0.5f);
-			Color primary25 = primary.toTransparency(0.25f);
-			Color darker = primary.darker();
-			Color hover = darker.darker();
-			Color darkerShadow = darker.darker().toTransparency(0.5f);
-			Color lighterBorder = primary.brighter().brighter();
-
-			File template = new File(SettingsResource.class.getClassLoader().getResource("template.css").toURI());
-
-			String content = Files.readString(template.toPath());
-			content = content.replace("{{PRIMARY}}", primary.toHexValue())
-			                 .replace("{{PRIMARY_HOVER}}", hover.toHexValue())
-			                 .replace("{{PRIMARY_DARKER}}", darker.toHexValue())
-			                 .replace("{{PRIMARY_LIGHTER_BORDER}}", lighterBorder.toHexValue())
-			                 .replace("{{PRIMARY_DARKER_SHADOW}}", darkerShadow.toHexValue())
-			                 .replace("{{PRIMARY_SHADOW}}", primary5.toHexValue())
-			                 .replace("{{PRIMARY_LIGHTER_SHADOW}}", primary25.toHexValue());
-			Files.write(targetFile.toPath(), content.getBytes(StandardCharsets.UTF_8));
-
-			return true;
-		}
-		catch (NullPointerException | URISyntaxException | IOException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private Response getFile(String name)
-			throws IOException
-	{
-		try
-		{
-			File file = ResourceUtils.getFromExternal(name, "template");
-
-			if (file != null && file.exists() && file.isFile())
-			{
-				return Response.ok(file)
-				               .type("text/plain")
-				               .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-				               .header("content-length", file.length())
-				               .build();
-			}
-			else
-			{
-				throw new NotFoundException();
-			}
-		}
-		catch (NullPointerException e)
-		{
-			e.printStackTrace();
-			throw new InternalServerErrorException();
-		}
 	}
 }

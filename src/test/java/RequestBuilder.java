@@ -135,7 +135,7 @@ public class RequestBuilder<T, U>
 	{
 		@Override
 		public ULong deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-				throws IOException, JacksonException
+				throws IOException
 		{
 			JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
@@ -161,7 +161,6 @@ public class RequestBuilder<T, U>
 
 		@Override
 		public void filter(ClientRequestContext requestContext)
-				throws IOException
 		{
 			LOG.log(Level.INFO, "PATH: " + requestContext.getUri().toString() + "\n" + "COOKIES: " + requestContext.getCookies().toString());
 

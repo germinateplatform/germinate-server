@@ -43,13 +43,13 @@ public class ResourceUtils
 	}
 
 	public static File exportToZip(Result<? extends Record> results, String name, Map<String, String> columnMapping)
-			throws IOException, StatusException
+			throws StatusException
 	{
 		return exportToZip(results, name, columnMapping, null);
 	}
 
 	public static File exportToZip(Result<? extends Record> results, String name, Map<String, String> columnMapping, String forcedFileExtension)
-			throws IOException, StatusException
+			throws StatusException
 	{
 		try
 		{
@@ -89,7 +89,7 @@ public class ResourceUtils
 	}
 
 	public static File exportToZip(Result<? extends Record> results, String name)
-			throws IOException, StatusException
+			throws StatusException
 	{
 		return exportToZip(results, name, null, null);
 	}
@@ -106,7 +106,7 @@ public class ResourceUtils
 	public static void exportToFile(Writer bw, Result<? extends Record> results, boolean includeHeaders, Map<String, String> columnMapping, Field<?>[] fieldsToIgnore, String... headers)
 			throws IOException
 	{
-		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).collect(Collectors.toList());
+		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).toList();
 		List<String> columnsToInclude = Arrays.stream(results.fields())
 											  .map(Field::getName)
 											  .filter(name -> !columnsToIgnore.contains(name))
@@ -118,7 +118,7 @@ public class ResourceUtils
 				columnMapping.put(Filter.getSafeColumn(key), columnMapping.get(key));
 
 			// Reduce to those columns specified in the mapping
-			columnsToInclude = columnsToInclude.stream().filter(columnMapping::containsKey).collect(Collectors.toList());
+			columnsToInclude = columnsToInclude.stream().filter(columnMapping::containsKey).toList();
 		}
 
 		if (!CollectionUtils.isEmpty(headers))
@@ -181,11 +181,11 @@ public class ResourceUtils
 	public static void exportToFileStreamed(Writer bw, Cursor<? extends Record> results, boolean includeHeaders, Field<?>[] fieldsToIgnore)
 			throws IOException
 	{
-		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).collect(Collectors.toList());
+		List<String> columnsToIgnore = fieldsToIgnore == null ? new ArrayList<>() : Arrays.stream(fieldsToIgnore).map(Field::getName).toList();
 		List<String> columnsToInclude = Arrays.stream(results.fields())
 											  .map(Field::getName)
 											  .filter(name -> !columnsToIgnore.contains(name))
-											  .collect(Collectors.toList());
+											  .toList();
 
 		if (includeHeaders)
 			bw.write(columnsToInclude.stream().collect(Collectors.joining("\t", "", CRLF)));
@@ -288,7 +288,7 @@ public class ResourceUtils
 	 * @return The {@link File} representing the request
 	 */
 	public static File getFromExternal(String filename, String... subdirs)
-			throws IOException, StatusException
+			throws StatusException
 	{
 		File folder = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL));
 

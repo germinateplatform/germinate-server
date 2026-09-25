@@ -82,7 +82,6 @@ public class GenotypeExporter
 	}
 
 	public static void main(String[] args)
-			throws IOException
 	{
 		GenotypeExporter exporter = new GenotypeExporter();
 		Database.init(args[0], args[1], args[2], args[3], args[4], false);

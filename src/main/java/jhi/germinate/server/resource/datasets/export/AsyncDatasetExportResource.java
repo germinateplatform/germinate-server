@@ -61,7 +61,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		if (StringUtils.isEmpty(jobUuid))
 			throw new BadRequestException();
 
-		boolean result = false;
+		boolean result;
 
 		try (Connection conn = Database.getConnection())
 		{

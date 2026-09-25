@@ -1,7 +1,6 @@
 package jhi.germinate.server.resource;
 
 import jakarta.ws.rs.InternalServerErrorException;
-import jakarta.ws.rs.core.Response;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.util.DateTimeUtils;
 import org.jooq.*;
@@ -24,7 +23,7 @@ public class ExportResource extends BaseResource
 	protected static final String CRLF = "\r\n";
 
 	protected File export(TableImpl<? extends Record> table, String name, ExportSettings settings)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		currentPage = 0;
 		pageSize = Integer.MAX_VALUE;
@@ -75,7 +74,7 @@ public class ExportResource extends BaseResource
 		}
 	}
 
-	protected class ExportSettings
+	protected static class ExportSettings
 	{
 		public Condition[] conditions;
 		public Field[]     fieldsToNull;

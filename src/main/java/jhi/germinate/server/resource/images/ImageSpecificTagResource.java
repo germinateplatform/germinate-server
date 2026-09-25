@@ -24,7 +24,6 @@ import static jhi.germinate.server.database.codegen.tables.Imagetags.IMAGETAGS;
 public class ImageSpecificTagResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Imagetags>> getSpecificImageTag(@PathParam("imageId") Integer imageId)
 			throws SQLException

@@ -38,8 +38,8 @@ public class Database
 
 	private static boolean mysqlDumpExists = false;
 	private static boolean backupsRanOnce  = false;
-	private static boolean backupIsRunning = false;
-	private static Object  lock            = new Object();
+	private static       boolean backupIsRunning = false;
+	private static final Object  lock            = new Object();
 
 //	private static HikariDataSource datasource;
 

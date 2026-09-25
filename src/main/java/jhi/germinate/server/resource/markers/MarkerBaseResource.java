@@ -47,7 +47,7 @@ public class MarkerBaseResource extends ExportResource
 		if (!CollectionUtils.isEmpty(joins))
 		{
 			for (GermplasmBaseResource.Join<A> join : joins)
-				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
+				inner = inner.leftJoin(join.table()).on(join.left().eq(join.right()));
 		}
 
 		return inner;
@@ -76,7 +76,7 @@ public class MarkerBaseResource extends ExportResource
 		if (!CollectionUtils.isEmpty(joins))
 		{
 			for (GermplasmBaseResource.Join<A> join : joins)
-				inner = inner.leftJoin(join.table).on(join.left.eq(join.right));
+				inner = inner.leftJoin(join.table()).on(join.left().eq(join.right()));
 		}
 
 		return context.selectDistinct(DSL.field(MARKER_ID, Integer.class)).from(inner);

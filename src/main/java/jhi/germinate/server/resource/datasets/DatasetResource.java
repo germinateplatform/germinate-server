@@ -66,7 +66,7 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ViewTableDatasets patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
-			throws SQLException, IOException
+			throws SQLException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
 			throw new BadRequestException();
@@ -110,7 +110,7 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteDatasetById(@PathParam("datasetId") Integer datasetId)
-			throws IOException, SQLException, StatusException
+			throws SQLException, StatusException
 	{
 		if (datasetId == null)
 			throw new BadRequestException();

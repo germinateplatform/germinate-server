@@ -13,7 +13,6 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class DatasetUserResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean patchDatasetUser(DatasetUserModificationRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null || this.datasetId == null || !Objects.equals(this.datasetId, request.getDatasetId()) || request.getAddOperation() == null)
 			throw new BadRequestException();
@@ -67,7 +66,6 @@ public class DatasetUserResource extends ContextResource
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewUserDetails> getDatasetUser()
 			throws SQLException

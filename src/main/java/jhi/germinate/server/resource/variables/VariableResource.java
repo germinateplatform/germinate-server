@@ -3,6 +3,7 @@ package jhi.germinate.server.resource.variables;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.resource.ContextResource;
@@ -23,8 +24,9 @@ import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 @PermitAll
 public class VariableResource extends ContextResource
 {
-	@Path("/methodclass/count")
 	@GET
+	@Path("/methodclass/count")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Map<MethodsMethodClass, Integer> getVariableMethodClassCounts()
 			throws SQLException
 	{
@@ -42,8 +44,9 @@ public class VariableResource extends ContextResource
 		}
 	}
 
-	@Path("/scaledatatype/count")
 	@GET
+	@Path("/scaledatatype/count")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Map<ScalesDatatype, Integer> getVariableScaleDataTypeCounts()
 			throws SQLException
 	{
@@ -61,8 +64,9 @@ public class VariableResource extends ContextResource
 		}
 	}
 
-	@Path("/traitclass/count")
 	@GET
+	@Path("/traitclass/count")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Map<TraitsTraitClass, Integer> getVariableTraitClassCounts()
 			throws SQLException
 	{

@@ -121,15 +121,13 @@ public class NCBITaxonomyLookupTask implements Runnable
 
 							if (!CollectionUtils.isEmpty(ids))
 							{
-								ids.forEach(id -> {
-									context.insertInto(TAXONOMYPROVIDERSLINKS)
-									       .set(TAXONOMYPROVIDERSLINKS.TAXONOMY_ID, id)
-									       .set(TAXONOMYPROVIDERSLINKS.TAXONOMYPROVIDER_ID, ncbi.getId())
-									       .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
-									       .onDuplicateKeyUpdate()
-									       .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
-									       .execute();
-								});
+								ids.forEach(id -> context.insertInto(TAXONOMYPROVIDERSLINKS)
+													 .set(TAXONOMYPROVIDERSLINKS.TAXONOMY_ID, id)
+													 .set(TAXONOMYPROVIDERSLINKS.TAXONOMYPROVIDER_ID, ncbi.getId())
+													 .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
+													 .onDuplicateKeyUpdate()
+													 .set(TAXONOMYPROVIDERSLINKS.EXTERNAL_ID, Integer.toString(item.taxonomy.tax_id))
+													 .execute());
 							}
 						}
 					}
