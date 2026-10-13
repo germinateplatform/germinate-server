@@ -93,105 +93,161 @@ This directory holds configuration files for the Germinate user interface.
 This is the most important file in your customization. It defines the required properties for Germinate without which it couldn't work. This includes properties like the database details and user credentials as well as various customization options.
 
 ```ini
-# Database properties. Server name, database name and user name are required.
-# A password may be optional depending on your configuration and the port only needs to be provided if it's not 3306. 
-database.server   = <database server>
-database.name     = <database name>
-database.username = <database username>
-database.password = <database password if required
-database.port     = <database port if not 3306>
-database.backup.every.days  = <optional; set to a whole number to make Germinate create automatic database backups every X days; stored under `<GERINATE_FOLDER>/backups`>
-database.backup.max.size.gb = <optional; set to the maximum disk space that should be taken up by Germinate backups> 
+# Database server host
+database.server = <string>
+# Name of the database
+database.name = <string>
+# Database user name
+database.username = <string>
+# Database password (optional, depending on your configuration)
+database.password = <string>
+# Database port (only needed if not 3306)
+database.port = <integer>
+# Create automatic database backups every X days (optional); stored under <GERMINATE_FOLDER>/backups
+database.backup.every.days = <integer>
+# Maximum disk space (in GB) that Germinate backups may take up (optional)
+database.backup.max.size.gb = <integer>
 
-# This is required so that the server can generate files that link back to the user interface
-germinate.client.url = <base url of the client, e.g. https://ics.hutton.ac.uk/germinate-demo/>
+# Base URL of the client, so the server can generate files that link back to the user interface, e.g. https://ics.hutton.ac.uk/germinate-demo/
+germinate.client.url = <url>
 
-# If Gatekeeper is used, these properties are required. Username and password have to be the credentials of an actual Gatekeeper user with admin permissions for Gatekeeper (not Germinate). 
-gatekeeper.url                            = <base url of gatekeeper if using>
-gatekeeper.username                       = <username of gatekeeper if using>
-gatekeeper.password                       = <password of gatekeeper if using and required>
-# User registration can be enabled
-gatekeeper.registration.enabled           = <should new users be able to register for an account>
-gatekeeper.registration.requires.approval = <if registration is enabled, does it require approval from an administrator>
-# Passwords are stored hashed and salted, not in plain text. Increasing the salt will make it more robust against brute force attackes, but will also slow down authentication of genuine logins.
-bcrypt.salt                               = <the salt value used for password hashing. higher means more secure, but also slower. 10 default>
+# Base URL of Gatekeeper (if used)
+gatekeeper.url = <url>
+# Username of a Gatekeeper user with admin permissions for Gatekeeper (not Germinate)
+gatekeeper.username = <string>
+# Password of that Gatekeeper user
+gatekeeper.password = <string>
+# Should new users be able to register for an account?
+gatekeeper.registration.enabled = <boolean>
+# If registration is enabled, does it require approval from an administrator?
+gatekeeper.registration.requires.approval = <boolean>
+# Salt value (work factor) used for bcrypt password hashing. Higher is more secure but slower. Default is 10
+bcrypt.salt = <integer>
 
-# Colors for the user interface. These are used in charts and the template. All have to be privided as Hex colors (e.g. #ffffff for white or #000000 for black)      
-color.primary   = <the primary color (hex-code) of the user interface>
-colors.charts   = <comma separated list of colors (hex-code) used for charts>
-colors.template = <comma separated list of colors (hex-code) used for the user interface>
-colors.gradient = <comma separated list of colors (hex-code) used for gradients>
+# Primary color of the user interface (hex code, e.g. #00acef)
+color.primary = <hex color>
+# Colors used for charts (comma-separated hex codes)
+colors.charts = <comma-separated list of hex colors>
+# Colors used for the user interface (comma-separated hex codes)
+colors.template = <comma-separated list of hex colors>
+# Colors used for gradients (comma-separated hex codes)
+colors.gradient = <comma-separated list of hex colors>
 
-# This is the most important property. It points Germinate to the location of all configuration files.
-data.directory.external = <location of the directory containing the configuration files (the ones explained in this section). Should be '/data/germinate' if using the Docker image.>
+# Directory containing the configuration files. Should be /data/germinate when using the Docker image
+data.directory.external = <path>
 
-# The authentication mode determines whether users have to log in or not.
-# NONE disables authentication (and the use of Gatekeeper).
-# FULL requires all users to log in before they can even see any data.
-# SELECTIVE only requires users to log in if they want to use any features that alter the database, e.g. creating groups, adding comments, etc.
-authentication.mode = <either 'SELECTIVE', 'FULL' or 'NONE'; don't include the quotes>
+# Authentication mode: NONE disables authentication (and Gatekeeper), FULL requires login to see any data, SELECTIVE only requires login for features that alter the database
+authentication.mode = <SELECTIVE | FULL | NONE>
 
-# The data import mode determines whether Data Curators (in Gatekeeper) can verify or upload data in the Excel templates.
-# NONE disables data verification and upload
-# VERIFY allows the upload and checking/verification of templates
-# IMPORT allows everything VERIFY does, but also allows the actual import of data after the verification step
-data.import.mode = <either 'IMPORT', 'VERIFY' OR 'NONE'; don't include the quotes>
+# Data import mode: NONE disables verification and upload, VERIFY allows checking of templates, IMPORT additionally allows importing data after verification
+data.import.mode = <IMPORT | VERIFY | NONE>
 
-# These are used to allow linking to an external resource from the marked germplasm page
-external.link.identifier = <the column from the germinatebase to use>
-external.link.template   = <the template to put the joined identifiers into. Has to include '{identifiers}' e.g. 'https://www.google.co.uk/search?q={identifiers}'>
+# Column of the germinatebase table used to link to an external resource from the marked germplasm page
+external.link.identifier = <string>
+# Template for the external link. Must include {identifiers}, e.g. https://www.google.co.uk/search?q={identifiers}
+external.link.template = <string>
 
-# We can't keep files forever. These properties decide when files should be deleted.
-files.delete.after.hours.async = <after how many hours should files created from async import/export tasks be deleted>
-files.delete.after.hours.temp  = <after how many hours should temporary files be deleted (e.g. chart files, synchronous download files, etc)>
+# Hours after which files created by async import/export tasks are deleted
+files.delete.after.hours.async = <integer>
+# Hours after which temporary files (chart files, synchronous downloads, etc.) are deleted
+files.delete.after.hours.temp = <integer>
 
-# Google Analytics will be enabled if this property is set.
-google.analytics.key      = <google analytics key if using>
-# Plausible Analytics information (https://plausible-tracker.netlify.app/globals#plausibleinitoptions)
-plausible.domain    = <your site's domain, as declared by you in plausible's settings>
-plausible.hash.mode = <enables tracking based on url hash changes>
-plausible.api.host  = <plausible's api host to use. Change this if you are self-hosting.>
-# The colored boxes at the top of the dashboard/home page can be changed here.
-dashboard.categories      = <comma separated list of the dashboard categories to show. any of: 'germplasm', 'markers', 'maps', 'traits', 'climates', 'compounds', 'locations', 'datasets', 'datasetsGenotype', 'datasetsTrials', 'datasetsAllelefreq', 'datasetsClimate', 'datasetsCompound', 'experiments', 'groups', 'images', 'fileresources'; don't include the quotes>
-# The information sections on the dashboard. Pick which ones to show. 
-dashboard.sections        = <comma separated list of dashboard sections. Any of: 'publications', 'news', 'projects', 'dataupdates', 'datastories'; don't include the quotes>
-# Pages can be hidden for example if you don't have that kind of data.
-hidden.pages              = <names of those pages that should be hidden from the user interface (https://github.com/germinateplatform/germinate-vue/blob/master/src/mixins/pages.js)>
-hidden.pages.autodiscover = <set to true to make Germinate auto-discover which pages to show on the client based on what data is available in the database>
-# Columns of each table can be hidden. Note that this only takes effect the first time Germinate is loaded.
-# Afterwards we cannot overwrite the client configuration as the user may have chosen to show/hide different columns.
-# The values are comma-separated lists of the column keys found in the corresponsing client components found here: https://github.com/germinateplatform/germinate-vue/tree/master/src/components/tables
-hidden.columns.germplasm            = <columns to hide in this table >
-hidden.columns.germplasm.attributes = <columns to hide in this table >
-hidden.columns.images               = <columns to hide in this table >
-hidden.columns.climates             = <columns to hide in this table >
-hidden.columns.climate.data         = <columns to hide in this table >
-hidden.columns.compounds            = <columns to hide in this table >
-hidden.columns.compound.data        = <columns to hide in this table >
-hidden.columns.comments             = <columns to hide in this table >
-hidden.columns.fileresources        = <columns to hide in this table >
-hidden.columns.maps                 = <columns to hide in this table >
-hidden.columns.markers              = <columns to hide in this table >
-hidden.columns.map.definitions      = <columns to hide in this table >
-hidden.columns.datasets             = <columns to hide in this table >
-hidden.columns.dataset.attributes   = <columns to hide in this table >
-hidden.columns.experiments          = <columns to hide in this table >
-hidden.columns.entities             = <columns to hide in this table >
-hidden.columns.groups               = <columns to hide in this table >
-hidden.columns.institutions         = <columns to hide in this table >
-hidden.columns.locations            = <columns to hide in this table >
-hidden.columns.pedigrees            = <columns to hide in this table >
-hidden.columns.pedigreedefinitions  = <columns to hide in this table >
-hidden.columns.traits               = <columns to hide in this table >
-hidden.columns.trials.data          = <columns to hide in this table >
-hidden.columns.collaborators        = <columns to hide in this table >
-hidden.columns.publications         = <columns to hide in this table >
-# The comments feature can be disabled if you don't want users to add comments.
-comments.enabled          = <should the comments feature be enabled>
-# The PDCI calculation can be disabled if you don't wish to show this information.
-pdci.enabled              = <should the PDCI be calculated and shown on the user interface>
-# GDPR compliance is important and this has to be enabled if you're expecting users from the EU. It gives them the option to enable non-essential cookies for convenience. 
-gdpr.notification.enabled = <should the GDPR compliance banner be shown. if so, users can deny the usage of cookies which will disable some features>
+# Google Analytics key (analytics is enabled if set)
+google.analytics.key = <string>
+
+# Plausible Analytics: your site's domain as declared in Plausible's settings
+plausible.domain = <string>
+# Plausible Analytics: should hash mode be used?
+plausible.hash.mode = <boolean>
+# Plausible Analytics: API host to use (change this if self-hosting)
+plausible.api.host = <url>
+
+# Dashboard categories to show (comma-separated): germplasm, markers, maps, traits, climates, compounds, locations, datasets, datasetsGenotype, datasetsTrials, datasetsAllelefreq, datasetsClimate, datasetsCompound, experiments, groups, images, fileresources
+dashboard.categories = <comma-separated list of strings>
+# Dashboard information sections to show (comma-separated): publications, news, projects, dataupdates, datastories
+dashboard.sections = <comma-separated list of strings>
+# Pages to hide from the user interface (see https://github.com/germinateplatform/germinate-vue/blob/master/src/mixins/pages.js)
+hidden.pages = <comma-separated list of strings>
+# Auto-discover which pages to show based on the data available in the database
+hidden.pages.autodiscover = <boolean>
+
+# Table column hiding only takes effect the first time Germinate is loaded, as users may later choose to show/hide different columns.
+# Values are comma-separated column keys from the client components at https://github.com/germinateplatform/germinate-vue/tree/master/src/components/tables
+# Columns to hide in the germplasm table
+hidden.columns.germplasm = <comma-separated list of strings>
+# Columns to hide in the germplasm attributes table
+hidden.columns.germplasm.attributes = <comma-separated list of strings>
+# Columns to hide in the images table
+hidden.columns.images = <comma-separated list of strings>
+# Columns to hide in the climates table
+hidden.columns.climates = <comma-separated list of strings>
+# Columns to hide in the climate data table
+hidden.columns.climate.data = <comma-separated list of strings>
+# Columns to hide in the compounds table
+hidden.columns.compounds = <comma-separated list of strings>
+# Columns to hide in the compound data table
+hidden.columns.compound.data = <comma-separated list of strings>
+# Columns to hide in the comments table
+hidden.columns.comments = <comma-separated list of strings>
+# Columns to hide in the file resources table
+hidden.columns.fileresources = <comma-separated list of strings>
+# Columns to hide in the maps table
+hidden.columns.maps = <comma-separated list of strings>
+# Columns to hide in the markers table
+hidden.columns.markers = <comma-separated list of strings>
+# Columns to hide in the map definitions table
+hidden.columns.map.definitions = <comma-separated list of strings>
+# Columns to hide in the datasets table
+hidden.columns.datasets = <comma-separated list of strings>
+# Columns to hide in the dataset attributes table
+hidden.columns.dataset.attributes = <comma-separated list of strings>
+# Columns to hide in the experiments table
+hidden.columns.experiments = <comma-separated list of strings>
+# Columns to hide in the entities table
+hidden.columns.entities = <comma-separated list of strings>
+# Columns to hide in the groups table
+hidden.columns.groups = <comma-separated list of strings>
+# Columns to hide in the institutions table
+hidden.columns.institutions = <comma-separated list of strings>
+# Columns to hide in the locations table
+hidden.columns.locations = <comma-separated list of strings>
+# Columns to hide in the pedigrees table
+hidden.columns.pedigrees = <comma-separated list of strings>
+# Columns to hide in the pedigree definitions table
+hidden.columns.pedigreedefinitions = <comma-separated list of strings>
+# Columns to hide in the traits table
+hidden.columns.traits = <comma-separated list of strings>
+# Columns to hide in the trials data table
+hidden.columns.trials.data = <comma-separated list of strings>
+# Columns to hide in the collaborators table
+hidden.columns.collaborators = <comma-separated list of strings>
+# Columns to hide in the publications table
+hidden.columns.publications = <comma-separated list of strings>
+
+# Should the comments feature be enabled?
+comments.enabled = <boolean>
+# Should the PDCI be calculated and shown on the user interface?
+pdci.enabled = <boolean>
+# Enable the BrAPI endpoints
+brapi.enabled = <boolean>
+# Show the GDPR compliance banner. Users can deny cookies, which disables some features. Enable if expecting users from the EU
+gdpr.notification.enabled = <boolean>
+# Show the link to Hutton Unearthed on the "About Germinate" page
+donations.section.enabled = <boolean>
+# URL of the GridScore instance used with Germinate (defaults to the official URL)
+gridscore.url = <url>
+# URL of the Helium instance used with Germinate (defaults to the official URL)
+helium.url = <url>
+# URL of the FielDHub instance used with Germinate (defaults to the official URL)
+fieldhub.url = <url>
+# URL of GenesysPGR for ordering material
+genesys.url = <url>
+# Client ID provided by Genesys for this instance of Germinate
+genesys.client.id = <string>
+# Client secret provided by Genesys for this instance of Germinate
+genesys.client.secret = <string>
+# Custom path to the MySQL Dump executable for database backups. Don't use this with the Germinate Docker image
+mysqldump.path = <path>
 ```
 
 # Gatekeeper Configuration

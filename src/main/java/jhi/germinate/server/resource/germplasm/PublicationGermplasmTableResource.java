@@ -13,7 +13,7 @@ import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.VIEW_TABLE_PUBLICATIONS;
 
@@ -44,7 +44,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 			                                   .fetchAnyInto(ViewTablePublications.class);
 
 			if (pub == null)
-				throw new NotFoundException();
+				return new PaginatedResult<>(new ArrayList<>(), 0);
 
 			Integer[] ids = pub.getGermplasmIds();
 

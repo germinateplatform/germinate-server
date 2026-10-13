@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-09-23 08:02:57.
+// Generated using typescript-generator version 3.2.1263 on 2026-10-12 09:09:26.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -965,6 +965,7 @@ export interface Datasets extends Serializable {
     createdBy: number;
     datasetStateId: number;
     licenseId: number;
+    studydetailsId: number;
     isExternal: boolean;
     hyperlink: string;
     createdOn: Date;
@@ -1548,6 +1549,15 @@ export interface Storysteps extends Serializable {
     updatedOn: Date;
 }
 
+export interface Studydetails extends Serializable {
+    id: number;
+    core: StudyDetailsCore;
+    environment: JSON;
+    factors: JSON;
+    createdOn: Date;
+    updatedOn: Date;
+}
+
 export interface Synonyms extends Serializable {
     id: number;
     foreignId: number;
@@ -1816,6 +1826,7 @@ export interface ViewTableDatasets extends Serializable {
     experimentId: number;
     experimentName: string;
     experimentDescription: string;
+    studyDetailsCore: StudyDetailsCore;
     projectId: number;
     projectName: string;
     projectDescription: string;
@@ -2180,17 +2191,21 @@ export interface ViewTableTraits extends Serializable {
     variableId: number;
     variableName: string;
     variableDescription: string;
+    variableOntologies: OntologyInfo[];
     variableSynonyms: string[];
     traitId: number;
     traitName: string;
     traitDescription: string;
+    traitOntologies: OntologyInfo[];
     methodId: number;
     methodName: string;
     methodDescription: string;
     methodClass: ViewTableTraitsMethodClass;
+    methodOntologies: OntologyInfo[];
     scaleId: number;
     scaleName: string;
     scaleDescription: string;
+    scaleOntologies: OntologyInfo[];
     traitAbbreviation: string;
     traitClass: ViewTableTraitsTraitClass;
     traitSynonyms: string[];
@@ -2340,9 +2355,9 @@ export interface Exif {
     userComment: string;
     whiteBalance: string;
     whiteBalanceMode: string;
+    fnumber: string;
     yresolution: string;
     xresolution: string;
-    fnumber: string;
 }
 
 export interface ExportJobDetails {
@@ -2352,10 +2367,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    ygroupIds: number[];
-    xgroupIds: number[];
     xids: number[];
     yids: number[];
+    xgroupIds: number[];
+    ygroupIds: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2398,6 +2413,11 @@ export interface ImportResult {
     type: StatusType;
 }
 
+export interface OntologyInfo {
+    ontologyId: number;
+    ontologyPuid: string;
+}
+
 export interface RouterConfig {
     name: string;
     query: { [index: string]: JsonElement };
@@ -2412,6 +2432,18 @@ export interface StoryRequirements {
 export interface StoryStepConfig {
     router: RouterConfig;
     pageDetails: { [index: string]: string };
+}
+
+export interface StudyDetailsCore {
+    studyStartDate: Date;
+    studyEndDate: Date;
+    experimentDesignType: string;
+    experimentDesignDescription: string;
+    experimentDesignMap: string;
+    observationUnitDescription: string;
+    growthFacilityDescription: string;
+    growthFacilityType: string;
+    culturalPractice: string;
 }
 
 export interface TaxonCount {
@@ -2541,25 +2573,25 @@ export interface JsonElement {
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
+    asByte: number;
     asString: string;
     asShort: number;
-    asFloat: number;
     jsonNull: boolean;
-    asJsonPrimitive: JsonPrimitive;
-    jsonArray: boolean;
-    jsonObject: boolean;
-    jsonPrimitive: boolean;
+    asFloat: number;
+    asBigInteger: number;
     asJsonObject: JsonObject;
     asJsonArray: JsonArray;
-    asJsonNull: JsonNull;
+    jsonArray: boolean;
+    jsonPrimitive: boolean;
+    asNumber: number;
     /**
      * @deprecated
      */
     asCharacter: string;
+    asJsonPrimitive: JsonPrimitive;
+    jsonObject: boolean;
+    asJsonNull: JsonNull;
     asBigDecimal: number;
-    asBigInteger: number;
-    asNumber: number;
-    asByte: number;
 }
 
 export interface LevelCount {
@@ -2583,18 +2615,18 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonPrimitive extends JsonElement {
-    number: boolean;
-    string: boolean;
-    boolean: boolean;
-}
-
 export interface JsonObject extends JsonElement {
     empty: boolean;
 }
 
 export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
+}
+
+export interface JsonPrimitive extends JsonElement {
+    number: boolean;
+    string: boolean;
+    boolean: boolean;
 }
 
 export interface JsonNull extends JsonElement {

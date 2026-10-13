@@ -1,6 +1,7 @@
 package jhi.germinate.server.util;
 
 import jhi.germinate.server.AuthorizationFilter;
+import jhi.germinate.server.util.tasks.DatasetMetaTask;
 import org.apache.commons.io.monitor.*;
 
 import java.io.File;
@@ -33,6 +34,9 @@ public class DatabasePermissionCacheWatcher
 					{
 						// The trigger file has been changed/touched, update permissions
 						AuthorizationFilter.refreshUserDatasetInfo(true);
+
+						// Run the dataset metadata task to update counts etc.
+						new DatasetMetaTask().run();
 					}
 				}
 			});

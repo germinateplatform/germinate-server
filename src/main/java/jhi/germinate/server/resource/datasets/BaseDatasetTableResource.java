@@ -168,6 +168,6 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 
 	public interface AdjustQuery
 	{
-		void adjustQuery(SelectJoinStep<Record> query);
+		void adjustQuery(SelectJoinStep<? extends Record> query);
 	}
 }

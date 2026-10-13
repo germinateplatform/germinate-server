@@ -69,7 +69,7 @@ public class ApplicationListener implements ServletContextListener
 
 		backgroundScheduler = Executors.newSingleThreadScheduledExecutor();
 		// Every hour, update the dataset sizes
-		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 1, 1, TimeUnit.HOURS);
+		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 3, 60, TimeUnit.MINUTES);
 		// Every 15 minutes, check the async job status
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);

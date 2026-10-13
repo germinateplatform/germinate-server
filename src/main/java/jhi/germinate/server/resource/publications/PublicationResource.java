@@ -1,7 +1,8 @@
 package jhi.germinate.server.resource.publications;
 
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PublicationdataReferenceType;
@@ -10,11 +11,11 @@ import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.groups.GroupResource;
 import jhi.germinate.server.util.*;
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
@@ -96,10 +97,10 @@ public class PublicationResource extends ContextResource
 				throw new NotFoundException();
 
 			PublicationdataRecord record = context.selectFrom(PUBLICATIONDATA)
-			                                      .where(PUBLICATIONDATA.PUBLICATION_ID.eq(data.getPublicationId()))
-			                                      .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(data.getForeignId()))
-			                                      .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(data.getReferenceType()))
-			                                      .fetchAny();
+												  .where(PUBLICATIONDATA.PUBLICATION_ID.eq(data.getPublicationId()))
+												  .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(data.getForeignId()))
+												  .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(data.getReferenceType()))
+												  .fetchAny();
 
 			if (record == null)
 			{
@@ -113,6 +114,94 @@ public class PublicationResource extends ContextResource
 		}
 	}
 
+	@PUT
+	@Path("/{publicationId}/references")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean putPublicationReferences(@PathParam("publicationId") Integer publicationId, Publicationdata[] data)
+			throws SQLException
+	{
+		if (CollectionUtils.isEmpty(data))
+			throw new BadRequestException();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			Set<Integer> publicationIds = context.select(PUBLICATIONS.ID).from(PUBLICATIONS).fetchSet(PUBLICATIONS.ID);
+			Set<Integer> germplasmIds = context.select(GERMINATEBASE.ID).from(GERMINATEBASE).fetchSet(GERMINATEBASE.ID);
+			Set<Integer> experimentId = context.select(EXPERIMENTS.ID).from(EXPERIMENTS).fetchSet(EXPERIMENTS.ID);
+			List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
+			Field<String> concat = DSL.concat(PUBLICATIONDATA.PUBLICATION_ID, DSL.val("|"), PUBLICATIONDATA.REFERENCE_TYPE, DSL.val("|"), PUBLICATIONDATA.FOREIGN_ID);
+			Set<String> existingEntries = context.select(concat).from(PUBLICATIONDATA).fetchSet(concat);
+
+			List<Publicationdata> filtered = Arrays.stream(data)
+												   .filter(d -> {
+													   // Remove any invalid configurations
+													   if (d.getPublicationId() == null || d.getReferenceType() == null || (d.getReferenceType() != PublicationdataReferenceType.database && d.getForeignId() == null) || !publicationId.equals(d.getPublicationId()) || !publicationIds.contains(d.getPublicationId()))
+														   return false;
+
+													   if (d.getReferenceType() != PublicationdataReferenceType.database)
+				                                       {
+														   // Remove all the entries that already exist
+														   if (existingEntries.contains(d.getPublicationId() + "|" + d.getReferenceType() + "|" + d.getForeignId()))
+															   return false;
+													   }
+
+													   return switch (d.getReferenceType())
+													   {
+														   case group ->
+														   {
+															   // Check group permissions
+															   try
+															   {
+																   GroupResource.checkGroupVisibility(context, userDetails, d.getForeignId());
+																   yield true;
+															   }
+															   catch (Exception e)
+															   {
+																   yield false;
+															   }
+														   }
+														   // Check dataset permissions
+														   case dataset -> availableIds.contains(d.getForeignId());
+														   // Check availability of referenced items
+														   case germplasm -> germplasmIds.contains(d.getForeignId());
+														   case experiment -> experimentId.contains(d.getForeignId());
+														   default -> true;
+													   };
+												   }).toList();
+
+			if (CollectionUtils.isEmpty(filtered))
+				throw new NotFoundException();
+
+			for (Publicationdata publication : filtered) {
+				PublicationdataRecord record = context.newRecord(PUBLICATIONDATA, publication);
+				record.store();
+			}
+
+			return true;
+		}
+	}
+
+	@DELETE
+	@Path("/{publicationId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean deletePublication(@PathParam("publicationId") Integer publicationId)
+			throws SQLException
+	{
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.deleteFrom(PUBLICATIONS)
+						  .where(PUBLICATIONS.ID.eq(publicationId))
+						  .execute() > 0;
+		}
+	}
 
 	@DELETE
 	@Path("/{publicationId}/reference/database")
@@ -154,9 +243,9 @@ public class PublicationResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			boolean result = context.deleteFrom(PUBLICATIONDATA)
-			                        .where(PUBLICATIONDATA.PUBLICATION_ID.eq(publicationId))
-			                        .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(referenceType))
-			                        .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(referenceId)).execute() > 0;
+									.where(PUBLICATIONDATA.PUBLICATION_ID.eq(publicationId))
+									.and(PUBLICATIONDATA.REFERENCE_TYPE.eq(referenceType))
+									.and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(referenceId)).execute() > 0;
 
 			// Delete all no longer referenced publications
 			context.deleteFrom(PUBLICATIONS).whereNotExists(DSL.selectOne().from(PUBLICATIONDATA).where(PUBLICATIONDATA.PUBLICATION_ID.eq(PUBLICATIONS.ID))).execute();

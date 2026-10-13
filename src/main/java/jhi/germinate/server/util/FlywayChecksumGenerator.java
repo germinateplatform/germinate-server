@@ -13,7 +13,7 @@ public class FlywayChecksumGenerator
 {
 	public static void main(String[] args)
 	{
-		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V5.26.01.28__update.sql")));
+		System.out.println(getChecksum(new File("src/main/resources/jhi/germinate/server/util/database/migration/V5.26.10.09__update.sql")));
 	}
 
 	/**
@@ -27,20 +27,28 @@ public class FlywayChecksumGenerator
 		final CRC32 crc32 = new CRC32();
 
 		BufferedReader bufferedReader = null;
-		try {
+		try
+		{
 			bufferedReader = new BufferedReader(new FileReader(file), 4096);
 			String line = bufferedReader.readLine();
 
-			if (line != null) {
+			if (line != null)
+			{
 				line = BomFilter.FilterBomFromString(line);
-				do {
+				do
+				{
 					//noinspection Since15
 					crc32.update(line.getBytes(StandardCharsets.UTF_8));
-				} while ((line = bufferedReader.readLine()) != null);
+				}
+				while ((line = bufferedReader.readLine()) != null);
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			throw new RuntimeException("Unable to calculate checksum of " + file.getName() + "\r\n" + e.getMessage(), e);
-		} finally {
+		}
+		finally
+		{
 			IOUtils.close(bufferedReader);
 		}
 
