@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
+import jhi.germinate.server.database.codegen.routines.DatasetStats;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
@@ -89,8 +90,8 @@ public class StatsResource extends BaseResource
 								  ENTITYTYPES.ID.as("entity_type_id"),
 								  ENTITYTYPES.NAME.as("entity_type_name"),
 								  DSL.selectCount().from(GERMINATEBASE).where(GERMINATEBASE.ENTITYTYPE_ID.eq(ENTITYTYPES.ID)).asField("count"))
-			              .from(ENTITYTYPES)
-			              .fetchInto(EntityTypeStats.class);
+						  .from(ENTITYTYPES)
+						  .fetchInto(EntityTypeStats.class);
 		}
 	}
 
@@ -113,12 +114,12 @@ public class StatsResource extends BaseResource
 			List<Integer> datasetIds = datasets.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
 
 			SelectConditionStep<Record1<Integer>> step = DSL.selectCount()
-			                                                .from(FILERESOURCES)
-			                                                .leftJoin(FILERESOURCETYPES).on(FILERESOURCETYPES.ID.eq(FILERESOURCES.FILERESOURCETYPE_ID))
-			                                                .where(DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES)
-			                                                                        .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
-			                                                          .orExists(DSL.selectOne().from(DATASETFILERESOURCES)
-			                                                                       .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
+															.from(FILERESOURCES)
+															.leftJoin(FILERESOURCETYPES).on(FILERESOURCETYPES.ID.eq(FILERESOURCES.FILERESOURCETYPE_ID))
+															.where(DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES)
+																					.where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
+																	  .orExists(DSL.selectOne().from(DATASETFILERESOURCES)
+																				   .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 
 			DSLContext context = Database.getContext(conn);
 			OverviewStats stats;
@@ -168,8 +169,8 @@ public class StatsResource extends BaseResource
 
 			stats.setDatasets(datasets.size());
 			datasets.stream()
-			        .filter(d -> !d.getIsExternal())
-			        .forEach(d -> {
+					.filter(d -> !d.getIsExternal())
+					.forEach(d -> {
 						// Increase the specific counts
 						switch (d.getDatasetType())
 						{
@@ -204,18 +205,18 @@ public class StatsResource extends BaseResource
 		File file = ResourceUtils.createTempFile("pdci", ".tsv");
 
 		try (Connection conn = Database.getConnection();
-		     PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+			 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 		{
 			DSLContext context = Database.getContext(conn);
 
 			Map<String, Map<Integer, Integer>> mapping = new TreeMap<>(Collections.reverseOrder());
 
 			context.select(GERMINATEBASE.PDCI, TAXONOMIES.GENUS)
-			       .from(GERMINATEBASE)
-			       .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-			       .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
-			       .and(GERMINATEBASE.PDCI.isNotNull())
-			       .forEach(r -> {
+				   .from(GERMINATEBASE)
+				   .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+				   .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+				   .and(GERMINATEBASE.PDCI.isNotNull())
+				   .forEach(r -> {
 					   String genus = r.get(TAXONOMIES.GENUS);
 					   if (genus == null)
 						   genus = "";
@@ -259,11 +260,11 @@ public class StatsResource extends BaseResource
 			File file = ResourceUtils.createTempFile(filename, ".tsv");
 
 			try (Connection conn = Database.getConnection();
-			     PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				DSLContext context = Database.getContext(conn);
 				Result<? extends Record> result = context.selectFrom(table)
-				                                         .fetch();
+														 .fetch();
 				ResourceUtils.exportToFile(bw, result, true, null);
 			}
 			catch (IOException e)
@@ -283,8 +284,38 @@ public class StatsResource extends BaseResource
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/datasetyear")
+	public List<ViewStatsDatasets> getDatasetStats()
+			throws SQLException
+	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		String datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false).stream().map(id -> Integer.toString(id)).collect(Collectors.joining(","));
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			if (!datasetIds.isEmpty())
+			{
+				DatasetStats routine = new DatasetStats();
+				routine.setDatasetids(datasetIds);
+				routine.execute(context.configuration());
+				return routine.getResults()
+					   .getFirst()
+					   .into(ViewStatsDatasets.class);
+			}
+			else
+			{
+				return new ArrayList<>();
+			}
+		}
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/meta")
-	public List<GermplasmMetaStats> getMetaTats()
+	public List<GermplasmMetaStats> getMetaStats()
 			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -300,17 +331,17 @@ public class StatsResource extends BaseResource
 								  DSL.substringIndex(BIOLOGICALSTATUS.SAMPSTAT, "(", 1).as("sampstat"),
 								  pdciField
 						  )
-			              .from(GERMINATEBASE)
-			              .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
-			              .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-			              .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
-			              .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
-			              .andNot(
+						  .from(GERMINATEBASE)
+						  .leftJoin(TAXONOMIES).on(TAXONOMIES.ID.eq(GERMINATEBASE.TAXONOMY_ID))
+						  .leftJoin(MCPD).on(MCPD.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
+						  .leftJoin(BIOLOGICALSTATUS).on(BIOLOGICALSTATUS.ID.eq(MCPD.SAMPSTAT))
+						  .where(GERMINATEBASE.ENTITYTYPE_ID.eq(1))
+						  .andNot(
 								  TAXONOMIES.GENUS.isNull()
-					                              .and(pdciField.isNull())
-					                              .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
+												  .and(pdciField.isNull())
+												  .and(BIOLOGICALSTATUS.SAMPSTAT.isNull())
 						  )
-			              .fetchInto(GermplasmMetaStats.class);
+						  .fetchInto(GermplasmMetaStats.class);
 		}
 	}
 }

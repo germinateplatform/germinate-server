@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-10-12 09:09:26.
+// Generated using typescript-generator version 3.2.1263 on 2026-10-13 15:34:14.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -1721,6 +1721,14 @@ export interface ViewStatsCountry extends Serializable {
     count: number;
 }
 
+export interface ViewStatsDatasets extends Serializable {
+    year: number;
+    type: string;
+    datasetCount: number;
+    dataObjectCount: number;
+    dataPointCount: number;
+}
+
 export interface ViewStatsPdci extends Serializable {
     bin: string;
     count: number;
@@ -2356,8 +2364,8 @@ export interface Exif {
     whiteBalance: string;
     whiteBalanceMode: string;
     fnumber: string;
-    yresolution: string;
     xresolution: string;
+    yresolution: string;
 }
 
 export interface ExportJobDetails {
@@ -2569,29 +2577,29 @@ export interface JSON extends Data {
 }
 
 export interface JsonElement {
+    asString: string;
     asInt: number;
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
     asByte: number;
-    asString: string;
-    asShort: number;
-    jsonNull: boolean;
-    asFloat: number;
-    asBigInteger: number;
-    asJsonObject: JsonObject;
-    asJsonArray: JsonArray;
-    jsonArray: boolean;
     jsonPrimitive: boolean;
+    jsonArray: boolean;
+    jsonObject: boolean;
+    asJsonObject: JsonObject;
+    asBigInteger: number;
+    asJsonArray: JsonArray;
+    asBigDecimal: number;
+    asJsonPrimitive: JsonPrimitive;
     asNumber: number;
+    asJsonNull: JsonNull;
     /**
      * @deprecated
      */
     asCharacter: string;
-    asJsonPrimitive: JsonPrimitive;
-    jsonObject: boolean;
-    asJsonNull: JsonNull;
-    asBigDecimal: number;
+    asShort: number;
+    asFloat: number;
+    jsonNull: boolean;
 }
 
 export interface LevelCount {
@@ -2625,8 +2633,8 @@ export interface JsonArray extends JsonElement, Iterable<JsonElement> {
 
 export interface JsonPrimitive extends JsonElement {
     number: boolean;
-    string: boolean;
     boolean: boolean;
+    string: boolean;
 }
 
 export interface JsonNull extends JsonElement {
