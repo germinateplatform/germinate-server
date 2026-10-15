@@ -59,7 +59,6 @@ public class GermplasmBaseResource extends ExportResource
 	public static String COLL_DATE                        = "coll_date";
 	public static String PDCI                             = "pdci";
 	public static String IMAGE_COUNT                      = "image_count";
-	public static String FIRST_IMAGE_PATH                 = "first_image_path";
 	public static String HAS_TRIALS_DATA                  = "has_trials_data";
 	public static String HAS_GENOTYPIC_DATA               = "has_genotypic_data";
 	public static String HAS_ALLELEFREQ_DATA              = "has_allelefreq_data";
@@ -99,7 +98,6 @@ public class GermplasmBaseResource extends ExportResource
 		COLUMNS.add(COLL_DATE);
 		COLUMNS.add(PDCI);
 		COLUMNS.add(IMAGE_COUNT);
-		COLUMNS.add(FIRST_IMAGE_PATH);
 		COLUMNS.add(HAS_TRIALS_DATA);
 		COLUMNS.add(HAS_GENOTYPIC_DATA);
 		COLUMNS.add(HAS_ALLELEFREQ_DATA);
@@ -153,13 +151,6 @@ public class GermplasmBaseResource extends ExportResource
 				   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
 				   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
 				   .asField(IMAGE_COUNT),
-				DSL.select(IMAGES.PATH)
-				   .from(IMAGES)
-				   .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
-				   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
-				   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
-				   .limit(1)
-				   .asField(FIRST_IMAGE_PATH),
 				DSL.coalesce(DSL.selectOne()
 								.from(PHENOTYPEDATA)
 								.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
@@ -271,13 +262,6 @@ public class GermplasmBaseResource extends ExportResource
 					   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
 					   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
 					   .asField(IMAGE_COUNT),
-					DSL.select(IMAGES.PATH)
-					   .from(IMAGES)
-					   .leftJoin(IMAGETYPES).on(IMAGES.IMAGETYPE_ID.eq(IMAGETYPES.ID))
-					   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
-					   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
-					   .limit(1)
-					   .asField(FIRST_IMAGE_PATH),
 					DSL.coalesce(DSL.selectOne()
 									.from(PHENOTYPEDATA)
 									.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))

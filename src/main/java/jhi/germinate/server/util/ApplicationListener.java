@@ -245,6 +245,11 @@ public class ApplicationListener implements ServletContextListener
 		Database.close();
 	}
 
+	public static void executeRunnable(Runnable runnable)
+	{
+		backgroundScheduler.submit(runnable);
+	}
+
 	/**
 	 * Returns the file with the given name from the external data folder in the given sub directory structure
 	 *

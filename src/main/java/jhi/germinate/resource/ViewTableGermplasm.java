@@ -44,7 +44,6 @@ public class ViewTableGermplasm
 	private String                 collDate;
 	private Double                 pdci;
 	private Long                   imageCount;
-	private String                 firstImagePath;
 	private Integer                hasTrialsData;
 	private Integer                hasGenotypicData;
 	private Integer                hasAllelefreqData;

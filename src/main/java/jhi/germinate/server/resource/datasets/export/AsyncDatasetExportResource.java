@@ -1,6 +1,9 @@
 package jhi.germinate.server.resource.datasets.export;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
@@ -8,16 +11,14 @@ import jhi.germinate.server.database.codegen.tables.pojos.DataExportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.tasks.DirectoryDeleteTask;
 import org.jooq.DSLContext;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
 
 @Path("dataset/export/async")
 public class AsyncDatasetExportResource extends ContextResource implements AsyncResource
@@ -28,7 +29,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Secured
 	@PermitAll
 	public List<DataExportJobs> postJson(UuidRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -40,7 +41,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			DSLContext context = Database.getContext(conn);
 			return context.selectFrom(DATA_EXPORT_JOBS)
 						  .where(DATA_EXPORT_JOBS.UUID.in(request.getUuids())
-														 .or(DATA_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
+													  .or(DATA_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
 						  .and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
 						  .orderBy(DATA_EXPORT_JOBS.UPDATED_ON.desc())
 						  .fetchInto(DataExportJobs.class);
@@ -54,7 +55,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Secured
 	@PermitAll
 	public boolean deleteAsyncDatasetExport(@PathParam("jobUuid") String jobUuid)
-		throws IOException, SQLException, StatusException
+			throws IOException, SQLException, StatusException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -67,8 +68,8 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		{
 			DSLContext context = Database.getContext(conn);
 			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS)
-													.where(DATA_EXPORT_JOBS.UUID.in(jobUuid))
-													.fetchAnyInto(DataExportJobsRecord.class);
+												 .where(DATA_EXPORT_JOBS.UUID.in(jobUuid))
+												 .fetchAnyInto(DataExportJobsRecord.class);
 
 			boolean isCancelRequest = record.getStatus() == DataExportJobsStatus.running;
 
@@ -103,9 +104,8 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 
 			// Delete the async folder corresponding to the job uuid.
 			File asyncFolder = ResourceUtils.getFromExternal(record.getUuid(), "async");
-			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory()) {
-				org.apache.commons.io.FileUtils.deleteDirectory(asyncFolder);
-			}
+			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory())
+				ApplicationListener.executeRunnable(new DirectoryDeleteTask(asyncFolder, 5, 500));
 		}
 
 		return result;
@@ -115,7 +115,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Path("/{jobUuid}/download")
 	@Produces("application/zip")
 	public StreamingOutput getExportJobByIdDownload(@PathParam("jobUuid") String jobUuid, @Context HttpServletResponse response)
-		throws IOException, SQLException, StatusException
+			throws IOException, SQLException, StatusException
 	{
 		if (StringUtils.isEmpty(jobUuid))
 			throw new BadRequestException();
@@ -124,9 +124,9 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 		{
 			DSLContext context = Database.getContext(conn);
 			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS)
-													.where(DATA_EXPORT_JOBS.UUID.eq(jobUuid))
-													.and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
-													.fetchAnyInto(DataExportJobsRecord.class);
+												 .where(DATA_EXPORT_JOBS.UUID.eq(jobUuid))
+												 .and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
+												 .fetchAnyInto(DataExportJobsRecord.class);
 
 			if (record == null)
 				throw new NotFoundException();
