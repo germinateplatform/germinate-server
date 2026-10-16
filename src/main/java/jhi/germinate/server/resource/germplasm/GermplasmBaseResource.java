@@ -61,7 +61,6 @@ public class GermplasmBaseResource extends ExportResource
 	public static String IMAGE_COUNT                      = "image_count";
 	public static String HAS_TRIALS_DATA                  = "has_trials_data";
 	public static String HAS_GENOTYPIC_DATA               = "has_genotypic_data";
-	public static String HAS_ALLELEFREQ_DATA              = "has_allelefreq_data";
 	public static String HAS_PEDIGREE_DATA                = "has_pedigree_data";
 
 	public static List<String> COLUMNS = new ArrayList<>();
@@ -100,7 +99,6 @@ public class GermplasmBaseResource extends ExportResource
 		COLUMNS.add(IMAGE_COUNT);
 		COLUMNS.add(HAS_TRIALS_DATA);
 		COLUMNS.add(HAS_GENOTYPIC_DATA);
-		COLUMNS.add(HAS_ALLELEFREQ_DATA);
 		COLUMNS.add(HAS_PEDIGREE_DATA);
 	}
 
@@ -151,36 +149,23 @@ public class GermplasmBaseResource extends ExportResource
 				   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
 				   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
 				   .asField(IMAGE_COUNT),
-				DSL.coalesce(DSL.selectOne()
+				DSL.coalesce(DSL.selectCount()
 								.from(PHENOTYPEDATA)
 								.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 								.where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-								.and(TRIALSETUP.DATASET_ID.in(datasetIds))
-								.limit(1), 0)
+								.and(TRIALSETUP.DATASET_ID.in(datasetIds)), 0)
 				   .as(HAS_TRIALS_DATA),
-				DSL.coalesce(DSL.selectOne()
+				DSL.coalesce(DSL.selectCount()
 								.from(DATASETMEMBERS)
 								.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
 								.where(DATASETS.ID.in(datasetIds))
 								.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 								.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-								.and(DATASETS.DATASETTYPE_ID.eq(1))
-								.limit(1), 0)
+								.and(DATASETS.DATASETTYPE_ID.eq(1)), 0)
 				   .as(HAS_GENOTYPIC_DATA),
-				DSL.coalesce(DSL.selectOne()
-								.from(DATASETMEMBERS)
-								.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-								.where(DATASETS.ID.in(datasetIds))
-								.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-								.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-								.and(DATASETS.DATASETTYPE_ID.eq(4))
-								.limit(1), 0)
-				   .as(HAS_ALLELEFREQ_DATA),
-				DSL.coalesce(
-						DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
-						DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
-						0
-				).as(HAS_PEDIGREE_DATA)));
+				DSL.coalesce(DSL.selectCount().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)), 0)
+				   .plus(DSL.coalesce(DSL.selectCount().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)), 0))
+				   .as(HAS_PEDIGREE_DATA)));
 
 		if (additionalFields != null)
 			fields.addAll(Arrays.asList(additionalFields));
@@ -262,36 +247,23 @@ public class GermplasmBaseResource extends ExportResource
 					   .where(IMAGETYPES.REFERENCE_TABLE.eq("germinatebase"))
 					   .and(IMAGES.FOREIGN_ID.eq(GERMINATEBASE.ID))
 					   .asField(IMAGE_COUNT),
-					DSL.coalesce(DSL.selectOne()
+					DSL.coalesce(DSL.selectCount()
 									.from(PHENOTYPEDATA)
 									.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
 									.where(TRIALSETUP.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
-									.and(TRIALSETUP.DATASET_ID.in(datasetIds))
-									.limit(1), 0)
+									.and(TRIALSETUP.DATASET_ID.in(datasetIds)), 0)
 					   .as(HAS_TRIALS_DATA),
-					DSL.coalesce(DSL.selectOne()
+					DSL.coalesce(DSL.selectCount()
 									.from(DATASETMEMBERS)
 									.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
 									.where(DATASETS.ID.in(datasetIds))
 									.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 									.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-									.and(DATASETS.DATASETTYPE_ID.eq(1))
-									.limit(1), 0)
+									.and(DATASETS.DATASETTYPE_ID.eq(1)), 0)
 					   .as(HAS_GENOTYPIC_DATA),
-					DSL.coalesce(DSL.selectOne()
-									.from(DATASETMEMBERS)
-									.leftJoin(DATASETS).on(DATASETS.ID.eq(DATASETMEMBERS.DATASET_ID))
-									.where(DATASETS.ID.in(datasetIds))
-									.and(DATASETMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID))
-									.and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2))
-									.and(DATASETS.DATASETTYPE_ID.eq(4))
-									.limit(1), 0)
-					   .as(HAS_ALLELEFREQ_DATA),
-					DSL.coalesce(
-							DSL.selectOne().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
-							DSL.selectOne().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)).limit(1),
-							0
-					).as(HAS_PEDIGREE_DATA)));
+					DSL.coalesce(DSL.selectCount().from(PEDIGREES).where(PEDIGREES.DATASET_ID.in(datasetIds)).and(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)), 0)
+					   .plus(DSL.coalesce(DSL.selectCount().from(PEDIGREEDEFINITIONS).where(PEDIGREEDEFINITIONS.DATASET_ID.in(datasetIds)).and(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)), 0))
+					   .as(HAS_PEDIGREE_DATA)));
 		}
 
 		if (additionalFields != null)

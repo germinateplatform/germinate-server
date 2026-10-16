@@ -46,7 +46,6 @@ public class ViewTableGermplasm
 	private Long                   imageCount;
 	private Integer                hasTrialsData;
 	private Integer                hasGenotypicData;
-	private Integer                hasAllelefreqData;
 	private Integer                hasCompoundData;
 	private Integer                hasPedigreeData;
 }

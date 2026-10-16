@@ -94,7 +94,7 @@ public class LicenseDecisionResource extends ContextResource
 				}
 				else
 				{
-					throw new NoContentException("");
+					throw new StatusException(Response.Status.NO_CONTENT.getStatusCode());
 				}
 			}
 		}
