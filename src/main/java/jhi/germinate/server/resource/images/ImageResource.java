@@ -45,8 +45,8 @@ public class ImageResource extends ContextResource
 		{
 			DSLContext context = Database.getContext(conn);
 			ImagesRecord image = context.selectFrom(IMAGES)
-			                            .where(IMAGES.ID.eq(imageId))
-			                            .fetchAny();
+										.where(IMAGES.ID.eq(imageId))
+										.fetchAny();
 
 			if (image == null)
 				throw new NotFoundException();
@@ -133,8 +133,8 @@ public class ImageResource extends ContextResource
 		{
 			DSLContext context = Database.getContext(conn);
 			ImagesRecord image = context.selectFrom(IMAGES)
-			                            .where(IMAGES.ID.eq(imageId))
-			                            .fetchAny();
+										.where(IMAGES.ID.eq(imageId))
+										.fetchAny();
 
 			if (image == null)
 				throw new NotFoundException();
@@ -171,8 +171,8 @@ public class ImageResource extends ContextResource
 		{
 			DSLContext context = Database.getContext(conn);
 			ViewTableImages image = context.selectFrom(VIEW_TABLE_IMAGES)
-			                               .where(VIEW_TABLE_IMAGES.IMAGE_ID.eq(imageId))
-			                               .fetchAnyInto(ViewTableImages.class);
+										   .where(VIEW_TABLE_IMAGES.IMAGE_ID.eq(imageId))
+										   .fetchAnyInto(ViewTableImages.class);
 
 			if (image == null)
 				throw new NotFoundException();
@@ -249,9 +249,9 @@ public class ImageResource extends ContextResource
 					try
 					{
 						Thumbnails.of(large)
-						          .height(500)
-						          .keepAspectRatio(true)
-						          .toFile(small);
+								  .height(500)
+								  .keepAspectRatio(true)
+								  .toFile(small);
 					}
 					catch (IOException e)
 					{

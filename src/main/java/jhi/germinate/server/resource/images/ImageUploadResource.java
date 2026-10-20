@@ -20,6 +20,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
+import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
 import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
@@ -68,8 +69,8 @@ public class ImageUploadResource
 		{
 			DSLContext context = Database.getContext(conn);
 			ImagetypesRecord imageType = context.selectFrom(IMAGETYPES)
-			                                    .where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
-			                                    .fetchAny();
+												.where(IMAGETYPES.REFERENCE_TABLE.eq(referenceTable))
+												.fetchAny();
 
 			Record record = switch (imageType.getReferenceTable())
 			{
@@ -79,6 +80,9 @@ public class ImageUploadResource
 				case "variables" -> context.selectFrom(VARIABLES)
 										   .where(VARIABLES.ID.eq(foreignId))
 										   .fetchAny();
+				case "climates" -> context.selectFrom(CLIMATES)
+										  .where(CLIMATES.ID.eq(foreignId))
+										  .fetchAny();
 				default -> null;
 			};
 
