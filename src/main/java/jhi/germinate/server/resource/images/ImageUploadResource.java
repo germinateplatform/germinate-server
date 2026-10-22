@@ -59,7 +59,7 @@ public class ImageUploadResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
-	public boolean postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId, @FormDataParam("imageFiles") InputStream fileIs, @FormDataParam("imageFiles") FormDataContentDisposition fileDetails)
+	public Integer postImage(@PathParam("referenceTable") String referenceTable, @PathParam("foreignId") Integer foreignId, @FormDataParam("imageFiles") InputStream fileIs, @FormDataParam("imageFiles") FormDataContentDisposition fileDetails)
 			throws IOException, SQLException
 	{
 		if (foreignId == null || referenceTable == null)
@@ -113,7 +113,7 @@ public class ImageUploadResource
 				image.setCreatedOn(new Timestamp(date.getTime()));
 			image.store();
 
-			return true;
+			return image.getId();
 		}
 	}
 }
