@@ -10,32 +10,27 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableMapoverlays;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
-import org.apache.commons.io.IOUtils;
 import org.jooq.DSLContext;
 
-import java.io.*;
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableMapoverlays.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableMapoverlays.VIEW_TABLE_MAPOVERLAYS;
 
 @Path("mapoverlay")
 @Secured
 @PermitAll
 public class MapOverlayResource extends ContextResource
 {
-	@Context
-	protected HttpServletResponse resp;
-
 	@GET
 	@Path("/{mapoverlayId:\\d+}/src")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
-	public Response getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token)
-		throws IOException, SQLException
+	public Response getImage(@PathParam("mapoverlayId") Integer mapoverlayId, @QueryParam("token") String token, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		if (mapoverlayId == null)
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			throw new BadRequestException();
 
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -43,10 +38,7 @@ public class MapOverlayResource extends ContextResource
 		if (mode == AuthenticationMode.FULL)
 		{
 			if (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token))
-			{
-				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-				return null;
-			}
+				throw new ForbiddenException();
 		}
 
 		try (Connection conn = Database.getConnection())
@@ -58,7 +50,7 @@ public class MapOverlayResource extends ContextResource
 												  .fetchAnyInto(ViewTableMapoverlays.class);
 
 			if (overlay == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
 			// Check they have access to the dataset (if present)
 			if (overlay.getDatasetId() != null)
@@ -66,33 +58,16 @@ public class MapOverlayResource extends ContextResource
 				List<Integer> ids = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 				if (!ids.contains(overlay.getDatasetId()))
-				{
-					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-					return null;
-				}
+					throw new NotFoundException();
 			}
 
 			File parent = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageResource.ImageType.mapoverlay.name());
 			File image = new File(parent, overlay.getMapoverlayName());
 
 			if (!image.exists() || !image.isFile())
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 
-			try
-			{
-				byte[] bytes = IOUtils.toByteArray(image.toURI());
-
-				return Response.ok(new ByteArrayInputStream(bytes))
-							   .header("Content-Type", "image/png")
-							   .build();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-
-				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-				return null;
-			}
+			return toImageResponse(image, "image/png");
 		}
 	}
 }

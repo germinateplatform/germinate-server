@@ -17,28 +17,27 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.Publicationdata.PUBLICATIONDATA;
 
 @Path("group")
 @Secured
 public class GroupResource extends BaseResource
 {
 	public static List<Integer> getGroupIdsForUser(AuthenticationFilter.UserDetails userDetails, Integer foreignId)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			SelectConditionStep<Record1<Integer>> where = context.select(GROUPS.ID)
-																 .from(GROUPS)
-																 .where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())));
+			                                                     .from(GROUPS)
+			                                                     .where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId())));
 
 			if (foreignId != null)
 				where.andExists(DSL.selectOne().from(GROUPMEMBERS).where(GROUPMEMBERS.GROUP_ID.eq(GROUPS.ID).and(GROUPMEMBERS.FOREIGN_ID.eq(foreignId))));
@@ -48,22 +47,20 @@ public class GroupResource extends BaseResource
 	}
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
 	public PaginatedResult<List<Groups>> getGroups()
-		throws SQLException
+			throws SQLException
 	{
 		return getGroups(null);
 	}
 
 	@GET
 	@Path("/{groupId:\\d+}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
 	public PaginatedResult<List<Groups>> getGroups(@PathParam("groupId") Integer groupId)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -78,14 +75,14 @@ public class GroupResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(GROUPS);
 
 			from.where(GROUPS.VISIBILITY.eq(true)
-										.or(GROUPS.CREATED_BY.eq(userDetails.getId())));
+			                            .or(GROUPS.CREATED_BY.eq(userDetails.getId())));
 
 			if (groupId != null)
 				from.where(GROUPS.ID.eq(groupId));
 
 			List<Groups> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Groups.class);
+					.fetch()
+					.into(Groups.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -98,20 +95,14 @@ public class GroupResource extends BaseResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})
 	public Integer putGroup(Groups group)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (group.getCreatedBy() == null || !Objects.equals(group.getCreatedBy(), userDetails.getId()))
-		{
-			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-			return null;
-		}
+			throw new ForbiddenException();
 		if (StringUtils.isEmpty(group.getName()) || group.getGrouptypeId() == null || group.getId() != null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -129,36 +120,27 @@ public class GroupResource extends BaseResource
 	@Path("/{groupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured({UserType.AUTH_USER})
+	@Secured(UserType.AUTH_USER)
 	public boolean patchGroup(Groups group, @PathParam("groupId") Integer groupId)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (group == null || groupId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id or payload");
-			return false;
-		}
+			throw new BadRequestException();
 		if (!Objects.equals(group.getId(), groupId))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Id mismatch");
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			GroupsRecord dbGroup = context.selectFrom(GROUPS)
-										  .where(GROUPS.ID.eq(groupId))
-										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-										  .fetchAnyInto(GroupsRecord.class);
+			                              .where(GROUPS.ID.eq(groupId))
+			                              .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+			                              .fetchAnyInto(GroupsRecord.class);
 
 			if (dbGroup == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			// Only update the name if it's not empty
 			if (!StringUtils.isEmpty(group.getName()))
@@ -178,37 +160,31 @@ public class GroupResource extends BaseResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.AUTH_USER})
 	public boolean deleteGroup(@PathParam("groupId") Integer groupId)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (groupId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id");
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			GroupsRecord dbGroup = context.selectFrom(GROUPS)
-										  .where(GROUPS.ID.eq(groupId))
-										  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-										  .fetchAnyInto(GroupsRecord.class);
+			                              .where(GROUPS.ID.eq(groupId))
+			                              .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+			                              .fetchAnyInto(GroupsRecord.class);
 
 			// If it's null, then the id doesn't exist or the user doesn't have access
 			if (dbGroup == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 			else
 			{
 				// Delete the publication reference
 				context.deleteFrom(PUBLICATIONDATA)
-					   .where(PUBLICATIONDATA.REFERENCE_TYPE.eq(PublicationdataReferenceType.group))
-					   .and(PUBLICATIONDATA.FOREIGN_ID.eq(dbGroup.getId()))
-					   .execute();
+				       .where(PUBLICATIONDATA.REFERENCE_TYPE.eq(PublicationdataReferenceType.group))
+				       .and(PUBLICATIONDATA.FOREIGN_ID.eq(dbGroup.getId()))
+				       .execute();
 
 				return dbGroup.delete() == 1;
 			}
@@ -216,48 +192,47 @@ public class GroupResource extends BaseResource
 	}
 
 	public static void checkGroupVisibility(DSLContext context, AuthenticationFilter.UserDetails userDetails, Integer groupId)
-		throws GerminateException
 	{
 		if (groupId == null)
-			throw new GerminateException(Response.Status.BAD_REQUEST, "Missing id");
+			throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id");
 
 		Groups group = context.selectFrom(GROUPS)
-							  .where(GROUPS.ID.eq(groupId))
-							  .and(GROUPS.VISIBILITY.eq(true)
-													.or(GROUPS.CREATED_BY.eq(userDetails.getId())))
-							  .fetchAnyInto(Groups.class);
+		                      .where(GROUPS.ID.eq(groupId))
+		                      .and(GROUPS.VISIBILITY.eq(true)
+		                                            .or(GROUPS.CREATED_BY.eq(userDetails.getId())))
+		                      .fetchAnyInto(Groups.class);
 
 		if (group == null)
-			throw new GerminateException(Response.Status.NOT_FOUND);
+			throw new StatusException(Response.Status.NOT_FOUND.getStatusCode());
 	}
 
 	public static int patchGroupMembers(Integer groupId, AuthenticationFilter.UserDetails userDetails, GroupModificationRequest modification)
-		throws GerminateException, SQLException
+			throws SQLException
 	{
 		if (groupId == null)
-			throw new GerminateException(Response.Status.BAD_REQUEST, "Missing id");
+			throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode(), "Missing id");
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			Groups group = context.selectFrom(GROUPS)
-								  .where(GROUPS.ID.eq(groupId))
-								  .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
-								  .fetchAnyInto(Groups.class);
+			                      .where(GROUPS.ID.eq(groupId))
+			                      .and(GROUPS.CREATED_BY.eq(userDetails.getId()))
+			                      .fetchAnyInto(Groups.class);
 
 			if (group == null)
-				throw new GerminateException(Response.Status.FORBIDDEN);
+				throw new StatusException(Response.Status.FORBIDDEN.getStatusCode());
 			if (modification == null || modification.getIds() == null)
-				throw new GerminateException(Response.Status.BAD_REQUEST);
+				throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode());
 
 			if (modification.getAddition())
 			{
 				// We need to make sure not to introduce duplicates
 				List<Integer> newIds = new ArrayList<>(Arrays.asList(modification.getIds()));
 				List<Integer> existingIds = context.select(GROUPMEMBERS.FOREIGN_ID)
-												   .from(GROUPMEMBERS)
-												   .where(GROUPMEMBERS.GROUP_ID.eq(group.getId()))
-												   .fetchInto(Integer.class);
+				                                   .from(GROUPMEMBERS)
+				                                   .where(GROUPMEMBERS.GROUP_ID.eq(group.getId()))
+				                                   .fetchInto(Integer.class);
 
 				// Remove all existing ids
 				newIds.removeAll(existingIds);
@@ -271,9 +246,9 @@ public class GroupResource extends BaseResource
 			{
 				// Simply delete the ids
 				return context.deleteFrom(GROUPMEMBERS)
-							  .where(GROUPMEMBERS.GROUP_ID.eq(group.getId()))
-							  .and(GROUPMEMBERS.FOREIGN_ID.in(modification.getIds()))
-							  .execute();
+				              .where(GROUPMEMBERS.GROUP_ID.eq(group.getId()))
+				              .and(GROUPMEMBERS.FOREIGN_ID.in(modification.getIds()))
+				              .execute();
 			}
 		}
 	}

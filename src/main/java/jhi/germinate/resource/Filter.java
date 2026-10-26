@@ -1,10 +1,9 @@
 package jhi.germinate.resource;
 
+import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.StringUtils;
 import lombok.*;
 import lombok.experimental.Accessors;
-
-import java.util.Arrays;
 
 /**
  * @author Sebastian Raubach
@@ -17,10 +16,10 @@ import java.util.Arrays;
 @ToString
 public class Filter
 {
-	private String   column;
-	private String   comparator;
-	private String   operator;
-	private String[] values;
+	private String           column;
+	private FilterComparator comparator;
+	private String[]         values;
+	private Boolean          canBeChanged;
 
 	public String getSafeColumn()
 	{

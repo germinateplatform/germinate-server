@@ -34,7 +34,7 @@ public class StringUtils
 	 */
 	public static boolean isEmpty(String input)
 	{
-		return input == null || input.strip().isEmpty();
+		return input == null || input.isBlank();
 	}
 
 	/**
@@ -78,6 +78,23 @@ public class StringUtils
 			return input;
 	}
 
+	public static<T> String orEmpty(T input) {
+		if (input == null) {
+			return "";
+		} else {
+			return orEmpty(input.toString());
+		}
+	}
+
+	public static String coalesce(String... parts) {
+		for (String part : parts) {
+			if (!isEmptyOrQuotes(part))
+				return part;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Returns either the original string (if it's not empty) or empty double quotes (if it is)
 	 *
@@ -119,13 +136,18 @@ public class StringUtils
 
 	public static String join(String separator, String... parts)
 	{
+		return join(separator, false, parts);
+	}
+
+	public static String join(String separator, boolean allowEmpty, String... parts)
+	{
 		List<String> nonNull = new ArrayList<>();
 
 		if (parts != null)
 		{
 			for (String part : parts)
 			{
-				if (!StringUtils.isEmpty(part))
+				if (allowEmpty || !StringUtils.isEmpty(part))
 					nonNull.add(part);
 			}
 

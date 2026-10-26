@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.fileresource;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.AuthenticationFilter;
@@ -31,6 +31,7 @@ public class FileresourceDatasetTableResource extends BaseDatasetTableResource
 	public PaginatedResult<List<ViewTableDatasets>> postFileresourceDatasetTable(PaginatedRequest request, @PathParam("fileresourceId") Integer fileresourceId)
 		throws SQLException
 	{
+		// TODO: Check if these need to be checked
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		return runQuery(request, query -> {

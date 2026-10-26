@@ -28,7 +28,7 @@ public class FileResourceTableResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableFileresources>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableFileresources>> postFileResourceTable(PaginatedRequest request)
 			throws SQLException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
@@ -43,16 +43,16 @@ public class FileResourceTableResource extends BaseResource
 				select.hint("SQL_CALC_FOUND_ROWS");
 
 			SelectConditionStep<Record> from = select.from(VIEW_TABLE_FILERESOURCES)
-													 // Check whether this resource either isn't linked to any dataset
-													 .where(VIEW_TABLE_FILERESOURCES.DATASET_IDS.isNull()
-																								// Or whether the user has access to the dataset
-																								.or(DSL.exists(DSL.selectOne()
-																												  .from(DATASETFILERESOURCES)
-																												  .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
-																																							 .and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
+			                                         // Check whether this resource either isn't linked to any dataset
+			                                         .where(VIEW_TABLE_FILERESOURCES.DATASET_IDS.isNull()
+			                                                                                    // Or whether the user has access to the dataset
+			                                                                                    .or(DSL.exists(DSL.selectOne()
+			                                                                                                      .from(DATASETFILERESOURCES)
+			                                                                                                      .where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(VIEW_TABLE_FILERESOURCES.FILERESOURCE_ID)
+			                                                                                                                                                 .and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds))))));
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<ViewTableFileresources> result = setPaginationAndOrderBy(from)
 					.fetch()

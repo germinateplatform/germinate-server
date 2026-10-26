@@ -10,7 +10,6 @@ import jhi.germinate.server.resource.datasets.BaseDatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,9 +26,9 @@ public class TraitDatasetTableResource extends BaseDatasetTableResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postTraitDatasetTable(UnacceptedLicenseRequest request, @PathParam("traitId") Integer traitId)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		return runQuery(request, query -> query.where(DSL.exists(DSL.selectOne().from(PHENOTYPEDATA).leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID)).where(TRIALSETUP.DATASET_ID.eq(VIEW_TABLE_DATASETS.DATASET_ID)
-																																																	   .and(PHENOTYPEDATA.PHENOTYPE_ID.eq(traitId))))));
+																																																	   .and(PHENOTYPEDATA.VARIABLE_ID.eq(traitId))))));
 	}
 }

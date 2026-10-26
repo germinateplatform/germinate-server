@@ -33,18 +33,18 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 	@DefaultValue("false")
 	protected boolean minimal;
 
-	protected Filter[] filters;
+	protected FilterGroup[] filters;
 
 	protected void processRequest(ExportRequest request)
 	{
 		if (request != null)
-			this.filters = request.getFilter();
+			this.filters = request.getFilters();
 	}
 
 	protected void processRequest(PaginatedRequest request)
 	{
 		if (request != null)
-			this.filters = request.getFilter();
+			this.filters = request.getFilters();
 
 		try
 		{
@@ -75,7 +75,7 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 		}
 		try
 		{
-			Integer value = request == null ? this.isAscending : request.getAscending();
+			int value = request == null ? this.isAscending : request.getAscending();
 			this.ascending = value == 1;
 		}
 		catch (NullPointerException | NumberFormatException e)
@@ -112,7 +112,7 @@ public abstract class BaseResource extends ContextResource implements IFilteredR
 		}
 
 		return step.limit(pageSize)
-				   .offset(pageSize * currentPage);
+		           .offset(pageSize * currentPage);
 	}
 
 	protected static String getSafeColumn(String column)

@@ -87,7 +87,7 @@ public class ProjectTableResource extends BaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_PROJECTS.PROJECT_ID)
-														   .from(VIEW_TABLE_PROJECTS);
+			                                               .from(VIEW_TABLE_PROJECTS);
 
 			// Filter here!
 			where(from, filters);

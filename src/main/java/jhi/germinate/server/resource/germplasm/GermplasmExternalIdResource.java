@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
 import java.util.List;
 
@@ -30,20 +30,14 @@ public class GermplasmExternalIdResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> postExternalIds(Integer[] ids)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		String identifier = PropertyWatcher.get(ServerProperty.EXTERNAL_LINK_IDENTIFIER);
 
 		if (StringUtils.isEmpty(identifier))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 		if (CollectionUtils.isEmpty(ids))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{

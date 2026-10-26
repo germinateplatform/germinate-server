@@ -35,10 +35,7 @@ public class FileResourceUploadResource extends ContextResource
 		File target = new File(folder, uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, target))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		Files.copy(fileIs, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
 

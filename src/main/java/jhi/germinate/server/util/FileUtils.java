@@ -2,8 +2,8 @@ package jhi.germinate.server.util;
 
 import java.io.*;
 import java.net.URI;
-import java.nio.file.*;
 import java.nio.file.FileSystem;
+import java.nio.file.*;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.*;
@@ -73,8 +73,8 @@ public class FileUtils
 	/**
 	 * Creates a zip file in place of the given file and adds all files from the list to it.
 	 *
-	 * @param zipFile        The zip file to create
-	 * @param files          The files to add to the zip file
+	 * @param zipFile The zip file to create
+	 * @param files   The files to add to the zip file
 	 * @param deleteAfterZip Should the original files be deleted after the zip process has finished?
 	 */
 	public static void zipUp(File zipFile, List<File> files, boolean deleteAfterZip)

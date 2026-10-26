@@ -37,7 +37,6 @@ public class ImageZipExporter
 	}
 
 	public static void main(String[] args)
-		throws IOException, SQLException
 	{
 		ImageZipExporter exporter = new ImageZipExporter();
 		Database.init(args[0], args[1], args[2], args[3], args[4], false);
@@ -81,7 +80,7 @@ public class ImageZipExporter
 	}
 
 	private void init()
-		throws IOException, SQLException
+		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{

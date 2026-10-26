@@ -11,25 +11,23 @@ import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.Licensedata.*;
-import static jhi.germinate.server.database.codegen.tables.Licenses.*;
-import static jhi.germinate.server.database.codegen.tables.Locales.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTableLicenseDefinitions.*;
+import static jhi.germinate.server.database.codegen.tables.Licensedata.LICENSEDATA;
+import static jhi.germinate.server.database.codegen.tables.Licenses.LICENSES;
+import static jhi.germinate.server.database.codegen.tables.Locales.LOCALES;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLicenseDefinitions.VIEW_TABLE_LICENSE_DEFINITIONS;
 
 @Path("license")
 public class LicenseResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured
 	@PermitAll
 	public List<ViewTableLicenseDefinitions> getLicenses()
-		throws SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -44,18 +42,13 @@ public class LicenseResource extends BaseResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public Integer addLicenseAndData(ViewTableLicenseDefinitions license)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (license == null || StringUtils.isEmpty(license.getLicenseName()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return null;
-		}
+			throw new BadRequestException();
 
-		if (license.getLicenseId() != null) {
-			resp.sendError(Response.Status.CONFLICT.getStatusCode(), "License ID provided on a creation call.");
-			return null;
-		}
+		if (license.getLicenseId() != null)
+			throw new StatusException(Response.Status.CONFLICT.getStatusCode(), "License ID provided on a creation call.");
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -107,13 +100,10 @@ public class LicenseResource extends BaseResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.DATA_CURATOR)
 	public boolean patchLicense(@PathParam("licenseId") Integer licenseId, ViewTableLicenseDefinitions license)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (licenseId == null || license == null || !licenseId.equals(license.getLicenseId()) || StringUtils.isEmpty(license.getLicenseName()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode(), "Invalid payload parameters");
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -122,10 +112,7 @@ public class LicenseResource extends BaseResource
 			LicensesRecord l = context.selectFrom(LICENSES).where(LICENSES.ID.eq(licenseId)).fetchAny();
 
 			if (l == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			// Update the license
 			l.setName(license.getLicenseName());
@@ -141,7 +128,8 @@ public class LicenseResource extends BaseResource
 			{
 				LocalesRecord lo = context.selectFrom(LOCALES).where(LOCALES.NAME.eq(entry.getKey())).fetchAny();
 
-				if (lo == null) {
+				if (lo == null)
+				{
 					lo = context.newRecord(LOCALES);
 					lo.setName(entry.getKey());
 					lo.setDescription(entry.getKey());
@@ -151,9 +139,9 @@ public class LicenseResource extends BaseResource
 				}
 
 				LicensedataRecord ld = context.selectFrom(LICENSEDATA)
-											  .where(LICENSEDATA.LICENSE_ID.eq(licenseId))
-											  .and(LICENSEDATA.LOCALE_ID.eq(lo.getId()))
-											  .fetchAny();
+				                              .where(LICENSEDATA.LICENSE_ID.eq(licenseId))
+				                              .and(LICENSEDATA.LOCALE_ID.eq(lo.getId()))
+				                              .fetchAny();
 
 				if (ld == null)
 				{

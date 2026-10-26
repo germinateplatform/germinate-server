@@ -1,6 +1,9 @@
 package jhi.germinate.server.resource.locations;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.Database;
@@ -11,15 +14,11 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableLocations.VIEW_TABLE_LOCATIONS;
 
 @Path("location/polygon")
 @Secured
@@ -31,13 +30,10 @@ public class LocationPolygonTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableLocations>> postLocationPolygonTable(PaginatedPolygonRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -51,15 +47,15 @@ public class LocationPolygonTableResource extends BaseResource
 			SelectJoinStep<? extends Record> from = select.from(VIEW_TABLE_LOCATIONS);
 
 			from.where(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE.isNotNull()
-															 .and(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE.isNotNull())
-															 .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `view_table_locations`.`location_longitude`, ' ', `view_table_locations`.`location_latitude`, ')')))", buildSqlPolygon(request.getPolygons()))));
+			                                                 .and(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE.isNotNull())
+			                                                 .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `view_table_locations`.`location_longitude`, ' ', `view_table_locations`.`location_latitude`, ')')))", buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
 			where(from, filters);
 
 			List<ViewTableLocations> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableLocations.class);
+					.fetch()
+					.into(ViewTableLocations.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -72,13 +68,10 @@ public class LocationPolygonTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postLocationPolygonTableIds(PaginatedPolygonRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (request.getPolygons() == null || request.getPolygons().length < 1)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		processRequest(request);
 		currentPage = 0;
@@ -87,18 +80,18 @@ public class LocationPolygonTableResource extends BaseResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_LOCATIONS.LOCATION_ID)
-														   .from(VIEW_TABLE_LOCATIONS);
+			                                               .from(VIEW_TABLE_LOCATIONS);
 
 			from.where(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE.isNotNull()
-															 .and(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE.isNotNull())
-															 .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `view_table_locations`.`location_longitude`, ' ', `view_table_locations`.`location_latitude`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
+			                                                 .and(VIEW_TABLE_LOCATIONS.LOCATION_LONGITUDE.isNotNull())
+			                                                 .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `view_table_locations`.`location_longitude`, ' ', `view_table_locations`.`location_latitude`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}
@@ -116,15 +109,15 @@ public class LocationPolygonTableResource extends BaseResource
 			builder.append("((");
 
 			List<List<LatLng>> bounds = Arrays.stream(points)
-											  .map(p -> new ArrayList<>(Arrays.asList(p)))
-											  .collect(Collectors.toList());
+			                                  .map(p -> new ArrayList<>(Arrays.asList(p)))
+			                                  .collect(Collectors.toList());
 
 			// Add the start as end point
-			bounds.forEach(l -> l.add(l.get(0)));
+			bounds.forEach(l -> l.add(l.getFirst()));
 
 			builder.append(bounds.stream()
-								 .map(p -> p.stream().map(l -> l.getLng() + " " + l.getLat()).collect(Collectors.joining(", ")))
-								 .collect(Collectors.joining(")), ((")));
+			                     .map(p -> p.stream().map(l -> l.getLng() + " " + l.getLat()).collect(Collectors.joining(", ")))
+			                     .collect(Collectors.joining(")), ((")));
 
 			builder.append("))");
 		}

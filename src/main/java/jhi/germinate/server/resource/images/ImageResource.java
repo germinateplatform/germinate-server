@@ -1,36 +1,31 @@
 package jhi.germinate.server.resource.images;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
-import jhi.germinate.resource.CarouselConfig;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
-import jhi.germinate.server.resource.ResourceUtils;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 import net.coobird.thumbnailator.Thumbnails;
-import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.DSLContext;
 
 import java.io.*;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
 import static jhi.germinate.server.database.codegen.tables.ViewTableImages.VIEW_TABLE_IMAGES;
 
 @Path("image")
-public class ImageResource
+public class ImageResource extends ContextResource
 {
 	@Context
 	protected HttpServletResponse resp;
@@ -41,13 +36,10 @@ public class ImageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean patchImage(ViewTableImages imageToPatch, @PathParam("imageId") Integer imageId)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (imageId == null || imageToPatch == null || !Objects.equals(imageId, imageToPatch.getImageId()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -57,10 +49,7 @@ public class ImageResource
 										.fetchAny();
 
 			if (image == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			image.setDescription(imageToPatch.getImageDescription());
 			image.setIsReference(imageToPatch.getImageIsReference());
@@ -74,14 +63,11 @@ public class ImageResource
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
-	public boolean postTemplateImage(@FormDataParam("locales") List<String> locales, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
+	public String postTemplateImage(@FormDataParam("locale") String locale, @FormDataParam("imageFile") InputStream fileIs, @FormDataParam("imageFile") FormDataContentDisposition fileDetails)
 			throws IOException
 	{
-		if (CollectionUtils.isEmpty(locales))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+		if (StringUtils.isEmpty(locale))
+			throw new BadRequestException();
 
 		File folder = new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.template.name());
 		folder.mkdirs();
@@ -89,62 +75,25 @@ public class ImageResource
 		String itemName = fileDetails.getFileName();
 		String uuid = UUID.randomUUID().toString();
 		String extension = itemName.substring(itemName.lastIndexOf(".") + 1);
-		File targetFile = new File(folder, uuid + "." + extension);
+		File targetFile = new File(folder, locale + "-" + uuid + "." + extension);
 
 		if (!FileUtils.isSubDirectory(folder, targetFile))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		Files.copy(fileIs, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
-
-		CarouselConfig config;
-		Gson gson = new Gson();
-		Type type = new TypeToken<CarouselConfig>()
-		{
-		}.getType();
-		if (configFile.exists())
-		{
-			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
-			{
-				config = gson.fromJson(br, type);
-			}
-		}
-		else
-		{
-			config = new CarouselConfig();
-
-			locales.forEach(l -> config.put(l, new ArrayList<>()));
-		}
-
-		locales.forEach(l -> config.get(l).add(new CarouselConfig.ImageConfig().setName(targetFile.getName()).setText("")));
-
-		// Write the file back
-		try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-		{
-			gson.toJson(config, type, writer);
-		}
-
-		return true;
+		return targetFile.getName();
 	}
 
 	@DELETE
-	@Path("/{name:[a-zA-Z0-9\\-]+\\.[a-zA-Z]{3}}")
+	@Path("/{name:[a-zA-Z0-9\\-\\_]+\\.[a-zA-Z]{3}}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured(UserType.ADMIN)
 	public boolean deleteImageByName(@PathParam("name") String name)
-			throws IOException
 	{
 		if (StringUtils.isEmpty(name))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		// Get the template images folder
 		File parent = new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images");
@@ -153,46 +102,13 @@ public class ImageResource
 
 		// Check it's actually a child of the template images folder
 		if (!FileUtils.isSubDirectory(parent, large))
-		{
-			resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-			return false;
-		}
+			throw new ForbiddenException();
 		// Then check it exists
 		if (!large.exists())
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return false;
-		}
+			throw new NotFoundException();
 
 		// Get the thumbnail
 		File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
-		// Read the carousel.json file
-		File configFile = ResourceUtils.getFromExternal(resp, "carousel.json", "template");
-		CarouselConfig config;
-		Gson gson = new Gson();
-		Type type = new TypeToken<CarouselConfig>()
-		{
-		}.getType();
-
-		try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
-		{
-			config = gson.fromJson(br, type);
-
-			for (Map.Entry<String, List<CarouselConfig.ImageConfig>> entry : config.entrySet())
-			{
-				if (!CollectionUtils.isEmpty(entry.getValue()))
-				{
-					// Remove those entries that match based on the filename
-					entry.setValue(entry.getValue().stream().filter(i -> !Objects.equals(i.getName(), large.getName())).collect(Collectors.toList()));
-				}
-			}
-		}
-
-		// Write the file back
-		try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-		{
-			gson.toJson(config, type, writer);
-		}
 
 		// Delete original and optionally the thumbnail
 		large.delete();
@@ -208,13 +124,10 @@ public class ImageResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean deleteImage(@PathParam("imageId") Integer imageId)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (imageId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
@@ -224,10 +137,7 @@ public class ImageResource
 										.fetchAny();
 
 			if (image == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return false;
-			}
+				throw new NotFoundException();
 
 			File large = new File(new File(new File(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL), "images"), ImageType.database.name()), image.getPath());
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
@@ -243,20 +153,19 @@ public class ImageResource
 
 	@GET
 	@Path("/src/{name}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImageNameDummy(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-			throws IOException
 	{
-		return this.getImageLocal(imageType, name, size, token, true);
+		FileResult result = getImageLocal(imageType, name, size, token, true);
+
+		return toImageResponse(result.data, result.mime);
 	}
 
 	@GET
 	@Path("/{imageId:\\d+}/src")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImageByID(@PathParam("imageId") Integer imageId, @QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -266,30 +175,29 @@ public class ImageResource
 										   .fetchAnyInto(ViewTableImages.class);
 
 			if (image == null)
-			{
-				return Response.status(Response.Status.NOT_FOUND).build();
-			}
+				throw new NotFoundException();
 			else
 			{
 				// Trait reference images are free to view so GridScore can get to them without a token
 				boolean checkToken = !image.getImageRefTable().equals("phenotypes") || !image.getImageIsReference();
-				return getImageLocal(imageType, image.getImagePath(), size, token, checkToken);
+				FileResult result = getImageLocal(imageType, image.getImagePath(), size, token, checkToken);
+
+				return toImageResponse(result.data, result.mime);
 			}
 		}
 	}
 
 	@GET
 	@Path("/src")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({"image/png", "image/jpeg", "image/svg+xml", "image/*"})
 	public Response getImage(@QueryParam("type") String imageType, @QueryParam("name") String name, @QueryParam("size") String size, @QueryParam("token") String token)
-			throws IOException
 	{
-		return getImageLocal(imageType, name, size, token, true);
+		FileResult result = getImageLocal(imageType, name, size, token, true);
+
+		return toImageResponse(result.data, result.mime);
 	}
 
-	private Response getImageLocal(String imageType, String name, String size, String token, boolean checkToken)
-			throws IOException
+	private FileResult getImageLocal(String imageType, String name, String size, String token, boolean checkToken)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -304,19 +212,13 @@ public class ImageResource
 		}
 
 		if (type == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		// If it's not a template image, check the image token
 		if (mode == AuthenticationMode.FULL && type != ImageType.template)
 		{
 			if (checkToken && (StringUtils.isEmpty(token) || !AuthenticationFilter.isValidImageToken(token)))
-			{
-				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-				return null;
-			}
+				throw new ForbiddenException();
 		}
 
 		if (!StringUtils.isEmpty(name))
@@ -325,33 +227,20 @@ public class ImageResource
 			File large = new File(new File(parent, type.name()), name);
 
 			if (!FileUtils.isSubDirectory(parent, large))
-			{
-				resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-				return null;
-			}
+				throw new ForbiddenException();
 
 			File small = new File(large.getParentFile(), "thumbnail-" + large.getName());
 
 			name = large.getName();
 			String extension = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
 
-			String mediaType;
-
-			switch (extension)
+			String mediaType = switch (extension)
 			{
-				case "jpg":
-				case "jpeg":
-					mediaType = "image/jpeg";
-					break;
-				case "png":
-					mediaType = "image/png";
-					break;
-				case "svg":
-					mediaType = "image/svg+xml";
-					break;
-				default:
-					mediaType = "image/*";
-			}
+				case "jpg", "jpeg" -> "image/jpeg";
+				case "png" -> "image/png";
+				case "svg" -> "image/svg+xml";
+				default -> "image/*";
+			};
 
 			if (large.exists() && large.isFile())
 			{
@@ -377,33 +266,30 @@ public class ImageResource
 				else
 					file = small;
 
-				try
-				{
-					byte[] bytes = IOUtils.toByteArray(file.toURI());
-
-					return Response.ok(new ByteArrayInputStream(bytes))
-								   .header("Content-Type", mediaType)
-								   .build();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-
-					resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-					return null;
-				}
+				return new FileResult()
+						.setData(file)
+						.setMime(mediaType);
 			}
 			else
 			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
+				throw new NotFoundException();
 			}
 		}
 		else
 		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
+			throw new BadRequestException();
 		}
+	}
+
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@ToString
+	@Accessors(chain = true)
+	private static class FileResult
+	{
+		File   data;
+		String mime;
 	}
 
 	public enum ImageType

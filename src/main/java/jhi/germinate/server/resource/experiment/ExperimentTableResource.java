@@ -6,98 +6,53 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
-import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
-import jhi.germinate.server.resource.BaseResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
+import jhi.germinate.server.Database;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-import org.jooq.Record;
-import org.jooq.impl.DSL;
 
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
 import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
 
 @Path("experiment/table")
 @Secured
 @PermitAll
-public class ExperimentTableResource extends BaseResource
+public class ExperimentTableResource extends BaseExperimentTableResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableExperiments>> getJson(PaginatedRequest request)
+	public PaginatedResult<List<ViewTableExperiments>> postExperimentTable(PaginatedRequest request)
 			throws SQLException
 	{
-		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		return runQuery(request, null);
+	}
 
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> postExperimentTableIds(PaginatedRequest request)
+			throws SQLException
+	{
 		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectSelectStep<?> select = context.select(DSL.asterisk());
-
-			if (previousCount == -1)
-				select.hint("SQL_CALC_FOUND_ROWS");
-
-			SelectJoinStep<? extends Record> inner = context.select(
-					EXPERIMENTS.PROJECT_ID.as("project_id"),
-					EXPERIMENTS.ID.as("experiment_id"),
-					EXPERIMENTS.EXPERIMENT_NAME.as("experiment_name"),
-					EXPERIMENTS.DESCRIPTION.as("experiment_description"),
-					EXPERIMENTS.EXPERIMENT_DATE.as("experiment_date"),
-					EXPERIMENTS.CREATED_ON.as("created_on"),
-					DSL.zero().as("genotype_count"),
-					DSL.zero().as("trials_count"),
-					DSL.zero().as("allele_freq_count"),
-					DSL.zero().as("climate_count"),
-					DSL.zero().as("pedigree_count")
-			).from(EXPERIMENTS);
-
-			SelectJoinStep<? extends Record> from = select.from(inner);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(EXPERIMENTS.ID)
+														   .from(EXPERIMENTS);
 
 			// Filter here!
 			where(from, filters);
 
-			List<ViewTableExperiments> result = setPaginationAndOrderBy(from)
+			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
-					.into(ViewTableExperiments.class);
+					.into(Integer.class);
 
-			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
-
-			List<ViewTableDatasets> datasets = AuthorizationFilter.getDatasets(req, userDetails, null, false);
-
-			for (ViewTableExperiments experiment : result)
-			{
-				for (ViewTableDatasets dataset : datasets)
-				{
-					if (!dataset.getIsExternal() && Objects.equals(dataset.getExperimentId(), experiment.getExperimentId()))
-					{
-						switch (dataset.getDatasetType())
-						{
-							case "genotype":
-								experiment.setGenotypeCount(experiment.getGenotypeCount() + 1);
-								break;
-							case "trials":
-								experiment.setTrialsCount(experiment.getTrialsCount() + 1);
-								break;
-							case "allelefreq":
-								experiment.setAlleleFreqCount(experiment.getAlleleFreqCount() + 1);
-								break;
-							case "climate":
-								experiment.setClimateCount(experiment.getClimateCount() + 1);
-								break;
-							case "pedigree":
-								experiment.setPedigreeCount(experiment.getPedigreeCount() + 1);
-								break;
-						}
-					}
-				}
-			}
-
-			return new PaginatedResult<>(result, count);
+			return new PaginatedResult<>(result, result.size());
 		}
 	}
 }

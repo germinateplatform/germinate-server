@@ -15,7 +15,7 @@ version: '3.3'
 services:
   # This is Germinate's MySQL database.
   germinate_mysql:
-    image: mysql:5.7
+    image: mysql:8.4
     # We're exposing the MySQL port for remote access at 9306
     ports:
       - 9306:3306
@@ -59,7 +59,7 @@ services:
 
   # This is Gatekeeper's MySQL container
   gatekeeper_mysql:
-    image: mysql:5.7
+    image: mysql:8.4
     # We're also exposing the port, this time on 9307
     ports:
       - 9307:3306

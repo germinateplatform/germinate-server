@@ -32,6 +32,7 @@ public class ApplicationListener implements ServletContextListener
 	public static final IScheduler SCHEDULER = new ProcessScheduler();
 
 	private static ScheduledExecutorService backgroundScheduler;
+	private static ScheduledFuture<?> backupFuture;
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce)
@@ -50,28 +51,36 @@ public class ApplicationListener implements ServletContextListener
 			e.printStackTrace();
 		}
 
-		File propertiesFile = PropertyWatcher.initialize();
+		File propertiesFile = PropertyWatcher.initialize(null);
 		DatabasePermissionCacheWatcher.initialize(propertiesFile.getParentFile());
 
-		List<LocaleConfig> locales = ensureClientLocaleFileExists();
-		ensureCarouselFileExists(locales);
+		try
+		{
+			List<LocaleConfig> locales = ensureClientLocaleFileExists();
+			ensureCarouselFileExists(locales);
+		}
+		catch (StatusException | IOException e)
+		{
+			Logger.getLogger("").severe(e.getMessage());
+		}
 
 		Long asyncDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 		Long tempDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);
 
 		backgroundScheduler = Executors.newSingleThreadScheduledExecutor();
 		// Every hour, update the dataset sizes
-		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 1, 1, TimeUnit.HOURS);
-		// Every minute, check the async job status
+		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 3, 60, TimeUnit.MINUTES);
+		// Every 15 minutes, check the async job status
 		backgroundScheduler.scheduleAtFixedRate(new DatasetExportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
 		backgroundScheduler.scheduleAtFixedRate(new DatasetImportJobCheckerTask(), 1, 15, TimeUnit.MINUTES);
+		// Every day, reload exif info (using minutes unit to accommodate the 5-minute delay)
 		backgroundScheduler.scheduleAtFixedRate(new ImageExifReaderTask(), 5, 1440, TimeUnit.MINUTES);
-		backgroundScheduler.scheduleAtFixedRate(new UserFeedbackEmailRemovalTask(), 0, 1, TimeUnit.DAYS);
+		// Every 7 days re-run the NCBI taxonomy lookup
+		backgroundScheduler.scheduleAtFixedRate(new NCBITaxonomyLookupTask(), 0, 7, TimeUnit.DAYS);
+		// Only run the allele frequency -> genotype dataset conversion once 10 minutes after startup
+		backgroundScheduler.schedule(new AlleleToGenotypeDatasetTask(), 10, TimeUnit.MINUTES);
 
-		// Create automatic database backups every X days
-		Integer dbBackupEveryDays = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);
-		if (dbBackupEveryDays != null)
-			backgroundScheduler.scheduleAtFixedRate(new DatabaseBackupTask(), dbBackupEveryDays, dbBackupEveryDays, TimeUnit.DAYS);
+		resetBackupScheduler();
 
 		// Every 5 minutes, get an update on the user information from Gatekeeper
 		if (!StringUtils.isEmpty(PropertyWatcher.get(ServerProperty.GATEKEEPER_URL)))
@@ -93,124 +102,118 @@ public class ApplicationListener implements ServletContextListener
 			backgroundScheduler.scheduleAtFixedRate(new HiddenPagesAutodiscoverTask(), 0, 1, TimeUnit.HOURS);
 	}
 
+	public static void resetBackupScheduler () {
+		if (backupFuture != null)
+			backupFuture.cancel(true);
+
+		// Create automatic database backups every X days
+		Integer dbBackupEveryDays = PropertyWatcher.getInteger(ServerProperty.DATABASE_BACKUP_EVERY_DAYS);
+		if (dbBackupEveryDays != null)
+			backupFuture = backgroundScheduler.scheduleAtFixedRate(new DatabaseBackupTask(), dbBackupEveryDays, dbBackupEveryDays, TimeUnit.DAYS);
+	}
+
 	private void ensureCarouselFileExists(List<LocaleConfig> locales)
+			throws StatusException, IOException
 	{
 		Gson gson = new Gson();
-		try
+		File configFile = ResourceUtils.getFromExternal("carousel.json", "template");
+		Type type = new TypeToken<CarouselConfig>()
 		{
-			File configFile = ResourceUtils.getFromExternal(null, "carousel.json", "template");
-			Type type = new TypeToken<CarouselConfig>()
+		}.getType();
+
+		if (configFile == null || !configFile.exists())
+		{
+			// Write a default file
+			configFile.getParentFile().mkdirs();
+			CarouselConfig config = new CarouselConfig();
+
+			if (!CollectionUtils.isEmpty(locales))
+				locales.forEach(l -> config.put(l.getLocale(), new ArrayList<>()));
+
+			// Write the file back
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
 			{
-			}.getType();
-
-			if (configFile == null || !configFile.exists())
-			{
-				// Write a default file
-				configFile.getParentFile().mkdirs();
-				CarouselConfig config = new CarouselConfig();
-
-				if (!CollectionUtils.isEmpty(locales))
-					locales.forEach(l -> config.put(l.getLocale(), new ArrayList<>()));
-
-				// Write the file back
-				try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-				{
-					gson.toJson(config, type, writer);
-				}
+				gson.toJson(config, type, writer);
 			}
-			else
+		}
+		else
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
 			{
-				try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+				CarouselConfig config = gson.fromJson(br, type);
+
+				if (config == null)
 				{
-					CarouselConfig config = gson.fromJson(br, type);
+					config = new CarouselConfig();
 
-					if (config == null)
+					if (!CollectionUtils.isEmpty(locales))
 					{
-						config = new CarouselConfig();
-
-						if (!CollectionUtils.isEmpty(locales))
+						for (LocaleConfig l : locales)
 						{
-							for (LocaleConfig l : locales)
-							{
-								config.put(l.getLocale(), new ArrayList<>());
-							}
+							config.put(l.getLocale(), new ArrayList<>());
 						}
+					}
 
-						// Write the file back
-						try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-						{
-							gson.toJson(config, type, writer);
-						}
+					// Write the file back
+					try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+					{
+						gson.toJson(config, type, writer);
 					}
 				}
 			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			Logger.getLogger("").severe(e.getLocalizedMessage());
 		}
 	}
 
 	private List<LocaleConfig> ensureClientLocaleFileExists()
+			throws StatusException, IOException
 	{
 		Gson gson = new Gson();
-		try
+		File configFile = ResourceUtils.getFromExternal("locales.json", "template");
+		Type type = new TypeToken<ArrayList<LocaleConfig>>()
 		{
-			File configFile = ResourceUtils.getFromExternal(null, "locales.json", "template");
-			Type type = new TypeToken<ArrayList<LocaleConfig>>()
-			{
-			}.getType();
+		}.getType();
 
-			if (configFile == null || !configFile.exists())
-			{
-				// Write a default file
-				configFile.getParentFile().mkdirs();
-				ArrayList<LocaleConfig> config = new ArrayList<>();
-				config.add(new LocaleConfig()
-						.setLocale("en_GB")
-						.setName("British English")
-						.setFlag("gb"));
+		if (configFile == null || !configFile.exists())
+		{
+			// Write a default file
+			configFile.getParentFile().mkdirs();
+			ArrayList<LocaleConfig> config = new ArrayList<>();
+			config.add(new LocaleConfig()
+					.setLocale("en_GB")
+					.setName("British English")
+					.setFlag("gb"));
 
-				// Write the file back
-				try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+			// Write the file back
+			try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+			{
+				gson.toJson(config, type, writer);
+			}
+
+			return config;
+		}
+		else
+		{
+			try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
+			{
+				ArrayList<LocaleConfig> config = gson.fromJson(br, type);
+
+				if (CollectionUtils.isEmpty(config))
 				{
-					gson.toJson(config, type, writer);
+					config.add(new LocaleConfig()
+							.setLocale("en_GB")
+							.setName("British English")
+							.setFlag("gb"));
+
+					// Write the file back
+					try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
+					{
+						gson.toJson(config, type, writer);
+					}
 				}
 
 				return config;
 			}
-			else
-			{
-				try (Reader br = new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8))
-				{
-					ArrayList<LocaleConfig> config = gson.fromJson(br, type);
-
-					if (CollectionUtils.isEmpty(config))
-					{
-						config.add(new LocaleConfig()
-								.setLocale("en_GB")
-								.setName("British English")
-								.setFlag("gb"));
-
-						// Write the file back
-						try (Writer writer = new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8))
-						{
-							gson.toJson(config, type, writer);
-						}
-					}
-
-					return config;
-				}
-			}
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			Logger.getLogger("").severe(e.getLocalizedMessage());
-		}
-
-		return null;
 	}
 
 	@Override
@@ -240,6 +243,11 @@ public class ApplicationListener implements ServletContextListener
 		}
 
 		Database.close();
+	}
+
+	public static void executeRunnable(Runnable runnable)
+	{
+		backgroundScheduler.submit(runnable);
 	}
 
 	/**

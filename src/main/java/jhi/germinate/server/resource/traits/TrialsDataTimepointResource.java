@@ -3,24 +3,22 @@ package jhi.germinate.server.resource.traits;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.TraitTimelineRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.*;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
 @Path("dataset/data/trial/timepoint")
 @Secured
@@ -31,13 +29,10 @@ public class TrialsDataTimepointResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> postDatasetTrialTimepoints(TraitTimelineRequest request)
-			throws IOException, SQLException
+			throws SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
@@ -50,10 +45,10 @@ public class TrialsDataTimepointResource extends ContextResource
 
 			Field<String> field = DSL.field("DATE_FORMAT({0}, {1})", SQLDataType.VARCHAR, PHENOTYPEDATA.RECORDING_DATE, DSL.inline("%Y-%m-%d"));
 			SelectConditionStep<Record1<String>> step = context.selectDistinct(field)
-															   .from(PHENOTYPEDATA).leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-															   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-															   .where(PHENOTYPEDATA.RECORDING_DATE.isNotNull())
-															   .and(TRIALSETUP.DATASET_ID.in(requestedIds));
+			                                                   .from(PHENOTYPEDATA).leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+			                                                   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+			                                                   .where(PHENOTYPEDATA.RECORDING_DATE.isNotNull())
+			                                                   .and(TRIALSETUP.DATASET_ID.in(requestedIds));
 
 			// Handle requested germplasm ids or group ids
 			Set<Integer> germplasmIds = new HashSet<>();
@@ -66,7 +61,7 @@ public class TrialsDataTimepointResource extends ContextResource
 
 			// Handle requested traits
 			if (!CollectionUtils.isEmpty(request.getTraitIds()))
-				step.and(PHENOTYPES.ID.in(request.getTraitIds()));
+				step.and(VARIABLES.ID.in(request.getTraitIds()));
 
 			return step
 					.orderBy(field)

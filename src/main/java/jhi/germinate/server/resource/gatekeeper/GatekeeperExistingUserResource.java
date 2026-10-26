@@ -20,7 +20,7 @@ public class GatekeeperExistingUserResource extends ContextResource
 {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
 	public Boolean postGatekeeperExistingUser(NewUserAccessRequest request)
 		throws IOException
 	{
@@ -49,7 +49,7 @@ public class GatekeeperExistingUserResource extends ContextResource
 					// Create a new request
 					NewAccessRequest newRequest = new NewAccessRequest();
 					newRequest.setUserId(token.getId());
-					newRequest.setDatabaseSystemId(list.getData().get(0).getId());
+					newRequest.setDatabaseSystemId(list.getData().getFirst().getId());
 					newRequest.setLocale(request.getLocale());
 					newRequest.setNeedsApproval((byte) (PropertyWatcher.getBoolean(ServerProperty.GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL) ? 1 : 0));
 
@@ -62,23 +62,20 @@ public class GatekeeperExistingUserResource extends ContextResource
 					else
 					{
 						GatekeeperApiError error = GatekeeperClient.parseError(response);
-						resp.sendError(response.code(), error.getDescription());
-						return false;
+						throw new StatusException(response.code(), error.getDescription());
 					}
 				}
 			}
 			else
 			{
 				GatekeeperApiError error = GatekeeperClient.parseError(user);
-				resp.sendError(user.code(), error.getDescription());
-				return false;
+				throw new StatusException(user.code(), error.getDescription());
 			}
 		}
 		else
 		{
 			GatekeeperApiError error = GatekeeperClient.parseError(systems);
-			resp.sendError(systems.code(), error.getDescription());
-			return false;
+			throw new StatusException(systems.code(), error.getDescription());
 		}
 //		catch (IOException e)
 //		{

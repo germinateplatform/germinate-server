@@ -35,7 +35,7 @@ public class CollectionUtils
 	 */
 	public static <T> String join(Collection<T> input, String delimiter)
 	{
-		if (input == null || input.size() < 1)
+		if (input == null || input.isEmpty())
 			return "";
 
 		StringBuilder builder = new StringBuilder();
@@ -85,7 +85,7 @@ public class CollectionUtils
 		boolean result = false;
 		for (Collection<T> coll : input)
 		{
-			result |= coll == null || coll.size() < 1;
+			result |= coll == null || coll.isEmpty();
 
 			if (result)
 				break;
@@ -101,7 +101,7 @@ public class CollectionUtils
 
 	public static <T> boolean isEmptyOrNull(Collection<T> input)
 	{
-		if (input == null || input.size() < 1)
+		if (input == null || input.isEmpty())
 			return true;
 		else
 		{

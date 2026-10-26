@@ -1,16 +1,19 @@
 package jhi.germinate.server.resource.fileresource;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableFileresources;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
@@ -18,11 +21,11 @@ import java.io.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.*;
-import static jhi.germinate.server.database.codegen.tables.Fileresources.*;
-import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.*;
+import static jhi.germinate.server.database.codegen.tables.Datasetfileresources.DATASETFILERESOURCES;
+import static jhi.germinate.server.database.codegen.tables.Fileresources.FILERESOURCES;
+import static jhi.germinate.server.database.codegen.tables.Fileresourcetypes.FILERESOURCETYPES;
 
 @Path("fileresource")
 public class FileResourceResource extends ContextResource
@@ -32,33 +35,27 @@ public class FileResourceResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean putFileResource(ViewTableFileresources fileResource)
-		throws IOException, SQLException
+			throws SQLException, StatusException
 	{
 		if (fileResource == null || fileResource.getFileresourceId() != null || fileResource.getFileresourcetypeId() == null || StringUtils.isEmpty(fileResource.getFileresourcePath()) || StringUtils.isEmpty(fileResource.getFileresourceName()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			FileresourcetypesRecord type = context.selectFrom(FILERESOURCETYPES)
-												  .where(FILERESOURCETYPES.ID.eq(fileResource.getFileresourcetypeId()))
-												  .fetchAny();
+			                                      .where(FILERESOURCETYPES.ID.eq(fileResource.getFileresourcetypeId()))
+			                                      .fetchAny();
 
 			// Get the file reference from the tmp directory
 			File source = new File(new File(System.getProperty("java.io.tmpdir")), fileResource.getFileresourcePath());
 
 			// If the type doesn't exist or the source file isn't available fail
 			if (type == null || !source.exists() || !source.isFile())
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return false;
-			}
+				throw new BadRequestException();
 
 			// Get the target location for this file
-			File target = ResourceUtils.getFromExternal(resp, fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
+			File target = ResourceUtils.getFromExternal(fileResource.getFileresourcePath(), "data", "download", Integer.toString(type.getId()));
 			target.getParentFile().mkdirs();
 
 			try
@@ -71,8 +68,7 @@ public class FileResourceResource extends ContextResource
 				// If the operation fails, delete the source.
 				source.delete();
 				e.printStackTrace();
-				resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-				return false;
+				throw new InternalServerErrorException();
 			}
 
 			// If we get here the file was successfully found and moved
@@ -107,63 +103,59 @@ public class FileResourceResource extends ContextResource
 
 	@GET
 	@Path("/{fileResourceId:\\d+}/download")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
-	public Response getFileResourceDownload(@PathParam("fileResourceId") Integer fileResourceId, @QueryParam("token") String token) throws IOException, SQLException {
+	public File getFileResourceDownload(@PathParam("fileResourceId") Integer fileResourceId, @QueryParam("token") String token, @Context HttpServletResponse response)
+			throws IOException, SQLException, StatusException
+	{
 		// IMPORTANT: This needs to be here, because we are using a specific URL token to fetch this
 		AuthenticationFilter.UserDetails userDetails = AuthenticationFilter.getDetailsFromUrlToken(token);
-		if (userDetails == null) {
+		if (userDetails == null)
+		{
 			userDetails = new AuthenticationFilter.UserDetails(-1000, token, token, UserType.UNKNOWN, AuthenticationFilter.AGE);
 		}
-		return getFileResourceInternal(fileResourceId, userDetails);
+		FileResult result = getFileResourceInternal(fileResourceId, userDetails);
+
+		return toFileResult(result.file, result.mime, result.name, response);
 	}
 
 	@GET
 	@Path("/{fileResourceId:[0-9]+}{fileExtension:.?[a-zA-Z]*}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("*/*")
 	@Secured
 	@PermitAll
-	public Response getFileResource(@PathParam("fileResourceId") Integer fileResourceId)
-		throws IOException, SQLException
+	public File getFileResource(@PathParam("fileResourceId") Integer fileResourceId, @Context HttpServletResponse response)
+			throws IOException, SQLException, StatusException
 	{
-		return getFileResourceInternal(fileResourceId, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal());
+		FileResult result = getFileResourceInternal(fileResourceId, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal());
+
+		return toFileResult(result.file, result.mime, result.name, response);
 	}
 
-	private Response getFileResourceInternal(Integer fileResourceId, AuthenticationFilter.UserDetails userDetails)
-			throws IOException, SQLException
+	private FileResult getFileResourceInternal(Integer fileResourceId, AuthenticationFilter.UserDetails userDetails)
+			throws IOException, SQLException, StatusException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, true);
 
 		if (fileResourceId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode());
 
 		try (Connection conn = Database.getConnection())
 		{
 			// Check whether there isn't a dataset linked to this resource OR whether the user has access to that dataset
 			Condition cond = DSL.notExists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID)))
-								.or(DSL.exists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
+			                    .or(DSL.exists(DSL.selectOne().from(DATASETFILERESOURCES).where(DATASETFILERESOURCES.FILERESOURCE_ID.eq(FILERESOURCES.ID).and(DATASETFILERESOURCES.DATASET_ID.in(datasetIds)))));
 			DSLContext context = Database.getContext(conn);
 			FileresourcesRecord record = context.selectFrom(FILERESOURCES)
-												.where(FILERESOURCES.ID.eq(fileResourceId).and(cond))
-												.fetchAny();
+			                                    .where(FILERESOURCES.ID.eq(fileResourceId).and(cond))
+			                                    .fetchAny();
 
 			if (record == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				throw new StatusException(Response.Status.NOT_FOUND.getStatusCode());
 
-			File resultFile = ResourceUtils.getFromExternal(resp, record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
+			File resultFile = ResourceUtils.getFromExternal(record.getPath(), "data", "download", Integer.toString(record.getFileresourcetypeId()));
 
 			if (!resultFile.exists() || !resultFile.isFile())
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				throw new StatusException(Response.Status.NOT_FOUND.getStatusCode());
 
 			String filename = resultFile.getName();
 
@@ -173,11 +165,10 @@ public class FileResourceResource extends ContextResource
 			if (StringUtils.isEmpty(type))
 				type = "*/*";
 
-			return Response.ok(resultFile)
-						   .type(type)
-						   .header("content-disposition", "attachment;filename= \"" + filename + "\"")
-						   .header("content-length", resultFile.length())
-						   .build();
+			return new FileResult()
+					.setFile(resultFile)
+					.setName(filename)
+					.setMime(type);
 		}
 	}
 
@@ -188,20 +179,17 @@ public class FileResourceResource extends ContextResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured({UserType.DATA_CURATOR})
 	public boolean deleteFileResource(@PathParam("fileResourceId") Integer fileResourceId)
-		throws IOException, SQLException
+			throws SQLException, StatusException
 	{
 		if (fileResourceId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			FileresourcesRecord fileResource = context.selectFrom(FILERESOURCES)
-													  .where(FILERESOURCES.ID.eq(fileResourceId))
-													  .fetchAny();
+			                                          .where(FILERESOURCES.ID.eq(fileResourceId))
+			                                          .fetchAny();
 
 			if (fileResource != null)
 			{
@@ -209,7 +197,7 @@ public class FileResourceResource extends ContextResource
 
 				if (!StringUtils.isEmpty(path))
 				{
-					File file = ResourceUtils.getFromExternal(resp, path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
+					File file = ResourceUtils.getFromExternal(path, "data", "download", Integer.toString(fileResource.getFileresourcetypeId()));
 
 					if (file.exists() && file.isFile())
 						file.delete();
@@ -220,5 +208,16 @@ public class FileResourceResource extends ContextResource
 
 			return false;
 		}
+	}
+
+	@NoArgsConstructor
+	@Getter
+	@Setter
+	@Accessors(chain = true)
+	@ToString
+	private static class FileResult {
+		File file;
+		String name;
+		String mime;
 	}
 }

@@ -25,7 +25,6 @@ public class StrudelMapWriter extends AbstractMapWriter
 
 	@Override
 	public void writeHeader(Maps map)
-		throws IOException
 	{
 		this.map = map;
 	}

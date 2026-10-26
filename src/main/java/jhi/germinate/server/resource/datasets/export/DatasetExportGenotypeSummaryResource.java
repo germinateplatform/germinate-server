@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.datasets.export;
 
 import jakarta.ws.rs.Path;
 import jhi.gatekeeper.resource.PaginatedResult;
-import jhi.germinate.resource.SubsettedDatasetRequest;
+import jhi.germinate.resource.GenotypeSubsetDatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
 import jhi.germinate.server.resource.BaseResource;
@@ -14,7 +14,7 @@ import org.jooq.impl.DSL;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
 import java.util.*;
 
@@ -32,15 +32,11 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<ViewTableDatasets>> postJson(SubsettedDatasetRequest request)
-		throws IOException, SQLException
+	public PaginatedResult<List<ViewTableDatasets>> postGenotypeExportSummaty(GenotypeSubsetDatasetRequest request)
+		throws SQLException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
-
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "genotype", request.getDatasetIds(), true);
 
@@ -57,17 +53,17 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 																	  .where(DATASETMEMBERS.DATASET_ID.eq(DATASETS.ID))
 																	  .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2));
 			Field<?> germplasm;
-			if (CollectionUtils.isEmpty(request.getYIds()) && CollectionUtils.isEmpty(request.getYGroupIds()))
+			if (CollectionUtils.isEmpty(request.getGermplasmIds()) && CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
 			{
 				germplasm = germplasmQuery.asField("data_object_count");
 			}
 			else
 			{
-				germplasm = germplasmQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getYIds())
+				germplasm = germplasmQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getGermplasmIds())
 																		.orExists(DSL.selectOne()
 																					 .from(GROUPMEMBERS)
 																					 .where(GROUPMEMBERS.FOREIGN_ID.eq(DATASETMEMBERS.FOREIGN_ID))
-																					 .and(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))))
+																					 .and(GROUPMEMBERS.GROUP_ID.in(request.getGermplasmGroupIds()))))
 										  .asField("data_object_count");
 			}
 
@@ -77,17 +73,17 @@ public class DatasetExportGenotypeSummaryResource extends BaseResource
 																   .where(DATASETMEMBERS.DATASET_ID.eq(DATASETS.ID))
 																   .and(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(1));
 			Field<?> markers;
-			if (CollectionUtils.isEmpty(request.getXIds()) && CollectionUtils.isEmpty(request.getXGroupIds()))
+			if (CollectionUtils.isEmpty(request.getMarkerIds()) && CollectionUtils.isEmpty(request.getMarkerGroupIds()))
 			{
 				markers = markerQuery.asField("data_point_count");
 			}
 			else
 			{
-				markers = markerQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getXIds())
+				markers = markerQuery.and(DATASETMEMBERS.FOREIGN_ID.in(request.getMarkerIds())
 																   .orExists(DSL.selectOne()
 																				.from(GROUPMEMBERS)
 																				.where(GROUPMEMBERS.FOREIGN_ID.eq(DATASETMEMBERS.FOREIGN_ID))
-																				.and(GROUPMEMBERS.GROUP_ID.in(request.getXGroupIds()))))
+																				.and(GROUPMEMBERS.GROUP_ID.in(request.getMarkerGroupIds()))))
 									 .asField("data_point_count");
 			}
 

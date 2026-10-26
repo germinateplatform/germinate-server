@@ -11,7 +11,7 @@ import java.util.*;
 @Accessors(chain = true)
 public class ExportRequest
 {
-	private Filter[]            filter;
+	private FilterGroup[]       filters;
 	private Map<String, String> columnNameMapping = new HashMap<>();
 	private String              forcedFileExtension;
 }

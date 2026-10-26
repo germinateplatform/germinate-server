@@ -150,7 +150,7 @@ public class Color implements Serializable
 	{
 		if (in == null)
 			return "00";
-		else if (in.length() == 0)
+		else if (in.isEmpty())
 			return "00";
 		else if (in.length() == 1)
 			return "0" + in;
@@ -211,9 +211,8 @@ public class Color implements Serializable
 	@Override
 	public boolean equals(Object other)
 	{
-		if (other instanceof Color)
+		if (other instanceof Color otherColor)
 		{
-			Color otherColor = (Color) other;
 			return red == otherColor.red && blue == otherColor.blue && green == otherColor.green;
 		}
 		return false;

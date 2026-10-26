@@ -17,7 +17,6 @@ import java.util.List;
 public class GatekeeperInstitutionResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Institutions>> getGatekeeperInstitution()
 		throws IOException
@@ -35,8 +34,7 @@ public class GatekeeperInstitutionResource extends BaseResource
 			else
 			{
 				GatekeeperApiError error = GatekeeperClient.parseError(response);
-				resp.sendError(response.code(), error.getDescription());
-				return null;
+				throw new StatusException(response.code(), error.getDescription());
 			}
 //			}
 //			catch (IOException e)
@@ -48,8 +46,7 @@ public class GatekeeperInstitutionResource extends BaseResource
 		}
 		else
 		{
-			resp.sendError(jakarta.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
-			return null;
+			throw new ServiceUnavailableException();
 		}
 	}
 }

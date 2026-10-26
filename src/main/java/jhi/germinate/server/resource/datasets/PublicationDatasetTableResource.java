@@ -10,9 +10,9 @@ import org.jooq.DSLContext;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
 import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.*;
@@ -26,7 +26,7 @@ public class PublicationDatasetTableResource extends BaseDatasetTableResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasets>> postPublicationDatasetTable(UnacceptedLicenseRequest request, @PathParam("publicationId") Integer publicationId)
-		throws SQLException, IOException
+		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -38,10 +38,7 @@ public class PublicationDatasetTableResource extends BaseDatasetTableResource
 											   .fetchAnyInto(ViewTablePublications.class);
 
 			if (pub == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				return new PaginatedResult<>(new ArrayList<>(), 0);
 
 			Integer[] ids = pub.getDatasetIds();
 

@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.publications;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.PublicationdataReferenceType;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications;
@@ -13,12 +13,11 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.Publicationdata.*;
-import static jhi.germinate.server.database.codegen.tables.Publications.*;
+import static jhi.germinate.server.database.codegen.tables.Publicationdata.PUBLICATIONDATA;
+import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 
 @Path("publicationtype")
 @Secured
@@ -27,40 +26,35 @@ public class PublicationTypeSpecificResource extends ContextResource
 {
 	@GET
 	@Path("/{referenceType}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTablePublications> getPublicationsForType(@PathParam("referenceType") PublicationdataReferenceType referenceType)
-		throws IOException, SQLException
+			throws SQLException
 	{
-		return this.getPublicationsForTypeAndId(referenceType, null);
+		return getPublicationsForTypeAndId(referenceType, null);
 	}
 
 	@GET
 	@Path("/{referenceType}/{referenceId:\\d+}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTablePublications> getPublicationsForTypeAndId(@PathParam("referenceType") PublicationdataReferenceType referenceType, @PathParam("referenceId") Integer referenceId)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (referenceType == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			SelectOnConditionStep<?> step = context.select(
-													   PUBLICATIONS.ID.as("publication_id"),
-													   PUBLICATIONS.DOI.as("publication_doi"),
-													   PUBLICATIONS.FALLBACK_CACHE.as("publication_fallback_cache"),
-													   DSL.inline((Integer[]) null).as("referencing_ids"),
-													   PUBLICATIONS.CREATED_ON.as("created_on"),
-													   PUBLICATIONS.UPDATED_ON.as("updated_on")
+														   PUBLICATIONS.ID.as("publication_id"),
+														   PUBLICATIONS.DOI.as("publication_doi"),
+														   PUBLICATIONS.FALLBACK_CACHE.as("publication_fallback_cache"),
+														   DSL.inline((Integer[]) null).as("referencing_ids"),
+														   PUBLICATIONS.CREATED_ON.as("created_on"),
+														   PUBLICATIONS.UPDATED_ON.as("updated_on")
 												   ).from(PUBLICATIONS)
-												   .leftJoin(PUBLICATIONDATA).on(PUBLICATIONDATA.PUBLICATION_ID.eq(PUBLICATIONS.ID));
+			                                       .leftJoin(PUBLICATIONDATA).on(PUBLICATIONDATA.PUBLICATION_ID.eq(PUBLICATIONS.ID));
 
 			Condition mainCondition = PUBLICATIONDATA.REFERENCE_TYPE.eq(referenceType);
 

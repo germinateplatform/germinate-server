@@ -13,7 +13,6 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.Record;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class TraitAttributeTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableTraitAttributes>> postTraitAttributeTable(PaginatedRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

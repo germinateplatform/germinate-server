@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.comment;
 
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
@@ -12,7 +13,6 @@ import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
 import java.sql.*;

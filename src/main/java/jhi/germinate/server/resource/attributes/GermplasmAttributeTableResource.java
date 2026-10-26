@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.attributes;
 
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
@@ -11,10 +12,8 @@ import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class GermplasmAttributeTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGermplasmAttributes>> postGermplasmAttributeTable(PaginatedRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())

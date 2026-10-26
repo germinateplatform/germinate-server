@@ -1,14 +1,13 @@
 package jhi.germinate.server.resource;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
 
-import jakarta.servlet.ServletContext;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.logging.*;
@@ -23,16 +22,12 @@ public class LogResource extends ContextResource
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response getJson(@QueryParam("date") String dateString)
-		throws IOException, SQLException
+	public StreamingOutput getJson(@QueryParam("date") String dateString, @Context HttpServletResponse response)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		if (mode == AuthenticationMode.NONE)
-		{
-			resp.sendError(Response.Status.SERVICE_UNAVAILABLE.getStatusCode());
-			return null;
-		}
+			throw new ServiceUnavailableException();
 		else
 		{
 			try
@@ -73,15 +68,7 @@ public class LogResource extends ContextResource
 
 						FileUtils.zipUp(zipFile, Collections.singletonList(file));
 
-						java.nio.file.Path zipFilePath = zipFile.toPath();
-						return Response.ok((StreamingOutput) output -> {
-							Files.copy(zipFilePath, output);
-							Files.deleteIfExists(zipFilePath);
-						})
-									   .type("application/zip")
-									   .header("content-disposition", "attachment;filename= \"" + zipFile.getName() + "\"")
-									   .header("content-length", zipFile.length())
-									   .build();
+						return toStreamingResult(zipFile, "application/zip", response);
 
 					}
 					catch (IOException e)

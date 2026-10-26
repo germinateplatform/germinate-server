@@ -25,7 +25,6 @@ import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*
 public class GermplasmResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Germinatebase>> getGermplasm()
 			throws SQLException
@@ -52,7 +51,6 @@ public class GermplasmResource extends BaseResource
 
 	@Path("/{germplasmId}/pedigree")
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Pedigreedefinitions> getGermplasmPedigreeStrings(@PathParam("germplasmId") Integer germplasmId)
 			throws SQLException

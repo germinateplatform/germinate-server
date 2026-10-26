@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.attributes;
 
+import jakarta.servlet.http.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ExportResource;
@@ -9,7 +10,8 @@ import org.jooq.Condition;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
+import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -24,24 +26,24 @@ public class DatasetAttributeTableExportResource extends ExportResource
 	@Path("/attribute/table/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(ExportRequest request)
+	public StreamingOutput postDatasetAttributeExport(ExportRequest request, @Context HttpServletResponse response)
 		throws IOException, SQLException
 	{
-		return export(null, request);
+		return toStreamingResult(export(null, request), "application/zip", response);
 	}
 
 	@POST
 	@Path("/{datasetId}/attribute/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(@PathParam("datasetId") Integer datasetId)
+	public StreamingOutput postDatasetAttributeExport(@PathParam("datasetId") Integer datasetId, @Context HttpServletResponse response)
 		throws IOException, SQLException
 	{
-		return export(datasetId, null);
+		return toStreamingResult(export(datasetId, null), "application/zip", response);
 	}
 
-	private Response export(Integer datasetId, ExportRequest request)
-		throws IOException, SQLException
+	private File export(Integer datasetId, ExportRequest request)
+		throws SQLException
 	{
 		processRequest(request);
 
@@ -51,24 +53,22 @@ public class DatasetAttributeTableExportResource extends ExportResource
 		{
 			requestedIds.add(datasetId);
 		}
-		else if (request != null && request.getFilter() != null)
+		else if (request != null && request.getFilters() != null)
 		{
-			Filter matchingFilter = Arrays.stream(request.getFilter())
-										  .filter(f -> f.getColumn().equals("datasetId"))
-										  .findFirst()
-										  .orElse(null);
+			List<Filter> matchingFilter = findFiltersWithColumn(request.getFilters(), "datasetId");
 
-			if (matchingFilter != null)
-			{
-				for (String value : matchingFilter.getValues())
-				{
-					try
-					{
-						requestedIds.add(Integer.parseInt(value));
+			if (!CollectionUtils.isEmpty(matchingFilter)) {
+				for (Filter filter : matchingFilter){
+					for (String value : filter.getValues()) {
+						try
+						{
+							requestedIds.add(Integer.parseInt(value));
+						}
+						catch (NumberFormatException e)
+						{
+						}
 					}
-					catch (NumberFormatException e)
-					{
-					}
+
 				}
 			}
 		}
@@ -77,10 +77,7 @@ public class DatasetAttributeTableExportResource extends ExportResource
 
 		// If either nothing is available or the user has access to nothing, return a 404
 		if (CollectionUtils.isEmpty(requestedIds))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		ExportSettings settings = new ExportSettings();
 		settings.conditions = new Condition[]{VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds)};

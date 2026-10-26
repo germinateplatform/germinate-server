@@ -27,6 +27,7 @@ public class ClientConfiguration
 	private String             externalLinkIdentifier;
 	private String             externalLinkTemplate;
 	private String             googleAnalyticsKey;
+	private Boolean            genesysAvailable;
 	private String             plausibleDomain;
 	private Boolean            plausibleHashMode;
 	private String             plausibleApiHost;
@@ -40,4 +41,5 @@ public class ClientConfiguration
 	private HiddenColumns      hiddenColumns;
 	private Boolean            supportsFeedback;
 	private String             genesysUrl;
+	private Boolean            donationsSectionEnabled;
 }

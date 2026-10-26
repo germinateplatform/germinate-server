@@ -5,7 +5,6 @@ import jhi.germinate.server.util.ApplicationListener;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.nio.file.*;
 
 /**
  * @author Sebastian Raubach
@@ -18,7 +17,7 @@ public interface AsyncResource
 		{
 			ApplicationListener.SCHEDULER.cancelJob(jobId);
 
-			File asyncFolder = ResourceUtils.getFromExternal(null, uuid, "async");
+			File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 
 			if (asyncFolder.exists() && asyncFolder.isDirectory())
 			{

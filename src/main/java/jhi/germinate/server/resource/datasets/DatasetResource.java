@@ -12,8 +12,8 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
@@ -31,13 +31,10 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ViewTableDatasets postDataset(Datasets newDataset)
-			throws SQLException, IOException
+			throws SQLException
 	{
 		if (newDataset == null || StringUtils.isEmpty(newDataset.getName()) || newDataset.getExperimentId() == null || newDataset.getDatasettypeId() == null || newDataset.getDatasetStateId() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -69,23 +66,17 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ViewTableDatasets patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
-			throws SQLException, IOException
+			throws SQLException
 	{
 		if (updatedDataset == null || StringUtils.isEmpty(updatedDataset.getName()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 		if (ds == null)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 		else
 		{
 			try (Connection conn = Database.getConnection())
@@ -95,10 +86,7 @@ public class DatasetResource extends ContextResource
 				DatasetsRecord dataset = context.selectFrom(DATASETS).where(DATASETS.ID.eq(ds.getDatasetId())).fetchAny();
 
 				if (dataset == null)
-				{
-					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-					return null;
-				}
+					throw new NotFoundException();
 
 				dataset.setName(updatedDataset.getName());
 				dataset.setDescription(updatedDataset.getDescription());
@@ -122,23 +110,17 @@ public class DatasetResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean deleteDatasetById(@PathParam("datasetId") Integer datasetId)
-			throws IOException, SQLException
+			throws SQLException, StatusException
 	{
 		if (datasetId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		ViewTableDatasets ds = DatasetTableResource.getDatasetForId(datasetId, req, userDetails, false);
 
 		if (ds == null)
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return false;
-		}
+			throw new NotFoundException();
 		else
 		{
 			try (Connection conn = Database.getConnection())
@@ -157,7 +139,7 @@ public class DatasetResource extends ContextResource
 					case "genotype":
 						if (ds.getSourceFile() != null)
 						{
-							sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "genotypes");
+							sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "genotypes");
 							File transposed = new File(sourceFile.getParentFile(), "transposed-" + sourceFile.getName());
 
 							if (transposed.exists() && transposed.isFile())
@@ -167,7 +149,7 @@ public class DatasetResource extends ContextResource
 					case "allelefreq":
 						if (ds.getSourceFile() != null)
 						{
-							sourceFile = ResourceUtils.getFromExternal(resp, ds.getSourceFile(), "data", "allelefreq");
+							sourceFile = ResourceUtils.getFromExternal(ds.getSourceFile(), "data", "allelefreq");
 						}
 						break;
 					case "climate":

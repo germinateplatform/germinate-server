@@ -1,5 +1,9 @@
 package jhi.germinate.server.resource.datasets.export;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.UuidRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.DataExportJobsStatus;
@@ -7,18 +11,14 @@ import jhi.germinate.server.database.codegen.tables.pojos.DataExportJobs;
 import jhi.germinate.server.database.codegen.tables.records.DataExportJobsRecord;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
-import org.apache.commons.io.FileUtils;
+import jhi.germinate.server.util.tasks.DirectoryDeleteTask;
 import org.jooq.DSLContext;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.DataExportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataExportJobs.DATA_EXPORT_JOBS;
 
 @Path("dataset/export/async")
 public class AsyncDatasetExportResource extends ContextResource implements AsyncResource
@@ -29,7 +29,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Secured
 	@PermitAll
 	public List<DataExportJobs> postJson(UuidRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -41,7 +41,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			DSLContext context = Database.getContext(conn);
 			return context.selectFrom(DATA_EXPORT_JOBS)
 						  .where(DATA_EXPORT_JOBS.UUID.in(request.getUuids())
-														 .or(DATA_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
+													  .or(DATA_EXPORT_JOBS.USER_ID.eq(userDetails.getId())))
 						  .and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
 						  .orderBy(DATA_EXPORT_JOBS.UPDATED_ON.desc())
 						  .fetchInto(DataExportJobs.class);
@@ -55,24 +55,21 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 	@Secured
 	@PermitAll
 	public boolean deleteAsyncDatasetExport(@PathParam("jobUuid") String jobUuid)
-		throws IOException, SQLException
+			throws IOException, SQLException, StatusException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (StringUtils.isEmpty(jobUuid))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
-		boolean result = false;
+		boolean result;
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS)
-													.where(DATA_EXPORT_JOBS.UUID.in(jobUuid))
-													.fetchAnyInto(DataExportJobsRecord.class);
+												 .where(DATA_EXPORT_JOBS.UUID.in(jobUuid))
+												 .fetchAnyInto(DataExportJobsRecord.class);
 
 			boolean isCancelRequest = record.getStatus() == DataExportJobsStatus.running;
 
@@ -91,10 +88,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 					result = true;
 				}
 				else
-				{
-					resp.sendError(Response.Status.FORBIDDEN.getStatusCode());
-					result = false;
-				}
+					throw new ForbiddenException();
 			}
 			else
 			{
@@ -109,10 +103,9 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			}
 
 			// Delete the async folder corresponding to the job uuid.
-			File asyncFolder = ResourceUtils.getFromExternal(null, record.getUuid(), "async");
-			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory()) {
-				org.apache.commons.io.FileUtils.deleteDirectory(asyncFolder);
-			}
+			File asyncFolder = ResourceUtils.getFromExternal(record.getUuid(), "async");
+			if (asyncFolder != null && asyncFolder.exists() && asyncFolder.isDirectory())
+				ApplicationListener.executeRunnable(new DirectoryDeleteTask(asyncFolder, 5, 500));
 		}
 
 		return result;
@@ -120,42 +113,32 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 
 	@GET
 	@Path("/{jobUuid}/download")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response getJson(@PathParam("jobUuid") String jobUuid)
-		throws IOException, SQLException
+	public StreamingOutput getExportJobByIdDownload(@PathParam("jobUuid") String jobUuid, @Context HttpServletResponse response)
+			throws IOException, SQLException, StatusException
 	{
 		if (StringUtils.isEmpty(jobUuid))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			DataExportJobsRecord record = context.selectFrom(DATA_EXPORT_JOBS)
-													.where(DATA_EXPORT_JOBS.UUID.eq(jobUuid))
-													.and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
-													.fetchAnyInto(DataExportJobsRecord.class);
+												 .where(DATA_EXPORT_JOBS.UUID.eq(jobUuid))
+												 .and(DATA_EXPORT_JOBS.VISIBILITY.eq(true))
+												 .fetchAnyInto(DataExportJobsRecord.class);
 
 			if (record == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				throw new NotFoundException();
 
 			String uuid = record.getUuid();
-			File jobFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
+			File jobFolder = ResourceUtils.getFromExternal(uuid, "async");
 
 			// Get zip result files (there'll only be one per folder)
 			File[] zipFiles = jobFolder.listFiles((dir, name) -> name.endsWith(".zip"));
 
 			if (CollectionUtils.isEmpty(zipFiles))
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				throw new FileNotFoundException();
 
 			File resultFile = zipFiles[0];
 			// Update this, so the file doesn't get deleted by the background async folder cleanup task
@@ -164,16 +147,7 @@ public class AsyncDatasetExportResource extends ContextResource implements Async
 			record.setVisibility(false);
 			record.store(DATA_EXPORT_JOBS.VISIBILITY);
 
-			java.nio.file.Path zipFilePath = resultFile.toPath();
-			return Response.ok((StreamingOutput) output -> {
-				Files.copy(zipFilePath, output);
-				// Delete the whole folder once we're done
-				FileUtils.deleteDirectory(jobFolder);
-			})
-						   .type("application/zip")
-						   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")
-						   .header("content-length", resultFile.length())
-						   .build();
+			return toDirectoryStreamingResult(resultFile, jobFolder, "application/zip", response);
 		}
 	}
 }

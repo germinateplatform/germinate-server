@@ -2,7 +2,7 @@ package jhi.germinate.server.resource.publications;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications;
 import jhi.germinate.server.resource.ContextResource;
@@ -22,9 +22,8 @@ public class PublicationSpecificResource extends ContextResource
 	Integer publicationId;
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPublicationById()
+	public ViewTablePublications getPublicationById()
 			throws SQLException
 	{
 		try (Connection conn = Database.getConnection())
@@ -32,13 +31,13 @@ public class PublicationSpecificResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			ViewTablePublications publication = context.selectFrom(VIEW_TABLE_PUBLICATIONS)
-													   .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
-													   .fetchAnyInto(ViewTablePublications.class);
+			                                           .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
+			                                           .fetchAnyInto(ViewTablePublications.class);
 
 			if (publication == null)
-				return Response.status(Response.Status.NOT_FOUND).build();
+				throw new NotFoundException();
 			else
-				return Response.ok(publication).build();
+				return publication;
 		}
 	}
 }

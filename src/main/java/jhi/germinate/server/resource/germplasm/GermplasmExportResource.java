@@ -1,10 +1,13 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
+import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportPassportData;
 import jhi.germinate.server.resource.ResourceUtils;
@@ -12,6 +15,7 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
@@ -27,8 +31,8 @@ public class GermplasmExportResource extends GermplasmBaseResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postGermplasmExport(GermplasmExportRequest request)
-		throws IOException, SQLException
+	public StreamingOutput postGermplasmExport(GermplasmExportRequest request, @Context HttpServletResponse response)
+		throws IOException, SQLException, StatusException
 	{
 		try (Connection conn = Database.getConnection())
 		{
@@ -49,7 +53,9 @@ public class GermplasmExportResource extends GermplasmBaseResource
 
 				procedure.execute(context.configuration());
 
-				return ResourceUtils.exportToZip(procedure.getResults().get(0), resp, "germplasm-table-");
+				File result = ResourceUtils.exportToZip(procedure.getResults().getFirst(), "germplasm-table-");
+
+				return toStreamingResult(result, "application/zip", response);
 			}
 			else
 			{
@@ -62,17 +68,21 @@ public class GermplasmExportResource extends GermplasmBaseResource
 											 .toArray(String[]::new);
 
 						Filter[] filters = new Filter[1];
-						filters[0] = new Filter(GERMPLASM_ID, "inSet", "and", ids);
-						request.setFilter(filters);
+						filters[0] = new Filter(GERMPLASM_ID, FilterComparator.inSet, ids, null);
+						FilterGroup[] group = new FilterGroup[1];
+						group[0] = new FilterGroup(filters, null, FilterOperator.and);
+						request.setFilters(group);
 
 						processRequest(request);
 
-						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
+						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, null);
 
 						// Filter here!
-						having(from, filters);
+						having(from, group);
 
-						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
+						File result =  ResourceUtils.exportToZip(from.fetch(), "germplasm-table-");
+
+						return toStreamingResult(result, "application/zip", response);
 					}
 					else if (request.getGroupIds() != null)
 					{
@@ -81,16 +91,19 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						Field<Integer> fieldGroupId = DSL.field("group_id", Integer.class);
 						List<GermplasmBaseResource.Join<Integer>> joins = new ArrayList<>();
 						joins.add(new GermplasmBaseResource.Join<>(GROUPMEMBERS, GROUPMEMBERS.FOREIGN_ID, GERMINATEBASE.ID));
-						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, joins, fieldGroupId);
+						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, joins, fieldGroupId);
 						from.having(fieldGroupId.in(request.getGroupIds()));
 
-						return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-");
+						File result =  ResourceUtils.exportToZip(from.fetch(), "germplasm-table-");
+
+						return toStreamingResult(result, "application/zip", response);
 					}
 				}
 
 				// We get here if nothing specific was specified
 				processRequest(request);
-				return ResourceUtils.exportToZip(getGermplasmQueryWrapped(context, datasetIds, null).fetch(), resp, "germplasm-table-");
+				File result = ResourceUtils.exportToZip(getGermplasmQueryWrapped(context, datasetIds, false, null).fetch(), "germplasm-table-");
+				return toStreamingResult(result, "application/zip", response);
 			}
 		}
 	}

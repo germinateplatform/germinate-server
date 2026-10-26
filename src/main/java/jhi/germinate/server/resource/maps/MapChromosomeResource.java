@@ -8,7 +8,7 @@ import org.jooq.DSLContext;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
 import java.util.List;
 
@@ -24,18 +24,14 @@ public class MapChromosomeResource extends ContextResource
 	private Integer mapId;
 
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getMapChromosomes()
-		throws IOException, SQLException
+		throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (mapId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{

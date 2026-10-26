@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
 /**
  * @author Sebastian Raubach
@@ -45,10 +44,8 @@ public class ViewTableGermplasm
 	private String                 collDate;
 	private Double                 pdci;
 	private Long                   imageCount;
-	private String                 firstImagePath;
 	private Integer                hasTrialsData;
 	private Integer                hasGenotypicData;
-	private Integer                hasAllelefreqData;
 	private Integer                hasCompoundData;
 	private Integer                hasPedigreeData;
 }

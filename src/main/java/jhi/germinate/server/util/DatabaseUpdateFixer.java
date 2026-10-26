@@ -7,7 +7,6 @@ import jhi.germinate.server.database.codegen.tables.records.MapoverlaysRecord;
 import jhi.germinate.server.resource.images.ImageResource;
 import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
-import org.jooq.exception.DataAccessException;
 
 import java.io.*;
 import java.nio.file.*;

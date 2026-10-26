@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.attributes;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.resource.ExportResource;
 import jhi.germinate.server.util.Secured;
@@ -7,7 +8,8 @@ import jhi.germinate.server.util.Secured;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
+import java.io.*;
 import java.sql.SQLException;
 
 import static jhi.germinate.server.database.codegen.tables.ViewTableGermplasmAttributes.*;
@@ -20,10 +22,10 @@ public class GermplasmAttributeTableExportResource extends ExportResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postDatasetAttributeExport(ExportRequest request)
-		throws IOException, SQLException
+	public StreamingOutput postDatasetAttributeExport(ExportRequest request, @Context HttpServletResponse response)
+		throws SQLException
 	{
 		processRequest(request);
-		return export(VIEW_TABLE_GERMPLASM_ATTRIBUTES, "germplasm-attributes-table-", null);
+		return toStreamingResult(export(VIEW_TABLE_GERMPLASM_ATTRIBUTES, "germplasm-attributes-table-", null), "application/zip", response);
 	}
 }

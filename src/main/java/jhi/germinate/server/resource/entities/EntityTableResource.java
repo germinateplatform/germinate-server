@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.entities;
 
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
@@ -11,7 +12,6 @@ import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
 import java.sql.*;

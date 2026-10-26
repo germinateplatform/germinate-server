@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class AlleleFrequencyDatasetRequest extends SubsettedGenotypeDatasetRequest
+public class AlleleFrequencyDatasetRequest extends GenotypeSubsetDatasetRequest
 {
 	private BinningConfig config;
 }

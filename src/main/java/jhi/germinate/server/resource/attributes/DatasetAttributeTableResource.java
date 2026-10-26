@@ -6,7 +6,6 @@ import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasetAttributes;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
@@ -15,7 +14,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -31,7 +29,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(PaginatedRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		processRequest(request);
 		return export(null, request);
@@ -42,7 +40,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableDatasetAttributes>> postDatasetAttributeTable(@PathParam("datasetId") Integer datasetId)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		return export(datasetId, null);
 	}
@@ -56,24 +54,22 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 		{
 			requestedIds.add(datasetId);
 		}
-		else if (request != null && request.getFilter() != null)
+		else if (request != null && request.getFilters() != null)
 		{
-			Filter matchingFilter = Arrays.stream(request.getFilter())
-										  .filter(f -> f.getColumn().equals("datasetId"))
-										  .findFirst()
-										  .orElse(null);
+			List<Filter> matchingFilter = findFiltersWithColumn(request.getFilters(), "datasetId");
 
-			if (matchingFilter != null)
-			{
-				for (String value : matchingFilter.getValues())
-				{
-					try
-					{
-						requestedIds.add(Integer.parseInt(value));
+			if (!CollectionUtils.isEmpty(matchingFilter)) {
+				for (Filter filter : matchingFilter){
+					for (String value : filter.getValues()) {
+						try
+						{
+							requestedIds.add(Integer.parseInt(value));
+						}
+						catch (NumberFormatException e)
+						{
+						}
 					}
-					catch (NumberFormatException e)
-					{
-					}
+
 				}
 			}
 		}

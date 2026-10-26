@@ -1,5 +1,7 @@
 package jhi.germinate.server.resource.news;
 
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.NewsImageFit;
@@ -10,15 +12,13 @@ import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.News.*;
+import static jhi.germinate.server.database.codegen.tables.News.NEWS;
 
 @Path("news")
 @Secured({UserType.DATA_CURATOR})
@@ -28,13 +28,10 @@ public class NewsResource extends ContextResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean postNews(News newsItem)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (newsItem == null || newsItem.getId() != null || StringUtils.isEmpty(newsItem.getTitle()) || StringUtils.isEmpty(newsItem.getContent()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -48,28 +45,16 @@ public class NewsResource extends ContextResource
 				String[] strings = base64.split(",");
 
 				if (strings.length != 2)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return false;
-				}
+					throw new BadRequestException();
 
 				// Get the extension
-				String extension;
-				switch (strings[0])
+				String extension = switch (strings[0])
 				{
-					case "data:image/jpeg;base64":
-						extension = "jpeg";
-						break;
-					case "data:image/png;base64":
-						extension = "png";
-						break;
-					case "data:image/jpg:base64":
-						extension = "jpg";
-						break;
-					default:
-						resp.sendError(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
-						return false;
-				}
+					case "data:image/jpeg;base64" -> "jpeg";
+					case "data:image/png;base64" -> "png";
+					case "data:image/jpg:base64" -> "jpg";
+					default -> throw new StatusException(Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
+				};
 				//convert base64 string to binary data
 				byte[] bytes = Base64.getDecoder().decode(strings[1].getBytes(StandardCharsets.UTF_8));
 
@@ -94,8 +79,7 @@ public class NewsResource extends ContextResource
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return false;
+			throw new InternalServerErrorException();
 		}
 	}
 
@@ -103,20 +87,17 @@ public class NewsResource extends ContextResource
 	@DELETE
 	@Path("/{newsId:\\d+}")
 	public boolean deleteNews(@PathParam("newsId") Integer newsId)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		if (newsId == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			NewsRecord news = context.selectFrom(NEWS)
-									 .where(NEWS.ID.eq(newsId))
-									 .fetchAny();
+			                         .where(NEWS.ID.eq(newsId))
+			                         .fetchAny();
 
 			if (news != null)
 			{

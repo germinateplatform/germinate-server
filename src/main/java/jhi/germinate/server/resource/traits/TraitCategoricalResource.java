@@ -1,20 +1,20 @@
 package jhi.germinate.server.resource.traits;
 
-import jhi.germinate.resource.SubsettedDatasetRequest;
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.*;
+import jhi.germinate.resource.TrialsExportDatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.ExportTraitCategorical;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
-import java.util.*;
+import java.util.List;
 
 @Path("dataset/categorical/trial")
 @Secured
@@ -24,34 +24,28 @@ public class TraitCategoricalResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postJson(SubsettedDatasetRequest request)
-		throws IOException, SQLException
+	public StreamingOutput postTraitCategories(TrialsExportDatasetRequest request, @Context HttpServletResponse response)
+			throws SQLException
 	{
-		if (request == null || CollectionUtils.isEmpty(request.getXIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+		if (request == null || CollectionUtils.isEmpty(request.getTraitIds()))
+			throw new BadRequestException();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 
 		try
 		{
-			File file = ResourceUtils.createTempFile("traits-" + CollectionUtils.join(request.getXIds(), "-"), ".tsv");
+			File file = ResourceUtils.createTempFile("traits-" + CollectionUtils.join(request.getTraitIds(), "-"), ".tsv");
 
 			try (Connection conn = Database.getConnection();
-				 PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
+			     PrintWriter bw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))))
 			{
 				DSLContext context = Database.getContext(conn);
-				String traitIdString = CollectionUtils.join(request.getXIds(), ",");
-				String germplasmIdString = CollectionUtils.join(request.getYIds(), ",");
-				String groupIdString = CollectionUtils.join(request.getYGroupIds(), ",");
+				String traitIdString = CollectionUtils.join(request.getTraitIds(), ",");
+				String germplasmIdString = CollectionUtils.join(request.getGermplasmGroupIds(), ",");
+				String groupIdString = CollectionUtils.join(request.getGermplasmGroupIds(), ",");
 
 				if (CollectionUtils.isEmpty(datasetIds))
-				{
-					resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-					return null;
-				}
+					throw new NotFoundException();
 				else
 				{
 					ExportTraitCategorical procedure = new ExportTraitCategorical();
@@ -66,25 +60,16 @@ public class TraitCategoricalResource extends ContextResource
 
 					procedure.execute(context.configuration());
 
-					ResourceUtils.exportToFile(bw, procedure.getResults().get(0), true, null);
+					ResourceUtils.exportToFile(bw, procedure.getResults().getFirst(), true, null);
 				}
 			}
 
-			java.nio.file.Path filePath = file.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(filePath, output);
-							   Files.deleteIfExists(filePath);
-						   })
-						   .type(MediaType.TEXT_PLAIN)
-						   .header("content-disposition", "attachment;filename= \"" + file.getName() + "\"")
-						   .header("content-length", file.length())
-						   .build();
+			return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 }

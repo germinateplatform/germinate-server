@@ -4,15 +4,15 @@ import jhi.germinate.resource.DatasetRequest;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.enums.MapoverlaysReferenceTable;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableClimates;
+import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import java.io.IOException;
+
 import java.sql.*;
 import java.util.*;
 
@@ -25,26 +25,16 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableClimates.*;
 @Path("dataset/climate")
 @Secured
 @PermitAll
-public class DatasetClimateResource
+public class DatasetClimateResource extends ContextResource
 {
-	@Context
-	protected SecurityContext     securityContext;
-	@Context
-	protected HttpServletRequest  req;
-	@Context
-	protected HttpServletResponse resp;
-
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ViewTableClimates> getJson(DatasetRequest request)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "climate", request.getDatasetIds(), true);
 

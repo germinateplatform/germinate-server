@@ -6,29 +6,28 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.PhenotypesDatatype;
+import jhi.germinate.server.database.codegen.enums.ScalesDatatype;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTYPEDATA;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Scales.SCALES;
 import static jhi.germinate.server.database.codegen.tables.Treatments.TREATMENTS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 import static jhi.germinate.server.database.codegen.tables.ViewTableTraits.VIEW_TABLE_TRAITS;
 
 @Path("dataset/stats/trial")
@@ -39,14 +38,11 @@ public class TraitStatsResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public TraitDatasetStats postTraitStats(SubsettedDatasetRequest request)
-			throws IOException, SQLException
+	public TraitDatasetStats postTraitStats(TrialsExportDatasetRequest request)
+			throws SQLException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -57,32 +53,29 @@ public class TraitStatsResource extends ContextResource
 			requestedDatasetIds = datasetsForUser.stream().map(ViewTableDatasets::getDatasetId).collect(Collectors.toList());
 		else
 			requestedDatasetIds.retainAll(datasetsForUser.stream()
-														 .map(ViewTableDatasets::getDatasetId)
-														 .collect(Collectors.toList()));
+			                                             .map(ViewTableDatasets::getDatasetId)
+			                                             .collect(Collectors.toList()));
 
 		if (CollectionUtils.isEmpty(requestedDatasetIds))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 			// All traits within the selected datasets
 			SelectConditionStep<? extends Record> step = context.selectFrom(VIEW_TABLE_TRAITS)
-																.whereExists(DSL.selectOne()
-																				.from(PHENOTYPEDATA)
-																				.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-																				.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
-																				.and(PHENOTYPEDATA.PHENOTYPE_ID.eq(VIEW_TABLE_TRAITS.TRAIT_ID)));
+			                                                    .whereExists(DSL.selectOne()
+			                                                                    .from(PHENOTYPEDATA)
+			                                                                    .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+			                                                                    .where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
+			                                                                    .and(PHENOTYPEDATA.VARIABLE_ID.eq(VIEW_TABLE_TRAITS.VARIABLE_ID)));
 
-			if (!CollectionUtils.isEmpty(request.getXIds()))
-				step.and(VIEW_TABLE_TRAITS.TRAIT_ID.in(request.getXIds()));
+			if (!CollectionUtils.isEmpty(request.getTraitIds()))
+				step.and(VIEW_TABLE_TRAITS.VARIABLE_ID.in(request.getTraitIds()));
 
-			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.TRAIT_ID, ViewTableTraits.class);
+			Map<Integer, ViewTableTraits> traitMap = step.fetchMap(VIEW_TABLE_TRAITS.VARIABLE_ID, ViewTableTraits.class);
 			Map<Integer, ViewTableDatasets> datasetMap = datasetsForUser.stream()
-																		.collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
+			                                                            .collect(Collectors.toMap(ViewTableDatasets::getDatasetId, Function.identity()));
 			Map<Integer, Treatments> treatmentMap = new HashMap<>();
 			context.selectFrom(TREATMENTS).forEach(t -> treatmentMap.put(t.getId(), t.into(Treatments.class)));
 
@@ -91,56 +84,57 @@ public class TraitStatsResource extends ContextResource
 			TempStats tempStats = new TempStats();
 			DataType<BigDecimal> dt = SQLDataType.DECIMAL(64, 10);
 
-			Field<String> groupIds = CollectionUtils.isEmpty(request.getYGroupIds())
+			Field<String> groupIds = CollectionUtils.isEmpty(request.getGermplasmGroupIds())
 					? DSL.inline(null, SQLDataType.VARCHAR).as("groupIds")
 					: DSL.select(DSL.field("json_arrayagg(CONCAT(LEFT(groups.name, 10), IF(LENGTH(groups.name)>10, '...', '')))").cast(String.class))
-						 .from(GROUPMEMBERS)
-						 .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
-						 .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds()))
-						 .and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID)).asField("groupIds");
+					     .from(GROUPMEMBERS)
+					     .leftJoin(GROUPS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))
+					     .where(GROUPMEMBERS.GROUP_ID.in(request.getGermplasmGroupIds()))
+					     .and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID)).asField("groupIds");
 
 			// Run the query
 			SelectOnConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> dataStep = context.select(
 																													TRIALSETUP.DATASET_ID,
-																													PHENOTYPEDATA.PHENOTYPE_ID,
+																													PHENOTYPEDATA.VARIABLE_ID,
 																													TRIALSETUP.TREATMENT_ID,
 																													// Now, get the concatenated group names for the requested selection.
 																													groupIds,
-																													DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
+																													DSL.iif(SCALES.DATATYPE.ne(ScalesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 																											)
-																											.from(PHENOTYPEDATA)
-																											.leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-																											.leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID));
+			                                                                                                .from(PHENOTYPEDATA)
+			                                                                                                .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+			                                                                                                .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+			                                                                                                .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID));
 
 			// Restrict to dataset ids and phenotype ids
 			SelectConditionStep<Record5<Integer, Integer, Integer, String, BigDecimal>> condStep = dataStep.where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
-																										   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()));
+			                                                                                               .and(PHENOTYPEDATA.VARIABLE_ID.in(traitMap.keySet()));
 
 			SelectLimitStep<Record5<Integer, Integer, Integer, String, BigDecimal>> orderByStep;
 
 			// If a subselection was requested
-			if (!CollectionUtils.isEmpty(request.getYGroupIds()) || !CollectionUtils.isEmpty(request.getYIds()))
+			if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()) || !CollectionUtils.isEmpty(request.getGermplasmIds()))
 			{
 				// Then restrict this here to only the ones in the groups. We'll get the marked ones further down
-				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getYGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID))));
+				Condition groups = DSL.exists(DSL.selectOne().from(GROUPS.leftJoin(GROUPMEMBERS).on(GROUPS.ID.eq(GROUPMEMBERS.GROUP_ID))).where(GROUPS.GROUPTYPE_ID.eq(3).and(GROUPS.ID.in(request.getGermplasmGroupIds())).and(GROUPMEMBERS.FOREIGN_ID.eq(TRIALSETUP.GERMINATEBASE_ID))));
 
 				orderByStep = condStep.and(groups)
-									  .groupBy(PHENOTYPEDATA.ID)
-									  .having(groupIds.isNotNull())
-									  .orderBy(groupIds, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
+				                      .groupBy(PHENOTYPEDATA.ID)
+				                      .having(groupIds.isNotNull())
+				                      .orderBy(groupIds, PHENOTYPEDATA.VARIABLE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 			else
 			{
 				// If nothing specific was requested, order by dataset instead
-				orderByStep = dataStep.orderBy(TRIALSETUP.DATASET_ID, PHENOTYPEDATA.PHENOTYPE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
+				orderByStep = dataStep.orderBy(TRIALSETUP.DATASET_ID, PHENOTYPEDATA.VARIABLE_ID, TRIALSETUP.TREATMENT_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt));
 			}
 
-			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getYGroupIds());
+			boolean isGroupQuery = !CollectionUtils.isEmpty(request.getGermplasmGroupIds());
 
 			// This consumes the database result and generates the stats
 			Consumer<Record5<Integer, Integer, Integer, String, BigDecimal>> consumer = pd -> {
 				Integer datasetId = pd.get(TRIALSETUP.DATASET_ID);
-				Integer traitId = pd.get(PHENOTYPEDATA.PHENOTYPE_ID);
+				Integer traitId = pd.get(PHENOTYPEDATA.VARIABLE_ID);
 				Integer treatmentId = pd.get(TRIALSETUP.TREATMENT_ID);
 				String groupId = pd.get(groupIds);
 
@@ -178,26 +172,27 @@ public class TraitStatsResource extends ContextResource
 
 			// Now stream the result and consume it
 			orderByStep.stream()
-					   .forEachOrdered(consumer);
+			           .forEachOrdered(consumer);
 
 			// If marked items were requested, then get these as well separately
-			if (!CollectionUtils.isEmpty(request.getYIds()))
+			if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
 			{
 				context.select(
 							   TRIALSETUP.DATASET_ID,
-							   PHENOTYPEDATA.PHENOTYPE_ID,
+							   PHENOTYPEDATA.VARIABLE_ID,
 							   TRIALSETUP.TREATMENT_ID,
 							   DSL.inline("Marked items").as("groupIds"),
-							   DSL.iif(PHENOTYPES.DATATYPE.ne(PhenotypesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
+							   DSL.iif(SCALES.DATATYPE.ne(ScalesDatatype.numeric), "0", PHENOTYPEDATA.PHENOTYPE_VALUE).cast(dt).as("phenotype_value")
 					   )
-					   .from(PHENOTYPEDATA)
-					   .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
-					   .leftJoin(PHENOTYPES).on(PHENOTYPES.ID.eq(PHENOTYPEDATA.PHENOTYPE_ID))
-					   .where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
-					   .and(PHENOTYPEDATA.PHENOTYPE_ID.in(traitMap.keySet()))
-					   .and(TRIALSETUP.GERMINATEBASE_ID.in(request.getYIds()))
-					   .orderBy(PHENOTYPEDATA.PHENOTYPE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
-					   .forEach(consumer);
+				       .from(PHENOTYPEDATA)
+				       .leftJoin(TRIALSETUP).on(TRIALSETUP.ID.eq(PHENOTYPEDATA.TRIALSETUP_ID))
+				       .leftJoin(VARIABLES).on(VARIABLES.ID.eq(PHENOTYPEDATA.VARIABLE_ID))
+				       .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID))
+				       .where(TRIALSETUP.DATASET_ID.in(requestedDatasetIds))
+				       .and(PHENOTYPEDATA.VARIABLE_ID.in(traitMap.keySet()))
+				       .and(TRIALSETUP.GERMINATEBASE_ID.in(request.getGermplasmIds()))
+				       .orderBy(PHENOTYPEDATA.VARIABLE_ID, DSL.cast(PHENOTYPEDATA.PHENOTYPE_VALUE, dt))
+				       .forEach(consumer);
 			}
 
 
@@ -211,7 +206,7 @@ public class TraitStatsResource extends ContextResource
 			Set<Treatments> treatments = new LinkedHashSet<>();
 
 			result.setStats(stats.entrySet().stream()
-								 .map(entry -> {
+			                     .map(entry -> {
 									 String[] split = entry.getKey().split("\\|");
 //									 Integer datasetId = Integer.parseInt(split[0]);
 									 Integer datasetId = entry.getValue().getDatasetId();
@@ -232,7 +227,7 @@ public class TraitStatsResource extends ContextResource
 
 									 return q;
 								 })
-								 .collect(Collectors.toList()));
+			                     .collect(Collectors.toList()));
 
 			result.setDatasets(datasets);
 			result.setTraits(traits);
@@ -248,11 +243,11 @@ public class TraitStatsResource extends ContextResource
 		Quantiles q = new Quantiles();
 		q.setCount(tempStats.count);
 
-		if (tempStats.values.size() > 0)
+		if (!tempStats.values.isEmpty())
 		{
-			q.setMin(tempStats.values.get(0));
+			q.setMin(tempStats.values.getFirst());
 			q.setAvg(tempStats.avg / tempStats.values.size());
-			q.setMax(tempStats.values.get(tempStats.values.size() - 1));
+			q.setMax(tempStats.values.getLast());
 
 			if (tempStats.values.size() > 1)
 			{
@@ -273,9 +268,9 @@ public class TraitStatsResource extends ContextResource
 			else
 			{
 				// If there's only one value, just use it
-				q.setMedian(tempStats.values.get(0));
-				q.setQ1(tempStats.values.get(0));
-				q.setQ3(tempStats.values.get(0));
+				q.setMedian(tempStats.values.getFirst());
+				q.setQ1(tempStats.values.getFirst());
+				q.setQ3(tempStats.values.getFirst());
 			}
 		}
 

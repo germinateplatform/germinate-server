@@ -1,6 +1,7 @@
 package jhi.germinate.server.resource.groups;
 
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.Grouptypes;
@@ -10,7 +11,6 @@ import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
 import java.sql.*;
@@ -24,9 +24,8 @@ import static jhi.germinate.server.database.codegen.tables.Grouptypes.*;
 public class GroupTypeResource extends BaseResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public PaginatedResult<List<Grouptypes>> getJson()
+	public PaginatedResult<List<Grouptypes>> getGroupTypeTable()
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())

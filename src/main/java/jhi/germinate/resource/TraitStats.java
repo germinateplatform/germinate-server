@@ -12,6 +12,8 @@ import java.util.*;
 @ToString
 public class TraitStats
 {
+	private Integer            variableId;
+	private String             variableName;
 	private Integer            traitId;
 	private String             traitName;
 	private String             traitNameShort;
@@ -20,7 +22,7 @@ public class TraitStats
 	private Double             max;
 	private Integer            count;
 	private List<List<String>> categories;
-	private String dataType;
+	private String             dataType;
 
 	public TraitStats setCategories(String[][] categories)
 	{

@@ -445,32 +445,27 @@ public class AuthenticationFilter implements ContainerRequestFilter
 
 		public static boolean isAtLeast(UserType base, UserType atLeast)
 		{
-			switch (atLeast)
+			return switch (atLeast)
 			{
-				case ADMIN:
-					return base == UserType.ADMIN;
-				case DATA_CURATOR:
-					return base == UserType.ADMIN || base == UserType.DATA_CURATOR;
-				case AUTH_USER:
-					return base == UserType.ADMIN || base == UserType.DATA_CURATOR || base == UserType.AUTH_USER;
-			}
+				case ADMIN -> base == UserType.ADMIN;
+				case DATA_CURATOR -> base == UserType.ADMIN || base == UserType.DATA_CURATOR;
+				case AUTH_USER -> base == UserType.ADMIN || base == UserType.DATA_CURATOR || base == UserType.AUTH_USER;
+				default -> false;
+			};
 
-			return false;
 		}
 
 		public boolean isAtLeast(UserType atLeast)
 		{
-			switch (atLeast)
+			return switch (atLeast)
 			{
-				case ADMIN:
-					return userType == UserType.ADMIN;
-				case DATA_CURATOR:
-					return userType == UserType.ADMIN || userType == UserType.DATA_CURATOR;
-				case AUTH_USER:
-					return userType == UserType.ADMIN || userType == UserType.DATA_CURATOR || userType == UserType.AUTH_USER;
-			}
+				case ADMIN -> userType == UserType.ADMIN;
+				case DATA_CURATOR -> userType == UserType.ADMIN || userType == UserType.DATA_CURATOR;
+				case AUTH_USER ->
+						userType == UserType.ADMIN || userType == UserType.DATA_CURATOR || userType == UserType.AUTH_USER;
+				default -> false;
+			};
 
-			return false;
 		}
 
 		public Long getTimestamp()

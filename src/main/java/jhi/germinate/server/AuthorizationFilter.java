@@ -38,7 +38,6 @@ public class AuthorizationFilter implements ContainerRequestFilter
 
 	@Override
 	public void filter(ContainerRequestContext requestContext)
-			throws IOException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) requestContext.getSecurityContext().getUserPrincipal();
 
@@ -241,21 +240,16 @@ public class AuthorizationFilter implements ContainerRequestFilter
 
 			DATASET_ACCESS_INFO.clear();
 			DATASET_ACCESS_LICENSE_ACCEPTED_INFO.clear();
-			try
-			{
-				List<String> dsTypes = DatasetTableResource.getDatasetTypes();
-				AuthenticationFilter.UserDetails ud = new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE);
-				DATASET_ACCESS_INFO.put(ud, toMap(dsTypes, DatasetTableResource.getDatasetsForUser(ud, null)));
 
-				if (force)
-				{
-					for (AuthenticationFilter.UserDetails user : users)
-						ensureUserDatasetsAvailable(null, user);
-				}
-			}
-			catch (SQLException e)
+			// Unauth update
+			AuthenticationFilter.UserDetails ud = new AuthenticationFilter.UserDetails(-1000, null, null, UserType.UNKNOWN, AuthenticationFilter.AGE);
+			ensureUserDatasetsAvailable(null, ud);
+
+			if (force)
 			{
-				Logger.getLogger("").info(e.getMessage());
+				// Auth update
+				for (AuthenticationFilter.UserDetails user : users)
+					ensureUserDatasetsAvailable(null, user);
 			}
 		}
 	}

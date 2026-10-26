@@ -3,7 +3,7 @@ package jhi.germinate.server.resource.groups;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.gatekeeper.server.database.tables.pojos.ViewUserDetails;
 import jhi.germinate.resource.PaginatedRequest;
@@ -14,12 +14,11 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.Record;
 
-import java.io.IOException;
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.*;
-import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableGroups.VIEW_TABLE_GROUPS;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.VIEW_TABLE_PUBLICATIONS;
 
 @Path("publication/{publicationId}/group")
 @Secured
@@ -33,7 +32,7 @@ public class PublicationGroupTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGroups>> postPublicationGermplasmTable(PaginatedRequest request)
-		throws IOException, SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -43,15 +42,12 @@ public class PublicationGroupTableResource extends GermplasmBaseResource
 			DSLContext context = Database.getContext(conn);
 
 			ViewTablePublications pub = context.selectFrom(VIEW_TABLE_PUBLICATIONS)
-											   .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
-											   .and(VIEW_TABLE_PUBLICATIONS.GROUP_IDS.isNotNull())
-											   .fetchAnyInto(ViewTablePublications.class);
+			                                   .where(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID.eq(publicationId))
+			                                   .and(VIEW_TABLE_PUBLICATIONS.GROUP_IDS.isNotNull())
+			                                   .fetchAnyInto(ViewTablePublications.class);
 
 			if (pub == null)
-			{
-				resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-				return null;
-			}
+				return new PaginatedResult<>(new ArrayList<>(), 0);
 
 			Integer[] ids = pub.getGroupIds();
 
@@ -63,15 +59,15 @@ public class PublicationGroupTableResource extends GermplasmBaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_GROUPS);
 
 			from.where(VIEW_TABLE_GROUPS.GROUP_ID.in(ids))
-				.and(VIEW_TABLE_GROUPS.GROUP_VISIBILITY.eq(true)
-													   .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
+			    .and(VIEW_TABLE_GROUPS.GROUP_VISIBILITY.eq(true)
+			                                           .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
 			where(from, filters);
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableGroups.class);
+					.fetch()
+					.into(ViewTableGroups.class);
 
 
 			result.forEach(g -> {

@@ -5,6 +5,7 @@ import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -20,7 +21,6 @@ import org.jooq.impl.DSL;
 import java.io.File;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
@@ -74,30 +74,24 @@ public class PedigreeResource extends ExportResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postPedigreeTableExport(ExportRequest request)
-			throws SQLException, IOException
+	public StreamingOutput postPedigreeTableExport(ExportRequest request, @Context HttpServletResponse response)
+			throws SQLException
 	{
 		processRequest(request);
 
-		return export(VIEW_TABLE_PEDIGREES, "pedigree-table-", null);
+		return toStreamingResult(export(VIEW_TABLE_PEDIGREES, "pedigree-table-", null), "application/zip", response);
 	}
 
-	public static Response exportFlatFile(PedigreeRequest request, HttpServletRequest req, HttpServletResponse resp, SecurityContext securityContext)
-		throws IOException, SQLException
+	public static File exportFlatFile(PedigreeRequest request, HttpServletRequest req, SecurityContext securityContext)
+		throws IOException, SQLException, StatusException
 	{
 		if (request == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		List<Integer> datasets = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "pedigree", true);
 
 		if (CollectionUtils.isEmpty(datasets))
-		{
-			resp.sendError(Response.Status.NOT_FOUND.getStatusCode());
-			return null;
-		}
+			throw new NotFoundException();
 
 		File zipFile = ResourceUtils.createTempFile("pedigree", "zip");
 		try
@@ -135,15 +129,7 @@ public class PedigreeResource extends ExportResource
 						   parentToChildren.put(parent, parentList);
 					   });
 
-				try
-				{
-					export(context, bwH, parentToChildren, childrenToParents, request);
-				}
-				catch (GerminateException e)
-				{
-					resp.sendError(e.getStatus().getStatusCode(), e.getMessage());
-					return null;
-				}
+				export(context, bwH, parentToChildren, childrenToParents, request);
 
 				if (includeAttributes)
 				{
@@ -153,7 +139,7 @@ public class PedigreeResource extends ExportResource
 
 					procedure.execute(context.configuration());
 
-					ResourceUtils.exportToFile(bwA, procedure.getResults().get(0), true, null, "#heliumInput = PHENOTYPE");
+					ResourceUtils.exportToFile(bwA, procedure.getResults().getFirst(), true, null, "#heliumInput = PHENOTYPE");
 				}
 			}
 
@@ -162,34 +148,24 @@ public class PedigreeResource extends ExportResource
 			if (includeAttributes)
 				FileUtils.zipUp(zipFile, Arrays.asList(heliumFile, attributesFile));
 
-			java.nio.file.Path targetFilePath = target.toPath();
-			return Response.ok((StreamingOutput) output -> {
-							   Files.copy(targetFilePath, output);
-							   Files.deleteIfExists(targetFilePath);
-						   })
-						   .type(mt)
-						   .header("content-disposition", "attachment;filename= \"" + target.getName() + "\"")
-						   .header("content-length", target.length())
-						   .build();
+			return target;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 
 	private static void export(DSLContext context, PrintWriter bw, Map<String, List<ViewTablePedigreesRecord>> down, Map<String, List<ViewTablePedigreesRecord>> up, PedigreeRequest request)
-		throws GerminateException
 	{
 		bw.write("# heliumInput = PEDIGREE" + CRLF);
 		bw.write("LineName\tParent\tParentType" + CRLF);
 
-		if (CollectionUtils.isEmpty(request.getYGroupIds()) && CollectionUtils.isEmpty(request.getYIds()))
+		if (CollectionUtils.isEmpty(request.getGermplasmGroupIds()) && CollectionUtils.isEmpty(request.getGermplasmIds()))
 		{
-			if (down.size() < 1)
-				throw new GerminateException(Response.Status.NOT_FOUND);
+			if (down.isEmpty())
+				throw new NotFoundException();
 			else
 				down.forEach((p, cs) -> cs.forEach(c -> bw.write(c.getChildName() + "\t" + c.getParentName() + "\t" + c.getRelationshipType().getLiteral() + CRLF)));
 		}
@@ -202,28 +178,28 @@ public class PedigreeResource extends ExportResource
 																					.where(PEDIGREES.GERMINATEBASE_ID.eq(GERMINATEBASE.ID)
 																													 .or(PEDIGREES.PARENT_ID.eq(GERMINATEBASE.ID)))));
 
-			if (!CollectionUtils.isEmpty(request.getYIds()))
-				step.and(GERMINATEBASE.ID.in(request.getYIds()));
-			if (!CollectionUtils.isEmpty(request.getYGroupIds()))
+			if (!CollectionUtils.isEmpty(request.getGermplasmIds()))
+				step.and(GERMINATEBASE.ID.in(request.getGermplasmIds()));
+			if (!CollectionUtils.isEmpty(request.getGermplasmGroupIds()))
 				step.and(DSL.exists(DSL.selectOne()
 									   .from(GROUPMEMBERS)
-									   .where(GROUPMEMBERS.GROUP_ID.in(request.getYGroupIds())
+									   .where(GROUPMEMBERS.GROUP_ID.in(request.getGermplasmGroupIds())
 																   .and(GROUPMEMBERS.FOREIGN_ID.eq(GERMINATEBASE.ID)))));
 
 			List<String> requestedNames = step.orderBy(GERMINATEBASE.NAME)
 											  .fetchInto(String.class);
 
 			if (CollectionUtils.isEmpty(requestedNames))
-				throw new GerminateException(Response.Status.NOT_FOUND);
+				throw new NotFoundException();
 
 			int upLimit = requestedNames.size() == 1 ? 2 : 3;
 			int downLimit = requestedNames.size() == 1 ? 1 : 3;
 
 			// If specific limits have been requested, make sure they're in the interval [1, 5]
 			if (request.getLevelsUp() != null)
-				upLimit = Math.max(1, Math.min(5, request.getLevelsUp()));
+				upLimit = Math.clamp(request.getLevelsUp(), 1, 5);
 			if (request.getLevelsDown() != null)
-				downLimit = Math.max(1, Math.min(5, request.getLevelsDown()));
+				downLimit = Math.clamp(request.getLevelsDown(), 1, 5);
 
 			PedigreeWriter downWriter = new PedigreeWriter(bw, down, false, downLimit);
 			PedigreeWriter upWriter = new PedigreeWriter(bw, up, true, upLimit);
@@ -309,9 +285,8 @@ public class PedigreeResource extends ExportResource
 		@Override
 		public boolean equals(Object obj)
 		{
-			if (obj instanceof Edge)
+			if (obj instanceof Edge e)
 			{
-				Edge e = (Edge) obj;
 				return Objects.equals(from, e.from) && Objects.equals(to, e.to);
 			}
 			else

@@ -1,5 +1,6 @@
 package jhi.germinate.server.resource.germplasm;
 
+import jakarta.ws.rs.core.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.pojo.TaxonCount;
 import jhi.germinate.server.util.Secured;
@@ -8,7 +9,7 @@ import org.jooq.impl.DSL;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
+
 import java.sql.*;
 
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
@@ -20,7 +21,6 @@ import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
 public class GermplasmTaxonomyResource
 {
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public TaxonCount getTaxonomies()
 		throws SQLException

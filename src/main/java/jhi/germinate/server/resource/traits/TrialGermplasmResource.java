@@ -11,7 +11,6 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -24,7 +23,7 @@ public class TrialGermplasmResource extends TrialsDataBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableTrialsData>> postTrialGermplasm(PaginatedDatasetRequest request, @QueryParam("isGermplasm") @DefaultValue("false") Boolean isGermplasm)
-		throws IOException, SQLException
+		throws SQLException
 	{
 		List<Integer> requestedIds = AuthorizationFilter.restrictDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), "trials", request.getDatasetIds(), true);
 

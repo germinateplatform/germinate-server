@@ -4,7 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.*;
@@ -69,7 +69,7 @@ public class DatasetCollaboratorTableResource extends BaseResource
 		}
 	}
 
-	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, HttpServletRequest req, HttpServletResponse resp, AuthenticationFilter.UserDetails userDetails)
+	public static List<ViewTableCollaborators> getCollaboratorsForDataset(int datasetId, HttpServletRequest req, AuthenticationFilter.UserDetails userDetails)
 		throws SQLException
 	{
 		try (Connection conn = Database.getConnection())

@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.datasets;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.*;
@@ -13,13 +15,12 @@ import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
-import java.io.File;
 import java.io.*;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
+import java.util.Date;
 
 import static jhi.germinate.server.database.codegen.tables.Climates.CLIMATES;
 import static jhi.germinate.server.database.codegen.tables.Datasetlocations.DATASETLOCATIONS;
@@ -27,8 +28,9 @@ import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINA
 import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
 import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
 import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
-import static jhi.germinate.server.database.codegen.tables.Phenotypes.PHENOTYPES;
+import static jhi.germinate.server.database.codegen.tables.Scales.SCALES;
 import static jhi.germinate.server.database.codegen.tables.Units.UNITS;
+import static jhi.germinate.server.database.codegen.tables.Variables.VARIABLES;
 
 @Path("dataset/crosscomparison")
 @Secured
@@ -38,14 +40,11 @@ public class DatasetCrossDataTypeResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response postDatasetCrossDataType(DatasetCrossDataTypeRequest request)
+	public StreamingOutput postDatasetCrossDataType(DatasetCrossDataTypeRequest request, @Context HttpServletResponse response)
 			throws IOException, SQLException
 	{
 		if (request == null || request.getFirst() == null || request.getSecond() == null || request.getFirst().getType() == null || request.getSecond().getType() == null)
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		DatasetCrossDataTypeRequest.Config first = request.getFirst();
 		DatasetCrossDataTypeRequest.Config second = request.getSecond();
@@ -98,10 +97,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			if (f == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN && s == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN)
 			{
 				if (StringUtils.isEmpty(first.getColumnName()) || StringUtils.isEmpty(second.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String firstColumnName = Filter.getSafeColumn(first.getColumnName());
 				String secondColumnName = Filter.getSafeColumn(second.getColumnName());
@@ -115,10 +111,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 												  .findAny();
 
 				if (firstField.isEmpty() || secondField.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String firstDisplayName = firstColumnName.replace("_", " ");
 				firstDisplayName = firstDisplayName.substring(0, 1).toUpperCase() + firstDisplayName.substring(1);
@@ -145,10 +138,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
 
 				if (climate.getId() == null || StringUtils.isEmpty(germplasm.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String germplasmColumn = Filter.getSafeColumn(germplasm.getColumnName());
 
@@ -161,10 +151,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 											.findAny();
 
 				if (field.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String displayName = germplasmColumn.replace("_", " ");
 				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
@@ -189,10 +176,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				DatasetCrossDataTypeRequest.Config germplasm = first.getType() == DatasetCrossDataTypeRequest.DataType.GERMPLASM_COLUMN ? first : second;
 
 				if (trait.getId() == null || StringUtils.isEmpty(germplasm.getColumnName()))
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String germplasmColumn = Filter.getSafeColumn(germplasm.getColumnName());
 
@@ -206,10 +190,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 											.findAny();
 
 				if (field.isEmpty())
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				String displayName = germplasmColumn.replace("_", " ");
 				displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
@@ -224,17 +205,14 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(y).on(y.GERMPLASM_ID.eq(GERMINATEBASE.ID))
-							  .where(x.PHENOTYPE_ID.eq(trait.getId()));
+							  .where(x.VARIABLE_ID.eq(trait.getId()));
 
 				addFiltering(step, userDetails, trait, germplasm, xs.GERMINATEBASE_ID, y.GERMPLASM_ID, xs.DATASET_ID, xs.DATASET_ID);
 			}
 			else if (f == DatasetCrossDataTypeRequest.DataType.TRAIT && s == DatasetCrossDataTypeRequest.DataType.TRAIT)
 			{
 				if (first.getId() == null || second.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				Map<Integer, String> traits = getTraitMapping(context, first.getId(), second.getId());
 
@@ -254,8 +232,8 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(ys).on(ys.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(y).on(y.TRIALSETUP_ID.eq(ys.ID))
-							  .where(x.PHENOTYPE_ID.eq(first.getId()))
-							  .and(y.PHENOTYPE_ID.eq(second.getId()));
+							  .where(x.VARIABLE_ID.eq(first.getId()))
+							  .and(y.VARIABLE_ID.eq(second.getId()));
 
 				addFiltering(step, userDetails, first, second, xs.GERMINATEBASE_ID, ys.GERMINATEBASE_ID, xs.DATASET_ID, ys.DATASET_ID);
 			}
@@ -266,10 +244,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 				DatasetCrossDataTypeRequest.Config climate = first.getType() == DatasetCrossDataTypeRequest.DataType.CLIMATE ? first : second;
 
 				if (trait.getId() == null || climate.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				Map<Integer, String> traits = getTraitMapping(context, trait.getId());
 				Map<Integer, String> climates = getClimateMapping(context, climate.getId());
@@ -288,7 +263,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 							  .leftJoin(xs).on(xs.GERMINATEBASE_ID.eq(GERMINATEBASE.ID))
 							  .leftJoin(x).on(x.TRIALSETUP_ID.eq(xs.ID))
 							  .leftJoin(y).on(y.LOCATION_ID.in(DSL.select(DATASETLOCATIONS.LOCATION_ID).from(DATASETLOCATIONS).where(DATASETLOCATIONS.DATASET_ID.in(trait.getDatasetIds()))))
-							  .where(x.PHENOTYPE_ID.eq(trait.getId()))
+							  .where(x.VARIABLE_ID.eq(trait.getId()))
 							  .and(y.CLIMATE_ID.eq(climate.getId()));
 
 				addFiltering(step, userDetails, trait, climate, xs.GERMINATEBASE_ID, y.LOCATION_ID, xs.DATASET_ID, y.DATASET_ID);
@@ -296,10 +271,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			else if (f == DatasetCrossDataTypeRequest.DataType.CLIMATE && s == DatasetCrossDataTypeRequest.DataType.CLIMATE)
 			{
 				if (first.getId() == null || second.getId() == null)
-				{
-					resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-					return null;
-				}
+					throw new BadRequestException();
 
 				Map<Integer, String> climates = getClimateMapping(context, first.getId(), second.getId());
 
@@ -335,15 +307,7 @@ public class DatasetCrossDataTypeResource extends ContextResource
 			}
 		}
 
-		java.nio.file.Path target = resultFile.toPath();
-		return Response.ok((StreamingOutput) output -> {
-						   Files.copy(target, output);
-						   Files.deleteIfExists(target);
-					   })
-					   .type(MediaType.TEXT_PLAIN)
-					   .header("content-disposition", "attachment;filename= \"" + resultFile.getName() + "\"")
-					   .header("content-length", resultFile.length())
-					   .build();
+		return toStreamingResult(resultFile, MediaType.TEXT_PLAIN, response);
 	}
 
 	private void addFiltering(SelectConditionStep<?> step, AuthenticationFilter.UserDetails userDetails, DatasetCrossDataTypeRequest.Config first, DatasetCrossDataTypeRequest.Config second, TableField<?, Integer> firstItemId, TableField<?, Integer> secondItemId, TableField<?, Integer> firstDatasetId, TableField<?, Integer> secondDatasetId)
@@ -381,11 +345,11 @@ public class DatasetCrossDataTypeResource extends ContextResource
 	private Map<Integer, String> getTraitMapping(DSLContext context, Integer... ids)
 	{
 		// Get the trait names including units. Map id to concat name.
-		Field<String> traitUnit = DSL.concat(PHENOTYPES.NAME, DSL.iif(PHENOTYPES.UNIT_ID.isNull().or(UNITS.UNIT_ABBREVIATION.isNull()), "", DSL.concat(" [", UNITS.UNIT_ABBREVIATION).concat("]")));
-		return context.select(PHENOTYPES.ID, traitUnit)
-					  .from(PHENOTYPES)
-					  .leftJoin(UNITS).on(UNITS.ID.eq(PHENOTYPES.UNIT_ID))
-					  .where(PHENOTYPES.ID.in(ids))
-					  .fetchMap(PHENOTYPES.ID, traitUnit);
+		Field<String> traitUnit = DSL.concat(VARIABLES.NAME, DSL.iif(VARIABLES.SCALE_ID.isNull().or(SCALES.UNIT.isNull()), "", DSL.concat(" [", SCALES.UNIT).concat("]")));
+		return context.select(VARIABLES.ID, traitUnit)
+					  .from(VARIABLES)
+					  .leftJoin(SCALES).on(SCALES.ID.eq(VARIABLES.SCALE_ID))
+					  .where(VARIABLES.ID.in(ids))
+					  .fetchMap(VARIABLES.ID, traitUnit);
 	}
 }

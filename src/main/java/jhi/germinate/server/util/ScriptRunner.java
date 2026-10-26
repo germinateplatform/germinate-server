@@ -153,7 +153,7 @@ public class ScriptRunner
 				}
 				String trimmedLine = line.trim();
 				final Matcher delimMatch = delimP.matcher(trimmedLine);
-				if (trimmedLine.length() < 1
+				if (trimmedLine.isEmpty()
 					|| trimmedLine.startsWith("//"))
 				{
 					// Do nothing
@@ -168,7 +168,7 @@ public class ScriptRunner
 				{
 					println(trimmedLine);
 				}
-				else if (trimmedLine.length() < 1
+				else if (trimmedLine.isEmpty()
 					|| trimmedLine.startsWith("--"))
 				{
 					// Do nothing

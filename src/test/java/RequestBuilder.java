@@ -21,7 +21,7 @@ import java.util.logging.*;
 @Builder
 public class RequestBuilder<T, U>
 {
-	protected static String URL = "http://localhost:8180/germinate-demo-api/v4.9.0/api/";
+	protected static String URL = "http://localhost:8180/germinate-demo-next-api/v5.0.0/api/";
 	protected static Client client;
 
 	@Builder.Default
@@ -135,7 +135,7 @@ public class RequestBuilder<T, U>
 	{
 		@Override
 		public ULong deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-				throws IOException, JacksonException
+				throws IOException
 		{
 			JsonNode node = jsonParser.getCodec().readTree(jsonParser);
 
@@ -161,7 +161,6 @@ public class RequestBuilder<T, U>
 
 		@Override
 		public void filter(ClientRequestContext requestContext)
-				throws IOException
 		{
 			LOG.log(Level.INFO, "PATH: " + requestContext.getUri().toString() + "\n" + "COOKIES: " + requestContext.getCookies().toString());
 

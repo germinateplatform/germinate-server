@@ -19,23 +19,23 @@ package jhi.germinate.server.util.tasks;
 
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
-import jhi.germinate.server.database.codegen.tables.records.*;
+import jhi.germinate.server.database.codegen.tables.records.McpdRecord;
 import jhi.germinate.server.util.StringUtils;
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
 import java.util.*;
 import java.util.logging.*;
 
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Links.*;
-import static jhi.germinate.server.database.codegen.tables.Linktypes.*;
-import static jhi.germinate.server.database.codegen.tables.Locations.*;
-import static jhi.germinate.server.database.codegen.tables.Mcpd.*;
-import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
-import static jhi.germinate.server.database.codegen.tables.Taxonomies.*;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Links.LINKS;
+import static jhi.germinate.server.database.codegen.tables.Linktypes.LINKTYPES;
+import static jhi.germinate.server.database.codegen.tables.Locations.LOCATIONS;
+import static jhi.germinate.server.database.codegen.tables.Mcpd.MCPD;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.PEDIGREES;
+import static jhi.germinate.server.database.codegen.tables.Taxonomies.TAXONOMIES;
 
 /**
  * Calculates Passport Data Completeness Index (PDCI) for all accessions.
@@ -57,14 +57,14 @@ public class PDCITask implements Runnable
 		{
 			DSLContext context = Database.getContext(conn);
 			long start = System.currentTimeMillis();
-			final List<Integer> hasLink;
+			final Set<Integer> hasLink;
 
 			// First, check if there's a generic link for all accessions
 			boolean hasGenericLink = context.selectCount()
 											.from(LINKS.leftJoin(LINKTYPES).on(LINKS.LINKTYPE_ID.eq(LINKTYPES.ID)))
 											.where(LINKTYPES.TARGET_TABLE.eq("germinatebase"))
 											.and(LINKTYPES.PLACEHOLDER.isNotNull())
-											.fetchAnyInto(Integer.class) != 0;
+											.fetchOneInto(Integer.class) != 0;
 
 			// If there isn't then check individuals
 			if (!hasGenericLink)
@@ -74,24 +74,25 @@ public class PDCITask implements Runnable
 								 .leftJoin(LINKS).on(LINKS.FOREIGN_ID.eq(GERMINATEBASE.ID))
 								 .leftJoin(LINKTYPES).on(LINKTYPES.ID.eq(LINKS.LINKTYPE_ID))
 								 .where(LINKTYPES.TARGET_TABLE.eq("germinatebase"))
-								 .fetchInto(Integer.class);
+								 .fetchSet(GERMINATEBASE.ID);
 			}
 			else
 			{
-				hasLink = new ArrayList<>();
+				hasLink = new HashSet<>();
 			}
 
-			List<Integer> hasPedigree = context.selectDistinct(DSL.field("id"))
-											   .from(DSL.selectDistinct(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.as("id")).from(PEDIGREEDEFINITIONS)
-														.unionAll(DSL.selectDistinct(PEDIGREES.GERMINATEBASE_ID.as("id")).from(PEDIGREES)))
-											   .fetchInto(Integer.class);
-			List<Integer> hasStorage = context.selectDistinct(MCPD.GERMINATEBASE_ID)
-											  .from(MCPD)
-											  .where(MCPD.STORAGE.isNotNull())
-											  .fetchInto(Integer.class);
+			Field<Integer> id = DSL.field("id", Integer.class);
+			Set<Integer> hasPedigree = context.selectDistinct(id)
+											  .from(DSL.selectDistinct(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.as("id")).from(PEDIGREEDEFINITIONS)
+													   .unionAll(DSL.selectDistinct(PEDIGREES.GERMINATEBASE_ID.as("id")).from(PEDIGREES)))
+											  .fetchSet(id);
+			Set<Integer> hasStorage = context.selectDistinct(MCPD.GERMINATEBASE_ID)
+											 .from(MCPD)
+											 .where(MCPD.STORAGE.isNotNull())
+											 .fetchSet(MCPD.GERMINATEBASE_ID);
 
 			Map<Integer, McpdRecord> mcpds = context.selectFrom(MCPD)
-												   .fetchMap(MCPD.GERMINATEBASE_ID);
+													.fetchMap(MCPD.GERMINATEBASE_ID);
 
 			taxonomies = context.selectFrom(TAXONOMIES).fetchMap(TAXONOMIES.ID, Taxonomies.class);
 			locations = context.selectFrom(LOCATIONS).fetchMap(LOCATIONS.ID, Locations.class);
@@ -103,31 +104,24 @@ public class PDCITask implements Runnable
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation storage cache: " + hasStorage.size());
 
 			List<Germinatebase> accessions = context.selectFrom(GERMINATEBASE)
-					.where(GERMINATEBASE.ENTITYTYPE_ID.eq(1)) // Just the accessions
-					.fetchInto(Germinatebase.class);
+													.where(GERMINATEBASE.ENTITYTYPE_ID.eq(1)) // Just the accessions
+													.fetchInto(Germinatebase.class);
 
-			for (Germinatebase g : accessions) {
-				boolean gLink = false;
-				boolean gPedigree = false;
-				boolean gStorage = false;
-				if (hasGenericLink || hasLink.contains(g.getId())) {
-					hasLink.remove((g.getId()));
-					gLink = true;
-				}
-				if (hasPedigree.contains(g.getId())) {
-					hasPedigree.remove(g.getId());
-					gPedigree = true;
-				}
-				if (hasStorage.contains(g.getId())) {
-					hasStorage.remove(g.getId());
-					gStorage = true;
-				}
+			// Collect results instead of updating inside the loop
+			List<Object[]> updates = new ArrayList<>(accessions.size());
+
+			for (Germinatebase g : accessions)
+			{
+				boolean gLink = hasGenericLink || hasLink.contains(g.getId());
+				boolean gPedigree = hasPedigree.contains(g.getId());
+				boolean gStorage = hasStorage.contains(g.getId());
 
 				McpdRecord mcpd = mcpds.get(g.getId());
 
 				double value = calculateGenericPart(g, mcpd, gLink, gStorage);
 
-				switch ((mcpd != null && mcpd.getSampstat() != null) ? (mcpd.getSampstat() / 100) : -1) {
+				switch ((mcpd != null && mcpd.getSampstat() != null) ? (mcpd.getSampstat() / 100) : -1)
+				{
 					case 1:
 					case 2:
 						value += calculateWildWeedy(g, mcpd);
@@ -149,8 +143,23 @@ public class PDCITask implements Runnable
 				// Divide by 100 to get a value between 0 and 10.
 				value /= 100d;
 
-				context.update(GERMINATEBASE).set(GERMINATEBASE.PDCI, value).where(GERMINATEBASE.ID.eq(g.getId())).execute();
+				updates.add(new Object[]{value, g.getId()});
 			}
+
+			// Write everything in one transaction
+			context.transaction(cfg -> {
+				DSLContext tx = DSL.using(cfg);
+
+				BatchBindStep batch = tx.batch(
+						tx.update(GERMINATEBASE)
+						  .set(GERMINATEBASE.PDCI, (Double) null)
+						  .where(GERMINATEBASE.ID.eq((Integer) null)));
+
+				for (Object[] u : updates)
+					batch.bind(u);
+
+				batch.execute();
+			});
 
 			Logger.getLogger("").log(Level.INFO, "PDCI calculation complete in " + (System.currentTimeMillis() - start) + "ms");
 		}
@@ -178,12 +187,15 @@ public class PDCITask implements Runnable
 				if (!StringUtils.isEmpty(taxonomy.getSpeciesAuthor()))
 					value += 5;
 				if (!StringUtils.isEmpty(taxonomy.getSubtaxa()))
+				{
 					value += 40;
-				if (!StringUtils.isEmpty(taxonomy.getSubtaxaAuthor()))
-					value += 5;
-				if (!StringUtils.isEmpty(taxonomy.getCropname()))
-					value += 45;
+					if (!StringUtils.isEmpty(taxonomy.getSubtaxaAuthor()))
+						value += 5;
+				}
 			}
+
+			if (!StringUtils.isEmpty(taxonomy.getCropname()))
+				value += 45;
 		}
 
 		if (!StringUtils.isEmpty(mcpd.getAcqdate()))
@@ -191,10 +203,9 @@ public class PDCITask implements Runnable
 
 		if (mcpd.getSampstat() != null)
 			value += 80;
+
 		if (!StringUtils.isEmpty(mcpd.getDonorcode()))
 			value += 40;
-		else if (!StringUtils.isEmpty(mcpd.getDonorname()))
-			value += 20;
 		if (!StringUtils.isEmpty(mcpd.getDonornumb()))
 		{
 			if (StringUtils.isEmpty(mcpd.getDonorcode()) && StringUtils.isEmpty(mcpd.getDonorname()))
@@ -202,6 +213,7 @@ public class PDCITask implements Runnable
 			else
 				value += 40;
 		}
+
 		if (!StringUtils.isEmpty(mcpd.getOthernumb()))
 			value += 35;
 		if (!StringUtils.isEmpty(mcpd.getDuplsite()))

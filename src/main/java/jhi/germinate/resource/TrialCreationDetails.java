@@ -15,10 +15,12 @@ public class TrialCreationDetails
 	private List<PlotDetails> plots;
 
 	@NoArgsConstructor
+	@AllArgsConstructor
 	@Getter
 	@Setter
 	@Accessors(chain = true)
 	public static class PlotDetails {
+		private String id;
 		private Short row;
 		private Short column;
 		private String germplasm;

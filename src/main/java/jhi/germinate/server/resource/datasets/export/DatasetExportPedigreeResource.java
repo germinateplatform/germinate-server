@@ -19,7 +19,6 @@ import jhi.oddjob.JobInfo;
 import org.jooq.*;
 
 import java.io.File;
-import java.io.*;
 import java.sql.*;
 import java.util.*;
 
@@ -34,20 +33,17 @@ public class DatasetExportPedigreeResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<AsyncExportResult> postJson(PedigreeRequest request)
-		throws IOException, SQLException
+	public List<AsyncExportResult> postPedigreeAsyncExport(PedigreeRequest request)
+		throws StatusException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return null;
-		}
+			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		List<Integer> datasetIds = AuthorizationFilter.restrictDatasetIds(req, userDetails, "pedigree", request.getDatasetIds(), true);
 
-		if (datasetIds.size() < 1)
+		if (datasetIds.isEmpty())
 			return new ArrayList<>();
 
 		List<AsyncExportResult> result = new ArrayList<>();
@@ -64,7 +60,7 @@ public class DatasetExportPedigreeResource extends ContextResource
 				String uuid = UUID.randomUUID().toString();
 
 				// Get the target folder for all generated files
-				File asyncFolder = ResourceUtils.getFromExternal(resp, uuid, "async");
+				File asyncFolder = ResourceUtils.getFromExternal(uuid, "async");
 				asyncFolder.mkdirs();
 
 				Integer[] array = {ds.getDatasetId()};
@@ -78,10 +74,8 @@ public class DatasetExportPedigreeResource extends ContextResource
 				dbJob.setDatatype(DataExportJobsDatatype.pedigree);
 				dbJob.setJobConfig(new ExportJobDetails()
 					.setBaseFolder(PropertyWatcher.get(ServerProperty.DATA_DIRECTORY_EXTERNAL))
-					.setXIds(request.getXIds())
-					.setXGroupIds(request.getXGroupIds())
-					.setYIds(request.getYIds())
-					.setYGroupIds(request.getYGroupIds())
+					.setYIds(request.getGermplasmIds())
+					.setYGroupIds(request.getGermplasmGroupIds())
 					.setExportParams(request.getIncludeAttributes() ? new String[]{"includeAttributes"} : null));
 				dbJob.setStatus(DataExportJobsStatus.waiting);
 				if (userDetails.getId() != -1000)
@@ -125,8 +119,7 @@ public class DatasetExportPedigreeResource extends ContextResource
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			resp.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
-			return null;
+			throw new InternalServerErrorException();
 		}
 	}
 }

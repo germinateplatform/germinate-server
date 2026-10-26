@@ -13,11 +13,11 @@ import lombok.experimental.Accessors;
 @ToString
 public class PaginatedRequest
 {
-	private String   orderBy;
-	private Integer  ascending;
-	private int      limit     = Integer.MAX_VALUE;
-	private int      page      = 0;
-	private long     prevCount = -1;
-	private boolean  minimal   = false;
-	private Filter[] filter;
+	private String        orderBy;
+	private Integer       ascending;
+	private int           limit     = Integer.MAX_VALUE;
+	private int           page      = 0;
+	private long          prevCount = -1;
+	private boolean       minimal   = false;
+	private FilterGroup[] filters;
 }

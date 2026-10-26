@@ -1,8 +1,11 @@
 package jhi.germinate.resource.enums;
 
+import lombok.Getter;
+
 /**
  * @author Sebastian Raubach
  */
+@Getter
 public enum ServerProperty
 {
 	AUTHENTICATION_MODE("authentication.mode", "NONE", true),
@@ -14,7 +17,7 @@ public enum ServerProperty
 	COLOR_PRIMARY("color.primary", null, false),
 	COMMENTS_ENABLED("comments.enabled", "true", false),
 	DASHBOARD_CATEGORIES("dashboard.categories", "germplasm,markers,traits,locations", false),
-	DASHBOARD_SECTIONS("dashboard.sections", "publications,news,projects,dataupdates,datastories", false),
+	DASHBOARD_SECTIONS("dashboard.sections", "news,publications,datastories,dataupdates", false),
 	DATA_DIRECTORY_EXTERNAL("data.directory.external", "/data/germinate", true),
 	DATA_IMPORT_MODE("data.import.mode", "NONE", false),
 	DATABASE_SERVER("database.server", null, true),
@@ -34,7 +37,7 @@ public enum ServerProperty
 	GATEKEEPER_REGISTRATION_ENABLED("gatekeeper.registration.enabled", "false", false),
 	GATEKEEPER_REGISTRATION_REQUIRES_APPROVAL("gatekeeper.registration.requires.approval", "true", false),
 	GOOGLE_ANALYTICS_KEY("google.analytics.key", null, false),
-	HIDDEN_COLUMNS_GERMPLASM("hidden.columns.germplasm", "entityParentName,entityParentGeneralIdentifier,institutionId,institutionName,latitude,longitude,collDate", false),
+	HIDDEN_COLUMNS_GERMPLASM("hidden.columns.germplasm", "entityParentName,entityParentGeneralIdentifier,taxonomyId,institutionId,institutionName,latitude,longitude,collDate", false),
 	HIDDEN_COLUMNS_GERMPLASM_ATTRIBUTES("hidden.columns.germplasm.attributes", null, false),
 	HIDDEN_COLUMNS_IMAGES("hidden.columns.images", null, false),
 	HIDDEN_COLUMNS_CLIMATES("hidden.columns.climates", null, false),
@@ -53,7 +56,7 @@ public enum ServerProperty
 	HIDDEN_COLUMNS_LOCATIONS("hidden.columns.locations", null, false),
 	HIDDEN_COLUMNS_PEDIGREES("hidden.columns.pedigrees", null, false),
 	HIDDEN_COLUMNS_PEDIGREEDEFIITIONS("hidden.columns.pedigreedefinitions", "pedigreeNotationDescription,pedigreeDescriptionDescription", false),
-	HIDDEN_COLUMNS_TRAITS("hidden.columns.traits", null, false),
+	HIDDEN_COLUMNS_TRAITS("hidden.columns.traits", "traitId,scaleId,methodId", false),
 	HIDDEN_COLUMNS_TRIALS_DATA("hidden.columns.trials.data", "traitId", false),
 	HIDDEN_COLUMNS_COLLABORATORS("hidden.columns.collaborators", null, false),
 	HIDDEN_COLUMNS_PUBLICATIONS("hidden.columns.publications", null, false),
@@ -65,6 +68,7 @@ public enum ServerProperty
 	FIELDHUB_URL("fieldhub.url", "https://ics.hutton.ac.uk/fieldhub/", false),
 	MYSQLDUMP_PATH("mysqldump.path", null, false),
 	GRPD_NOTIFICATION_ENABLED("gdpr.notification.enabled", "false", false),
+	DONATIONS_SECTION_ENABLED("donations.section.enabled", "true", false),
 	HIDDEN_PAGES("hidden.pages", null, false),
 	HIDDEN_PAGES_AUTODISCOVER("hidden.pages.autodiscover", "false", true),
 	PDCI_ENABLED("pdci.enabled", "true", false),
@@ -92,18 +96,4 @@ public enum ServerProperty
 		this.required = required;
 	}
 
-	public String getKey()
-	{
-		return key;
-	}
-
-	public String getDefaultValue()
-	{
-		return defaultValue;
-	}
-
-	public boolean isRequired()
-	{
-		return required;
-	}
 }

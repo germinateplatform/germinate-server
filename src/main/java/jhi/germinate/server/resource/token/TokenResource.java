@@ -16,6 +16,8 @@
 
 package jhi.germinate.server.resource.token;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.gatekeeper.resource.*;
 import jhi.gatekeeper.server.database.tables.pojos.*;
@@ -24,10 +26,7 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
-import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
-
-import jakarta.ws.rs.*;
 import jhi.germinate.server.util.StatusMessage;
 
 import java.io.IOException;
@@ -45,58 +44,44 @@ public class TokenResource extends ContextResource
 	@Secured
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteToken(LoginDetails user)
-		throws IOException
+	public boolean deleteToken(LoginDetails user, @Context HttpServletResponse response)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		if (mode == AuthenticationMode.NONE)
-		{
-			return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-				.build();
-		}
+			throw new ServiceUnavailableException();
 
 		if (user == null)
-		{
-			return Response.status(Response.Status.NOT_FOUND)
-						   .build();
-		}
+			throw new NotFoundException();
 
 		AuthenticationFilter.UserDetails sessionUser = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		if (sessionUser == null || !Objects.equals(sessionUser.getToken(), user.getPassword()))
-		{
-			return Response.status(Response.Status.FORBIDDEN)
-						   .build();
-		}
+			throw new ForbiddenException();
 
 		try
 		{
 			// Try and see if it's a valid UUID
 			UUID.fromString(user.getPassword());
-			AuthenticationFilter.removeToken(user.getPassword(), req, resp);
-			return Response.ok(true).build();
+			AuthenticationFilter.removeToken(user.getPassword(), req, response);
+			return true;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return Response.ok(false).build();
+			return false;
 		}
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response postToken(LoginDetails request)
-		throws IOException
+	public jhi.germinate.resource.Token postToken(LoginDetails request, @Context HttpServletResponse response)
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
 		if (mode == AuthenticationMode.NONE)
-		{
-			return Response.status(Response.Status.SERVICE_UNAVAILABLE)
-				.build();
-		}
+			throw new ServiceUnavailableException();
 
 		boolean canAccess;
 		String userType;
@@ -106,10 +91,10 @@ public class TokenResource extends ContextResource
 		user.setPassword(request.getPassword());
 		try
 		{
-			retrofit2.Response<Token> response = GatekeeperClient.get().postToken(user).execute();
-			Token token = response.body();
+			retrofit2.Response<Token> gkResponse = GatekeeperClient.get().postToken(user).execute();
+			Token token = gkResponse.body();
 
-			if (response.isSuccessful() && token != null)
+			if (gkResponse.isSuccessful() && token != null)
 			{
 				user.setId(token.getId());
 				retrofit2.Response<PaginatedResult<List<ViewUserPermissions>>> permissions = GatekeeperClient.get().getUserPermissions(token.getId(), Database.getDatabaseServer(), Database.getDatabaseName(), 0, Integer.MAX_VALUE).execute();
@@ -117,15 +102,14 @@ public class TokenResource extends ContextResource
 				if (permissions.isSuccessful() && permissions.body() != null)
 				{
 					userType = permissions.body().getData().stream()
-										  .map(ViewUserPermissions::getUserType)
-										  .filter(p -> !Objects.equals(p, "Suspended User"))
-										  .findFirst()
-										  .orElse(null);
+					                      .map(ViewUserPermissions::getUserType)
+					                      .filter(p -> !Objects.equals(p, "Suspended User"))
+					                      .findFirst()
+					                      .orElse(null);
 
 					if (StringUtils.isEmpty(userType))
 					{
-						return Response.status(Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INSUFFICIENT_PERMISSIONS.name())
-									   .build();
+						throw new ForbiddenException(StatusMessage.FORBIDDEN_INSUFFICIENT_PERMISSIONS.name());
 					}
 					else
 					{
@@ -134,21 +118,18 @@ public class TokenResource extends ContextResource
 				}
 				else
 				{
-					return Response.status(Response.Status.BAD_REQUEST)
-								   .build();
+					throw new BadRequestException();
 				}
 			}
 			else
 			{
-				return Response.status(Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name())
-							   .build();
+				throw new ForbiddenException(StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			return Response.status(Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name())
-						   .build();
+			throw new ForbiddenException(StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 		}
 
 		String token;
@@ -158,17 +139,15 @@ public class TokenResource extends ContextResource
 		{
 			token = UUID.randomUUID().toString();
 			imageToken = UUID.randomUUID().toString();
-			AuthenticationFilter.UserDetails details = AuthenticationFilter.addToken(this.req, this.resp, token, imageToken, userType, user.getId());
+			AuthenticationFilter.UserDetails details = AuthenticationFilter.addToken(req, response, token, imageToken, userType, user.getId());
 
 			AuthorizationFilter.ensureUserDatasetsAvailable(req, details);
 		}
 		else
 		{
-			return Response.status(Response.Status.FORBIDDEN.getStatusCode(), StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name())
-						   .build();
+			throw new ForbiddenException(StatusMessage.FORBIDDEN_INVALID_CREDENTIALS.name());
 		}
 
-		return Response.ok(new jhi.germinate.resource.Token(token, imageToken, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), userType, AuthenticationFilter.AGE, System.currentTimeMillis()))
-			.build();
+		return new jhi.germinate.resource.Token(token, imageToken, user.getId(), user.getUsername(), user.getFullName(), user.getEmailAddress(), userType, AuthenticationFilter.AGE, System.currentTimeMillis());
 	}
 }

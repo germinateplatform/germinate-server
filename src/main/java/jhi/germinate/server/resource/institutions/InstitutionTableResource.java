@@ -1,6 +1,9 @@
 package jhi.germinate.server.resource.institutions;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.server.Database;
@@ -8,16 +11,12 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableInstitutions;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
-
-import jakarta.annotation.security.PermitAll;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import org.jooq.Record;
 
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTableInstitutions.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableInstitutions.VIEW_TABLE_INSTITUTIONS;
 
 @Path("institution/table")
 @Secured
@@ -28,7 +27,7 @@ public class InstitutionTableResource extends BaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableInstitutions>> postInstitutionTable(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -45,8 +44,8 @@ public class InstitutionTableResource extends BaseResource
 			where(from, filters);
 
 			List<ViewTableInstitutions> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableInstitutions.class);
+					.fetch()
+					.into(ViewTableInstitutions.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 

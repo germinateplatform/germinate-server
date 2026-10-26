@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource.germplasm;
 
-import jakarta.ws.rs.Path;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.UserType;
@@ -21,24 +21,23 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static jhi.germinate.server.database.codegen.tables.Attributedata.*;
-import static jhi.germinate.server.database.codegen.tables.Attributes.*;
-import static jhi.germinate.server.database.codegen.tables.Comments.*;
-import static jhi.germinate.server.database.codegen.tables.Commenttypes.*;
-import static jhi.germinate.server.database.codegen.tables.Datasetmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Germinatebase.*;
-import static jhi.germinate.server.database.codegen.tables.Groupmembers.*;
-import static jhi.germinate.server.database.codegen.tables.Groups.*;
-import static jhi.germinate.server.database.codegen.tables.Images.*;
-import static jhi.germinate.server.database.codegen.tables.Imagetypes.*;
-import static jhi.germinate.server.database.codegen.tables.Links.*;
-import static jhi.germinate.server.database.codegen.tables.Linktypes.*;
-import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.*;
-import static jhi.germinate.server.database.codegen.tables.Pedigrees.*;
-import static jhi.germinate.server.database.codegen.tables.Phenotypedata.*;
-import static jhi.germinate.server.database.codegen.tables.Synonyms.*;
+import static jhi.germinate.server.database.codegen.tables.Attributedata.ATTRIBUTEDATA;
+import static jhi.germinate.server.database.codegen.tables.Attributes.ATTRIBUTES;
+import static jhi.germinate.server.database.codegen.tables.Comments.COMMENTS;
+import static jhi.germinate.server.database.codegen.tables.Commenttypes.COMMENTTYPES;
+import static jhi.germinate.server.database.codegen.tables.Datasetmembers.DATASETMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Groupmembers.GROUPMEMBERS;
+import static jhi.germinate.server.database.codegen.tables.Groups.GROUPS;
+import static jhi.germinate.server.database.codegen.tables.Images.IMAGES;
+import static jhi.germinate.server.database.codegen.tables.Imagetypes.IMAGETYPES;
+import static jhi.germinate.server.database.codegen.tables.Links.LINKS;
+import static jhi.germinate.server.database.codegen.tables.Linktypes.LINKTYPES;
+import static jhi.germinate.server.database.codegen.tables.Pedigreedefinitions.PEDIGREEDEFINITIONS;
+import static jhi.germinate.server.database.codegen.tables.Pedigrees.PEDIGREES;
+import static jhi.germinate.server.database.codegen.tables.Synonyms.SYNONYMS;
 import static jhi.germinate.server.database.codegen.tables.Trialsetup.TRIALSETUP;
-import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIEW_TABLE_DATASETS;
 
 @Path("germplasm/unify")
 @Secured(UserType.DATA_CURATOR)
@@ -48,43 +47,40 @@ public class GermplasmUnifierResource extends ContextResource
 	@Path("/sgone")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postGermplasmUnifierSgone(SgoneGermplasmUnificationRequest request)
-		throws IOException, SQLException
+	public boolean postGermplasmUnifierSgone(SgoneUnificationRequest request)
+			throws StatusException
 	{
 		if (request == null || CollectionUtils.isEmpty(request.getUnifications()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+			throw new BadRequestException();
 
-		List<GermplasmUnificationRequest> mapped = request.getUnifications()
-														  .stream()
-														  .map(u -> {
-															  try
-															  {
-																  GermplasmUnificationRequest req = new GermplasmUnificationRequest();
-																  req.setPreferredGermplasmId(Integer.parseInt(u.getPreferred().getId()));
-																  req.setOtherGermplasmIds(u.getOthers().stream().map(o -> Integer.parseInt(o.getId())).toArray(Integer[]::new));
-																  req.setExplanation("SGONE unification");
+		List<UnificationRequest> mapped = request.getUnifications()
+		                                         .stream()
+		                                         .map(u -> {
+													 try
+													 {
+														 UnificationRequest req = new UnificationRequest();
+														 req.setPreferredId(Integer.parseInt(u.getPreferred().getId()));
+														 req.setOtherIds(u.getOthers().stream().map(o -> Integer.parseInt(o.getId())).toArray(Integer[]::new));
+														 req.setExplanation("SGONE unification");
 
-																  return req;
-															  }
-															  catch (Exception e)
-															  {
-																  return null;
-															  }
-														  })
-														  .collect(Collectors.toList());
+														 return req;
+													 }
+													 catch (Exception e)
+													 {
+														 return null;
+													 }
+												 })
+		                                         .toList();
 
 		boolean allGood = true;
 
-		for (GermplasmUnificationRequest u : mapped)
+		for (UnificationRequest u : mapped)
 		{
 			try
 			{
-				allGood &= postGermplasmUnifier(u);
+				allGood &= unify(u);
 			}
-			catch (SQLException | IOException e)
+			catch (SQLException e)
 			{
 				Logger.getLogger(e.getLocalizedMessage());
 				e.printStackTrace();
@@ -97,43 +93,37 @@ public class GermplasmUnifierResource extends ContextResource
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean postGermplasmUnifier(GermplasmUnificationRequest request)
-		throws SQLException, IOException
+	public boolean postGermplasmUnifier(UnificationRequest request)
+			throws SQLException, StatusException
 	{
-		if (request == null || request.getPreferredGermplasmId() == null || CollectionUtils.isEmpty(request.getOtherGermplasmIds()))
-		{
-			resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-			return false;
-		}
+		if (request == null || request.getPreferredId() == null || CollectionUtils.isEmpty(request.getOtherIds()))
+			throw new BadRequestException();
 
 		return unify(request);
 	}
 
-	private boolean unify(GermplasmUnificationRequest request)
-		throws IOException, SQLException
+	private boolean unify(UnificationRequest request)
+			throws SQLException, StatusException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
 		// Remove the preferred id from the list just in case it was added
-		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherGermplasmIds()));
-		ids.remove(request.getPreferredGermplasmId());
+		List<Integer> ids = new ArrayList<>(Arrays.asList(request.getOtherIds()));
+		ids.remove(request.getPreferredId());
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
 
 			// Get the database entries matching the requested ids
-			Germinatebase preferred = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(request.getPreferredGermplasmId())).fetchAnyInto(Germinatebase.class);
+			Germinatebase preferred = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(request.getPreferredId())).fetchAnyInto(Germinatebase.class);
 			Integer preferredId = preferred.getId();
 			List<Germinatebase> others = context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.in(ids)).fetchInto(Germinatebase.class);
 			List<Integer> otherIds = others.stream().map(Germinatebase::getId).collect(Collectors.toList());
 
 			// If there's no preferred one or the others are empty or the only other one is the preferred one, return
-			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.get(0), preferredId)))
-			{
-				resp.sendError(Response.Status.BAD_REQUEST.getStatusCode());
-				return false;
-			}
+			if (preferredId == null || CollectionUtils.isEmpty(otherIds) || (otherIds.size() == 1 && Objects.equals(otherIds.getFirst(), preferredId)))
+				throw new StatusException(Response.Status.BAD_REQUEST.getStatusCode());
 
 			// Update all references to the old ids
 			context.update(DATASETMEMBERS).set(DATASETMEMBERS.FOREIGN_ID, preferredId).where(DATASETMEMBERS.DATASETMEMBERTYPE_ID.eq(2).and(DATASETMEMBERS.FOREIGN_ID.in(otherIds))).execute();
@@ -189,18 +179,18 @@ public class GermplasmUnifierResource extends ContextResource
 
 			// Update the names in the genotype files
 			context.select(VIEW_TABLE_DATASETS.SOURCE_FILE).from(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.IS_EXTERNAL.eq(false).and(VIEW_TABLE_DATASETS.SOURCE_FILE.isNotNull()).and(VIEW_TABLE_DATASETS.DATASET_TYPE.eq("genotype"))).fetchInto(String.class)
-				   .stream()
-				   .map(f -> {
+			       .stream()
+			       .map(f -> {
 					   try
 					   {
-						   return ResourceUtils.getFromExternal(resp, f, "data", "genotypes");
+						   return ResourceUtils.getFromExternal(f, "data", "genotypes");
 					   }
-					   catch (IOException e)
+					   catch (StatusException e)
 					   {
 						   return null;
 					   }
 				   })
-				   .forEach(gf -> {
+			       .forEach(gf -> {
 					   if (gf != null)
 					   {
 						   Hdf5ToFJTabbedConverter.updateGermplasmNames(gf, preferred.getName(), otherNames);
@@ -213,18 +203,18 @@ public class GermplasmUnifierResource extends ContextResource
 
 			// Update the names in the allele frequency files
 			context.select(VIEW_TABLE_DATASETS.SOURCE_FILE).from(VIEW_TABLE_DATASETS).where(VIEW_TABLE_DATASETS.IS_EXTERNAL.eq(false).and(VIEW_TABLE_DATASETS.SOURCE_FILE.isNotNull()).and(VIEW_TABLE_DATASETS.DATASET_TYPE.eq("allelefreq"))).fetchInto(String.class)
-				   .stream()
-				   .map(f -> {
+			       .stream()
+			       .map(f -> {
 					   try
 					   {
-						   return ResourceUtils.getFromExternal(resp, f, "data", "allelefreq");
+						   return ResourceUtils.getFromExternal(f, "data", "allelefreq");
 					   }
-					   catch (IOException e)
+					   catch (StatusException e)
 					   {
 						   return null;
 					   }
 				   })
-				   .forEach(af -> updateAllelefreqFile(af, preferred.getName(), otherNames));
+			       .forEach(af -> updateAllelefreqFile(af, preferred.getName(), otherNames));
 
 			return true;
 		}
@@ -241,7 +231,7 @@ public class GermplasmUnifierResource extends ContextResource
 		{
 			// Read the original and write to the temp file
 			try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-				 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), StandardCharsets.UTF_8)))
+			     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), StandardCharsets.UTF_8)))
 			{
 				String line;
 

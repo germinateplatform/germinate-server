@@ -1,9 +1,11 @@
 package jhi.germinate.server.resource.germplasm;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Context;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
@@ -12,7 +14,8 @@ import jhi.germinate.server.util.*;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.io.IOException;
+import java.io.*;
+import java.io.File;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
@@ -30,7 +33,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTableGermplasm>> postGermplasmTable(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -38,7 +41,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, minimal, null);
 
 			// Add an additional filter based on the names in the file uploaded from CurlyWhirly
 			if (!StringUtils.isEmpty(namesFromFile))
@@ -61,8 +64,8 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			having(from, filters, true);
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableGermplasm.class);
+					.fetch()
+					.into(ViewTableGermplasm.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
@@ -75,7 +78,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<Integer>> postGermplasmTableIds(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
@@ -108,8 +111,8 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			where(from, filters);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}
@@ -119,26 +122,26 @@ public class GermplasmTableResource extends GermplasmBaseResource
 	@Path("/export")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/zip")
-	public Response postGermplasmTableExport(ExportRequest request)
-		throws IOException, SQLException
+	public File postGermplasmTableExport(ExportRequest request, @Context HttpServletResponse response)
+			throws SQLException, StatusException
 	{
 		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal(), null, true);
 
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, null);
+			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, minimal, null);
 
 			// Filter here!
-			having(from, request.getFilter());
+			having(from, request.getFilters());
 
-			return ResourceUtils.exportToZip(from.fetch(), resp, "germplasm-table-", request.getColumnNameMapping(), request.getForcedFileExtension());
+			File result = ResourceUtils.exportToZip(from.fetch(), "germplasm-table-", request.getColumnNameMapping(), request.getForcedFileExtension());
+			return toFileResult(result, "application/zip", response);
 		}
 	}
 
 	@GET
 	@Path("/columns")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getGermplasmTableColumns()
 	{

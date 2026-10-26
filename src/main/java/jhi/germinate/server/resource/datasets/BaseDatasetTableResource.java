@@ -18,7 +18,7 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIE
 public class BaseDatasetTableResource extends ExportResource implements IFilteredResource
 {
 	public PaginatedResult<List<ViewTableDatasets>> runQuery(PaginatedRequest request, DatasetTableResource.AdjustQuery optionalAdjuster)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationMode mode = PropertyWatcher.get(ServerProperty.AUTHENTICATION_MODE, AuthenticationMode.class);
 
@@ -45,8 +45,8 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			where(from, filters, true);
 
 			List<ViewTableDatasets> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTableDatasets.class);
+					.fetch()
+					.into(ViewTableDatasets.class);
 
 			Set<Integer> acceptedLicenses = AuthenticationFilter.getAcceptedLicenses(req);
 
@@ -138,7 +138,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 	}
 
 	protected PaginatedResult<List<Integer>> runQuery(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
@@ -156,11 +156,11 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, userDetails, null, false)));
 
 			// Filter here!
-			where(from, filters);
+			where(from, filters, true);
 
 			List<Integer> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(Integer.class);
+					.fetch()
+					.into(Integer.class);
 
 			return new PaginatedResult<>(result, result.size());
 		}
@@ -168,6 +168,6 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 
 	public interface AdjustQuery
 	{
-		void adjustQuery(SelectJoinStep<Record> query);
+		void adjustQuery(SelectJoinStep<? extends Record> query);
 	}
 }
