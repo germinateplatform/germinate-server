@@ -21,6 +21,7 @@ import jhi.germinate.server.resource.pedigrees.PedigreeResource;
 import jhi.germinate.server.resource.traits.TraitTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.AllelefreqExporter;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.JobInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jooq.*;

@@ -5,6 +5,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.MapoverlaysReferenceTable;
 import jhi.germinate.server.database.codegen.tables.records.MapoverlaysRecord;
 import jhi.germinate.server.resource.images.ImageResource;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
 

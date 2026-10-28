@@ -9,6 +9,7 @@ import jhi.germinate.server.database.pojo.BinningConfig;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.AllelefreqExporter;
 import jhi.germinate.server.util.hdf5.FJTabbedToHdf5Converter;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.jooq.DSLContext;

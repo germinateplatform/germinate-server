@@ -13,6 +13,7 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.genesys.GenesysClient;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.glassfish.jersey.media.multipart.*;
 
 import java.io.*;

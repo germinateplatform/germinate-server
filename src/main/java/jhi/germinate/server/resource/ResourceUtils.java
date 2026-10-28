@@ -5,6 +5,7 @@ import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.Filter;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.*;

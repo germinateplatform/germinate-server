@@ -3,7 +3,7 @@ package jhi.germinate.server.util.tasks;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.enums.*;
-import jhi.germinate.server.util.PropertyWatcher;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.apache.commons.io.FileUtils;
 import org.jooq.DSLContext;
 

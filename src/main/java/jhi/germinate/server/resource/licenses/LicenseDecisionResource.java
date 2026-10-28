@@ -9,6 +9,7 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.Licenselogs;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.DSLContext;
 
 import java.io.IOException;

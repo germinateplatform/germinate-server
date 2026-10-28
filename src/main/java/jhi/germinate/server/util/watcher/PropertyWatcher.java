@@ -15,14 +15,14 @@
  *  limitations under the License.
  */
 
-package jhi.germinate.server.util;
+package jhi.germinate.server.util.watcher;
 
 import de.poiu.apron.PropertyFile;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.genesys.GenesysClient;
 import jhi.germinate.server.resource.token.TokenResource;
-import org.apache.commons.io.monitor.*;
+import jhi.germinate.server.util.*;
 
 import java.io.*;
 import java.net.URL;
@@ -43,7 +43,6 @@ public class PropertyWatcher
 
 	private static PropertyFile properties = new PropertyFile();
 
-	private static FileAlterationMonitor monitor;
 	private static File                  config = null;
 
 	/**
@@ -88,23 +87,6 @@ public class PropertyWatcher
 
 					// Finally, load it properly. This is either the original file or the external file.
 					loadProperties(true);
-
-					// Then watch whichever file exists for changes
-					FileAlterationObserver observer = FileAlterationObserver.builder().setFile(config.getParentFile()).get();
-					monitor = new FileAlterationMonitor(1000L);
-					observer.addListener(new FileAlterationListenerAdaptor()
-					{
-						@Override
-						public void onFileChange(File file)
-						{
-							if (file.equals(config))
-							{
-								loadProperties(true);
-							}
-						}
-					});
-					monitor.addObserver(observer);
-					monitor.start();
 				}
 			}
 			catch (Exception e)
@@ -133,7 +115,7 @@ public class PropertyWatcher
 		return true;
 	}
 
-	private static void loadProperties(boolean checkAndInit)
+	public static void loadProperties(boolean checkAndInit)
 	{
 		try (FileInputStream stream = new FileInputStream(config))
 		{
@@ -153,21 +135,6 @@ public class PropertyWatcher
 			GenesysClient.init(get(ServerProperty.GENESYS_URL), get(ServerProperty.GENESYS_CLIENT_ID), get(ServerProperty.GENESYS_CLIENT_SECRET));
 			TokenResource.SALT = getInteger(ServerProperty.BCRYPT_SALT);
 			AuthorizationFilter.refreshUserDatasetInfo(true);
-		}
-	}
-
-	public static void stopFileWatcher()
-	{
-		try
-		{
-			if (monitor != null)
-				monitor.stop();
-
-			monitor = null;
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
 		}
 	}
 

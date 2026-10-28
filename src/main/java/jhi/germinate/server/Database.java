@@ -6,6 +6,7 @@ import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.database.codegen.GerminateDb;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.*;
 import org.jooq.*;

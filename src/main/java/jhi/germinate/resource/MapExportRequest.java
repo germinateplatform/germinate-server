@@ -1,5 +1,6 @@
 package jhi.germinate.resource;
 
+import jhi.germinate.server.util.StringUtils;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -18,6 +19,16 @@ public class MapExportRequest
 	private Region[]  regions;
 	private Integer[] markerIdInterval;
 	private Radius    radius;
+
+	public boolean isSimpleRequest()
+	{
+		return !StringUtils.isEmpty(format)
+				&& StringUtils.isEmpty(method)
+				&& chromosomes == null
+				&& regions == null
+				&& markerIdInterval == null
+				&& radius == null;
+	}
 
 	@NoArgsConstructor
 	@Getter

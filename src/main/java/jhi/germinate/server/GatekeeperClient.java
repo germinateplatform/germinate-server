@@ -8,6 +8,7 @@ import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import okhttp3.*;
 import retrofit2.*;
 import retrofit2.Response;

@@ -10,6 +10,7 @@ import jhi.germinate.server.database.codegen.tables.records.NewsRecord;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.images.ImageResource;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.DSLContext;
 
 import java.io.*;

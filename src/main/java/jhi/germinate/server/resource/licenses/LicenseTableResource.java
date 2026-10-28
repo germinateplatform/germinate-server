@@ -8,6 +8,7 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableLicenses;
 import jhi.germinate.server.resource.BaseResource;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 
 import jakarta.annotation.security.PermitAll;

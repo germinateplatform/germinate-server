@@ -8,6 +8,7 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.glassfish.jersey.media.multipart.*;
 import org.jooq.*;
 import org.jooq.Record;

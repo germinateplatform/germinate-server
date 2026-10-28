@@ -20,7 +20,7 @@ package jhi.germinate.server.util.tasks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.enums.DataImportJobsStatus;
+import jhi.germinate.server.database.codegen.enums.*;
 import jhi.germinate.server.database.codegen.routines.DatasetMeta;
 import jhi.germinate.server.database.pojo.ImportResult;
 import jhi.germinate.server.util.ApplicationListener;
@@ -30,8 +30,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
+import java.util.concurrent.atomic.*;
 
-import static jhi.germinate.server.database.codegen.tables.DataImportJobs.*;
+import static jhi.germinate.server.database.codegen.tables.DataImportJobs.DATA_IMPORT_JOBS;
 
 public class DatasetImportJobCheckerTask implements Runnable
 {
@@ -41,7 +42,8 @@ public class DatasetImportJobCheckerTask implements Runnable
 		try (Connection conn = Database.getConnection())
 		{
 			DSLContext context = Database.getContext(conn);
-			int[] counter = {0};
+			AtomicInteger counter = new AtomicInteger();
+			AtomicBoolean hasGenotypicData = new AtomicBoolean(false);
 			context.selectFrom(DATA_IMPORT_JOBS)
 				   .where(DATA_IMPORT_JOBS.STATUS.notEqual(DataImportJobsStatus.completed))
 				   .forEach(j -> {
@@ -52,7 +54,7 @@ public class DatasetImportJobCheckerTask implements Runnable
 						   if (finished && j.getStatus() == DataImportJobsStatus.running)
 						   {
 							   j.setStatus(DataImportJobsStatus.completed);
-							   counter[0]++;
+							   counter.incrementAndGet();
 
 							   String uuid = j.getUuid();
 							   File jobFolder = ApplicationListener.getFromExternal(uuid, "async");
@@ -82,6 +84,11 @@ public class DatasetImportJobCheckerTask implements Runnable
 								   j.setFeedback(new ImportResult[0]);
 							   }
 
+							   if (j.getDatatype() == DataImportJobsDatatype.genotype)
+						       {
+								   hasGenotypicData.set(true);
+							   }
+
 							   j.store(DATA_IMPORT_JOBS.STATUS, DATA_IMPORT_JOBS.FEEDBACK);
 						   }
 					   }
@@ -91,12 +98,20 @@ public class DatasetImportJobCheckerTask implements Runnable
 					   }
 				   });
 
-			if (counter[0] > 0) {
+			if (counter.get() > 0)
+			{
 				// Update the dataset counts
 				DatasetMeta procedure = new DatasetMeta();
 				procedure.execute(context.configuration());
 
+				// Update user dataset access information
 				AuthorizationFilter.refreshUserDatasetInfo(true);
+
+				if (hasGenotypicData.get())
+				{
+					// Also export any new maps that may have been uploaded
+					ApplicationListener.executeRunnable(new MapExportTask());
+				}
 			}
 		}
 		catch (SQLException e)

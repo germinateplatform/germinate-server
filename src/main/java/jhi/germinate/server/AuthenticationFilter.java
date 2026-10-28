@@ -11,6 +11,7 @@ import jakarta.ws.rs.ext.Provider;
 import jhi.germinate.resource.ViewUserDetailsType;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import java.io.IOException;
 import java.lang.reflect.Method;

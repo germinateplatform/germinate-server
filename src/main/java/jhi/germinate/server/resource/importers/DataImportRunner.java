@@ -11,6 +11,7 @@ import jhi.germinate.server.database.pojo.*;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.importer.cli.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.JobInfo;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;

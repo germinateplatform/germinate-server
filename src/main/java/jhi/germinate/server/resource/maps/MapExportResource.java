@@ -46,59 +46,67 @@ public class MapExportResource extends ContextResource
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
 
-		try
+		try (Connection conn = Database.getConnection())
 		{
+			DSLContext context = Database.getContext(conn);
+			Maps map = context.selectFrom(MAPS)
+							  .where(MAPS.ID.eq(mapId))
+							  .and(MAPS.VISIBILITY.eq(true)
+												  .or(MAPS.USER_ID.eq(userDetails.getId())))
+							  .fetchAnyInto(Maps.class);
+
+			if (map == null)
+				throw new NotFoundException();
+
+			// If this is a simple request for the full map, check if there's already an exported file.
+			// If so, return this one rather than export the same data again
+			if (request.isSimpleRequest())
+			{
+				String mapId = Integer.toString(map.getId());
+				File potentialFile = ResourceUtils.getFromExternal(request.getFormat().toLowerCase() + ".tsv", "data", "maps", mapId);
+
+				if (potentialFile.exists())
+					return toStreamingResult(potentialFile, MediaType.TEXT_PLAIN, false, response);
+			}
+
 			File file = ResourceUtils.createTempFile("map-" + mapId, ".tsv");
 
-			try (Connection conn = Database.getConnection();
-			     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
+			try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
 			{
-				DSLContext context = Database.getContext(conn);
-				Maps map = context.selectFrom(MAPS).where(MAPS.ID.eq(mapId)).fetchAnyInto(Maps.class);
-
-				if (map != null)
+				AbstractMapWriter writer = switch (request.getFormat().toLowerCase())
 				{
-					AbstractMapWriter writer = switch (request.getFormat().toLowerCase())
-					{
-						case "strudel" -> new StrudelMapWriter(bw);
-						case "mapchart" -> new MapChartWriter(bw);
-						default -> new FlapjackMapWriter(bw);
-					};
+					case "strudel" -> new StrudelMapWriter(bw);
+					case "mapchart" -> new MapChartWriter(bw);
+					default -> new FlapjackMapWriter(bw);
+				};
 
-					writer.writeHeader(map);
+				writer.writeHeader(map);
 
-					SelectConditionStep<? extends Record> step = context.selectFrom(
-																				MAPDEFINITIONS.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
-							                                                                  .leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
-							                                                                  .leftJoin(MAPFEATURETYPES).on(MAPFEATURETYPES.ID.eq(MAPDEFINITIONS.MAPFEATURETYPE_ID))
-																		)
-					                                                    .where(MAPS.VISIBILITY.eq(true)
-					                                                                          .or(MAPS.USER_ID.eq(userDetails.getId())))
-					                                                    .and(MAPS.ID.eq(mapId));
+				SelectConditionStep<? extends Record> step = context.selectFrom(
+																			MAPDEFINITIONS.leftJoin(MAPS).on(MAPS.ID.eq(MAPDEFINITIONS.MAP_ID))
+																						  .leftJoin(MARKERS).on(MARKERS.ID.eq(MAPDEFINITIONS.MARKER_ID))
+																						  .leftJoin(MAPFEATURETYPES).on(MAPFEATURETYPES.ID.eq(MAPDEFINITIONS.MAPFEATURETYPE_ID))
+																	)
 
-					if (!StringUtils.isEmpty(request.getMethod()))
-						filter(context, step, request);
+																	.where(MAPS.ID.eq(mapId));
 
-//					step.orderBy(MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START, MARKERS.MARKER_NAME)
-					step.stream()
-					    .forEachOrdered(m -> {
-							try
-							{
-								writer.writeRow(m);
-							}
-							catch (IOException e)
-							{
-								e.printStackTrace();
-							}
-						});
+				if (!StringUtils.isEmpty(request.getMethod()))
+					filter(context, step, request);
 
-					writer.writeFooter();
-				}
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-				throw new InternalServerErrorException();
+				//					step.orderBy(MAPDEFINITIONS.CHROMOSOME, MAPDEFINITIONS.DEFINITION_START, MARKERS.MARKER_NAME)
+				step.stream()
+					.forEachOrdered(m -> {
+						try
+						{
+							writer.writeRow(m);
+						}
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
+					});
+
+				writer.writeFooter();
 			}
 
 			return toStreamingResult(file, MediaType.TEXT_PLAIN, response);
@@ -122,10 +130,10 @@ public class MapExportResource extends ContextResource
 					throw new BadRequestException();
 
 				List<Condition> conditions = Arrays.stream(request.getRegions())
-				                                   .map(r -> MAPDEFINITIONS.CHROMOSOME.eq(r.getChromosome())
-				                                                                      .and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(r.getStart()))
-				                                                                      .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(r.getEnd())))
-				                                   .toList();
+												   .map(r -> MAPDEFINITIONS.CHROMOSOME.eq(r.getChromosome())
+																					  .and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(r.getStart()))
+																					  .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(r.getEnd())))
+												   .toList();
 
 				if (!conditions.isEmpty())
 				{
@@ -148,9 +156,9 @@ public class MapExportResource extends ContextResource
 					throw new BadRequestException();
 
 				step.and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(one.getDefinitionEnd())
-				                                        .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(two.getDefinitionStart()))
-				                                        .and(MAPDEFINITIONS.CHROMOSOME.eq(one.getChromosome()))
-				                                        .and(MAPDEFINITIONS.CHROMOSOME.eq(two.getChromosome())));
+														.and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(two.getDefinitionStart()))
+														.and(MAPDEFINITIONS.CHROMOSOME.eq(one.getChromosome()))
+														.and(MAPDEFINITIONS.CHROMOSOME.eq(two.getChromosome())));
 				break;
 			case "radius":
 				if (request.getRadius() == null || request.getRadius().getMarkerId() == null || request.getRadius().getLeft() == null || request.getRadius().getRight() == null)
@@ -162,8 +170,8 @@ public class MapExportResource extends ContextResource
 					throw new BadRequestException();
 
 				step.and(MAPDEFINITIONS.DEFINITION_START.greaterOrEqual(marker.getDefinitionStart() - request.getRadius().getLeft())
-				                                        .and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(marker.getDefinitionEnd() + request.getRadius().getRight()))
-				                                        .and(MAPDEFINITIONS.CHROMOSOME.eq(marker.getChromosome())));
+														.and(MAPDEFINITIONS.DEFINITION_END.lessOrEqual(marker.getDefinitionEnd() + request.getRadius().getRight()))
+														.and(MAPDEFINITIONS.CHROMOSOME.eq(marker.getChromosome())));
 				break;
 		}
 	}

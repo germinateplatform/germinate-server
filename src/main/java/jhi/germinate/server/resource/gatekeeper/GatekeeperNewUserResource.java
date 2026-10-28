@@ -9,6 +9,7 @@ import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import retrofit2.Response;
 
 import java.io.IOException;

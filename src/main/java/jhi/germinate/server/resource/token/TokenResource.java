@@ -28,6 +28,7 @@ import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.StatusMessage;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import java.io.IOException;
 import java.util.*;

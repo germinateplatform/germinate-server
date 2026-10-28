@@ -9,6 +9,7 @@ import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.tasks.*;
+import jhi.germinate.server.util.watcher.*;
 import jhi.oddjob.*;
 
 import java.io.*;
@@ -42,6 +43,12 @@ public class ApplicationListener implements ServletContextListener
 
 		logMessage();
 
+		backgroundScheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+			Thread t = new Thread(r, "Germinate scheduled task executor");
+			t.setDaemon(true);
+			return t;
+		});
+
 		try
 		{
 			SCHEDULER.initialize();
@@ -51,8 +58,31 @@ public class ApplicationListener implements ServletContextListener
 			e.printStackTrace();
 		}
 
+		// Load the properties file
 		File propertiesFile = PropertyWatcher.initialize(null);
-		DatabasePermissionCacheWatcher.initialize(propertiesFile.getParentFile());
+		// Then start watching it for changes
+		new SingleFileWatcher(backgroundScheduler, propertiesFile, () -> {
+			PropertyWatcher.loadProperties(true);
+		}, 5000);
+
+		// Get the db update file
+		File dbUpdateFile = new File(propertiesFile.getParentFile(), "dbupdate.info");
+		try
+		{
+			// Create it initially if it doesn't exist
+			org.apache.commons.io.FileUtils.touch(dbUpdateFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Then start watching it for changes
+		new SingleFileWatcher(backgroundScheduler, dbUpdateFile, () -> {
+			// The trigger file has been changed/touched, update permissions
+			AuthorizationFilter.refreshUserDatasetInfo(true);
+
+			// Run the dataset metadata task to update counts etc.
+			new DatasetMetaTask().run();
+		}, 1000);
 
 		try
 		{
@@ -67,7 +97,6 @@ public class ApplicationListener implements ServletContextListener
 		Long asyncDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_ASYNC);
 		Long tempDeleteDelay = PropertyWatcher.getLong(ServerProperty.FILES_DELETE_AFTER_HOURS_TEMP);
 
-		backgroundScheduler = Executors.newSingleThreadScheduledExecutor();
 		// Every hour, update the dataset sizes
 		backgroundScheduler.scheduleAtFixedRate(new DatasetMetaTask(), 3, 60, TimeUnit.MINUTES);
 		// Every 15 minutes, check the async job status
@@ -79,6 +108,8 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.scheduleAtFixedRate(new NCBITaxonomyLookupTask(), 0, 7, TimeUnit.DAYS);
 		// Only run the allele frequency -> genotype dataset conversion once 10 minutes after startup
 		backgroundScheduler.schedule(new AlleleToGenotypeDatasetTask(), 10, TimeUnit.MINUTES);
+		// Export all maps in the default formats once 3 minutes after startup
+		backgroundScheduler.schedule(new MapExportTask(), 3, TimeUnit.MINUTES);
 
 		resetBackupScheduler();
 
@@ -219,8 +250,6 @@ public class ApplicationListener implements ServletContextListener
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent)
 	{
-		PropertyWatcher.stopFileWatcher();
-		DatabasePermissionCacheWatcher.stopFileWatcher();
 		GatekeeperClient.close();
 
 		try
@@ -245,9 +274,9 @@ public class ApplicationListener implements ServletContextListener
 		Database.close();
 	}
 
-	public static void executeRunnable(Runnable runnable)
+	public static Future<?> executeRunnable(Runnable runnable)
 	{
-		backgroundScheduler.submit(runnable);
+		return backgroundScheduler.submit(runnable);
 	}
 
 	/**

@@ -9,6 +9,7 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import java.io.*;
 import java.sql.Timestamp;

@@ -1,5 +1,5 @@
 import de.poiu.apron.PropertyFile;
-import jhi.germinate.server.util.PropertyWatcher;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 
 import java.io.*;
 import java.net.URL;

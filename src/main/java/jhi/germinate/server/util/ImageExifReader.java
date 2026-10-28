@@ -9,6 +9,7 @@ import jhi.germinate.server.Database;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.database.pojo.Exif;
 import jhi.germinate.server.resource.images.ImageResource;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.DSLContext;
 
 import java.io.*;

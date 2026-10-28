@@ -12,6 +12,7 @@ import jhi.germinate.server.database.pojo.ExportJobDetails;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.ImageZipExporter;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.JobInfo;
 import org.jooq.*;
 import org.jooq.Record;

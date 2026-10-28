@@ -10,6 +10,7 @@ import jhi.germinate.server.database.codegen.tables.pojos.ViewTableImages;
 import jhi.germinate.server.database.codegen.tables.records.ImagesRecord;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.coobird.thumbnailator.Thumbnails;

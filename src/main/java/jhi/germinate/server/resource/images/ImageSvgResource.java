@@ -2,6 +2,7 @@ package jhi.germinate.server.resource.images;
 
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.apache.commons.io.IOUtils;
 
 import jakarta.servlet.http.HttpServletResponse;

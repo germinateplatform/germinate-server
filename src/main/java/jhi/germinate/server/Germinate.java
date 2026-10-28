@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.servers.*;
 import jakarta.ws.rs.ApplicationPath;
 import jhi.germinate.brapi.server.Brapi;
 import jhi.germinate.resource.enums.ServerProperty;
-import jhi.germinate.server.util.PropertyWatcher;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 

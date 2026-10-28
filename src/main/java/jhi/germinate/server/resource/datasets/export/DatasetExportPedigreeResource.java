@@ -15,6 +15,7 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.resource.datasets.DatasetTableResource;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.async.PedigreeExporter;
+import jhi.germinate.server.util.watcher.PropertyWatcher;
 import jhi.oddjob.JobInfo;
 import org.jooq.*;
 
