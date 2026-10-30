@@ -262,7 +262,7 @@ public class ImageResource extends ContextResource
 
 				File file;
 
-				if (StringUtils.isEmpty(size) || size.equals("large"))
+				if (StringUtils.isEmpty(size) || size.equals("large") || !small.exists())
 					file = large;
 				else
 					file = small;

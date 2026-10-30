@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jhi.germinate.resource.ProjectStats;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
-import jhi.germinate.server.database.codegen.tables.pojos.Groups;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.database.codegen.tables.records.*;
 import jhi.germinate.server.resource.ContextResource;
 import jhi.germinate.server.resource.images.ImageResource;
@@ -32,6 +32,7 @@ import static jhi.germinate.server.database.codegen.tables.Projectcollaborators.
 import static jhi.germinate.server.database.codegen.tables.Projectgroups.PROJECTGROUPS;
 import static jhi.germinate.server.database.codegen.tables.Projectpublications.PROJECTPUBLICATIONS;
 import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
+import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 
 @Path("project")
 public class ProjectResource extends ContextResource
@@ -297,7 +298,7 @@ public class ProjectResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			// Only leave group ids they have access to
-			groupIds.retainAll(context.select(GROUPS.ID).from(GROUPS).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).fetchInto(Integer.class));
+			groupIds.retainAll(context.select(GROUPS.ID).from(GROUPS).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).and(GROUPS.ID.in(groupIds)).fetchInto(Integer.class));
 
 			InsertValuesStep2<ProjectgroupsRecord, Integer, Integer> insertStep = context.insertInto(PROJECTGROUPS, PROJECTGROUPS.PROJECT_ID, PROJECTGROUPS.GROUP_ID);
 
@@ -328,6 +329,34 @@ public class ProjectResource extends ContextResource
 		}
 	}
 
+	@POST
+	@Path("/{projectId:\\d+}/publication")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
+	public boolean postProjectPublications(@PathParam("projectId") Integer projectId, List<Integer> publicationIds)
+			throws SQLException
+	{
+		if (projectId == null || CollectionUtils.isEmpty(publicationIds))
+			throw new BadRequestException();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			// Only leave publication ids that actually exist
+			publicationIds.retainAll(context.select(PUBLICATIONS.ID).from(PUBLICATIONS).where(PUBLICATIONS.ID.in(publicationIds)).fetchInto(Integer.class));
+
+			InsertValuesStep2<ProjectpublicationsRecord, Integer, Integer> insertStep = context.insertInto(PROJECTPUBLICATIONS, PROJECTPUBLICATIONS.PROJECT_ID, PROJECTPUBLICATIONS.PUBLICATION_ID);
+
+			for (Integer publicationId : publicationIds)
+				insertStep.values(projectId, publicationId);
+
+			return insertStep.onDuplicateKeyIgnore()
+							 .execute() > 0;
+		}
+	}
+
 	@DELETE
 	@Path("/{projectId:\\d+}/group/{groupId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -345,12 +374,31 @@ public class ProjectResource extends ContextResource
 			DSLContext context = Database.getContext(conn);
 
 			// Check they have permissions to use this group
-			Groups group = context.selectFrom(GROUPS).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).fetchAnyInto(Groups.class);
+			Groups group = context.selectFrom(GROUPS).where(GROUPS.VISIBILITY.eq(true).or(GROUPS.CREATED_BY.eq(userDetails.getId()))).and(GROUPS.ID.eq(groupId)).fetchAnyInto(Groups.class);
 
 			if (group != null)
 				return context.deleteFrom(PROJECTGROUPS).where(PROJECTGROUPS.PROJECT_ID.eq(projectId).and(PROJECTGROUPS.GROUP_ID.eq(groupId))).execute() > 0;
 			else
 				return false;
+		}
+	}
+
+	@DELETE
+	@Path("/{projectId:\\d+}/publication/{publicationId:\\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
+	public boolean deleteProjectPublication(@PathParam("projectId") Integer projectId, @PathParam("publicationId") Integer publicationId)
+			throws SQLException
+	{
+		if (projectId == null || publicationId == null)
+			throw new BadRequestException();
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.deleteFrom(PROJECTPUBLICATIONS).where(PROJECTPUBLICATIONS.PROJECT_ID.eq(projectId).and(PROJECTPUBLICATIONS.PUBLICATION_ID.eq(publicationId))).execute() > 0;
 		}
 	}
 

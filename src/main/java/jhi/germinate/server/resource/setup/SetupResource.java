@@ -1,16 +1,20 @@
 package jhi.germinate.server.resource.setup;
 
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jhi.germinate.resource.*;
+import org.apache.commons.lang3.NotImplementedException;
 
 @Path("setup")
 public class SetupResource
 {
-//	@POST
-//	@Path("/store")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public boolean postSetupConfig(ServerSetupConfig config)
-//	{
+	@POST
+	@Path("/store")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean postSetupConfig(ServerSetupConfig config)
+	{
+		throw new NotImplementedException();
 //		checkAvailability();
 //
 //		if (config == null)
@@ -46,17 +50,18 @@ public class SetupResource
 //
 //			return PropertyWatcher.storeProperties();
 //		}
-//	}
-//
-//	@GET
-//	@Path("/check")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public boolean getSetupCheckAvailable()
-//	{
+	}
+
+	@GET
+	@Path("/check")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean getSetupCheckAvailable()
+	{
+		throw new NotImplementedException();
 //		return checkAvailability();
-//	}
-//
+	}
+
 //	private boolean checkAvailability()
 //	{
 //		try (Connection conn = Database.getConnection())
@@ -89,13 +94,14 @@ public class SetupResource
 //			return false;
 //		}
 //	}
-//
-//	@POST
-//	@Path("/check/database")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public boolean postDatabaseConfig(DatabaseConfig config)
-//	{
+
+	@POST
+	@Path("/check/database")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean postDatabaseConfig(DatabaseConfig config)
+	{
+		throw new NotImplementedException();
 //		checkAvailability();
 //
 //		if (config == null || StringUtils.isEmpty(config.getHost()) || StringUtils.isEmpty(config.getDatabase()) || StringUtils.isEmpty(config.getUsername()))
@@ -107,14 +113,15 @@ public class SetupResource
 //			return true;
 //		else
 //			throw new StatusException(Response.Status.UNAUTHORIZED.getStatusCode(), "Invalid database details provided.");
-//	}
-//
-//	@POST
-//	@Path("/check/gatekeeper")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public boolean postGatekeeperConfig(GatekeeperConfig config)
-//	{
+	}
+
+	@POST
+	@Path("/check/gatekeeper")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean postGatekeeperConfig(GatekeeperConfig config)
+	{
+		throw new NotImplementedException();
 //		checkAvailability();
 //
 //		if (config == null || StringUtils.isEmpty(config.getUrl()) || StringUtils.isEmpty(config.getUsername()))
@@ -186,5 +193,5 @@ public class SetupResource
 //				}
 //			}
 //		}
-//	}
+	}
 }

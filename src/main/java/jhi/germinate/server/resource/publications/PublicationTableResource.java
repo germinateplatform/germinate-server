@@ -16,7 +16,7 @@ import org.jooq.Record;
 import java.sql.*;
 import java.util.List;
 
-import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.*;
+import static jhi.germinate.server.database.codegen.tables.ViewTablePublications.VIEW_TABLE_PUBLICATIONS;
 
 @Path("publication/table")
 @Secured
@@ -26,7 +26,7 @@ public class PublicationTableResource extends BaseResource
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public PaginatedResult<List<ViewTablePublications>> postPublicationTable(PaginatedRequest request)
-		throws SQLException
+			throws SQLException
 	{
 		processRequest(request);
 		try (Connection conn = Database.getConnection())
@@ -43,12 +43,39 @@ public class PublicationTableResource extends BaseResource
 			where(from, filters, true);
 
 			List<ViewTablePublications> result = setPaginationAndOrderBy(from)
-				.fetch()
-				.into(ViewTablePublications.class);
+					.fetch()
+					.into(ViewTablePublications.class);
 
 			long count = previousCount == -1 ? context.fetchOne("SELECT FOUND_ROWS()").into(Long.class) : previousCount;
 
 			return new PaginatedResult<>(result, count);
+		}
+	}
+
+	@POST
+	@Path("/ids")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public PaginatedResult<List<Integer>> postPublicationTableIds(PaginatedRequest request)
+			throws SQLException
+	{
+		processRequest(request);
+		currentPage = 0;
+		pageSize = Integer.MAX_VALUE;
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_PUBLICATIONS.PUBLICATION_ID)
+														   .from(VIEW_TABLE_PUBLICATIONS);
+
+			// Filter here!
+			where(from, filters);
+
+			List<Integer> result = setPaginationAndOrderBy(from)
+					.fetch()
+					.into(Integer.class);
+
+			return new PaginatedResult<>(result, result.size());
 		}
 	}
 }

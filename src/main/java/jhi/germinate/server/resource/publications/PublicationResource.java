@@ -19,6 +19,8 @@ import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Experiments.EXPERIMENTS;
 import static jhi.germinate.server.database.codegen.tables.Germinatebase.GERMINATEBASE;
+import static jhi.germinate.server.database.codegen.tables.Projectpublications.PROJECTPUBLICATIONS;
+import static jhi.germinate.server.database.codegen.tables.Projects.PROJECTS;
 import static jhi.germinate.server.database.codegen.tables.Publicationdata.PUBLICATIONDATA;
 import static jhi.germinate.server.database.codegen.tables.Publications.PUBLICATIONS;
 
@@ -57,10 +59,13 @@ public class PublicationResource extends ContextResource
 	@Path("/{publicationId}/reference")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean putPublicationReference(@PathParam("publicationId") Integer publicationId, Publicationdata data)
+	public boolean putPublicationReference(@PathParam("publicationId") Integer publicationId, Publicationdata data, @QueryParam("isProject") Boolean isProject)
 			throws SQLException
 	{
-		if (data == null || data.getPublicationId() == null || data.getReferenceType() == null || (data.getReferenceType() != PublicationdataReferenceType.database && data.getForeignId() == null) || publicationId == null || !publicationId.equals(data.getPublicationId()))
+		if (data == null || data.getPublicationId() == null || publicationId == null || !publicationId.equals(data.getPublicationId()))
+			throw new BadRequestException();
+
+		if (isProject == null && (data.getReferenceType() == null || (data.getReferenceType() != PublicationdataReferenceType.database && data.getForeignId() == null)))
 			throw new BadRequestException();
 
 		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
@@ -74,42 +79,69 @@ public class PublicationResource extends ContextResource
 			if (publication == null)
 				throw new NotFoundException();
 
-			boolean exists = switch (data.getReferenceType())
+			if (isProject != null && isProject)
 			{
-				case database -> true;
-				case dataset ->
+				ProjectsRecord project = context.selectFrom(PROJECTS).where(PROJECTS.ID.eq(data.getForeignId())).fetchAny();
+
+				if (project == null)
+					throw new NotFoundException();
+
+				ProjectpublicationsRecord ppRecord = context.selectFrom(PROJECTPUBLICATIONS)
+															.where(PROJECTPUBLICATIONS.PROJECT_ID.eq(project.getId()))
+															.and(PROJECTPUBLICATIONS.PUBLICATION_ID.eq(publication.getId()))
+															.fetchAny();
+
+				if (ppRecord == null)
 				{
-					List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
-					yield availableIds.contains(data.getForeignId());
+					ppRecord = context.newRecord(PROJECTPUBLICATIONS);
+					ppRecord.setProjectId(project.getId());
+					ppRecord.setPublicationId(publication.getId());
+					return ppRecord.store() > 0;
 				}
-				case group ->
+				else
 				{
-					GroupResource.checkGroupVisibility(context, userDetails, data.getForeignId());
-					yield true;
+					return true;
 				}
-				case experiment ->
-						context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(data.getForeignId())).fetchAny() != null;
-				case germplasm ->
-						context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(data.getForeignId())).fetchAny() != null;
-			};
-
-			if (!exists)
-				throw new NotFoundException();
-
-			PublicationdataRecord record = context.selectFrom(PUBLICATIONDATA)
-												  .where(PUBLICATIONDATA.PUBLICATION_ID.eq(data.getPublicationId()))
-												  .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(data.getForeignId()))
-												  .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(data.getReferenceType()))
-												  .fetchAny();
-
-			if (record == null)
-			{
-				record = context.newRecord(PUBLICATIONDATA, data);
-				return record.store() > 0;
 			}
 			else
 			{
-				return true;
+				boolean exists = switch (data.getReferenceType())
+				{
+					case database -> true;
+					case dataset ->
+					{
+						List<Integer> availableIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
+						yield availableIds.contains(data.getForeignId());
+					}
+					case group ->
+					{
+						GroupResource.checkGroupVisibility(context, userDetails, data.getForeignId());
+						yield true;
+					}
+					case experiment ->
+							context.selectFrom(EXPERIMENTS).where(EXPERIMENTS.ID.eq(data.getForeignId())).fetchAny() != null;
+					case germplasm ->
+							context.selectFrom(GERMINATEBASE).where(GERMINATEBASE.ID.eq(data.getForeignId())).fetchAny() != null;
+				};
+
+				if (!exists)
+					throw new NotFoundException();
+
+				PublicationdataRecord record = context.selectFrom(PUBLICATIONDATA)
+													  .where(PUBLICATIONDATA.PUBLICATION_ID.eq(data.getPublicationId()))
+													  .and(PUBLICATIONDATA.FOREIGN_ID.isNotDistinctFrom(data.getForeignId()))
+													  .and(PUBLICATIONDATA.REFERENCE_TYPE.eq(data.getReferenceType()))
+													  .fetchAny();
+
+				if (record == null)
+				{
+					record = context.newRecord(PUBLICATIONDATA, data);
+					return record.store() > 0;
+				}
+				else
+				{
+					return true;
+				}
 			}
 		}
 	}
@@ -144,7 +176,7 @@ public class PublicationResource extends ContextResource
 														   return false;
 
 													   if (d.getReferenceType() != PublicationdataReferenceType.database)
-				                                       {
+													   {
 														   // Remove all the entries that already exist
 														   if (existingEntries.contains(d.getPublicationId() + "|" + d.getReferenceType() + "|" + d.getForeignId()))
 															   return false;
@@ -177,7 +209,8 @@ public class PublicationResource extends ContextResource
 			if (CollectionUtils.isEmpty(filtered))
 				throw new NotFoundException();
 
-			for (Publicationdata publication : filtered) {
+			for (Publicationdata publication : filtered)
+			{
 				PublicationdataRecord record = context.newRecord(PUBLICATIONDATA, publication);
 				record.store();
 			}
