@@ -6,8 +6,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.core.Context;
-import jhi.germinate.resource.ViewMcpd;
 import jhi.germinate.server.Database;
+import jhi.germinate.server.database.codegen.tables.pojos.ViewMcpd;
 import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 

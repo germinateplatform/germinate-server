@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-10-13 15:34:14.
+// Generated using typescript-generator version 3.2.1263 on 2026-11-04 12:00:45.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -373,6 +373,7 @@ export interface MapExportRequest {
     regions: Region[];
     markerIdInterval: number[];
     radius: Radius;
+    simpleRequest: boolean;
 }
 
 export interface NewUnapprovedUserRequest {
@@ -573,52 +574,12 @@ export interface UuidRequest {
     uuids: string[];
 }
 
-export interface ViewMcpd {
-    id: number;
-    puid: string;
-    instcode: string;
-    accenumb: string;
-    collnumb: string;
-    collcode: string;
-    collname: string;
-    collinstaddress: string;
-    collmissid: string;
-    genus: string;
-    species: string;
-    spauthor: string;
-    subtaxa: string;
-    subtauthor: string;
-    cropname: string;
-    accename: string;
-    acqdate: string;
-    origcty: string;
-    collsite: string;
-    declatitude: number;
-    latitude: any;
-    declongitude: number;
-    longitude: any;
-    coorduncert: number;
-    coorddatum: string;
-    georefmeth: string;
-    elevation: number;
-    colldate: string;
-    bredcode: string;
-    bredname: string;
-    sampstat: number;
-    ancest: string;
-    collsrc: number;
-    donorcode: string;
-    donorname: string;
-    donornumb: string;
-    othernumb: string;
-    duplsite: string;
-    duplinstname: string;
-    storage: string;
-    mlsstat: number;
-    remarks: string;
-    entitytype: string;
-    entityparentid: number;
-    entityparentaccenumb: string;
+export interface ViewStatsDatasets {
+    year: number;
+    type: string;
+    datasetCount: number;
+    dataObjectCount: number;
+    dataPointCount: number;
 }
 
 export interface ViewTableClimateDataWithGroups extends ViewTableClimateData {
@@ -674,10 +635,8 @@ export interface ViewTableGermplasm {
     collDate: string;
     pdci: number;
     imageCount: number;
-    firstImagePath: string;
     hasTrialsData: number;
     hasGenotypicData: number;
-    hasAllelefreqData: number;
     hasCompoundData: number;
     hasPedigreeData: number;
 }
@@ -1709,6 +1668,50 @@ export interface Variables extends Serializable {
     updatedOn: Date;
 }
 
+export interface ViewMcpd extends Serializable {
+    puid: string;
+    instcode: string;
+    accenumb: string;
+    collnumb: string;
+    collcode: string;
+    collname: string;
+    collinstaddress: string;
+    collmissid: string;
+    genus: string;
+    species: string;
+    spauthor: string;
+    subtaxa: string;
+    subtauthor: string;
+    cropname: string;
+    accename: string;
+    acqdate: string;
+    origcty: string;
+    collsite: string;
+    declatitude: number;
+    latitude: any;
+    declongitude: number;
+    longitude: any;
+    coorduncert: number;
+    coorddatum: string;
+    georefmeth: string;
+    elevation: number;
+    colldate: string;
+    bredcode: string;
+    bredname: string;
+    sampstat: number;
+    ancest: string;
+    collsrc: number;
+    donorcode: string;
+    donorname: string;
+    donornumb: string;
+    othernumb: string;
+    duplsite: string;
+    duplinstname: string;
+    storage: string;
+    mlsstat: number;
+    remarks: string;
+}
+
 export interface ViewStatsBiologicalstatus extends Serializable {
     biologicalstatus: string;
     genus: string;
@@ -1717,16 +1720,9 @@ export interface ViewStatsBiologicalstatus extends Serializable {
 
 export interface ViewStatsCountry extends Serializable {
     country: string;
-    code: string;
+    code_2: string;
+    code_3: string;
     count: number;
-}
-
-export interface ViewStatsDatasets extends Serializable {
-    year: number;
-    type: string;
-    datasetCount: number;
-    dataObjectCount: number;
-    dataPointCount: number;
 }
 
 export interface ViewStatsPdci extends Serializable {
@@ -2056,6 +2052,19 @@ export interface ViewTableLinks extends Serializable {
     updatedOn: Date;
 }
 
+export interface ViewTableMapdefinitions extends Serializable {
+    markerId: number;
+    markerName: string;
+    synonyms: string[];
+    mapFeatureType: string;
+    mapId: number;
+    userId: number;
+    visibility: boolean;
+    mapName: string;
+    chromosome: string;
+    position: number;
+}
+
 export interface ViewTableMapoverlays extends Serializable {
     mapoverlayId: number;
     mapoverlayName: string;
@@ -2363,9 +2372,9 @@ export interface Exif {
     userComment: string;
     whiteBalance: string;
     whiteBalanceMode: string;
-    fnumber: string;
-    xresolution: string;
     yresolution: string;
+    xresolution: string;
+    fnumber: string;
 }
 
 export interface ExportJobDetails {
@@ -2375,10 +2384,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    xids: number[];
-    yids: number[];
-    xgroupIds: number[];
     ygroupIds: number[];
+    xgroupIds: number[];
+    yids: number[];
+    xids: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2473,19 +2482,6 @@ export interface TraitRestrictions {
     max: number;
 }
 
-export interface ViewTableMapdefinitions {
-    markerId: number;
-    markerName: string;
-    synonyms: string[];
-    mapFeatureType: string;
-    mapId: number;
-    userId: number;
-    visibility: boolean;
-    mapName: string;
-    chromosome: string;
-    position: number;
-}
-
 export interface ViewTableMarkers {
     markerId: number;
     markerName: string;
@@ -2577,29 +2573,29 @@ export interface JSON extends Data {
 }
 
 export interface JsonElement {
-    asString: string;
     asInt: number;
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
-    asByte: number;
-    jsonPrimitive: boolean;
     jsonArray: boolean;
-    jsonObject: boolean;
-    asJsonObject: JsonObject;
-    asBigInteger: number;
-    asJsonArray: JsonArray;
+    jsonNull: boolean;
+    asFloat: number;
+    asShort: number;
+    jsonPrimitive: boolean;
     asBigDecimal: number;
     asJsonPrimitive: JsonPrimitive;
+    asJsonArray: JsonArray;
+    asBigInteger: number;
+    jsonObject: boolean;
     asNumber: number;
     asJsonNull: JsonNull;
     /**
      * @deprecated
      */
     asCharacter: string;
-    asShort: number;
-    asFloat: number;
-    jsonNull: boolean;
+    asJsonObject: JsonObject;
+    asString: string;
+    asByte: number;
 }
 
 export interface LevelCount {
@@ -2623,21 +2619,21 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonObject extends JsonElement {
-    empty: boolean;
+export interface JsonPrimitive extends JsonElement {
+    string: boolean;
+    number: boolean;
+    boolean: boolean;
 }
 
 export interface JsonArray extends JsonElement, Iterable<JsonElement> {
     empty: boolean;
 }
 
-export interface JsonPrimitive extends JsonElement {
-    number: boolean;
-    boolean: boolean;
-    string: boolean;
+export interface JsonNull extends JsonElement {
 }
 
-export interface JsonNull extends JsonElement {
+export interface JsonObject extends JsonElement {
+    empty: boolean;
 }
 
 export interface Cloneable {

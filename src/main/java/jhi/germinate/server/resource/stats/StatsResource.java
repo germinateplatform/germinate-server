@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Context;
 import jhi.germinate.resource.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.routines.DatasetStats;
-import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.pojos.*;
 import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.jooq.GDSL;
@@ -68,13 +68,17 @@ public class StatsResource extends BaseResource
 	}
 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/country")
-	public StreamingOutput getCountryStats(@Context HttpServletResponse response)
+	public List<ViewStatsCountry> getCountryStats(@Context HttpServletResponse response)
 			throws SQLException
 	{
-		File result = export("country", VIEW_STATS_COUNTRY);
-		return toStreamingResult(result, MediaType.TEXT_PLAIN, response);
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			return context.selectFrom(VIEW_STATS_COUNTRY).fetchInto(ViewStatsCountry.class);
+		}
 	}
 
 	@GET
@@ -302,8 +306,8 @@ public class StatsResource extends BaseResource
 				routine.setDatasetids(datasetIds);
 				routine.execute(context.configuration());
 				return routine.getResults()
-					   .getFirst()
-					   .into(ViewStatsDatasets.class);
+							  .getFirst()
+							  .into(ViewStatsDatasets.class);
 			}
 			else
 			{
