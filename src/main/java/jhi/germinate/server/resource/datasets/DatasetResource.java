@@ -94,6 +94,7 @@ public class DatasetResource extends ContextResource
 				dataset.setExperimentId(updatedDataset.getExperimentId());
 				dataset.setDateStart(updatedDataset.getDateStart());
 				dataset.setDateEnd(updatedDataset.getDateEnd());
+				dataset.setTags(updatedDataset.getTags());
 				dataset.setDatasetStateId(updatedDataset.getDatasetStateId());
 				dataset.setHyperlink(updatedDataset.getHyperlink());
 				dataset.store();

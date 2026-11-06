@@ -84,7 +84,8 @@ public class PDCITask implements Runnable
 			Field<Integer> id = DSL.field("id", Integer.class);
 			Set<Integer> hasPedigree = context.selectDistinct(id)
 											  .from(DSL.selectDistinct(PEDIGREEDEFINITIONS.GERMINATEBASE_ID.as("id")).from(PEDIGREEDEFINITIONS)
-													   .unionAll(DSL.selectDistinct(PEDIGREES.GERMINATEBASE_ID.as("id")).from(PEDIGREES)))
+													   .unionAll(DSL.selectDistinct(PEDIGREES.GERMINATEBASE_ID.as("id")).from(PEDIGREES))
+													   .unionAll(DSL.selectDistinct(MCPD.GERMINATEBASE_ID.as("id")).from(MCPD).where(MCPD.ANCEST.isNotNull())))
 											  .fetchSet(id);
 			Set<Integer> hasStorage = context.selectDistinct(MCPD.GERMINATEBASE_ID)
 											 .from(MCPD)

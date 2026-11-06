@@ -133,6 +133,8 @@ tasks.register('jarForImporter', Jar) {
     includeEmptyDirs = false
     include '**/germinate/resource/**'
     include '**/Database.class'
+    include '**/DOI.class'
+    include '**/DOI$MalformedDOIException.class'
     include '**/util/**Utils**'
     include '**/util/**/**hdf**/**'
     include '**/auth/**UserType**'

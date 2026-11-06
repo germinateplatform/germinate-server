@@ -110,6 +110,8 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.schedule(new AlleleToGenotypeDatasetTask(), 10, TimeUnit.MINUTES);
 		// Export all maps in the default formats once 3 minutes after startup
 		backgroundScheduler.schedule(new MapExportTask(), 3, TimeUnit.MINUTES);
+		// On startup, create DOI links if they don't already exist
+		backgroundScheduler.schedule(new DoiLinkTask(), 7, TimeUnit.MINUTES);
 
 		resetBackupScheduler();
 
@@ -127,7 +129,7 @@ public class ApplicationListener implements ServletContextListener
 
 		// Every 4 hours, update the PDCI
 		if (PropertyWatcher.getBoolean(ServerProperty.PDCI_ENABLED))
-			backgroundScheduler.scheduleAtFixedRate(new PDCITask(), 0, 4, TimeUnit.HOURS);
+			backgroundScheduler.scheduleAtFixedRate(new PDCITask(), 10, 240, TimeUnit.MINUTES);
 
 		if (PropertyWatcher.getBoolean(ServerProperty.HIDDEN_PAGES_AUTODISCOVER))
 			backgroundScheduler.scheduleAtFixedRate(new HiddenPagesAutodiscoverTask(), 0, 1, TimeUnit.HOURS);
