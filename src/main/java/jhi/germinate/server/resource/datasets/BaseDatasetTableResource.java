@@ -5,8 +5,9 @@ import jhi.germinate.resource.PaginatedRequest;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.ViewTableDatasets;
+import jhi.germinate.server.database.codegen.tables.records.ViewTableDatasetsRecord;
 import jhi.germinate.server.resource.*;
-import jhi.germinate.server.util.*;
+import jhi.germinate.server.util.CollectionUtils;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.jooq.Record;
@@ -18,6 +19,25 @@ import static jhi.germinate.server.database.codegen.tables.ViewTableDatasets.VIE
 
 public class BaseDatasetTableResource extends ExportResource implements IFilteredResource
 {
+	public SelectJoinStep<ViewTableDatasetsRecord> getQuery(DSLContext context, AdjustQuery optionalAdjuster) {
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		SelectSelectStep<?> select = context.select();
+
+		SelectJoinStep<?> from = select.from(VIEW_TABLE_DATASETS);
+
+		if (!userDetails.isAtLeast(UserType.ADMIN))
+			from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, userDetails, null, false)));
+
+		if (optionalAdjuster != null)
+			optionalAdjuster.adjustQuery(from);
+
+		// Filter here!
+		where(from, filters, true);
+
+		return (SelectJoinStep<ViewTableDatasetsRecord>) from;
+	}
+
 	public PaginatedResult<List<ViewTableDatasets>> runQuery(PaginatedRequest request, DatasetTableResource.AdjustQuery optionalAdjuster)
 			throws SQLException
 	{

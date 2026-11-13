@@ -1,8 +1,10 @@
 package jhi.germinate.server.resource.datasets;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.MediaType;
+import jhi.germinate.resource.DatasetSimilarityRequest;
 import jhi.germinate.resource.enums.UserType;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
@@ -12,9 +14,9 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
-import java.io.*;
 import java.io.File;
 import java.sql.*;
+import java.util.*;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.DATASETMEMBERS;
@@ -24,12 +26,36 @@ import static jhi.germinate.server.database.codegen.tables.Phenotypedata.PHENOTY
 import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 
 @Path("dataset")
-@Secured(UserType.DATA_CURATOR)
 public class DatasetResource extends ContextResource
 {
+	@Path("/similar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
+	public List<DatasetSimilarityIndex.SimilarityResult> postSimilarDatasets(DatasetSimilarityRequest request)
+			throws SQLException
+	{
+		// Return on empty request
+		if (request == null || CollectionUtils.isEmpty(request.getDatasetIds()))
+			return new ArrayList<>();
+
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+		List<Integer> ids = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
+		request.getDatasetIds().retainAll(ids);
+
+		// Return on no valid dataset ids available
+		if (CollectionUtils.isEmpty(request.getDatasetIds()))
+			return new ArrayList<>();
+
+		return DatasetSimilarityIndex.findSimilarDatasets(request.getDatasetIds(), request.getDatasetType(), request.getThreshold());
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
 	public ViewTableDatasets postDataset(Datasets newDataset)
 			throws SQLException
 	{
@@ -65,6 +91,7 @@ public class DatasetResource extends ContextResource
 	@Path("/{datasetId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
 	public ViewTableDatasets patchDatasetById(@PathParam("datasetId") Integer datasetId, Datasets updatedDataset)
 			throws SQLException
 	{
@@ -110,6 +137,7 @@ public class DatasetResource extends ContextResource
 	@Path("/{datasetId:\\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(UserType.DATA_CURATOR)
 	public boolean deleteDatasetById(@PathParam("datasetId") Integer datasetId)
 			throws SQLException, StatusException
 	{

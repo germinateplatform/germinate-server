@@ -1,21 +1,25 @@
 package jhi.germinate.server.resource.datasets;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.*;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jhi.gatekeeper.resource.PaginatedResult;
 import jhi.germinate.resource.*;
 import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.*;
 import jhi.germinate.server.database.codegen.tables.pojos.*;
+import jhi.germinate.server.database.codegen.tables.records.ViewTableDatasetsRecord;
+import jhi.germinate.server.resource.ResourceUtils;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.watcher.PropertyWatcher;
 import org.jooq.*;
 import org.jooq.Record;
 import org.jooq.impl.DSL;
 
+import java.io.File;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -176,5 +180,51 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			throws SQLException
 	{
 		return runQuery(request);
+	}
+
+	@POST
+	@Path("/export")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("application/zip")
+	public java.io.File postDatasetTableExport(UnacceptedLicenseRequest request, @Context HttpServletResponse response)
+			throws SQLException, StatusException
+	{
+		AdjustQuery adjuster = null;
+
+		if (request != null && request.getJustUnacceptedLicenses() != null && request.getJustUnacceptedLicenses())
+		{
+			AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+			Set<Integer> ids = AuthenticationFilter.getAcceptedLicenses(req);
+			adjuster = query -> {
+				query.where(VIEW_TABLE_DATASETS.LICENSE_ID.isNotNull())
+					 .and(DSL.notExists(DSL.selectOne()
+										   .from(LICENSELOGS)
+										   .where(LICENSELOGS.LICENSE_ID.eq(VIEW_TABLE_DATASETS.LICENSE_ID))
+										   .and(LICENSELOGS.USER_ID.eq(userDetails.getId()))));
+
+				if (!CollectionUtils.isEmpty(ids) && userDetails.getId() == -1000)
+				{
+					query.where(DSL.not(VIEW_TABLE_DATASETS.LICENSE_ID.in(ids)));
+				}
+			};
+		}
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+			SelectJoinStep<ViewTableDatasetsRecord> from = getQuery(context, adjuster);
+
+			// Filter here!
+			having(from, request.getFilters(), true);
+
+			Result<ViewTableDatasetsRecord> data = from.fetch();
+
+			data.forEach(d -> {
+				d.setAcceptedBy(null);
+			});
+
+			File result = ResourceUtils.exportToZip(data, "dataset-table-", null, null);
+			return toFileResult(result, "application/zip", response);
+		}
 	}
 }

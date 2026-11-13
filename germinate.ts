@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-11-04 12:00:45.
+// Generated using typescript-generator version 3.2.1263 on 2026-11-12 17:33:38.
 
 export interface ViewTableLocations extends Serializable {
     locationId: number;
@@ -65,6 +65,11 @@ export interface GatekeeperInstitution extends Serializable {
     name: string;
     acronym: string;
     address: string;
+}
+
+export interface SimilarityResult {
+    datasetId: number;
+    similarityScore: number;
 }
 
 export interface AlleleFrequencyDatasetRequest extends GenotypeSubsetDatasetRequest {
@@ -196,6 +201,12 @@ export interface DatasetGroupRequest extends DatasetRequest {
 
 export interface DatasetRequest {
     datasetIds: number[];
+}
+
+export interface DatasetSimilarityRequest {
+    datasetIds: number[];
+    datasetType: string;
+    threshold: number;
 }
 
 export interface DatasetUserModificationRequest {
@@ -915,6 +926,7 @@ export interface Datasets extends Serializable {
     datasettypeId: number;
     name: string;
     description: string;
+    tags: string[];
     dateStart: Date;
     dateEnd: Date;
     sourceFile: string;
@@ -1826,6 +1838,7 @@ export interface ViewTableDatasets extends Serializable {
     hyperlink: string;
     sourceFile: string;
     version: string;
+    datasetTags: string[];
     datasetType: string;
     experimentId: number;
     experimentName: string;
@@ -1853,7 +1866,7 @@ export interface ViewTableDatasets extends Serializable {
     publications: number;
     fileresourceIds: number[];
     collaborators: number;
-    attributes: number;
+    attributeData: DatasetAttribute[];
     acceptedBy: number[];
 }
 
@@ -2303,6 +2316,12 @@ export interface Dataset {
     datasetIsExternal: number;
 }
 
+export interface DatasetAttribute {
+    attributeId: number;
+    attributeName: string;
+    attributeValue: string;
+}
+
 export interface DbObjectCount {
     key: string;
     count: number;
@@ -2384,10 +2403,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    ygroupIds: number[];
     xgroupIds: number[];
-    yids: number[];
+    ygroupIds: number[];
     xids: number[];
+    yids: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2577,25 +2596,25 @@ export interface JsonElement {
     asDouble: number;
     asLong: number;
     asBoolean: boolean;
-    jsonArray: boolean;
-    jsonNull: boolean;
-    asFloat: number;
-    asShort: number;
-    jsonPrimitive: boolean;
-    asBigDecimal: number;
-    asJsonPrimitive: JsonPrimitive;
+    asString: string;
     asJsonArray: JsonArray;
-    asBigInteger: number;
     jsonObject: boolean;
+    asBigDecimal: number;
+    asJsonObject: JsonObject;
     asNumber: number;
+    jsonArray: boolean;
     asJsonNull: JsonNull;
     /**
      * @deprecated
      */
     asCharacter: string;
-    asJsonObject: JsonObject;
-    asString: string;
+    jsonPrimitive: boolean;
+    asJsonPrimitive: JsonPrimitive;
+    asBigInteger: number;
     asByte: number;
+    asFloat: number;
+    jsonNull: boolean;
+    asShort: number;
 }
 
 export interface LevelCount {
@@ -2619,21 +2638,21 @@ export interface SgonePojo {
 export interface Data extends Serializable {
 }
 
-export interface JsonPrimitive extends JsonElement {
-    string: boolean;
-    number: boolean;
-    boolean: boolean;
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
+    empty: boolean;
 }
 
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
+export interface JsonObject extends JsonElement {
     empty: boolean;
 }
 
 export interface JsonNull extends JsonElement {
 }
 
-export interface JsonObject extends JsonElement {
-    empty: boolean;
+export interface JsonPrimitive extends JsonElement {
+    number: boolean;
+    boolean: boolean;
+    string: boolean;
 }
 
 export interface Cloneable {

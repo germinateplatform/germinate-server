@@ -20,6 +20,7 @@ public enum ServerProperty
 	DASHBOARD_SECTIONS("dashboard.sections", "news,publications,datastories,dataupdates", false),
 	DATA_DIRECTORY_EXTERNAL("data.directory.external", "/data/germinate", true),
 	DATA_IMPORT_MODE("data.import.mode", "NONE", false),
+	DATASET_SIMILARITY_CALCULATION_ENABLED("dataset.similarity.calculation.enabled", "true", false),
 	DATABASE_SERVER("database.server", null, true),
 	DATABASE_NAME("database.name", null, true),
 	DATABASE_USERNAME("database.username", null, true),

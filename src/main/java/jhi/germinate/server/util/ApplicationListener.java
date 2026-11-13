@@ -33,7 +33,7 @@ public class ApplicationListener implements ServletContextListener
 	public static final IScheduler SCHEDULER = new ProcessScheduler();
 
 	private static ScheduledExecutorService backgroundScheduler;
-	private static ScheduledFuture<?> backupFuture;
+	private static ScheduledFuture<?>       backupFuture;
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce)
@@ -61,9 +61,9 @@ public class ApplicationListener implements ServletContextListener
 		// Load the properties file
 		File propertiesFile = PropertyWatcher.initialize(null);
 		// Then start watching it for changes
-		new SingleFileWatcher(backgroundScheduler, propertiesFile, () -> {
+		new SingleFileWatcher(backgroundScheduler, propertiesFile.toPath(), () -> {
 			PropertyWatcher.loadProperties(true);
-		}, 5000);
+		}, 5000).start();
 
 		// Get the db update file
 		File dbUpdateFile = new File(propertiesFile.getParentFile(), "dbupdate.info");
@@ -71,18 +71,22 @@ public class ApplicationListener implements ServletContextListener
 		{
 			// Create it initially if it doesn't exist
 			org.apache.commons.io.FileUtils.touch(dbUpdateFile);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 
+		Logger.getLogger("").info("START WATCHING DB UPDATE FILE: " + dbUpdateFile.getAbsolutePath());
 		// Then start watching it for changes
-		new SingleFileWatcher(backgroundScheduler, dbUpdateFile, () -> {
+		new SingleFileWatcher(backgroundScheduler, dbUpdateFile.toPath(), () -> {
+			Logger.getLogger("").info("UPDATE DB PERMISSIONS");
 			// The trigger file has been changed/touched, update permissions
 			AuthorizationFilter.refreshUserDatasetInfo(true);
 
 			// Run the dataset metadata task to update counts etc.
 			new DatasetMetaTask().run();
-		}, 1000);
+		}, 1000).start();
 
 		try
 		{
@@ -112,6 +116,8 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.schedule(new MapExportTask(), 3, TimeUnit.MINUTES);
 		// On startup, create DOI links if they don't already exist
 		backgroundScheduler.schedule(new DoiLinkTask(), 7, TimeUnit.MINUTES);
+		// On startup, calculate dataset similarity index
+		backgroundScheduler.schedule(new DatasetSimilarityTask(), 1, TimeUnit.MINUTES);
 
 		resetBackupScheduler();
 
@@ -135,7 +141,8 @@ public class ApplicationListener implements ServletContextListener
 			backgroundScheduler.scheduleAtFixedRate(new HiddenPagesAutodiscoverTask(), 0, 1, TimeUnit.HOURS);
 	}
 
-	public static void resetBackupScheduler () {
+	public static void resetBackupScheduler()
+	{
 		if (backupFuture != null)
 			backupFuture.cancel(true);
 

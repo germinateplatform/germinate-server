@@ -221,7 +221,7 @@ tasks.register('deployTomcat', CargoRedeployRemote) {
 
 generateTypeScript {
     jsonLibrary = 'jackson2'
-    classes = ['jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations', 'jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications', 'jhi.gatekeeper.resource.PaginatedResult', 'jhi.germinate.resource.enums.UserType', 'jhi.germinate.resource.LoginDetails', 'jhi.gatekeeper.server.database.tables.pojos.UnapprovedUsers', 'jhi.gatekeeper.server.database.tables.pojos.Institutions']
+    classes = ['jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations', 'jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications', 'jhi.gatekeeper.resource.PaginatedResult', 'jhi.germinate.resource.enums.UserType', 'jhi.germinate.resource.LoginDetails', 'jhi.gatekeeper.server.database.tables.pojos.UnapprovedUsers', 'jhi.gatekeeper.server.database.tables.pojos.Institutions', 'jhi.germinate.server.resource.datasets.DatasetSimilarityIndex$SimilarityResult']
     classPatterns = ['jhi.germinate.resource.*', 'jhi.germinate.resource.**.*', 'jhi.germinate.server.database.codegen.tables.pojos.*', 'jhi.germinate.server.database.pojo.*']
     outputKind = 'module'
     outputFile = 'germinate.ts'
