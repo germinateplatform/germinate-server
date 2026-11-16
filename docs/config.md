@@ -224,6 +224,8 @@ hidden.columns.collaborators = <comma-separated list of strings>
 # Columns to hide in the publications table
 hidden.columns.publications = <comma-separated list of strings>
 
+# Should Germinate pre-compute similar datasets on startup?
+dataset.similarity.calculation.enabled = <boolean>
 # Should the comments feature be enabled?
 comments.enabled = <boolean>
 # Should the PDCI be calculated and shown on the user interface?

@@ -99,6 +99,22 @@ public class CollectionUtils
 		return input == null || input.length < 1;
 	}
 
+	public static <T> boolean isEmptyOrNull(T[] input)
+	{
+		if (input == null || input.length < 1)
+			return true;
+		else
+		{
+			for (T i : input)
+			{
+				if (i != null)
+					return false;
+			}
+
+			return true;
+		}
+	}
+
 	public static <T> boolean isEmptyOrNull(Collection<T> input)
 	{
 		if (input == null || input.isEmpty())

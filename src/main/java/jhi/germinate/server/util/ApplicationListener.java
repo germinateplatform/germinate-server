@@ -116,8 +116,14 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.schedule(new MapExportTask(), 3, TimeUnit.MINUTES);
 		// On startup, create DOI links if they don't already exist
 		backgroundScheduler.schedule(new DoiLinkTask(), 7, TimeUnit.MINUTES);
-		// On startup, calculate dataset similarity index
-		backgroundScheduler.schedule(new DatasetSimilarityTask(), 1, TimeUnit.MINUTES);
+		// On startup, clean up DublinCore [null] entries
+		backgroundScheduler.schedule(new DublinCoreCleanupTask(), 0, TimeUnit.MINUTES);
+
+		if (PropertyWatcher.getBoolean(ServerProperty.DATASET_SIMILARITY_CALCULATION_ENABLED))
+		{
+			// On startup, calculate dataset similarity index
+			backgroundScheduler.schedule(new DatasetSimilarityTask(), 1, TimeUnit.MINUTES);
+		}
 
 		resetBackupScheduler();
 
