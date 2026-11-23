@@ -20,5 +20,6 @@
         <module name="germinate.test" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="21" />
   </component>
 </project>

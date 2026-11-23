@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="583ec2cf-da61-44a6-af3b-08f9e3d9df85" name="Changes" comment="- CHG: Significantly improved the performance of large trials and climate data imports.">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/germinate.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="583ec2cf-da61-44a6-af3b-08f9e3d9df85" name="Changes" comment="- FIX: Fixed issue with json array contains query.">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/germinate-brapi-4.9.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/germinate-brapi-4.9.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/resource/IFilteredResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/resource/IFilteredResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/util/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/util/CorsFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/resource/datasets/export/DatasetExportResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/resource/datasets/export/DatasetExportResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/util/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/jhi/germinate/server/util/StringUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,17 +87,22 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.Build germinate-server.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.germinate-server [:jhi.germinate.server.resource.datasets.export.PhenotypeMatrixBuilder.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.germinate-server [build].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.germinate-server [clean].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.germinate-server [deployTomcat].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.germinate-server [war].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/sr41756/workspaces/germinate-server/lib&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
@@ -112,7 +116,20 @@
       <recent name="jhi.germinate.server.util.jooq" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.germinate-server [deployTomcat]">
+  <component name="RunManager" selected="Gradle.germinate-server [war]">
+    <configuration name="PhenotypeMatrixBuilder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="jhi.germinate.server.resource.datasets.export.PhenotypeMatrixBuilder" />
+      <module name="germinate.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="jhi.germinate.server.resource.datasets.export.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="germinate-server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -131,8 +148,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="germinate-server [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -153,8 +173,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="germinate-server [deployTomcat]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -175,8 +198,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="germinate-server [war]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -197,29 +223,35 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Gradle.germinate-server [war]" />
-      <item itemvalue="Gradle.germinate-server [deployTomcat]" />
+      <item itemvalue="Application.PhenotypeMatrixBuilder" />
       <item itemvalue="Gradle.germinate-server [build]" />
       <item itemvalue="Gradle.germinate-server [clean]" />
+      <item itemvalue="Gradle.germinate-server [deployTomcat]" />
+      <item itemvalue="Gradle.germinate-server [war]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.germinate-server [deployTomcat]" />
-        <item itemvalue="Gradle.germinate-server [clean]" />
         <item itemvalue="Gradle.germinate-server [war]" />
+        <item itemvalue="Gradle.germinate-server [clean]" />
         <item itemvalue="Gradle.germinate-server [build]" />
+        <item itemvalue="Gradle.germinate-server [deployTomcat]" />
+        <item itemvalue="Application.PhenotypeMatrixBuilder" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28539.33" />
+        <option value="bundled-jdk-30f59d01ecdd-a9fadf26ba24-intellij.indexing.shared.core-IU-262.12573.28" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.12573.28" />
       </set>
     </attachedChunks>
   </component>
@@ -247,14 +279,35 @@
       <option name="project" value="LOCAL" />
       <updated>1762353855844</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="- FIX: Fixed issues with searching json columns.&#10;- CHG: Version bump for bugfix release.">
+      <option name="closed" value="true" />
+      <created>1770641813674</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1770641813674</updated>
+    </task>
+    <task id="LOCAL-00004" summary="- FIX: Fixed issue with json array contains query.">
+      <option name="closed" value="true" />
+      <created>1770806571857</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1770806571857</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="- CHG: Blah" />
     <MESSAGE value="- CHG: Significantly improved the performance of large trials and climate data imports." />
-    <option name="LAST_COMMIT_MESSAGE" value="- CHG: Significantly improved the performance of large trials and climate data imports." />
+    <MESSAGE value="- FIX: Fixed issues with searching json columns.&#10;- CHG: Version bump for bugfix release." />
+    <MESSAGE value="- FIX: Fixed issue with json array contains query." />
+    <option name="LAST_COMMIT_MESSAGE" value="- FIX: Fixed issue with json array contains query." />
   </component>
 </project>

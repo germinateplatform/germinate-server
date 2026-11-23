@@ -78,6 +78,14 @@ public class StringUtils
 			return input;
 	}
 
+	public static<T> String orEmpty(T input) {
+		if (input == null) {
+			return "";
+		} else {
+			return orEmpty(input.toString());
+		}
+	}
+
 	/**
 	 * Returns either the original string (if it's not empty) or empty double quotes (if it is)
 	 *
@@ -90,6 +98,14 @@ public class StringUtils
 			return "\"\"";
 		else
 			return input;
+	}
+
+	public static<T> String orEmptyQuotes(T input) {
+		if (input == null) {
+			return "\"\"";
+		} else {
+			return orEmptyQuotes(input.toString());
+		}
 	}
 
 	/**
