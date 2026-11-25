@@ -165,4 +165,4 @@ email.port=587
 web.base=http://localhost:9081/
 ```
 
-Please consult the [Gatekeeper specific configuration page](https://germinateplatform.github.io/germinate-server/config.html#gatekeeper-configuration) to ensure the `gatekeeper.username` and `gatekeeper.password` properties of the Germinate configuration are properly configured.
+Please consult the <a href="{{ '/admin/configuration#gatekeeper-configuration' | relative_url }}">Gatekeeper specific configuration page</a> to ensure the `gatekeeper.username` and `gatekeeper.password` properties of the Germinate configuration are properly configured.
