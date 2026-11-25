@@ -145,6 +145,14 @@ When dealing with trials data, the geographic context can often be very interest
 
 *Use this tab to see any geographic aspect of the trial.*
 
+![Observation Data Visualization Layout]({{ '/assets/images/phenotypic/visualization-layout-trait-1.png' | relative_url }})
+<p class="image-caption" markdown="1">Observation Data Visualization Layout: Trial layout with `Row type` highlighted.</p>
+
+![Observation Data Visualization Layout]({{ '/assets/images/phenotypic/visualization-layout-trait-2.png' | relative_url }})
+<p class="image-caption" markdown="1">Observation Data Visualization Layout: Trial layout with `Plant height` highlighted.</p>
+
+![Observation Data Visualization Layout]({{ '/assets/images/phenotypic/visualization-layout-germplasm.png' | relative_url }})
+<p class="image-caption" markdown="1">Observation Data Visualization Layout: Trial layout with selected germplasm highlighted.</p>
 
 ### Time series
 
@@ -152,8 +160,14 @@ Oftentimes variables are measured over a period of time to see the development w
 
 *Use this tab to get an insight into temporal effects on the trial.*
 
+![Observation Data Visualization Timeseries]({{ '/assets/images/phenotypic/visualization-timeseries.png' | relative_url }})
+<p class="image-caption" markdown="1">Observation Data Visualization Timeseries: Trait data over time for a selected trait with a subset of germplasm highlighted.</p>
+
 ### Data download
 
 The purpose of this tab is pretty straightforward: Sometimes Germinate just doesn't offer the exact visualization you need or you want to use the data stored in Germinate in some analysis. One easy solution to this is downloading the data in a tab-separated format to load into other tools. Germinate lets you make sub-selections of variables and germplasm here to only export areas of interest.
 
 *If you need to download the data for other tools, this is where you can do exactly that.*
+
+![Observation Data Visualization Export]({{ '/assets/images/phenotypic/visualization-export.png' | relative_url }})
+<p class="image-caption" markdown="1">Observation Data Visualization Export: Export trait data in tab-separated formats of different types.</p>

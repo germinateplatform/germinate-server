@@ -45,11 +45,7 @@ The same data can also be visualized as a radar plot for a selection of the trai
 
 ## Marking/Selecting Germplasm
 
-Whether you are just browsing Germinate to see what data is available or if you're looking for a specific list of germplasm, Germinate allows you to add any selection of germplasm to a list. This list can then be used at a later point in data visualizations or data exports to only consider the material of interest. There are multiple ways in which germplasm (or markers and locations) can be added to a user's list:
-
-- **Table marking**: Tables that allow item marking (tables showing data for germplasm, markers or locations) have a column at the end that allows marking items. The table column header can be used to bulk mark items currently visible in the table.
-- **Selection in charts**: Some of the visualizations allow selection of data points. When items are selected, the overflow menu icon in the top right corner (`⋮`) can be clicked to show options for adding/removing the current selection to/from the marked item list.
-- **Providing a list of identifiers**: If you already know which items you would like to add to the marked item list, you can either use the table filtering and select the `In set` comparison method or use the `Mark based on identifier` button in the marked item area of tables (top right).
+Whether you are just browsing Germinate to see what data is available or if you're looking for a specific list of germplasm, Germinate allows you to add any selection of germplasm to a list. This list can then be used at a later point in data visualizations or data exports to only consider the material of interest. There are multiple ways in which germplasm (or markers and locations) can be added to a user's list. This is covered in the <a href="{{ '/user/lists-groups/#working-with-lists' | relative_url }}">section on lists and groups</a>.
 
 ## Pedigree Data
 

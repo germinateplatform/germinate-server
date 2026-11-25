@@ -35,7 +35,7 @@ For trials data the following columns are searched:
 
 If a match is found in any of these items, a result will show up in the table.
 
-## Tables
+## Tables {#tables}
 
 Tables play a central role on the Germinate user interface - they are one of the main ways in which data is displayed and made explorable. To facilitate this, tables on Germinate have to offer a large number of functionalities including searching, sorting, filtering, selection, and downloading.
 

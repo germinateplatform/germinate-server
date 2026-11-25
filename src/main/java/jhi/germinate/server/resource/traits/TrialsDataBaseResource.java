@@ -84,6 +84,7 @@ public class TrialsDataBaseResource extends ExportResource
 					DATASETS.NAME.as(DATASET_NAME),
 					VARIABLES.ID.as(VARIABLE_ID),
 					VARIABLES.NAME.as(VARIABLE_NAME),
+					SCALES.UNIT.as(SCALE_UNIT),
 					TRAITS.ID.as(TRAIT_ID),
 					TRAITS.NAME.as(TRAIT_NAME),
 					TRIALSETUP.REP.as(REP),

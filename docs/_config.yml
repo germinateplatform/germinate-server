@@ -29,6 +29,9 @@ user_pages:
   - title: Environmental & Climate Data
     url: /user/environment/
     description: Managing environmental, climatic definitions, and measurement values.
+  - title: Item Lists & Groups
+    url: /user/lists-groups/
+    description: Creating session lists and persistent groups.
   - title: Data Import & Templates
     url: /user/data-import/
     description: Using Germinate data templates, validation tools, and BrAPI integration.
