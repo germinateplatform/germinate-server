@@ -1,0 +1,17 @@
+# Jekyll build output and cache directories
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Ruby / Bundler dependencies (if using bundle install locally)
+.bundle/
+vendor/
+
+# OS-specific temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+notes.txt

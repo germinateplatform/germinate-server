@@ -1,0 +1,6 @@
+source "https://rubygems.org"
+
+gem "jekyll"
+group :jekyll_plugins do
+  # Add any plugins here if needed later
+end

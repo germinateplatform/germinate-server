@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+</head>
+<body data-search-url="{{ '/search.json' | relative_url }}">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{{ '/' | relative_url }}" class="brand">
+        <img src="{{ '/assets/images/germinate-square.svg' | relative_url }}" alt="Germinate Logo" class="brand-logo">
+        <span class="brand-text">Germinate <small>Docs</small></span>
+      </a>
+      <nav class="top-nav">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/user/germplasm/' | relative_url }}">Germplasm</a>
+        <a href="{{ '/user/phenotypes/' | relative_url }}">Phenotypes</a>
+        <a href="{{ '/user/genotypes/' | relative_url }}">Genotypes</a>
+        <a href="{{ '/user/data-import/' | relative_url }}">Import</a>
+        <button
+          id="theme-toggle"
+          class="theme-toggle-btn"
+          type="button"
+          aria-label="Switch to dark mode"
+          aria-pressed="false"
+        >
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <span class="theme-toggle-label">Dark</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    {{ content }}
+  </main>
+
+  <div id="imageModal" class="img-modal" onclick="closeModal()">
+    <img id="modalImage">
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Germinate Documentation &bull; Built for Plant Genetic Resources</p>
+    </div>
+  </footer>
+</body>
+
+<script>
+  function updateToggleButton(theme) {
+    const toggleButton = document.getElementById('theme-toggle')
+    if (!toggleButton) return
+
+    const isDark = theme === 'dark'
+    const labelEl = toggleButton.querySelector('.theme-toggle-label')
+
+    toggleButton.setAttribute('aria-pressed', String(isDark))
+    toggleButton.setAttribute(
+      'aria-label',
+      isDark ? 'Switch to light mode' : 'Switch to dark mode'
+    )
+
+    if (labelEl) {
+      labelEl.textContent = isDark ? 'Light' : 'Dark'
+    }
+  }
+
+  function applyPageTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('page-theme', theme)
+    updateToggleButton(theme)
+  }
+
+  function initThemeSwitcher() {
+    const savedTheme = localStorage.getItem('page-theme') || 'light'
+    applyPageTheme(savedTheme)
+
+    const toggleButton = document.getElementById('theme-toggle')
+    if (!toggleButton) return
+
+    toggleButton.addEventListener('click', function () {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light'
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark'
+      applyPageTheme(nextTheme)
+    })
+  }
+
+  initThemeSwitcher()
+</script>
+
+<script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
+</html>

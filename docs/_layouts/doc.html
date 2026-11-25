@@ -1,0 +1,89 @@
+---
+layout: default
+---
+<div class="doc-layout">
+  <aside class="doc-sidebar">
+    {% include search-box.html %}
+
+    <h3>User documentation</h3>
+    <ul>
+      {% for item in site.user_pages %}
+        <li>
+          <a href="{{ item.url | relative_url }}" class="{% if page.url == item.url %}active{% endif %}">
+            {{ item.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h3>Admin documentation</h3>
+    <ul>
+      {% for item in site.admin_pages %}
+        <li>
+          <a href="{{ item.url | relative_url }}" class="{% if page.url == item.url %}active{% endif %}">
+            {{ item.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <article class="doc-body">
+    <h1>{{ page.title }}</h1>
+    {% if page.subtitle %}
+      <p class="doc-subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+    <hr>
+
+    <div id="auto-toc" class="toc" style="display: none;">
+      <p class="toc-title"><strong>Contents</strong></p>
+      <ul id="auto-toc-list"></ul>
+    </div>
+    {{ content }}
+  </article>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const docBody = document.querySelector(".doc-body")
+    const tocBox = document.getElementById("auto-toc")
+    const tocList = document.getElementById("auto-toc-list")
+
+    if (!docBody || !tocBox || !tocList) return
+
+    const headings = Array.from(docBody.querySelectorAll("h2, h3, h4, h5, h6"))
+    if (headings.length < 2) return
+
+    // Stack entries track { level, li } so deeper headings nest under the latest ancestor
+    const stack = [{ level: 1, li: null, subList: tocList, }]
+
+    headings.forEach(function (heading, index) {
+      const level = Number(heading.tagName.replace("H", ""))
+      if (!heading.id) {
+        heading.id = "section-" + (index + 1)
+      }
+
+      while (stack.length > 1 && stack[stack.length - 1].level >= level) {
+        stack.pop()
+      }
+
+      const parentEntry = stack[stack.length - 1]
+      if (!parentEntry.subList) {
+        parentEntry.subList = document.createElement("ul")
+        parentEntry.li.appendChild(parentEntry.subList)
+      }
+
+      const link = document.createElement("a")
+      link.href = "#" + heading.id
+      link.textContent = heading.textContent
+
+      const li = document.createElement("li")
+      li.appendChild(link)
+      parentEntry.subList.appendChild(li)
+
+      stack.push({ level: level, li: li, subList: null, })
+    })
+
+    tocBox.style.display = "block"
+  })
+</script>

@@ -1,5 +1,133 @@
-title: Germinate
-name: Germinate
-description: The generic plant genetic resources database
-show_downloads: false
-theme: jekyll-theme-cayman
+title: Germinate Documentation
+description: Open-source plant genetic resources database platform documentation.
+baseurl: "germinate-server" # Leave empty if using a custom domain or user.github.io, otherwise "/your-repo-name"
+url: "https://germinateplatform.github.io/germinate-server"     # Your GitHub Pages URL
+
+markdown: kramdown
+permalink: pretty
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    disable: false
+    css_class: highlight
+
+# Navigation items used in the header and landing page
+user_pages:
+  - title: User interface & Basics
+    url: /user/ui/
+    description: Use the Germinate UI, browse and search data, mark interesting items.
+  - title: Germplasm & Passport Data
+    url: /user/germplasm/
+    description: Managing accessions, taxonomy, biological status, and geographic origins.
+  - title: Phenotypic & Trial Data
+    url: /user/phenotypes/
+    description: Recording field trials, trait definitions, and observations metrics.
+  - title: Genotypic & Marker Data
+    url: /user/genotypes/
+    description: Storing SNP matrices, genetic maps, alleles, and molecular marker datasets.
+  - title: Environmental & Climate Data
+    url: /user/environment/
+    description: Managing environmental, climatic definitions, and measurement values.
+  - title: Data Import & Templates
+    url: /user/data-import/
+    description: Using Germinate data templates, validation tools, and BrAPI integration.
+  - title: Visualizations & Export
+    url: /user/visualizations/
+    description: Interactive maps, pedigree trees, trait distributions, and Flapjack exports.
+
+admin_pages:
+  - title: Setup Instructions
+    url: /admin/setup/
+    description: Create and host your own instance of Germinate using Docker.
+  - title: Setup Example
+    url: /admin/example-setup/
+    description: An example configuration for Germinate and Gatekeeper.
+  - title: Germinate Configuration
+    url: /admin/configuration/
+    description: All configuration options for Germinate.
+  - title: Germinate Settings Page
+    url: /admin/settings/
+    description: Germinate's user interface for making changes.
+  - title: Migration Information
+    url: /admin/migration/
+    description: Any manual changes that need to be made between Germinate version updates.
+  - title: Germinate Command Line
+    url: /admin/cli/
+    description: How to use the command line tools bundled with Germinate.
+  - title: Frequently Asked Questions
+    url: /admin/faq/
+    description: Answers to a list of questions that we often get about Germinate.
+
+funders:
+  - name: The James Hutton Institute
+    logo: /assets/images/funders/hutton.svg
+    url: https://www.hutton.ac.uk/
+  - name: Crop Trust
+    logo: /assets/images/funders/crop-trust.svg
+    url: https://www.croptrust.org/
+  - name: BOLD Project
+    logo: /assets/images/funders/bold.svg
+    url: https://bold.croptrust.org/
+  - name: Crop Wild Relatives Project
+    logo: /assets/images/funders/cwr.svg
+    url: https://cwr.croptrust.org/
+  - name: Norway
+    logo: /assets/images/funders/norway.svg
+    url: https://www.norway.no/
+  - name: Norwegian Ministry of Foreign Affairs
+    logo: /assets/images/funders/norwegian-ministry-of-foreign-affairs.svg
+    url: https://www.regjeringen.no/en/dep/ud/id833/
+  - name: CIMMYT
+    logo: /assets/images/funders/cimmyt.svg
+    url: https://www.cimmyt.org/
+  - name: University of Dundee
+    logo: /assets/images/funders/uod.svg
+    url: https://www.dundee.ac.uk/
+  - name: UK Research and Innovation
+    logo: /assets/images/funders/ukri.svg
+    url: https://www.ukri.org/
+  - name: Biotechnology and Biological Sciences Research Council
+    logo: /assets/images/funders/bbsrc.svg
+    url: https://www.ukri.org/councils/bbsrc/
+  - name: UKRI Innovate UK
+    logo: /assets/images/funders/innovate-uk.svg
+    url: https://www.gov.uk/government/organisations/innovate-uk
+  - name: Rural & Environment Science & Analytical Services
+    logo: /assets/images/funders/resas.svg
+  - name: The Scottish Government
+    logo: /assets/images/funders/scottish-government.svg
+    url: https://www.gov.scot/
+  - name: Scottish Environment, Food and Agriculture Research Institutes
+    logo: /assets/images/funders/sefari.svg
+    url: https://sefari.scot/
+  - name: James Hutton Institute Scientific Services
+    logo: /assets/images/funders/jhiss.svg
+    url: https://www.hutton.ac.uk/scientific-services/
+  - name: International Barley Hub
+    logo: /assets/images/funders/ibh.svg
+    url: https://www.barleyhub.org/
+  - name: CRP Maize
+    logo: /assets/images/funders/crp-maize.svg
+    url: https://maize.org/
+  - name: CRP Wheat
+    logo: /assets/images/funders/crp-wheat.svg
+    url: https://wheat.org/
+  - name: International Wheat Yield Partnership
+    logo: /assets/images/funders/iwyp.svg
+    url: https://iwyp.org/
+  - name: Secretaría de Agricultura y Desarrollo Rural
+    logo: /assets/images/funders/sader.svg
+    url: https://www.gob.mx/agricultura
+  - name: DivSeek International Network
+    logo: /assets/images/funders/divseek.png
+    url: https://divseekintl.org/
+  - name: European Union
+    logo: /assets/images/funders/eu.svg
+    url: https://europa.eu/
+  - name: Department for Environment, Food and Rural Affairs
+    logo: /assets/images/funders/defra.svg
+    url: https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs
+  - name: Templeton World Charity Foundation
+    logo: /assets/images/funders/templeton.svg
+    url: https://www.templetonworldcharity.org/
