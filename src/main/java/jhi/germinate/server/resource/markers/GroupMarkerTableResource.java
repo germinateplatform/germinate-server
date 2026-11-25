@@ -56,7 +56,7 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 				from.and(DSL.field("group_id", Integer.class).eq(groupId));
 
 			// Filter here!
-			having(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTableGroupMarkers> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -105,7 +105,7 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 				from.and(DSL.field("group_id", Integer.class).eq(groupId));
 
 			// Filter here!
-			having(from, filters);
+			from.and(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -144,7 +144,7 @@ public class GroupMarkerTableResource extends MarkerBaseResource
 				from.and(DSL.field("group_id", Integer.class).eq(groupId));
 
 			// Filter here!
-			having(from, filters);
+			from.and(getConditions(filters));
 
 			java.io.File result = ResourceUtils.exportToZip(from.fetch(), "marker-group-table-");
 

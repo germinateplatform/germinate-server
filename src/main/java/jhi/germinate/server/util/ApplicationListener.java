@@ -118,6 +118,8 @@ public class ApplicationListener implements ServletContextListener
 		backgroundScheduler.schedule(new DoiLinkTask(), 7, TimeUnit.MINUTES);
 		// On startup, clean up DublinCore [null] entries
 		backgroundScheduler.schedule(new DublinCoreCleanupTask(), 0, TimeUnit.MINUTES);
+		// On startup, attempt to fix any template i18n .json files to mitigate vue-i18n v9 breaking change.
+		backgroundScheduler.schedule(new I18nFileFixerTask(), 0, TimeUnit.MINUTES);
 
 		if (PropertyWatcher.getBoolean(ServerProperty.DATASET_SIMILARITY_CALCULATION_ENABLED))
 		{

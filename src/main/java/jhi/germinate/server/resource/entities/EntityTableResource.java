@@ -42,7 +42,7 @@ public class EntityTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_ENTITIES);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableEntities> result = setPaginationAndOrderBy(from)
 				.fetch()

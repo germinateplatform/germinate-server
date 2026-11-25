@@ -14,9 +14,11 @@ import jhi.germinate.server.resource.*;
 import jhi.germinate.server.util.*;
 import org.jooq.*;
 
+import java.io.*;
 import java.io.File;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static jhi.germinate.server.database.codegen.tables.Climatedata.CLIMATEDATA;
 import static jhi.germinate.server.database.codegen.tables.Datasetmembers.DATASETMEMBERS;
@@ -28,6 +30,45 @@ import static jhi.germinate.server.database.codegen.tables.Stories.STORIES;
 @Path("dataset")
 public class DatasetResource extends ContextResource
 {
+	@Path("/wordcloud")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured
+	@PermitAll
+	public List<LuceneWordFrequencyService.WordCount> getWordCloud()
+	{
+		AuthenticationFilter.UserDetails userDetails = (AuthenticationFilter.UserDetails) securityContext.getUserPrincipal();
+
+		List<Integer> datasetIds = AuthorizationFilter.getDatasetIds(req, userDetails, null, false);
+
+		try (Connection conn = Database.getConnection())
+		{
+			DSLContext context = Database.getContext(conn);
+
+			List<String> input = new ArrayList<>();
+			context.selectFrom(DATASETS)
+				   .where(DATASETS.ID.in(datasetIds))
+				   .forEach(d -> {
+					   input.add(d.getName());
+
+					   if (!StringUtils.isEmpty(d.getDescription()))
+						   input.add(d.getDescription());
+				   });
+
+			try (LuceneWordFrequencyService service = new LuceneWordFrequencyService())
+			{
+				return service.countWords(input, List.of("data", "dataset", "trial", "climate", "marker", "genotype", "trait"), 60, 3, 0.5);
+			}
+		}
+		catch (SQLException | IOException e)
+		{
+			e.printStackTrace();
+			Logger.getLogger("").severe(e.getMessage());
+			return new ArrayList<>();
+		}
+	}
+
 	@Path("/similar")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

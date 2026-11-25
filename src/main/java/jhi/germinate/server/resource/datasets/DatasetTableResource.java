@@ -215,7 +215,7 @@ public class DatasetTableResource extends BaseDatasetTableResource
 			SelectJoinStep<ViewTableDatasetsRecord> from = getQuery(context, adjuster);
 
 			// Filter here!
-			having(from, request.getFilters(), true);
+			from.having(getConditions(filters, true));
 
 			Result<ViewTableDatasetsRecord> data = from.fetch();
 

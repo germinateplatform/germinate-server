@@ -46,7 +46,7 @@ public class StoryTableResource extends BaseResource
 			                                                                                   .or(VIEW_TABLE_STORIES.STORY_USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			where(from, filters, true);
+			from.and(getConditions(filters, true));
 
 			List<ViewTableStoriesEnriched> result = setPaginationAndOrderBy(from)
 					.fetch()

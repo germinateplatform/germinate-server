@@ -64,7 +64,7 @@ public class DatasetLocationResource extends BaseResource
 																	 .and(CLIMATEDATA.DATASET_ID.in(availableIds)));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTableLocations> result = setPaginationAndOrderBy(from)
 					.fetch()

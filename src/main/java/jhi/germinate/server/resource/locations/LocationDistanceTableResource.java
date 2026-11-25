@@ -68,7 +68,7 @@ public class LocationDistanceTableResource extends BaseResource
 			                                                  .and(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE.isNotNull()));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<LocationDistance> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -103,7 +103,7 @@ public class LocationDistanceTableResource extends BaseResource
 			                                                  .and(VIEW_TABLE_LOCATIONS.LOCATION_LATITUDE.isNotNull()));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

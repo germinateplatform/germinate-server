@@ -44,7 +44,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 					           .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			having(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -80,7 +80,7 @@ public class GermplasmPolygonTableResource extends GermplasmBaseResource
 					          .and(DSL.condition("ST_CONTAINS(ST_GeomFromText({0}), ST_GeomFromText (CONCAT( 'POINT(', `" + LOCATIONS.LONGITUDE.getName() + "`, ' ', `" + LOCATIONS.LATITUDE.getName() + "`, ')')))", LocationPolygonTableResource.buildSqlPolygon(request.getPolygons()))));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

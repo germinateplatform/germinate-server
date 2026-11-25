@@ -46,7 +46,7 @@ public class ExperimentTableResource extends BaseExperimentTableResource
 														   .from(EXPERIMENTS);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

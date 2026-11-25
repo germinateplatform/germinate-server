@@ -58,7 +58,7 @@ public class GermplasmGroupTableResource extends BaseResource
 			                                              .and(GROUPMEMBERS.FOREIGN_ID.eq(germplasmId))));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
 					.fetch()

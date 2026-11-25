@@ -78,7 +78,7 @@ public class GermplasmExportResource extends GermplasmBaseResource
 						SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, false, null);
 
 						// Filter here!
-						having(from, group);
+						from.having(getConditions(group));
 
 						File result =  ResourceUtils.exportToZip(from.fetch(), "germplasm-table-");
 

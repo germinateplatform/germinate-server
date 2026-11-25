@@ -52,7 +52,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 			from.having(DSL.field(GERMPLASM_ID, Integer.class).in(ids));
 
 			// Filter here!
-			having(from, filters, true);
+			from.having(getConditions(filters, true));
 
 			List<ViewTablePublicationGermplasm> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -93,7 +93,7 @@ public class PublicationGermplasmTableResource extends GermplasmBaseResource
 			from.having(DSL.field(GERMPLASM_ID, Integer.class).in(ids));
 
 			// Filter here!
-			having(from, filters, true);
+			from.having(getConditions(filters, true));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

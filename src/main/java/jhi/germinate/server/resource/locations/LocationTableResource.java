@@ -15,7 +15,6 @@ import jhi.germinate.server.util.Secured;
 import org.jooq.*;
 import org.jooq.Record;
 
-import java.io.*;
 import java.io.File;
 import java.sql.*;
 import java.util.List;
@@ -45,7 +44,7 @@ public class LocationTableResource extends ExportResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_LOCATIONS);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableLocations> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -71,10 +70,10 @@ public class LocationTableResource extends ExportResource
 		{
 			DSLContext context = Database.getContext(conn);
 			SelectJoinStep<Record1<Integer>> from = context.selectDistinct(VIEW_TABLE_LOCATIONS.LOCATION_ID)
-			                                               .from(VIEW_TABLE_LOCATIONS);
+														   .from(VIEW_TABLE_LOCATIONS);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

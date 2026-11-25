@@ -38,7 +38,7 @@ public class MarkerTableRespource extends MarkerBaseResource
 			SelectJoinStep<?> from = getMarkerQuery(context, null);
 
 			// Filter here!
-			having(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableMarkers> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -66,7 +66,7 @@ public class MarkerTableRespource extends MarkerBaseResource
 			SelectJoinStep<?> from = getMarkerIdQuery(context, null);
 
 			// Filter here!
-			having(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -91,7 +91,7 @@ public class MarkerTableRespource extends MarkerBaseResource
 			SelectJoinStep<?> from = getMarkerQuery(context, null);
 
 			// Filter here!
-			having(from, filters);
+			from.where(getConditions(filters));
 
 			File result = ResourceUtils.exportToZip(from.fetch(), "marker-table-");
 

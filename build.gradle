@@ -55,6 +55,9 @@ dependencies {
     implementation 'org.json:json:20250517'
     implementation 'com.google.code.gson:gson:2.10'
 
+    implementation 'org.apache.lucene:lucene-core:10.6.0'
+    implementation 'org.apache.lucene:lucene-analysis-common:10.6.0'
+
     implementation 'com.mysql:mysql-connector-j:8.2.0'
     implementation 'org.xerial:sqlite-jdbc:3.44.0.0'
     implementation 'cisd:jhdf5:19.04.1'
@@ -94,7 +97,6 @@ dependencies {
     implementation 'info.picocli:picocli:4.7.7'
     annotationProcessor 'info.picocli:picocli-codegen:4.7.7'
 
-    // Disabled Swagger until we can figure out how to make it work with Jersey3 and Jakarta
     implementation 'io.swagger.core.v3:swagger-jaxrs2-jakarta:2.2.31'
     implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer-jakarta:2.2.31'
 
@@ -223,6 +225,7 @@ generateTypeScript {
     jsonLibrary = 'jackson2'
     classes = ['jhi.germinate.server.database.codegen.tables.pojos.ViewTableLocations', 'jhi.germinate.server.database.codegen.tables.pojos.ViewTablePublications', 'jhi.gatekeeper.resource.PaginatedResult', 'jhi.germinate.resource.enums.UserType', 'jhi.germinate.resource.LoginDetails', 'jhi.gatekeeper.server.database.tables.pojos.UnapprovedUsers', 'jhi.gatekeeper.server.database.tables.pojos.Institutions', 'jhi.germinate.server.resource.datasets.DatasetSimilarityIndex$SimilarityResult']
     classPatterns = ['jhi.germinate.resource.*', 'jhi.germinate.resource.**.*', 'jhi.germinate.server.database.codegen.tables.pojos.*', 'jhi.germinate.server.database.pojo.*']
+    excludeClasses = ['java.io.Serializable']
     outputKind = 'module'
     outputFile = 'germinate.ts'
     outputFileType = 'implementationFile'

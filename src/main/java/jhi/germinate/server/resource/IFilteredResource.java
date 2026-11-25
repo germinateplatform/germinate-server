@@ -5,7 +5,6 @@ import jhi.germinate.resource.enums.*;
 import jhi.germinate.server.util.*;
 import jhi.germinate.server.util.jooq.GDSL;
 import org.jooq.*;
-import org.jooq.Record;
 import org.jooq.impl.DSL;
 
 import java.util.*;
@@ -17,14 +16,24 @@ import java.util.stream.Collectors;
  */
 public interface IFilteredResource
 {
-	default <T extends Record> void having(SelectHavingConditionStep<T> step, FilterGroup[] filters)
+	default Condition getConditions(FilterGroup[] filters)
 	{
-		having(step, filters, false);
+		Condition result = getConditions(filters, false);
+
+		if (result == null)
+			return DSL.noCondition();
+		else
+			return result;
 	}
 
-	default <T extends Record> void having(SelectJoinStep<T> step, FilterGroup[] filters)
+	default Condition getConditions(FilterGroup[] filters, boolean allowJson)
 	{
-		having(step, filters, false);
+		Condition result = recursive(filters, allowJson);
+
+		if (result == null)
+			return DSL.noCondition();
+		else
+			return result;
 	}
 
 	default Condition recursive(FilterGroup[] filters, boolean jsonOperationAllowed)
@@ -53,44 +62,6 @@ public interface IFilteredResource
 			}
 		}
 		return overall;
-	}
-
-	default <T extends Record> void having(SelectHavingConditionStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
-	{
-		Condition overall = recursive(filters, jsonOperationAllowed);
-		if (overall != null)
-			step.and(overall);
-	}
-
-	default <T extends Record> void having(SelectJoinStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
-	{
-		Condition overall = recursive(filters, jsonOperationAllowed);
-		if (overall != null)
-			step.having(overall);
-	}
-
-	default <T extends Record> void where(SelectConditionStep<T> step, FilterGroup[] filters)
-	{
-		where(step, filters, false);
-	}
-
-	default <T extends Record> void where(SelectJoinStep<T> step, FilterGroup[] filters)
-	{
-		where(step, filters, false);
-	}
-
-	default <T extends Record> void where(SelectConditionStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
-	{
-		Condition overall = recursive(filters, jsonOperationAllowed);
-		if (overall != null)
-			step.and(overall);
-	}
-
-	default <T extends Record> void where(SelectJoinStep<T> step, FilterGroup[] filters, boolean jsonOperationAllowed)
-	{
-		Condition overall = recursive(filters, jsonOperationAllowed);
-		if (overall != null)
-			step.where(overall);
 	}
 
 	default List<Filter> findFiltersWithColumn(FilterGroup[] filterGroups, String columnName)
@@ -214,9 +185,9 @@ public interface IFilteredResource
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
-							.filter(v -> !StringUtils.isEmpty(v))
-							.map(v -> GDSL.jsonSearch(v, field).isNotNull())
-							.toList();
+													   .filter(v -> !StringUtils.isEmpty(v))
+													   .map(v -> GDSL.jsonSearch(v, field).isNotNull())
+													   .toList();
 
 					Condition result = conditions.getFirst();
 
@@ -237,8 +208,8 @@ public interface IFilteredResource
 				if (jsonOperationAllowed)
 				{
 					List<Condition> conditions = values.stream()
-							.map(v -> GDSL.jsonContains(v, field))
-							.toList();
+													   .map(v -> GDSL.jsonContains(v, field))
+													   .toList();
 
 					Condition result = conditions.getFirst();
 

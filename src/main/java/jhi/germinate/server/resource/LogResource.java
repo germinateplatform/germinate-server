@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource;
 
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jhi.germinate.resource.enums.*;
@@ -55,7 +55,11 @@ public class LogResource extends ContextResource
 				logFile = logFile.replace("/", "#");
 
 				// Then get the file from the logs folder
-				File file = new File(new File(System.getProperty("catalina.home"), "logs"), logFile);
+				File folder = new File(System.getProperty("catalina.home"), "logs");
+				File file = new File(folder, logFile);
+
+				if (!FileUtils.isSubDirectory(folder, file))
+					throw new BadRequestException();
 
 				Logger.getLogger("").log(Level.INFO, "Getting log file: " + logFile);
 				Logger.getLogger("").log(Level.INFO, "File resolves to: " + file.getAbsolutePath());

@@ -45,7 +45,7 @@ public class MapOverlayTableResource extends BaseResource
 													 .where(VIEW_TABLE_MAPOVERLAYS.DATASET_ID.isNull().or(VIEW_TABLE_MAPOVERLAYS.DATASET_ID.in(datasetIds)));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTableMapoverlays> result = setPaginationAndOrderBy(from)
 				.fetch()

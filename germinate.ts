@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2026-11-12 17:33:38.
+// Generated using typescript-generator version 3.2.1263 on 2026-11-24 16:10:00.
 
-export interface ViewTableLocations extends Serializable {
+export interface ViewTableLocations {
     locationId: number;
     locationName: string;
     locationNameShort: string;
@@ -19,7 +19,7 @@ export interface ViewTableLocations extends Serializable {
     countryCode3: string;
 }
 
-export interface ViewTablePublications extends Serializable {
+export interface ViewTablePublications {
     publicationId: number;
     publicationDoi: string;
     publicationFallbackCache: string;
@@ -33,7 +33,7 @@ export interface ViewTablePublications extends Serializable {
     updatedOn: Date;
 }
 
-export interface PaginatedResult<T> extends Serializable {
+export interface PaginatedResult<T> {
     data: T;
     count: number;
 }
@@ -43,7 +43,7 @@ export interface LoginDetails {
     password: string;
 }
 
-export interface UnapprovedUsers extends Serializable {
+export interface UnapprovedUsers {
     id: number;
     userUsername: string;
     userPassword: string;
@@ -60,7 +60,7 @@ export interface UnapprovedUsers extends Serializable {
     activationKey: string;
 }
 
-export interface GatekeeperInstitution extends Serializable {
+export interface GatekeeperInstitution {
     id: number;
     name: string;
     acronym: string;
@@ -597,6 +597,10 @@ export interface ViewTableClimateDataWithGroups extends ViewTableClimateData {
     groups: Groups[];
 }
 
+export interface ViewTableClimateLocation extends ViewTableLocations {
+    groupIds: number[];
+}
+
 export interface ViewTableDatasetMaps extends ViewTableMaps {
     mapCoverageCount: number;
 }
@@ -721,7 +725,7 @@ export interface ViewUserDetailsType extends ViewUserDetails {
     userTypeString: string;
 }
 
-export interface Attributedata extends Serializable {
+export interface Attributedata {
     id: number;
     attributeId: number;
     foreignId: number;
@@ -730,7 +734,7 @@ export interface Attributedata extends Serializable {
     updatedOn: Date;
 }
 
-export interface Attributes extends Serializable {
+export interface Attributes {
     id: number;
     name: string;
     description: string;
@@ -740,14 +744,14 @@ export interface Attributes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Biologicalstatus extends Serializable {
+export interface Biologicalstatus {
     id: number;
     sampstat: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Climatedata extends Serializable {
+export interface Climatedata {
     id: number;
     climateId: number;
     locationId: number;
@@ -759,7 +763,7 @@ export interface Climatedata extends Serializable {
     updatedOn: Date;
 }
 
-export interface Climates extends Serializable {
+export interface Climates {
     id: number;
     name: string;
     shortName: string;
@@ -770,7 +774,7 @@ export interface Climates extends Serializable {
     updatedOn: Date;
 }
 
-export interface Collaborators extends Serializable {
+export interface Collaborators {
     id: number;
     firstName: string;
     lastName: string;
@@ -782,14 +786,14 @@ export interface Collaborators extends Serializable {
     updatedOn: Date;
 }
 
-export interface Collectingsources extends Serializable {
+export interface Collectingsources {
     id: number;
     collsrc: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Comments extends Serializable {
+export interface Comments {
     id: number;
     commenttypeId: number;
     userId: number;
@@ -800,7 +804,7 @@ export interface Comments extends Serializable {
     updatedOn: Date;
 }
 
-export interface Commenttypes extends Serializable {
+export interface Commenttypes {
     id: number;
     description: string;
     referenceTable: string;
@@ -808,7 +812,7 @@ export interface Commenttypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Countries extends Serializable {
+export interface Countries {
     id: number;
     countryCode2: string;
     countryCode3: string;
@@ -817,7 +821,7 @@ export interface Countries extends Serializable {
     updatedOn: Date;
 }
 
-export interface DataExportJobs extends Serializable {
+export interface DataExportJobs {
     id: number;
     uuid: string;
     jobId: string;
@@ -832,7 +836,7 @@ export interface DataExportJobs extends Serializable {
     updatedOn: Date;
 }
 
-export interface DataImportJobs extends Serializable {
+export interface DataImportJobs {
     id: number;
     uuid: string;
     jobId: string;
@@ -851,7 +855,7 @@ export interface DataImportJobs extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasetaccesslogs extends Serializable {
+export interface Datasetaccesslogs {
     id: number;
     userId: number;
     userName: string;
@@ -863,7 +867,7 @@ export interface Datasetaccesslogs extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasetcollaborators extends Serializable {
+export interface Datasetcollaborators {
     id: number;
     datasetId: number;
     collaboratorId: number;
@@ -872,21 +876,21 @@ export interface Datasetcollaborators extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasetfileresources extends Serializable {
+export interface Datasetfileresources {
     datasetId: number;
     fileresourceId: number;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Datasetlocations extends Serializable {
+export interface Datasetlocations {
     datasetId: number;
     locationId: number;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Datasetmembers extends Serializable {
+export interface Datasetmembers {
     id: number;
     datasetId: number;
     foreignId: number;
@@ -895,14 +899,14 @@ export interface Datasetmembers extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasetmembertypes extends Serializable {
+export interface Datasetmembertypes {
     id: number;
     targetTable: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Datasetmeta extends Serializable {
+export interface Datasetmeta {
     id: number;
     datasetId: number;
     nrOfDataObjects: number;
@@ -911,7 +915,7 @@ export interface Datasetmeta extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasetpermissions extends Serializable {
+export interface Datasetpermissions {
     id: number;
     datasetId: number;
     userId: number;
@@ -920,7 +924,7 @@ export interface Datasetpermissions extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasets extends Serializable {
+export interface Datasets {
     id: number;
     experimentId: number;
     datasettypeId: number;
@@ -944,7 +948,7 @@ export interface Datasets extends Serializable {
     contact: string;
 }
 
-export interface Datasetstates extends Serializable {
+export interface Datasetstates {
     id: number;
     name: string;
     description: string;
@@ -952,14 +956,14 @@ export interface Datasetstates extends Serializable {
     updatedOn: Date;
 }
 
-export interface Datasettypes extends Serializable {
+export interface Datasettypes {
     id: number;
     description: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Datawarnings extends Serializable {
+export interface Datawarnings {
     id: number;
     description: string;
     category: DatawarningsCategory;
@@ -967,7 +971,7 @@ export interface Datawarnings extends Serializable {
     updatedOn: Date;
 }
 
-export interface Entitytypes extends Serializable {
+export interface Entitytypes {
     id: number;
     name: string;
     description: string;
@@ -975,7 +979,7 @@ export interface Entitytypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Experiments extends Serializable {
+export interface Experiments {
     id: number;
     experimentName: string;
     userId: number;
@@ -986,7 +990,7 @@ export interface Experiments extends Serializable {
     updatedOn: Date;
 }
 
-export interface Fileresources extends Serializable {
+export interface Fileresources {
     id: number;
     name: string;
     path: string;
@@ -998,7 +1002,7 @@ export interface Fileresources extends Serializable {
     updatedOn: Date;
 }
 
-export interface Fileresourcetypes extends Serializable {
+export interface Fileresourcetypes {
     id: number;
     name: string;
     description: string;
@@ -1006,7 +1010,7 @@ export interface Fileresourcetypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Germinatebase extends Serializable {
+export interface Germinatebase {
     id: number;
     generalIdentifier: string;
     number: string;
@@ -1023,14 +1027,14 @@ export interface Germinatebase extends Serializable {
     updatedOn: Date;
 }
 
-export interface Germplasmdatawarnings extends Serializable {
+export interface Germplasmdatawarnings {
     germinatebaseId: number;
     datawarningId: number;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Germplasminstitutions extends Serializable {
+export interface Germplasminstitutions {
     germinatebaseId: number;
     institutionId: number;
     type: GermplasminstitutionsType;
@@ -1038,7 +1042,7 @@ export interface Germplasminstitutions extends Serializable {
     updatedOn: Date;
 }
 
-export interface Groupmembers extends Serializable {
+export interface Groupmembers {
     id: number;
     foreignId: number;
     groupId: number;
@@ -1046,7 +1050,7 @@ export interface Groupmembers extends Serializable {
     updatedOn: Date;
 }
 
-export interface Groups extends Serializable {
+export interface Groups {
     id: number;
     grouptypeId: number;
     name: string;
@@ -1057,7 +1061,7 @@ export interface Groups extends Serializable {
     updatedOn: Date;
 }
 
-export interface Grouptypes extends Serializable {
+export interface Grouptypes {
     id: number;
     description: string;
     targetTable: string;
@@ -1065,14 +1069,14 @@ export interface Grouptypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface ImageToTags extends Serializable {
+export interface ImageToTags {
     imageId: number;
     imagetagId: number;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Images extends Serializable {
+export interface Images {
     id: number;
     imagetypeId: number;
     description: string;
@@ -1084,14 +1088,14 @@ export interface Images extends Serializable {
     updatedOn: Date;
 }
 
-export interface Imagetags extends Serializable {
+export interface Imagetags {
     id: number;
     tagName: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Imagetypes extends Serializable {
+export interface Imagetypes {
     id: number;
     description: string;
     referenceTable: string;
@@ -1099,7 +1103,7 @@ export interface Imagetypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Institutions extends Serializable {
+export interface Institutions {
     id: number;
     code: string;
     name: string;
@@ -1113,7 +1117,7 @@ export interface Institutions extends Serializable {
     updatedOn: Date;
 }
 
-export interface Licensedata extends Serializable {
+export interface Licensedata {
     id: number;
     licenseId: number;
     localeId: number;
@@ -1122,14 +1126,14 @@ export interface Licensedata extends Serializable {
     updatedOn: Date;
 }
 
-export interface Licenselogs extends Serializable {
+export interface Licenselogs {
     id: number;
     licenseId: number;
     userId: number;
     acceptedOn: Date;
 }
 
-export interface Licenses extends Serializable {
+export interface Licenses {
     id: number;
     name: string;
     description: string;
@@ -1137,7 +1141,7 @@ export interface Licenses extends Serializable {
     updatedOn: Date;
 }
 
-export interface Links extends Serializable {
+export interface Links {
     id: number;
     linktypeId: number;
     foreignId: number;
@@ -1148,7 +1152,7 @@ export interface Links extends Serializable {
     updatedOn: Date;
 }
 
-export interface Linktypes extends Serializable {
+export interface Linktypes {
     id: number;
     description: string;
     targetTable: string;
@@ -1158,7 +1162,7 @@ export interface Linktypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Locales extends Serializable {
+export interface Locales {
     id: number;
     name: string;
     description: string;
@@ -1166,7 +1170,7 @@ export interface Locales extends Serializable {
     updatedOn: Date;
 }
 
-export interface Locations extends Serializable {
+export interface Locations {
     id: number;
     locationtypeId: number;
     countryId: number;
@@ -1184,7 +1188,7 @@ export interface Locations extends Serializable {
     updatedOn: Date;
 }
 
-export interface Locationtypes extends Serializable {
+export interface Locationtypes {
     id: number;
     name: string;
     description: string;
@@ -1192,7 +1196,7 @@ export interface Locationtypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Mapdefinitions extends Serializable {
+export interface Mapdefinitions {
     id: number;
     mapfeaturetypeId: number;
     markerId: number;
@@ -1205,14 +1209,14 @@ export interface Mapdefinitions extends Serializable {
     updatedOn: Date;
 }
 
-export interface Mapfeaturetypes extends Serializable {
+export interface Mapfeaturetypes {
     id: number;
     description: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Mapoverlays extends Serializable {
+export interface Mapoverlays {
     id: number;
     name: string;
     description: string;
@@ -1229,7 +1233,7 @@ export interface Mapoverlays extends Serializable {
     updatedOn: Date;
 }
 
-export interface Maps extends Serializable {
+export interface Maps {
     id: number;
     name: string;
     description: string;
@@ -1239,7 +1243,7 @@ export interface Maps extends Serializable {
     userId: number;
 }
 
-export interface Markers extends Serializable {
+export interface Markers {
     id: number;
     markertypeId: number;
     markerName: string;
@@ -1247,14 +1251,14 @@ export interface Markers extends Serializable {
     updatedOn: Date;
 }
 
-export interface Markertypes extends Serializable {
+export interface Markertypes {
     id: number;
     description: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Mcpd extends Serializable {
+export interface Mcpd {
     germinatebaseId: number;
     puid: string;
     instcode: string;
@@ -1301,7 +1305,7 @@ export interface Mcpd extends Serializable {
     updatedOn: Date;
 }
 
-export interface Methodontologies extends Serializable {
+export interface Methodontologies {
     ontologyId: number;
     methodId: number;
     ontologyPuid: string;
@@ -1309,7 +1313,7 @@ export interface Methodontologies extends Serializable {
     updatedOn: Date;
 }
 
-export interface Methods extends Serializable {
+export interface Methods {
     id: number;
     name: string;
     description: string;
@@ -1320,14 +1324,14 @@ export interface Methods extends Serializable {
     updatedOn: Date;
 }
 
-export interface Mlsstatus extends Serializable {
+export interface Mlsstatus {
     id: number;
     description: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface News extends Serializable {
+export interface News {
     id: number;
     newstypeId: number;
     title: string;
@@ -1340,7 +1344,7 @@ export interface News extends Serializable {
     updatedOn: Date;
 }
 
-export interface Newstypes extends Serializable {
+export interface Newstypes {
     id: number;
     name: string;
     description: string;
@@ -1348,7 +1352,7 @@ export interface Newstypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Ontologies extends Serializable {
+export interface Ontologies {
     id: number;
     name: string;
     description: string;
@@ -1358,7 +1362,7 @@ export interface Ontologies extends Serializable {
     updatedOn: Date;
 }
 
-export interface Pedigreedefinitions extends Serializable {
+export interface Pedigreedefinitions {
     id: number;
     datasetId: number;
     germinatebaseId: number;
@@ -1369,7 +1373,7 @@ export interface Pedigreedefinitions extends Serializable {
     updatedOn: Date;
 }
 
-export interface Pedigreedescriptions extends Serializable {
+export interface Pedigreedescriptions {
     id: number;
     name: string;
     description: string;
@@ -1378,7 +1382,7 @@ export interface Pedigreedescriptions extends Serializable {
     updatedOn: Date;
 }
 
-export interface Pedigreenotations extends Serializable {
+export interface Pedigreenotations {
     id: number;
     name: string;
     description: string;
@@ -1387,7 +1391,7 @@ export interface Pedigreenotations extends Serializable {
     updatedOn: Date;
 }
 
-export interface Pedigrees extends Serializable {
+export interface Pedigrees {
     id: number;
     datasetId: number;
     germinatebaseId: number;
@@ -1399,7 +1403,7 @@ export interface Pedigrees extends Serializable {
     updatedOn: Date;
 }
 
-export interface Phenotypedata extends Serializable {
+export interface Phenotypedata {
     id: number;
     trialsetupId: number;
     variableId: number;
@@ -1409,7 +1413,7 @@ export interface Phenotypedata extends Serializable {
     updatedOn: Date;
 }
 
-export interface Projectcollaborators extends Serializable {
+export interface Projectcollaborators {
     collaboratorId: number;
     projectId: number;
     role: ProjectcollaboratorsRole;
@@ -1417,21 +1421,21 @@ export interface Projectcollaborators extends Serializable {
     updatedOn: Date;
 }
 
-export interface Projectgroups extends Serializable {
+export interface Projectgroups {
     projectId: number;
     groupId: number;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Projectpublications extends Serializable {
+export interface Projectpublications {
     projectId: number;
     publicationId: number;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Projects extends Serializable {
+export interface Projects {
     id: number;
     name: string;
     description: string;
@@ -1444,7 +1448,7 @@ export interface Projects extends Serializable {
     updatedOn: Date;
 }
 
-export interface Publicationdata extends Serializable {
+export interface Publicationdata {
     id: number;
     foreignId: number;
     publicationId: number;
@@ -1453,7 +1457,7 @@ export interface Publicationdata extends Serializable {
     updatedOn: Date;
 }
 
-export interface Publications extends Serializable {
+export interface Publications {
     id: number;
     doi: string;
     fallbackCache: string;
@@ -1461,7 +1465,7 @@ export interface Publications extends Serializable {
     updatedOn: Date;
 }
 
-export interface Scaleontologies extends Serializable {
+export interface Scaleontologies {
     ontologyId: number;
     scaleId: number;
     ontologyPuid: string;
@@ -1469,7 +1473,7 @@ export interface Scaleontologies extends Serializable {
     updatedOn: Date;
 }
 
-export interface Scales extends Serializable {
+export interface Scales {
     id: number;
     name: string;
     description: string;
@@ -1480,7 +1484,7 @@ export interface Scales extends Serializable {
     updatedOn: Date;
 }
 
-export interface SchemaVersion extends Serializable {
+export interface SchemaVersion {
     installedRank: number;
     version: string;
     description: string;
@@ -1493,7 +1497,7 @@ export interface SchemaVersion extends Serializable {
     success: boolean;
 }
 
-export interface Stories extends Serializable {
+export interface Stories {
     id: number;
     name: string;
     description: string;
@@ -1508,7 +1512,7 @@ export interface Stories extends Serializable {
     updatedOn: Date;
 }
 
-export interface Storysteps extends Serializable {
+export interface Storysteps {
     id: number;
     storyId: number;
     storyIndex: number;
@@ -1520,7 +1524,7 @@ export interface Storysteps extends Serializable {
     updatedOn: Date;
 }
 
-export interface Studydetails extends Serializable {
+export interface Studydetails {
     id: number;
     core: StudyDetailsCore;
     environment: JSON;
@@ -1529,7 +1533,7 @@ export interface Studydetails extends Serializable {
     updatedOn: Date;
 }
 
-export interface Synonyms extends Serializable {
+export interface Synonyms {
     id: number;
     foreignId: number;
     synonymtypeId: number;
@@ -1538,7 +1542,7 @@ export interface Synonyms extends Serializable {
     updatedOn: Date;
 }
 
-export interface Synonymtypes extends Serializable {
+export interface Synonymtypes {
     id: number;
     targetTable: string;
     name: string;
@@ -1547,7 +1551,7 @@ export interface Synonymtypes extends Serializable {
     updatedOn: Date;
 }
 
-export interface Taxonomies extends Serializable {
+export interface Taxonomies {
     id: number;
     genus: string;
     species: string;
@@ -1560,7 +1564,7 @@ export interface Taxonomies extends Serializable {
     updatedOn: Date;
 }
 
-export interface Taxonomyproviders extends Serializable {
+export interface Taxonomyproviders {
     id: number;
     name: string;
     homepageUrl: string;
@@ -1569,13 +1573,13 @@ export interface Taxonomyproviders extends Serializable {
     updatedOn: Date;
 }
 
-export interface Taxonomyproviderslinks extends Serializable {
+export interface Taxonomyproviderslinks {
     taxonomyId: number;
     taxonomyproviderId: number;
     externalId: string;
 }
 
-export interface Traitcategories extends Serializable {
+export interface Traitcategories {
     id: number;
     name: string;
     description: string;
@@ -1583,7 +1587,7 @@ export interface Traitcategories extends Serializable {
     updatedOn: Date;
 }
 
-export interface Traitontologies extends Serializable {
+export interface Traitontologies {
     ontologyId: number;
     traitId: number;
     ontologyPuid: string;
@@ -1591,7 +1595,7 @@ export interface Traitontologies extends Serializable {
     updatedOn: Date;
 }
 
-export interface Traits extends Serializable {
+export interface Traits {
     id: number;
     name: string;
     description: string;
@@ -1603,7 +1607,7 @@ export interface Traits extends Serializable {
     updatedOn: Date;
 }
 
-export interface Treatments extends Serializable {
+export interface Treatments {
     id: number;
     name: string;
     description: string;
@@ -1611,14 +1615,14 @@ export interface Treatments extends Serializable {
     updatedOn: Date;
 }
 
-export interface Trialseries extends Serializable {
+export interface Trialseries {
     id: number;
     seriesname: string;
     createdOn: Date;
     updatedOn: Date;
 }
 
-export interface Trialsetup extends Serializable {
+export interface Trialsetup {
     id: number;
     germinatebaseId: number;
     datasetId: number;
@@ -1636,7 +1640,7 @@ export interface Trialsetup extends Serializable {
     updatedOn: Date;
 }
 
-export interface Units extends Serializable {
+export interface Units {
     id: number;
     unitName: string;
     unitAbbreviation: string;
@@ -1645,7 +1649,7 @@ export interface Units extends Serializable {
     updatedOn: Date;
 }
 
-export interface Usergroupmembers extends Serializable {
+export interface Usergroupmembers {
     id: number;
     userId: number;
     usergroupId: number;
@@ -1653,7 +1657,7 @@ export interface Usergroupmembers extends Serializable {
     updatedOn: Date;
 }
 
-export interface Usergroups extends Serializable {
+export interface Usergroups {
     id: number;
     name: string;
     description: string;
@@ -1661,7 +1665,7 @@ export interface Usergroups extends Serializable {
     updatedOn: Date;
 }
 
-export interface Variableontologies extends Serializable {
+export interface Variableontologies {
     ontologyId: number;
     variableId: number;
     ontologyPuid: string;
@@ -1669,7 +1673,7 @@ export interface Variableontologies extends Serializable {
     updatedOn: Date;
 }
 
-export interface Variables extends Serializable {
+export interface Variables {
     id: number;
     name: string;
     description: string;
@@ -1680,7 +1684,7 @@ export interface Variables extends Serializable {
     updatedOn: Date;
 }
 
-export interface ViewMcpd extends Serializable {
+export interface ViewMcpd {
     puid: string;
     instcode: string;
     accenumb: string;
@@ -1724,32 +1728,32 @@ export interface ViewMcpd extends Serializable {
     remarks: string;
 }
 
-export interface ViewStatsBiologicalstatus extends Serializable {
+export interface ViewStatsBiologicalstatus {
     biologicalstatus: string;
     genus: string;
     count: number;
 }
 
-export interface ViewStatsCountry extends Serializable {
+export interface ViewStatsCountry {
     country: string;
     code_2: string;
     code_3: string;
     count: number;
 }
 
-export interface ViewStatsPdci extends Serializable {
+export interface ViewStatsPdci {
     bin: string;
     count: number;
 }
 
-export interface ViewStatsTaxonomy extends Serializable {
+export interface ViewStatsTaxonomy {
     genus: string;
     species: string;
     subtaxa: string;
     count: number;
 }
 
-export interface ViewTableClimateData extends Serializable {
+export interface ViewTableClimateData {
     locationId: number;
     locationName: string;
     locationRegion: string;
@@ -1773,7 +1777,7 @@ export interface ViewTableClimateData extends Serializable {
     climateValue: string;
 }
 
-export interface ViewTableClimates extends Serializable {
+export interface ViewTableClimates {
     climateId: number;
     climateName: string;
     climateNameShort: string;
@@ -1788,7 +1792,7 @@ export interface ViewTableClimates extends Serializable {
     count: number;
 }
 
-export interface ViewTableCollaborators extends Serializable {
+export interface ViewTableCollaborators {
     collaboratorId: number;
     collaboratorFirstName: string;
     collaboratorLastName: string;
@@ -1807,7 +1811,7 @@ export interface ViewTableCollaborators extends Serializable {
     projectIds: number[];
 }
 
-export interface ViewTableComments extends Serializable {
+export interface ViewTableComments {
     commentId: number;
     commentTypeId: number;
     commentType: string;
@@ -1818,7 +1822,7 @@ export interface ViewTableComments extends Serializable {
     updatedOn: Date;
 }
 
-export interface ViewTableDatasetAttributes extends Serializable {
+export interface ViewTableDatasetAttributes {
     datasetId: number;
     datasetName: string;
     datasetDescription: string;
@@ -1831,7 +1835,7 @@ export interface ViewTableDatasetAttributes extends Serializable {
     attributeValue: string;
 }
 
-export interface ViewTableDatasets extends Serializable {
+export interface ViewTableDatasets {
     datasetId: number;
     datasetName: string;
     datasetDescription: string;
@@ -1870,7 +1874,7 @@ export interface ViewTableDatasets extends Serializable {
     acceptedBy: number[];
 }
 
-export interface ViewTableEntities extends Serializable {
+export interface ViewTableEntities {
     entityParentId: number;
     entityParentGid: string;
     entityParentName: string;
@@ -1883,7 +1887,7 @@ export interface ViewTableEntities extends Serializable {
     entityChildType: string;
 }
 
-export interface ViewTableFileresources extends Serializable {
+export interface ViewTableFileresources {
     fileresourceId: number;
     fileresourceName: string;
     fileresourcePath: string;
@@ -1900,7 +1904,7 @@ export interface ViewTableFileresources extends Serializable {
     datasetIds: number[];
 }
 
-export interface ViewTableFileresourcetypes extends Serializable {
+export interface ViewTableFileresourcetypes {
     id: number;
     name: string;
     description: string;
@@ -1909,7 +1913,7 @@ export interface ViewTableFileresourcetypes extends Serializable {
     count: number;
 }
 
-export interface ViewTableGermplasmAttributes extends Serializable {
+export interface ViewTableGermplasmAttributes {
     attributeValueId: number;
     germplasmId: number;
     germplasmGid: string;
@@ -1925,7 +1929,7 @@ export interface ViewTableGermplasmAttributes extends Serializable {
     attributeValue: string;
 }
 
-export interface ViewTableGermplasmDeprecated extends Serializable {
+export interface ViewTableGermplasmDeprecated {
     germplasmName: string;
     germplasmId: number;
     germplasmGid: string;
@@ -1959,7 +1963,7 @@ export interface ViewTableGermplasmDeprecated extends Serializable {
     hasAllelefreqData: number;
 }
 
-export interface ViewTableGroups extends Serializable {
+export interface ViewTableGroups {
     groupId: number;
     groupName: string;
     groupDescription: string;
@@ -1974,7 +1978,7 @@ export interface ViewTableGroups extends Serializable {
     count: number;
 }
 
-export interface ViewTableImages extends Serializable {
+export interface ViewTableImages {
     imageId: number;
     imageDescription: string;
     imageForeignId: number;
@@ -1988,7 +1992,7 @@ export interface ViewTableImages extends Serializable {
     tags: ImageTag[];
 }
 
-export interface ViewTableImportJobs extends Serializable {
+export interface ViewTableImportJobs {
     id: number;
     isUpdate: boolean;
     datasetstateId: number;
@@ -2000,7 +2004,7 @@ export interface ViewTableImportJobs extends Serializable {
     createdOn: Date;
 }
 
-export interface ViewTableInstitutionDatasets extends Serializable {
+export interface ViewTableInstitutionDatasets {
     institutionId: number;
     institutionCode: string;
     institutionName: string;
@@ -2019,7 +2023,7 @@ export interface ViewTableInstitutionDatasets extends Serializable {
     pedigreeDatasetIds: number[];
 }
 
-export interface ViewTableInstitutions extends Serializable {
+export interface ViewTableInstitutions {
     institutionId: number;
     institutionName: string;
     institutionCode: string;
@@ -2034,7 +2038,7 @@ export interface ViewTableInstitutions extends Serializable {
     institutionType: string;
 }
 
-export interface ViewTableLicenseDefinitions extends Serializable {
+export interface ViewTableLicenseDefinitions {
     licenseId: number;
     licenseName: string;
     licenseDescription: string;
@@ -2042,7 +2046,7 @@ export interface ViewTableLicenseDefinitions extends Serializable {
     licenseData: { [index: string]: string };
 }
 
-export interface ViewTableLicenses extends Serializable {
+export interface ViewTableLicenses {
     licenseId: number;
     licenseName: string;
     licenseDescription: string;
@@ -2051,7 +2055,7 @@ export interface ViewTableLicenses extends Serializable {
     acceptedBy: number[];
 }
 
-export interface ViewTableLinks extends Serializable {
+export interface ViewTableLinks {
     linkId: number;
     linkDescription: string;
     linkVisibility: boolean;
@@ -2065,7 +2069,7 @@ export interface ViewTableLinks extends Serializable {
     updatedOn: Date;
 }
 
-export interface ViewTableMapdefinitions extends Serializable {
+export interface ViewTableMapdefinitions {
     markerId: number;
     markerName: string;
     synonyms: string[];
@@ -2078,7 +2082,7 @@ export interface ViewTableMapdefinitions extends Serializable {
     position: number;
 }
 
-export interface ViewTableMapoverlays extends Serializable {
+export interface ViewTableMapoverlays {
     mapoverlayId: number;
     mapoverlayName: string;
     mapoverlayDescription: string;
@@ -2098,7 +2102,7 @@ export interface ViewTableMapoverlays extends Serializable {
     updatedOn: Date;
 }
 
-export interface ViewTableMaps extends Serializable {
+export interface ViewTableMaps {
     mapId: number;
     mapName: string;
     mapDescription: string;
@@ -2107,7 +2111,7 @@ export interface ViewTableMaps extends Serializable {
     markerCount: number;
 }
 
-export interface ViewTableNews extends Serializable {
+export interface ViewTableNews {
     newsId: number;
     newsTitle: string;
     newsContent: string;
@@ -2121,7 +2125,7 @@ export interface ViewTableNews extends Serializable {
     updatedOn: Date;
 }
 
-export interface ViewTablePedigreedefinitions extends Serializable {
+export interface ViewTablePedigreedefinitions {
     germplasmId: number;
     germplasmName: string;
     germplasmDisplayName: string;
@@ -2138,7 +2142,7 @@ export interface ViewTablePedigreedefinitions extends Serializable {
     createdOn: Date;
 }
 
-export interface ViewTablePedigrees extends Serializable {
+export interface ViewTablePedigrees {
     parentId: number;
     parentGid: string;
     parentName: string;
@@ -2159,7 +2163,7 @@ export interface ViewTablePedigrees extends Serializable {
     pedigreeAuthor: string;
 }
 
-export interface ViewTableProjects extends Serializable {
+export interface ViewTableProjects {
     projectId: number;
     projectName: string;
     projectDescription: string;
@@ -2173,7 +2177,7 @@ export interface ViewTableProjects extends Serializable {
     datasets: Dataset[];
 }
 
-export interface ViewTableStories extends Serializable {
+export interface ViewTableStories {
     storyId: number;
     storyName: string;
     storyDescription: string;
@@ -2193,7 +2197,7 @@ export interface ViewTableStories extends Serializable {
     storyUpdatedOn: Date;
 }
 
-export interface ViewTableTaxonomies extends Serializable {
+export interface ViewTableTaxonomies {
     taxonomyId: number;
     taxonomyGenus: string;
     taxonomySpecies: string;
@@ -2203,7 +2207,7 @@ export interface ViewTableTaxonomies extends Serializable {
     count: number;
 }
 
-export interface ViewTableTraitAttributes extends Serializable {
+export interface ViewTableTraitAttributes {
     attributeValueId: number;
     variableId: number;
     variableName: string;
@@ -2217,7 +2221,7 @@ export interface ViewTableTraitAttributes extends Serializable {
     attributeValue: string;
 }
 
-export interface ViewTableTraits extends Serializable {
+export interface ViewTableTraits {
     variableId: number;
     variableName: string;
     variableDescription: string;
@@ -2251,7 +2255,7 @@ export interface ViewTableTraits extends Serializable {
     count: number;
 }
 
-export interface ViewTableTraitsTemplate extends Serializable {
+export interface ViewTableTraitsTemplate {
     variableCropontologyId: string;
     variableName: string;
     variableDescription: string;
@@ -2277,7 +2281,7 @@ export interface ViewTableTraitsTemplate extends Serializable {
     scaleValidValues: JSON;
 }
 
-export interface ViewTableTrialLayouts extends Serializable {
+export interface ViewTableTrialLayouts {
     germplasmId: number;
     germplasmName: string;
     germplasmGid: string;
@@ -2294,7 +2298,7 @@ export interface ViewTableTrialLayouts extends Serializable {
     species: string;
 }
 
-export interface ViewTableUsergroups extends Serializable {
+export interface ViewTableUsergroups {
     userGroupId: number;
     userGroupName: string;
     userGroupDescription: string;
@@ -2391,9 +2395,9 @@ export interface Exif {
     userComment: string;
     whiteBalance: string;
     whiteBalanceMode: string;
+    fnumber: string;
     yresolution: string;
     xresolution: string;
-    fnumber: string;
 }
 
 export interface ExportJobDetails {
@@ -2403,10 +2407,10 @@ export interface ExportJobDetails {
     fileHeaders: string;
     binningConfig: BinningConfig;
     exportParams: string[];
-    xgroupIds: number[];
-    ygroupIds: number[];
     xids: number[];
     yids: number[];
+    xgroupIds: number[];
+    ygroupIds: number[];
 }
 
 export interface GermplasmInstitution {
@@ -2510,9 +2514,6 @@ export interface ViewTableMarkers {
     updatedOn: Date;
 }
 
-export interface Serializable {
-}
-
 export interface AboutInfo {
     name: string;
     description: string;
@@ -2575,7 +2576,7 @@ export interface PlotDetails {
     rep: string;
 }
 
-export interface ViewUserDetails extends Serializable {
+export interface ViewUserDetails {
     id: number;
     username: string;
     fullName: string;
@@ -2597,24 +2598,24 @@ export interface JsonElement {
     asLong: number;
     asBoolean: boolean;
     asString: string;
-    asJsonArray: JsonArray;
-    jsonObject: boolean;
-    asBigDecimal: number;
-    asJsonObject: JsonObject;
-    asNumber: number;
+    asByte: number;
+    asFloat: number;
+    asShort: number;
+    jsonNull: boolean;
     jsonArray: boolean;
+    jsonPrimitive: boolean;
+    asJsonPrimitive: JsonPrimitive;
+    asBigInteger: number;
+    asJsonArray: JsonArray;
+    asNumber: number;
+    jsonObject: boolean;
     asJsonNull: JsonNull;
+    asJsonObject: JsonObject;
     /**
      * @deprecated
      */
     asCharacter: string;
-    jsonPrimitive: boolean;
-    asJsonPrimitive: JsonPrimitive;
-    asBigInteger: number;
-    asByte: number;
-    asFloat: number;
-    jsonNull: boolean;
-    asShort: number;
+    asBigDecimal: number;
 }
 
 export interface LevelCount {
@@ -2622,7 +2623,7 @@ export interface LevelCount {
     count: number;
 }
 
-export interface Locale extends Cloneable, Serializable {
+export interface Locale extends Cloneable {
 }
 
 export interface LocaleRequest {
@@ -2635,24 +2636,24 @@ export interface SgonePojo {
     name: string;
 }
 
-export interface Data extends Serializable {
-}
-
-export interface JsonArray extends JsonElement, Iterable<JsonElement> {
-    empty: boolean;
-}
-
-export interface JsonObject extends JsonElement {
-    empty: boolean;
-}
-
-export interface JsonNull extends JsonElement {
+export interface Data {
 }
 
 export interface JsonPrimitive extends JsonElement {
     number: boolean;
     boolean: boolean;
     string: boolean;
+}
+
+export interface JsonArray extends JsonElement, Iterable<JsonElement> {
+    empty: boolean;
+}
+
+export interface JsonNull extends JsonElement {
+}
+
+export interface JsonObject extends JsonElement {
+    empty: boolean;
 }
 
 export interface Cloneable {
@@ -2715,6 +2716,7 @@ export const enum ServerProperty {
     DASHBOARD_SECTIONS = 'DASHBOARD_SECTIONS',
     DATA_DIRECTORY_EXTERNAL = 'DATA_DIRECTORY_EXTERNAL',
     DATA_IMPORT_MODE = 'DATA_IMPORT_MODE',
+    DATASET_SIMILARITY_CALCULATION_ENABLED = 'DATASET_SIMILARITY_CALCULATION_ENABLED',
     DATABASE_SERVER = 'DATABASE_SERVER',
     DATABASE_NAME = 'DATABASE_NAME',
     DATABASE_USERNAME = 'DATABASE_USERNAME',

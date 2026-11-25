@@ -41,7 +41,7 @@ public class CollaboratorTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_COLLABORATORS);
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<ViewTableCollaborators> result = setPaginationAndOrderBy(from)
 					.fetch()

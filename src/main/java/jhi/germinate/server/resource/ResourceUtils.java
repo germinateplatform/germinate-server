@@ -1,7 +1,7 @@
 package jhi.germinate.server.resource;
 
 import com.google.gson.Gson;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Response;
 import jhi.germinate.resource.Filter;
 import jhi.germinate.resource.enums.ServerProperty;
 import jhi.germinate.server.util.*;
@@ -242,8 +242,12 @@ public class ResourceUtils
 		String path = PropertyWatcher.get(ServerProperty.DATABASE_NAME);
 		File folder = new File(System.getProperty("java.io.tmpdir"), path);
 		folder.mkdir();
+		File result = new File(folder, fileOrSubFolder);
 
-		return new File(folder, fileOrSubFolder);
+		if (FileUtils.isSubDirectory(folder, result))
+			return result;
+		else
+			return null;
 	}
 
 	public static File createTempFile(String filename, String extension)
@@ -278,7 +282,10 @@ public class ResourceUtils
 		if (create)
 			file.createNewFile();
 
-		return file;
+		if (FileUtils.isSubDirectory(folder, file))
+			return file;
+		else
+			return null;
 	}
 
 	/**
@@ -306,6 +313,9 @@ public class ResourceUtils
 		if (!FileUtils.isSubDirectory(folder, target))
 			throw new StatusException(Response.Status.FORBIDDEN.getStatusCode());
 
-		return target;
+		if (FileUtils.isSubDirectory(folder, target))
+			return target;
+		else
+			return null;
 	}
 }

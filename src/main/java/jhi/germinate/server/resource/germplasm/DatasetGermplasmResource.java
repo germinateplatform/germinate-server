@@ -67,7 +67,7 @@ public class DatasetGermplasmResource extends GermplasmBaseResource
 			);
 
 			// Filter here!
-			having(from, filters, true);
+			from.having(getConditions(filters, true));
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 					.fetch()

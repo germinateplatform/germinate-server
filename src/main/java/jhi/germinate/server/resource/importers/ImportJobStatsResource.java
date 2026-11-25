@@ -60,7 +60,7 @@ public class ImportJobStatsResource extends BaseResource
 			from.where(datasetIdField.isNull().or(datasetIdField.cast(String.class).in(datasetIds)));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableImportJobs> result = setPaginationAndOrderBy(from)
 					.fetch()

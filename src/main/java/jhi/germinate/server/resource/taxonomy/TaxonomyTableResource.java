@@ -41,7 +41,7 @@ public class TaxonomyTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TAXONOMIES);
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<ViewTableTaxonomies> result = setPaginationAndOrderBy(from)
 					.fetch()

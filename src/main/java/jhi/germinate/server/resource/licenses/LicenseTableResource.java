@@ -46,7 +46,7 @@ public class LicenseTableResource extends BaseResource
 
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_LICENSES);
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableLicenses> result = setPaginationAndOrderBy(from)
 				.fetch()

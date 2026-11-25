@@ -44,7 +44,7 @@ public class ProjectTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_PROJECTS);
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<ViewTableProjects> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -90,7 +90,7 @@ public class ProjectTableResource extends BaseResource
 			                                               .from(VIEW_TABLE_PROJECTS);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters, true));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

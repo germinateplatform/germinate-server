@@ -44,7 +44,7 @@ public class ImageTableExportResource extends BaseResource
 
 			SelectJoinStep<Record> from = context.select().from(VIEW_TABLE_IMAGES);
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 			List<Integer> imageIds = new ArrayList<>();
 
 			setPaginationAndOrderBy(from)

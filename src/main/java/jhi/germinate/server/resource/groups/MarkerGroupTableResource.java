@@ -58,7 +58,7 @@ public class MarkerGroupTableResource extends BaseResource
 			                                              .and(GROUPMEMBERS.FOREIGN_ID.eq(markerId))));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
 					.fetch()

@@ -33,7 +33,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 			optionalAdjuster.adjustQuery(from);
 
 		// Filter here!
-		where(from, filters, true);
+		from.where(getConditions(filters, true));
 
 		return (SelectJoinStep<ViewTableDatasetsRecord>) from;
 	}
@@ -63,7 +63,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 				optionalAdjuster.adjustQuery(from);
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<ViewTableDatasets> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -177,7 +177,7 @@ public class BaseDatasetTableResource extends ExportResource implements IFiltere
 				from.where(VIEW_TABLE_DATASETS.DATASET_ID.in(AuthorizationFilter.getDatasetIds(req, userDetails, null, false)));
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

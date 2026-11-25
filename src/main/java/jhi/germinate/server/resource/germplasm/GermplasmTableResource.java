@@ -61,7 +61,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			having(from, filters, true);
+			from.having(getConditions(filters, true));
 
 			List<ViewTableGermplasm> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -108,7 +108,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			}
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -133,7 +133,7 @@ public class GermplasmTableResource extends GermplasmBaseResource
 			SelectJoinStep<?> from = getGermplasmQueryWrapped(context, datasetIds, minimal, null);
 
 			// Filter here!
-			having(from, request.getFilters());
+			from.having(getConditions(filters));
 
 			File result = ResourceUtils.exportToZip(from.fetch(), "germplasm-table-", request.getColumnNameMapping(), request.getForcedFileExtension());
 			return toFileResult(result, "application/zip", response);

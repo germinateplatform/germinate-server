@@ -83,7 +83,7 @@ public class ClimateDataTableResource extends ExportResource
 				from.where(VIEW_TABLE_CLIMATE_DATA.CLIMATE_ID.in(request.getClimateIds()));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableClimateDataWithGroups> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -130,7 +130,7 @@ public class ClimateDataTableResource extends ExportResource
 			from.where(VIEW_TABLE_CLIMATE_DATA.DATASET_ID.in(requestedIds));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

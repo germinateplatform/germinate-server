@@ -59,7 +59,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 				from.having(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			having(from, filters);
+			from.having(getConditions(filters));
 
 			List<ViewTableGroupGermplasm> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -112,7 +112,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 				from.where(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -154,7 +154,7 @@ public class GroupGermplasmTableResource extends GermplasmBaseResource
 				from.having(fieldGroupId.eq(groupId));
 
 			// Filter here!
-			having(from, filters);
+			from.having(getConditions(filters));
 
 			File result = ResourceUtils.exportToZip(from.fetch(), "germplasm-group-table-");
 

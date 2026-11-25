@@ -42,7 +42,7 @@ public class TraitTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_TRAITS);
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<ViewTableTraits> result = setPaginationAndOrderBy(from)
 				.fetch()
@@ -71,7 +71,7 @@ public class TraitTableResource extends BaseResource
 														   .from(VIEW_TABLE_TRAITS);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters, true));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 				.fetch()

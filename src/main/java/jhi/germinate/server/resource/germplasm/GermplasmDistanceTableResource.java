@@ -53,7 +53,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 					           .and(DSL.field(LATITUDE).isNotNull()));
 
 			// Filter here!
-			having(from, filters);
+			from.and(getConditions(filters));
 
 			List<GermplasmDistance> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -88,7 +88,7 @@ public class GermplasmDistanceTableResource extends GermplasmBaseResource
 					.and(DSL.field(LATITUDE).isNotNull());
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

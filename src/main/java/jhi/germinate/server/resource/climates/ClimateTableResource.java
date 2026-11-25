@@ -42,7 +42,7 @@ public class ClimateTableResource extends BaseResource
 			SelectJoinStep<Record> from = select.from(VIEW_TABLE_CLIMATES);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableClimates> result = setPaginationAndOrderBy(from)
 				.fetch()

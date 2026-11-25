@@ -93,7 +93,7 @@ public class DatasetAttributeTableResource extends BaseResource implements IFilt
 													 .where(VIEW_TABLE_DATASET_ATTRIBUTES.DATASET_ID.in(requestedIds));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTableDatasetAttributes> result = setPaginationAndOrderBy(from)
 				.fetch()

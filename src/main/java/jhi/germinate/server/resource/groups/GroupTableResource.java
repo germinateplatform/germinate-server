@@ -47,7 +47,7 @@ public class GroupTableResource extends BaseResource
 			                                             .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			where(from, filters, true);
+			from.where(getConditions(filters, true));
 
 			List<ViewTableGroups> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -89,7 +89,7 @@ public class GroupTableResource extends BaseResource
 			                                             .or(VIEW_TABLE_GROUPS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()

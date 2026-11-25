@@ -58,7 +58,7 @@ public class PedigreeResource extends ExportResource
 													 .where(VIEW_TABLE_PEDIGREES.DATASET_ID.in(datasets));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTablePedigrees> result = setPaginationAndOrderBy(from)
 				.fetch()

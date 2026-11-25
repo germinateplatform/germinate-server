@@ -53,7 +53,7 @@ public class BaseExperimentTableResource extends ExportResource implements IFilt
 				optionalAdjuster.adjustQuery(from);
 
 			// Filter here!
-			where(from, filters);
+			from.where(getConditions(filters));
 
 			List<ViewTableExperiments> result = setPaginationAndOrderBy(from)
 					.fetch()

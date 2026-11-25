@@ -50,7 +50,7 @@ public class MapMarkerDefinitionTableResource extends ExportResource
 													 .where(VIEW_TABLE_MAPDEFINITIONS.VISIBILITY.eq(true).or(VIEW_TABLE_MAPDEFINITIONS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<ViewTableMapdefinitions> result = setPaginationAndOrderBy(from)
 					.fetch()
@@ -82,7 +82,7 @@ public class MapMarkerDefinitionTableResource extends ExportResource
 																.where(VIEW_TABLE_MAPDEFINITIONS.VISIBILITY.eq(true).or(VIEW_TABLE_MAPDEFINITIONS.USER_ID.eq(userDetails.getId())));
 
 			// Filter here!
-			where(from, filters);
+			from.and(getConditions(filters));
 
 			List<Integer> result = setPaginationAndOrderBy(from)
 					.fetch()
