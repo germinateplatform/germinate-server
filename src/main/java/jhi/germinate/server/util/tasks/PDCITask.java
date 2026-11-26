@@ -199,37 +199,40 @@ public class PDCITask implements Runnable
 				value += 45;
 		}
 
-		if (!StringUtils.isEmpty(mcpd.getAcqdate()))
-			value += 10;
-
-		if (mcpd.getSampstat() != null)
-			value += 80;
-
-		if (!StringUtils.isEmpty(mcpd.getDonorcode()))
-			value += 40;
-		if (!StringUtils.isEmpty(mcpd.getDonornumb()))
+		if (mcpd != null)
 		{
-			if (StringUtils.isEmpty(mcpd.getDonorcode()) && StringUtils.isEmpty(mcpd.getDonorname()))
-				value += 20;
-			else
-				value += 40;
-		}
+			if (!StringUtils.isEmpty(mcpd.getAcqdate()))
+				value += 10;
 
-		if (!StringUtils.isEmpty(mcpd.getOthernumb()))
-			value += 35;
-		if (!StringUtils.isEmpty(mcpd.getDuplsite()))
-			value += 30;
-		else if (!StringUtils.isEmpty(mcpd.getDuplinstname()))
-			value += 15;
+			if (mcpd.getSampstat() != null)
+				value += 80;
+
+			if (!StringUtils.isEmpty(mcpd.getDonorcode()))
+				value += 40;
+			if (!StringUtils.isEmpty(mcpd.getDonornumb()))
+			{
+				if (StringUtils.isEmpty(mcpd.getDonorcode()) && StringUtils.isEmpty(mcpd.getDonorname()))
+					value += 20;
+				else
+					value += 40;
+			}
+
+			if (!StringUtils.isEmpty(mcpd.getOthernumb()))
+				value += 35;
+			if (!StringUtils.isEmpty(mcpd.getDuplsite()))
+				value += 30;
+			else if (!StringUtils.isEmpty(mcpd.getDuplinstname()))
+				value += 15;
+
+			if (mcpd.getMlsstat() != null)
+				value += 15;
+		}
 
 		if (hasStorage)
 			value += 15;
 
 		if (hasLink)
 			value += 40;
-
-		if (mcpd.getMlsstat() != null)
-			value += 15;
 
 		return value;
 	}
@@ -259,30 +262,34 @@ public class PDCITask implements Runnable
 				value += 5;
 		}
 
-		if (mcpd.getColldate() != null)
-			value += 10;
+		if (mcpd != null)
+		{
+			if (mcpd.getColldate() != null)
+				value += 10;
 
-		if (!StringUtils.isEmpty(mcpd.getBredcode()))
-			value += 10;
-		else if (!StringUtils.isEmpty(mcpd.getBredname()))
-			value += 10;
+			if (!StringUtils.isEmpty(mcpd.getBredcode()))
+				value += 10;
+			else if (!StringUtils.isEmpty(mcpd.getBredname()))
+				value += 10;
+
+			if (mcpd.getCollsrc() != null)
+				value += 25;
+
+			if (!StringUtils.isEmpty(mcpd.getCollnumb()))
+				value += 20;
+
+			if (!StringUtils.isEmpty(mcpd.getCollcode()))
+				value += 20;
+			else if (!StringUtils.isEmpty(mcpd.getCollname()))
+				value += 10;
+		}
 
 		if (hasPedigree)
 			value += 40;
 
-		if (mcpd.getCollsrc() != null)
-			value += 25;
-
 		if (!StringUtils.isEmpty(acc.getNumber()))
 			value += 40;
 
-		if (!StringUtils.isEmpty(mcpd.getCollnumb()))
-			value += 20;
-
-		if (!StringUtils.isEmpty(mcpd.getCollcode()))
-			value += 20;
-		else if (!StringUtils.isEmpty(mcpd.getCollname()))
-			value += 10;
 
 		return value;
 	}
@@ -299,16 +306,19 @@ public class PDCITask implements Runnable
 				value += 40;
 		}
 
-		if (!StringUtils.isEmpty(mcpd.getBredcode()))
-			value += 80;
-		else if (!StringUtils.isEmpty(mcpd.getBredname()))
-			value += 40;
+		if (mcpd != null)
+		{
+			if (!StringUtils.isEmpty(mcpd.getBredcode()))
+				value += 80;
+			else if (!StringUtils.isEmpty(mcpd.getBredname()))
+				value += 40;
+
+			if (mcpd.getCollsrc() != null)
+				value += 20;
+		}
 
 		if (hasPedigree)
 			value += 100;
-
-		if (mcpd.getCollsrc() != null)
-			value += 20;
 
 		if (!StringUtils.isEmpty(acc.getNumber()))
 			value += 160;
@@ -328,16 +338,19 @@ public class PDCITask implements Runnable
 				value += 40;
 		}
 
-		if (!StringUtils.isEmpty(mcpd.getBredcode()))
-			value += 110;
-		else if (!StringUtils.isEmpty(mcpd.getBredname()))
-			value += 55;
+		if (mcpd != null)
+		{
+			if (!StringUtils.isEmpty(mcpd.getBredcode()))
+				value += 110;
+			else if (!StringUtils.isEmpty(mcpd.getBredname()))
+				value += 55;
+
+			if (mcpd.getCollsrc() != null)
+				value += 20;
+		}
 
 		if (hasPedigree)
 			value += 150;
-
-		if (mcpd.getCollsrc() != null)
-			value += 20;
 
 		if (!StringUtils.isEmpty(acc.getNumber()))
 			value += 80;
@@ -370,25 +383,28 @@ public class PDCITask implements Runnable
 				value += 15;
 		}
 
-		if (mcpd.getColldate() != null)
-			value += 30;
+		if (mcpd != null)
+		{
+			if (mcpd.getColldate() != null)
+				value += 30;
+
+			if (mcpd.getCollsrc() != null)
+				value += 50;
+
+			if (!StringUtils.isEmpty(mcpd.getCollnumb()))
+				value += 40;
+
+			if (!StringUtils.isEmpty(mcpd.getCollcode()))
+				value += 30;
+			else if (!StringUtils.isEmpty(mcpd.getCollname()))
+				value += 15;
+		}
 
 		if (hasPedigree)
 			value += 10;
 
-		if (mcpd.getCollsrc() != null)
-			value += 50;
-
 		if (!StringUtils.isEmpty(acc.getNumber()))
 			value += 50;
-
-		if (!StringUtils.isEmpty(mcpd.getCollnumb()))
-			value += 40;
-
-		if (!StringUtils.isEmpty(mcpd.getCollcode()))
-			value += 30;
-		else if (!StringUtils.isEmpty(mcpd.getCollname()))
-			value += 15;
 
 		return value;
 	}
@@ -418,19 +434,22 @@ public class PDCITask implements Runnable
 				value += 20;
 		}
 
-		if (mcpd.getColldate() != null)
-			value += 30;
+		if (mcpd != null)
+		{
+			if (mcpd.getColldate() != null)
+				value += 30;
 
-		if (mcpd.getCollsrc() != null)
-			value += 30;
+			if (mcpd.getCollsrc() != null)
+				value += 30;
 
-		if (!StringUtils.isEmpty(mcpd.getCollnumb()))
-			value += 60;
+			if (!StringUtils.isEmpty(mcpd.getCollnumb()))
+				value += 60;
 
-		if (!StringUtils.isEmpty(mcpd.getCollcode()))
-			value += 40;
-		else if (!StringUtils.isEmpty(mcpd.getCollname()))
-			value += 20;
+			if (!StringUtils.isEmpty(mcpd.getCollcode()))
+				value += 40;
+			else if (!StringUtils.isEmpty(mcpd.getCollname()))
+				value += 20;
+		}
 
 		return value;
 	}

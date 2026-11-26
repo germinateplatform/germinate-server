@@ -353,6 +353,7 @@ public class ClimateMatrixBuilder
 		List<String> header = new ArrayList<>(List.of(
 				"name",
 				"dbId",
+				"country",
 				"dataset_ids",
 				"date",
 				"year",
@@ -383,6 +384,7 @@ public class ClimateMatrixBuilder
 			List<String> row = new ArrayList<>(List.of(
 					StringUtils.orEmpty(gs.getLocationName()),
 					StringUtils.orEmpty(gs.getLocationId()),
+					StringUtils.orEmpty(gs.getCountryName()),
 					datasetIds,
 					StringUtils.orEmpty(key.date()),
 					StringUtils.orEmpty(key.year()),
