@@ -51,8 +51,7 @@ Below are two examples showing this type of exploration. In each case, the user 
 
 ### Variable-based exploration
 
-### Location-based exploration
-
+This approach has basically already been covered in the <a href="{{ '/user/environment/#environment-variables' | relative_url }}">environment variables</a> section.
 
 ## Environmental data visualizations
 

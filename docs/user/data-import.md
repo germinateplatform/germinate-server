@@ -16,7 +16,7 @@ The template files are [available on GitHub](https://github.com/germinateplatfor
 
 <div class="callout callout--info" role="region" aria-label="Info">
   <div class="callout-title">Required Permissions</div>
-  <p markdown="1">Please note, that you have to use Gatekeeper and have a user account with at least the `Data Curator` permissions on this Germinate instance..</p>
+  <p markdown="1">Please note, that you have to use Gatekeeper and have a user account with at least the `Data Curator` permissions on this Germinate instance.</p>
 </div>
 
 ## Template Types
@@ -78,6 +78,23 @@ Detailed information about this data template is available on the dedicated [Git
 Detailed information about this data template is available on the dedicated [GitHub documentation page](https://github.com/germinateplatform/germinate-data-templates/tree/master/groups).
 
 
-## BrAPI Support
+## Data upload via the Germinate UI
 
-Germinate implements **BrAPI (Breeding API)** endpoints, allowing external tools such as Field Book, BMS, and R packages (`brapir`) to query and push data directly.
+<div class="callout callout--warning" role="region" aria-label="Warning">
+  <div class="callout-title">Dedicated Data Curator</div>
+  <p>We would always recommend to nominate a data scientist or a specialist who has extended experience with the project data to handle the data upload. This ensures higher data quality standard and consistency.</p>
+</div>
+
+Data curators can access to data upload menu item in the user dropdown. This takes you to the data import page where you go through the following steps:
+
+1. Select the data type to upload
+2. Select the template file to upload
+3. Click `Upload and check` to initiate the data import
+4. Watch the progress of the import and review any potential issues
+5. Finally, import the data if all checks have passed
+
+![Data Upload]({{ '/assets/images/data-upload/menu-item.png' | relative_url }})
+<p class="image-caption" markdown="1">Data Upload: Find the `Data uploader` menu item in the user menu.</p>
+
+![Data Upload Page]({{ '/assets/images/data-upload/data-upload.png' | relative_url }})
+<p class="image-caption" markdown="1">Data Upload Page: Page that offers sections for each of the supported data types.</p>

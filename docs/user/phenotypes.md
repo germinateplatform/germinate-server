@@ -79,7 +79,11 @@ Below are two examples showing this type of exploration. In each case, the user 
 
 ### Trait-based exploration
 
+This approach has basically already been covered in the <a href="{{ '/user/phenotypes/#observation-variables' | relative_url }}">observation variables</a> section.
+
 ### Germplasm-based exploration
+
+To approach observation data, you can utilise the <a href="{{ '/user/germplasm/#passport-page' | relative_url }}">passport page</a> for a specific germplasm. On there, find the `Trait performance` section to explore the observation data for this germplasm compared to the rest of the database.
 
 
 ## Observation data visualizations
