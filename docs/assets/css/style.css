@@ -30,8 +30,8 @@
 }
 
 /* Default Links on Docs Pages */
-.doc-body a,
-.prose-section a {
+.doc-body :not(.card-grid) a,
+.prose-section :not(.card-grid) a {
   color: var(--primary-main);
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -405,7 +405,9 @@ body {
 
 /* Responsive Documentation Images */
 .doc-body img {
+  display: block;
   max-width: 100%;
+  width: auto;
   height: auto;
   border-radius: 6px;
   border: 1px solid var(--border-color);

@@ -38,7 +38,7 @@ essential continuity on how new data is recorded and presented to researchers an
 which brings focus and facilitates community building into research communities.
 </div>
 
-<h2 id="core-functionality">Core Functionality</h2>
+<h2 id="core-functionality">User documentation</h2>
 <div class="card-grid">
   {% for item in site.user_pages %}
     <a href="{{ item.url | relative_url }}" class="card">
@@ -48,7 +48,7 @@ which brings focus and facilitates community building into research communities.
   {% endfor %}
 </div>
 
-<h2 id="setup-documentation">Setup documentation</h2>
+<h2 id="setup-documentation">Admin documentation</h2>
 <div class="card-grid">
   {% for item in site.admin_pages %}
     <a href="{{ item.url | relative_url }}" class="card">

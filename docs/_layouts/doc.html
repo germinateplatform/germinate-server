@@ -5,7 +5,7 @@ layout: default
   <aside class="doc-sidebar">
     {% include search-box.html %}
 
-    <h3>User documentation</h3>
+    <h3><a href="{{ '/user' | relative_url }}" class="{% if page.url == '/user/' %}active{% endif %}">User documentation</a></h3>
     <ul>
       {% for item in site.user_pages %}
         <li>
@@ -16,7 +16,7 @@ layout: default
       {% endfor %}
     </ul>
 
-    <h3>Admin documentation</h3>
+    <h3><a href="{{ '/admin' | relative_url }}" class="{% if page.url == '/admin/' %}active{% endif %}">Admin documentation</a></h3>
     <ul>
       {% for item in site.admin_pages %}
         <li>
@@ -35,10 +35,12 @@ layout: default
     {% endif %}
     <hr>
 
-    <div id="auto-toc" class="toc" style="display: none;">
-      <p class="toc-title"><strong>Contents</strong></p>
-      <ul id="auto-toc-list"></ul>
-    </div>
+    {% unless page.toc == false %}
+      <div id="auto-toc" class="toc" style="display: none;">
+        <p class="toc-title"><strong>Contents</strong></p>
+        <ul id="auto-toc-list"></ul>
+      </div>
+    {% endunless %}
     {{ content }}
   </article>
 </div>
