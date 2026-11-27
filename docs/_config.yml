@@ -35,9 +35,6 @@ user_pages:
   - title: Data Import & Templates
     url: /user/data-import/
     description: Using Germinate data templates, validation tools, and BrAPI integration.
-  - title: Visualizations & Export
-    url: /user/visualizations/
-    description: Interactive maps, pedigree trees, trait distributions, and Flapjack exports.
 
 admin_pages:
   - title: Setup Instructions

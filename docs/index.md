@@ -36,6 +36,8 @@ The single point of access for all background data on genetic resources collecti
 Germinate implements, provides a valuable digital curation resource as well as offering
 essential continuity on how new data is recorded and presented to researchers and breeders
 which brings focus and facilitates community building into research communities.
+
+Find out more about Germinate at <https://germinate.hutton.ac.uk>.
 </div>
 
 <h2 id="core-functionality">User documentation</h2>
